@@ -7,6 +7,8 @@
 #include "esp_heap_caps.h"
 #include "driver/gpio.h"
 
+#include <esp_now.h>
+
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
 
@@ -42,6 +44,6 @@ void app_main(void)
 	if (read_task_result != pdPASS)
 	{
 		// Task failed to be created
-		ESP_LOGE(TAG, "ReadTask failed to be created!");
+		ESP_LOGE(TAG, "ReadTask failed to be created! %s");
 	}
 }
