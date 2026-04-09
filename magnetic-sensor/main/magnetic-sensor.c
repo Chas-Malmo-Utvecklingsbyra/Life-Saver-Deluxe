@@ -3,11 +3,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-#include "esp_chip_info.h"
-#include "esp_heap_caps.h"
 #include "driver/gpio.h"
-
-#include <esp_now.h>
 
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
@@ -21,9 +17,9 @@ void sensor_read_task(void* params)
 		int state = gpio_get_level(SENSOR_GPIO_PORT);
 
 		if (state == 0)
-			ESP_LOGE(TAG, "CLOSED!");
+			ESP_LOGI(TAG, "CLOSED!");
 		else
-			ESP_LOGE(TAG, "OPEN!");
+			ESP_LOGI(TAG, "OPEN!");
 		
 		vTaskDelay(100);
 	}
