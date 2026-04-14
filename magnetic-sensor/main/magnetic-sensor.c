@@ -21,7 +21,7 @@ void sensor_read_task(void* params)
 		else
 			ESP_LOGI(TAG, "OPEN!");
 		
-		vTaskDelay(100);
+		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 }
 
