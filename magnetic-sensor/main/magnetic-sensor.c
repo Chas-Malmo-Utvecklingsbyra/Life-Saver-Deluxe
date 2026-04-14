@@ -34,12 +34,17 @@ void app_main(void)
 		.pull_down_en = GPIO_PULLDOWN_DISABLE,
 		.intr_type = GPIO_INTR_DISABLE
 	};
-	gpio_config(&config);
+	if (gpio_config(&config) != ESP_OK)
+	{
+		ESP_LOGE(TAG, "Failed to setup GPIO port.");
+		return;
+	}
 
 	BaseType_t read_task_result = xTaskCreate(sensor_read_task, "ReadTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
 	if (read_task_result != pdPASS)
 	{
 		// Task failed to be created
-		ESP_LOGE(TAG, "ReadTask failed to be created! %s");
+		ESP_LOGE(TAG, "ReadTask failed to be created!");
+		return;
 	}
 }
