@@ -46,6 +46,7 @@ static void http_task(void* params)
 
 static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
+
     if (event_base == WIFI_EVENT)
     {
         if (event_id == WIFI_EVENT_STA_START)
@@ -55,6 +56,9 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
         }
         else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
         {
+            wifi_event_sta_disconnected_t *event = (wifi_event_sta_disconnected_t*)event_data;
+            ESP_LOGI("WIFI", "Disconnected. Reason: %d (%s)", event->reason, esp_err_to_name(event->reason));
+            esp_wifi_scan_start(NULL, true);
             ESP_LOGI("WIFI", "Trying to reconnect to WIFI");
             esp_wifi_connect();
         }
@@ -79,7 +83,6 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
 void Internet_Initialize(const char *ssid, const char *password)
 {
     /* TODO: Remove ESP_ERROR_CHECK and add real safety checks that dont abort */
-
     esp_err_t nvs_init_result = nvs_flash_init();
     if (nvs_init_result == ESP_ERR_NVS_NO_FREE_PAGES || nvs_init_result == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
