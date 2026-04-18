@@ -30,49 +30,38 @@ bool TCP_Server_Listen(TCP_Server *server)
 
 void TCP_Server_Accept(TCP_Server *server)
 {
-    int flags = fcntl(server->socket, F_GETFL, 0);
-    fcntl(server->socket, F_SETFL, flags | O_NONBLOCK);
-    char buffer[1024];
+    int client = accept(server->socket, NULL, NULL);
 
-
-    while (1)
+    if (client < 0)
     {
-        int client = accept(server->socket, NULL, NULL);
-
-        if (client < 0)
+        if (errno == EAGAIN || errno == EWOULDBLOCK)
         {
-            if (errno == EAGAIN || errno == EWOULDBLOCK)
-            {
-                //ESP_LOGI(TAG, "No new client!");
-                vTaskDelay(pdMS_TO_TICKS(10));
-                continue;
-            }
-            else
-            {
-                //ESP_LOGE(TAG, "Failed to accept client");
-                vTaskDelay(pdMS_TO_TICKS(10));
-                continue;
-            }
+            // ESP_LOGI(TAG, "No new client!");
+            return;
         }
-
-        ESP_LOGI(TAG, "Got a new client!");
-
-        int bytes_left = 0;
-
-        memset(buffer, 0, sizeof(buffer));
-
-        int bytes = recv(client, buffer, sizeof(buffer), 0);
-
-        if (bytes > 0)
+        else
         {
-            bytes_left += bytes;
-
-            buffer[bytes_left] = '\0';
-            ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
+            // ESP_LOGE(TAG, "Failed to accept client");
+            return;
         }
-
     }
 
+    ESP_LOGI(TAG, "Got a new client!");
+
+    int bytes_left = 0;
+
+    char buffer[1024];
+    memset(buffer, 0, sizeof(buffer));
+
+    int bytes = recv(client, buffer, sizeof(buffer), 0);
+
+    if (bytes > 0)
+    {
+        bytes_left += bytes;
+
+        buffer[bytes_left] = '\0';
+        ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
+    }
 }
 
 TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port)
@@ -97,7 +86,13 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port)
         return TCP_Server_Error_Listen;
     }
 
-    TCP_Server_Accept(out_server);
+    int flags = fcntl(out_server->socket, F_GETFL, 0);
+    fcntl(out_server->socket, F_SETFL, flags | O_NONBLOCK);
 
     return TCP_Server_Success;
+}
+
+void TCP_Server_Work(TCP_Server *server)
+{
+    TCP_Server_Accept(server);
 }

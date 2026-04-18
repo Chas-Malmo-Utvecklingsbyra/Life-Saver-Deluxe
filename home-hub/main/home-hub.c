@@ -14,7 +14,15 @@ void tcp_server_task(void* params)
     TCP_Server server = {};
     if (TCP_Server_Setup(&server, 6060) != TCP_Server_Success)
     {
+        // Maybe we should do something here, trying to restart the Server maybe?
         ESP_LOGI(TAG, "Failed to setup TCP_Server....");
+        vTaskDelete(NULL);
+    }
+
+    while (1)
+    {
+        TCP_Server_Work(&server);
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
