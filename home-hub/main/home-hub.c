@@ -20,6 +20,6 @@ void tcp_server_task(void* params)
 
 void app_main(void)
 {
-    Internet_Initialize("emilio", "emiliojoker33!");
+    Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 }
