@@ -4,8 +4,6 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 
-
-
 #include "internet/internet.h"
 #include "tcp/tcp_server.h"
 
@@ -32,9 +30,4 @@ void app_main(void)
 {
     Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
-
-    while(1)
-    {
-        mdns_resp_init()
-    }
 }
