@@ -5,6 +5,8 @@
 #include "esp_log.h"
 #include "driver/gpio.h"
 
+#include "internet/internet.h"
+
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
 
@@ -12,14 +14,21 @@ static const char* TAG = "Door/Window Sensor";
 
 void sensor_read_task(void* params)
 {
+	int prev_state = -1;
 	while (true)
 	{
 		int state = gpio_get_level(SENSOR_GPIO_PORT);
 
-		if (state == 0)
+		if (state == 0 && state != prev_state)
+		{
 			ESP_LOGI(TAG, "CLOSED!");
-		else
+			prev_state = state;
+		}
+		else if (state == 1 && state != prev_state)
+		{
 			ESP_LOGI(TAG, "OPEN!");
+			prev_state = state;
+		}
 		
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
@@ -27,6 +36,8 @@ void sensor_read_task(void* params)
 
 void app_main(void)
 {
+    Internet_Initialize("username", "password");
+
 	gpio_config_t config = {
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),
 		.mode = GPIO_MODE_INPUT,
