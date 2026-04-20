@@ -80,7 +80,7 @@ void sensor_send_task(void* params)
 
 void app_main(void)
 {
-    Internet_Initialize("emilio", "emiliojoker33!");
+    Internet_Initialize("username", "password");
 
 	gpio_config_t config = {
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),
