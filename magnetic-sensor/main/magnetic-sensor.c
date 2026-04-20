@@ -5,6 +5,8 @@
 #include "esp_log.h"
 #include "driver/gpio.h"
 
+#include <mdns.h>
+
 #include "internet/internet.h"
 #include "tcp/tcp_client.h"
 
@@ -51,6 +53,26 @@ void sensor_send_task(void* params)
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 
+	mdns_init();
+	mdns_hostname_set("sensor-temp");
+
+	esp_ip4_addr_t result = {};
+	while (true)
+	{
+		esp_err_t mdns_query_err = mdns_query_a("homehub", 1000, &result);
+		if (mdns_query_err != ESP_OK)
+		{
+			ESP_LOGI(TAG, "could not find address for home hub!");
+			ESP_LOGI(TAG, "mDNS lookup failed: %s", esp_err_to_name(mdns_query_err));
+			vTaskDelay(pdMS_TO_TICKS(100));
+			continue;
+		}
+		break;
+	}
+
+	char ip_str[16];
+	snprintf(ip_str, sizeof(ip_str), IPSTR, IP2STR(&result));
+
 	while (true)
 	{
 		if (!Internet_Is_Connected())
@@ -59,7 +81,7 @@ void sensor_send_task(void* params)
 			continue;
 		}
 
-		if (TCP_Client_Connect(&client, "192.168.50.77", (uint16_t)6060) == TCP_Client_Success)
+		if (TCP_Client_Connect(&client, ip_str, (uint16_t)6060) == TCP_Client_Success)
 		{
 			break;
 		}
