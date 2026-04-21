@@ -48,20 +48,34 @@ void TCP_Server_Accept(TCP_Server *server)
 
     ESP_LOGI(TAG, "Got a new client!");
 
-    int bytes_left = 0;
+    int total_bytes = 0;
 
     char buffer[1024];
     memset(buffer, 0, sizeof(buffer));
 
-    int bytes = recv(client, buffer, sizeof(buffer), 0);
-
-    if (bytes > 0)
+    while (true)
     {
-        bytes_left += bytes;
+        int bytes = recv(client, &buffer[total_bytes], sizeof(buffer), 0);
 
-        buffer[bytes_left] = '\0';
-        ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
+        if (bytes > 0)
+        {
+            total_bytes += bytes;
+        }
+
+        if (bytes == 0)
+        {
+            break;
+        }
+
+        if (bytes < 0)
+        {
+            ESP_LOGE(TAG, "Failed to read in TCP_Server_Accept!");
+            return;
+        }
     }
+
+    buffer[total_bytes] = '\0';
+    ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
 }
 
 TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port)
