@@ -9,6 +9,7 @@
 
 #include "internet/internet.h"
 #include "tcp/tcp_client.h"
+#include "tcp/packet/packet.h"
 
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
@@ -92,8 +93,14 @@ void sensor_send_task(void* params)
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 
-	const char* msg = "Whats up Home Hub?";
-	TCP_Client_Send(&client, msg, strlen(msg));
+	char* json = Packet_Build(Packet_Job_Initialize, "Hello World!");
+	if (TCP_Client_Send(&client, json, strlen(json)) != TCP_Client_Success)
+	{
+		ESP_LOGI(TAG, "Could not send Initialization packet to server.");
+	}
+
+	ESP_LOGI(TAG, "Successfully sent [%s]", json);
+	free(json);
 
 	TCP_Client_Dispose(&client);
  	
