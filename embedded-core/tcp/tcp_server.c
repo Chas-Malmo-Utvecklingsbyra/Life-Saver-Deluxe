@@ -75,10 +75,12 @@ void TCP_Server_Accept(TCP_Server *server)
     }
 
     buffer[total_bytes] = '\0';
-    ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
+    server->callback(buffer, total_bytes);
+
+    //ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
 }
 
-TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port)
+TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Full_Data_Received callback)
 {
     out_server->socket = socket(AF_INET, SOCK_STREAM, 0);
     if (out_server->socket < 0)
@@ -99,6 +101,8 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port)
     {
         return TCP_Server_Error_Listen;
     }
+
+    out_server->callback = callback;
 
     int flags = fcntl(out_server->socket, F_GETFL, 0);
     fcntl(out_server->socket, F_SETFL, flags | O_NONBLOCK);

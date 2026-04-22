@@ -1,8 +1,11 @@
 #include "packet.h"
 
 #include <string.h>
+#include <esp_log.h>
 
 #include "../../json/cJSON.h"
+
+static const char* TAG = "Packet";
 
 #define Packet_Job_Find_Job(str_value1, str_value2, return_value) \
     do { \
@@ -52,27 +55,22 @@ char* Packet_Build(Packet_Job job, const char* message)
     if (root == NULL)
         return NULL;
 
-    switch (job)
+
+    char* packet_job_str = Packet_Job_To_String(job);
+    if (packet_job_str == NULL)
     {
-        case Packet_Job_Initialize:
-        {
-            cJSON* str_result = cJSON_AddStringToObject(root, "job", "Initialize");
-            if (str_result == NULL)
-            {
-                cJSON_Delete(root);
-                return NULL;
-            }
-
-            break;
-        }
-
-        default:
-        {
-            return NULL;
-            break;
-        }
+        cJSON_Delete(root);
+        return NULL;
     }
 
+    cJSON* str_result = cJSON_AddStringToObject(root, "job", packet_job_str);
+    if (str_result == NULL)
+    {
+        ESP_LOGI(TAG, "Could not add job to JSON");
+        cJSON_Delete(root);
+        return NULL;
+    }
+    
     cJSON *data_add = NULL;
 
     if (message == NULL)

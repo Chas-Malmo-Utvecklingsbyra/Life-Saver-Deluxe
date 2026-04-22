@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 #include <mdns.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -8,16 +7,51 @@
 
 #include "internet/internet.h"
 #include "tcp/tcp_server.h"
+#include "json/cJSON.h"
 
 
 static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
+void full_data_received(const char* data, uint16_t len)
+{
+    ESP_LOGI(TAG, "Received data: [%s]", data);
+
+    cJSON* root = cJSON_Parse(data);
+    if (root == NULL)
+    {
+        // not a valid json, we only accept JSON
+        ESP_LOGI(TAG, "Data received was not a valid JSON. Returning...");
+        return;
+    }
+
+    cJSON* job_json = cJSON_GetObjectItem(root, "job");
+    if (job_json == NULL)
+    {
+        cJSON_Delete(root);
+        ESP_LOGI(TAG, "Could not parse out JSON job... Returning...");
+        return;
+    }
+
+    char* job_str = cJSON_GetStringValue(job_json);
+    if (job_str == NULL)
+    {
+        cJSON_Delete(root);
+        ESP_LOGI(TAG, "job_str is not a STRING.. Returning..");
+        return;
+    }
+    
+    ESP_LOGI(TAG, "Parsed out job: [%s]", job_str);
+
+
+    cJSON_Delete(root);
+}
+
 void tcp_server_task(void* params)
 {
     TCP_Server server = {};
-    if (TCP_Server_Setup(&server, PORT) != TCP_Server_Success)
+    if (TCP_Server_Setup(&server, PORT, full_data_received) != TCP_Server_Success)
     {
         // Maybe we should do something here, trying to restart the Server maybe?
         ESP_LOGI(TAG, "Failed to setup TCP_Server....");

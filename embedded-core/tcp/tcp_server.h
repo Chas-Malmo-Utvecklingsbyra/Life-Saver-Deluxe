@@ -11,11 +11,13 @@
 #include <lwip/netdb.h>
 #include <lwip/inet.h>
 
+typedef void (*TCP_Full_Data_Received)(const char* data, uint16_t len);
 
 typedef struct
 {
     int socket;
     struct sockaddr_in server_addr;
+    TCP_Full_Data_Received callback; // This is called when message is received through TCP_Server recv function.
 } TCP_Server;
 
 typedef enum
@@ -35,11 +37,12 @@ typedef enum
  *
  * @param out_server Sets socket and server_addr in TCP_Server struct.
  * @param port The port that will be binded to (0 to 65535).
+ * @param callback The callback that is called when TCP_Server receives the full nullterminated data from a connection.
  *
  * @return On success returns TCP_Server_Success, otherwise returns a TCP_Server_Error enumerator.
  *
  */
-TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port);
+TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Full_Data_Received callback);
 
 
 /**
