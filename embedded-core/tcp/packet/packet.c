@@ -31,6 +31,10 @@ char* Packet_Job_To_String(Packet_Job job)
         {
             return "Heartbeat"; 
         }
+        case Packet_Job_Debug:
+        {
+            return "Debug";
+        }
         default:
         {
             return NULL;
@@ -40,6 +44,8 @@ char* Packet_Job_To_String(Packet_Job job)
 
 Packet_Job Packet_Job_From_String(const char* string)
 {
+    ESP_LOGI(TAG, "MADE IT IN HERE!");
+    
     // Returns if job is found
     Packet_Job_Find_Job(string, "Initialize", Packet_Job_Initialize);
     Packet_Job_Find_Job(string, "Data", Packet_Job_Data);
@@ -53,20 +59,23 @@ char* Packet_Build(Packet_Job job, const char* message)
     cJSON* root = cJSON_CreateObject();
 
     if (root == NULL)
+    {
+        ESP_LOGE(TAG, "Root == NULL");
         return NULL;
-
+    }
 
     char* packet_job_str = Packet_Job_To_String(job);
     if (packet_job_str == NULL)
     {
         cJSON_Delete(root);
+        ESP_LOGE(TAG, "Packet_Job_Str == NULL, check if you have added new enumerators to the switch case in Packet_Job_To_String");
         return NULL;
     }
 
     cJSON* str_result = cJSON_AddStringToObject(root, "job", packet_job_str);
     if (str_result == NULL)
     {
-        ESP_LOGI(TAG, "Could not add job to JSON");
+        ESP_LOGE(TAG, "Could not add job to JSON");
         cJSON_Delete(root);
         return NULL;
     }
@@ -85,11 +94,16 @@ char* Packet_Build(Packet_Job job, const char* message)
     if (data_add == NULL)
     {
         cJSON_Delete(root);
+        ESP_LOGE(TAG, "data_add == NULL");
         return NULL;
     }
 
     char* new_str = cJSON_Print(root);
-    cJSON_Delete(root);
+    if (new_str == NULL)
+    {
+        ESP_LOGE(TAG, "new_str == NULL");
+    }
 
+    cJSON_Delete(root);
     return new_str;
 }

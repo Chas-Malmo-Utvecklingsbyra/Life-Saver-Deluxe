@@ -53,29 +53,52 @@ void TCP_Server_Accept(TCP_Server *server)
     char buffer[1024];
     memset(buffer, 0, sizeof(buffer));
 
+    int flags = fcntl(client, F_GETFL, 0);
+    fcntl(client, F_SETFL, flags | O_NONBLOCK);
+
     while (true)
     {
+        ESP_LOGI(TAG, "recving");
         int bytes = recv(client, &buffer[total_bytes], sizeof(buffer), 0);
 
         if (bytes > 0)
         {
+            ESP_LOGI(TAG, "bytes increased");
             total_bytes += bytes;
         }
 
         if (bytes == 0)
         {
+            ESP_LOGI(TAG, "broke");
             break;
         }
 
         if (bytes < 0)
         {
-            ESP_LOGE(TAG, "Failed to read in TCP_Server_Accept!");
+            if (errno == EWOULDBLOCK || errno == EAGAIN)
+            {
+                break;
+            }
+            
+            ESP_LOGI(TAG, "recv failed in TCP_Server_Accept");
             return;
         }
+
+        ESP_LOGI(TAG, "Looppoop");
     }
 
+    ESP_LOGI(TAG, "Entering out of here");
+
     buffer[total_bytes] = '\0';
-    server->callback(buffer, total_bytes);
+
+    TCP_Server_Client tcp_client = {
+        .data = buffer,
+        .len = total_bytes,
+        .socket = client
+    };
+
+    ESP_LOGI(TAG, "Entering callback");
+    server->callback(&tcp_client);
 
     //ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
 }
@@ -109,6 +132,22 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Ful
 
     return TCP_Server_Success;
 }
+
+TCP_Server_Error TCP_Server_Send(TCP_Server_Client* client, const void* data, size_t length)
+{
+    if (client->socket < 0)
+    {
+        return TCP_Server_Error_Socket;
+    }
+
+    if (send(client->socket, data, length, 0) < 0)
+    {
+        return TCP_Server_Error_Send; 
+    }
+
+    return TCP_Server_Success;
+}
+
 
 void TCP_Server_Work(TCP_Server *server)
 {

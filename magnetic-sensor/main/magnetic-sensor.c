@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdatomic.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -15,6 +16,8 @@
 #define BYTES_TO_WORD(x) (x/4)
 
 static const char* TAG = "Door/Window Sensor";
+
+static TCP_Client client = {};
 
 void sensor_read_task(void* params)
 {
@@ -40,7 +43,6 @@ void sensor_read_task(void* params)
 
 void sensor_send_task(void* params)
 {
-	TCP_Client client = {};
 	while (true)
 	{
 		if (TCP_Client_Initialize(&client) == TCP_Client_Success)
@@ -93,18 +95,79 @@ void sensor_send_task(void* params)
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 
-	char* json = Packet_Build(Packet_Job_Initialize, "Hello World!");
+	char* json = Packet_Build(Packet_Job_Initialize, "magnetic");
 	if (TCP_Client_Send(&client, json, strlen(json)) != TCP_Client_Success)
 	{
 		ESP_LOGI(TAG, "Could not send Initialization packet to server.");
 	}
 
+	client.has_initialized = true;
 	ESP_LOGI(TAG, "Successfully sent [%s]", json);
 	free(json);
 
-	TCP_Client_Dispose(&client);
  	
 	vTaskDelete(NULL);
+}
+
+void read_tcp_task(void* params)
+{
+	static bool do_once = false;
+
+	while(1)
+	{
+		if (!client.has_initialized)
+		{
+			vTaskDelay(pdMS_TO_TICKS(100));
+			continue;
+		}
+
+		if (!do_once)
+		{
+			int flags = fcntl(client.socket, F_GETFL, 0);
+    		fcntl(client.socket, F_SETFL, flags | O_NONBLOCK);
+			do_once = true;
+		}
+
+		char buffer[1024];
+		memset(buffer, 0, sizeof(buffer));
+
+		int total_bytes = 0;
+
+		while (true)
+		{
+			int bytes = recv(client.socket, &buffer[total_bytes], sizeof(buffer), 0);
+
+			if (bytes > 0)
+			{
+				total_bytes += bytes;
+			}
+
+			if (bytes == 0)
+			{
+				break;
+			}
+
+			if (bytes < 0)
+			{
+				if (errno == EWOULDBLOCK || errno == EAGAIN)
+				{
+					break;
+				}
+				
+				ESP_LOGI(TAG, "recv failed in Read_TCP_Task");
+				return;
+			}
+
+			ESP_LOGI(TAG, "Looppoop");
+		}
+
+		if (total_bytes != 0)
+			ESP_LOGI(TAG, "Magnetic-Sensor received: [%s]", buffer);
+
+		vTaskDelay(100);
+	}
+
+	TCP_Client_Dispose(&client);
 }
 
 void app_main(void)
@@ -118,6 +181,7 @@ void app_main(void)
 		.pull_down_en = GPIO_PULLDOWN_DISABLE,
 		.intr_type = GPIO_INTR_DISABLE
 	};
+	
 	if (gpio_config(&config) != ESP_OK)
 	{
 		ESP_LOGE(TAG, "Failed to setup GPIO port.");
@@ -137,6 +201,14 @@ void app_main(void)
 	{
 		// Task failed to be created
 		ESP_LOGE(TAG, "SendTask failed to be created!");
+		return;
+	}
+
+	BaseType_t tcp_read_task_result = xTaskCreate(read_tcp_task, "TcpReadTask", 4096, NULL, 10, NULL);
+	if (tcp_read_task_result != pdPASS)
+	{
+		// Task failed to be created
+		ESP_LOGE(TAG, "TcpReadTask failed to be created!");
 		return;
 	}
 }

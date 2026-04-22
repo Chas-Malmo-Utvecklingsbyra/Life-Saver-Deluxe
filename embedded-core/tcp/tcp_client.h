@@ -7,6 +7,8 @@
 #include <lwip/netdb.h>
 #include <lwip/inet.h>
 
+#include <stdatomic.h>
+
 typedef enum
 {
     TCP_Client_Error_Socket,
@@ -19,6 +21,7 @@ typedef struct
 {
     int socket;
     struct sockaddr_in server_addr;
+    atomic_bool has_initialized;
 } TCP_Client;
 
 /**

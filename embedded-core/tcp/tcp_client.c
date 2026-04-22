@@ -11,6 +11,8 @@ TCP_Client_Error TCP_Client_Initialize(TCP_Client *client)
 
     memset(&client->server_addr, 0, sizeof(client->server_addr));
 
+    client->has_initialized = false;
+
     return TCP_Client_Success;
 }
 

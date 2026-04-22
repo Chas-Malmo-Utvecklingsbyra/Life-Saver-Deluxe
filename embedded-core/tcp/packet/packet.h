@@ -6,6 +6,7 @@ typedef enum
     Packet_Job_Initialize,
     Packet_Job_Heartbeat,
     Packet_Job_Data,
+    Packet_Job_Debug,
     Packet_Job_Unknown
 } Packet_Job;
 

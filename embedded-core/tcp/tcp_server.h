@@ -11,7 +11,14 @@
 #include <lwip/netdb.h>
 #include <lwip/inet.h>
 
-typedef void (*TCP_Full_Data_Received)(const char* data, uint16_t len);
+typedef struct
+{
+    char* data;
+    uint16_t len;
+    int socket;
+} TCP_Server_Client;
+
+typedef void (*TCP_Full_Data_Received)(TCP_Server_Client* client);
 
 typedef struct
 {
@@ -25,6 +32,7 @@ typedef enum
     TCP_Server_Error_Socket,
     TCP_Server_Error_Bind,
     TCP_Server_Error_Listen,
+    TCP_Server_Error_Send,
     TCP_Server_Success
 } TCP_Server_Error;
 
@@ -52,5 +60,8 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Ful
  *
  */
 void TCP_Server_Work(TCP_Server *server);
+
+
+TCP_Server_Error TCP_Server_Send(TCP_Server_Client* client, const void* data, size_t length);
 
 #endif

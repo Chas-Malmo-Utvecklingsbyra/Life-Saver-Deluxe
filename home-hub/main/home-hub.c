@@ -8,17 +8,19 @@
 #include "internet/internet.h"
 #include "tcp/tcp_server.h"
 #include "json/cJSON.h"
+#include "tcp/packet/packet.h"
+#include "sensor/sensor.h"
 
 
 static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
-void full_data_received(const char* data, uint16_t len)
+void full_data_received(TCP_Server_Client* client)
 {
-    ESP_LOGI(TAG, "Received data: [%s]", data);
+    ESP_LOGI(TAG, "Received data: [%s]", client->data);
 
-    cJSON* root = cJSON_Parse(data);
+    cJSON* root = cJSON_Parse(client->data);
     if (root == NULL)
     {
         // not a valid json, we only accept JSON
@@ -41,8 +43,68 @@ void full_data_received(const char* data, uint16_t len)
         ESP_LOGI(TAG, "job_str is not a STRING.. Returning..");
         return;
     }
+
+    cJSON* data_json = cJSON_GetObjectItem(root, "data");
+    if (data_json == NULL)
+    {
+        cJSON_Delete(root);
+        ESP_LOGI(TAG, "Could not find 'data' in JSON.. Returning..");
+        return;
+    }
     
     ESP_LOGI(TAG, "Parsed out job: [%s]", job_str);
+
+    switch (Packet_Job_From_String(job_str))
+    {
+        case Packet_Job_Initialize:
+        {
+            ESP_LOGI(TAG, "Made it in here!");
+
+            char* data_str = cJSON_GetStringValue(data_json);
+            if (data_str == NULL)
+            {
+                cJSON_Delete(root);
+                ESP_LOGI(TAG, "data_str is not a STRING.. Returning..");
+                return;
+            }
+
+            if (strcmp(data_str, "magnetic") == 0)
+            {
+                Sensor_Add(Sensor_Type_Magnetic, "1234-5689-1023-4128"); // Guid generator should be added, or atleast some identifcation
+            }
+
+            char* packet = Packet_Build(Packet_Job_Debug, "Hello Magnetic-Sensor, you have been Initialized on Home Hub!");
+            if (packet == NULL)
+            {
+                ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
+                return;
+            }
+            
+            if (TCP_Server_Send(client, packet, strlen(packet)) != TCP_Server_Success)
+            {
+                ESP_LOGI(TAG, "Failed to Send data to Client");
+            }
+
+            break;
+        }
+
+        case Packet_Job_Heartbeat:
+        {
+
+            break;
+        }
+
+        case Packet_Job_Data:
+        {
+
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
 
 
     cJSON_Delete(root);
@@ -67,6 +129,8 @@ void tcp_server_task(void* params)
 
 void app_main(void)
 {
+    Sensor_Initialize_All();
+
     Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
