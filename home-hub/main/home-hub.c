@@ -70,6 +70,7 @@ void full_data_received(TCP_Server_Client* client)
 
             if (strcmp(data_str, "magnetic") == 0)
             {
+                ESP_LOGI(TAG, "Added Sensor_Type_Magnetic to sensor array");
                 Sensor_Add(Sensor_Type_Magnetic, "1234-5689-1023-4128"); // Guid generator should be added, or atleast some identifcation
             }
 
@@ -77,6 +78,7 @@ void full_data_received(TCP_Server_Client* client)
             if (packet == NULL)
             {
                 ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
+                cJSON_Delete(root);
                 return;
             }
             
