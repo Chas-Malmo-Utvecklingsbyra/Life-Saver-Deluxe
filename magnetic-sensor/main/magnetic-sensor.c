@@ -135,7 +135,7 @@ void read_tcp_task(void* params)
 
 		while (true)
 		{
-			int bytes = recv(client.socket, &buffer[total_bytes], sizeof(buffer), 0);
+			int bytes = recv(client.socket, &buffer[total_bytes], sizeof(buffer) - total_bytes, 0);
 
 			if (bytes > 0)
 			{
@@ -149,13 +149,7 @@ void read_tcp_task(void* params)
 
 			if (bytes < 0)
 			{
-				if (errno == EWOULDBLOCK || errno == EAGAIN)
-				{
-					break;
-				}
-				
-				ESP_LOGI(TAG, "recv failed in Read_TCP_Task");
-				return;
+				break;
 			}
 
 			ESP_LOGI(TAG, "Looppoop");

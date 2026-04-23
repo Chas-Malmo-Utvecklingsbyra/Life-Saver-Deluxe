@@ -8,6 +8,11 @@
 
 static const char* TAG = "TCP_Server";
 
+
+#define CLIENT_SOCKETS_MAX 50
+
+static TCP_Server_Client client_sockets[CLIENT_SOCKETS_MAX];
+
 bool TCP_Server_Bind(TCP_Server *server)
 {
     int bind_result = bind(server->socket, (struct sockaddr*)&server->server_addr, sizeof(server->server_addr));
@@ -48,57 +53,20 @@ void TCP_Server_Accept(TCP_Server *server)
 
     ESP_LOGI(TAG, "Got a new client!");
 
-    int total_bytes = 0;
-
-    char buffer[1024];
-    memset(buffer, 0, sizeof(buffer));
-
     int flags = fcntl(client, F_GETFL, 0);
     fcntl(client, F_SETFL, flags | O_NONBLOCK);
 
-    while (true)
+    for (size_t i = 0; i < CLIENT_SOCKETS_MAX; i++)
     {
-        ESP_LOGI(TAG, "recving");
-        int bytes = recv(client, &buffer[total_bytes], sizeof(buffer), 0);
-
-        if (bytes > 0)
+        if (client_sockets[i].socket == -1)
         {
-            ESP_LOGI(TAG, "bytes increased");
-            total_bytes += bytes;
-        }
-
-        if (bytes == 0)
-        {
-            ESP_LOGI(TAG, "broke");
-            break;
-        }
-
-        if (bytes < 0)
-        {
-            if (errno == EWOULDBLOCK || errno == EAGAIN)
-            {
-                break;
-            }
-            
-            ESP_LOGI(TAG, "recv failed in TCP_Server_Accept");
+            client_sockets[i].socket = client;
             return;
         }
-
-        ESP_LOGI(TAG, "Looppoop");
     }
 
-    ESP_LOGI(TAG, "Entering out of here");
-
-    buffer[total_bytes] = '\0';
-
-    TCP_Server_Client tcp_client = {
-        .data = buffer,
-        .len = total_bytes,
-        .socket = client
-    };
-
-    ESP_LOGI(TAG, "Entering callback");
-    server->callback(&tcp_client);
+    close(client);
+    ESP_LOGE(TAG, "client_sockets is full cannot add more clients.. Closing the socket.");
 
     //ESP_LOGI(TAG, "Read buffer: [%s]\n", buffer);
 }
@@ -130,6 +98,13 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Ful
     int flags = fcntl(out_server->socket, F_GETFL, 0);
     fcntl(out_server->socket, F_SETFL, flags | O_NONBLOCK);
 
+    for (size_t i = 0; i < CLIENT_SOCKETS_MAX; i++)
+    {
+        memset(client_sockets[i].data, 0, 1024);
+        client_sockets[i].len = 0;
+        client_sockets[i].socket = -1;
+    }
+
     return TCP_Server_Success;
 }
 
@@ -148,8 +123,64 @@ TCP_Server_Error TCP_Server_Send(TCP_Server_Client* client, const void* data, si
     return TCP_Server_Success;
 }
 
+void TCP_Server_Recv(TCP_Server *server)
+{
+    char buffer[1024];
+    memset(buffer, 0, sizeof(buffer));
+    
+    int total_bytes = 0;
+
+    for (size_t i = 0; i < CLIENT_SOCKETS_MAX; i++)
+    {
+        if (client_sockets->socket == -1)
+            continue;
+
+        while (true)
+        {
+            //ESP_LOGI(TAG, "recving");
+            int bytes = recv(client_sockets[i].socket, &buffer[total_bytes], sizeof(buffer) - total_bytes, 0);
+
+            if (bytes > 0)
+            {
+                ESP_LOGI(TAG, "bytes increased");
+                total_bytes += bytes;
+            }
+
+            if (bytes == 0)
+            {
+                //ESP_LOGI(TAG, "broke");
+                break;
+            }
+
+            if (bytes < 0)
+            {
+                break;
+            }
+
+            ESP_LOGI(TAG, "Looppoop");
+        }
+
+        if (total_bytes == 0)
+        {
+            continue;
+        }
+
+        ESP_LOGI(TAG, "Entering out of here");
+
+        strncpy(client_sockets[i].data, buffer, 1024);
+        buffer[total_bytes] = '\0';
+        client_sockets[i].len = total_bytes;
+
+        ESP_LOGI(TAG, "Entering callback");
+        server->callback(&client_sockets[i]);
+
+        memset(buffer, 0, 1024);
+        total_bytes = 0;
+    }
+}
 
 void TCP_Server_Work(TCP_Server *server)
 {
     TCP_Server_Accept(server);
+    TCP_Server_Recv(server);
 }

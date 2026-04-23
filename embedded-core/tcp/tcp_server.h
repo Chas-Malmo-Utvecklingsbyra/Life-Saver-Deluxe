@@ -13,7 +13,7 @@
 
 typedef struct
 {
-    char* data;
+    char data[1024];
     uint16_t len;
     int socket;
 } TCP_Server_Client;
