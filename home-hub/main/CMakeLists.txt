@@ -3,6 +3,11 @@ file(GLOB_RECURSE CORE_SOURCES
 )
 
 idf_component_register(
-    SRCS "home-hub.c" ${CORE_SOURCES}
+    SRCS "home-hub.c" "sensor/sensor.c" ${CORE_SOURCES}
     INCLUDE_DIRS "." "../../embedded-core"
+    REQUIRES 
+        spiffs
+        esp_wifi
+        nvs_flash
+        esp_http_client
 )
