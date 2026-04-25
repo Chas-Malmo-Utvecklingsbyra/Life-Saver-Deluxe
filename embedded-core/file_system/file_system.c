@@ -41,7 +41,6 @@ File_System_Error File_System_Write_File(File_System *file_system, const char* f
 {
     char buffer[255] = {};
     snprintf(buffer, sizeof(buffer), "%s%s", file_system->path, file_name);
-    
     FILE *file = NULL;
 
     if (file_system->type == File_System_Type_Spiffs)
@@ -50,6 +49,13 @@ File_System_Error File_System_Write_File(File_System *file_system, const char* f
         if (file == NULL)
         {
             return File_System_Error_File;
+        }
+
+        // if we only want to just create a file
+        if (text == NULL)
+        {
+            fclose(file);
+            return File_System_Success;
         }
 
         if (fprintf(file, text) < 0)
@@ -96,4 +102,26 @@ File_System_Error File_System_Read_File(File_System *file_system, const char* fi
     fclose(file);
 
     return File_System_Success;
+}
+
+bool File_System_File_Exists(File_System *file_system, const char* file_name)
+{
+    char path[255] = {};
+    snprintf(path, sizeof(path), "%s%s", file_system->path, file_name);
+
+    FILE *file = NULL;
+
+    if (file_system->type == File_System_Type_Spiffs)
+    {
+        file = fopen(path, "r");
+        if (file == NULL)
+        {
+            return false;
+        }
+
+        fclose(file);
+        return true;
+    }
+    
+    return false;
 }

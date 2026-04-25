@@ -51,7 +51,7 @@ File_System_Error File_System_Initialize(File_System *file_system, File_System_T
  *
  * @param file_system Uses the information from File_System struct to set path.
  * @param file_name The name of the file to write to. (sub-directories are not allowed in path when using SPIFFS).
- * @param text The to write to the file.
+ * @param text The to write to the file. (CAN BE NULL if u only want to create the file)
  *
  * @return Returns a File_System_Success on success but will return any other enumerator that fits the error best.
  *
@@ -75,5 +75,20 @@ File_System_Error File_System_Write_File(File_System *file_system, const char *f
  *
  */
 File_System_Error File_System_Read_File(File_System *file_system, const char* file_name, char* out_buffer, size_t length);
+
+
+/**
+ * 
+ * @brief Checks if a file exists in the File System
+ * 
+ *
+ * @param file_system Uses the information from File_System struct to set path.
+ * @param file_name The name of the file to check.
+ * 
+ * @return Returns true if exists, otherwise false.
+ *
+ * 
+ */
+bool File_System_File_Exists(File_System *file_system, const char* file_name);
 
 #endif
