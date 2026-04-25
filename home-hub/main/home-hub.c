@@ -12,7 +12,7 @@
 #include "sensor/sensor.h"
 #include "file_system/file_system.h"
 
-#include <esp_random.h>
+#include "random/random.h"
 
 static const char* TAG = "Home-Hub";
 
@@ -134,7 +134,7 @@ void tcp_server_task(void* params)
 void app_main(void)
 {
     File_System file_system = {};
-    if (!File_System_Initialize(&file_system, File_System_Type_Spiffs))
+    if (File_System_Initialize(&file_system, File_System_Type_Spiffs) != File_System_Success)
     {
         ESP_LOGE(TAG, "File system failed to Initialize! Returning from main.");
         return;
