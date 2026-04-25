@@ -24,7 +24,7 @@ static const char* TAG = "Door/Window Sensor";
 
 static TCP_Client client = {};
 static char guid[RANDOM_MAX_UUID_V4_LENGTH];
-static bool has_guid = false;
+static atomic_bool has_guid = false;
 
 void sensor_read_task(void* params)
 {
@@ -118,13 +118,6 @@ void sensor_send_task(void* params)
 	}
 
 	client.has_initialized = true;
-
-
-	while (true)
-	{
-		
-	}
-	
 }
 
 void read_tcp_task(void* params)
@@ -227,11 +220,10 @@ void read_tcp_task(void* params)
 					}
 
 					ESP_LOGI(TAG, "Received from Initialization: [%s]", string_data);
-
-					char buffer[RANDOM_MAX_UUID_V4_LENGTH];
-					snprintf(buffer, RANDOM_MAX_UUID_V4_LENGTH, "%s", string_data);
-
-					if (File_System_Write_File(CFG_NAME, buffer, "w") != File_System_Success)
+					snprintf(guid, RANDOM_MAX_UUID_V4_LENGTH, "%s", string_data);
+					
+					has_guid = true;
+					if (File_System_Write_File(CFG_NAME, guid, "w") != File_System_Success)
 					{
 						ESP_LOGE(TAG, "Failed to write to file the UUID");
 					}
@@ -280,7 +272,7 @@ void app_main(void)
 		ESP_LOGI(TAG, "Could not find %s file.. Waiting for Initialization from TCP", CFG_NAME);
 	}
 
-	Internet_Initialize("emilio", "emiliojoker33!");
+	Internet_Initialize("username", "password");
 
 	gpio_config_t config = {
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),
