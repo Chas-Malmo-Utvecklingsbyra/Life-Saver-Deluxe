@@ -9,8 +9,8 @@ void Random_Generate_UUID_v4(char *uuid_buffer)
     uint8_t uuid[16];
     esp_fill_random(uuid, sizeof(uuid));
 
-    uuid[6] = (uuid[6] & 0x0F) | 0x40; // version 4
-    uuid[8] = (uuid[8] & 0x3F) | 0x80; // variant
+    uuid[6] = (uuid[6] & 0x0F) | 0x40;
+    uuid[8] = (uuid[8] & 0x3F) | 0x80;
 
     snprintf(uuid_buffer, RANDOM_MAX_UUID_V4_LENGTH,
             "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",

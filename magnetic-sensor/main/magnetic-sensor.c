@@ -11,13 +11,20 @@
 #include "internet/internet.h"
 #include "tcp/tcp_client.h"
 #include "tcp/packet/packet.h"
+#include "file_system/file_system.h"
+#include "random/random.h"
+#include "json/cJSON.h"
 
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
 
+#define CFG_NAME "uuid.cfg"
+
 static const char* TAG = "Door/Window Sensor";
 
 static TCP_Client client = {};
+static char guid[RANDOM_MAX_UUID_V4_LENGTH];
+static bool has_guid = false;
 
 void sensor_read_task(void* params)
 {
@@ -95,18 +102,29 @@ void sensor_send_task(void* params)
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 
-	char* json = Packet_Build(Packet_Job_Initialize, "magnetic");
-	if (TCP_Client_Send(&client, json, strlen(json)) != TCP_Client_Success)
+	if (!has_guid)
 	{
-		ESP_LOGI(TAG, "Could not send Initialization packet to server.");
+		char* json = Packet_Build(Packet_Job_Initialize, "magnetic");
+		if (TCP_Client_Send(&client, json, strlen(json)) != TCP_Client_Success)
+		{
+			ESP_LOGI(TAG, "Could not send Initialization packet to server.");
+		}
+		ESP_LOGI(TAG, "Successfully sent [%s]", json);
+		free(json);
+	}
+	else
+	{
+		ESP_LOGI(TAG, "Not sending Packet_Job_Initialize, because I already have a UUID");
 	}
 
 	client.has_initialized = true;
-	ESP_LOGI(TAG, "Successfully sent [%s]", json);
-	free(json);
 
- 	
-	vTaskDelete(NULL);
+
+	while (true)
+	{
+		
+	}
+	
 }
 
 void read_tcp_task(void* params)
@@ -156,7 +174,78 @@ void read_tcp_task(void* params)
 		}
 
 		if (total_bytes != 0)
-			ESP_LOGI(TAG, "Magnetic-Sensor received: [%s]", buffer);
+		{
+			cJSON* root = cJSON_Parse(buffer);
+			if (root == NULL) // Illegal request
+			{
+				ESP_LOGE(TAG, "Illegal TCP was received continuing...");
+				vTaskDelay(100);
+				continue;
+			}
+
+			cJSON* job = cJSON_GetObjectItem(root, "job");
+			if (job == NULL)
+			{
+				cJSON_Delete(root);
+				ESP_LOGE(TAG, "Could not find JOB...");
+				vTaskDelay(100);
+				continue;
+			}
+
+			char* job_string = cJSON_GetStringValue(job);
+			if (job_string == NULL)
+			{
+				cJSON_Delete(root);
+				ESP_LOGE(TAG, "Job is not a string...");
+				vTaskDelay(100);
+				continue;
+			}
+
+			switch (Packet_Job_From_String(job_string))
+			{
+				case Packet_Job_Initialize:
+				{
+					// Packet_Job_Initialize acts like a handshake, which we will get a GUID
+					// from the server
+
+					cJSON* data = cJSON_GetObjectItem(root, "data");
+					if (data == NULL)
+					{
+						cJSON_Delete(root);
+						ESP_LOGE(TAG, "Could not find data even when it is EXPECTED...");
+						vTaskDelay(100);
+						continue;
+					}
+
+					char* string_data = cJSON_GetStringValue(data);
+					if (string_data == NULL)
+					{
+						cJSON_Delete(root);
+						ESP_LOGE(TAG, "Could not parse DATA to string value...");
+						vTaskDelay(100);
+						continue;
+					}
+
+					ESP_LOGI(TAG, "Received from Initialization: [%s]", string_data);
+
+					char buffer[RANDOM_MAX_UUID_V4_LENGTH];
+					snprintf(buffer, RANDOM_MAX_UUID_V4_LENGTH, "%s", string_data);
+
+					if (File_System_Write_File(CFG_NAME, buffer, "w") != File_System_Success)
+					{
+						ESP_LOGE(TAG, "Failed to write to file the UUID");
+					}
+
+					cJSON_Delete(root);
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+
+		}
 
 		vTaskDelay(100);
 	}
@@ -166,7 +255,32 @@ void read_tcp_task(void* params)
 
 void app_main(void)
 {
-    Internet_Initialize("username", "password");
+	if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
+	{
+		ESP_LOGE(TAG, "Failed to Initialize File System!");
+		return;
+	}
+	//remove("/spiffs/uuid.cfg");
+
+	if (File_System_File_Exists(CFG_NAME))
+	{
+		char uuid4_buffer[RANDOM_MAX_UUID_V4_LENGTH];
+		if (File_System_Read_File(CFG_NAME, uuid4_buffer, RANDOM_MAX_UUID_V4_LENGTH) != File_System_Success)
+		{
+			ESP_LOGE(TAG, "Failed to read uuid file...");
+			return; // it should never fail
+		}
+
+		ESP_LOGE(TAG, "UUID4 found is: [%s]", uuid4_buffer);
+		snprintf(guid, RANDOM_MAX_UUID_V4_LENGTH, "%s", uuid4_buffer);
+		has_guid = true;
+	}
+	else
+	{
+		ESP_LOGI(TAG, "Could not find %s file.. Waiting for Initialization from TCP", CFG_NAME);
+	}
+
+	Internet_Initialize("emilio", "emiliojoker33!");
 
 	gpio_config_t config = {
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),

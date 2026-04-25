@@ -76,7 +76,10 @@ void full_data_received(TCP_Server_Client* client)
                 Sensor_Add(Sensor_Type_Magnetic, "1234-5689-1023-4128"); // Guid generator should be added, or atleast some identifcation
             }
 
-            char* packet = Packet_Build(Packet_Job_Debug, "Hello Magnetic-Sensor, you have been Initialized on Home Hub!");
+            char buffer[RANDOM_MAX_UUID_V4_LENGTH];
+            Random_Generate_UUID_v4(buffer);
+
+            char* packet = Packet_Build(Packet_Job_Initialize, buffer);
             if (packet == NULL)
             {
                 ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
@@ -87,6 +90,28 @@ void full_data_received(TCP_Server_Client* client)
             if (TCP_Server_Send(client, packet, strlen(packet)) != TCP_Server_Success)
             {
                 ESP_LOGI(TAG, "Failed to Send data to Client");
+            }
+            free(packet);
+
+            if (!File_System_File_Exists("sensors"))
+            {
+                if (File_System_Write_File("sensors", buffer, "w") != File_System_Success)
+                {
+                    ESP_LOGE(TAG, "Failed to write to sensors file");
+                    break;
+                }
+
+                ESP_LOGI(TAG, "Sucessfully wrote to sensors file");
+            }
+            else
+            {
+                if (File_System_Write_File("sensors", buffer, "a") != File_System_Success)
+                {
+                    ESP_LOGE(TAG, "Failed to append to sensors file");
+                    break;
+                }
+
+                ESP_LOGI(TAG, "Sucessfully appended to sensors file");
             }
 
             break;
@@ -100,6 +125,7 @@ void full_data_received(TCP_Server_Client* client)
 
         case Packet_Job_Data:
         {
+            
 
             break;
         }
@@ -133,16 +159,43 @@ void tcp_server_task(void* params)
 
 void app_main(void)
 {
-    File_System file_system = {};
-    if (File_System_Initialize(&file_system, File_System_Type_Spiffs) != File_System_Success)
+    if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
     {
         ESP_LOGE(TAG, "File system failed to Initialize! Returning from main.");
         return;
     }
 
+    //remove("/spiffs/sensors");
+
     Sensor_Initialize_All();
 
-    Internet_Initialize("username", "password");
+    if (File_System_File_Exists("sensors"))
+    {
+        if (File_System_Get_Type() != File_System_Type_Spiffs)
+        {
+            ESP_LOGE(TAG, "This code needs to implement other filesystem, right now it only supports SPIFFS");
+            return;
+        }
+
+        FILE *f = fopen("/spiffs/sensors", "r");
+        if (f == NULL) {
+            ESP_LOGE(TAG, "Failed to open /spiffs/sensors");
+            return;
+        }
+
+        char line[RANDOM_MAX_UUID_V4_LENGTH];
+        while (fgets(line, sizeof(line), f) != NULL) {
+            ESP_LOGE(TAG, "Sensor UUID4: %s", line);
+            Sensor_Add(Sensor_Type_Unassigned, line);
+        }
+        fclose(f);
+    }
+    else
+    {
+        ESP_LOGI(TAG, "Sensors file does not exist!");
+    }
+
+    Internet_Initialize("emilio", "emiliojoker33!");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
     esp_err_t mdns_err = mdns_init();

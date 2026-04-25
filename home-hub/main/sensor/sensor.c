@@ -1,5 +1,6 @@
 #include "sensor.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include <esp_log.h>
@@ -12,8 +13,8 @@ void Sensor_Initialize_All()
 {
     for (size_t i = 0; i < MAX_SENSORS; i++)
     {
-        sensors[i].type = Sensor_Type_None;
         memset(sensors[i].guid, 0, sizeof(sensors[i].guid));
+        sensors[i].type = Sensor_Type_None;
     }
 }
 
@@ -33,7 +34,7 @@ void Sensor_Add(Sensor_Type type, char* guid)
         if (Sensor_Spot_Empty(i))
         {
             sensors[i] = (Sensor){ .type = type };
-            strncpy(sensors[i].guid, guid, 32);
+            snprintf(sensors[i].guid, RANDOM_MAX_UUID_V4_LENGTH, "%s", guid);
             return;
         }
     }

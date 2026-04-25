@@ -62,6 +62,19 @@ TCP_Server_Error TCP_Server_Setup(TCP_Server *out_server, uint16_t port, TCP_Ful
 void TCP_Server_Work(TCP_Server *server);
 
 
+/**
+ * @brief This should be called first when wanting to setup TCP_Server
+ *
+ * TCP_Server_Setup creates a socket, binds and listens.
+ * 
+ *
+ * @param out_server Sets socket and server_addr in TCP_Server struct.
+ * @param port The port that will be binded to (0 to 65535).
+ * @param callback The callback that is called when TCP_Server receives the full nullterminated data from a connection.
+ *
+ * @return On success returns TCP_Server_Success, otherwise returns a TCP_Server_Error enumerator.
+ *
+ */
 TCP_Server_Error TCP_Server_Send(TCP_Server_Client* client, const void* data, size_t length);
 
 #endif

@@ -3,16 +3,19 @@
 
 #define MAX_SENSORS 10
 
+#include "random/random.h"
+
 typedef enum
 {
     Sensor_Type_Magnetic,
+    Sensor_Type_Unassigned,
     Sensor_Type_None // Should not be used
 } Sensor_Type;
 
 typedef struct 
 {
     Sensor_Type type;
-    char guid[32];
+    char guid[RANDOM_MAX_UUID_V4_LENGTH];
 } Sensor;
 
 void Sensor_Initialize_All();
