@@ -275,7 +275,7 @@ void create_security_ui(void)
     lv_screen_load(screen_home);
 }
 
-static void lvgl_task(void *arg)
+void lvgl_task(void *arg)
 {
     backlight_init();
     display_init();
@@ -313,9 +313,4 @@ static void lvgl_task(void *arg)
         uint32_t delay_ms = lv_timer_handler();
         vTaskDelay(pdMS_TO_TICKS(delay_ms > 0 ? delay_ms : 1));
     }
-}
-
-void app_main(void)
-{
-    xTaskCreate(lvgl_task, "lvgl", 32768, NULL, 5, NULL);
 }

@@ -11,6 +11,7 @@
 #include "tcp/packet/packet.h"
 #include "sensor/sensor.h"
 #include "file_system/file_system.h"
+#include "gui/gui.h"
 
 #include "random/random.h"
 
@@ -166,6 +167,7 @@ void app_main(void)
     }
 
     //remove("/spiffs/sensors");
+    xTaskCreate(lvgl_task, "lvgl", 32768, NULL, 5, NULL);
 
     Sensor_Initialize_All();
 
