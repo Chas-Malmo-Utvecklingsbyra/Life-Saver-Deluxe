@@ -107,9 +107,9 @@ void display_init(void)
         .hsync_gpio_num = 46,
         .de_gpio_num = 5,
         .data_gpio_nums = {
-            1, 2, 42, 41, 40,
+            14, 38, 18, 17, 10,
             39, 0, 45, 48, 47, 21,
-            14, 38, 18, 17, 10
+            1, 2, 42, 41, 40
         },
         .timings = {
             .pclk_hz = 12 * 1000 * 1000,
@@ -152,18 +152,18 @@ void lvgl_port_init(void)
     lv_display_set_flush_cb(disp, lvgl_flush_cb);
 }
 
-// Creates the sidebar that appears on every screen
 static void create_sidebar(lv_obj_t *parent)
 {
     lv_obj_t *sidebar = lv_obj_create(parent);
     lv_obj_set_size(sidebar, 200, 600);
-    lv_obj_set_style_bg_color(sidebar, lv_color_hex(0x00FF00), 0);
+    lv_obj_set_style_bg_color(sidebar, lv_color_hex(0x6272A4), 0);
     lv_obj_set_flex_flow(sidebar, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_pad_gap(sidebar, 15, 0);
 
     lv_obj_t *title = lv_label_create(sidebar);
     lv_label_set_text(title, "Life Saver Deluxe");
-    lv_obj_set_style_text_font(title, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_color(title, lv_color_hex(0xF8F8F2), 0);
+    lv_obj_set_style_text_font(title, &lv_font_montserrat_18, 0);
 
     const char *button_names[]  = {"Home", "Settings", "Logs", "About us"};
     lv_obj_t   *target_screens[] = {screen_home, screen_settings, screen_logs, screen_about};
@@ -173,8 +173,8 @@ static void create_sidebar(lv_obj_t *parent)
         lv_obj_set_width(button, lv_pct(100));
         lv_obj_t *label = lv_label_create(button);
         lv_label_set_text(label, button_names[i]);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0xFF0000), 0);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0xAA0000), LV_STATE_PRESSED);
+        lv_obj_set_style_bg_color(button, lv_color_hex(0xFFB86C), 0);
+        lv_obj_set_style_bg_color(button, lv_color_hex(0xF1FA8C), LV_STATE_PRESSED);
         lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_CLICKED, target_screens[i]);
     }
 }
@@ -182,8 +182,8 @@ static void create_sidebar(lv_obj_t *parent)
 static lv_obj_t * create_sensor(lv_obj_t *parent, const char *name, bool open)
 {
     lv_obj_t *cont = lv_obj_create(parent);
-    lv_obj_set_height(cont, 50);
-    lv_obj_set_width(cont, LV_PCT(40));
+    lv_obj_set_height(cont, 40);
+    lv_obj_set_width(cont, LV_PCT(60));
     lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
     lv_obj_set_style_pad_all(cont, 10, 0);
 
@@ -198,7 +198,7 @@ static lv_obj_t * create_sensor(lv_obj_t *parent, const char *name, bool open)
         lv_label_set_text(state, "CLOSED");
         lv_obj_set_style_text_color(state, lv_color_hex(0x00FF00), 0);
     }
-    lv_obj_align(state, LV_ALIGN_RIGHT_MID, -10, 0);
+    lv_obj_align(state, LV_ALIGN_RIGHT_MID, -7, 0);
     return cont;
 }
 
@@ -211,11 +211,11 @@ void create_security_ui(void)
     screen_about    = lv_obj_create(NULL);
 
     // --- Home screen ---
-    lv_obj_set_style_bg_color(screen_home, lv_palette_main(LV_PALETTE_GREY), 0);
+    lv_obj_set_style_bg_color(screen_home, lv_color_hex(0xFF79C6), 0);
     lv_obj_t *home_main = lv_obj_create(screen_home);
     lv_obj_set_size(home_main, LCD_H_RES, LCD_V_RES);
     lv_obj_set_flex_flow(home_main, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_bg_color(home_main, lv_palette_main(LV_PALETTE_GREY), 0);
+    lv_obj_set_style_bg_color(home_main, lv_color_hex(0x44475A), 0);
     lv_obj_set_style_pad_all(home_main, 0, 0);
     lv_obj_set_style_border_width(home_main, 0, 0);
 
@@ -225,14 +225,18 @@ void create_security_ui(void)
     lv_obj_set_size(content, 824, LCD_V_RES);
     lv_obj_set_style_border_width(content, 0, 0);
     lv_obj_set_flex_flow(content, LV_FLEX_FLOW_ROW);
+    lv_obj_set_style_bg_color(content, lv_color_hex(0x282A36), 0);
+
 
     lv_obj_t *doors = lv_obj_create(content);
     lv_obj_set_flex_grow(doors, 1);
     lv_obj_set_flex_flow(doors, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_bg_color(doors, lv_color_hex(0x6272A4), 0);
 
     lv_obj_t *windows = lv_obj_create(content);
     lv_obj_set_flex_grow(windows, 1);
     lv_obj_set_flex_flow(windows, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_bg_color(windows, lv_color_hex(0x6272A4), 0);
 
     create_sensor(doors, "Front Door", true);
     create_sensor(doors, "Back Door", false);
@@ -240,7 +244,7 @@ void create_security_ui(void)
     create_sensor(windows, "Kitchen", false);
 
     // --- Settings screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_settings, lv_palette_main(LV_PALETTE_GREY), 0);
+    lv_obj_set_style_bg_color(screen_settings, lv_color_hex(0x0000FF), 0);
     lv_obj_t *settings_main = lv_obj_create(screen_settings);
     lv_obj_set_size(settings_main, LCD_H_RES, LCD_V_RES);
     lv_obj_set_flex_flow(settings_main, LV_FLEX_FLOW_ROW);
@@ -249,9 +253,11 @@ void create_security_ui(void)
     create_sidebar(settings_main);
     lv_obj_t *settings_label = lv_label_create(settings_main);
     lv_label_set_text(settings_label, "Settings");
+    lv_obj_set_style_text_color(settings_label, lv_color_hex(0x000000), 0);
+
 
     // --- Logs screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_logs, lv_palette_main(LV_PALETTE_GREY), 0);
+    lv_obj_set_style_bg_color(screen_logs, lv_color_hex(0xFF0000), 0);
     lv_obj_t *logs_main = lv_obj_create(screen_logs);
     lv_obj_set_size(logs_main, LCD_H_RES, LCD_V_RES);
     lv_obj_set_flex_flow(logs_main, LV_FLEX_FLOW_ROW);
@@ -262,7 +268,7 @@ void create_security_ui(void)
     lv_label_set_text(logs_label, "Logs");
 
     // --- About screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_about, lv_palette_main(LV_PALETTE_GREY), 0);
+    lv_obj_set_style_bg_color(screen_about, lv_color_hex(0x00F0F0), 0);
     lv_obj_t *about_main = lv_obj_create(screen_about);
     lv_obj_set_size(about_main, LCD_H_RES, LCD_V_RES);
     lv_obj_set_flex_flow(about_main, LV_FLEX_FLOW_ROW);
