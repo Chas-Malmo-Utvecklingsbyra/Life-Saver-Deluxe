@@ -197,7 +197,7 @@ void app_main(void)
         ESP_LOGI(TAG, "Sensors file does not exist!");
     }
 
-	Internet_Initialize("Tele2_f07e5b", "igniftzz");
+	Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
     esp_err_t mdns_err = mdns_init();
