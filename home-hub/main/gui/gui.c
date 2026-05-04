@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include "lvgl.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -9,12 +11,21 @@
 #include "esp_lcd_panel_rgb.h"
 #include "esp_lcd_touch.h"
 #include "esp_lcd_touch_gt911.h"
+#include "esp_heap_caps.h"
 #include "driver/i2c_master.h"
 #include "driver/gpio.h"
+#include "gui_themes.h"
 
 #define LCD_H_RES 1024
 #define LCD_V_RES 600
+
 #define TAG "TOUCH"
+
+typedef struct 
+{
+    uint8_t theme_index;
+    lv_obj_t *home_main;
+} theme_btn_data_t;
 
 static esp_lcd_touch_handle_t touch_handle = NULL;
 static esp_lcd_panel_handle_t panel_handle = NULL;
@@ -24,7 +35,11 @@ static lv_obj_t *screen_settings = NULL;
 static lv_obj_t *screen_logs     = NULL;
 static lv_obj_t *screen_about    = NULL;
 
-static i2c_master_bus_config_t bus_config = {
+static lv_obj_t *log_textarea = NULL;
+
+static uint8_t current_theme = 0;
+
+static const i2c_master_bus_config_t bus_config = {
     .clk_source = I2C_CLK_SRC_DEFAULT,
     .i2c_port = I2C_NUM_0,
     .scl_io_num = 9,
@@ -34,7 +49,7 @@ static i2c_master_bus_config_t bus_config = {
 };
 static i2c_master_bus_handle_t bus_handle = NULL;
 
-static esp_lcd_panel_io_i2c_config_t io_config = {
+static const esp_lcd_panel_io_i2c_config_t io_config = {
     .dev_addr = 0x5D,
     .scl_speed_hz = 400000,
     .control_phase_bytes = 1,
@@ -42,6 +57,12 @@ static esp_lcd_panel_io_i2c_config_t io_config = {
     .lcd_cmd_bits = 16,
     .flags.disable_control_phase = 1,
 };
+
+static void create_security_ui(void);
+
+/* =======================
+    HARDWARE CALLBACKS:
+==========================*/
 
 static void lv_tick_cb(void *arg)
 {
@@ -53,31 +74,50 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
     lv_display_flush_ready(disp);
 }
 
-static void nav_button_cb(lv_event_t *e)
-{
-    ESP_LOGW(TAG, "Touch shit");
-    /* lv_obj_t *target_screen = lv_event_get_user_data(e);
-    lv_screen_load_anim(target_screen, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false); */
-}
-
 static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
     esp_err_t ret = esp_lcd_touch_read_data(touch_handle);
-    if (ret != ESP_OK) {
+    if (ret != ESP_OK) 
+    {
         data->state = LV_INDEV_STATE_RELEASED;
         return;
     }
 
     esp_lcd_touch_point_data_t touch_data = {};
     uint8_t point_count = 0;
-    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0) {
+    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0) 
+    {
         data->point.x = touch_data.x;
         data->point.y = touch_data.y;
         data->state = LV_INDEV_STATE_PRESSED;
-    } else {
+    } 
+    else 
+    {
         data->state = LV_INDEV_STATE_RELEASED;
     }
 }
+
+/* =================
+    UI CALLBACKS:
+====================*/
+
+static void nav_button_cb(lv_event_t *e)
+{
+    /* ESP_LOGW(TAG, "Touch shit"); */
+    lv_obj_t *target_screen = lv_event_get_user_data(e);
+    lv_screen_load_anim(target_screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, false);
+}
+
+static void theme_btn_cb(lv_event_t *e)
+{
+    current_theme = (uint8_t)(uintptr_t)lv_event_get_user_data(e);
+
+    create_security_ui();
+}
+
+/* ===================
+    INIT FUNCTIONS:
+======================*/
 
 void backlight_init(void)
 {
@@ -89,9 +129,11 @@ void backlight_init(void)
         .scl_speed_hz = 100000,
     };
     i2c_master_dev_handle_t dev_handle;
-    if (i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle) == ESP_OK) {
+    if (i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle) == ESP_OK) 
+    {
         uint8_t write_buf[] = {0x02, 0x01};
-        if (i2c_master_transmit(dev_handle, write_buf, sizeof(write_buf), -1) != ESP_OK) {
+        if (i2c_master_transmit(dev_handle, write_buf, sizeof(write_buf), -1) != ESP_OK) 
+        {
             i2c_master_bus_rm_device(dev_handle);
         }
     }
@@ -141,6 +183,7 @@ void lvgl_port_init(void)
     void *buf1 = NULL;
     void *buf2 = NULL;
     ESP_ERROR_CHECK(esp_lcd_rgb_panel_get_frame_buffer(panel_handle, 2, &buf1, &buf2));
+        
     lv_display_set_buffers(
         disp,
         buf1,
@@ -150,136 +193,261 @@ void lvgl_port_init(void)
     );
     lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565);
     lv_display_set_flush_cb(disp, lvgl_flush_cb);
+
 }
+
+/* =================================
+    UI BUILDING HELPER FUNCTIONS:
+====================================*/
 
 static void create_sidebar(lv_obj_t *parent)
 {
+    const theme_t *t = &themes[current_theme];
+
     lv_obj_t *sidebar = lv_obj_create(parent);
-    lv_obj_set_size(sidebar, 200, 600);
-    lv_obj_set_style_bg_color(sidebar, lv_color_hex(0x6272A4), 0);
+    lv_obj_set_size(sidebar, 200, LCD_V_RES);
+    lv_obj_set_style_bg_color(sidebar, lv_color_hex(t->sidebar), 0);
+    lv_obj_set_style_border_width(sidebar, 0, 0);
     lv_obj_set_flex_flow(sidebar, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_gap(sidebar, 15, 0);
+    lv_obj_set_style_pad_all(sidebar, 12, 0);
+    lv_obj_set_style_pad_gap(sidebar, 10, 0);
 
     lv_obj_t *title = lv_label_create(sidebar);
     lv_label_set_text(title, "Life Saver Deluxe");
-    lv_obj_set_style_text_color(title, lv_color_hex(0xF8F8F2), 0);
+    lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(title, &lv_font_montserrat_18, 0);
 
-    const char *button_names[]  = {"Home", "Settings", "Logs", "About us"};
+    const char *button_names[]   = {"Home", "Settings", "Logs", "About us"};
     lv_obj_t   *target_screens[] = {screen_home, screen_settings, screen_logs, screen_about};
 
     for (int i = 0; i < 4; i++) {
         lv_obj_t *button = lv_button_create(sidebar);
         lv_obj_set_width(button, lv_pct(100));
+        lv_obj_set_style_bg_color(button, lv_color_hex(t->button), 0);
+        lv_obj_set_style_bg_color(button, lv_color_hex(t->button_pressed), LV_STATE_PRESSED);
+        lv_obj_set_style_radius(button, 8, 0);
         lv_obj_t *label = lv_label_create(button);
         lv_label_set_text(label, button_names[i]);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0xFFB86C), 0);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0xF1FA8C), LV_STATE_PRESSED);
+        lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
         lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_CLICKED, target_screens[i]);
     }
 }
 
-static lv_obj_t * create_sensor(lv_obj_t *parent, const char *name, bool open)
+static lv_obj_t *create_sensor(lv_obj_t *parent, const char *name, bool open)
 {
-    lv_obj_t *cont = lv_obj_create(parent);
-    lv_obj_set_height(cont, 40);
-    lv_obj_set_width(cont, LV_PCT(60));
-    lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_all(cont, 10, 0);
+    const theme_t *t = &themes[current_theme];
 
-    lv_obj_t *cont_label = lv_label_create(cont);
-    lv_label_set_text(cont_label, name);
+    lv_obj_t *card = lv_obj_create(parent);
+    lv_obj_set_size(card, LV_PCT(90), 56);
+    lv_obj_set_style_bg_color(card, lv_color_hex(t->sensor_bg), 0);
+    lv_obj_set_style_border_width(card, 0, 0);
+    lv_obj_set_style_radius(card, 12, 0);
+    lv_obj_set_style_pad_hor(card, 16, 0);
+    lv_obj_set_style_pad_ver(card, 0, 0);
+    lv_obj_set_flex_flow(card, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(card, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    lv_obj_t *state = lv_label_create(cont);
-    if (open) {
-        lv_label_set_text(state, "OPEN");
-        lv_obj_set_style_text_color(state, lv_color_hex(0xFF0000), 0);
-    } else {
-        lv_label_set_text(state, "CLOSED");
-        lv_obj_set_style_text_color(state, lv_color_hex(0x00FF00), 0);
-    }
-    lv_obj_align(state, LV_ALIGN_RIGHT_MID, -7, 0);
-    return cont;
+    // Colored status dot
+    lv_obj_t *dot = lv_obj_create(card);
+    lv_obj_set_size(dot, 12, 12);
+    lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_border_width(dot, 0, 0);
+    lv_obj_set_style_bg_color(dot, open ? lv_color_hex(0xFF5555) : lv_color_hex(0x50FA7B), 0);
+
+    // Sensor name
+    lv_obj_t *label = lv_label_create(card);
+    lv_label_set_text(label, name);
+    lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(label, &lv_font_montserrat_14, 0);
+    lv_obj_set_flex_grow(label, 1);
+
+    // Status text, right-aligned
+    lv_obj_t *status = lv_label_create(card);
+    lv_label_set_text(status, open ? "OPEN" : "CLOSED");
+    lv_obj_set_style_text_color(status, open ? lv_color_hex(0xFF5555) : lv_color_hex(0x50FA7B), 0);
+    lv_obj_set_style_text_font(status, &lv_font_montserrat_14, 0);
+
+    return card;
 }
 
-void create_security_ui(void)
+static void build_home_content(lv_obj_t *parent)
 {
-    // Create all screens
-    screen_home     = lv_obj_create(NULL);
-    screen_settings = lv_obj_create(NULL);
-    screen_logs     = lv_obj_create(NULL);
-    screen_about    = lv_obj_create(NULL);
+    const theme_t *t = &themes[current_theme];
 
-    // --- Home screen ---
-    lv_obj_set_style_bg_color(screen_home, lv_color_hex(0xFF79C6), 0);
-    lv_obj_t *home_main = lv_obj_create(screen_home);
-    lv_obj_set_size(home_main, LCD_H_RES, LCD_V_RES);
-    lv_obj_set_flex_flow(home_main, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_bg_color(home_main, lv_color_hex(0x44475A), 0);
-    lv_obj_set_style_pad_all(home_main, 0, 0);
-    lv_obj_set_style_border_width(home_main, 0, 0);
-
-    create_sidebar(home_main);
-
-    lv_obj_t *content = lv_obj_create(home_main);
-    lv_obj_set_size(content, 824, LCD_V_RES);
+    lv_obj_t *content = lv_obj_create(parent);
+    lv_obj_set_flex_grow(content, 1);
+    lv_obj_set_height(content, LCD_V_RES);
     lv_obj_set_style_border_width(content, 0, 0);
     lv_obj_set_flex_flow(content, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_bg_color(content, lv_color_hex(0x282A36), 0);
-
+    lv_obj_set_style_bg_color(content, lv_color_hex(t->bg), 0);
+    lv_obj_set_style_pad_all(content, 0, 0);
 
     lv_obj_t *doors = lv_obj_create(content);
     lv_obj_set_flex_grow(doors, 1);
+    lv_obj_set_height(doors, LCD_V_RES);
     lv_obj_set_flex_flow(doors, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_bg_color(doors, lv_color_hex(0x6272A4), 0);
+    lv_obj_set_style_bg_color(doors, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(doors, 0, 0);
+    lv_obj_set_style_pad_all(doors, 10, 0);
+    lv_obj_set_style_pad_gap(doors, 8, 0);
+
+    lv_obj_t *doors_heading = lv_label_create(doors);
+    lv_label_set_text(doors_heading, "Doors");
+    lv_obj_set_style_text_color(doors_heading, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(doors_heading, &lv_font_montserrat_18, 0);
 
     lv_obj_t *windows = lv_obj_create(content);
     lv_obj_set_flex_grow(windows, 1);
+    lv_obj_set_height(windows, LCD_V_RES);
     lv_obj_set_flex_flow(windows, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_bg_color(windows, lv_color_hex(0x6272A4), 0);
+    lv_obj_set_style_bg_color(windows, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(windows, 0, 0);
+    lv_obj_set_style_pad_all(windows, 10, 0);
+    lv_obj_set_style_pad_gap(windows, 8, 0);
+
+    lv_obj_t *windows_heading = lv_label_create(windows);
+    lv_label_set_text(windows_heading, "Windows");
+    lv_obj_set_style_text_color(windows_heading, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(windows_heading, &lv_font_montserrat_18, 0);
 
     create_sensor(doors, "Front Door", true);
     create_sensor(doors, "Back Door", false);
     create_sensor(windows, "Bedroom", true);
     create_sensor(windows, "Kitchen", false);
+}
 
-    // --- Settings screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_settings, lv_color_hex(0x0000FF), 0);
-    lv_obj_t *settings_main = lv_obj_create(screen_settings);
-    lv_obj_set_size(settings_main, LCD_H_RES, LCD_V_RES);
-    lv_obj_set_flex_flow(settings_main, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_all(settings_main, 0, 0);
-    lv_obj_set_style_border_width(settings_main, 0, 0);
-    create_sidebar(settings_main);
-    lv_obj_t *settings_label = lv_label_create(settings_main);
-    lv_label_set_text(settings_label, "Settings");
-    lv_obj_set_style_text_color(settings_label, lv_color_hex(0x000000), 0);
+static void build_settings_content(lv_obj_t *parent)
+{
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *section = lv_obj_create(parent);
+    lv_obj_set_flex_grow(section, 1);
+    lv_obj_set_height(section, LCD_V_RES);
+    lv_obj_set_style_bg_color(section, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(section, 0, 0);
+    lv_obj_set_flex_flow(section, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_all(section, 20, 0);
+    lv_obj_set_style_pad_gap(section, 12, 0);
+
+    lv_obj_t *heading = lv_label_create(section);
+    lv_label_set_text(heading, "Color Theme");
+    lv_obj_set_style_text_font(heading, &lv_font_montserrat_18, 0);
+    lv_obj_set_style_text_color(heading, lv_color_hex(t->text), 0);
+
+    for (int i = 0; i < 4; i++) {
+        lv_obj_t *btn = lv_button_create(section);
+        lv_obj_set_width(btn, 260);
+        lv_obj_set_style_bg_color(btn, lv_color_hex(themes[i].button), 0);
+        lv_obj_set_style_bg_color(btn, lv_color_hex(themes[i].button_pressed), LV_STATE_PRESSED);
+        lv_obj_set_style_radius(btn, 10, 0);
+        lv_obj_t *lbl = lv_label_create(btn);
+        lv_label_set_text(lbl, themes[i].name);
+        lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
+        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_CLICKED, (void*)(uintptr_t)i);
+    }
+}
+
+static void build_logs_content(lv_obj_t *parent)
+{
+    const theme_t *t = &themes[current_theme];
+
+    log_textarea = lv_textarea_create(parent);
+    lv_obj_set_flex_grow(log_textarea, 1);
+    lv_obj_set_height(log_textarea, LCD_V_RES);
+    lv_obj_set_style_bg_color(log_textarea, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_text_color(log_textarea, lv_color_hex(t->text), 0);
+    lv_textarea_set_placeholder_text(log_textarea, "No logs yet...");
+    lv_obj_set_style_border_width(log_textarea, 0, 0);
+    lv_textarea_set_one_line(log_textarea, false);
+}
+
+static void build_about_content(lv_obj_t *parent)
+{
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *section = lv_obj_create(parent);
+    lv_obj_set_flex_grow(section, 1);
+    lv_obj_set_height(section, LCD_V_RES);
+    lv_obj_set_style_bg_color(section, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(section, 0, 0);
+    lv_obj_set_flex_flow(section, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_all(section, 20, 0);
+    lv_obj_set_style_pad_gap(section, 10, 0);
+
+    lv_obj_t *heading = lv_label_create(section);
+    lv_label_set_text(heading, "Life Saver Deluxe");
+    lv_obj_set_style_text_font(heading, &lv_font_montserrat_18, 0);
+    lv_obj_set_style_text_color(heading, lv_color_hex(t->text), 0);
+
+    lv_obj_t *body = lv_label_create(section);
+    lv_label_set_text(body,
+        "Version 1.0\n\n"
+        "A security monitoring system\n"
+        "for doors and windows.\n\n"
+        "Built with ESP32-S3 and LVGL.\n"
+        "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\nContributors:\nEmilio 'The Wonderkid' Ganibegovic\nPaer Lundh\nHenrik Westerlund\nLukas Staede\nIsa 'The Fixer' Shipshani.\n"
+    );
+    lv_obj_set_style_text_color(body, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(body, &lv_font_montserrat_14, 0);
+    lv_label_set_long_mode(body, LV_LABEL_LONG_WRAP);
+    lv_obj_set_width(body, LV_PCT(100));
+}
 
 
-    // --- Logs screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_logs, lv_color_hex(0xFF0000), 0);
-    lv_obj_t *logs_main = lv_obj_create(screen_logs);
-    lv_obj_set_size(logs_main, LCD_H_RES, LCD_V_RES);
-    lv_obj_set_flex_flow(logs_main, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_all(logs_main, 0, 0);
-    lv_obj_set_style_border_width(logs_main, 0, 0);
-    create_sidebar(logs_main);
-    lv_obj_t *logs_label = lv_label_create(logs_main);
-    lv_label_set_text(logs_label, "Logs");
+/* ==============================
+    MAIN UI ENTRY POINT FUNCTION:
+=================================*/
 
-    // --- About screen (placeholder) ---
-    lv_obj_set_style_bg_color(screen_about, lv_color_hex(0x00F0F0), 0);
-    lv_obj_t *about_main = lv_obj_create(screen_about);
-    lv_obj_set_size(about_main, LCD_H_RES, LCD_V_RES);
-    lv_obj_set_flex_flow(about_main, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_all(about_main, 0, 0);
-    lv_obj_set_style_border_width(about_main, 0, 0);
-    create_sidebar(about_main);
-    lv_obj_t *about_label = lv_label_create(about_main);
-    lv_label_set_text(about_label, "About us");
+static void create_security_ui(void)
+{
+    const theme_t *t = &themes[current_theme];
+
+    // Delete old screens if they exist (for theme switching)
+    if (screen_home)     { lv_obj_delete(screen_home);     screen_home = NULL; }
+    if (screen_settings) { lv_obj_delete(screen_settings); screen_settings = NULL; }
+    if (screen_logs)     { lv_obj_delete(screen_logs);     screen_logs = NULL; }
+    if (screen_about)    { lv_obj_delete(screen_about);    screen_about = NULL; }
+    log_textarea = NULL;
+
+    screen_home     = lv_obj_create(NULL);
+    screen_settings = lv_obj_create(NULL);
+    screen_logs     = lv_obj_create(NULL);
+    screen_about    = lv_obj_create(NULL);
+
+    #define MAKE_ROOT(scr, color) ({ \
+        lv_obj_t *_r = lv_obj_create(scr); \
+        lv_obj_set_size(_r, LCD_H_RES, LCD_V_RES); \
+        lv_obj_set_flex_flow(_r, LV_FLEX_FLOW_ROW); \
+        lv_obj_set_style_bg_color(_r, lv_color_hex(color), 0); \
+        lv_obj_set_style_pad_all(_r, 0, 0); \
+        lv_obj_set_style_border_width(_r, 0, 0); \
+        lv_obj_set_pos(_r, 0, 0); \
+        _r; \
+    })
+
+    lv_obj_t *home_root     = MAKE_ROOT(screen_home,     t->bg);
+    lv_obj_t *settings_root = MAKE_ROOT(screen_settings, t->bg);
+    lv_obj_t *logs_root     = MAKE_ROOT(screen_logs,     t->bg);
+    lv_obj_t *about_root    = MAKE_ROOT(screen_about,    t->bg);
+
+    #undef MAKE_ROOT
+
+    create_sidebar(home_root);
+    create_sidebar(settings_root);
+    create_sidebar(logs_root);
+    create_sidebar(about_root);
+
+    build_home_content(home_root);
+    build_settings_content(settings_root);
+    build_logs_content(logs_root);
+    build_about_content(about_root);
 
     lv_screen_load(screen_home);
 }
+
+/* ==============
+    MAIN TASK:
+=================*/
 
 void lvgl_task(void *arg)
 {
@@ -300,7 +468,6 @@ void lvgl_task(void *arg)
     };
     ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_gt911(io_handle, &touch_config, &touch_handle));
 
-    // Register touch input AFTER touch_handle is valid
     lv_indev_t *indev = lv_indev_create();
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev, touch_read_cb);
@@ -315,7 +482,8 @@ void lvgl_task(void *arg)
 
     create_security_ui();
 
-    while (1) {
+    while (1) 
+    {
         uint32_t delay_ms = lv_timer_handler();
         vTaskDelay(pdMS_TO_TICKS(delay_ms > 0 ? delay_ms : 1));
     }

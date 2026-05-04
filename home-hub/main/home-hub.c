@@ -167,7 +167,7 @@ void app_main(void)
     }
 
     //remove("/spiffs/sensors");
-    xTaskCreate(lvgl_task, "lvgl", 32768, NULL, 5, NULL);
+    xTaskCreatePinnedToCore(lvgl_task, "lvgl", 32768, NULL, 5, NULL, 0);
 
     Sensor_Initialize_All();
 
