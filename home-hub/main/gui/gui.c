@@ -384,8 +384,8 @@ static void build_about_content(lv_obj_t *parent)
         "Version 1.0\n\n"
         "A security monitoring system\n"
         "for doors and windows.\n\n"
-        "Built with ESP32-S3 and LVGL.\n"
-        "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\nContributors:\nEmilio 'The Wonderkid' Ganibegovic\nPaer Lundh\nHenrik Westerlund\nLukas Staede\nIsa 'The Fixer' Shipshani.\n"
+        "Built with ESP32-S3 and LVGL.\n\n"
+        "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\nContributors:\nEmilio 'The Wonderkid' Ganibegovic\nPar Lundh\nHenrik Westerlund\nLukas Stade\nIsa 'The Fixer' Shipshani.\n"
     );
     lv_obj_set_style_text_color(body, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(body, &lv_font_montserrat_14, 0);

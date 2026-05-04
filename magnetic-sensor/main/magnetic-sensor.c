@@ -272,7 +272,7 @@ void app_main(void)
 		ESP_LOGI(TAG, "Could not find %s file.. Waiting for Initialization from TCP", CFG_NAME);
 	}
 
-	Internet_Initialize("username", "password");
+	Internet_Initialize("Tele2_f07e5b", "igniftzz");
 
 	gpio_config_t config = {
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),

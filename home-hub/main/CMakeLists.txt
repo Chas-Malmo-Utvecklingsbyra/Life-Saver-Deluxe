@@ -13,6 +13,7 @@ idf_component_register(
         lvgl
         esp_driver_i2c
         esp_driver_gpio
+        esp_driver_uart
         esp_lcd
         esp_lcd_touch
         esp_lcd_touch_gt911
