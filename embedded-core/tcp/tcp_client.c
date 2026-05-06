@@ -60,7 +60,7 @@ TCP_Client_Error TCP_Client_Send(TCP_Client* client, const void* data, size_t le
 
     if (send(client->socket, data, length, 0) < 0)
     {
-        return TCP_Client_Error_Send;
+        return TCP_Client_Error_Send; 
     }
 
     return TCP_Client_Success;
