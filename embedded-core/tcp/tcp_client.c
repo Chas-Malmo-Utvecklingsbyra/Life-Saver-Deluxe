@@ -1,4 +1,6 @@
 #include "tcp_client.h"
+#include "internet/internet.h"
+#include "esp_log.h"
 
 TCP_Client_Error TCP_Client_Initialize(TCP_Client *client)
 {
@@ -50,9 +52,15 @@ TCP_Client_Error TCP_Client_Send(TCP_Client* client, const void* data, size_t le
         return TCP_Client_Error_Socket;
     }
 
+    if (Internet_Get_State() != NETWORK_ONLINE)
+    {
+        ESP_LOGW("TCP", "No internet connection");
+        return TCP_Client_Error_Send;
+    }
+
     if (send(client->socket, data, length, 0) < 0)
     {
-        return TCP_Client_Error_Send; 
+        return TCP_Client_Error_Send;
     }
 
     return TCP_Client_Success;

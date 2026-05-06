@@ -1,4 +1,5 @@
 #include "internet.h"
+#include "gui/gui.h"
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
@@ -35,7 +36,7 @@ static void http_test()
 }
 
 static TaskHandle_t http_task_handler = NULL;
-static void http_task(void* params)
+static void http_task(void *params)
 {
     while (1)
     {
@@ -47,52 +48,71 @@ static void http_task(void* params)
 #endif
 static SemaphoreHandle_t internet_connected_mutex;
 static bool g_internet_connected = false;
-static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
+network_state_t g_network_state = NETWORK_CONNECTING;
+static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     if (event_base == WIFI_EVENT)
     {
         if (event_id == WIFI_EVENT_STA_START)
         {
-            ESP_LOGI("WIFI", "Trying to connect to WIFI");
-            esp_wifi_connect();
-        }
-        else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
-        {
-            if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE) 
-            {
-                g_internet_connected = false;
-                xSemaphoreGive(internet_connected_mutex);
-            }
+            g_network_state = NETWORK_CONNECTING;
 
-            wifi_event_sta_disconnected_t *event = (wifi_event_sta_disconnected_t*)event_data;
-            ESP_LOGI("WIFI", "Disconnected. Reason: %d (%s)", event->reason, esp_err_to_name(event->reason));
-            esp_wifi_scan_start(NULL, true);
+            GUI_Update_Network_Status(NETWORK_CONNECTING);
+
+            g_network_state = NETWORK_CONNECTING;
+
+            GUI_Update_Network_Status(NETWORK_CONNECTING);
+
             ESP_LOGI("WIFI", "Trying to reconnect to WIFI");
+
             esp_wifi_connect();
         }
-        return;
     }
+    else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
+        g_network_state = NETWORK_OFFLINE;
+
+        GUI_Update_Network_Status(NETWORK_OFFLINE);
+
+        ESP_LOGW("WIFI", "OFFLINE MODE");
+
+        if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE)
+        {
+            g_internet_connected = false;
+            xSemaphoreGive(internet_connected_mutex);
+        }
+
+        wifi_event_sta_disconnected_t *event = (wifi_event_sta_disconnected_t *)event_data;
+        ESP_LOGI("WIFI", "Disconnected. Reason: %d (%s)", event->reason, esp_err_to_name(event->reason));
+        esp_wifi_scan_start(NULL, true);
+        ESP_LOGI("WIFI", "Trying to reconnect to WIFI");
+        esp_wifi_connect();
+    }
+    return;
 
     if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
-        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        g_network_state = NETWORK_ONLINE;
+        GUI_Update_Network_Status(NETWORK_ONLINE);
+        ESP_LOGI("WIFI", "ONLINE MODE");
+
+        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI("WIFI", "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
 
-        if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE) 
+        if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE)
         {
             g_internet_connected = true;
             xSemaphoreGive(internet_connected_mutex);
         }
 
-        #ifdef CONFIG_INTERNET_TEST_HTTP
+#ifdef CONFIG_INTERNET_TEST_HTTP
 
         if (http_task_handler == NULL)
             xTaskCreate(http_task, "HttpTask", 4096, NULL, 5, &http_task_handler);
 
-        #endif
+#endif
     }
 }
-
 
 void Internet_Initialize(const char *ssid, const char *password)
 {
@@ -111,10 +131,10 @@ void Internet_Initialize(const char *ssid, const char *password)
     esp_netif_create_default_wifi_sta();
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-                                                    ESP_EVENT_ANY_ID,
-                                                    &wifi_event_handler,
-                                                    NULL,
-                                                    NULL));
+                                                        ESP_EVENT_ANY_ID,
+                                                        &wifi_event_handler,
+                                                        NULL,
+                                                        NULL));
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
                                                         IP_EVENT_STA_GOT_IP,
@@ -123,8 +143,8 @@ void Internet_Initialize(const char *ssid, const char *password)
                                                         NULL));
 
     wifi_config_t wifi_config = {};
-    strlcpy((char*)wifi_config.sta.ssid, ssid, sizeof(wifi_config.sta.ssid));
-    strlcpy((char*)wifi_config.sta.password, password, sizeof(wifi_config.sta.password));
+    strlcpy((char *)wifi_config.sta.ssid, ssid, sizeof(wifi_config.sta.ssid));
+    strlcpy((char *)wifi_config.sta.password, password, sizeof(wifi_config.sta.password));
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
@@ -136,10 +156,15 @@ void Internet_Initialize(const char *ssid, const char *password)
 
 bool Internet_Is_Connected()
 {
-    if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE) 
+    if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE)
     {
         xSemaphoreGive(internet_connected_mutex);
         return g_internet_connected;
     }
     return false;
+}
+
+network_state_t Internet_Get_State(void)
+{
+    return g_network_state;
 }

@@ -1,6 +1,8 @@
 #ifndef INTERNET_H
 #define INTERNET_H
 
+#include <stdbool.h>
+
 /**
  * 
  * @brief Initializes WIFI
@@ -31,5 +33,22 @@ void Internet_Initialize(const char *ssid, const char *password);
  *
  */
 bool Internet_Is_Connected();
+
+// OFFLINE MODE! 
+
+typedef enum
+{
+    NETWORK_CONNECTING,
+    NETWORK_ONLINE,
+    NETWORK_OFFLINE
+
+   
+}  network_state_t;
+
+// Global network state
+extern network_state_t g_network_state;
+
+
+network_state_t Internet_Get_State(void);
 
 #endif

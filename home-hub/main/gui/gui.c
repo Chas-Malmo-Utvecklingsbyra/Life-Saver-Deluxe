@@ -15,13 +15,14 @@
 #include "driver/i2c_master.h"
 #include "driver/gpio.h"
 #include "gui_themes.h"
+#include "internet/internet.h"
 
 #define LCD_H_RES 1024
 #define LCD_V_RES 600
 
 #define TAG "TOUCH"
 
-typedef struct 
+typedef struct
 {
     uint8_t theme_index;
     lv_obj_t *home_main;
@@ -30,10 +31,11 @@ typedef struct
 static esp_lcd_touch_handle_t touch_handle = NULL;
 static esp_lcd_panel_handle_t panel_handle = NULL;
 
-static lv_obj_t *screen_home     = NULL;
+static lv_obj_t *screen_home = NULL;
 static lv_obj_t *screen_settings = NULL;
-static lv_obj_t *screen_logs     = NULL;
-static lv_obj_t *screen_about    = NULL;
+static lv_obj_t *screen_logs = NULL;
+static lv_obj_t *screen_about = NULL;
+static lv_obj_t *wifi_status_label = NULL;
 
 static lv_obj_t *log_textarea = NULL;
 
@@ -77,7 +79,7 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
 static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
     esp_err_t ret = esp_lcd_touch_read_data(touch_handle);
-    if (ret != ESP_OK) 
+    if (ret != ESP_OK)
     {
         data->state = LV_INDEV_STATE_RELEASED;
         return;
@@ -85,13 +87,13 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 
     esp_lcd_touch_point_data_t touch_data = {};
     uint8_t point_count = 0;
-    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0) 
+    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0)
     {
         data->point.x = touch_data.x;
         data->point.y = touch_data.y;
         data->state = LV_INDEV_STATE_PRESSED;
-    } 
-    else 
+    }
+    else
     {
         data->state = LV_INDEV_STATE_RELEASED;
     }
@@ -129,10 +131,10 @@ void backlight_init(void)
         .scl_speed_hz = 100000,
     };
     i2c_master_dev_handle_t dev_handle;
-    if (i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle) == ESP_OK) 
+    if (i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle) == ESP_OK)
     {
         uint8_t write_buf[] = {0x02, 0x01};
-        if (i2c_master_transmit(dev_handle, write_buf, sizeof(write_buf), -1) != ESP_OK) 
+        if (i2c_master_transmit(dev_handle, write_buf, sizeof(write_buf), -1) != ESP_OK)
         {
             i2c_master_bus_rm_device(dev_handle);
         }
@@ -151,8 +153,7 @@ void display_init(void)
         .data_gpio_nums = {
             14, 38, 18, 17, 10,
             39, 0, 45, 48, 47, 21,
-            1, 2, 42, 41, 40
-        },
+            1, 2, 42, 41, 40},
         .timings = {
             .pclk_hz = 12 * 1000 * 1000,
             .h_res = LCD_H_RES,
@@ -183,17 +184,15 @@ void lvgl_port_init(void)
     void *buf1 = NULL;
     void *buf2 = NULL;
     ESP_ERROR_CHECK(esp_lcd_rgb_panel_get_frame_buffer(panel_handle, 2, &buf1, &buf2));
-        
+
     lv_display_set_buffers(
         disp,
         buf1,
         buf2,
         LCD_H_RES * LCD_V_RES * sizeof(lv_color_t),
-        LV_DISPLAY_RENDER_MODE_DIRECT
-    );
+        LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565);
     lv_display_set_flush_cb(disp, lvgl_flush_cb);
-
 }
 
 /* =================================
@@ -216,11 +215,16 @@ static void create_sidebar(lv_obj_t *parent)
     lv_label_set_text(title, "Life Saver Deluxe");
     lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(title, &lv_font_montserrat_18, 0);
+    wifi_status_label = lv_label_create(sidebar);
+    lv_label_set_text(wifi_status_label, "Connecting..");
+    lv_obj_set_style_text_color(wifi_status_label, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(wifi_status_label, &lv_font_montserrat_14, 0);
 
-    const char *button_names[]   = {"Home", "Settings", "Logs", "About us"};
-    lv_obj_t   *target_screens[] = {screen_home, screen_settings, screen_logs, screen_about};
+    const char *button_names[] = {"Home", "Settings", "Logs", "About us"};
+    lv_obj_t *target_screens[] = {screen_home, screen_settings, screen_logs, screen_about};
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         lv_obj_t *button = lv_button_create(sidebar);
         lv_obj_set_width(button, lv_pct(100));
         lv_obj_set_style_bg_color(button, lv_color_hex(t->button), 0);
@@ -334,7 +338,8 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_style_text_font(heading, &lv_font_montserrat_18, 0);
     lv_obj_set_style_text_color(heading, lv_color_hex(t->text), 0);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         lv_obj_t *btn = lv_button_create(section);
         lv_obj_set_width(btn, 260);
         lv_obj_set_style_bg_color(btn, lv_color_hex(themes[i].button), 0);
@@ -343,7 +348,7 @@ static void build_settings_content(lv_obj_t *parent)
         lv_obj_t *lbl = lv_label_create(btn);
         lv_label_set_text(lbl, themes[i].name);
         lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
-        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_CLICKED, (void*)(uintptr_t)i);
+        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_CLICKED, (void *)(uintptr_t)i);
     }
 }
 
@@ -381,18 +386,16 @@ static void build_about_content(lv_obj_t *parent)
 
     lv_obj_t *body = lv_label_create(section);
     lv_label_set_text(body,
-        "Version 1.0\n\n"
-        "A security monitoring system\n"
-        "for doors and windows.\n\n"
-        "Built with ESP32-S3 and LVGL.\n\n"
-        "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\nContributors:\nEmilio 'The Wonderkid' Ganibegovic\nPar Lundh\nHenrik Westerlund\nLukas Stade\nIsa 'The Fixer' Shipshani.\n"
-    );
+                      "Version 1.0\n\n"
+                      "A security monitoring system\n"
+                      "for doors and windows.\n\n"
+                      "Built with ESP32-S3 and LVGL.\n\n"
+                      "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\nContributors:\nEmilio 'The Wonderkid' Ganibegovic\nPar Lundh\nHenrik Westerlund\nLukas Stade\nIsa 'The Fixer' Shipshani.\n");
     lv_obj_set_style_text_color(body, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(body, &lv_font_montserrat_14, 0);
     lv_label_set_long_mode(body, LV_LABEL_LONG_WRAP);
     lv_obj_set_width(body, LV_PCT(100));
 }
-
 
 /* ==============================
     MAIN UI ENTRY POINT FUNCTION:
@@ -403,34 +406,50 @@ static void create_security_ui(void)
     const theme_t *t = &themes[current_theme];
 
     // Delete old screens if they exist (for theme switching)
-    if (screen_home)     { lv_obj_delete(screen_home);     screen_home = NULL; }
-    if (screen_settings) { lv_obj_delete(screen_settings); screen_settings = NULL; }
-    if (screen_logs)     { lv_obj_delete(screen_logs);     screen_logs = NULL; }
-    if (screen_about)    { lv_obj_delete(screen_about);    screen_about = NULL; }
+    if (screen_home)
+    {
+        lv_obj_delete(screen_home);
+        screen_home = NULL;
+    }
+    if (screen_settings)
+    {
+        lv_obj_delete(screen_settings);
+        screen_settings = NULL;
+    }
+    if (screen_logs)
+    {
+        lv_obj_delete(screen_logs);
+        screen_logs = NULL;
+    }
+    if (screen_about)
+    {
+        lv_obj_delete(screen_about);
+        screen_about = NULL;
+    }
     log_textarea = NULL;
 
-    screen_home     = lv_obj_create(NULL);
+    screen_home = lv_obj_create(NULL);
     screen_settings = lv_obj_create(NULL);
-    screen_logs     = lv_obj_create(NULL);
-    screen_about    = lv_obj_create(NULL);
+    screen_logs = lv_obj_create(NULL);
+    screen_about = lv_obj_create(NULL);
 
-    #define MAKE_ROOT(scr, color) ({ \
-        lv_obj_t *_r = lv_obj_create(scr); \
-        lv_obj_set_size(_r, LCD_H_RES, LCD_V_RES); \
-        lv_obj_set_flex_flow(_r, LV_FLEX_FLOW_ROW); \
-        lv_obj_set_style_bg_color(_r, lv_color_hex(color), 0); \
-        lv_obj_set_style_pad_all(_r, 0, 0); \
-        lv_obj_set_style_border_width(_r, 0, 0); \
-        lv_obj_set_pos(_r, 0, 0); \
-        _r; \
-    })
+#define MAKE_ROOT(scr, color) ({                           \
+    lv_obj_t *_r = lv_obj_create(scr);                     \
+    lv_obj_set_size(_r, LCD_H_RES, LCD_V_RES);             \
+    lv_obj_set_flex_flow(_r, LV_FLEX_FLOW_ROW);            \
+    lv_obj_set_style_bg_color(_r, lv_color_hex(color), 0); \
+    lv_obj_set_style_pad_all(_r, 0, 0);                    \
+    lv_obj_set_style_border_width(_r, 0, 0);               \
+    lv_obj_set_pos(_r, 0, 0);                              \
+    _r;                                                    \
+})
 
-    lv_obj_t *home_root     = MAKE_ROOT(screen_home,     t->bg);
+    lv_obj_t *home_root = MAKE_ROOT(screen_home, t->bg);
     lv_obj_t *settings_root = MAKE_ROOT(screen_settings, t->bg);
-    lv_obj_t *logs_root     = MAKE_ROOT(screen_logs,     t->bg);
-    lv_obj_t *about_root    = MAKE_ROOT(screen_about,    t->bg);
+    lv_obj_t *logs_root = MAKE_ROOT(screen_logs, t->bg);
+    lv_obj_t *about_root = MAKE_ROOT(screen_about, t->bg);
 
-    #undef MAKE_ROOT
+#undef MAKE_ROOT
 
     create_sidebar(home_root);
     create_sidebar(settings_root);
@@ -448,6 +467,52 @@ static void create_security_ui(void)
 /* ==============
     MAIN TASK:
 =================*/
+void GUI_Update_Network_Status(network_state_t state)
+{
+    if (wifi_status_label == NULL)
+    {
+        return;
+    }
+
+    switch(state)
+    {
+        case NETWORK_ONLINE:
+
+            lv_label_set_text(wifi_status_label, "ONLINE");
+
+            lv_obj_set_style_text_color(
+                wifi_status_label,
+                lv_color_hex(0x00FF00),
+                0
+            );
+
+            break;
+
+        case NETWORK_OFFLINE:
+
+            lv_label_set_text(wifi_status_label, "OFFLINE MODE");
+
+            lv_obj_set_style_text_color(
+                wifi_status_label,
+                lv_color_hex(0xFF0000),
+                0
+            );
+
+            break;
+
+        case NETWORK_CONNECTING:
+
+            lv_label_set_text(wifi_status_label, "CONNECTING...");
+
+            lv_obj_set_style_text_color(
+                wifi_status_label,
+                lv_color_hex(0xFFFF00),
+                0
+            );
+
+            break;
+    }
+}
 
 void lvgl_task(void *arg)
 {
@@ -463,8 +528,8 @@ void lvgl_task(void *arg)
         .y_max = LCD_V_RES,
         .rst_gpio_num = GPIO_NUM_42,
         .int_gpio_num = GPIO_NUM_4,
-        .levels = { .reset = 0, .interrupt = 0 },
-        .flags = { .swap_xy = 0, .mirror_x = 0, .mirror_y = 0 },
+        .levels = {.reset = 0, .interrupt = 0},
+        .flags = {.swap_xy = 0, .mirror_x = 0, .mirror_y = 0},
     };
     ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_gt911(io_handle, &touch_config, &touch_handle));
 
@@ -474,15 +539,14 @@ void lvgl_task(void *arg)
 
     const esp_timer_create_args_t timer_args = {
         .callback = lv_tick_cb,
-        .name = "lvgl_tick"
-    };
+        .name = "lvgl_tick"};
     esp_timer_handle_t timer = NULL;
     esp_timer_create(&timer_args, &timer);
     esp_timer_start_periodic(timer, 1000);
 
     create_security_ui();
 
-    while (1) 
+    while (1)
     {
         uint32_t delay_ms = lv_timer_handler();
         vTaskDelay(pdMS_TO_TICKS(delay_ms > 0 ? delay_ms : 1));
