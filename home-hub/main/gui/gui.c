@@ -63,7 +63,6 @@ static uint8_t wifi_label_count                 = 0;
 
 // State
 static ScreenState screensaver_state            = STATE_ACTIVE;
-static network_state_t current_network_state    = NETWORK_CONNECTING;
 static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
 
@@ -94,7 +93,7 @@ static const esp_lcd_panel_io_i2c_config_t io_config = {
 ======================*/
 
 static void create_security_ui(void);
-void GUI_Update_Network_Status(network_state_t state);
+void GUI_Update_Network_Status(void);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -162,6 +161,7 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
             screensaver_state = STATE_ACTIVE;
             last_input_time = lv_tick_get();
             lv_screen_load(screen_home);
+            lv_obj_invalidate(screen_home);
 
             while (esp_lcd_touch_read_data(touch_handle) == ESP_OK)
             {
@@ -195,6 +195,7 @@ static void nav_button_cb(lv_event_t *e)
     /* ESP_LOGW(TAG, "Touch shit"); */
     lv_obj_t *target_screen = lv_event_get_user_data(e);
     lv_screen_load_anim(target_screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, false);
+    lv_obj_invalidate(target_screen);
 }
 
 static void theme_btn_cb(lv_event_t *e)
@@ -306,7 +307,8 @@ static void create_sidebar(lv_obj_t *parent)
     lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(title, &lv_font_montserrat_18, 0);
 
-    // Isas implementation
+    // Loop through this on every screen, so that the status updates correctly when switching screens. 
+    // Needs to be updated if we add screens.
     if (wifi_label_count < 4)
     {
         wifi_status_labels[wifi_label_count] = lv_label_create(sidebar);
@@ -613,7 +615,7 @@ static void create_security_ui(void)
 
     lv_screen_load(screen_home);
 
-    GUI_Update_Network_Status(current_network_state);
+    GUI_Update_Network_Status();
 }
 
 /* =======================
@@ -622,27 +624,22 @@ static void create_security_ui(void)
 
 static void gui_update_network_status_async(void *arg)
 {
-    network_state_t state = (network_state_t)(uintptr_t)arg;
+    bool connected = Internet_Is_Connected();
 
     const char *text = NULL;
     uint32_t color = 0;
 
-    switch (state)
+    if (connected)
     {
-        case NETWORK_ONLINE:
-            text = "ONLINE";
-            color = 0x50FA7B;
-            break;
-
-        case NETWORK_OFFLINE:
-            text = "OFFLINE MODE";
-            color = 0xFF5555;
-            break;
-
-        case NETWORK_CONNECTING:
-            text = "CONNECTING...";
-            color = 0xFFFF00;
-            break;
+        text = "ONLINE";
+        color = 0x50FA7B;
+        ESP_LOGI(TAG, "WiFi-Status: Online");
+    }
+    else
+    {
+        text = "OFFLINE MODE";
+        color = 0xFF5555;
+        ESP_LOGI(TAG, "WiFi-Status: Offline");
     }
 
     for (int i = 0; i < wifi_label_count; i++)
@@ -655,10 +652,9 @@ static void gui_update_network_status_async(void *arg)
     }
 }
 
-void GUI_Update_Network_Status(network_state_t state)
+void GUI_Update_Network_Status(void)
 {
-    current_network_state = state;
-    lv_async_call(gui_update_network_status_async, (void *)(uintptr_t)state);    
+    lv_async_call(gui_update_network_status_async, NULL);        
 }
 
 /* =======================
@@ -707,6 +703,7 @@ void lvgl_task(void *arg)
         {
             screensaver_state = STATE_SCREENSAVER;
             lv_screen_load(screen_screensaver);
+            lv_obj_invalidate(screen_screensaver);
         }
 
         uint32_t delay_ms = lv_timer_handler();
