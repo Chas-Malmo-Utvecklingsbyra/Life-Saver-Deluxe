@@ -118,6 +118,7 @@ void sensor_send_task(void* params)
 	}
 
 	client.has_initialized = true;
+	vTaskDelete(NULL);
 }
 
 void read_tcp_task(void* params)
@@ -271,7 +272,6 @@ void app_main(void)
 	{
 		ESP_LOGI(TAG, "Could not find %s file.. Waiting for Initialization from TCP", CFG_NAME);
 	}
-
 	Internet_Initialize("username", "password");
 
 	gpio_config_t config = {
