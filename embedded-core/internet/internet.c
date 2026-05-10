@@ -1,5 +1,4 @@
 #include "internet.h"
-#include "gui/gui.h"
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
@@ -7,6 +6,8 @@
 #include <esp_event.h>
 #include <nvs_flash.h>
 #include <esp_log.h>
+
+#include <stdatomic.h>
 
 #ifdef CONFIG_INTERNET_TEST_HTTP
 
@@ -46,8 +47,8 @@ static void http_task(void *params)
 }
 
 #endif
-static SemaphoreHandle_t internet_connected_mutex;
-static bool g_internet_connected = false;
+
+static atomic_bool g_internet_connected = false;
 static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     if (event_base == WIFI_EVENT)
@@ -58,13 +59,7 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
         }
         else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
         {
-            if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE) 
-            {
-                g_internet_connected = false;
-                xSemaphoreGive(internet_connected_mutex);
-            }
-
-            GUI_Update_Network_Status();
+            g_internet_connected = false;
 
             wifi_event_sta_disconnected_t *event = (wifi_event_sta_disconnected_t*)event_data;
             ESP_LOGI("WIFI", "Disconnected. Reason: %d (%s)", event->reason, esp_err_to_name(event->reason));
@@ -80,13 +75,7 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI("WIFI", "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
 
-        if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE) 
-        {
-            g_internet_connected = true;
-            xSemaphoreGive(internet_connected_mutex);
-        }
-
-        GUI_Update_Network_Status();
+        g_internet_connected = true;
 
         #ifdef CONFIG_INTERNET_TEST_HTTP
 
@@ -101,8 +90,6 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
 void Internet_Initialize(const char *ssid, const char *password)
 {
     /* TODO: Remove ESP_ERROR_CHECK and add real safety checks that dont abort */
-    internet_connected_mutex = xSemaphoreCreateMutex();
-
     esp_err_t nvs_init_result = nvs_flash_init();
     if (nvs_init_result == ESP_ERR_NVS_NO_FREE_PAGES || nvs_init_result == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
@@ -140,10 +127,5 @@ void Internet_Initialize(const char *ssid, const char *password)
 
 bool Internet_Is_Connected()
 {
-    if (xSemaphoreTake(internet_connected_mutex, portMAX_DELAY) == pdTRUE)
-    {
-        xSemaphoreGive(internet_connected_mutex);
-        return g_internet_connected;
-    }
-    return false;
+    return g_internet_connected;
 }
