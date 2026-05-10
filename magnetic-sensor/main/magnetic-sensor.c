@@ -33,7 +33,7 @@ static void send_data_to_home_hub(const char* data)
 		char buffer[256];
 		snprintf(buffer, 256, "%s|%s", guid, data);
 
-		char* packet = Packet_Build(Packet_Job_Data, data);
+		char* packet = Packet_Build(Packet_Job_Data, buffer);
 		if (TCP_Client_Send(&client, packet, strlen(packet)) != TCP_Client_Success)
 		{
 			ESP_LOGW(TAG, "Could not send data packet to server.");
