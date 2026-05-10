@@ -11,7 +11,7 @@
 #include "tcp/packet/packet.h"
 #include "sensor/sensor.h"
 #include "file_system/file_system.h"
-#include "gui/gui.h"
+//#include "gui/gui.h"
 
 #include "random/random.h"
 
@@ -71,14 +71,14 @@ void full_data_received(TCP_Server_Client* client)
                 return;
             }
 
+            char buffer[RANDOM_MAX_UUID_V4_LENGTH];
+            Random_Generate_UUID_v4(buffer);
+
             if (strcmp(data_str, "magnetic") == 0)
             {
                 ESP_LOGI(TAG, "Added Sensor_Type_Magnetic to sensor array");
-                Sensor_Add(Sensor_Type_Magnetic, "1234-5689-1023-4128"); // Guid generator should be added, or atleast some identifcation
+                Sensor_Add(Sensor_Type_Magnetic, buffer); // Guid generator should be added, or atleast some identifcation
             }
-
-            char buffer[RANDOM_MAX_UUID_V4_LENGTH];
-            Random_Generate_UUID_v4(buffer);
 
             char* packet = Packet_Build(Packet_Job_Initialize, buffer);
             if (packet == NULL)
@@ -126,8 +126,7 @@ void full_data_received(TCP_Server_Client* client)
 
         case Packet_Job_Data:
         {
-            
-
+            ESP_LOGI(TAG, "Received some data.... Needs processing!");
             break;
         }
 
@@ -167,7 +166,7 @@ void app_main(void)
     }
 
     //remove("/spiffs/sensors");
-    xTaskCreatePinnedToCore(lvgl_task, "lvgl", 32768, NULL, 5, NULL, 0);
+    //xTaskCreatePinnedToCore(lvgl_task, "lvgl", 32768, NULL, 5, NULL, 0);
 
     Sensor_Initialize_All();
 

@@ -26,6 +26,22 @@ static TCP_Client client = {};
 static char guid[RANDOM_MAX_UUID_V4_LENGTH];
 static atomic_bool has_guid = false;
 
+static void send_data_to_home_hub(const char* data)
+{
+	if (has_guid && Internet_Is_Connected())
+	{
+		char buffer[256];
+		snprintf(buffer, 256, "%s|%s", guid, data);
+
+		char* packet = Packet_Build(Packet_Job_Data, data);
+		if (TCP_Client_Send(&client, packet, strlen(packet)) != TCP_Client_Success)
+		{
+			ESP_LOGW(TAG, "Could not send data packet to server.");
+		}
+		free(packet);
+	}
+}
+
 void sensor_read_task(void* params)
 {
 	int prev_state = -1;
@@ -37,11 +53,15 @@ void sensor_read_task(void* params)
 		{
 			ESP_LOGI(TAG, "CLOSED!");
 			prev_state = state;
+
+			send_data_to_home_hub("false");
 		}
 		else if (state == 1 && state != prev_state)
 		{
 			ESP_LOGI(TAG, "OPEN!");
 			prev_state = state;
+
+			send_data_to_home_hub("true");
 		}
 		
 		vTaskDelay(pdMS_TO_TICKS(100));
