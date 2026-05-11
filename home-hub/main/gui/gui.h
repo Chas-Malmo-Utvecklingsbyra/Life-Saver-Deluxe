@@ -5,6 +5,4 @@
 
 void lvgl_task(void *arg);
 
-void GUI_Update_Network_Status(void);
-
 #endif

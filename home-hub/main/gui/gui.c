@@ -94,7 +94,6 @@ static const esp_lcd_panel_io_i2c_config_t io_config = {
 ======================*/
 
 static void create_security_ui(void);
-void GUI_Update_Network_Status(void);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -615,7 +614,6 @@ static void create_security_ui(void)
 
     lv_screen_load(screen_home);
     lv_obj_update_layout(screen_home);
-    GUI_Update_Network_Status();
 }
 
 /* =======================
@@ -633,13 +631,11 @@ static void gui_update_network_status_async(void *arg)
     {
         text = "ONLINE";
         color = 0x50FA7B;
-        ESP_LOGI(TAG, "WiFi-Status: Online");
     }
     else
     {
         text = "OFFLINE MODE";
         color = 0xFF5555;
-        ESP_LOGI(TAG, "WiFi-Status: Offline");
     }
 
     for (int i = 0; i < wifi_label_count; i++)
@@ -652,9 +648,13 @@ static void gui_update_network_status_async(void *arg)
     }
 }
 
-void GUI_Update_Network_Status(void)
+void GUI_Update_Network_Status(void *arg)
 {
-    lv_async_call(gui_update_network_status_async, NULL);        
+    while (1)
+    {
+        lv_async_call(gui_update_network_status_async, NULL);        
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
 }
 
 /* =======================
@@ -694,6 +694,8 @@ void lvgl_task(void *arg)
 
     create_security_ui();
     last_input_time = lv_tick_get();
+
+    xTaskCreate(GUI_Update_Network_Status, "GUIUpdateNetworkStatus", 1024, NULL, 8, NULL);
 
     while (1) 
     {
