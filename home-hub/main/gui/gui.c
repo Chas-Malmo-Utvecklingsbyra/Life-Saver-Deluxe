@@ -16,7 +16,7 @@
 #include "driver/gpio.h"
 #include "gui_themes.h"
 #include "internet/internet.h"
-
+#include "../sensor/sensor.h"
 
 /* =====================
         CONSTANTS:
@@ -45,7 +45,7 @@ typedef enum
     STATIC VARIABLES:
 ======================*/
 
-// Harware handles
+// Hardware handles
 static esp_lcd_touch_handle_t touch_handle      = NULL;
 static esp_lcd_panel_handle_t panel_handle      = NULL;
 static i2c_master_bus_handle_t bus_handle       = NULL;
@@ -66,6 +66,19 @@ static ScreenState screensaver_state            = STATE_ACTIVE;
 static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
 static volatile bool vsync_happened             = false;
+
+// Sensor UI objects
+typedef struct
+{
+    lv_obj_t *card;
+    lv_obj_t *dot;
+    lv_obj_t *name_label;
+    lv_obj_t *status_label;
+    Sensor   *sensor;
+} SensorUi;
+
+static SensorUi sensor_uis[MAX_SENSORS];
+static size_t sensor_ui_count = 0;
 
 /* =====================
     I2C CONFIGURATION:
@@ -94,6 +107,7 @@ static const esp_lcd_panel_io_i2c_config_t io_config = {
 ======================*/
 
 static void create_security_ui(void);
+static void update_sensor_ui_timer_cb(lv_timer_t *timer);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -103,7 +117,7 @@ static void set_brightness(uint8_t percent)
 {
     if (backlight_dev == NULL)
         return;
-    
+
     if (percent > BACKLIGHT_MAX_PCT)
         percent = BACKLIGHT_MAX_PCT;
 
@@ -124,7 +138,11 @@ static void lv_tick_cb(void *arg)
     lv_tick_inc(1);
 }
 
-static bool panel_vsync_cb(esp_lcd_panel_handle_t panel, const esp_lcd_rgb_panel_event_data_t *event_data, void *user_ctx)
+static bool panel_vsync_cb(
+    esp_lcd_panel_handle_t panel,
+    const esp_lcd_rgb_panel_event_data_t *event_data,
+    void *user_ctx
+)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     vsync_happened = true;
@@ -138,13 +156,14 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
         while (!vsync_happened) {}
         vsync_happened = false;
     }
+
     lv_display_flush_ready(disp);
 }
 
 static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
     esp_err_t ret = esp_lcd_touch_read_data(touch_handle);
-    if (ret != ESP_OK) 
+    if (ret != ESP_OK)
     {
         data->state = LV_INDEV_STATE_RELEASED;
         return;
@@ -152,12 +171,14 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 
     esp_lcd_touch_point_data_t touch_data = {};
     uint8_t point_count = 0;
-    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0) 
+
+    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0)
     {
         if (screensaver_state == STATE_SCREENSAVER)
         {
             screensaver_state = STATE_ACTIVE;
             last_input_time = lv_tick_get();
+
             lv_screen_load(screen_home);
             lv_obj_invalidate(screen_home);
 
@@ -165,8 +186,12 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
             {
                 esp_lcd_touch_point_data_t dummy = {};
                 uint8_t cnt = 0;
+
                 esp_lcd_touch_get_data(touch_handle, &dummy, &cnt, 1);
-                if (cnt == 0) break;
+
+                if (cnt == 0)
+                    break;
+
                 vTaskDelay(pdMS_TO_TICKS(10));
             }
 
@@ -175,23 +200,25 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
         }
 
         last_input_time = lv_tick_get();
-        data->point.x   = touch_data.x;
-        data->point.y   = touch_data.y;
-        data->state     = LV_INDEV_STATE_PRESSED;
-    } 
-    else 
+
+        data->point.x = touch_data.x;
+        data->point.y = touch_data.y;
+        data->state = LV_INDEV_STATE_PRESSED;
+    }
+    else
     {
         data->state = LV_INDEV_STATE_RELEASED;
     }
 }
+
 /* =======================
         UI CALLBACKS:
 ==========================*/
 
 static void nav_button_cb(lv_event_t *e)
 {
-    /* ESP_LOGW(TAG, "Touch shit"); */
     lv_obj_t *target_screen = lv_event_get_user_data(e);
+
     lv_screen_load_anim(target_screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, false);
     lv_obj_invalidate(target_screen);
 }
@@ -209,7 +236,7 @@ static void brightness_slider_cb(lv_event_t *e)
 }
 
 /* =======================
-        INIT FUNCIONS:
+        INIT FUNCTIONS:
 ==========================*/
 
 void backlight_init(void)
@@ -221,6 +248,7 @@ void backlight_init(void)
         .device_address     = BACKLIGHT_I2C_ADDR,
         .scl_speed_hz       = 100000,
     };
+
     ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &backlight_dev));
 
     set_brightness(100);
@@ -258,14 +286,16 @@ void display_init(void)
 
     ESP_ERROR_CHECK(esp_lcd_new_rgb_panel(&config, &panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
+
     vTaskDelay(pdMS_TO_TICKS(100));
+
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 
     esp_lcd_rgb_panel_event_callbacks_t cbs = {
         .on_vsync = panel_vsync_cb,
     };
-    ESP_ERROR_CHECK(esp_lcd_rgb_panel_register_event_callbacks(panel_handle, &cbs, NULL));
 
+    ESP_ERROR_CHECK(esp_lcd_rgb_panel_register_event_callbacks(panel_handle, &cbs, NULL));
 }
 
 void lvgl_port_init(void)
@@ -273,8 +303,10 @@ void lvgl_port_init(void)
     lv_init();
 
     lv_display_t *disp = lv_display_create(LCD_H_RES, LCD_V_RES);
+
     void *buf1 = NULL;
     void *buf2 = NULL;
+
     ESP_ERROR_CHECK(esp_lcd_rgb_panel_get_frame_buffer(panel_handle, 2, &buf1, &buf2));
 
     size_t buf_size = LCD_H_RES * LCD_V_RES * sizeof(lv_color_t);
@@ -305,8 +337,6 @@ static void create_sidebar(lv_obj_t *parent)
     lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(title, &lv_font_montserrat_18, 0);
 
-    // Loop through this on every screen, so that the status updates correctly when switching screens. 
-    // Needs to be updated if we add screens.
     if (wifi_label_count < 4)
     {
         wifi_status_labels[wifi_label_count] = lv_label_create(sidebar);
@@ -316,10 +346,21 @@ static void create_sidebar(lv_obj_t *parent)
         wifi_label_count++;
     }
 
-    const char *button_names[]   = {"Home", "Settings", "Logs", "About us"};
-    lv_obj_t   *target_screens[] = {screen_home, screen_settings, screen_logs, screen_about};
+    const char *button_names[] = {
+        "Home",
+        "Settings",
+        "Logs",
+        "About us"
+    };
 
-    for (int i = 0; i < 4; i++) 
+    lv_obj_t *target_screens[] = {
+        screen_home,
+        screen_settings,
+        screen_logs,
+        screen_about
+    };
+
+    for (int i = 0; i < 4; i++)
     {
         lv_obj_t *button = lv_button_create(sidebar);
         lv_obj_set_width(button, lv_pct(100));
@@ -330,13 +371,22 @@ static void create_sidebar(lv_obj_t *parent)
         lv_obj_t *label = lv_label_create(button);
         lv_label_set_text(label, button_names[i]);
         lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
+
         lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_PRESSED, target_screens[i]);
     }
 }
 
-static lv_obj_t *create_sensor(lv_obj_t *parent, const char *name, bool open)
+static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *name)
 {
     const theme_t *t = &themes[current_theme];
+
+    bool has_data = sensor != NULL && sensor->data != NULL;
+    bool open = false;
+
+    if (has_data)
+        open = *(bool *)sensor->data;
+
+    uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
 
     lv_obj_t *card = lv_obj_create(parent);
     lv_obj_set_size(card, LV_PCT(90), 56);
@@ -348,29 +398,49 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, const char *name, bool open)
     lv_obj_set_flex_flow(card, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(card, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    uint32_t status_color = open ? 0xFF5555 : 0x50FA7B;
-
-    // Colored status dot
     lv_obj_t *dot = lv_obj_create(card);
     lv_obj_set_size(dot, 12, 12);
     lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
     lv_obj_set_style_border_width(dot, 0, 0);
     lv_obj_set_style_bg_color(dot, lv_color_hex(status_color), 0);
 
-    // Sensor name
     lv_obj_t *label = lv_label_create(card);
     lv_label_set_text(label, name);
     lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(label, &lv_font_montserrat_14, 0);
     lv_obj_set_flex_grow(label, 1);
 
-    // Status text, right-aligned
     lv_obj_t *status = lv_label_create(card);
-    lv_label_set_text(status, open ? "OPEN" : "CLOSED");
+    lv_label_set_text(status, !has_data ? "UNKNOWN" : (open ? "OPEN" : "CLOSED"));
     lv_obj_set_style_text_color(status, lv_color_hex(status_color), 0);
     lv_obj_set_style_text_font(status, &lv_font_montserrat_14, 0);
 
+    if (sensor_ui_count < MAX_SENSORS)
+    {
+        sensor_uis[sensor_ui_count].card = card;
+        sensor_uis[sensor_ui_count].dot = dot;
+        sensor_uis[sensor_ui_count].name_label = label;
+        sensor_uis[sensor_ui_count].status_label = status;
+        sensor_uis[sensor_ui_count].sensor = sensor;
+        sensor_ui_count++;
+    }
+
     return card;
+}
+
+static lv_obj_t *make_root(lv_obj_t *screen)
+{
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *root = lv_obj_create(screen);
+    lv_obj_set_size(root, LCD_H_RES, LCD_V_RES);
+    lv_obj_set_pos(root, 0, 0);
+    lv_obj_set_flex_flow(root, LV_FLEX_FLOW_ROW);
+    lv_obj_set_style_bg_color(root, lv_color_hex(t->bg), 0);
+    lv_obj_set_style_pad_all(root, 0, 0);
+    lv_obj_set_style_border_width(root, 0, 0);
+
+    return root;
 }
 
 /* =======================
@@ -380,6 +450,9 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, const char *name, bool open)
 static void build_home_content(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
+
+    sensor_ui_count = 0;
+    memset(sensor_uis, 0, sizeof(sensor_uis));
 
     lv_obj_t *content = lv_obj_create(parent);
     lv_obj_set_flex_grow(content, 1);
@@ -417,13 +490,49 @@ static void build_home_content(lv_obj_t *parent)
     lv_obj_set_style_text_color(windows_heading, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(windows_heading, &lv_font_montserrat_18, 0);
 
-    create_sensor(doors,    "Front Door",   true);
-    create_sensor(doors,    "Back Door",    false);
-    create_sensor(doors,    "Garage Door",    false);
-    create_sensor(windows,  "Master Bedroom",      true);
-    create_sensor(windows,  "Guest Bedroom",      false);
-    create_sensor(windows,  "Bathroom",      false);
-    create_sensor(windows,  "Kitchen",      false);
+    size_t real_count = 0;
+
+    Sensor *all_sensors = Sensor_Get_All();
+
+    if (all_sensors == NULL)
+    {
+        ESP_LOGW(TAG, "Sensor_Get_All returned NULL");
+        return;
+    }
+
+    for (size_t i = 0; i < MAX_SENSORS; i++)
+    {
+        Sensor *sensor = &all_sensors[i];
+
+        ESP_LOGW(TAG, "%s %d", sensor->guid, sensor->type);
+
+        if (sensor->type == 1)
+        {
+            real_count++;
+
+            char buffer[64];
+
+            if (sensor->guid[0] != '\0')
+            {
+                snprintf(buffer, sizeof(buffer), "%s", sensor->guid);
+            }
+            else
+            {
+                snprintf(buffer, sizeof(buffer), "Sensor (%zu)", real_count);
+            }
+
+            ESP_LOGW(
+                TAG,
+                "ADDING MAGNETIC SENSOR CARD: %s data=%p",
+                buffer,
+                sensor->data
+            );
+
+            create_sensor(doors, sensor, buffer);
+        }
+    }
+
+    ESP_LOGW(TAG, "Total magnetic sensor cards added: %zu", real_count);
 }
 
 static void build_settings_content(lv_obj_t *parent)
@@ -444,7 +553,7 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_style_text_font(theme_heading, &lv_font_montserrat_18, 0);
     lv_obj_set_style_text_color(theme_heading, lv_color_hex(t->text), 0);
 
-    for (int i = 0; i < 4; i++) 
+    for (int i = 0; i < 4; i++)
     {
         lv_obj_t *btn = lv_button_create(section);
         lv_obj_set_width(btn, 260);
@@ -455,6 +564,7 @@ static void build_settings_content(lv_obj_t *parent)
         lv_obj_t *lbl = lv_label_create(btn);
         lv_label_set_text(lbl, themes[i].name);
         lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
+
         lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
     }
 
@@ -519,12 +629,12 @@ static void build_about_content(lv_obj_t *parent)
         "Lukas Stade\n"
         "Par Lundh\n"
     );
+
     lv_obj_set_style_text_color(body, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(body, &lv_font_montserrat_14, 0);
     lv_label_set_long_mode(body, LV_LABEL_LONG_WRAP);
     lv_obj_set_width(body, LV_PCT(100));
 }
-
 
 /* =======================
       MAIN UI BUILDER:
@@ -534,7 +644,6 @@ static void create_security_ui(void)
 {
     const theme_t *t = &themes[current_theme];
 
-    // Delete old screens if they exist (for theme switching)
     if (screen_home)
     {
         lv_obj_delete(screen_home);
@@ -546,14 +655,15 @@ static void create_security_ui(void)
         lv_obj_delete(screen_settings);
         screen_settings = NULL;
     }
-    
+
     if (screen_logs)
     {
         lv_obj_delete(screen_logs);
         screen_logs = NULL;
     }
 
-    if (screen_about){
+    if (screen_about)
+    {
         lv_obj_delete(screen_about);
         screen_about = NULL;
     }
@@ -565,8 +675,12 @@ static void create_security_ui(void)
     }
 
     log_textarea = NULL;
+
     memset(wifi_status_labels, 0, sizeof(wifi_status_labels));
     wifi_label_count = 0;
+
+    sensor_ui_count = 0;
+    memset(sensor_uis, 0, sizeof(sensor_uis));
 
     screen_home         = lv_obj_create(NULL);
     screen_settings     = lv_obj_create(NULL);
@@ -575,32 +689,20 @@ static void create_security_ui(void)
     screen_screensaver  = lv_obj_create(NULL);
 
     lv_color_t bg = lv_color_hex(t->bg);
+
     lv_obj_set_style_bg_color(screen_home, bg, 0);
     lv_obj_set_style_bg_color(screen_settings, bg, 0);
     lv_obj_set_style_bg_color(screen_logs, bg, 0);
     lv_obj_set_style_bg_color(screen_about, bg, 0);
-    
+
     lv_obj_remove_style_all(screen_screensaver);
     lv_obj_set_style_bg_color(screen_screensaver, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(screen_screensaver, LV_OPA_COVER, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-#define MAKE_ROOT(scr) ({                                   \
-    lv_obj_t *_r = lv_obj_create(scr);                      \
-    lv_obj_set_size(_r, LCD_H_RES, LCD_V_RES);              \
-    lv_obj_set_pos(_r, 0, 0);                               \
-    lv_obj_set_flex_flow(_r, LV_FLEX_FLOW_ROW);             \
-    lv_obj_set_style_bg_color(_r, lv_color_hex(t->bg), 0);  \
-    lv_obj_set_style_pad_all(_r, 0, 0);                     \
-    lv_obj_set_style_border_width(_r, 0, 0);                \
-    _r;                                                     \
-})
-
-    lv_obj_t *home_root     = MAKE_ROOT(screen_home);
-    lv_obj_t *settings_root = MAKE_ROOT(screen_settings);
-    lv_obj_t *logs_root     = MAKE_ROOT(screen_logs);
-    lv_obj_t *about_root    = MAKE_ROOT(screen_about);
-
-#undef MAKE_ROOT
+    lv_obj_t *home_root     = make_root(screen_home);
+    lv_obj_t *settings_root = make_root(screen_settings);
+    lv_obj_t *logs_root     = make_root(screen_logs);
+    lv_obj_t *about_root    = make_root(screen_about);
 
     create_sidebar(home_root);
     create_sidebar(settings_root);
@@ -652,8 +754,31 @@ void GUI_Update_Network_Status(void *arg)
 {
     while (1)
     {
-        lv_async_call(gui_update_network_status_async, NULL);        
+        lv_async_call(gui_update_network_status_async, NULL);
         vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+
+static void update_sensor_ui_timer_cb(lv_timer_t *timer)
+{
+    for (size_t i = 0; i < sensor_ui_count; i++)
+    {
+        SensorUi *ui = &sensor_uis[i];
+
+        if (ui->sensor == NULL)
+            continue;
+
+        bool has_data = ui->sensor->data != NULL;
+        bool open = false;
+
+        if (has_data)
+            open = *(bool *)ui->sensor->data;
+
+        uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
+
+        lv_label_set_text(ui->status_label, !has_data ? "UNKNOWN" : (open ? "OPEN" : "CLOSED"));
+        lv_obj_set_style_text_color(ui->status_label, lv_color_hex(status_color), 0);
+        lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
 }
 
@@ -675,9 +800,17 @@ void lvgl_task(void *arg)
         .y_max          = LCD_V_RES,
         .rst_gpio_num   = GPIO_NUM_42,
         .int_gpio_num   = GPIO_NUM_4,
-        .levels         = {.reset = 0, .interrupt = 0 },
-        .flags          = {.swap_xy = 0, .mirror_x = 0, .mirror_y = 0 },
+        .levels         = {
+            .reset = 0,
+            .interrupt = 0
+        },
+        .flags = {
+            .swap_xy = 0,
+            .mirror_x = 0,
+            .mirror_y = 0
+        },
     };
+
     ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_gt911(touch_io, &touch_config, &touch_handle));
 
     lv_indev_t *indev = lv_indev_create();
@@ -685,19 +818,30 @@ void lvgl_task(void *arg)
     lv_indev_set_read_cb(indev, touch_read_cb);
 
     const esp_timer_create_args_t tick_timer_args = {
-        .callback   = lv_tick_cb,
-        .name       = "lvgl_tick",
+        .callback = lv_tick_cb,
+        .name     = "lvgl_tick",
     };
+
     esp_timer_handle_t tick_timer = NULL;
     ESP_ERROR_CHECK(esp_timer_create(&tick_timer_args, &tick_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, 1000));
 
     create_security_ui();
+
+    lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
+
     last_input_time = lv_tick_get();
 
-    xTaskCreate(GUI_Update_Network_Status, "GUIUpdateNetworkStatus", 1024, NULL, 8, NULL);
+    xTaskCreate(
+        GUI_Update_Network_Status,
+        "GUIUpdateNetworkStatus",
+        1024,
+        NULL,
+        8,
+        NULL
+    );
 
-    while (1) 
+    while (1)
     {
         uint32_t now = lv_tick_get();
 

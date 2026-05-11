@@ -126,7 +126,54 @@ void full_data_received(TCP_Server_Client* client)
 
         case Packet_Job_Data:
         {
-            ESP_LOGI(TAG, "Received some data.... Needs processing!");
+            char* string_value = cJSON_GetStringValue(data_json);
+            if (!string_value)
+            {
+                ESP_LOGW(TAG, "string_value is NULL in Packet_Job_Data");
+            }            
+
+            char* uuid = strtok(string_value, "|");
+            char* real_data = strtok(NULL, "|");
+
+            if (uuid == NULL || real_data == NULL)
+            {
+                ESP_LOGW(TAG, "Failed to seperate string in Packet_Job_Data");
+                break;
+            }
+
+            Sensor* sensor = Sensor_Get_By_UUID(uuid);
+            if (sensor == NULL)
+            {
+                ESP_LOGW(TAG,"Could not find Sensor by UUID in Packet_Job_Data");
+                break;
+            }
+
+            if (sensor->data == NULL)
+            {
+                sensor->data = malloc(sizeof(bool));
+                if (sensor->data == NULL)
+                {
+                    ESP_LOGW(TAG, "Malloc FAILED in Packet_Job_Data");
+                    break;
+                }
+            }
+
+            bool *data = (bool*)sensor->data;
+
+            if (strcmp(real_data, "false") == 0)
+            {
+                *data = false;
+            }
+            else
+            {
+                *data = true;
+            }
+
+            sensor->type = Sensor_Type_Magnetic;
+
+            ESP_LOGI(TAG, "Got value: (%s) | (%s) | (%d)", uuid, real_data, *(bool*)sensor->data);
+
+            //ESP_LOGI(TAG, "Received some data.... Needs processing!");
             break;
         }
 
@@ -195,6 +242,8 @@ void app_main(void)
     {
         ESP_LOGI(TAG, "Sensors file does not exist!");
     }
+
+    //Sensor_Print_All();
 
 	Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);

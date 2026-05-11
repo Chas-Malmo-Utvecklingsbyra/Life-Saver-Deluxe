@@ -5,6 +5,7 @@
 
 #include <esp_log.h>
 
+
 static const char* TAG = "Sensor";
 
 static Sensor sensors[MAX_SENSORS];
@@ -14,6 +15,7 @@ void Sensor_Initialize_All()
     for (size_t i = 0; i < MAX_SENSORS; i++)
     {
         memset(sensors[i].guid, 0, sizeof(sensors[i].guid));
+        sensors[i].data = NULL;
         sensors[i].type = Sensor_Type_None;
     }
 }
@@ -35,9 +37,36 @@ void Sensor_Add(Sensor_Type type, char* guid)
         {
             sensors[i] = (Sensor){ .type = type };
             snprintf(sensors[i].guid, RANDOM_MAX_UUID_V4_LENGTH, "%s", guid);
+            ESP_LOGI(TAG, "ADDED (%d) SENSOR: %d %s", i, sensors[i].type, sensors[i].guid);
             return;
         }
     }
     // Sensor spots are full
     ESP_LOGE(TAG, "Could not add a Sensor to a empty spot in Sensor_Add");
+}
+
+void Sensor_Print_All()
+{
+    for (size_t i = 0; i < MAX_SENSORS; i++)
+    {
+        ESP_LOGW(TAG, "Sensor: %d | %d  | %s", i, sensors[i].type, sensors[i].guid);
+    }
+}
+
+Sensor* Sensor_Get_By_UUID(const char* uuid) 
+{
+    for (size_t i = 0; i < MAX_SENSORS; i++)
+    {
+        if (strcmp(sensors[i].guid, uuid) == 0)
+        {
+            return &sensors[i];
+        }
+    }
+    
+    return NULL;
+}
+
+Sensor* Sensor_Get_All()
+{
+    return sensors;
 }
