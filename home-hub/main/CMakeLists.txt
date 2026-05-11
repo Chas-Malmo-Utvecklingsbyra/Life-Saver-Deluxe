@@ -3,7 +3,7 @@ file(GLOB_RECURSE CORE_SOURCES
 )
 
 idf_component_register(
-    SRCS "home-hub.c" "sensor/sensor.c" "gui/gui.c" "gui/gui_themes.c" ${CORE_SOURCES}
+    SRCS "home-hub.c" "sensor/sensor.c" "gui/gui.c" "gui/gui_themes.c" "assets/chas_logo_small.c" "assets/chas_logo_small_v2.c" ${CORE_SOURCES}
     INCLUDE_DIRS "." "../../embedded-core"
     REQUIRES 
         spiffs

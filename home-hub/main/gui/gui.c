@@ -61,6 +61,15 @@ static lv_obj_t *log_textarea                   = NULL;
 static lv_obj_t *wifi_status_labels[]           = {NULL, NULL, NULL, NULL};
 static uint8_t wifi_label_count                 = 0;
 
+// Screensaver objects
+static bool screensaver_consuming_release       = false;
+static lv_timer_t *screensaver_timer            = NULL;
+static lv_obj_t *ss_bouncer                     = NULL;
+static int32_t ss_vel_x                         = 3;
+static int32_t ss_vel_y                         = 2;
+extern const lv_image_dsc_t chas_logo_small;
+extern const lv_image_dsc_t chas_logo_small_v2;
+
 // State
 static ScreenState screensaver_state            = STATE_ACTIVE;
 static uint32_t last_input_time                 = 0;
@@ -172,29 +181,33 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
     esp_lcd_touch_point_data_t touch_data = {};
     uint8_t point_count = 0;
 
-    if (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0)
+    bool touched = (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0);
+
+    if (screensaver_consuming_release)
+    {
+        if (!touched)
+            screensaver_consuming_release = false;
+
+        data->state = LV_INDEV_STATE_RELEASED;
+        return;
+    }
+
+    if (touched)
     {
         if (screensaver_state == STATE_SCREENSAVER)
         {
             screensaver_state = STATE_ACTIVE;
             last_input_time = lv_tick_get();
 
-            lv_screen_load(screen_home);
-            lv_obj_invalidate(screen_home);
-
-            while (esp_lcd_touch_read_data(touch_handle) == ESP_OK)
+            if (screensaver_timer != NULL)
             {
-                esp_lcd_touch_point_data_t dummy = {};
-                uint8_t cnt = 0;
-
-                esp_lcd_touch_get_data(touch_handle, &dummy, &cnt, 1);
-
-                if (cnt == 0)
-                    break;
-
-                vTaskDelay(pdMS_TO_TICKS(10));
+                lv_timer_pause(screensaver_timer);
             }
 
+            lv_screen_load(screen_home);
+            lv_obj_invalidate(screen_home);
+            screensaver_consuming_release = true;
+            
             data->state = LV_INDEV_STATE_RELEASED;
             return;
         }
@@ -233,6 +246,43 @@ static void brightness_slider_cb(lv_event_t *e)
 {
     lv_obj_t *slider = lv_event_get_target(e);
     set_brightness((uint8_t)lv_slider_get_value(slider));
+}
+
+static void screensaver_timer_cb(lv_timer_t *timer)
+{
+    if (ss_bouncer == NULL) return;
+
+    int32_t x = lv_obj_get_x(ss_bouncer);
+    int32_t y = lv_obj_get_y(ss_bouncer);
+    int32_t w = lv_obj_get_width(ss_bouncer);
+    int32_t h = lv_obj_get_height(ss_bouncer);
+
+    x += ss_vel_x;
+    y += ss_vel_y;
+
+    if (x <= 0)
+    {
+        x = 0;
+        ss_vel_x = -ss_vel_x;
+    }
+    else if (x + w >= LCD_H_RES)
+    {
+        x = LCD_H_RES - w;
+        ss_vel_x = -ss_vel_x;
+    }
+
+    if (y <= 0)
+    {
+        y = 0;
+        ss_vel_y = -ss_vel_y;
+    }
+    else if (y + h >= LCD_V_RES)
+    {
+        y = LCD_V_RES - h;
+        ss_vel_y = -ss_vel_y;
+    }
+
+    lv_obj_set_pos(ss_bouncer, x, y);
 }
 
 /* =======================
@@ -644,6 +694,16 @@ static void create_security_ui(void)
 {
     const theme_t *t = &themes[current_theme];
 
+    screensaver_consuming_release = false;
+    screensaver_state = STATE_ACTIVE;
+
+    if (screensaver_timer != NULL)
+    {
+        lv_timer_pause(screensaver_timer);
+        screensaver_timer = NULL;
+    }
+    ss_bouncer = NULL;
+
     if (screen_home)
     {
         lv_obj_delete(screen_home);
@@ -695,9 +755,13 @@ static void create_security_ui(void)
     lv_obj_set_style_bg_color(screen_logs, bg, 0);
     lv_obj_set_style_bg_color(screen_about, bg, 0);
 
-    lv_obj_remove_style_all(screen_screensaver);
-    lv_obj_set_style_bg_color(screen_screensaver, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(screen_screensaver, LV_OPA_COVER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(screen_screensaver, lv_color_hex(0x282A36), LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(screen_screensaver, LV_OPA_COVER, LV_PART_MAIN);
+
+    ss_bouncer = lv_image_create(screen_screensaver);
+    //lv_image_set_src(ss_bouncer, &chas_logo_small);
+    lv_image_set_src(ss_bouncer, &chas_logo_small_v2);
+    lv_obj_set_pos(ss_bouncer, LCD_H_RES / 3, LCD_V_RES / 3);
 
     lv_obj_t *home_root     = make_root(screen_home);
     lv_obj_t *settings_root = make_root(screen_settings);
@@ -850,6 +914,17 @@ void lvgl_task(void *arg)
             screensaver_state = STATE_SCREENSAVER;
             lv_screen_load(screen_screensaver);
             lv_obj_invalidate(screen_screensaver);
+
+            if (screensaver_timer == NULL)
+            {
+                screensaver_timer = lv_timer_create(screensaver_timer_cb, 16, NULL);
+            }
+            else 
+            {
+                lv_timer_resume(screensaver_timer);
+            }
+
+
         }
 
         uint32_t delay_ms = lv_timer_handler();
