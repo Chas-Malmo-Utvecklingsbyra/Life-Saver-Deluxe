@@ -25,7 +25,7 @@
 #define TAG                     "GUI"
 #define LCD_H_RES               1024
 #define LCD_V_RES               600
-#define SCREENSAVER_TIMEOUT_MS  20000
+#define SCREENSAVER_TIMEOUT_MS  30000
 #define BACKLIGHT_I2C_ADDR      0x24
 #define BACKLIGHT_PWM_REG       0x05
 #define BACKLIGHT_MIN_PCT       10
@@ -65,6 +65,7 @@ static uint8_t wifi_label_count                 = 0;
 static ScreenState screensaver_state            = STATE_ACTIVE;
 static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
+static volatile bool vsync_happened             = false;
 
 /* =====================
     I2C CONFIGURATION:
@@ -124,22 +125,20 @@ static void lv_tick_cb(void *arg)
     lv_tick_inc(1);
 }
 
+static bool panel_vsync_cb(esp_lcd_panel_handle_t panel, const esp_lcd_rgb_panel_event_data_t *event_data, void *user_ctx)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    vsync_happened = true;
+    return xHigherPriorityTaskWoken == pdTRUE;
+}
+
 static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
-    void *fb1 = NULL;
-    void *fb2 = NULL;
-    esp_lcd_rgb_panel_get_frame_buffer(panel_handle, 2, &fb1, &fb2);
-
-    void *other = (px_map == fb1) ? fb2 : fb1;
-    uint32_t w = area->x2 - area->x1 + 1;
-    uint32_t h = area->y2 - area->y1 + 1;
-
-    for (uint32_t y = 0; y < h; y++)
+    if (lv_display_flush_is_last(disp))
     {
-        uint32_t offset = ((area->y1 + y) * LCD_H_RES + area->x1) * sizeof(lv_color_t);
-        memcpy((uint8_t *)other + offset, (uint8_t *)px_map + offset, w * sizeof(lv_color_t));
+        while (!vsync_happened) {}
+        vsync_happened = false;
     }
-    
     lv_display_flush_ready(disp);
 }
 
@@ -262,6 +261,12 @@ void display_init(void)
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
     vTaskDelay(pdMS_TO_TICKS(100));
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
+
+    esp_lcd_rgb_panel_event_callbacks_t cbs = {
+        .on_vsync = panel_vsync_cb,
+    };
+    ESP_ERROR_CHECK(esp_lcd_rgb_panel_register_event_callbacks(panel_handle, &cbs, NULL));
+
 }
 
 void lvgl_port_init(void)
@@ -273,15 +278,9 @@ void lvgl_port_init(void)
     void *buf2 = NULL;
     ESP_ERROR_CHECK(esp_lcd_rgb_panel_get_frame_buffer(panel_handle, 2, &buf1, &buf2));
 
-    size_t buf_size = LCD_H_RES * LCD_V_RES * sizeof(lv_color_t);        
-    lv_display_set_buffers(
-        disp,
-        buf1,
-        buf2,
-        buf_size,
-        LV_DISPLAY_RENDER_MODE_DIRECT
-    );
+    size_t buf_size = LCD_H_RES * LCD_V_RES * sizeof(lv_color_t);
 
+    lv_display_set_buffers(disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565);
     lv_display_set_flush_cb(disp, lvgl_flush_cb);
 }
@@ -332,7 +331,7 @@ static void create_sidebar(lv_obj_t *parent)
         lv_obj_t *label = lv_label_create(button);
         lv_label_set_text(label, button_names[i]);
         lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
-        lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_CLICKED, target_screens[i]);
+        lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_PRESSED, target_screens[i]);
     }
 }
 
@@ -457,7 +456,7 @@ static void build_settings_content(lv_obj_t *parent)
         lv_obj_t *lbl = lv_label_create(btn);
         lv_label_set_text(lbl, themes[i].name);
         lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
-        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_CLICKED, (void *)(uintptr_t)i);
+        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
     }
 
     lv_obj_t *bright_heading = lv_label_create(section);
@@ -576,10 +575,11 @@ static void create_security_ui(void)
     screen_about        = lv_obj_create(NULL);
     screen_screensaver  = lv_obj_create(NULL);
 
-    lv_obj_set_style_bg_color(screen_home,     lv_color_hex(0x000000), 0);
-    lv_obj_set_style_bg_color(screen_settings, lv_color_hex(0x000000), 0);
-    lv_obj_set_style_bg_color(screen_logs,     lv_color_hex(0x000000), 0);
-    lv_obj_set_style_bg_color(screen_about,    lv_color_hex(0x000000), 0);
+    lv_color_t bg = lv_color_hex(t->bg);
+    lv_obj_set_style_bg_color(screen_home, bg, 0);
+    lv_obj_set_style_bg_color(screen_settings, bg, 0);
+    lv_obj_set_style_bg_color(screen_logs, bg, 0);
+    lv_obj_set_style_bg_color(screen_about, bg, 0);
     
     lv_obj_remove_style_all(screen_screensaver);
     lv_obj_set_style_bg_color(screen_screensaver, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -614,7 +614,7 @@ static void create_security_ui(void)
     build_about_content(about_root);
 
     lv_screen_load(screen_home);
-
+    lv_obj_update_layout(screen_home);
     GUI_Update_Network_Status();
 }
 
