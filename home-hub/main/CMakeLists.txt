@@ -1,9 +1,13 @@
 file(GLOB_RECURSE CORE_SOURCES
-    "${CMAKE_CURRENT_LIST_DIR}/../../embedded-core/*.c"
+    "../../embedded-core/*.c"
+)
+
+file(GLOB_RECURSE APP_SOURCES
+    "*.c"
 )
 
 idf_component_register(
-    SRCS "home-hub.c" "sensor/sensor.c" "gui/gui.c" "gui/gui_themes.c" "assets/chas_logo_small.c" "assets/chas_logo_small_v2.c" ${CORE_SOURCES}
+    SRCS ${APP_SOURCES} ${CORE_SOURCES}
     INCLUDE_DIRS "." "../../embedded-core"
     REQUIRES 
         spiffs
