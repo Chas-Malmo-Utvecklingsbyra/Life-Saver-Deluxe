@@ -68,7 +68,6 @@ static lv_obj_t *ss_bouncer                     = NULL;
 static int32_t ss_vel_x                         = 3;
 static int32_t ss_vel_y                         = 2;
 extern const lv_image_dsc_t chas_logo_small;
-extern const lv_image_dsc_t chas_logo_small_v2;
 
 // State
 static ScreenState screensaver_state            = STATE_ACTIVE;
@@ -759,8 +758,7 @@ static void create_security_ui(void)
     lv_obj_set_style_bg_opa(screen_screensaver, LV_OPA_COVER, LV_PART_MAIN);
 
     ss_bouncer = lv_image_create(screen_screensaver);
-    //lv_image_set_src(ss_bouncer, &chas_logo_small);
-    lv_image_set_src(ss_bouncer, &chas_logo_small_v2);
+    lv_image_set_src(ss_bouncer, &chas_logo_small);
     lv_obj_set_pos(ss_bouncer, LCD_H_RES / 3, LCD_V_RES / 3);
 
     lv_obj_t *home_root     = make_root(screen_home);
