@@ -1126,7 +1126,6 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
 void lvgl_task(void *arg)
 {
     sensor_names_init();
-    sensor_placement_init();
     
     backlight_init();
     display_init();

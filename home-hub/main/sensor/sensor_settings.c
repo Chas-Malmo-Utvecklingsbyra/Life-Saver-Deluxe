@@ -13,9 +13,7 @@
 #define TAG_PLACE "SENSOR_PLACEMENT"
 #define NAMESPACE_PLACE "sensor_place"
 
-static nvs_handle_t p;
-
-static void guid_to_nvs_key(const char *guid, char key_out[16])
+static void guid_to_name_key(const char *guid, char key_out[16])
 {
     uint32_t h = 0x811C9DC5u;
     for (const char *p = guid; *p; p++)
@@ -23,7 +21,18 @@ static void guid_to_nvs_key(const char *guid, char key_out[16])
         h ^= (uint8_t)*p;
         h *= 0x01000193u;
     }
-    snprintf(key_out, 16, "%08" PRIx32, h);
+    snprintf(key_out, 16, "n%08" PRIx32, h);
+}
+
+static void guid_to_placement_key(const char *guid, char key_out[16])
+{
+    uint32_t h = 0x811C9DC5u;
+    for (const char *p = guid; *p; p++)
+    {
+        h ^= (uint8_t)*p;
+        h *= 0x01000193u;
+    }
+    snprintf(key_out, 16, "p%08" PRIx32, h);
 }
 
 void sensor_names_init(void)
@@ -56,7 +65,7 @@ bool sensor_names_get(const char *guid, char *out, size_t out_size)
     }
 
     char key[16];
-    guid_to_nvs_key(guid, key);
+    guid_to_name_key(guid, key);
 
     nvs_handle_t h;
     if (nvs_open(NAMESPACE, NVS_READONLY, &h) != ESP_OK)
@@ -85,7 +94,7 @@ void sensor_names_set(const char *guid, const char *name)
     }
 
     char key[16];
-    guid_to_nvs_key(guid, key);
+    guid_to_name_key(guid, key);
 
     nvs_handle_t h;
     if (nvs_open(NAMESPACE, NVS_READWRITE, &h) != ESP_OK)
@@ -108,31 +117,30 @@ void sensor_names_set(const char *guid, const char *name)
     nvs_close(h);
 }
 
-void sensor_placement_init(void)
-{
-    esp_err_t err = nvs_open(NAMESPACE_PLACE, NVS_READWRITE, &p);
-
-    if (err != ESP_OK)
-    {
-        ESP_LOGE(TAG_PLACE, "Failed to open NVS namespace (%s)", esp_err_to_name(err));
-    }
-}
-
 bool sensor_placement_set(const char *guid, SensorPlacement placement)
 {
     if (guid == NULL || guid[0] == '\0')
         return false;
 
     char key[16];
-    guid_to_nvs_key(guid, key);
+    guid_to_placement_key(guid, key);
 
-    esp_err_t err;
+    nvs_handle_t p;
 
+    esp_err_t err = nvs_open(NAMESPACE_PLACE, NVS_READWRITE, &p);
+
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG_PLACE, "Failed to open placement namespace (%s)", esp_err_to_name(err));
+        return false;
+    }
+  
     err = nvs_set_u8(p, key, (uint8_t)placement);
 
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG_PLACE, "Failed to save placement for %s (%s)", guid, esp_err_to_name(err));
+        nvs_close(p);
         return false;
     }
 
@@ -141,9 +149,11 @@ bool sensor_placement_set(const char *guid, SensorPlacement placement)
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG_PLACE, "Failed to commit placement (%s)", esp_err_to_name(err));
+        nvs_close(p);
         return false;
     }
 
+    nvs_close(p);
     return true;
 }
 
@@ -153,11 +163,24 @@ bool sensor_placement_get(const char *guid, SensorPlacement *placement)
         return false;
 
     char key[16];
-    guid_to_nvs_key(guid, key);
+    guid_to_placement_key(guid, key);
+
+    nvs_handle_t p;
+
+    esp_err_t err = nvs_open(NAMESPACE_PLACE, NVS_READONLY, &p);
+
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG_PLACE, "Failed to open placement namespace (%s)", esp_err_to_name(err));
+        return false;
+    }
 
     uint8_t stored_value = 0;
 
-    esp_err_t err = nvs_get_u8(p, key, &stored_value);
+    err = nvs_get_u8(p, key, &stored_value);
+
+    nvs_close(p);
+
     if (err != ESP_OK)
     {
         return false;
