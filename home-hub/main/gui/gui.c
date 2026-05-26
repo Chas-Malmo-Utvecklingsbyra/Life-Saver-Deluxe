@@ -17,6 +17,7 @@
 #include "gui_themes.h"
 #include "internet/internet.h"
 #include "../sensor/sensor.h"
+#include "../sensor/sensor_settings.h"
 
 /* =====================
         CONSTANTS:
@@ -30,6 +31,7 @@
 #define BACKLIGHT_PWM_REG       0x05
 #define BACKLIGHT_MIN_PCT       10
 #define BACKLIGHT_MAX_PCT       97
+#define SENSOR_NAME_MAX         31
 
 /* =====================
         ENUMS:
@@ -50,6 +52,7 @@ static esp_lcd_touch_handle_t touch_handle      = NULL;
 static esp_lcd_panel_handle_t panel_handle      = NULL;
 static i2c_master_bus_handle_t bus_handle       = NULL;
 static i2c_master_dev_handle_t backlight_dev    = NULL;
+static lv_display_t *lvgl_disp                  = NULL;
 
 // Screen objects
 static lv_obj_t *screen_home                    = NULL;
@@ -75,6 +78,12 @@ static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
 static volatile bool vsync_happened             = false;
 
+// Keyboard/rename overlay
+static lv_obj_t *rename_overlay                 = NULL;
+static lv_obj_t *rename_ta                      = NULL;
+static lv_obj_t *rename_kb                      = NULL;
+static lv_obj_t *placement_dd                   = NULL;
+
 // Sensor UI objects
 typedef struct
 {
@@ -83,8 +92,10 @@ typedef struct
     lv_obj_t *name_label;
     lv_obj_t *status_label;
     Sensor   *sensor;
+    char display_name[SENSOR_NAME_MAX + 1];
 } SensorUi;
 
+static SensorUi *rename_target                  = NULL;
 static SensorUi sensor_uis[MAX_SENSORS];
 static size_t sensor_ui_count = 0;
 
@@ -116,6 +127,8 @@ static const esp_lcd_panel_io_i2c_config_t io_config = {
 
 static void create_security_ui(void);
 static void update_sensor_ui_timer_cb(lv_timer_t *timer);
+static void open_rename_overlay(SensorUi *ui);
+static void close_rename_overlay(void);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -149,8 +162,7 @@ static void lv_tick_cb(void *arg)
 static bool panel_vsync_cb(
     esp_lcd_panel_handle_t panel,
     const esp_lcd_rgb_panel_event_data_t *event_data,
-    void *user_ctx
-)
+    void *user_ctx)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     vsync_happened = true;
@@ -224,13 +236,200 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 }
 
 /* =======================
+    SENSOR STATE FUNCTION:
+==========================*/
+
+static void sensor_load_persistent_state(Sensor *sensor)
+{
+    SensorPlacement placement;
+
+    bool found = sensor_placement_get(sensor->guid, &placement);
+
+    if (found)
+    {
+        sensor->placement = placement;
+    }
+    else
+    {
+        sensor->placement = PLACEMENT_UNASSIGNED;
+    }
+}
+
+/* =======================
+    RENAMING KEYBOARD:
+==========================*/
+
+static void rename_kb_event_cb(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+
+    if (code == LV_EVENT_READY)
+    {
+        if (rename_target != NULL)
+        {
+            const char *typed = lv_textarea_get_text(rename_ta);
+
+            if (typed != NULL && typed[0] != '\0')
+            {
+                strncpy(rename_target->display_name, typed, SENSOR_NAME_MAX);
+                rename_target->display_name[SENSOR_NAME_MAX] = '\0';
+                sensor_names_set(rename_target->sensor->guid, rename_target->display_name);
+                lv_label_set_text(rename_target->name_label, rename_target->display_name);
+            }
+
+            uint16_t selected = lv_dropdown_get_selected(placement_dd);
+            SensorPlacement placement = PLACEMENT_DOOR;
+
+            switch (selected)
+            {
+                case 0:
+                    placement = PLACEMENT_DOOR;
+                    break;
+
+                case 1:
+                    placement = PLACEMENT_WINDOW;
+                    break;
+
+                case 2:
+                default:
+                    placement = PLACEMENT_UNASSIGNED;
+                    break;
+            }
+
+            rename_target->sensor->placement = placement;
+            sensor_placement_set(rename_target->sensor->guid, placement);
+        }
+        close_rename_overlay();
+        create_security_ui();
+    }
+    else if (code == LV_EVENT_CANCEL)
+    {
+        close_rename_overlay();
+    }
+
+
+}
+
+static void scrim_click_cb(lv_event_t *e)
+{
+    if (lv_event_get_target(e) == lv_event_get_current_target(e))
+        close_rename_overlay();
+}
+
+static void open_rename_overlay(SensorUi *ui)
+{
+    close_rename_overlay();
+
+    rename_target = ui;
+
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *layer = lv_display_get_layer_top(lvgl_disp);
+
+    rename_overlay = lv_obj_create(layer);
+    lv_obj_set_size(rename_overlay, LCD_H_RES, LCD_V_RES);
+    lv_obj_set_pos(rename_overlay, 0, 0);
+    lv_obj_set_style_bg_color(rename_overlay, lv_color_hex(0x000000), 0);
+    lv_obj_set_style_bg_opa(rename_overlay, LV_OPA_50, 0);
+    lv_obj_set_style_border_width(rename_overlay, 0, 0);
+    lv_obj_set_style_pad_all(rename_overlay, 0, 0);
+    lv_obj_set_style_radius(rename_overlay, 0, 0);
+    lv_obj_add_event_cb(rename_overlay, scrim_click_cb, LV_EVENT_CLICKED, NULL);
+
+    const int32_t PANEL_W = 700;
+    const int32_t PANEL_H = 490;
+    const int32_t PANEL_X = (LCD_H_RES - PANEL_W) / 2;
+    const int32_t PANEL_Y = (LCD_V_RES - PANEL_H) / 2;
+
+    lv_obj_t *panel = lv_obj_create(rename_overlay);
+    lv_obj_set_size(panel, PANEL_W, PANEL_H);
+    lv_obj_set_pos(panel, PANEL_X, PANEL_Y);
+    lv_obj_set_style_bg_color(panel, lv_color_hex(t->sidebar), 0);
+    lv_obj_set_style_border_width(panel, 0, 0);
+    lv_obj_set_style_radius(panel, 16, 0);
+    lv_obj_set_style_pad_all(panel, 16, 0);
+    lv_obj_set_flex_flow(panel, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_gap(panel, 10, 0);
+
+    lv_obj_add_flag(panel, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_clear_flag(panel, LV_OBJ_FLAG_EVENT_BUBBLE);
+
+    char heading_buf[SENSOR_NAME_MAX + 16];
+    snprintf(heading_buf, sizeof(heading_buf), "Rename: %s", ui->display_name);
+    lv_obj_t *heading = lv_label_create(panel);
+    lv_label_set_text(heading, heading_buf);
+    lv_obj_set_style_text_color(heading, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(heading, &lv_font_montserrat_18, 0);
+
+    rename_ta = lv_textarea_create(panel);
+    lv_obj_set_width(rename_ta, LV_PCT(100));
+    lv_textarea_set_one_line(rename_ta, true);
+    lv_textarea_set_max_length(rename_ta, SENSOR_NAME_MAX);
+    lv_textarea_set_text(rename_ta, ui->display_name);
+    lv_obj_set_style_bg_color(rename_ta, lv_color_hex(t->sensor_bg), 0);
+    lv_obj_set_style_text_color(rename_ta, lv_color_hex(t->text), 0);
+    lv_obj_set_style_border_color(rename_ta, lv_color_hex(t->button), 0);
+    lv_obj_set_style_border_width(rename_ta, 2, 0);
+    lv_obj_set_style_radius(rename_ta, 8, 0);
+
+    placement_dd = lv_dropdown_create(panel);
+    lv_dropdown_set_options(placement_dd, "Door\n""Window\n""Unassigned");
+    uint16_t selected = 0;
+    
+    switch (ui->sensor->placement)
+    {
+        case PLACEMENT_DOOR:
+            selected = 0;
+            break;
+
+        case PLACEMENT_WINDOW:
+            selected = 1;
+            break;
+
+        case PLACEMENT_UNASSIGNED:
+        default:
+            selected = 2;
+            break;
+    }
+
+    lv_dropdown_set_selected(placement_dd, selected);
+
+    rename_kb = lv_keyboard_create(panel);
+    lv_obj_set_width(rename_kb, LV_PCT(100));
+    lv_obj_set_flex_grow(rename_kb, 1);
+    lv_keyboard_set_textarea(rename_kb, rename_ta);
+    lv_keyboard_set_mode(rename_kb, LV_KEYBOARD_MODE_TEXT_LOWER);
+    lv_obj_set_style_bg_color(rename_kb, lv_color_hex(t->sidebar), 0);
+    lv_obj_set_style_bg_color(rename_kb, lv_color_hex(t->button), LV_PART_ITEMS);
+    lv_obj_set_style_text_color(rename_kb, lv_color_hex(t->text), LV_PART_ITEMS);
+    lv_obj_set_style_border_color(rename_kb, lv_color_hex(t->button_pressed), LV_PART_ITEMS);
+    lv_obj_add_event_cb(rename_kb, rename_kb_event_cb, LV_EVENT_ALL, NULL);
+
+    lv_obj_invalidate(rename_overlay);
+}
+
+static void close_rename_overlay(void)
+{
+    if (rename_overlay != NULL)
+    {
+        lv_obj_delete(rename_overlay);
+        rename_overlay = NULL;
+    }
+    rename_ta       = NULL;
+    rename_kb       = NULL;
+    rename_target   = NULL;
+    placement_dd    = NULL;
+}
+
+/* =======================
         UI CALLBACKS:
 ==========================*/
 
 static void nav_button_cb(lv_event_t *e)
 {
-    lv_obj_t *target_screen = lv_event_get_user_data(e);
+    close_rename_overlay();
 
+    lv_obj_t *target_screen = lv_event_get_user_data(e);
     lv_screen_load_anim(target_screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, false);
     lv_obj_invalidate(target_screen);
 }
@@ -282,6 +481,21 @@ static void screensaver_timer_cb(lv_timer_t *timer)
     }
 
     lv_obj_set_pos(ss_bouncer, x, y);
+}
+
+static void open_rename_overlay_async(void *arg)
+{
+    open_rename_overlay((SensorUi *)arg);
+}
+
+static void sensor_card_tap_cb(lv_event_t *e)
+{
+    SensorUi *ui = (SensorUi *)lv_event_get_user_data(e);
+    if (ui == NULL) return;
+
+    if (lv_screen_active() != screen_home) return;
+
+    lv_async_call(open_rename_overlay_async, ui);
 }
 
 /* =======================
@@ -430,12 +644,24 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     const theme_t *t = &themes[current_theme];
 
     bool has_data = sensor != NULL && sensor->data != NULL;
-    bool open = false;
-
-    if (has_data)
-        open = *(bool *)sensor->data;
+    bool open = has_data && *(bool *)sensor->data;
 
     uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
+
+    char display_name[SENSOR_NAME_MAX + 1];
+
+    bool have_saved = false;
+    if (sensor != NULL && sensor->guid[0] != '\0')
+    {
+        have_saved = sensor_names_get(sensor->guid, display_name, sizeof(display_name));
+    }
+
+    if (!have_saved)
+    {
+        strncpy(display_name, name, SENSOR_NAME_MAX);
+    }
+
+    display_name[SENSOR_NAME_MAX] = '\0';
 
     lv_obj_t *card = lv_obj_create(parent);
     lv_obj_set_size(card, LV_PCT(90), 56);
@@ -446,6 +672,7 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     lv_obj_set_style_pad_ver(card, 0, 0);
     lv_obj_set_flex_flow(card, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(card, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(card, LV_OBJ_FLAG_CLICKABLE);
 
     lv_obj_t *dot = lv_obj_create(card);
     lv_obj_set_size(dot, 12, 12);
@@ -454,10 +681,15 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     lv_obj_set_style_bg_color(dot, lv_color_hex(status_color), 0);
 
     lv_obj_t *label = lv_label_create(card);
-    lv_label_set_text(label, name);
+    lv_label_set_text(label, display_name);
     lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(label, &lv_font_montserrat_14, 0);
     lv_obj_set_flex_grow(label, 1);
+
+    lv_obj_t *edit_hint = lv_label_create(card);
+    lv_label_set_text(edit_hint, LV_SYMBOL_EDIT);
+    lv_obj_set_style_text_color(edit_hint, lv_color_hex(0x888888), 0);
+    lv_obj_set_style_text_font(edit_hint, &lv_font_montserrat_14, 0);
 
     lv_obj_t *status = lv_label_create(card);
     lv_label_set_text(status, !has_data ? "UNKNOWN" : (open ? "OPEN" : "CLOSED"));
@@ -471,6 +703,12 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
         sensor_uis[sensor_ui_count].name_label = label;
         sensor_uis[sensor_ui_count].status_label = status;
         sensor_uis[sensor_ui_count].sensor = sensor;
+
+        strncpy(sensor_uis[sensor_ui_count].display_name, display_name, SENSOR_NAME_MAX + 1);
+        sensor_uis[sensor_ui_count].display_name[SENSOR_NAME_MAX] = '\0';
+
+        lv_obj_add_event_cb(card, sensor_card_tap_cb, LV_EVENT_CLICKED, &sensor_uis[sensor_ui_count]);
+
         sensor_ui_count++;
     }
 
@@ -539,6 +777,21 @@ static void build_home_content(lv_obj_t *parent)
     lv_obj_set_style_text_color(windows_heading, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(windows_heading, &lv_font_montserrat_18, 0);
 
+    lv_obj_t *unassigned = lv_obj_create(content);
+    lv_obj_set_flex_grow(unassigned, 1);
+    lv_obj_set_height(unassigned, LCD_V_RES);
+    lv_obj_set_flex_flow(unassigned, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_bg_color(unassigned, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(unassigned, 0, 0);
+    lv_obj_set_style_pad_all(unassigned, 10, 0);
+    lv_obj_set_style_pad_gap(unassigned, 8, 0);
+
+    lv_obj_t *unassigned_heading = lv_label_create(unassigned);
+    lv_label_set_text(unassigned_heading, "Unassigned");
+    lv_obj_set_style_text_color(unassigned_heading, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(unassigned_heading, &lv_font_montserrat_18, 0);
+
+
     size_t real_count = 0;
 
     Sensor *all_sensors = Sensor_Get_All();
@@ -577,7 +830,27 @@ static void build_home_content(lv_obj_t *parent)
                 sensor->data
             );
 
-            create_sensor(doors, sensor, buffer);
+            sensor_load_persistent_state(sensor);
+
+            lv_obj_t *target_panel = doors;
+
+            switch (sensor->placement)
+            {
+                case PLACEMENT_DOOR:
+                    target_panel = doors;
+                    break;
+
+                case PLACEMENT_WINDOW:
+                    target_panel = windows;
+                    break;
+
+                case PLACEMENT_UNASSIGNED:
+                default:
+                    target_panel = unassigned;
+                    break;
+            }
+
+            create_sensor(target_panel, sensor, buffer);
         }
     }
 
@@ -665,16 +938,16 @@ static void build_about_content(lv_obj_t *parent)
 
     lv_obj_t *body = lv_label_create(section);
     lv_label_set_text(body,
-        "Version 1.1\n\n"
+        "Version 0.7\n\n"
         "A security monitoring system\n"
         "for doors and windows.\n\n"
         "Built with ESP32-S3 and LVGL.\n\n"
-        "Created by the wonderful team of CHAS Malmo Utvecklingsbyra\n\n\n"
+        "Created by the wonderfully talented team of CHAS Malmo Utvecklingsbyra\n\n\n"
         "Contributors:\n"
         "============\n"
-        "Emilio 'The Wonderkid' Ganibegovic\n"
+        "Emilio Ganibegovic\n"
         "Henrik Westerlund\n"
-        "Isa 'The Fixer' Shipshani.\n"
+        "Isa Shipshani.\n"
         "Lukas Stade\n"
         "Par Lundh\n"
     );
@@ -692,6 +965,8 @@ static void build_about_content(lv_obj_t *parent)
 static void create_security_ui(void)
 {
     const theme_t *t = &themes[current_theme];
+
+    close_rename_overlay();
 
     screensaver_consuming_release = false;
     screensaver_state = STATE_ACTIVE;
@@ -850,10 +1125,13 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
 
 void lvgl_task(void *arg)
 {
+    sensor_names_init();
+    sensor_placement_init();
+    
     backlight_init();
     display_init();
     lvgl_port_init();
-
+    
     esp_lcd_panel_io_handle_t touch_io = NULL;
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c(bus_handle, &io_config, &touch_io));
 

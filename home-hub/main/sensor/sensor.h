@@ -7,6 +7,7 @@
 
 #include "random/random.h"
 
+
 typedef enum
 {
     Sensor_Type_Magnetic,
@@ -14,11 +15,19 @@ typedef enum
     Sensor_Type_None // Should not be used
 } Sensor_Type;
 
+typedef enum
+{
+    PLACEMENT_DOOR,
+    PLACEMENT_WINDOW,
+    PLACEMENT_UNASSIGNED
+} SensorPlacement;
+
 typedef struct 
 {
     Sensor_Type type;
     char guid[RANDOM_MAX_UUID_V4_LENGTH];
     void* data;
+    SensorPlacement placement;
 } Sensor;
 
 void Sensor_Initialize_All();
