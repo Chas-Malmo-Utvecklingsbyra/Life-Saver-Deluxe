@@ -4,6 +4,7 @@
 #include "lvgl.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/semphr.h"
 #include "esp_log.h"
 #include "esp_err.h"
 #include "esp_timer.h"
@@ -34,16 +35,6 @@
 #define SENSOR_NAME_MAX         31
 
 /* =====================
-        ENUMS:
-======================*/
-
-typedef enum
-{
-    STATE_ACTIVE,
-    STATE_SCREENSAVER
-} ScreenState;
-
-/* =====================
     STATIC VARIABLES:
 ======================*/
 
@@ -54,29 +45,36 @@ static i2c_master_bus_handle_t bus_handle       = NULL;
 static i2c_master_dev_handle_t backlight_dev    = NULL;
 static lv_display_t *lvgl_disp                  = NULL;
 
+// Semaphore
+static SemaphoreHandle_t vsync_sem;
+
 // Screen objects
 static lv_obj_t *screen_home                    = NULL;
 static lv_obj_t *screen_settings                = NULL;
 static lv_obj_t *screen_logs                    = NULL;
 static lv_obj_t *screen_about                   = NULL;
 static lv_obj_t *screen_screensaver             = NULL;
+static lv_obj_t *previous_screen                = NULL;
 static lv_obj_t *log_textarea                   = NULL;
 static lv_obj_t *wifi_status_labels[]           = {NULL, NULL, NULL, NULL};
 static uint8_t wifi_label_count                 = 0;
 
 // Screensaver objects
-static bool screensaver_consuming_release       = false;
-static lv_timer_t *screensaver_timer            = NULL;
+typedef struct
+{
+    bool active;
+    lv_timer_t *anim_timer;
+} ScreensaverControl;
+
+static ScreensaverControl ss                    = {0};
 static lv_obj_t *ss_bouncer                     = NULL;
 static int32_t ss_vel_x                         = 3;
 static int32_t ss_vel_y                         = 2;
 extern const lv_image_dsc_t chas_logo_small;
 
 // State
-static ScreenState screensaver_state            = STATE_ACTIVE;
 static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
-static volatile bool vsync_happened             = false;
 
 // Keyboard/rename overlay
 static lv_obj_t *rename_overlay                 = NULL;
@@ -97,7 +95,7 @@ typedef struct
 
 static SensorUi *rename_target                  = NULL;
 static SensorUi sensor_uis[MAX_SENSORS];
-static size_t sensor_ui_count = 0;
+static size_t sensor_ui_count                   = 0;
 
 /* =====================
     I2C CONFIGURATION:
@@ -129,6 +127,7 @@ static void create_security_ui(void);
 static void update_sensor_ui_timer_cb(lv_timer_t *timer);
 static void open_rename_overlay(SensorUi *ui);
 static void close_rename_overlay(void);
+static void screensaver_timer_cb(lv_timer_t *timer);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -151,6 +150,49 @@ static void set_brightness(uint8_t percent)
 }
 
 /* =======================
+    SCREENSAVER CONTROL:
+==========================*/
+
+static void screensaver_enter(void)
+{
+    if (ss.active) return;
+
+    ss.active = true;
+
+    previous_screen = lv_screen_active();
+
+    if (ss.anim_timer == NULL)
+    {
+        ss.anim_timer = lv_timer_create(screensaver_timer_cb, 33, NULL);
+    }
+    else
+    {
+        lv_timer_resume(ss.anim_timer);
+    }
+
+    lv_screen_load(screen_screensaver);
+}
+
+static void screensaver_exit(void)
+{
+    if (!ss.active) return;
+
+    ss.active = false;
+
+    if (ss.anim_timer)
+    {
+        lv_timer_pause(ss.anim_timer);
+    }
+
+    lv_indev_reset(NULL, NULL);
+
+    if (previous_screen != NULL)
+    {
+        lv_screen_load(previous_screen);
+    }
+}
+
+/* =======================
     HARDWARE CALLBACKS:
 ==========================*/
 
@@ -164,79 +206,57 @@ static bool panel_vsync_cb(
     const esp_lcd_rgb_panel_event_data_t *event_data,
     void *user_ctx)
 {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    vsync_happened = true;
-    return xHigherPriorityTaskWoken == pdTRUE;
+    BaseType_t woken = pdFALSE;
+    
+    if (vsync_sem != NULL)
+    {
+        xSemaphoreGiveFromISR(vsync_sem, &woken);
+    }
+
+    return woken == pdTRUE;
 }
 
 static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
     if (lv_display_flush_is_last(disp))
     {
-        while (!vsync_happened) {}
-        vsync_happened = false;
-    }
-
+        xSemaphoreTake(vsync_sem, pdMS_TO_TICKS(33));
+    }   
     lv_display_flush_ready(disp);
 }
 
 static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
-    esp_err_t ret = esp_lcd_touch_read_data(touch_handle);
-    if (ret != ESP_OK)
-    {
-        data->state = LV_INDEV_STATE_RELEASED;
-        return;
-    }
-
-    esp_lcd_touch_point_data_t touch_data = {};
+    esp_lcd_touch_read_data(touch_handle);
+    
+    esp_lcd_touch_point_data_t touch_data;
     uint8_t point_count = 0;
 
-    bool touched = (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK && point_count > 0);
-
-    if (screensaver_consuming_release)
-    {
-        if (!touched)
-            screensaver_consuming_release = false;
-
-        data->state = LV_INDEV_STATE_RELEASED;
-        return;
-    }
-
+    bool touched = (esp_lcd_touch_get_data(touch_handle, &touch_data, &point_count, 1) == ESP_OK) && (point_count > 0);
+    
     if (touched)
     {
-        if (screensaver_state == STATE_SCREENSAVER)
+        last_input_time = lv_tick_get();
+
+        if (ss.active)
         {
-            screensaver_state = STATE_ACTIVE;
-            last_input_time = lv_tick_get();
+            screensaver_exit();
 
-            if (screensaver_timer != NULL)
-            {
-                lv_timer_pause(screensaver_timer);
-            }
-
-            lv_screen_load(screen_home);
-            lv_obj_invalidate(screen_home);
-            screensaver_consuming_release = true;
-            
             data->state = LV_INDEV_STATE_RELEASED;
             return;
         }
 
-        last_input_time = lv_tick_get();
-
         data->point.x = touch_data.x;
         data->point.y = touch_data.y;
         data->state = LV_INDEV_STATE_PRESSED;
+        return;
     }
-    else
-    {
-        data->state = LV_INDEV_STATE_RELEASED;
-    }
+
+    data->state = LV_INDEV_STATE_RELEASED;
 }
 
 /* =======================
-    SENSOR STATE FUNCTION:
+   SENSOR STATE FUNCTION:
 ==========================*/
 
 static void sensor_load_persistent_state(Sensor *sensor)
@@ -278,7 +298,7 @@ static void rename_kb_event_cb(lv_event_t *e)
             }
 
             uint16_t selected = lv_dropdown_get_selected(placement_dd);
-            SensorPlacement placement = PLACEMENT_DOOR;
+            SensorPlacement placement = PLACEMENT_UNASSIGNED;
 
             switch (selected)
             {
@@ -300,6 +320,8 @@ static void rename_kb_event_cb(lv_event_t *e)
             sensor_placement_set(rename_target->sensor->guid, placement);
         }
         close_rename_overlay();
+        
+        // TODO (PL): Not really good to rebuild the entire ui here, needs to be updated later but works for now
         create_security_ui();
     }
     else if (code == LV_EVENT_CANCEL)
@@ -374,7 +396,7 @@ static void open_rename_overlay(SensorUi *ui)
 
     placement_dd = lv_dropdown_create(panel);
     lv_dropdown_set_options(placement_dd, "Door\n""Window\n""Unassigned");
-    uint16_t selected = 0;
+    uint16_t selected = 2;
     
     switch (ui->sensor->placement)
     {
@@ -415,6 +437,7 @@ static void close_rename_overlay(void)
         lv_obj_delete(rename_overlay);
         rename_overlay = NULL;
     }
+
     rename_ta       = NULL;
     rename_kb       = NULL;
     rename_target   = NULL;
@@ -448,6 +471,8 @@ static void brightness_slider_cb(lv_event_t *e)
 
 static void screensaver_timer_cb(lv_timer_t *timer)
 {
+    if (!ss.active || ss.anim_timer == NULL) return;
+
     if (ss_bouncer == NULL) return;
 
     int32_t x = lv_obj_get_x(ss_bouncer);
@@ -743,15 +768,29 @@ static void build_home_content(lv_obj_t *parent)
 
     lv_obj_t *content = lv_obj_create(parent);
     lv_obj_set_flex_grow(content, 1);
-    lv_obj_set_height(content, LCD_V_RES);
+    lv_obj_set_height(content, LV_PCT(100));
+    lv_obj_set_width(content, LV_PCT(100));
     lv_obj_set_style_bg_color(content, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(content, 0, 0);
     lv_obj_set_style_pad_all(content, 0, 0);
-    lv_obj_set_flex_flow(content, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_flow(content, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_scrollbar_mode(content, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_scroll_dir(content, LV_DIR_NONE);
+    lv_obj_clear_flag(content, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *doors = lv_obj_create(content);
+    lv_obj_t *top_row = lv_obj_create(content);
+    lv_obj_set_width(top_row, LV_PCT(100));
+    lv_obj_set_height(top_row, LV_SIZE_CONTENT);
+    lv_obj_set_flex_grow(top_row, 1);
+    lv_obj_set_flex_flow(top_row, LV_FLEX_FLOW_ROW);
+    lv_obj_set_style_bg_opa(top_row, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(top_row, 0, 0);
+    lv_obj_set_style_pad_all(top_row, 0, 0);
+    lv_obj_set_style_pad_gap(top_row, 10, 0);
+
+    lv_obj_t *doors = lv_obj_create(top_row);
     lv_obj_set_flex_grow(doors, 1);
-    lv_obj_set_height(doors, LCD_V_RES);
+    lv_obj_set_height(doors, LV_PCT(100));
     lv_obj_set_flex_flow(doors, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_bg_color(doors, lv_color_hex(t->content_bg), 0);
     lv_obj_set_style_border_width(doors, 0, 0);
@@ -763,9 +802,9 @@ static void build_home_content(lv_obj_t *parent)
     lv_obj_set_style_text_color(doors_heading, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(doors_heading, &lv_font_montserrat_18, 0);
 
-    lv_obj_t *windows = lv_obj_create(content);
+    lv_obj_t *windows = lv_obj_create(top_row);
     lv_obj_set_flex_grow(windows, 1);
-    lv_obj_set_height(windows, LCD_V_RES);
+    lv_obj_set_height(windows, LV_PCT(100));
     lv_obj_set_flex_flow(windows, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_bg_color(windows, lv_color_hex(t->content_bg), 0);
     lv_obj_set_style_border_width(windows, 0, 0);
@@ -778,8 +817,8 @@ static void build_home_content(lv_obj_t *parent)
     lv_obj_set_style_text_font(windows_heading, &lv_font_montserrat_18, 0);
 
     lv_obj_t *unassigned = lv_obj_create(content);
-    lv_obj_set_flex_grow(unassigned, 1);
-    lv_obj_set_height(unassigned, LCD_V_RES);
+    lv_obj_set_width(unassigned, LV_PCT(100));
+    lv_obj_set_height(unassigned, LV_SIZE_CONTENT);
     lv_obj_set_flex_flow(unassigned, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_bg_color(unassigned, lv_color_hex(t->content_bg), 0);
     lv_obj_set_style_border_width(unassigned, 0, 0);
@@ -947,7 +986,7 @@ static void build_about_content(lv_obj_t *parent)
         "============\n"
         "Emilio Ganibegovic\n"
         "Henrik Westerlund\n"
-        "Isa Shipshani.\n"
+        "Isa Shipshani\n"
         "Lukas Stade\n"
         "Par Lundh\n"
     );
@@ -968,43 +1007,35 @@ static void create_security_ui(void)
 
     close_rename_overlay();
 
-    screensaver_consuming_release = false;
-    screensaver_state = STATE_ACTIVE;
-
-    if (screensaver_timer != NULL)
-    {
-        lv_timer_pause(screensaver_timer);
-        screensaver_timer = NULL;
-    }
     ss_bouncer = NULL;
 
     if (screen_home)
     {
-        lv_obj_delete(screen_home);
+        lv_obj_delete_async(screen_home);
         screen_home = NULL;
     }
 
     if (screen_settings)
     {
-        lv_obj_delete(screen_settings);
+        lv_obj_delete_async(screen_settings);
         screen_settings = NULL;
     }
 
     if (screen_logs)
     {
-        lv_obj_delete(screen_logs);
+        lv_obj_delete_async(screen_logs);
         screen_logs = NULL;
     }
 
     if (screen_about)
     {
-        lv_obj_delete(screen_about);
+        lv_obj_delete_async(screen_about);
         screen_about = NULL;
     }
 
     if (screen_screensaver)
     {
-        lv_obj_delete(screen_screensaver);
+        lv_obj_delete_async(screen_screensaver);
         screen_screensaver = NULL;
     }
 
@@ -1127,6 +1158,14 @@ void lvgl_task(void *arg)
 {
     sensor_names_init();
     
+    vsync_sem = xSemaphoreCreateBinary();
+
+    if (vsync_sem == NULL)
+    {
+        ESP_LOGE(TAG, "Failed to create VSYNC semaphore");
+        return;
+    }
+
     backlight_init();
     display_init();
     lvgl_port_init();
@@ -1184,25 +1223,12 @@ void lvgl_task(void *arg)
     {
         uint32_t now = lv_tick_get();
 
-        if (screensaver_state == STATE_ACTIVE && (now - last_input_time) >= SCREENSAVER_TIMEOUT_MS)
+        if (!ss.active && (now - last_input_time) >= SCREENSAVER_TIMEOUT_MS)
         {
-            screensaver_state = STATE_SCREENSAVER;
-            lv_screen_load(screen_screensaver);
-            lv_obj_invalidate(screen_screensaver);
-
-            if (screensaver_timer == NULL)
-            {
-                screensaver_timer = lv_timer_create(screensaver_timer_cb, 16, NULL);
-            }
-            else 
-            {
-                lv_timer_resume(screensaver_timer);
-            }
-
-
+            screensaver_enter();
         }
 
         uint32_t delay_ms = lv_timer_handler();
-        vTaskDelay(pdMS_TO_TICKS(delay_ms > 0 ? delay_ms : 1));
+        vTaskDelay(pdMS_TO_TICKS(delay_ms ? delay_ms : 1));
     }
 }
