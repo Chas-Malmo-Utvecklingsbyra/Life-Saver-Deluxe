@@ -2,6 +2,7 @@
 #define GUI_THEMES_H
 
 #include <stdint.h>
+#include "lvgl.h"
 
 typedef struct 
 {
@@ -13,6 +14,12 @@ typedef struct
     uint32_t content_bg;
     uint32_t sensor_bg;
     uint32_t text;
+    uint32_t text_secondary;
+    const lv_image_dsc_t *background_img;
+    const lv_image_dsc_t *logo_img;
+    const lv_font_t *font_large;
+    const lv_font_t *font_normal;
+    const lv_font_t *font_small;
 } theme_t;
 
 extern const theme_t themes[4];
