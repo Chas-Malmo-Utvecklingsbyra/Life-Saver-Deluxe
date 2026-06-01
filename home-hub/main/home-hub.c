@@ -15,15 +15,15 @@
 
 #include "random/random.h"
 
-static const char* TAG = "Home-Hub";
+static const char *TAG = "Home-Hub";
 
 #define PORT 6060
 
-void full_data_received(TCP_Server_Client* client)
+void full_data_received(TCP_Server_Client *client)
 {
     ESP_LOGI(TAG, "Received data: [%s]", client->data);
 
-    cJSON* root = cJSON_Parse(client->data);
+    cJSON *root = cJSON_Parse(client->data);
     if (root == NULL)
     {
         // not a valid json, we only accept JSON
@@ -31,7 +31,7 @@ void full_data_received(TCP_Server_Client* client)
         return;
     }
 
-    cJSON* job_json = cJSON_GetObjectItem(root, "job");
+    cJSON *job_json = cJSON_GetObjectItem(root, "job");
     if (job_json == NULL)
     {
         cJSON_Delete(root);
@@ -39,7 +39,7 @@ void full_data_received(TCP_Server_Client* client)
         return;
     }
 
-    char* job_str = cJSON_GetStringValue(job_json);
+    char *job_str = cJSON_GetStringValue(job_json);
     if (job_str == NULL)
     {
         cJSON_Delete(root);
@@ -47,147 +47,161 @@ void full_data_received(TCP_Server_Client* client)
         return;
     }
 
-    cJSON* data_json = cJSON_GetObjectItem(root, "data");
+    cJSON *data_json = cJSON_GetObjectItem(root, "data");
     if (data_json == NULL)
     {
         cJSON_Delete(root);
         ESP_LOGI(TAG, "Could not find 'data' in JSON.. Returning..");
         return;
     }
-    
+
     ESP_LOGI(TAG, "Parsed out job: [%s]", job_str);
 
     switch (Packet_Job_From_String(job_str))
     {
-        case Packet_Job_Initialize:
+    case Packet_Job_Initialize:
+    {
+        ESP_LOGI(TAG, "Made it in here!");
+
+        char *data_str = cJSON_GetStringValue(data_json);
+        if (data_str == NULL)
         {
-            ESP_LOGI(TAG, "Made it in here!");
-
-            char* data_str = cJSON_GetStringValue(data_json);
-            if (data_str == NULL)
-            {
-                cJSON_Delete(root);
-                ESP_LOGI(TAG, "data_str is not a STRING.. Returning..");
-                return;
-            }
-
-            char buffer[RANDOM_MAX_UUID_V4_LENGTH];
-            Random_Generate_UUID_v4(buffer);
-
-            if (strcmp(data_str, "magnetic") == 0)
-            {
-                ESP_LOGI(TAG, "Added Sensor_Type_Magnetic to sensor array");
-                Sensor_Add(Sensor_Type_Magnetic, buffer); // Guid generator should be added, or atleast some identifcation
-            }
-
-            char* packet = Packet_Build(Packet_Job_Initialize, buffer);
-            if (packet == NULL)
-            {
-                ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
-                cJSON_Delete(root);
-                return;
-            }
-            
-            if (TCP_Server_Send(client, packet, strlen(packet)) != TCP_Server_Success)
-            {
-                ESP_LOGI(TAG, "Failed to Send data to Client");
-            }
-            free(packet);
-
-            if (!File_System_File_Exists("sensors"))
-            {
-                if (File_System_Write_File("sensors", buffer, "w") != File_System_Success)
-                {
-                    ESP_LOGE(TAG, "Failed to write to sensors file");
-                    break;
-                }
-
-                ESP_LOGI(TAG, "Sucessfully wrote to sensors file");
-            }
-            else
-            {
-                if (File_System_Write_File("sensors", buffer, "a") != File_System_Success)
-                {
-                    ESP_LOGE(TAG, "Failed to append to sensors file");
-                    break;
-                }
-
-                ESP_LOGI(TAG, "Sucessfully appended to sensors file");
-            }
-
-            break;
+            cJSON_Delete(root);
+            ESP_LOGI(TAG, "data_str is not a STRING.. Returning..");
+            return;
         }
 
-        case Packet_Job_Heartbeat:
-        {
+        char buffer[RANDOM_MAX_UUID_V4_LENGTH];
+        Random_Generate_UUID_v4(buffer);
 
-            break;
+        if (strcmp(data_str, "magnetic") == 0)
+        {
+            ESP_LOGI(TAG, "Added Sensor_Type_Magnetic to sensor array");
+            Sensor_Add(Sensor_Type_Magnetic, buffer); // Guid generator should be added, or atleast some identifcation
         }
 
-        case Packet_Job_Data:
+        char *packet = Packet_Build(Packet_Job_Initialize, buffer);
+        if (packet == NULL)
         {
-            char* string_value = cJSON_GetStringValue(data_json);
-            if (!string_value)
-            {
-                ESP_LOGW(TAG, "string_value is NULL in Packet_Job_Data");
-            }            
+            ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
+            cJSON_Delete(root);
+            return;
+        }
 
-            char* uuid = strtok(string_value, "|");
-            char* real_data = strtok(NULL, "|");
+        if (TCP_Server_Send(client, packet, strlen(packet)) != TCP_Server_Success)
+        {
+            ESP_LOGI(TAG, "Failed to Send data to Client");
+        }
+        free(packet);
 
-            if (uuid == NULL || real_data == NULL)
+        if (!File_System_File_Exists("sensors"))
+        {
+            if (File_System_Write_File("sensors", buffer, "w") != File_System_Success)
             {
-                ESP_LOGW(TAG, "Failed to seperate string in Packet_Job_Data");
+                ESP_LOGE(TAG, "Failed to write to sensors file");
                 break;
             }
 
-            Sensor* sensor = Sensor_Get_By_UUID(uuid);
-            if (sensor == NULL)
+            ESP_LOGI(TAG, "Sucessfully wrote to sensors file");
+        }
+        else
+        {
+            if (File_System_Write_File("sensors", buffer, "a") != File_System_Success)
             {
-                ESP_LOGW(TAG,"Could not find Sensor by UUID in Packet_Job_Data");
+                ESP_LOGE(TAG, "Failed to append to sensors file");
                 break;
             }
 
-            if (sensor->data == NULL)
-            {
-                sensor->data = malloc(sizeof(bool));
-                if (sensor->data == NULL)
-                {
-                    ESP_LOGW(TAG, "Malloc FAILED in Packet_Job_Data");
-                    break;
-                }
-            }
-
-            bool *data = (bool*)sensor->data;
-
-            if (strcmp(real_data, "false") == 0)
-            {
-                *data = false;
-            }
-            else
-            {
-                *data = true;
-            }
-
-            sensor->type = Sensor_Type_Magnetic;
-
-            ESP_LOGI(TAG, "Got value: (%s) | (%s) | (%d)", uuid, real_data, *(bool*)sensor->data);
-
-            //ESP_LOGI(TAG, "Received some data.... Needs processing!");
-            break;
+            ESP_LOGI(TAG, "Sucessfully appended to sensors file");
         }
 
-        default:
-        {
-            break;
-        }
+        break;
     }
 
+    case Packet_Job_Heartbeat:
+    {
+
+        break;
+    }
+
+    case Packet_Job_Data:
+    {
+        char *string_value = cJSON_GetStringValue(data_json);
+        if (!string_value)
+        {
+            ESP_LOGW(TAG, "string_value is NULL in Packet_Job_Data");
+            break;
+        }
+
+        char temp[128];
+
+        snprintf(temp, sizeof(temp), "%s", string_value);
+
+        char *separator = strchr(temp, '|');
+
+        if (separator == NULL)
+        {
+            ESP_LOGW(TAG, "Failed to separate string in Packet_Job_Data");
+            break;
+        }
+
+        *separator = '\0';
+
+        char *uuid = temp;
+        char *real_data = separator + 1;
+
+        if (uuid[0] == '\0' || real_data[0] == '\0')
+        {
+            ESP_LOGW(TAG, "UUID or sensor data is empty");
+            break;
+        }
+
+        Sensor *sensor = Sensor_Get_By_UUID(uuid);
+        if (sensor == NULL)
+        {
+            ESP_LOGW(TAG, "Could not find Sensor by UUID in Packet_Job_Data");
+            break;
+        }
+
+        if (sensor->data == NULL)
+        {
+            sensor->data = malloc(sizeof(bool));
+            if (sensor->data == NULL)
+            {
+                ESP_LOGW(TAG, "Malloc FAILED in Packet_Job_Data");
+                break;
+            }
+        }
+
+        bool *data = (bool *)sensor->data;
+
+        if (strcmp(real_data, "false") == 0)
+        {
+            *data = false;
+        }
+        else
+        {
+            *data = true;
+        }
+
+        sensor->type = Sensor_Type_Magnetic;
+
+        ESP_LOGI(TAG, "Got value: (%s) | (%s) | (%d)", uuid, real_data, *(bool *)sensor->data);
+
+        // ESP_LOGI(TAG, "Received some data.... Needs processing!");
+        break;
+    }
+
+    default:
+    {
+        break;
+    }
+    }
 
     cJSON_Delete(root);
 }
 
-void tcp_server_task(void* params)
+void tcp_server_task(void *params)
 {
     TCP_Server server = {};
     if (TCP_Server_Setup(&server, PORT, full_data_received) != TCP_Server_Success)
@@ -212,7 +226,7 @@ void app_main(void)
         return;
     }
 
-    //remove("/spiffs/sensors");
+    // remove("/spiffs/sensors");
     xTaskCreatePinnedToCore(lvgl_task, "lvgl", 32768, NULL, 5, NULL, 0);
 
     Sensor_Initialize_All();
@@ -226,13 +240,15 @@ void app_main(void)
         }
 
         FILE *f = fopen("/spiffs/sensors", "r");
-        if (f == NULL) {
+        if (f == NULL)
+        {
             ESP_LOGE(TAG, "Failed to open /spiffs/sensors");
             return;
         }
 
         char line[RANDOM_MAX_UUID_V4_LENGTH];
-        while (fgets(line, sizeof(line), f) != NULL) {
+        while (fgets(line, sizeof(line), f) != NULL)
+        {
             ESP_LOGE(TAG, "Sensor UUID4: %s", line);
             Sensor_Add(Sensor_Type_Unassigned, line);
         }
@@ -243,16 +259,16 @@ void app_main(void)
         ESP_LOGI(TAG, "Sensors file does not exist!");
     }
 
-    //Sensor_Print_All();
+    // Sensor_Print_All();
 
-	Internet_Initialize("username", "password");
+    Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
     esp_err_t mdns_err = mdns_init();
     if (mdns_err != ESP_OK)
     {
         ESP_LOGE(TAG, "mdns_init failed, (code: %d)\n", mdns_err);
-        return; 
+        return;
     }
     mdns_hostname_set("homehub");
     mdns_service_add(NULL, "_http", "_tcp", PORT, NULL, 0);
