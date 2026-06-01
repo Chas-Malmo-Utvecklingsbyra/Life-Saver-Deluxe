@@ -22,4 +22,5 @@ idf_component_register(
         esp_lcd_touch
         esp_lcd_touch_gt911
         esp_timer
+        console
 )
