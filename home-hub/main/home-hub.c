@@ -12,6 +12,7 @@
 #include "sensor/sensor.h"
 #include "file_system/file_system.h"
 #include "gui/gui.h"
+#include "bme280/bme280.h"
 
 #include "random/random.h"
 
@@ -218,6 +219,12 @@ void tcp_server_task(void *params)
     }
 }
 
+// TODO Need to sync with Pär about I2C
+// void bme280_task(void *params)
+// {
+//     bme280_work();
+// }
+
 void app_main(void)
 {
     if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
@@ -274,4 +281,11 @@ void app_main(void)
     mdns_service_add(NULL, "_http", "_tcp", PORT, NULL, 0);
 
     ESP_LOGI(TAG, "MSDN has successfully been initiated!");
+
+    // TODO Need to sync with Pär about I2C
+	// BaseType_t bme280_task_result = xTaskCreate(bme280_task, "BME280Task", 4096, NULL, 10, NULL);
+    // if (bme280_task_result != pdPASS)
+    // {
+    //     ESP_LOGW(TAG, "BME280 task failed to start");
+    // }
 }
