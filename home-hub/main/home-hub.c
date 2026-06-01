@@ -207,12 +207,6 @@ void tcp_server_task(void* params)
     }
 }
 
-// TODO Need to sync with Pär about I2C
-// void bme280_task(void *params)
-// {
-//     bme280_work();
-// }
-
 static int command_fragment(int argc, char **argv)
 {
     uint32_t caps = MALLOC_CAP_SPIRAM;
@@ -280,7 +274,7 @@ void app_main(void)
 
     //Sensor_Print_All();
 
-	Internet_Initialize("emilio", "emiliojoker33!");
+	Internet_Initialize("username", "password");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
     esp_err_t mdns_err = mdns_init();
@@ -294,16 +288,9 @@ void app_main(void)
 
     ESP_LOGI(TAG, "MSDN has successfully been initiated!");
 
-
     while(true)
     {
         vTaskDelay(100);
     }
 
-    // TODO Need to sync with Pär about I2C
-	// BaseType_t bme280_task_result = xTaskCreate(bme280_task, "BME280Task", 4096, NULL, 10, NULL);
-    // if (bme280_task_result != pdPASS)
-    // {
-    //     ESP_LOGW(TAG, "BME280 task failed to start");
-    // }
 }
