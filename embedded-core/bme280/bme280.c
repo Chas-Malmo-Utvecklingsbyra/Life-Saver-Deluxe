@@ -46,31 +46,33 @@ typedef struct
 	int32_t adc_H;
 } bme280_raw_t;
 
-static esp_err_t bme280_register_read(i2c_master_dev_handle_t dev_handle, uint8_t reg_addr, uint8_t *data, size_t len);
-esp_err_t i2c_master_init(i2c_master_bus_handle_t *bus_handle, i2c_master_dev_handle_t *dev_handle);
-esp_err_t bme280_read_calibration(i2c_master_dev_handle_t dev_handle);
-static esp_err_t bme280_write_byte(i2c_master_dev_handle_t dev_handle, uint8_t reg, uint8_t value);
-esp_err_t bme280_start_measurement(i2c_master_dev_handle_t dev_handle);
+static esp_err_t bme280_register_read(uint8_t reg_addr, uint8_t *data, size_t len);
+esp_err_t i2c_master_init();
+esp_err_t bme280_read_calibration();
+static esp_err_t bme280_write_byte(uint8_t reg, uint8_t value);
+esp_err_t bme280_start_measurement();
 static int32_t bme280_compensate_T(int32_t adc_T);
 static uint32_t bme280_compensate_P(int32_t adc_P);
 static uint32_t bme280_compensate_H(int32_t adc_H);
 
 static bme280_calib_t calib;
+static i2c_master_bus_handle_t bus_handle = NULL;
+static i2c_master_dev_handle_t dev_handle = NULL;
 
-static esp_err_t bme280_register_read(i2c_master_dev_handle_t dev_handle, uint8_t reg_addr, uint8_t *data, size_t len)
+static esp_err_t bme280_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
 {
     return i2c_master_transmit_receive(dev_handle, &reg_addr, 1, data, len, I2C_TIMEOUT_MS);
 }
 
-static esp_err_t bme280_write_byte(i2c_master_dev_handle_t dev_handle, uint8_t reg, uint8_t value)
+static esp_err_t bme280_write_byte(uint8_t reg, uint8_t value)
 {
     uint8_t write_buf[2] = {reg, value};
     return i2c_master_transmit(dev_handle, write_buf, sizeof(write_buf), I2C_TIMEOUT_MS);
 }
 
-esp_err_t i2c_master_init(i2c_master_bus_handle_t *bus_handle, i2c_master_dev_handle_t *dev_handle)
+esp_err_t i2c_master_init()
 {
-    *bus_handle = i2c_get_bus();
+    bus_handle = i2c_get_bus();
 
     i2c_device_config_t dev_config =
     {
@@ -78,16 +80,16 @@ esp_err_t i2c_master_init(i2c_master_bus_handle_t *bus_handle, i2c_master_dev_ha
         .device_address = BME280_ADDR,
         .scl_speed_hz = I2C_FREQ_HZ,
     };
-    ESP_ERROR_CHECK(i2c_master_bus_add_device(*bus_handle, &dev_config, dev_handle));
+    ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle));
 
     return ESP_OK;
 }
 
-esp_err_t bme280_read_calibration(i2c_master_dev_handle_t dev_handle)
+esp_err_t bme280_read_calibration()
 {
     uint8_t buf[26];
 
-    esp_err_t err = bme280_register_read(dev_handle, BME280_REG_CALIB, buf, 26);
+    esp_err_t err = bme280_register_read(BME280_REG_CALIB, buf, 26);
     if (err != ESP_OK) 
         return err;
 
@@ -105,7 +107,7 @@ esp_err_t bme280_read_calibration(i2c_master_dev_handle_t dev_handle)
 	calib.P2 = (int16_t)(buf[23] << 8) | buf[22];
 	calib.H1 = buf[25];
 
-    err = bme280_register_read(dev_handle, BME280_REG_CALIB, buf, 7);
+    err = bme280_register_read(BME280_REG_CALIB, buf, 7);
     if (err != ESP_OK) 
         return err;
 
@@ -120,13 +122,13 @@ esp_err_t bme280_read_calibration(i2c_master_dev_handle_t dev_handle)
     return ESP_OK;
 }
 
-esp_err_t bme280_start_measurement(i2c_master_dev_handle_t dev_handle)
+esp_err_t bme280_start_measurement()
 {
-    esp_err_t err = bme280_write_byte(dev_handle, BME280_CTRL_HUM_REG, BME280_CTRL_HUM_BYTE);
+    esp_err_t err = bme280_write_byte(BME280_CTRL_HUM_REG, BME280_CTRL_HUM_BYTE);
     if (err != ESP_OK) 
         return err;
         
-    err = bme280_write_byte(dev_handle, BME280_CTRL_MEAS_REG, BME280_CTRL_MEAS_BYTE);
+    err = bme280_write_byte(BME280_CTRL_MEAS_REG, BME280_CTRL_MEAS_BYTE);
     if (err != ESP_OK) 
         return err;
 
@@ -135,10 +137,10 @@ esp_err_t bme280_start_measurement(i2c_master_dev_handle_t dev_handle)
     return ESP_OK;
 }
 
-static esp_err_t bme280_read_raw_meas(i2c_master_dev_handle_t dev_handle, bme280_raw_t *raw)
+static esp_err_t bme280_read_raw_meas(bme280_raw_t *raw)
 {
 	uint8_t buf[8];
-	esp_err_t err = bme280_register_read(dev_handle, BME280_MEAS_DATA_REG, buf, 8);
+	esp_err_t err = bme280_register_read(BME280_MEAS_DATA_REG, buf, 8);
 	if(err != ESP_OK)
         return err;
 
@@ -195,11 +197,11 @@ static uint32_t bme280_compensate_H(int32_t adc_H)
 	return (uint32_t) (res>>12);
 }
 
-esp_err_t bme280_read_meas(i2c_master_dev_handle_t dev_handle, bme280_meas_t *meas)
+esp_err_t bme280_read_meas(bme280_meas_t *meas)
 {
     bme280_raw_t raw;
 
-    esp_err_t err = bme280_read_raw_meas(dev_handle, &raw);
+    esp_err_t err = bme280_read_raw_meas(&raw);
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG, "Did not receive measurements");
@@ -215,13 +217,12 @@ esp_err_t bme280_read_meas(i2c_master_dev_handle_t dev_handle, bme280_meas_t *me
 
 esp_err_t bme280_work()
 {
-    i2c_master_bus_handle_t bus_handle;
-    i2c_master_dev_handle_t dev_handle;
-    i2c_master_init(&bus_handle, &dev_handle);
+    
+    i2c_master_init();
     ESP_LOGI(TAG, "I2C initialized successfully");
 
     uint8_t data;
-    esp_err_t err = (bme280_register_read(dev_handle, BME280_REG_ID, &data, 1));
+    esp_err_t err = (bme280_register_read(BME280_REG_ID, &data, 1));
     if (err == ESP_OK)
     {
         if (data == 0x60)
@@ -241,7 +242,7 @@ esp_err_t bme280_work()
         return err;
     }
 
-    err = bme280_read_calibration(dev_handle);
+    err = bme280_read_calibration();
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG, "Calibration failed");
@@ -250,7 +251,7 @@ esp_err_t bme280_work()
 
     while (1)
     {
-        err = bme280_start_measurement(dev_handle);
+        err = bme280_start_measurement();
         if (err != ESP_OK)
         {
             ESP_LOGE(TAG, "Could not start measurements");
@@ -258,7 +259,7 @@ esp_err_t bme280_work()
         }
 
         bme280_meas_t meas;
-        err = bme280_read_meas(dev_handle, &meas);
+        err = bme280_read_meas(&meas);
         if (err != ESP_OK)
         {
             ESP_LOGE(TAG, "Did not receive measurements");
