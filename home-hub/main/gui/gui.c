@@ -109,8 +109,8 @@ static const i2c_master_bus_config_t bus_config =
 {
     .clk_source                     = I2C_CLK_SRC_DEFAULT,
     .i2c_port                       = I2C_NUM_0,
-    .scl_io_num                     = 9,
-    .sda_io_num                     = 8,
+    .scl_io_num                     = 5,
+    .sda_io_num                     = 6,
     .glitch_ignore_cnt              = 7,
     .flags.enable_internal_pullup   = true,
 };
@@ -1216,7 +1216,7 @@ void lvgl_task(void *arg)
     {
         .x_max          = LCD_H_RES,
         .y_max          = LCD_V_RES,
-        .rst_gpio_num   = GPIO_NUM_42,
+        .rst_gpio_num   = -1,
         .int_gpio_num   = GPIO_NUM_4,
         .levels         = 
         {
