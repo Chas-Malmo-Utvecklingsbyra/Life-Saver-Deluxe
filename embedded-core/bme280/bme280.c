@@ -236,7 +236,8 @@ esp_err_t bme280_work()
     }
     else
     {
-        ESP_LOGE(TAG, "Chip ID read failed: %s", esp_err_to_name(err));
+        ESP_LOGW(TAG, "Chip ID read failed, no BME280 detected: %s", esp_err_to_name(err));
+        ESP_ERROR_CHECK(i2c_master_bus_rm_device(dev_handle));
         return err;
     }
 
@@ -271,7 +272,6 @@ esp_err_t bme280_work()
     }
 
     ESP_ERROR_CHECK(i2c_master_bus_rm_device(dev_handle));
-    ESP_ERROR_CHECK(i2c_del_master_bus(bus_handle));
     ESP_LOGI(TAG, "I2C de-initialized successfully");
 
     return ESP_OK;

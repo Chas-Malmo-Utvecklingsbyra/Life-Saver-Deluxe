@@ -232,7 +232,13 @@ static int command_fragment(int argc, char **argv)
 
 void bme280_task(void *params)
 {
-    bme280_work();
+    esp_err_t err = bme280_work();
+    if (err != ESP_OK)
+    {
+        ESP_LOGW(TAG, "bme280_task shutting down");
+    }
+
+    vTaskDelete(NULL);
 }
 
 void app_main(void)
