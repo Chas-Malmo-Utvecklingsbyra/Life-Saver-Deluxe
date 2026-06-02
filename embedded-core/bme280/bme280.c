@@ -58,6 +58,7 @@ static uint32_t bme280_compensate_H(int32_t adc_H);
 static bme280_calib_t calib;
 static i2c_master_bus_handle_t bus_handle = NULL;
 static i2c_master_dev_handle_t dev_handle = NULL;
+bme280_meas_t meas;
 
 static esp_err_t bme280_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
 {
@@ -258,7 +259,7 @@ esp_err_t bme280_work()
             return err;
         }
 
-        bme280_meas_t meas;
+
         err = bme280_read_meas(&meas);
         if (err != ESP_OK)
         {

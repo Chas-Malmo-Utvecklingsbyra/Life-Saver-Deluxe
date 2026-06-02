@@ -20,6 +20,7 @@
 #include "../sensor/sensor.h"
 #include "../sensor/sensor_settings.h"
 #include "i2c/i2c.h"
+#include "bme280/bme280.h"
 
 /* =====================
         CONSTANTS:
@@ -97,10 +98,25 @@ typedef struct
     char display_name[SENSOR_NAME_MAX + 1];
 } SensorUi;
 
+// // ENV UI objects
+// typedef struct
+// {
+//     lv_obj_t *card;
+//     lv_obj_t *name_label;
+//     lv_obj_t *data_label;
+//     char data[20];
+// } BME280Ui;
+
 static SensorUi *rename_target                  = NULL;
 static SensorUi sensor_uis[MAX_SENSORS];
 static size_t sensor_ui_count                   = 0;
 static lv_timer_t *sensor_update_timer          = NULL;
+
+// static BME280Ui bme280_ui[3];
+// static lv_timer_t *env_update_timer             = NULL;
+
+// extern bme280_meas_t meas;
+// extern bool bme280_running;
 
 /* =====================
     I2C CONFIGURATION:
@@ -1009,7 +1025,13 @@ static void build_env_content(lv_obj_t *parent)
     lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
     lv_obj_set_style_border_width(env_textarea, 0, 0);
-    lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
+
+    // env_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
+
+    // char degc[20] = {0};
+    // snprintf(degc, sizeof(degc), "%lu.%lu DegC", meas.T / 100, meas.T % 100);
+    // lv_textarea_set_placeholder_text(env_textarea, (const char*)degc);
+    lv_textarea_set_placeholder_text(env_textarea, "No environment sensor detected");
     lv_textarea_set_one_line(env_textarea, false);
 }
 
@@ -1122,8 +1144,8 @@ static void create_security_ui(void)
     lv_obj_set_style_pad_all(tab_about, 0, 0);
 
     build_home_content(tab_home);
-    build_settings_content(tab_settings);
     build_env_content(tab_env);
+    build_settings_content(tab_settings);
     build_about_content(tab_about);
 
     lv_screen_load(screen_main);
@@ -1187,6 +1209,28 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
         lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
 }
+
+// static void update_env_ui_timer_cb(lv_timer_t *timer)
+// {
+//     BME280Ui *temp_ui = &bme280_ui[0];
+//     BME280Ui *press_ui = &bme280_ui[1];
+//     BME280Ui *hum_ui = &bme280_ui[2];
+
+//     if (bme280_running == false)
+//     {
+//         lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
+//         return; // Maybe??
+//     }
+
+//     snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu", meas.T / 100, meas.T % 100);
+//     snprintf(press_ui->data, sizeof(temp_ui->data), "%lu", meas.P / 256);
+//     snprintf(hum_ui->data, sizeof(temp_ui->data), "%lu", meas.H / 1024);
+    
+//     // TODO Update stuff
+//     lv_label_set_text();
+//     lv_label_set_text();
+//     lv_label_set_text();
+// }
 
 /* =======================
         MAIN TASK:

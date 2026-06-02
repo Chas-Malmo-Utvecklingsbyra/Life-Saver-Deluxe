@@ -22,6 +22,8 @@ static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
+// bool bme280_running = true;
+
 void full_data_received(TCP_Server_Client* client)
 {
     ESP_LOGI(TAG, "Received data: [%s]", client->data);
@@ -238,6 +240,7 @@ void bme280_task(void *params)
         ESP_LOGW(TAG, "bme280_task shutting down");
     }
 
+    // bme280_running = false;
     vTaskDelete(NULL);
 }
 
@@ -253,7 +256,7 @@ void app_main(void)
     Console_Initialize();
 
     //remove("/spiffs/sensors");
-    xTaskCreatePinnedToCore(lvgl_task, "lvgl", 32768, NULL, 5, NULL, 0);
+    xTaskCreate(lvgl_task, "lvgl", 32768, NULL, 5, NULL);
 
     Sensor_Initialize_All();
 
