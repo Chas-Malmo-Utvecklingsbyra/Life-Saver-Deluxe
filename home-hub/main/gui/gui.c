@@ -27,7 +27,6 @@
 #define TAG                     "GUI"
 #define LCD_H_RES               1024
 #define LCD_V_RES               600
-#define SCREENSAVER_TIMEOUT_MS  30000
 #define BACKLIGHT_I2C_ADDR      0x24
 #define BACKLIGHT_PWM_REG       0x05
 #define BACKLIGHT_MIN_PCT       10
@@ -69,6 +68,8 @@ typedef struct
 } ScreensaverControl;
 
 static ScreensaverControl ss                    = {0};
+static uint32_t screensaver_timeout_ms          = 60000;    // 60s
+static bool screensaver_enabled                 = true;
 static lv_obj_t *ss_bouncer                     = NULL;
 static int32_t ss_vel_x                         = 3;
 static int32_t ss_vel_y                         = 2;
@@ -98,6 +99,7 @@ typedef struct
 static SensorUi *rename_target                  = NULL;
 static SensorUi sensor_uis[MAX_SENSORS];
 static size_t sensor_ui_count                   = 0;
+static lv_timer_t *sensor_update_timer          = NULL;
 
 /* =====================
     I2C CONFIGURATION:
@@ -172,6 +174,11 @@ static void screensaver_enter(void)
         lv_timer_resume(ss.anim_timer);
     }
 
+    if (sensor_update_timer)
+    {
+        lv_timer_pause(sensor_update_timer);
+    }
+
     lv_screen_load(screen_screensaver);
 }
 
@@ -186,8 +193,12 @@ static void screensaver_exit(void)
         lv_timer_pause(ss.anim_timer);
     }
 
-    lv_indev_reset(NULL, NULL);
-    
+    if (sensor_update_timer)
+    {
+        lv_timer_resume(sensor_update_timer);
+    }
+
+    lv_indev_reset(NULL, NULL);    
     lv_screen_load(screen_main);
 }
 
@@ -202,6 +213,7 @@ static void lv_tick_cb(void *arg)
 
 static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
+    esp_lcd_panel_draw_bitmap(panel_handle, area->x1, area->y1, area->x2 + 1, area->y2 + 1, px_map);
     lv_display_flush_ready(disp);
 }
 
@@ -301,7 +313,6 @@ static void rename_kb_event_cb(lv_event_t *e)
         }
         close_rename_overlay();
         
-        // TODO (PL): Not really good to rebuild the entire ui here, needs to be updated later but works for now
         create_security_ui();
     }
     else if (code == LV_EVENT_CANCEL)
@@ -448,14 +459,14 @@ static void brightness_slider_cb(lv_event_t *e)
 
 static void screensaver_timer_cb(lv_timer_t *timer)
 {
-    if (!ss.active || ss.anim_timer == NULL) return;
-
-    if (ss_bouncer == NULL) return;
+    if (!ss.active || ss_bouncer == NULL) return;
 
     int32_t x = lv_obj_get_x(ss_bouncer);
     int32_t y = lv_obj_get_y(ss_bouncer);
     int32_t w = lv_obj_get_width(ss_bouncer);
     int32_t h = lv_obj_get_height(ss_bouncer);
+
+    lv_obj_invalidate(ss_bouncer);
 
     x += ss_vel_x;
     y += ss_vel_y;
@@ -483,6 +494,26 @@ static void screensaver_timer_cb(lv_timer_t *timer)
     }
 
     lv_obj_set_pos(ss_bouncer, x, y);
+}
+
+static void screensaver_toggle_cb(lv_event_t *e)
+{
+    lv_obj_t *toggle = lv_event_get_target(e);
+    screensaver_enabled = lv_obj_has_state(toggle, LV_STATE_CHECKED);
+}
+
+static void screensaver_timeout_slider_cb(lv_event_t *e)
+{
+    lv_obj_t *slider = lv_event_get_target(e);
+    screensaver_timeout_ms = (uint32_t)lv_slider_get_value(slider) * 1000;
+
+    lv_obj_t *label = (lv_obj_t *)lv_event_get_user_data(e);
+    if (label)
+    {
+        char buf[32];
+        snprintf(buf, sizeof(buf), "%"PRIu32" s", (uint32_t)lv_slider_get_value(slider));
+        lv_label_set_text(label, buf);
+    }
 }
 
 static void open_rename_overlay_async(void *arg)
@@ -565,7 +596,7 @@ void lvgl_port_init(void)
 {
     lv_init();
 
-    lv_display_t *disp = lv_display_create(LCD_H_RES, LCD_V_RES);
+    lvgl_disp = lv_display_create(LCD_H_RES, LCD_V_RES);
 
     void *buf1 = NULL;
     void *buf2 = NULL;
@@ -574,9 +605,9 @@ void lvgl_port_init(void)
 
     size_t buf_size = LCD_H_RES * LCD_V_RES * sizeof(lv_color_t);
 
-    lv_display_set_buffers(disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_DIRECT);
-    lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565);
-    lv_display_set_flush_cb(disp, lvgl_flush_cb);
+    lv_display_set_buffers(lvgl_disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_DIRECT);
+    lv_display_set_color_format(lvgl_disp, LV_COLOR_FORMAT_RGB565);
+    lv_display_set_flush_cb(lvgl_disp, lvgl_flush_cb);
 }
 
 /* =======================
@@ -702,21 +733,24 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     lv_obj_set_style_text_color(status, lv_color_hex(status_color), 0);
     lv_obj_set_style_text_font(status, t->font_small, 0);
 
-    if (sensor_ui_count < MAX_SENSORS)
+    if (sensor_ui_count >= MAX_SENSORS)
     {
-        sensor_uis[sensor_ui_count].card = card;
-        sensor_uis[sensor_ui_count].dot = dot;
-        sensor_uis[sensor_ui_count].name_label = label;
-        sensor_uis[sensor_ui_count].status_label = status;
-        sensor_uis[sensor_ui_count].sensor = sensor;
-
-        strncpy(sensor_uis[sensor_ui_count].display_name, display_name, SENSOR_NAME_MAX + 1);
-        sensor_uis[sensor_ui_count].display_name[SENSOR_NAME_MAX] = '\0';
-
-        lv_obj_add_event_cb(card, sensor_card_tap_cb, LV_EVENT_CLICKED, &sensor_uis[sensor_ui_count]);
-
-        sensor_ui_count++;
+        ESP_LOGE(TAG, "sensor_uis[] full - sensor card dropped");
+        return NULL;
     }
+    
+    sensor_uis[sensor_ui_count].card = card;
+    sensor_uis[sensor_ui_count].dot = dot;
+    sensor_uis[sensor_ui_count].name_label = label;
+    sensor_uis[sensor_ui_count].status_label = status;
+    sensor_uis[sensor_ui_count].sensor = sensor;
+
+    memcpy(sensor_uis[sensor_ui_count].display_name, display_name, SENSOR_NAME_MAX);
+    sensor_uis[sensor_ui_count].display_name[SENSOR_NAME_MAX] = '\0';
+
+    lv_obj_add_event_cb(card, sensor_card_tap_cb, LV_EVENT_CLICKED, &sensor_uis[sensor_ui_count]);
+
+    sensor_ui_count++;
 
     return card;
 }
@@ -916,6 +950,7 @@ static void build_settings_content(lv_obj_t *parent)
         lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
     }
 
+    // Brightness section - maybe create a different section for that instead of just placing it underneath the themes
     lv_obj_t *bright_heading = lv_label_create(section);
     lv_label_set_text(bright_heading, "Brightness");
     lv_obj_set_style_text_font(bright_heading, t->font_normal, 0);
@@ -928,6 +963,49 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_style_bg_color(slider, lv_color_hex(t->button), LV_PART_INDICATOR);
     lv_obj_set_style_bg_color(slider, lv_color_hex(t->button), LV_PART_KNOB);
     lv_obj_add_event_cb(slider, brightness_slider_cb, LV_EVENT_VALUE_CHANGED, NULL);
+
+    // Screensaver settings - WIP
+    lv_obj_t *ss_heading = lv_label_create(section);
+    lv_label_set_text(ss_heading, "Screensaver Settings");
+    lv_obj_set_style_text_font(ss_heading, t->font_normal, 0);
+    lv_obj_set_style_text_color(ss_heading, lv_color_hex(t->text), 0);
+
+    lv_obj_t *toggle_row = lv_obj_create(section);
+    lv_obj_set_width(toggle_row, LV_SIZE_CONTENT);
+    lv_obj_set_height(toggle_row, LV_SIZE_CONTENT);
+    lv_obj_set_flex_flow(toggle_row, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(toggle_row, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_style_bg_opa(toggle_row, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(toggle_row, 0, 0);
+    lv_obj_set_style_pad_all(toggle_row, 0, 0);
+    lv_obj_set_style_pad_gap(toggle_row, 10, 0);
+
+    lv_obj_t *toggle_label = lv_label_create(toggle_row);
+    lv_label_set_text(toggle_label, "Enable");
+    lv_obj_set_style_text_color(toggle_label, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(toggle_label, t->font_small, 0);
+
+    lv_obj_t *sw = lv_switch_create(toggle_row);
+    lv_obj_set_style_bg_color(sw, lv_color_hex(t->button), LV_PART_INDICATOR | LV_STATE_CHECKED);
+    if (screensaver_enabled)
+        lv_obj_add_state(sw, LV_STATE_CHECKED);
+    lv_obj_add_event_cb(sw, screensaver_toggle_cb, LV_EVENT_VALUE_CHANGED, NULL);
+
+    lv_obj_t *timeout_label = lv_label_create(section);
+    lv_obj_set_style_text_color(timeout_label, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(timeout_label, t->font_small, 0);
+
+    char buf[32];
+    snprintf(buf, sizeof(buf), "%"PRIu32" s", screensaver_timeout_ms / 1000);
+    lv_label_set_text(timeout_label, buf);
+
+    lv_obj_t *ss_slider = lv_slider_create(section);
+    lv_obj_set_width(ss_slider, 260);
+    lv_slider_set_range(ss_slider, 10, 300);
+    lv_slider_set_value(ss_slider, (int32_t)(screensaver_timeout_ms / 1000), LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(ss_slider, lv_color_hex(t->button), LV_PART_INDICATOR);
+    lv_obj_set_style_bg_color(ss_slider, lv_color_hex(t->button), LV_PART_KNOB);
+    lv_obj_add_event_cb(ss_slider, screensaver_timeout_slider_cb, LV_EVENT_VALUE_CHANGED, timeout_label);
 }
 
 static void build_logs_content(lv_obj_t *parent)
@@ -963,7 +1041,6 @@ static void build_about_content(lv_obj_t *parent)
 
     lv_obj_t *body = lv_label_create(section);
     lv_label_set_text(body,
-        "Version 0.7\n\n"
         "A security monitoring system\n"
         "for doors and windows.\n\n"
         "Built with ESP32-S3 and LVGL.\n\n"
@@ -996,19 +1073,19 @@ static void create_security_ui(void)
     ss_bouncer          = NULL;
     main_tabview        = NULL;
     log_textarea        = NULL;
-    wifi_status_label   = 0;
+    wifi_status_label   = NULL;
     sensor_ui_count     = 0;
     memset(sensor_uis, 0, sizeof(sensor_uis));
 
     if (screen_main)
     {
-        lv_obj_delete_async(screen_main);
+        lv_obj_delete(screen_main);
         screen_main = NULL;
     }
 
     if (screen_screensaver)
     {
-        lv_obj_delete_async(screen_screensaver);
+        lv_obj_delete(screen_screensaver);
         screen_screensaver = NULL;
     }
 
@@ -1019,6 +1096,8 @@ static void create_security_ui(void)
     ss_bouncer = lv_image_create(screen_screensaver);
     lv_image_set_src(ss_bouncer, &chas_logo_small);
     lv_obj_set_pos(ss_bouncer, LCD_H_RES / 3, LCD_V_RES / 3);
+    lv_obj_set_style_bg_opa(screen_screensaver, LV_OPA_COVER, 0);
+    lv_obj_invalidate(screen_screensaver);
 
     screen_main = lv_obj_create(NULL);
     lv_obj_set_style_bg_color(screen_main, lv_color_hex(t->bg), 0);
@@ -1034,6 +1113,12 @@ static void create_security_ui(void)
     lv_obj_set_style_bg_color(main_tabview, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(main_tabview, 0, 0);
     lv_obj_set_style_pad_all(main_tabview, 0, 0);
+    lv_obj_clear_flag(lv_tabview_get_content(main_tabview), LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t *tab_content = lv_tabview_get_content(main_tabview);
+    lv_obj_clear_flag(tab_content, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_bg_color(tab_content, lv_color_hex(t->bg), 0);
+    lv_obj_set_style_bg_opa(tab_content, LV_OPA_COVER, 0);
 
     lv_obj_t *tab_home      = lv_tabview_add_tab(main_tabview, "Home");
     lv_obj_t *tab_settings  = lv_tabview_add_tab(main_tabview, "Settings");
@@ -1060,7 +1145,7 @@ static void create_security_ui(void)
 
 static void gui_update_network_status_async(void *arg)
 {
-    if (wifi_status_label == NULL) return;
+    if (wifi_status_label == NULL || ss.active) return;
 
     bool connected = Internet_Is_Connected();
 
@@ -1100,11 +1185,9 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
         if (ui->sensor == NULL)
             continue;
 
-        bool has_data = ui->sensor->data != NULL;
-        bool open = false;
-
-        if (has_data)
-            open = *(bool *)ui->sensor->data;
+        void *data_ptr = ui->sensor->data;
+        bool has_data = (data_ptr != NULL);
+        bool open = has_data && *(bool *)data_ptr;
 
         uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
 
@@ -1166,14 +1249,14 @@ void lvgl_task(void *arg)
 
     create_security_ui();
 
-    lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
+    sensor_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
 
     last_input_time = lv_tick_get();
 
     xTaskCreate(
         GUI_Update_Network_Status,
         "GUIUpdateNetworkStatus",
-        1024,
+        4096,
         NULL,
         8,
         NULL
@@ -1183,7 +1266,7 @@ void lvgl_task(void *arg)
     {
         uint32_t now = lv_tick_get();
 
-        if (!ss.active && (now - last_input_time) >= SCREENSAVER_TIMEOUT_MS)
+        if (screensaver_enabled && !ss.active && (now - last_input_time) >= screensaver_timeout_ms)
         {
             screensaver_enter();
         }
