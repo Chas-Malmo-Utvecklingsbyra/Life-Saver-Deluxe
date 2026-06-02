@@ -230,6 +230,11 @@ static int command_fragment(int argc, char **argv)
     return 0;
 }
 
+void bme280_task(void *params)
+{
+    bme280_work();
+}
+
 void app_main(void)
 {
     if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
@@ -288,9 +293,14 @@ void app_main(void)
 
     ESP_LOGI(TAG, "MSDN has successfully been initiated!");
 
+    BaseType_t bme280_task_result = xTaskCreate(bme280_task, "BME280Task", 4096, NULL, 10, NULL);
+    if (bme280_task_result != pdPASS)
+    {
+        ESP_LOGW(TAG, "BME280 task failed to start");
+    }
+
     while(true)
     {
         vTaskDelay(100);
     }
-
 }

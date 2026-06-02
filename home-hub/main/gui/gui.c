@@ -19,6 +19,7 @@
 #include "internet/internet.h"
 #include "../sensor/sensor.h"
 #include "../sensor/sensor_settings.h"
+#include "i2c/i2c.h"
 
 /* =====================
         CONSTANTS:
@@ -104,16 +105,6 @@ static lv_timer_t *sensor_update_timer          = NULL;
 /* =====================
     I2C CONFIGURATION:
 ======================*/
-
-static const i2c_master_bus_config_t bus_config = 
-{
-    .clk_source                     = I2C_CLK_SRC_DEFAULT,
-    .i2c_port                       = I2C_NUM_0,
-    .scl_io_num                     = 9,
-    .sda_io_num                     = 8,
-    .glitch_ignore_cnt              = 7,
-    .flags.enable_internal_pullup   = true,
-};
 
 static const esp_lcd_panel_io_i2c_config_t io_config = 
 {
@@ -537,7 +528,7 @@ static void sensor_card_tap_cb(lv_event_t *e)
 
 void backlight_init(void)
 {
-    ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &bus_handle));
+    bus_handle = i2c_get_bus();
 
     i2c_device_config_t dev_config = 
     {
@@ -1204,7 +1195,7 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
 void lvgl_task(void *arg)
 {
     sensor_names_init();
-    
+    ESP_ERROR_CHECK(i2c_init());
     backlight_init();
     display_init();
     lvgl_port_init();

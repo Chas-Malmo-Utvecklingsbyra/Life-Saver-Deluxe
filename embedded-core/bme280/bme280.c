@@ -5,6 +5,8 @@
 #include "esp_log.h"
 #include "driver/i2c_master.h"
 
+#include "i2c/i2c.h"
+
 static const char *TAG =        "BME280";
 
 #define I2C_PORT                I2C_NUM_0
@@ -68,16 +70,7 @@ static esp_err_t bme280_write_byte(i2c_master_dev_handle_t dev_handle, uint8_t r
 
 esp_err_t i2c_master_init(i2c_master_bus_handle_t *bus_handle, i2c_master_dev_handle_t *dev_handle)
 {
-    i2c_master_bus_config_t bus_config = 
-    {
-        .i2c_port = I2C_PORT,
-        .sda_io_num = I2C_SDA,
-        .scl_io_num = I2C_SCL,
-        .clk_source = I2C_CLK_SRC_DEFAULT,
-        .glitch_ignore_cnt = 7,
-        .flags.enable_internal_pullup = true,
-    };
-    ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, bus_handle));
+    *bus_handle = i2c_get_bus();
 
     i2c_device_config_t dev_config =
     {
