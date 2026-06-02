@@ -9,7 +9,6 @@ const theme_t themes[4] = {
 };
 
 /* 
-
     { .name = "Pokemon", .bg = 0xF47174, .sidebar = 0xCC0000, .content_bg = 0xCC0000, .sensor_bg = 0xEEEEEE, .button = 0xFFCC00, .button_pressed = 0xD4A200, .text = 0x222222, .text_secondary = 0x555555, .logo_img = &pokemon_logo, .font_large = &lv_font_montserrat_22, .font_normal = &lv_font_montserrat_18, .font_small = &lv_font_montserrat_14, },    
     { .name = "TMNT", .bg = 0x1A1A1A, .sidebar = 0x145A32, .content_bg = 0x222222, .sensor_bg = 0x2E2E2E, .button = 0x4CAF50, .button_pressed = 0x2E7D32, .text = 0xF5F5F5, .text_secondary = 0xAAAAAA, .logo_img = &turtles_logo, .font_large = &lv_font_montserrat_22, .font_normal = &lv_font_montserrat_18, .font_small = &lv_font_montserrat_14, },
     { .name = "Jurassic Park", .bg = 0x111111, .sidebar = 0x8B0000, .content_bg = 0x1C1C1C, .sensor_bg = 0x2C2C2C, .button = 0xD4AF37, .button_pressed = 0xB8860B, .text = 0xF5E6A9, .text_secondary = 0xC0B283, .logo_img = &jurassic_logo, .font_large = &lv_font_montserrat_22, .font_normal = &lv_font_montserrat_18, .font_small = &lv_font_montserrat_14, },
