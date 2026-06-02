@@ -35,8 +35,8 @@
 #define SENSOR_NAME_MAX         31
 
 #define TAB_HOME                0
-#define TAB_SETTINGS            1
-#define TAB_LOGS                2
+#define TAB_ENV                 1
+#define TAB_SETTINGS            2
 #define TAB_ABOUT               3
 
 /* =====================
@@ -58,7 +58,7 @@ static lv_obj_t *screen_screensaver             = NULL;
 static lv_obj_t *main_tabview                   = NULL;
 
 // Shared widget references
-static lv_obj_t *log_textarea                   = NULL;
+static lv_obj_t *env_textarea                   = NULL;
 static lv_obj_t *wifi_status_label              = NULL;
 
 // Screensaver objects
@@ -638,16 +638,16 @@ static void create_sidebar(lv_obj_t *parent)
     const char *button_names[] = 
     {
         "Home",
+        "Environment",
         "Settings",
-        "Logs",
         "About us"
     };
 
     const uint32_t tab_pages[] = 
     {
         TAB_HOME,
+        TAB_ENV,
         TAB_SETTINGS,
-        TAB_LOGS,
         TAB_ABOUT
     };
 
@@ -999,18 +999,18 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_add_event_cb(ss_slider, screensaver_timeout_slider_cb, LV_EVENT_VALUE_CHANGED, timeout_label);
 }
 
-static void build_logs_content(lv_obj_t *parent)
+static void build_env_content(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
-    log_textarea = lv_textarea_create(parent);
-    lv_obj_set_size(log_textarea, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_color(log_textarea, lv_color_hex(t->content_bg), 0);
-    lv_obj_set_style_text_color(log_textarea, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(log_textarea, t->font_normal, 0);
-    lv_obj_set_style_border_width(log_textarea, 0, 0);
-    lv_textarea_set_placeholder_text(log_textarea, "No logs yet...");
-    lv_textarea_set_one_line(log_textarea, false);
+    env_textarea = lv_textarea_create(parent);
+    lv_obj_set_size(env_textarea, LV_PCT(100), LV_PCT(100));
+    lv_obj_set_style_bg_color(env_textarea, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
+    lv_obj_set_style_border_width(env_textarea, 0, 0);
+    lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
+    lv_textarea_set_one_line(env_textarea, false);
 }
 
 static void build_about_content(lv_obj_t *parent)
@@ -1063,7 +1063,7 @@ static void create_security_ui(void)
 
     ss_bouncer          = NULL;
     main_tabview        = NULL;
-    log_textarea        = NULL;
+    env_textarea        = NULL;
     wifi_status_label   = NULL;
     sensor_ui_count     = 0;
     memset(sensor_uis, 0, sizeof(sensor_uis));
@@ -1112,18 +1112,18 @@ static void create_security_ui(void)
     lv_obj_set_style_bg_opa(tab_content, LV_OPA_COVER, 0);
 
     lv_obj_t *tab_home      = lv_tabview_add_tab(main_tabview, "Home");
+    lv_obj_t *tab_env      = lv_tabview_add_tab(main_tabview, "Environment");
     lv_obj_t *tab_settings  = lv_tabview_add_tab(main_tabview, "Settings");
-    lv_obj_t *tab_logs      = lv_tabview_add_tab(main_tabview, "Logs");
     lv_obj_t *tab_about     = lv_tabview_add_tab(main_tabview, "About");
 
     lv_obj_set_style_pad_all(tab_home, 0, 0);
     lv_obj_set_style_pad_all(tab_settings, 0, 0);
-    lv_obj_set_style_pad_all(tab_logs, 0, 0);
+    lv_obj_set_style_pad_all(tab_env, 0, 0);
     lv_obj_set_style_pad_all(tab_about, 0, 0);
 
     build_home_content(tab_home);
     build_settings_content(tab_settings);
-    build_logs_content(tab_logs);
+    build_env_content(tab_env);
     build_about_content(tab_about);
 
     lv_screen_load(screen_main);
