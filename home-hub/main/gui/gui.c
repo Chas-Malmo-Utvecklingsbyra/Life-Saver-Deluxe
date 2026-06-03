@@ -570,18 +570,7 @@ void backlight_init(void)
 
     vTaskDelay(pdMS_TO_TICKS(50));  // allow GT911 to boot after reset release
 
-    // Set all IO expander pins to output mode (register 0x02)
-    uint8_t cmd[2] = {0x02, 0xFF};
-    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
-
-    // Drive all pins HIGH: releases touch reset (IO1) and LCD reset (IO3)
-    cmd[0] = 0x03; cmd[1] = 0xFF;
-    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
-
-    vTaskDelay(pdMS_TO_TICKS(50));  // allow GT911 to boot after reset release
-
     set_brightness(50);
->>>>>>> 5c24174 (Fix for screen init issues caused by IO expander pins not put to output mode)
 }
 
 void display_init(void)
