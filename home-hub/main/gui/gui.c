@@ -80,6 +80,8 @@ extern const lv_image_dsc_t chas_logo_small;
 // State
 static uint32_t last_input_time                 = 0;
 static uint8_t current_theme                    = 0;
+static bool wifi_last_connected                 = false;
+static bool wifi_first_update                   = false;
 
 // Keyboard/rename overlay
 static lv_obj_t *rename_overlay                 = NULL;
@@ -96,6 +98,9 @@ typedef struct
     lv_obj_t *status_label;
     Sensor   *sensor;
     char display_name[SENSOR_NAME_MAX + 1];
+    bool last_open;
+    bool last_has_data;
+    bool initialized;
 } SensorUi;
 
 // // ENV UI objects
@@ -555,7 +560,7 @@ void backlight_init(void)
 
     ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &backlight_dev));
 
-    set_brightness(100);
+    set_brightness(50);
 }
 
 void display_init(void)
@@ -576,7 +581,7 @@ void display_init(void)
         },
         .timings = 
         {
-            .pclk_hz            = 12 * 1000 * 1000,
+            .pclk_hz            = 20 * 1000 * 1000,
             .h_res              = LCD_H_RES,
             .v_res              = LCD_V_RES,
             .hsync_back_porch   = 140,
@@ -612,7 +617,7 @@ void lvgl_port_init(void)
 
     size_t buf_size = LCD_H_RES * LCD_V_RES * sizeof(lv_color_t);
 
-    lv_display_set_buffers(lvgl_disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_DIRECT);
+    lv_display_set_buffers(lvgl_disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_FULL);
     lv_display_set_color_format(lvgl_disp, LV_COLOR_FORMAT_RGB565);
     lv_display_set_flush_cb(lvgl_disp, lvgl_flush_cb);
 }
@@ -633,18 +638,10 @@ static void create_sidebar(lv_obj_t *parent)
     lv_obj_set_style_pad_all(sidebar, 12, 0);
     lv_obj_set_style_pad_gap(sidebar, 10, 0);
 
-    if (t->logo_img != NULL)
-    {
-        lv_obj_t *logo = lv_image_create(sidebar);
-        lv_image_set_src(logo, t->logo_img);
-    }
-    else
-    {
-        lv_obj_t *title = lv_label_create(sidebar);
-        lv_label_set_text(title, "Life Saver Deluxe");
-        lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
-        lv_obj_set_style_text_font(title, t->font_normal, 0);
-    }
+    lv_obj_t *title = lv_label_create(sidebar);
+    lv_label_set_text(title, "Life Saver Deluxe");
+    lv_obj_set_style_text_color(title, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(title, t->font_normal, 0);
 
     wifi_status_label = lv_label_create(sidebar);
     lv_label_set_text(wifi_status_label, "Connecting...");
@@ -751,6 +748,9 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     sensor_uis[sensor_ui_count].name_label = label;
     sensor_uis[sensor_ui_count].status_label = status;
     sensor_uis[sensor_ui_count].sensor = sensor;
+    sensor_uis[sensor_ui_count].initialized = false;
+    sensor_uis[sensor_ui_count].last_open = false;
+    sensor_uis[sensor_ui_count].last_has_data = false;    
 
     memcpy(sensor_uis[sensor_ui_count].display_name, display_name, SENSOR_NAME_MAX);
     sensor_uis[sensor_ui_count].display_name[SENSOR_NAME_MAX] = '\0';
@@ -764,17 +764,6 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
 
 static lv_obj_t *make_root(lv_obj_t *screen)
 {
-    const theme_t *t = &themes[current_theme];
-
-    if (t->background_img != NULL)
-    {
-        lv_obj_t *bg = lv_image_create(screen);
-        lv_image_set_src(bg, t->background_img);
-        lv_obj_set_size(bg, LCD_H_RES, LCD_V_RES);
-        lv_obj_set_pos(bg, 0, 0);
-        lv_obj_move_background(bg);
-    }
-
     lv_obj_t *root = lv_obj_create(screen);
     lv_obj_set_size(root, LCD_H_RES, LCD_V_RES);
     lv_obj_set_pos(root, 0, 0);
@@ -1162,6 +1151,14 @@ static void gui_update_network_status_async(void *arg)
 
     bool connected = Internet_Is_Connected();
 
+    if (!wifi_first_update && connected == wifi_last_connected)
+    {
+        return;
+    }
+
+    wifi_first_update = false;
+    wifi_last_connected = connected;
+
     const char *text = NULL;
     uint32_t color = 0;
 
@@ -1201,6 +1198,15 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
         void *data_ptr = ui->sensor->data;
         bool has_data = (data_ptr != NULL);
         bool open = has_data && *(bool *)data_ptr;
+
+        if (ui->initialized && ui->last_has_data == has_data && ui->last_open == open)
+        {
+            continue;
+        }
+
+        ui->initialized = true;
+        ui->last_has_data = has_data;
+        ui->last_open = open;
 
         uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
 
@@ -1288,14 +1294,14 @@ void lvgl_task(void *arg)
 
     last_input_time = lv_tick_get();
 
-    xTaskCreate(
-        GUI_Update_Network_Status,
-        "GUIUpdateNetworkStatus",
-        4096,
-        NULL,
-        8,
-        NULL
-    );
+    // xTaskCreate(
+    //     GUI_Update_Network_Status,
+    //     "GUIUpdateNetworkStatus",
+    //     4096,
+    //     NULL,
+    //     8,
+    //     NULL
+    // );
 
     while (1)
     {
@@ -1307,6 +1313,7 @@ void lvgl_task(void *arg)
         }
 
         uint32_t delay_ms = lv_timer_handler();
+        // ESP_LOGI(TAG, "delay=%lu", delay_ms);
         vTaskDelay(pdMS_TO_TICKS(delay_ms ? delay_ms : 1));
     }
 }
