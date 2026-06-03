@@ -555,12 +555,33 @@ void backlight_init(void)
     {
         .dev_addr_length    = I2C_ADDR_BIT_LEN_7,
         .device_address     = BACKLIGHT_I2C_ADDR,
-        .scl_speed_hz       = 100000,
+        .scl_speed_hz       = 400000,
     };
 
     ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &backlight_dev));
 
+    // Set all IO expander pins to output mode (register 0x02)
+    uint8_t cmd[2] = {0x02, 0xFF};
+    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
+
+    // Drive all pins HIGH: releases touch reset (IO1) and LCD reset (IO3)
+    cmd[0] = 0x03; cmd[1] = 0xFF;
+    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
+
+    vTaskDelay(pdMS_TO_TICKS(50));  // allow GT911 to boot after reset release
+
+    // Set all IO expander pins to output mode (register 0x02)
+    uint8_t cmd[2] = {0x02, 0xFF};
+    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
+
+    // Drive all pins HIGH: releases touch reset (IO1) and LCD reset (IO3)
+    cmd[0] = 0x03; cmd[1] = 0xFF;
+    ESP_ERROR_CHECK(i2c_master_transmit(backlight_dev, cmd, 2, 100));
+
+    vTaskDelay(pdMS_TO_TICKS(50));  // allow GT911 to boot after reset release
+
     set_brightness(50);
+>>>>>>> 5c24174 (Fix for screen init issues caused by IO expander pins not put to output mode)
 }
 
 void display_init(void)
@@ -1249,28 +1270,33 @@ void lvgl_task(void *arg)
     backlight_init();
     display_init();
     lvgl_port_init();
-    
+
+    vTaskDelay(pdMS_TO_TICKS(200)); // give screen some time to initialize
     esp_lcd_panel_io_handle_t touch_io = NULL;
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c(bus_handle, &io_config, &touch_io));
 
-    esp_lcd_touch_config_t touch_config = 
-    {
-        .x_max          = LCD_H_RES,
-        .y_max          = LCD_V_RES,
-        .rst_gpio_num   = -1,
-        .int_gpio_num   = GPIO_NUM_4,
-        .levels         = 
-        {
-            .reset = 0,
-            .interrupt = 0
-        },
-        .flags = 
-        {
-            .swap_xy = 0,
-            .mirror_x = 0,
-            .mirror_y = 0
-        },
+    // GT911 config - only dev_addr is needed since the driver handles the rest internally
+    esp_lcd_touch_io_gt911_config_t tp_gt911_config = {
+        .dev_addr = io_config.dev_addr,
     };
+
+    esp_lcd_touch_config_t touch_config =
+        {
+            .x_max = LCD_H_RES,
+            .y_max = LCD_V_RES,
+            .rst_gpio_num = -1,
+            .int_gpio_num = GPIO_NUM_4,
+            .levels =
+                {
+                    .reset = 0,
+                    .interrupt = 0},
+            .flags =
+                {
+                    .swap_xy = 0,
+                    .mirror_x = 0,
+                    .mirror_y = 0},
+            .driver_data = &tp_gt911_config,
+        };
 
     ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_gt911(touch_io, &touch_config, &touch_handle));
 
