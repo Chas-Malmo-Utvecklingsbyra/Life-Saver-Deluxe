@@ -21,7 +21,7 @@ static const char *TAG =        "BME280";
 #define BME280_CTRL_HUM_REG     0xF2
 #define BME280_CTRL_HUM_BYTE    0x01
 #define BME280_CTRL_MEAS_REG    0xF4
-#define BME280_CTRL_MEAS_BYTE   0x25
+#define BME280_CTRL_MEAS_BYTE   0x27
 #define BME280_MEAS_DATA_REG    0xF7
 
 #define I2C_TIMEOUT_MS  1000
@@ -250,16 +250,15 @@ esp_err_t bme280_work()
         return err;
     }
 
+    err = bme280_start_measurement();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Could not start measurements");
+        return err;
+    }
+
     while (1)
     {
-        err = bme280_start_measurement();
-        if (err != ESP_OK)
-        {
-            ESP_LOGE(TAG, "Could not start measurements");
-            return err;
-        }
-
-
         err = bme280_read_meas(&meas);
         if (err != ESP_OK)
         {
