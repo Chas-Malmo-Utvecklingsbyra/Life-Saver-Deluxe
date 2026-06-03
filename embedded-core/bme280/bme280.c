@@ -108,7 +108,7 @@ esp_err_t bme280_read_calibration()
 	calib.P2 = (int16_t)(buf[23] << 8) | buf[22];
 	calib.H1 = buf[25];
 
-    err = bme280_register_read(BME280_REG_CALIB, buf, 7);
+    err = bme280_register_read(0xE1, buf, 7);
     if (err != ESP_OK) 
         return err;
 
