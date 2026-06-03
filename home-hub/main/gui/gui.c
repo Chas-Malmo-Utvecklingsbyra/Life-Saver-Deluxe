@@ -772,6 +772,25 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     return card;
 }
 
+static lv_obj_t *create_settings_card(lv_obj_t *parent, const char *title)
+{
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *card = lv_obj_create(parent);
+    lv_obj_set_style_bg_color(card, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_border_width(card, 0, 0);
+    lv_obj_set_style_pad_all(card, 15, 0);
+    lv_obj_set_style_pad_gap(card, 10, 0);
+    lv_obj_set_flex_flow(card, LV_FLEX_FLOW_COLUMN);
+    
+    lv_obj_t *heading = lv_label_create(card);
+    lv_label_set_text(heading, title);
+    lv_obj_set_style_text_color(heading, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(heading, t->font_normal, 0);
+
+    return card;
+}
+
 static lv_obj_t *make_root(lv_obj_t *screen)
 {
     lv_obj_t *root = lv_obj_create(screen);
@@ -930,87 +949,110 @@ static void build_settings_content(lv_obj_t *parent)
 
     lv_obj_t *section = lv_obj_create(parent);
     lv_obj_set_size(section, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_color(section, lv_color_hex(t->content_bg), 0);
+    lv_obj_set_style_bg_color(section, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(section, 0, 0);
     lv_obj_set_flex_flow(section, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_all(section, 20, 0);
-    lv_obj_set_style_pad_gap(section, 12, 0);
+    lv_obj_set_style_pad_all(section, 10, 0);
+    lv_obj_set_style_pad_gap(section, 10, 0);
+    lv_obj_set_scrollbar_mode(section, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_clear_flag(section, LV_OBJ_FLAG_SCROLLABLE);
+      
+    lv_obj_t *theme_card = create_settings_card(section, "Color Themes");
+    lv_obj_set_width(theme_card, LV_PCT(100));
+    lv_obj_set_flex_grow(theme_card, 1);
 
-    lv_obj_t *theme_heading = lv_label_create(section);
-    lv_label_set_text(theme_heading, "Color Theme");
-    lv_obj_set_style_text_font(theme_heading, t->font_normal, 0);
-    lv_obj_set_style_text_color(theme_heading, lv_color_hex(t->text), 0);
+    lv_obj_t *grid = lv_obj_create(theme_card);
+    lv_obj_set_size(grid, LV_PCT(100), LV_SIZE_CONTENT);
+    lv_obj_set_style_bg_opa(grid, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(grid, 0, 0);
+    lv_obj_set_style_pad_all(grid, 0, 0);
+    lv_obj_set_flex_flow(grid, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_gap(grid, 10, 0);
+
+    lv_obj_t *rows[2];
+    for (int r = 0; r < 2; r++)
+    {
+        rows[r] = lv_obj_create(grid);
+        lv_obj_set_width(rows[r], LV_PCT(100));
+        lv_obj_set_height(rows[r], LV_SIZE_CONTENT);
+        lv_obj_set_style_bg_opa(rows[r], LV_OPA_TRANSP, 0);
+        lv_obj_set_style_border_width(rows[r], 0, 0);
+        lv_obj_set_style_pad_all(rows[r], 0, 0);
+        lv_obj_set_flex_flow(rows[r], LV_FLEX_FLOW_ROW);
+        lv_obj_set_style_pad_gap(rows[r], 10, 0);
+    }
 
     for (int i = 0; i < 4; i++)
     {
-        lv_obj_t *btn = lv_button_create(section);
-        lv_obj_set_width(btn, 260);
+        lv_obj_t *btn = lv_button_create(rows[i < 2 ? 0 : 1]);
+        lv_obj_set_flex_grow(btn, 1);
+        lv_obj_set_height(btn, 50);
         lv_obj_set_style_bg_color(btn, lv_color_hex(themes[i].button), 0);
         lv_obj_set_style_bg_color(btn, lv_color_hex(themes[i].button_pressed), LV_STATE_PRESSED);
-        lv_obj_set_style_radius(btn, 10, 0);
 
         lv_obj_t *lbl = lv_label_create(btn);
         lv_label_set_text(lbl, themes[i].name);
         lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
+        lv_obj_center(lbl);
 
         lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
     }
 
-    // Brightness section - maybe create a different section for that instead of just placing it underneath the themes
-    lv_obj_t *bright_heading = lv_label_create(section);
-    lv_label_set_text(bright_heading, "Brightness");
-    lv_obj_set_style_text_font(bright_heading, t->font_normal, 0);
-    lv_obj_set_style_text_color(bright_heading, lv_color_hex(t->text), 0);
+    lv_obj_t *bottom_row = lv_obj_create(section);
+    lv_obj_set_width(bottom_row, LV_PCT(100));
+    lv_obj_set_flex_grow(bottom_row, 1);
+    lv_obj_set_style_bg_opa(bottom_row, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(bottom_row, 0, 0);
+    lv_obj_set_style_pad_all(bottom_row, 0, 0);
+    lv_obj_set_flex_flow(bottom_row, LV_FLEX_FLOW_ROW);
+    lv_obj_set_style_pad_gap(bottom_row, 10, 0);
+    lv_obj_clear_flag(bottom_row, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *slider = lv_slider_create(section);
-    lv_obj_set_width(slider, 260);
+    lv_obj_t *brightness_card = create_settings_card(bottom_row, "Brightness");
+    lv_obj_set_flex_grow(brightness_card, 1);
+    lv_obj_set_height(brightness_card, LV_PCT(100));
+
+    lv_obj_t *slider = lv_slider_create(brightness_card);
+    lv_obj_set_width(slider, LV_PCT(90));
     lv_slider_set_range(slider, BACKLIGHT_MIN_PCT, 100);
     lv_slider_set_value(slider, 100, LV_ANIM_OFF);
-    lv_obj_set_style_bg_color(slider, lv_color_hex(t->button), LV_PART_INDICATOR);
-    lv_obj_set_style_bg_color(slider, lv_color_hex(t->button), LV_PART_KNOB);
     lv_obj_add_event_cb(slider, brightness_slider_cb, LV_EVENT_VALUE_CHANGED, NULL);
 
-    // Screensaver settings - WIP
-    lv_obj_t *ss_heading = lv_label_create(section);
-    lv_label_set_text(ss_heading, "Screensaver Settings");
-    lv_obj_set_style_text_font(ss_heading, t->font_normal, 0);
-    lv_obj_set_style_text_color(ss_heading, lv_color_hex(t->text), 0);
-
-    lv_obj_t *toggle_row = lv_obj_create(section);
-    lv_obj_set_width(toggle_row, LV_SIZE_CONTENT);
+    lv_obj_t *ss_card = create_settings_card(bottom_row, "Screensaver settings");
+    lv_obj_set_flex_grow(ss_card, 1);
+    lv_obj_set_height(ss_card, LV_PCT(100));
+    
+    lv_obj_t *toggle_row = lv_obj_create(ss_card);
+    lv_obj_set_width(toggle_row, LV_PCT(100));
     lv_obj_set_height(toggle_row, LV_SIZE_CONTENT);
-    lv_obj_set_flex_flow(toggle_row, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(toggle_row, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_set_style_bg_opa(toggle_row, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(toggle_row, 0, 0);
     lv_obj_set_style_pad_all(toggle_row, 0, 0);
-    lv_obj_set_style_pad_gap(toggle_row, 10, 0);
+    lv_obj_set_flex_flow(toggle_row, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(toggle_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
     lv_obj_t *toggle_label = lv_label_create(toggle_row);
-    lv_label_set_text(toggle_label, "Enable");
+    lv_label_set_text(toggle_label, "Enabled");
     lv_obj_set_style_text_color(toggle_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(toggle_label, t->font_small, 0);
 
     lv_obj_t *sw = lv_switch_create(toggle_row);
-    lv_obj_set_style_bg_color(sw, lv_color_hex(t->button), LV_PART_INDICATOR | LV_STATE_CHECKED);
     if (screensaver_enabled)
+    {
         lv_obj_add_state(sw, LV_STATE_CHECKED);
+    }
     lv_obj_add_event_cb(sw, screensaver_toggle_cb, LV_EVENT_VALUE_CHANGED, NULL);
 
-    lv_obj_t *timeout_label = lv_label_create(section);
+    char timeout_buf[32];
+    snprintf(timeout_buf, sizeof(timeout_buf), "Timeout: %"PRIu32" seconds", screensaver_timeout_ms / 1000);
+
+    lv_obj_t *timeout_label = lv_label_create(ss_card);
+    lv_label_set_text(timeout_label, timeout_buf);
     lv_obj_set_style_text_color(timeout_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(timeout_label, t->font_small, 0);
 
-    char buf[32];
-    snprintf(buf, sizeof(buf), "%"PRIu32" s", screensaver_timeout_ms / 1000);
-    lv_label_set_text(timeout_label, buf);
-
-    lv_obj_t *ss_slider = lv_slider_create(section);
-    lv_obj_set_width(ss_slider, 260);
+    lv_obj_t *ss_slider = lv_slider_create(ss_card);
+    lv_obj_set_width(ss_slider, LV_PCT(90));
     lv_slider_set_range(ss_slider, 10, 300);
-    lv_slider_set_value(ss_slider, (int32_t)(screensaver_timeout_ms / 1000), LV_ANIM_OFF);
-    lv_obj_set_style_bg_color(ss_slider, lv_color_hex(t->button), LV_PART_INDICATOR);
-    lv_obj_set_style_bg_color(ss_slider, lv_color_hex(t->button), LV_PART_KNOB);
+    lv_slider_set_value(ss_slider, screensaver_timeout_ms / 1000, LV_ANIM_OFF);
     lv_obj_add_event_cb(ss_slider, screensaver_timeout_slider_cb, LV_EVENT_VALUE_CHANGED, timeout_label);
 }
 
