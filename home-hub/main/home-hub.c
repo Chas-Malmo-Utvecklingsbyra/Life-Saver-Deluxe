@@ -22,7 +22,7 @@ static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
-// bool bme280_running = true;
+bool bme280_running = true;
 
 void full_data_received(TCP_Server_Client* client)
 {
@@ -240,7 +240,7 @@ void bme280_task(void *params)
         ESP_LOGW(TAG, "bme280_task shutting down");
     }
 
-    // bme280_running = false;
+    bme280_running = false;
     vTaskDelete(NULL);
 }
 
