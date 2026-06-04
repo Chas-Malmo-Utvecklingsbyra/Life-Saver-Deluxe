@@ -118,7 +118,7 @@ static size_t sensor_ui_count                   = 0;
 static lv_timer_t *sensor_update_timer          = NULL;
 
 static BME280Ui bme280_ui[3];
-static lv_timer_t *env_update_timer             = NULL;
+// static lv_timer_t *env_update_timer             = NULL;
 
 extern bme280_meas_t meas;
 extern bool bme280_running;
@@ -1060,15 +1060,21 @@ static void build_env_content(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
-    env_textarea = lv_textarea_create(parent);
-    lv_obj_set_size(env_textarea, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_color(env_textarea, lv_color_hex(t->content_bg), 0);
-    lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
-    lv_obj_set_style_border_width(env_textarea, 0, 0);
+    // env_textarea = lv_textarea_create(parent);
+    // lv_obj_set_size(env_textarea, LV_PCT(100), LV_PCT(100));
+    // lv_obj_set_style_bg_color(env_textarea, lv_color_hex(t->content_bg), 0);
+    // lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
+    // lv_obj_set_style_border_width(env_textarea, 0, 0);
 
-    lv_obj_t *temperature = lv_obj_create(parent);
-    lv_obj_set_size(temperature, LV_PCT(90), 56);
+    lv_obj_t *environment_section = lv_obj_create(parent);
+    lv_obj_set_size(environment_section, LV_PCT(90), LV_PCT(75));
+    lv_obj_set_style_bg_color(environment_section, lv_color_hex(t->bg), 0);
+    lv_obj_set_style_border_width(environment_section, 0, 0);
+    lv_obj_set_flex_flow(environment_section, LV_FLEX_FLOW_ROW);
+
+    lv_obj_t *temperature = lv_obj_create(environment_section);
+    lv_obj_set_size(temperature, LV_PCT(25), LV_PCT(90));
     lv_obj_set_style_bg_color(temperature, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(temperature, 0, 0);
     lv_obj_set_style_radius(temperature, 12, 0);
@@ -1085,20 +1091,20 @@ static void build_env_content(lv_obj_t *parent)
     lv_obj_set_flex_grow(temperature_label, 1);
 
     lv_obj_t *temperature_data = lv_label_create(temperature);
-    lv_label_set_text(temperature_data, "TestHum");
+    lv_label_set_text(temperature_data, "TestTemp");
     lv_obj_set_style_text_color(temperature_data, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(temperature_data, t->font_small, 0);
     lv_obj_set_flex_grow(temperature_data, 1);
 
-    lv_obj_t *pressure = lv_obj_create(parent);
-    lv_obj_set_size(pressure, LV_PCT(90), 56);
+    lv_obj_t *pressure = lv_obj_create(environment_section);
+    lv_obj_set_size(pressure, LV_PCT(25), LV_PCT(90));
     lv_obj_set_style_bg_color(pressure, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(pressure, 0, 0);
     lv_obj_set_style_radius(pressure, 12, 0);
     lv_obj_set_style_pad_hor(pressure, 16, 0);
     lv_obj_set_style_pad_ver(pressure, 0, 0);
     lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(pressure, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *pressure_label = lv_label_create(pressure);
@@ -1108,20 +1114,20 @@ static void build_env_content(lv_obj_t *parent)
     lv_obj_set_flex_grow(pressure_label, 1);
 
     lv_obj_t *pressure_data = lv_label_create(pressure);
-    lv_label_set_text(pressure_data, "TestHum");
+    lv_label_set_text(pressure_data, "TestPres");
     lv_obj_set_style_text_color(pressure_data, lv_color_hex(t->text), 0);
     lv_obj_set_style_text_font(pressure_data, t->font_small, 0);
     lv_obj_set_flex_grow(pressure_data, 1);
 
-    lv_obj_t *humidity = lv_obj_create(parent);
-    lv_obj_set_size(humidity, LV_PCT(90), 56);
+    lv_obj_t *humidity = lv_obj_create(environment_section);
+    lv_obj_set_size(humidity, LV_PCT(25), LV_PCT(90));
     lv_obj_set_style_bg_color(humidity, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(humidity, 0, 0);
     lv_obj_set_style_radius(humidity, 12, 0);
     lv_obj_set_style_pad_hor(humidity, 16, 0);
     lv_obj_set_style_pad_ver(humidity, 0, 0);
     lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(humidity, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *humidity_label = lv_label_create(humidity);
@@ -1139,6 +1145,14 @@ static void build_env_content(lv_obj_t *parent)
     bme280_ui[0].card = temperature;
     bme280_ui[0].name_label = temperature_label;
     bme280_ui[0].data_label = temperature_data;
+
+    bme280_ui[1].card = pressure;
+    bme280_ui[1].name_label = pressure_label;
+    bme280_ui[1].data_label = pressure_data;
+
+    bme280_ui[2].card = humidity;
+    bme280_ui[2].name_label = humidity_label;
+    bme280_ui[2].data_label = humidity_data;
 
     // env_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
 
@@ -1341,27 +1355,27 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
     }
 }
 
-static void update_env_ui_timer_cb(lv_timer_t *timer)
-{
-    BME280Ui *temp_ui = &bme280_ui[0];
-    BME280Ui *press_ui = &bme280_ui[1];
-    BME280Ui *hum_ui = &bme280_ui[2];
+// static void update_env_ui_timer_cb(lv_timer_t *timer)
+// {
+//     BME280Ui *temp_ui = &bme280_ui[0];
+//     BME280Ui *press_ui = &bme280_ui[1];
+//     BME280Ui *hum_ui = &bme280_ui[2];
 
-    if (bme280_running == false)
-    {
-        lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
-        return; // Maybe??
-    }
+//     if (bme280_running == false)
+//     {
+//         lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
+//         return; // Maybe??
+//     }
 
-    snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu", meas.T / 100, meas.T % 100);
-    snprintf(press_ui->data, sizeof(temp_ui->data), "%lu", meas.P / 256);
-    snprintf(hum_ui->data, sizeof(temp_ui->data), "%lu", meas.H / 1024);
+//     snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu", meas.T / 100, meas.T % 100);
+//     snprintf(press_ui->data, sizeof(temp_ui->data), "%lu", meas.P / 256);
+//     snprintf(hum_ui->data, sizeof(temp_ui->data), "%lu", meas.H / 1024);
     
-    // TODO Update stuff
-    lv_label_set_text(temp_ui->data_label, temp_ui->data);
-    lv_label_set_text(press_ui->data_label, press_ui->data);
-    lv_label_set_text(hum_ui->data_label, hum_ui->data);
-}
+//     // TODO Update stuff
+//     lv_label_set_text(temp_ui->data_label, temp_ui->data);
+//     lv_label_set_text(press_ui->data_label, press_ui->data);
+//     lv_label_set_text(hum_ui->data_label, hum_ui->data);
+// }
 
 /* =======================
         MAIN TASK:
