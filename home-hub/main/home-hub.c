@@ -233,13 +233,13 @@ static int command_fragment(int argc, char **argv)
 }
 
 void bme280_task(void *params)
-{
+{    
     esp_err_t err = bme280_work();
     if (err != ESP_OK)
     {
         ESP_LOGW(TAG, "bme280_task shutting down");
     }
-
+    
     bme280_running = false;
     vTaskDelete(NULL);
 }

@@ -60,6 +60,8 @@ static i2c_master_bus_handle_t bus_handle = NULL;
 static i2c_master_dev_handle_t dev_handle = NULL;
 bme280_meas_t meas;
 
+extern bool bme280_running;
+
 static esp_err_t bme280_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
 {
     return i2c_master_transmit_receive(dev_handle, &reg_addr, 1, data, len, I2C_TIMEOUT_MS);
@@ -218,12 +220,13 @@ esp_err_t bme280_read_meas(bme280_meas_t *meas)
 
 esp_err_t bme280_work()
 {
-    
     i2c_master_init();
     ESP_LOGI(TAG, "I2C initialized successfully");
 
     uint8_t data;
-    esp_err_t err = (bme280_register_read(BME280_REG_ID, &data, 1));
+    
+    esp_err_t err;
+    err = (bme280_register_read(BME280_REG_ID, &data, 1));
     if (err == ESP_OK)
     {
         if (data == 0x60)
@@ -233,6 +236,7 @@ esp_err_t bme280_work()
         else
         {
             ESP_LOGW(TAG, "Chip ID: 0x%02x (Unexpected value)", data);
+            bme280_running = false;
             return err;
         }
     }
@@ -240,6 +244,7 @@ esp_err_t bme280_work()
     {
         ESP_LOGW(TAG, "Chip ID read failed, no BME280 detected: %s", esp_err_to_name(err));
         ESP_ERROR_CHECK(i2c_master_bus_rm_device(dev_handle));
+        bme280_running = false;
         return err;
     }
 
@@ -262,16 +267,18 @@ esp_err_t bme280_work()
         err = bme280_read_meas(&meas);
         if (err != ESP_OK)
         {
+            bme280_running = false;
             ESP_LOGE(TAG, "Did not receive measurements");
         }
         else
         {
+            bme280_running = true;
             ESP_LOGI(TAG, "T: %u.%u DegC, P: %u Pa, H: %u %RH", meas.T / 100, meas.T % 100, meas.P / 256, meas.H / 1024);
         }
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
-
+    
     ESP_ERROR_CHECK(i2c_master_bus_rm_device(dev_handle));
     ESP_LOGI(TAG, "I2C de-initialized successfully");
 
