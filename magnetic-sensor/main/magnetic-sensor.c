@@ -39,7 +39,7 @@ static void send_data_to_home_hub(const char* data)
 		{
 			ESP_LOGW(TAG, "Could not send data packet to server.");
 		}
-		free(packet);
+		Arena_Reset();
 	}
 }
 
@@ -131,7 +131,7 @@ void sensor_send_task(void* params)
 			ESP_LOGI(TAG, "Could not send Initialization packet to server.");
 		}
 		ESP_LOGI(TAG, "Successfully sent [%s]", json);
-		free(json);
+		Arena_Reset();
 	}
 	else
 	{

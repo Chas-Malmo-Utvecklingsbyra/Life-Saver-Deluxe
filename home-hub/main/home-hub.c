@@ -98,7 +98,7 @@ void full_data_received(TCP_Server_Client* client)
             {
                 ESP_LOGI(TAG, "Failed to Send data to Client");
             }
-            free(packet);
+            Arena_Reset();
 
             if (!File_System_File_Exists("sensors"))
             {
