@@ -1321,29 +1321,27 @@ static void on_sensor_poll_timer(lv_timer_t *timer)
         lv_obj_set_style_text_color(ui->status_label, lv_color_hex(status_color), 0);
         lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
+
+
+    BME280Ui *temp_ui = &bme280_ui[0];
+    BME280Ui *press_ui = &bme280_ui[1];
+    BME280Ui *hum_ui = &bme280_ui[2];
+
+    if (bme280_running == false)
+    {
+        lv_label_set_text(temp_ui->data_label, "No sensor detected");
+        lv_label_set_text(press_ui->data_label, "No sensor detected");
+        lv_label_set_text(hum_ui->data_label, "No sensor detected");
+        return; // Maybe??
+    }
+
+    snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu°C", meas.T / 100, meas.T % 100);
+    snprintf(press_ui->data, sizeof(press_ui->data), "%luPa", meas.P / 256);
+    snprintf(hum_ui->data, sizeof(hum_ui->data), "%lu%%", meas.H / 1024);
+    lv_label_set_text(temp_ui->data_label, temp_ui->data);
+    lv_label_set_text(press_ui->data_label, press_ui->data);
+    lv_label_set_text(hum_ui->data_label, hum_ui->data);
 }
-
-// static void update_env_ui_timer_cb(lv_timer_t *timer)
-// {
-//     BME280Ui *temp_ui = &bme280_ui[0];
-//     BME280Ui *press_ui = &bme280_ui[1];
-//     BME280Ui *hum_ui = &bme280_ui[2];
-
-//     if (bme280_running == false)
-//     {
-//         lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
-//         return; // Maybe??
-//     }
-
-//     snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu", meas.T / 100, meas.T % 100);
-//     snprintf(press_ui->data, sizeof(temp_ui->data), "%lu", meas.P / 256);
-//     snprintf(hum_ui->data, sizeof(temp_ui->data), "%lu", meas.H / 1024);
-    
-//     // TODO Update stuff
-//     lv_label_set_text(temp_ui->data_label, temp_ui->data);
-//     lv_label_set_text(press_ui->data_label, press_ui->data);
-//     lv_label_set_text(hum_ui->data_label, hum_ui->data);
-// }
 
 /* =======================
         MAIN TASK:
