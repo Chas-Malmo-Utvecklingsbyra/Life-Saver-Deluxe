@@ -22,7 +22,7 @@ static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
-bool bme280_running = true;
+bool bme280_running = false;
 
 void full_data_received(TCP_Server_Client* client)
 {

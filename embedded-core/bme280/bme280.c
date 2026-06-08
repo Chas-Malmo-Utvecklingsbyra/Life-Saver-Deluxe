@@ -255,25 +255,34 @@ esp_err_t bme280_work()
         return err;
     }
 
-    err = bme280_start_measurement();
-    if (err != ESP_OK)
-    {
-        ESP_LOGE(TAG, "Could not start measurements");
-        return err;
-    }
-
     while (1)
     {
-        err = bme280_read_meas(&meas);
-        if (err != ESP_OK)
+        if (!bme280_running)
         {
-            bme280_running = false;
-            ESP_LOGE(TAG, "Did not receive measurements");
+            err = bme280_start_measurement();
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Could not start measurements");
+                vTaskDelay(pdMS_TO_TICKS(5000));
+                continue;
+                // return err;
+            }
+
+            bme280_running = true;
         }
         else
         {
-            bme280_running = true;
-            ESP_LOGI(TAG, "T: %u.%u DegC, P: %u Pa, H: %u %RH", meas.T / 100, meas.T % 100, meas.P / 256, meas.H / 1024);
+            err = bme280_read_meas(&meas);
+            if (err != ESP_OK)
+            {
+                bme280_running = false;
+                ESP_LOGE(TAG, "Did not receive measurements");
+            }
+            else
+            {
+                bme280_running = true;
+                ESP_LOGI(TAG, "T: %u.%u DegC, P: %u Pa, H: %u %RH", meas.T / 100, meas.T % 100, meas.P / 256, meas.H / 1024);
+            }
         }
 
         vTaskDelay(pdMS_TO_TICKS(1000));
