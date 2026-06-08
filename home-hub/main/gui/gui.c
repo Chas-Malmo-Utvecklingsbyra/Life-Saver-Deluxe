@@ -1103,7 +1103,7 @@ static void ui_build_tab_env(lv_obj_t *parent)
     lv_obj_clear_flag(environment_section, LV_OBJ_FLAG_SCROLLABLE);
 
     ui_build_env_card(environment_section, "Temperature", -20, 60, &bme280_ui[0]);
-    ui_build_env_card(environment_section, "Pressure", 900, 1100, &bme280_ui[1]);
+    ui_build_env_card(environment_section, "Pressure", 900, 1500, &bme280_ui[1]);
     ui_build_env_card(environment_section, "Humidity", 0, 100, &bme280_ui[2]);
 
 
