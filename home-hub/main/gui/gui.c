@@ -1036,87 +1036,84 @@ static void ui_build_tab_env(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
-    // env_textarea = lv_textarea_create(parent);
-    // lv_obj_set_size(env_textarea, LV_PCT(100), LV_PCT(100));
-    // lv_obj_set_style_bg_color(env_textarea, lv_color_hex(t->content_bg), 0);
-    // lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
-    // lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
-    // lv_obj_set_style_border_width(env_textarea, 0, 0);
-
     lv_obj_t *environment_section = lv_obj_create(parent);
-    lv_obj_set_size(environment_section, LV_PCT(90), LV_PCT(75));
+    lv_obj_set_size(environment_section, LV_PCT(100), LV_PCT(100));
     lv_obj_set_style_bg_color(environment_section, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(environment_section, 0, 0);
     lv_obj_set_flex_flow(environment_section, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(environment_section, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_scrollbar_mode(environment_section, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_clear_flag(environment_section, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *temperature = lv_obj_create(environment_section);
-    lv_obj_set_size(temperature, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(temperature, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(temperature, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(temperature, 0, 0);
     lv_obj_set_style_radius(temperature, 12, 0);
     lv_obj_set_style_pad_hor(temperature, 16, 0);
     lv_obj_set_style_pad_ver(temperature, 0, 0);
-    lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(temperature, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(temperature, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *temperature_label = lv_label_create(temperature);
-    lv_label_set_text(temperature_label, "Temp");
+    lv_label_set_text(temperature_label, "Temperature");
     lv_obj_set_style_text_color(temperature_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_label, t->font_small, 0);
-    lv_obj_set_flex_grow(temperature_label, 1);
+    lv_obj_set_style_text_font(temperature_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(temperature_label, 30, 0);
 
     lv_obj_t *temperature_data = lv_label_create(temperature);
-    lv_label_set_text(temperature_data, "TestTemp");
+    // lv_label_set_text(temperature_data, "22.4°C");
+    lv_label_set_text(temperature_data, "TempTest");
     lv_obj_set_style_text_color(temperature_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_data, t->font_small, 0);
-    lv_obj_set_flex_grow(temperature_data, 1);
+    lv_obj_set_style_text_font(temperature_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(temperature_data, 100, 0);
 
     lv_obj_t *pressure = lv_obj_create(environment_section);
-    lv_obj_set_size(pressure, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(pressure, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(pressure, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(pressure, 0, 0);
     lv_obj_set_style_radius(pressure, 12, 0);
     lv_obj_set_style_pad_hor(pressure, 16, 0);
     lv_obj_set_style_pad_ver(pressure, 0, 0);
-    lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(pressure, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *pressure_label = lv_label_create(pressure);
-    lv_label_set_text(pressure_label, "Press");
+    lv_label_set_text(pressure_label, "Pressure");
     lv_obj_set_style_text_color(pressure_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_label, t->font_small, 0);
-    lv_obj_set_flex_grow(pressure_label, 1);
+    lv_obj_set_style_text_font(pressure_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(pressure_label, 30, 0);
 
     lv_obj_t *pressure_data = lv_label_create(pressure);
-    lv_label_set_text(pressure_data, "TestPres");
+    lv_label_set_text(pressure_data, "PressTest");
     lv_obj_set_style_text_color(pressure_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_data, t->font_small, 0);
-    lv_obj_set_flex_grow(pressure_data, 1);
+    lv_obj_set_style_text_font(pressure_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(pressure_data, 100, 0);
 
     lv_obj_t *humidity = lv_obj_create(environment_section);
-    lv_obj_set_size(humidity, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(humidity, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(humidity, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(humidity, 0, 0);
     lv_obj_set_style_radius(humidity, 12, 0);
     lv_obj_set_style_pad_hor(humidity, 16, 0);
     lv_obj_set_style_pad_ver(humidity, 0, 0);
-    lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(humidity, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *humidity_label = lv_label_create(humidity);
-    lv_label_set_text(humidity_label, "Hum");
+    lv_label_set_text(humidity_label, "Humidity");
     lv_obj_set_style_text_color(humidity_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_label, t->font_small, 0);
-    lv_obj_set_flex_grow(humidity_label, 1);
+    lv_obj_set_style_text_font(humidity_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(humidity_label, 30, 0);
 
     lv_obj_t *humidity_data = lv_label_create(humidity);
-    lv_label_set_text(humidity_data, "TestHum");
+    lv_label_set_text(humidity_data, "HumTest");
     lv_obj_set_style_text_color(humidity_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_data, t->font_small, 0);
-    lv_obj_set_flex_grow(humidity_data, 1);
+    lv_obj_set_style_text_font(humidity_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(humidity_data, 100, 0);
 
     bme280_ui[0].card = temperature;
     bme280_ui[0].name_label = temperature_label;
@@ -1130,7 +1127,7 @@ static void ui_build_tab_env(lv_obj_t *parent)
     bme280_ui[2].name_label = humidity_label;
     bme280_ui[2].data_label = humidity_data;
 
-    // env_update_timer = lv_timer_create(on_sensor_poll_timer, 250, NULL);
+    // env_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
 
     // char degc[20] = {0};
     // snprintf(degc, sizeof(degc), "%lu.%lu DegC", meas.T / 100, meas.T % 100);
