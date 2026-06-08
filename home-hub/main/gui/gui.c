@@ -109,6 +109,7 @@ typedef struct
     lv_obj_t *card;
     lv_obj_t *name_label;
     lv_obj_t *data_label;
+    lv_obj_t *arc;
     char data[20];
 } BME280Ui;
 
@@ -771,6 +772,62 @@ static lv_obj_t *ui_build_settings_card(lv_obj_t *parent, const char *title)
     return card;
 }
 
+static lv_obj_t *ui_build_env_card(lv_obj_t *parent, const char *title, int32_t range_min, int32_t range_max, BME280Ui *out)
+{
+    const theme_t *t = &themes[current_theme];
+
+    lv_obj_t *card = lv_obj_create(parent);
+    lv_obj_set_size(card, LV_PCT(30), LV_PCT(80));
+    lv_obj_set_style_bg_color(card, lv_color_hex(t->sensor_bg), 0);
+    lv_obj_set_style_border_width(card, 0, 0);
+    lv_obj_set_style_radius(card, 12, 0);
+    lv_obj_set_flex_flow(card, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(card, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_style_pad_all(card, 16, 0);
+    lv_obj_set_style_pad_gap(card, 8, 0);
+    lv_obj_clear_flag(card, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t *name = lv_label_create(card);
+    lv_label_set_text(name, title);
+    lv_obj_set_style_text_color(name, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(name, t->font_normal, 0);
+
+    lv_obj_t *arc_cont = lv_obj_create(card);
+    lv_obj_set_size(arc_cont, 180, 180);
+    lv_obj_set_style_bg_opa(arc_cont, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(arc_cont, 0, 0);
+    lv_obj_set_style_pad_all(arc_cont, 0, 0);
+    lv_obj_clear_flag(arc_cont, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t *arc = lv_arc_create(arc_cont);
+    lv_obj_set_size(arc, 160, 160);
+    lv_obj_center(arc);
+    lv_arc_set_rotation(arc, 135);                          // start bottom-left
+    lv_arc_set_bg_angles(arc, 0, 270);                      // 270° sweep
+    lv_arc_set_range(arc, range_min, range_max);
+    lv_arc_set_value(arc, range_min);
+    lv_obj_remove_style(arc, NULL, LV_PART_KNOB);           // hide the draggable knob
+    lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
+
+    lv_obj_set_style_arc_color(arc, lv_color_hex(t->button), LV_PART_MAIN);
+    lv_obj_set_style_arc_width(arc, 12, LV_PART_MAIN);
+    lv_obj_set_style_arc_color(arc, lv_color_hex(t->button_pressed), LV_PART_INDICATOR);
+    lv_obj_set_style_arc_width(arc, 12, LV_PART_INDICATOR);
+
+    lv_obj_t *val_label = lv_label_create(arc_cont);
+    lv_label_set_text(val_label, "--");
+    lv_obj_set_style_text_color(val_label, lv_color_hex(t->text), 0);
+    lv_obj_set_style_text_font(val_label, t->font_large, 0);
+    lv_obj_center(val_label);
+
+    out->card       = card;
+    out->name_label = name;
+    out->data_label = val_label;
+    out->arc        = arc;
+
+    return card;
+}
+
 /* =======================
       SCREEN CONTENT:
 ==========================*/
@@ -1041,91 +1098,97 @@ static void ui_build_tab_env(lv_obj_t *parent)
     lv_obj_set_style_bg_color(environment_section, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(environment_section, 0, 0);
     lv_obj_set_flex_flow(environment_section, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(environment_section, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(environment_section, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_set_scrollbar_mode(environment_section, LV_SCROLLBAR_MODE_OFF);
     lv_obj_clear_flag(environment_section, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *temperature = lv_obj_create(environment_section);
-    lv_obj_set_size(temperature, LV_PCT(30), LV_PCT(75));
-    lv_obj_set_style_bg_color(temperature, lv_color_hex(t->sensor_bg), 0);
-    lv_obj_set_style_border_width(temperature, 0, 0);
-    lv_obj_set_style_radius(temperature, 12, 0);
-    lv_obj_set_style_pad_hor(temperature, 16, 0);
-    lv_obj_set_style_pad_ver(temperature, 0, 0);
-    lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(temperature, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(temperature, LV_OBJ_FLAG_SCROLLABLE);
+    ui_build_env_card(environment_section, "Temperature", -20, 60, &bme280_ui[0]);
+    ui_build_env_card(environment_section, "Pressure", 900, 1100, &bme280_ui[1]);
+    ui_build_env_card(environment_section, "Humidity", 0, 100, &bme280_ui[2]);
 
-    lv_obj_t *temperature_label = lv_label_create(temperature);
-    lv_label_set_text(temperature_label, "Temperature");
-    lv_obj_set_style_text_color(temperature_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_label, t->font_normal, 0);
-    lv_obj_set_style_pad_ver(temperature_label, 30, 0);
 
-    lv_obj_t *temperature_data = lv_label_create(temperature);
-    // lv_label_set_text(temperature_data, "22.4°C");
-    lv_label_set_text(temperature_data, "TempTest");
-    lv_obj_set_style_text_color(temperature_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_data, t->font_large, 0);
-    lv_obj_set_style_margin_top(temperature_data, 100, 0);
 
-    lv_obj_t *pressure = lv_obj_create(environment_section);
-    lv_obj_set_size(pressure, LV_PCT(30), LV_PCT(75));
-    lv_obj_set_style_bg_color(pressure, lv_color_hex(t->sensor_bg), 0);
-    lv_obj_set_style_border_width(pressure, 0, 0);
-    lv_obj_set_style_radius(pressure, 12, 0);
-    lv_obj_set_style_pad_hor(pressure, 16, 0);
-    lv_obj_set_style_pad_ver(pressure, 0, 0);
-    lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(pressure, LV_OBJ_FLAG_SCROLLABLE);
+    // lv_obj_t *temperature = lv_obj_create(environment_section);
+    // lv_obj_set_size(temperature, LV_PCT(30), LV_PCT(75));
+    // lv_obj_set_style_bg_color(temperature, lv_color_hex(t->sensor_bg), 0);
+    // lv_obj_set_style_border_width(temperature, 0, 0);
+    // lv_obj_set_style_radius(temperature, 12, 0);
+    // lv_obj_set_style_pad_hor(temperature, 16, 0);
+    // lv_obj_set_style_pad_ver(temperature, 0, 0);
+    // lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_COLUMN);
+    // lv_obj_set_flex_align(temperature, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    // lv_obj_clear_flag(temperature, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *pressure_label = lv_label_create(pressure);
-    lv_label_set_text(pressure_label, "Pressure");
-    lv_obj_set_style_text_color(pressure_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_label, t->font_normal, 0);
-    lv_obj_set_style_pad_ver(pressure_label, 30, 0);
+    // lv_obj_t *temperature_label = lv_label_create(temperature);
+    // lv_label_set_text(temperature_label, "Temperature");
+    // lv_obj_set_style_text_color(temperature_label, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(temperature_label, t->font_normal, 0);
+    // lv_obj_set_style_pad_ver(temperature_label, 30, 0);
 
-    lv_obj_t *pressure_data = lv_label_create(pressure);
-    lv_label_set_text(pressure_data, "PressTest");
-    lv_obj_set_style_text_color(pressure_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_data, t->font_large, 0);
-    lv_obj_set_style_margin_top(pressure_data, 100, 0);
+    // lv_obj_t *temperature_data = lv_label_create(temperature);
+    // // lv_label_set_text(temperature_data, "22.4°C");
+    // lv_label_set_text(temperature_data, "TempTest");
+    // lv_obj_set_style_text_color(temperature_data, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(temperature_data, t->font_large, 0);
+    // lv_obj_set_style_margin_top(temperature_data, 100, 0);
 
-    lv_obj_t *humidity = lv_obj_create(environment_section);
-    lv_obj_set_size(humidity, LV_PCT(30), LV_PCT(75));
-    lv_obj_set_style_bg_color(humidity, lv_color_hex(t->sensor_bg), 0);
-    lv_obj_set_style_border_width(humidity, 0, 0);
-    lv_obj_set_style_radius(humidity, 12, 0);
-    lv_obj_set_style_pad_hor(humidity, 16, 0);
-    lv_obj_set_style_pad_ver(humidity, 0, 0);
-    lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(humidity, LV_OBJ_FLAG_SCROLLABLE);
+    // lv_obj_t *pressure = lv_obj_create(environment_section);
+    // lv_obj_set_size(pressure, LV_PCT(30), LV_PCT(75));
+    // lv_obj_set_style_bg_color(pressure, lv_color_hex(t->sensor_bg), 0);
+    // lv_obj_set_style_border_width(pressure, 0, 0);
+    // lv_obj_set_style_radius(pressure, 12, 0);
+    // lv_obj_set_style_pad_hor(pressure, 16, 0);
+    // lv_obj_set_style_pad_ver(pressure, 0, 0);
+    // lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_COLUMN);
+    // lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    // lv_obj_clear_flag(pressure, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *humidity_label = lv_label_create(humidity);
-    lv_label_set_text(humidity_label, "Humidity");
-    lv_obj_set_style_text_color(humidity_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_label, t->font_normal, 0);
-    lv_obj_set_style_pad_ver(humidity_label, 30, 0);
+    // lv_obj_t *pressure_label = lv_label_create(pressure);
+    // lv_label_set_text(pressure_label, "Pressure");
+    // lv_obj_set_style_text_color(pressure_label, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(pressure_label, t->font_normal, 0);
+    // lv_obj_set_style_pad_ver(pressure_label, 30, 0);
 
-    lv_obj_t *humidity_data = lv_label_create(humidity);
-    lv_label_set_text(humidity_data, "HumTest");
-    lv_obj_set_style_text_color(humidity_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_data, t->font_large, 0);
-    lv_obj_set_style_margin_top(humidity_data, 100, 0);
+    // lv_obj_t *pressure_data = lv_label_create(pressure);
+    // lv_label_set_text(pressure_data, "PressTest");
+    // lv_obj_set_style_text_color(pressure_data, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(pressure_data, t->font_large, 0);
+    // lv_obj_set_style_margin_top(pressure_data, 100, 0);
 
-    bme280_ui[0].card = temperature;
-    bme280_ui[0].name_label = temperature_label;
-    bme280_ui[0].data_label = temperature_data;
+    // lv_obj_t *humidity = lv_obj_create(environment_section);
+    // lv_obj_set_size(humidity, LV_PCT(30), LV_PCT(75));
+    // lv_obj_set_style_bg_color(humidity, lv_color_hex(t->sensor_bg), 0);
+    // lv_obj_set_style_border_width(humidity, 0, 0);
+    // lv_obj_set_style_radius(humidity, 12, 0);
+    // lv_obj_set_style_pad_hor(humidity, 16, 0);
+    // lv_obj_set_style_pad_ver(humidity, 0, 0);
+    // lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_COLUMN);
+    // lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    // lv_obj_clear_flag(humidity, LV_OBJ_FLAG_SCROLLABLE);
 
-    bme280_ui[1].card = pressure;
-    bme280_ui[1].name_label = pressure_label;
-    bme280_ui[1].data_label = pressure_data;
+    // lv_obj_t *humidity_label = lv_label_create(humidity);
+    // lv_label_set_text(humidity_label, "Humidity");
+    // lv_obj_set_style_text_color(humidity_label, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(humidity_label, t->font_normal, 0);
+    // lv_obj_set_style_pad_ver(humidity_label, 30, 0);
 
-    bme280_ui[2].card = humidity;
-    bme280_ui[2].name_label = humidity_label;
-    bme280_ui[2].data_label = humidity_data;
+    // lv_obj_t *humidity_data = lv_label_create(humidity);
+    // lv_label_set_text(humidity_data, "HumTest");
+    // lv_obj_set_style_text_color(humidity_data, lv_color_hex(t->text), 0);
+    // lv_obj_set_style_text_font(humidity_data, t->font_large, 0);
+    // lv_obj_set_style_margin_top(humidity_data, 100, 0);
+
+    // bme280_ui[0].card = temperature;
+    // bme280_ui[0].name_label = temperature_label;
+    // bme280_ui[0].data_label = temperature_data;
+
+    // bme280_ui[1].card = pressure;
+    // bme280_ui[1].name_label = pressure_label;
+    // bme280_ui[1].data_label = pressure_data;
+
+    // bme280_ui[2].card = humidity;
+    // bme280_ui[2].name_label = humidity_label;
+    // bme280_ui[2].data_label = humidity_data;
 
     // env_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
 
@@ -1322,25 +1385,29 @@ static void on_sensor_poll_timer(lv_timer_t *timer)
         lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
 
-
-    BME280Ui *temp_ui = &bme280_ui[0];
-    BME280Ui *press_ui = &bme280_ui[1];
-    BME280Ui *hum_ui = &bme280_ui[2];
-
     if (bme280_running == false)
     {
-        lv_label_set_text(temp_ui->data_label, "No sensor detected");
-        lv_label_set_text(press_ui->data_label, "No sensor detected");
-        lv_label_set_text(hum_ui->data_label, "No sensor detected");
-        return; // Maybe??
+        lv_label_set_text(bme280_ui[0].data_label, "--");
+        lv_label_set_text(bme280_ui[1].data_label, "--");
+        lv_label_set_text(bme280_ui[2].data_label, "--");
+        return;
     }
 
-    snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu°C", meas.T / 100, meas.T % 100);
-    snprintf(press_ui->data, sizeof(press_ui->data), "%luPa", meas.P / 256);
-    snprintf(hum_ui->data, sizeof(hum_ui->data), "%lu%%", meas.H / 1024);
-    lv_label_set_text(temp_ui->data_label, temp_ui->data);
-    lv_label_set_text(press_ui->data_label, press_ui->data);
-    lv_label_set_text(hum_ui->data_label, hum_ui->data);
+    int32_t temp_c = (int32_t)(meas.T / 100);
+    int32_t press_hpa = (int32_t)(meas.P / 256 / 100);  // Pa -> hPa
+    int32_t hum_pct = (int32_t)(meas.H / 1024);
+
+    snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%02ld°C", meas.T / 100, meas.T % 100);
+    snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldPa", press_hpa);
+    snprintf(bme280_ui[2].data, sizeof(bme280_ui[2].data), "%ld%%", hum_pct);
+
+    lv_label_set_text(bme280_ui[0].data_label, bme280_ui[0].data);
+    lv_label_set_text(bme280_ui[1].data_label, bme280_ui[1].data);
+    lv_label_set_text(bme280_ui[2].data_label, bme280_ui[2].data);
+
+    lv_arc_set_value(bme280_ui[0].arc, temp_c);
+    lv_arc_set_value(bme280_ui[1].arc, press_hpa);
+    lv_arc_set_value(bme280_ui[2].arc, hum_pct);
 }
 
 /* =======================
