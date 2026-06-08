@@ -14,6 +14,7 @@
 #include "file_system/file_system.h"
 #include "random/random.h"
 #include "json/cJSON.h"
+#include "allocator/arena.h"
 
 #define SENSOR_GPIO_PORT GPIO_NUM_2
 #define BYTES_TO_WORD(x) (x/4)
@@ -200,7 +201,7 @@ void read_tcp_task(void* params)
 			cJSON* job = cJSON_GetObjectItem(root, "job");
 			if (job == NULL)
 			{
-				cJSON_Delete(root);
+				Arena_Reset();
 				ESP_LOGE(TAG, "Could not find JOB...");
 				vTaskDelay(100);
 				continue;
@@ -209,7 +210,7 @@ void read_tcp_task(void* params)
 			char* job_string = cJSON_GetStringValue(job);
 			if (job_string == NULL)
 			{
-				cJSON_Delete(root);
+				Arena_Reset();
 				ESP_LOGE(TAG, "Job is not a string...");
 				vTaskDelay(100);
 				continue;
@@ -225,7 +226,7 @@ void read_tcp_task(void* params)
 					cJSON* data = cJSON_GetObjectItem(root, "data");
 					if (data == NULL)
 					{
-						cJSON_Delete(root);
+						Arena_Reset();
 						ESP_LOGE(TAG, "Could not find data even when it is EXPECTED...");
 						vTaskDelay(100);
 						continue;
@@ -234,7 +235,7 @@ void read_tcp_task(void* params)
 					char* string_data = cJSON_GetStringValue(data);
 					if (string_data == NULL)
 					{
-						cJSON_Delete(root);
+						Arena_Reset();
 						ESP_LOGE(TAG, "Could not parse DATA to string value...");
 						vTaskDelay(100);
 						continue;
@@ -249,7 +250,7 @@ void read_tcp_task(void* params)
 						ESP_LOGE(TAG, "Failed to write to file the UUID");
 					}
 
-					cJSON_Delete(root);
+					Arena_Reset();
 					break;
 				}
 				default:

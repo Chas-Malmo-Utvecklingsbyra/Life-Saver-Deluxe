@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <esp_log.h>
+#include "allocator/arena.h"
 
 #include "../../json/cJSON.h"
 
@@ -61,13 +62,14 @@ char* Packet_Build(Packet_Job job, const char* message)
     if (root == NULL)
     {
         ESP_LOGE(TAG, "Root == NULL");
+        Arena_Reset();
         return NULL;
     }
 
     char* packet_job_str = Packet_Job_To_String(job);
     if (packet_job_str == NULL)
     {
-        cJSON_Delete(root);
+        Arena_Reset();
         ESP_LOGE(TAG, "Packet_Job_Str == NULL, check if you have added new enumerators to the switch case in Packet_Job_To_String");
         return NULL;
     }
@@ -76,7 +78,7 @@ char* Packet_Build(Packet_Job job, const char* message)
     if (str_result == NULL)
     {
         ESP_LOGE(TAG, "Could not add job to JSON");
-        cJSON_Delete(root);
+        Arena_Reset();
         return NULL;
     }
     
@@ -93,7 +95,7 @@ char* Packet_Build(Packet_Job job, const char* message)
 
     if (data_add == NULL)
     {
-        cJSON_Delete(root);
+        Arena_Reset();
         ESP_LOGE(TAG, "data_add == NULL");
         return NULL;
     }
@@ -104,6 +106,5 @@ char* Packet_Build(Packet_Job job, const char* message)
         ESP_LOGE(TAG, "new_str == NULL");
     }
 
-    cJSON_Delete(root);
     return new_str;
 }

@@ -15,6 +15,7 @@
 #include "bme280/bme280.h"
 #include "console/console.h"
 #include "esp_heap_caps.h"
+#include "allocator/arena.h"
 
 #include "random/random.h"
 
@@ -39,7 +40,7 @@ void full_data_received(TCP_Server_Client* client)
     cJSON* job_json = cJSON_GetObjectItem(root, "job");
     if (job_json == NULL)
     {
-        cJSON_Delete(root);
+        Arena_Reset();
         ESP_LOGI(TAG, "Could not parse out JSON job... Returning...");
         return;
     }
@@ -47,7 +48,7 @@ void full_data_received(TCP_Server_Client* client)
     char* job_str = cJSON_GetStringValue(job_json);
     if (job_str == NULL)
     {
-        cJSON_Delete(root);
+        Arena_Reset();
         ESP_LOGI(TAG, "job_str is not a STRING.. Returning..");
         return;
     }
@@ -55,7 +56,7 @@ void full_data_received(TCP_Server_Client* client)
     cJSON* data_json = cJSON_GetObjectItem(root, "data");
     if (data_json == NULL)
     {
-        cJSON_Delete(root);
+        Arena_Reset();
         ESP_LOGI(TAG, "Could not find 'data' in JSON.. Returning..");
         return;
     }
@@ -71,7 +72,7 @@ void full_data_received(TCP_Server_Client* client)
             char* data_str = cJSON_GetStringValue(data_json);
             if (data_str == NULL)
             {
-                cJSON_Delete(root);
+                Arena_Reset();
                 ESP_LOGI(TAG, "data_str is not a STRING.. Returning..");
                 return;
             }
@@ -89,7 +90,7 @@ void full_data_received(TCP_Server_Client* client)
             if (packet == NULL)
             {
                 ESP_LOGE(TAG, "Packet == NULL in full_data_received, Packet_Job_Initialize");
-                cJSON_Delete(root);
+                Arena_Reset();
                 return;
             }
             
@@ -189,7 +190,7 @@ void full_data_received(TCP_Server_Client* client)
     }
 
 
-    cJSON_Delete(root);
+    Arena_Reset();
 }
 
 void tcp_server_task(void* params)
@@ -244,8 +245,19 @@ void bme280_task(void *params)
     vTaskDelete(NULL);
 }
 
+static void __fake_free(void* ptr)
+{
+    (void)ptr;
+}
+
 void app_main(void)
 {
+    cJSON_Hooks hooks = {
+        .malloc_fn = Arena_Malloc,
+        .free_fn = __fake_free
+    };
+    cJSON_InitHooks(&hooks);
+
     if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
     {
         ESP_LOGE(TAG, "File system failed to Initialize! Returning from main.");
