@@ -1398,7 +1398,7 @@ static void on_sensor_poll_timer(lv_timer_t *timer)
     int32_t hum_pct = (int32_t)(meas.H / 1024);
 
     snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%02ld°C", meas.T / 100, meas.T % 100);
-    snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldPa", press_hpa);
+    snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldhPa", press_hpa);
     snprintf(bme280_ui[2].data, sizeof(bme280_ui[2].data), "%ld%%", hum_pct);
 
     lv_label_set_text(bme280_ui[0].data_label, bme280_ui[0].data);
