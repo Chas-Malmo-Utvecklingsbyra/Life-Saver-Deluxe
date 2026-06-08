@@ -23,7 +23,7 @@ static const char* TAG = "Home-Hub";
 
 #define PORT 6060
 
-bool bme280_running = true;
+bool bme280_running = false;
 
 void full_data_received(TCP_Server_Client* client)
 {
@@ -234,13 +234,13 @@ static int command_fragment(int argc, char **argv)
 }
 
 void bme280_task(void *params)
-{
+{    
     esp_err_t err = bme280_work();
     if (err != ESP_OK)
     {
         ESP_LOGW(TAG, "bme280_task shutting down");
     }
-
+    
     bme280_running = false;
     vTaskDelete(NULL);
 }

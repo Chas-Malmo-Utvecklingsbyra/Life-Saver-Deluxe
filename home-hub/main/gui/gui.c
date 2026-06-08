@@ -70,7 +70,7 @@ typedef struct
 } ScreensaverControl;
 
 static ScreensaverControl ss                    = {0};
-static uint32_t screensaver_timeout_ms          = 60000;    // 60s
+static uint32_t screensaver_timeout_ms          = 60000;
 static bool screensaver_enabled                 = true;
 static lv_obj_t *ss_bouncer                     = NULL;
 static int32_t ss_vel_x                         = 3;
@@ -112,8 +112,8 @@ typedef struct
     char data[20];
 } BME280Ui;
 
-static SensorUi *rename_target                  = NULL;
 static SensorUi sensor_uis[MAX_SENSORS];
+static SensorUi *rename_target                  = NULL;
 static size_t sensor_ui_count                   = 0;
 static lv_timer_t *sensor_update_timer          = NULL;
 
@@ -141,11 +141,11 @@ static const esp_lcd_panel_io_i2c_config_t io_config =
   FORWARD DECLARATIONS:
 ======================*/
 
-static void create_security_ui(void);
-static void update_sensor_ui_timer_cb(lv_timer_t *timer);
+static void ui_rebuild_all(void);
+static void on_sensor_poll_timer(lv_timer_t *timer);
 static void open_rename_overlay(SensorUi *ui);
 static void close_rename_overlay(void);
-static void screensaver_timer_cb(lv_timer_t *timer);
+static void on_screensaver_tick(lv_timer_t *timer);
 
 /* =====================
     BACKLIGHT CONTROL:
@@ -179,7 +179,7 @@ static void screensaver_enter(void)
 
     if (ss.anim_timer == NULL)
     {
-        ss.anim_timer = lv_timer_create(screensaver_timer_cb, 33, NULL);
+        ss.anim_timer = lv_timer_create(on_screensaver_tick, 33, NULL);
     }
     else
     {
@@ -260,26 +260,6 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 }
 
 /* =======================
-   SENSOR STATE FUNCTION:
-==========================*/
-
-static void sensor_load_persistent_state(Sensor *sensor)
-{
-    SensorPlacement placement;
-
-    bool found = sensor_placement_get(sensor->guid, &placement);
-
-    if (found)
-    {
-        sensor->placement = placement;
-    }
-    else
-    {
-        sensor->placement = PLACEMENT_UNASSIGNED;
-    }
-}
-
-/* =======================
     RENAMING KEYBOARD:
 ==========================*/
 
@@ -325,7 +305,7 @@ static void rename_kb_event_cb(lv_event_t *e)
         }
         close_rename_overlay();
         
-        create_security_ui();
+        ui_rebuild_all();
     }
     else if (code == LV_EVENT_CANCEL)
     {
@@ -449,7 +429,7 @@ static void close_rename_overlay(void)
         UI CALLBACKS:
 ==========================*/
 
-static void nav_button_cb(lv_event_t *e)
+static void on_nav_button_pressed(lv_event_t *e)
 {
     close_rename_overlay();
 
@@ -457,19 +437,19 @@ static void nav_button_cb(lv_event_t *e)
     lv_tabview_set_active(main_tabview, tab_index, LV_ANIM_OFF);
 }
 
-static void theme_btn_cb(lv_event_t *e)
+static void on_theme_button_pressed(lv_event_t *e)
 {
     current_theme = (uint8_t)(uintptr_t)lv_event_get_user_data(e);
-    create_security_ui();
+    ui_rebuild_all();
 }
 
-static void brightness_slider_cb(lv_event_t *e)
+static void on_brightness_slider_changed(lv_event_t *e)
 {
     lv_obj_t *slider = lv_event_get_target(e);
     set_brightness((uint8_t)lv_slider_get_value(slider));
 }
 
-static void screensaver_timer_cb(lv_timer_t *timer)
+static void on_screensaver_tick(lv_timer_t *timer)
 {
     if (!ss.active || ss_bouncer == NULL) return;
 
@@ -508,13 +488,13 @@ static void screensaver_timer_cb(lv_timer_t *timer)
     lv_obj_set_pos(ss_bouncer, x, y);
 }
 
-static void screensaver_toggle_cb(lv_event_t *e)
+static void on_screensaver_toggle_changed(lv_event_t *e)
 {
     lv_obj_t *toggle = lv_event_get_target(e);
     screensaver_enabled = lv_obj_has_state(toggle, LV_STATE_CHECKED);
 }
 
-static void screensaver_timeout_slider_cb(lv_event_t *e)
+static void on_screensaver_timeout_slider_changed(lv_event_t *e)
 {
     lv_obj_t *slider = lv_event_get_target(e);
     screensaver_timeout_ms = (uint32_t)lv_slider_get_value(slider) * 1000;
@@ -528,19 +508,19 @@ static void screensaver_timeout_slider_cb(lv_event_t *e)
     }
 }
 
-static void open_rename_overlay_async(void *arg)
+static void on_sensor_tap_async(void *arg)
 {
     open_rename_overlay((SensorUi *)arg);
 }
 
-static void sensor_card_tap_cb(lv_event_t *e)
+static void on_sensor_card_tapped(lv_event_t *e)
 {
     SensorUi *ui = (SensorUi *)lv_event_get_user_data(e);
     if (ui == NULL) return;
 
     if (lv_tabview_get_tab_active(main_tabview) != TAB_HOME) return;
 
-    lv_async_call(open_rename_overlay_async, ui);
+    lv_async_call(on_sensor_tap_async, ui);
 }
 
 /* =======================
@@ -636,7 +616,7 @@ void lvgl_port_init(void)
     UI BUILD HELPERS:
 ==========================*/
 
-static void create_sidebar(lv_obj_t *parent)
+static void ui_build_sidebar(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -686,11 +666,11 @@ static void create_sidebar(lv_obj_t *parent)
         lv_label_set_text(label, button_names[i]);
         lv_obj_set_style_text_color(label, lv_color_hex(t->text), 0);
 
-        lv_obj_add_event_cb(button, nav_button_cb, LV_EVENT_PRESSED, (void*)(uintptr_t)tab_pages[i]);
+        lv_obj_add_event_cb(button, on_nav_button_pressed, LV_EVENT_PRESSED, (void*)(uintptr_t)tab_pages[i]);
     }
 }
 
-static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *name)
+static lv_obj_t *ui_build_sensor_card(lv_obj_t *parent, Sensor *sensor, const char *name)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -765,14 +745,14 @@ static lv_obj_t *create_sensor(lv_obj_t *parent, Sensor *sensor, const char *nam
     memcpy(sensor_uis[sensor_ui_count].display_name, display_name, SENSOR_NAME_MAX);
     sensor_uis[sensor_ui_count].display_name[SENSOR_NAME_MAX] = '\0';
 
-    lv_obj_add_event_cb(card, sensor_card_tap_cb, LV_EVENT_CLICKED, &sensor_uis[sensor_ui_count]);
+    lv_obj_add_event_cb(card, on_sensor_card_tapped, LV_EVENT_CLICKED, &sensor_uis[sensor_ui_count]);
 
     sensor_ui_count++;
 
     return card;
 }
 
-static lv_obj_t *create_settings_card(lv_obj_t *parent, const char *title)
+static lv_obj_t *ui_build_settings_card(lv_obj_t *parent, const char *title)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -791,24 +771,11 @@ static lv_obj_t *create_settings_card(lv_obj_t *parent, const char *title)
     return card;
 }
 
-static lv_obj_t *make_root(lv_obj_t *screen)
-{
-    lv_obj_t *root = lv_obj_create(screen);
-    lv_obj_set_size(root, LCD_H_RES, LCD_V_RES);
-    lv_obj_set_pos(root, 0, 0);
-    lv_obj_set_flex_flow(root, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_bg_opa(root, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(root, 0, 0);
-    lv_obj_set_style_pad_all(root, 0, 0);
-
-    return root;
-}
-
 /* =======================
       SCREEN CONTENT:
 ==========================*/
 
-static void build_home_content(lv_obj_t *parent)
+static void ui_build_tab_home(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -916,7 +883,16 @@ static void build_home_content(lv_obj_t *parent)
                 sensor->data
             );
 
-            sensor_load_persistent_state(sensor);
+            SensorPlacement placement;
+            bool found = sensor_placement_get(sensor->guid, &placement);
+            if (found)
+            {
+                sensor->placement = placement;
+            }
+            else
+            {
+                sensor->placement = PLACEMENT_UNASSIGNED;
+            }
 
             lv_obj_t *target_panel = doors;
 
@@ -936,14 +912,14 @@ static void build_home_content(lv_obj_t *parent)
                     break;
             }
 
-            create_sensor(target_panel, sensor, buffer);
+            ui_build_sensor_card(target_panel, sensor, buffer);
         }
     }
 
     ESP_LOGW(TAG, "Total magnetic sensor cards added: %zu", real_count);
 }
 
-static void build_settings_content(lv_obj_t *parent)
+static void ui_build_tab_settings(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -957,7 +933,7 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_scrollbar_mode(section, LV_SCROLLBAR_MODE_OFF);
     lv_obj_clear_flag(section, LV_OBJ_FLAG_SCROLLABLE);
       
-    lv_obj_t *theme_card = create_settings_card(section, "Color Themes");
+    lv_obj_t *theme_card = ui_build_settings_card(section, "Color Themes");
     lv_obj_set_width(theme_card, LV_PCT(100));
     lv_obj_set_flex_grow(theme_card, 1);
 
@@ -995,7 +971,7 @@ static void build_settings_content(lv_obj_t *parent)
         lv_obj_set_style_text_color(lbl, lv_color_hex(themes[i].text), 0);
         lv_obj_center(lbl);
 
-        lv_obj_add_event_cb(btn, theme_btn_cb, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
+        lv_obj_add_event_cb(btn, on_theme_button_pressed, LV_EVENT_PRESSED, (void *)(uintptr_t)i);
     }
 
     lv_obj_t *bottom_row = lv_obj_create(section);
@@ -1008,7 +984,7 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_style_pad_gap(bottom_row, 10, 0);
     lv_obj_clear_flag(bottom_row, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t *brightness_card = create_settings_card(bottom_row, "Brightness");
+    lv_obj_t *brightness_card = ui_build_settings_card(bottom_row, "Brightness");
     lv_obj_set_flex_grow(brightness_card, 1);
     lv_obj_set_height(brightness_card, LV_PCT(100));
 
@@ -1016,9 +992,9 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_width(slider, LV_PCT(90));
     lv_slider_set_range(slider, BACKLIGHT_MIN_PCT, 100);
     lv_slider_set_value(slider, 100, LV_ANIM_OFF);
-    lv_obj_add_event_cb(slider, brightness_slider_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_add_event_cb(slider, on_brightness_slider_changed, LV_EVENT_VALUE_CHANGED, NULL);
 
-    lv_obj_t *ss_card = create_settings_card(bottom_row, "Screensaver settings");
+    lv_obj_t *ss_card = ui_build_settings_card(bottom_row, "Screensaver settings");
     lv_obj_set_flex_grow(ss_card, 1);
     lv_obj_set_height(ss_card, LV_PCT(100));
     
@@ -1040,7 +1016,7 @@ static void build_settings_content(lv_obj_t *parent)
     {
         lv_obj_add_state(sw, LV_STATE_CHECKED);
     }
-    lv_obj_add_event_cb(sw, screensaver_toggle_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_add_event_cb(sw, on_screensaver_toggle_changed, LV_EVENT_VALUE_CHANGED, NULL);
 
     char timeout_buf[32];
     snprintf(timeout_buf, sizeof(timeout_buf), "Timeout: %"PRIu32" seconds", screensaver_timeout_ms / 1000);
@@ -1053,94 +1029,91 @@ static void build_settings_content(lv_obj_t *parent)
     lv_obj_set_width(ss_slider, LV_PCT(90));
     lv_slider_set_range(ss_slider, 10, 300);
     lv_slider_set_value(ss_slider, screensaver_timeout_ms / 1000, LV_ANIM_OFF);
-    lv_obj_add_event_cb(ss_slider, screensaver_timeout_slider_cb, LV_EVENT_VALUE_CHANGED, timeout_label);
+    lv_obj_add_event_cb(ss_slider, on_screensaver_timeout_slider_changed, LV_EVENT_VALUE_CHANGED, timeout_label);
 }
 
-static void build_env_content(lv_obj_t *parent)
+static void ui_build_tab_env(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
-    // env_textarea = lv_textarea_create(parent);
-    // lv_obj_set_size(env_textarea, LV_PCT(100), LV_PCT(100));
-    // lv_obj_set_style_bg_color(env_textarea, lv_color_hex(t->content_bg), 0);
-    // lv_obj_set_style_text_color(env_textarea, lv_color_hex(t->text), 0);
-    // lv_obj_set_style_text_font(env_textarea, t->font_normal, 0);
-    // lv_obj_set_style_border_width(env_textarea, 0, 0);
-
     lv_obj_t *environment_section = lv_obj_create(parent);
-    lv_obj_set_size(environment_section, LV_PCT(90), LV_PCT(75));
+    lv_obj_set_size(environment_section, LV_PCT(100), LV_PCT(100));
     lv_obj_set_style_bg_color(environment_section, lv_color_hex(t->bg), 0);
     lv_obj_set_style_border_width(environment_section, 0, 0);
     lv_obj_set_flex_flow(environment_section, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(environment_section, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_scrollbar_mode(environment_section, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_clear_flag(environment_section, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *temperature = lv_obj_create(environment_section);
-    lv_obj_set_size(temperature, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(temperature, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(temperature, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(temperature, 0, 0);
     lv_obj_set_style_radius(temperature, 12, 0);
     lv_obj_set_style_pad_hor(temperature, 16, 0);
     lv_obj_set_style_pad_ver(temperature, 0, 0);
-    lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_flow(temperature, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(temperature, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(temperature, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *temperature_label = lv_label_create(temperature);
-    lv_label_set_text(temperature_label, "Temp");
+    lv_label_set_text(temperature_label, "Temperature");
     lv_obj_set_style_text_color(temperature_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_label, t->font_small, 0);
-    lv_obj_set_flex_grow(temperature_label, 1);
+    lv_obj_set_style_text_font(temperature_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(temperature_label, 30, 0);
 
     lv_obj_t *temperature_data = lv_label_create(temperature);
-    lv_label_set_text(temperature_data, "TestTemp");
+    // lv_label_set_text(temperature_data, "22.4°C");
+    lv_label_set_text(temperature_data, "TempTest");
     lv_obj_set_style_text_color(temperature_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(temperature_data, t->font_small, 0);
-    lv_obj_set_flex_grow(temperature_data, 1);
+    lv_obj_set_style_text_font(temperature_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(temperature_data, 100, 0);
 
     lv_obj_t *pressure = lv_obj_create(environment_section);
-    lv_obj_set_size(pressure, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(pressure, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(pressure, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(pressure, 0, 0);
     lv_obj_set_style_radius(pressure, 12, 0);
     lv_obj_set_style_pad_hor(pressure, 16, 0);
     lv_obj_set_style_pad_ver(pressure, 0, 0);
-    lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_flow(pressure, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(pressure, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(pressure, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *pressure_label = lv_label_create(pressure);
-    lv_label_set_text(pressure_label, "Press");
+    lv_label_set_text(pressure_label, "Pressure");
     lv_obj_set_style_text_color(pressure_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_label, t->font_small, 0);
-    lv_obj_set_flex_grow(pressure_label, 1);
+    lv_obj_set_style_text_font(pressure_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(pressure_label, 30, 0);
 
     lv_obj_t *pressure_data = lv_label_create(pressure);
-    lv_label_set_text(pressure_data, "TestPres");
+    lv_label_set_text(pressure_data, "PressTest");
     lv_obj_set_style_text_color(pressure_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(pressure_data, t->font_small, 0);
-    lv_obj_set_flex_grow(pressure_data, 1);
+    lv_obj_set_style_text_font(pressure_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(pressure_data, 100, 0);
 
     lv_obj_t *humidity = lv_obj_create(environment_section);
-    lv_obj_set_size(humidity, LV_PCT(25), LV_PCT(90));
+    lv_obj_set_size(humidity, LV_PCT(30), LV_PCT(75));
     lv_obj_set_style_bg_color(humidity, lv_color_hex(t->sensor_bg), 0);
     lv_obj_set_style_border_width(humidity, 0, 0);
     lv_obj_set_style_radius(humidity, 12, 0);
     lv_obj_set_style_pad_hor(humidity, 16, 0);
     lv_obj_set_style_pad_ver(humidity, 0, 0);
-    lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_flow(humidity, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(humidity, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(humidity, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t *humidity_label = lv_label_create(humidity);
-    lv_label_set_text(humidity_label, "Hum");
+    lv_label_set_text(humidity_label, "Humidity");
     lv_obj_set_style_text_color(humidity_label, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_label, t->font_small, 0);
-    lv_obj_set_flex_grow(humidity_label, 1);
+    lv_obj_set_style_text_font(humidity_label, t->font_normal, 0);
+    lv_obj_set_style_pad_ver(humidity_label, 30, 0);
 
     lv_obj_t *humidity_data = lv_label_create(humidity);
-    lv_label_set_text(humidity_data, "TestHum");
+    lv_label_set_text(humidity_data, "HumTest");
     lv_obj_set_style_text_color(humidity_data, lv_color_hex(t->text), 0);
-    lv_obj_set_style_text_font(humidity_data, t->font_small, 0);
-    lv_obj_set_flex_grow(humidity_data, 1);
+    lv_obj_set_style_text_font(humidity_data, t->font_large, 0);
+    lv_obj_set_style_margin_top(humidity_data, 100, 0);
 
     bme280_ui[0].card = temperature;
     bme280_ui[0].name_label = temperature_label;
@@ -1163,7 +1136,7 @@ static void build_env_content(lv_obj_t *parent)
     // lv_textarea_set_one_line(env_textarea, false);
 }
 
-static void build_about_content(lv_obj_t *parent)
+static void ui_build_tab_about(lv_obj_t *parent)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -1205,7 +1178,7 @@ static void build_about_content(lv_obj_t *parent)
       MAIN UI BUILDER:
 ==========================*/
 
-static void create_security_ui(void)
+static void ui_rebuild_all(void)
 {
     const theme_t *t = &themes[current_theme];
 
@@ -1243,9 +1216,15 @@ static void create_security_ui(void)
     screen_main = lv_obj_create(NULL);
     lv_obj_set_style_bg_color(screen_main, lv_color_hex(t->bg), 0);
 
-    lv_obj_t *root = make_root(screen_main);
+    lv_obj_t *root = lv_obj_create(screen_main);
+    lv_obj_set_size(root, LCD_H_RES, LCD_V_RES);
+    lv_obj_set_pos(root, 0, 0);
+    lv_obj_set_flex_flow(root, LV_FLEX_FLOW_ROW);
+    lv_obj_set_style_bg_opa(root, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(root, 0, 0);
+    lv_obj_set_style_pad_all(root, 0, 0);
 
-    create_sidebar(root);
+    ui_build_sidebar(root);
 
     main_tabview = lv_tabview_create(root);
     lv_tabview_set_tab_bar_size(main_tabview, 0);
@@ -1271,10 +1250,10 @@ static void create_security_ui(void)
     lv_obj_set_style_pad_all(tab_env, 0, 0);
     lv_obj_set_style_pad_all(tab_about, 0, 0);
 
-    build_home_content(tab_home);
-    build_env_content(tab_env);
-    build_settings_content(tab_settings);
-    build_about_content(tab_about);
+    ui_build_tab_home(tab_home);
+    ui_build_tab_env(tab_env);
+    ui_build_tab_settings(tab_settings);
+    ui_build_tab_about(tab_about);
 
     lv_screen_load(screen_main);
     lv_obj_update_layout(screen_main);
@@ -1284,7 +1263,7 @@ static void create_security_ui(void)
    UI EXTERNAL INTERFACE:
 ==========================*/
 
-static void gui_update_network_status_async(void *arg)
+static void on_wifi_status_async(void *arg)
 {
     if (wifi_status_label == NULL || ss.active) return;
 
@@ -1298,19 +1277,8 @@ static void gui_update_network_status_async(void *arg)
     wifi_first_update = false;
     wifi_last_connected = connected;
 
-    const char *text = NULL;
-    uint32_t color = 0;
-
-    if (connected)
-    {
-        text = "ONLINE";
-        color = 0x50FA7B;
-    }
-    else
-    {
-        text = "OFFLINE MODE";
-        color = 0xFF5555;
-    }
+    const char *text = connected ? "ONLINE" : "OFFLINE MODE";
+    uint32_t color = connected ? 0x50FA7B : 0xFF5555;
     
     lv_label_set_text(wifi_status_label, text);
     lv_obj_set_style_text_color(wifi_status_label, lv_color_hex(color), 0);
@@ -1320,12 +1288,12 @@ void GUI_Update_Network_Status(void *arg)
 {
     while (1)
     {
-        lv_async_call(gui_update_network_status_async, NULL);
+        lv_async_call(on_wifi_status_async, NULL);
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 
-static void update_sensor_ui_timer_cb(lv_timer_t *timer)
+static void on_sensor_poll_timer(lv_timer_t *timer)
 {
     for (size_t i = 0; i < sensor_ui_count; i++)
     {
@@ -1353,29 +1321,27 @@ static void update_sensor_ui_timer_cb(lv_timer_t *timer)
         lv_obj_set_style_text_color(ui->status_label, lv_color_hex(status_color), 0);
         lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
+
+
+    BME280Ui *temp_ui = &bme280_ui[0];
+    BME280Ui *press_ui = &bme280_ui[1];
+    BME280Ui *hum_ui = &bme280_ui[2];
+
+    if (bme280_running == false)
+    {
+        lv_label_set_text(temp_ui->data_label, "No sensor detected");
+        lv_label_set_text(press_ui->data_label, "No sensor detected");
+        lv_label_set_text(hum_ui->data_label, "No sensor detected");
+        return; // Maybe??
+    }
+
+    snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu°C", meas.T / 100, meas.T % 100);
+    snprintf(press_ui->data, sizeof(press_ui->data), "%luPa", meas.P / 256);
+    snprintf(hum_ui->data, sizeof(hum_ui->data), "%lu%%", meas.H / 1024);
+    lv_label_set_text(temp_ui->data_label, temp_ui->data);
+    lv_label_set_text(press_ui->data_label, press_ui->data);
+    lv_label_set_text(hum_ui->data_label, hum_ui->data);
 }
-
-// static void update_env_ui_timer_cb(lv_timer_t *timer)
-// {
-//     BME280Ui *temp_ui = &bme280_ui[0];
-//     BME280Ui *press_ui = &bme280_ui[1];
-//     BME280Ui *hum_ui = &bme280_ui[2];
-
-//     if (bme280_running == false)
-//     {
-//         lv_textarea_set_placeholder_text(env_textarea, "No enviroment sensor connected");
-//         return; // Maybe??
-//     }
-
-//     snprintf(temp_ui->data, sizeof(temp_ui->data), "%lu.%lu", meas.T / 100, meas.T % 100);
-//     snprintf(press_ui->data, sizeof(temp_ui->data), "%lu", meas.P / 256);
-//     snprintf(hum_ui->data, sizeof(temp_ui->data), "%lu", meas.H / 1024);
-    
-//     // TODO Update stuff
-//     lv_label_set_text(temp_ui->data_label, temp_ui->data);
-//     lv_label_set_text(press_ui->data_label, press_ui->data);
-//     lv_label_set_text(hum_ui->data_label, hum_ui->data);
-// }
 
 /* =======================
         MAIN TASK:
@@ -1432,20 +1398,23 @@ void lvgl_task(void *arg)
     ESP_ERROR_CHECK(esp_timer_create(&tick_timer_args, &tick_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, 1000));
 
-    create_security_ui();
+    ui_rebuild_all();
 
-    sensor_update_timer = lv_timer_create(update_sensor_ui_timer_cb, 250, NULL);
+    sensor_update_timer = lv_timer_create(on_sensor_poll_timer, 250, NULL);
 
     last_input_time = lv_tick_get();
 
-    // xTaskCreate(
-    //     GUI_Update_Network_Status,
-    //     "GUIUpdateNetworkStatus",
-    //     4096,
-    //     NULL,
-    //     8,
-    //     NULL
-    // );
+    xTaskCreate(
+        GUI_Update_Network_Status,
+        "GUIUpdateNetworkStatus",
+        4096,
+        NULL,
+        8,
+        NULL
+    );
+
+    // UBaseType_t lediga_ord = uxTaskGetStackHighWaterMark(NULL);
+    // ESP_LOGI(TAG, "Min stack-marginal: %u ord (%u byte)", lediga_ord, lediga_ord * sizeof(StackType_t));
 
     while (1)
     {
@@ -1456,8 +1425,7 @@ void lvgl_task(void *arg)
             screensaver_enter();
         }
 
-        uint32_t delay_ms = lv_timer_handler();
-        // ESP_LOGI(TAG, "delay=%lu", delay_ms);
-        vTaskDelay(pdMS_TO_TICKS(delay_ms ? delay_ms : 1));
+        lv_timer_handler();
+        vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
