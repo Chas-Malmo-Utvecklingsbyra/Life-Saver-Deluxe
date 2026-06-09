@@ -4,8 +4,8 @@ int wifi_connect_status = 0;
 static const char *TAG = "Connect_WiFi";
 int s_retry_num = 0;
 
-#define WIFI_SSID "Cyb" // DONT COMMIT YOUR WIFI CREDENTIALS TO GITHUB, CHANGE THESE TO YOUR WIFI CREDENTIALS BEFORE COMPILING
-#define WIFI_PASSWORD "Snoopdawg420" // DONT COMMIT YOUR WIFI CREDENTIALS TO GITHUB, CHANGE THESE TO YOUR WIFI CREDENTIALS BEFORE COMPILING
+#define WIFI_SSID CONFIG_WIFI_SSID
+#define WIFI_PASSWORD CONFIG_WIFI_PASSWORD
 #define MAXIMUM_RETRY 5
 /* FreeRTOS event group to signal when we are connected*/
 EventGroupHandle_t s_wifi_event_group;
@@ -59,6 +59,7 @@ void connect_wifi(void)
     s_wifi_event_group = xEventGroupCreate();
 
     ESP_ERROR_CHECK(esp_netif_init());
+    ESP_LOGI(TAG, "ESP netif initialized successfully");
 
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     esp_netif_create_default_wifi_sta();
@@ -68,6 +69,7 @@ void connect_wifi(void)
 
     esp_event_handler_instance_t instance_any_id;
     esp_event_handler_instance_t instance_got_ip;
+    ESP_LOGI(TAG, "Registering event handlers for WiFi events");
     ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
                                                         ESP_EVENT_ANY_ID,
                                                         &event_handler,
@@ -86,10 +88,21 @@ void connect_wifi(void)
             .threshold.authmode = WIFI_AUTH_WPA2_PSK,
         },
     };
+    ESP_LOGI(TAG, "Setting WiFi configuration SSID:%s", wifi_config.sta.ssid);
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
-    ESP_ERROR_CHECK(esp_wifi_start());
+    ESP_LOGI(TAG, "Setting WiFi configuration completed");
+    
+    //ESP_ERROR_CHECK(esp_wifi_start());
+    vTaskDelay(pdMS_TO_TICKS(2000)); // Delay to ensure WiFi is properly initialized before starting
 
+    esp_err_t err = esp_wifi_start();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Failed to start WiFi: %s", esp_err_to_name(err));
+        return;
+    }
+    ESP_LOGI(TAG, "WiFi started");
     ESP_LOGI(TAG, "wifi_init_sta finished.");
 
     /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum

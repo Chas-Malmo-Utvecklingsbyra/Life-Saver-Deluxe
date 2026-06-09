@@ -1,24 +1,28 @@
 #include <esp_system.h>
 #include <nvs_flash.h>
+#include <esp_log.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-
+#include "connect_wifi.h"
 #include "esp_camera.h"
-#include "esp_http_server.h"
 #include "esp_http_client.h"
 #include "esp_timer.h"
-#include "connect_wifi.h"
 #include "camera.h"
+#include "http_client.h"
+#include "http_server.h"
 
 #define BOARD_ESP32CAM_AITHINKER
 #include "camera_pins.h"
 
 static const char *TAG = "camera-image-server";
+static CameraConfig_t cameraConfig_g = {
+    .object_detection_server_url = "http://172.31.234.58:8080",
+    .homehub_server_url = "http://"
+};
 
 #define IMAGE_SETTINGS 1
 #define CONFIG_XCLK_FREQ 20000000 // 20000000
 
-static const char* POST_SERVER_URL = "http://192.168.1.5:8080/image"; // TODO: set your server IP, or setup a dynamic way to configure this (e.g. via Wi-Fi provisioning or web interface)
 
 /// @brief Initialize the camera
 /// @param  
@@ -43,11 +47,13 @@ static esp_err_t init_camera(void)
         .pin_vsync = CAM_PIN_VSYNC,
         .pin_href = CAM_PIN_HREF,
         .pin_pclk = CAM_PIN_PCLK,
+        
         .xclk_freq_hz = CONFIG_XCLK_FREQ,
         .ledc_timer = LEDC_TIMER_0,
         .ledc_channel = LEDC_CHANNEL_0,
+        
         .pixel_format = PIXFORMAT_JPEG,
-        .frame_size = FRAMESIZE_QVGA,
+        .frame_size = FRAMESIZE_VGA,
         .jpeg_quality = 10,
         .fb_count = 1,
         //.fb_location = CAMERA_FB_IN_PSRAM,
@@ -61,7 +67,7 @@ static esp_err_t init_camera(void)
     err =esp_camera_set_psram_mode(true);
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Failed to set PSRAM mode: %s", esp_err_to_name(err));
+        ESP_LOGI(TAG, "Failed to set PSRAM mode: %s", esp_err_to_name(err));
         return err;
     }
     ESP_LOGI(TAG, "Camera initialized successfully");
@@ -105,31 +111,21 @@ bool set_camera_image_settings()
 }
 
 /// @brief Capture the current frame and POST it to the configured server URL
-static void send_image_post(void)
+void send_image_post(void)
 {
     camera_fb_t *fb = esp_camera_fb_get();
     if (!fb)
     {
-        ESP_LOGE(TAG, "Failed to capture frame for POST");
+        ESP_LOGI(TAG, "Failed to capture frame for POST");
         return;
     }
-
-    esp_http_client_config_t config = {
-        .url = POST_SERVER_URL,
-        .method = HTTP_METHOD_POST,
-    };
-
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-    esp_http_client_set_header(client, "Content-Type", "application/octet-stream");
-    esp_http_client_set_post_field(client, (const char *)fb->buf, fb->len);
-
-    esp_err_t err = esp_http_client_perform(client);
-    if (err == ESP_OK)
-        ESP_LOGI(TAG, "Image POST OK: HTTP %d", esp_http_client_get_status_code(client));
+    
+    int status_code = http_client_post(cameraConfig_g.object_detection_server_url, "/image", HTTP_CONTENT_TYPE_JPEG, (const char *)fb->buf, fb->len, NULL, 0);
+    if (status_code < 0)
+        ESP_LOGI(TAG, "Failed to send image POST request");
     else
-        ESP_LOGE(TAG, "Image POST failed: %s", esp_err_to_name(err));
+        ESP_LOGI(TAG, "Image POST request sent successfully with status code: %d", status_code);
 
-    esp_http_client_cleanup(client);
     esp_camera_fb_return(fb);
 }
 
@@ -137,7 +133,7 @@ void camera_loop_task(void *parameters)
 {
     if (!set_camera_image_settings())
     {
-        ESP_LOGE(TAG, "Failed to apply camera image settings");
+        ESP_LOGI(TAG, "Failed to apply camera image settings");
         return;
     }
     
@@ -145,7 +141,7 @@ void camera_loop_task(void *parameters)
     {
         if(!capture_still())
         {
-            ESP_LOGE(TAG, "Failed to capture image");
+            ESP_LOGI(TAG, "Failed to capture image");
             return;
         }
         
@@ -181,25 +177,26 @@ void app_main()
         ESP_ERROR_CHECK(nvs_flash_erase());
         ret = nvs_flash_init();
     }
-
+    
+    ESP_LOGI(TAG, "NVS initialized successfully\n");
     connect_wifi();
-    if (wifi_connect_status)
-    {
-        ESP_LOGI(TAG, "Connected to Wi-Fi successfully\n");
-    }
-    else
-    {
-        ESP_LOGI(TAG, "Failed to connected with Wi-Fi, check your network Credentials\n");
-    }
 
+    if (wifi_connect_status)
+        ESP_LOGI(TAG, "Connected to Wi-Fi successfully\n");
+    else
+        ESP_LOGI(TAG, "Failed to connected with Wi-Fi, check your network Credentials\n");
+    
     esp_err_t err = init_camera();
     if (err != ESP_OK)
     {
         printf("err: %s\n", esp_err_to_name(err));
         return;
     }
+    
     xTaskCreate(camera_loop_task, "camera_loop_task", 16384, NULL, 5, NULL);
     ESP_LOGI(TAG, "Camera loop task started\n");
+
+    http_server_setup(&cameraConfig_g);
     
     while (true)
     {
