@@ -61,6 +61,7 @@ static i2c_master_dev_handle_t dev_handle = NULL;
 bme280_meas_t meas;
 
 extern bool bme280_running;
+extern SemaphoreHandle_t env_sensor_mutex;
 
 static esp_err_t bme280_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
 {
@@ -211,9 +212,23 @@ esp_err_t bme280_read_meas(bme280_meas_t *meas)
         return err;
     }
 
-    meas->T = bme280_compensate_T(raw.adc_T);
-    meas->P = bme280_compensate_P(raw.adc_P);
-    meas->H = bme280_compensate_H(raw.adc_H);
+    while (1)
+    {
+        if (xSemaphoreTake(env_sensor_mutex, pdMS_TO_TICKS(100)) == pdTRUE)
+        {
+            meas->T = bme280_compensate_T(raw.adc_T);
+            meas->P = bme280_compensate_P(raw.adc_P);
+            meas->H = bme280_compensate_H(raw.adc_H);
+            
+            xSemaphoreGive(env_sensor_mutex);
+            break;
+        }
+        else
+        {
+            ESP_LOGW(TAG, "Mutex timeout in bme280_read_meas");
+        }
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
 
     return ESP_OK;
 }

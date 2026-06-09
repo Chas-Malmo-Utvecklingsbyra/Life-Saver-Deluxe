@@ -24,6 +24,7 @@ static const char* TAG = "Home-Hub";
 #define PORT 6060
 
 bool bme280_running = false;
+SemaphoreHandle_t env_sensor_mutex = NULL;
 
 void full_data_received(TCP_Server_Client* client)
 {
@@ -266,6 +267,9 @@ void app_main(void)
 
     Console_Command_Add((Console_Command){.callback = command_fragment, .command = "fragment", .help = "fragment", .hint = "This shows the current ESP fragmentation of the heap"});
     Console_Initialize();
+
+    env_sensor_mutex = xSemaphoreCreateMutex();
+    configASSERT(env_sensor_mutex != NULL);
 
     //remove("/spiffs/sensors");
     xTaskCreate(lvgl_task, "lvgl", 32768, NULL, 5, NULL);

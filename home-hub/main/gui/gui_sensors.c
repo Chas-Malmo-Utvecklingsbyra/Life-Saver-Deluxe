@@ -3,6 +3,8 @@
 #include "gui_themes.h"
 #include "../sensor/sensor_settings.h"
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
 
 #include <string.h>
 #include <inttypes.h>
@@ -14,6 +16,7 @@ extern lv_obj_t *main_tabview;
 
 extern bme280_meas_t meas;
 extern bool bme280_running;
+extern SemaphoreHandle_t env_sensor_mutex;
 
 SensorUi sensor_uis[MAX_SENSORS];
 size_t sensor_ui_count = 0;
@@ -217,9 +220,26 @@ void on_ui_poll_timer(lv_timer_t *timer)
         return;
     }
 
-    int32_t temp_c = (int32_t)(meas.T / 100);
-    int32_t press_hpa = (int32_t)(meas.P / 256 / 100);
-    int32_t hum_pct = (int32_t)(meas.H / 1024);
+    int32_t temp_c;
+    int32_t press_hpa;
+    int32_t hum_pct;
+    while (1)
+    {
+        if (xSemaphoreTake(env_sensor_mutex, pdMS_TO_TICKS(100)) == pdTRUE)
+        {
+            temp_c = (int32_t)(meas.T / 100);
+            press_hpa = (int32_t)(meas.P / 256 / 100);
+            hum_pct = (int32_t)(meas.H / 1024);
+            
+            xSemaphoreGive(env_sensor_mutex);
+            break;
+        }
+        else
+        {
+            ESP_LOGW(TAG, "Mutex timeout in on_ui_poll_timer");
+        }
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
 
     snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%02ld°C", meas.T / 100, meas.T % 100);
     snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldhPa", press_hpa);
