@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 
-#define TAG         "GUI"
+#define TAG         "GUI_TABS"
 #define LCD_H_RES   1204
 #define LCD_V_RES   600
 
@@ -19,7 +19,7 @@
 static void on_theme_button_pressed(lv_event_t *e)
 {
     current_theme = (uint8_t)(uintptr_t)lv_event_get_user_data(e);
-    ui_rebuild_all();
+    lv_async_call((lv_async_cb_t)ui_rebuild_all, NULL);
 }
 
 static void on_brightness_slider_changed(lv_event_t *e)

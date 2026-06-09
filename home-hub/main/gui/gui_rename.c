@@ -61,7 +61,7 @@ static void rename_kb_event_cb(lv_event_t *e)
             sensor_placement_set(rename_target->sensor->guid, placement);
         }
         close_rename_overlay();        
-        ui_rebuild_all();
+        lv_async_call((lv_async_cb_t)ui_rebuild_all, NULL);
     }
     else if (code == LV_EVENT_CANCEL)
     {
