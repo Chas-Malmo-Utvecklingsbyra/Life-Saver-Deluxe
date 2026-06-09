@@ -2,6 +2,7 @@
 #define FILE_SYSTEM_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 typedef enum 
 {

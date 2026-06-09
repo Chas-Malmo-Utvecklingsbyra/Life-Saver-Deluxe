@@ -2,6 +2,15 @@ file(GLOB_RECURSE CORE_SOURCES
     "../../embedded-core/*.c"
 )
 
+# Exkludera Unity-tester
+list(FILTER CORE_SOURCES EXCLUDE REGEX ".*/test/.*")
+
+# Exkludera mock-filer
+list(FILTER CORE_SOURCES EXCLUDE REGEX ".*/mocks/.*")
+
+# Exkludera patchade testfiler, t.ex. file_system_test.c
+list(FILTER CORE_SOURCES EXCLUDE REGEX ".*/.*_test\\.c$")
+
 file(GLOB_RECURSE APP_SOURCES
     "*.c"
 )
@@ -9,7 +18,7 @@ file(GLOB_RECURSE APP_SOURCES
 idf_component_register(
     SRCS ${APP_SOURCES} ${CORE_SOURCES}
     INCLUDE_DIRS "." "../../embedded-core"
-    REQUIRES 
+    REQUIRES
         spiffs
         esp_wifi
         nvs_flash
