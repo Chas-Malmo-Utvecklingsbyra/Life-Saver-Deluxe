@@ -23,5 +23,6 @@ typedef struct
 } theme_t;
 
 extern const theme_t themes[4];
+extern uint8_t current_theme;
 
 #endif
