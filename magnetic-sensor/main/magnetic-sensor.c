@@ -20,6 +20,8 @@
 #define BYTES_TO_WORD(x) (x/4)
 
 #define CFG_NAME "uuid.cfg"
+#define MDNS_HOSTNAME "sensor-temp"
+#define MDNS_HOMEHUB "homehub"
 
 static const char* TAG = "Door/Window Sensor";
 
@@ -69,57 +71,37 @@ void sensor_read_task(void* params)
 	}
 }
 
-void sensor_send_task(void* params)
+void sensor_initialize_task(void* params)
 {
-	while (true)
+	while (TCP_Client_Initialize(&client) != TCP_Client_Success)
 	{
-		if (TCP_Client_Initialize(&client) == TCP_Client_Success)
-		{
-			break;
-		}
-		else
-		{
-			ESP_LOGI("TCP_CLIENT", "Failed to Initialize!");
-		}
-		vTaskDelay(pdMS_TO_TICKS(100));
+
+		ESP_LOGI("TCP_CLIENT", "Failed to Initialize!");
+		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 
 	mdns_init();
-	mdns_hostname_set("sensor-temp");
+	mdns_hostname_set(MDNS_HOSTNAME);
 
 	esp_ip4_addr_t result = {};
-	while (true)
+	while (mdns_query_a(MDNS_HOMEHUB, 1000, &result) != ESP_OK)
 	{
-		esp_err_t mdns_query_err = mdns_query_a("homehub", 1000, &result);
-		if (mdns_query_err != ESP_OK)
-		{
-			ESP_LOGI(TAG, "could not find address for home hub!");
-			ESP_LOGI(TAG, "mDNS lookup failed: %s", esp_err_to_name(mdns_query_err));
-			vTaskDelay(pdMS_TO_TICKS(100));
-			continue;
-		}
-		break;
+		ESP_LOGW(TAG, "mDNS lookup failed for %s", MDNS_HOMEHUB);
+		vTaskDelay(pdMS_TO_TICKS(500));
+	}
+
+	while (!Internet_Is_Connected())
+	{
+		ESP_LOGW(TAG, "Waiting for internet connection...");
+		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 
 	char ip_str[16];
 	snprintf(ip_str, sizeof(ip_str), IPSTR, IP2STR(&result));
-
-	while (true)
+	
+	while (TCP_Client_Connect(&client, ip_str, (uint16_t)6060) != TCP_Client_Success)
 	{
-		if (!Internet_Is_Connected())
-		{
-			vTaskDelay(pdMS_TO_TICKS(100));
-			continue;
-		}
-
-		if (TCP_Client_Connect(&client, ip_str, (uint16_t)6060) == TCP_Client_Success)
-		{
-			break;
-		}
-		else
-		{
-			ESP_LOGI("TCP_CLIENT", "Failed to connect!");
-		}
+		ESP_LOGW(TAG, "Waiting to connect to TCP Server...");
 		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 
@@ -144,21 +126,15 @@ void sensor_send_task(void* params)
 
 void read_tcp_task(void* params)
 {
-	static bool do_once = false;
+	int flags = fcntl(client.socket, F_GETFL, 0);
+    fcntl(client.socket, F_SETFL, flags | O_NONBLOCK);
 
 	while(1)
 	{
 		if (!client.has_initialized)
 		{
-			vTaskDelay(pdMS_TO_TICKS(100));
+			vTaskDelay(pdMS_TO_TICKS(500));
 			continue;
-		}
-
-		if (!do_once)
-		{
-			int flags = fcntl(client.socket, F_GETFL, 0);
-    		fcntl(client.socket, F_SETFL, flags | O_NONBLOCK);
-			do_once = true;
 		}
 
 		char buffer[1024];
@@ -267,15 +243,8 @@ void read_tcp_task(void* params)
 	TCP_Client_Dispose(&client);
 }
 
-void app_main(void)
+static void initialize_guid()
 {
-	if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
-	{
-		ESP_LOGE(TAG, "Failed to Initialize File System!");
-		return;
-	}
-	//remove("/spiffs/uuid.cfg");
-
 	if (File_System_File_Exists(CFG_NAME))
 	{
 		char uuid4_buffer[RANDOM_MAX_UUID_V4_LENGTH];
@@ -293,9 +262,12 @@ void app_main(void)
 	{
 		ESP_LOGI(TAG, "Could not find %s file.. Waiting for Initialization from TCP", CFG_NAME);
 	}
-	Internet_Initialize("username", "password");
+}
 
-	gpio_config_t config = {
+static void setup_gpio()
+{
+	gpio_config_t config = 
+	{
 		.pin_bit_mask = (1ULL << SENSOR_GPIO_PORT),
 		.mode = GPIO_MODE_INPUT,
 		.pull_up_en = GPIO_PULLUP_ENABLE,
@@ -308,6 +280,22 @@ void app_main(void)
 		ESP_LOGE(TAG, "Failed to setup GPIO port.");
 		return;
 	}
+}
+
+void app_main(void)
+{
+	if (File_System_Initialize(File_System_Type_Spiffs) != File_System_Success)
+	{
+		ESP_LOGE(TAG, "Failed to Initialize File System!");
+		return;
+	}
+	//remove("/spiffs/uuid.cfg");
+
+	initialize_guid();
+
+	Internet_Initialize("username", "password");
+
+	setup_gpio();
 
 	BaseType_t read_task_result = xTaskCreate(sensor_read_task, "ReadTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
 	if (read_task_result != pdPASS)
@@ -317,11 +305,11 @@ void app_main(void)
 		return;
 	}
 
-	BaseType_t send_task_result = xTaskCreate(sensor_send_task, "SendTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
-	if (send_task_result != pdPASS)
+	BaseType_t initialize_task_result = xTaskCreate(sensor_initialize_task, "InitializeTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
+	if (initialize_task_result != pdPASS)
 	{
 		// Task failed to be created
-		ESP_LOGE(TAG, "SendTask failed to be created!");
+		ESP_LOGE(TAG, "InitializeTask failed to be created!");
 		return;
 	}
 

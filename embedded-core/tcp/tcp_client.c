@@ -30,6 +30,18 @@ TCP_Client_Error TCP_Client_Connect(TCP_Client *client, const char *ip, uint16_t
     
     if (connect(client->socket, (struct sockaddr*)&client->server_addr, sizeof(client->server_addr)) < 0 )
     {
+        int err = errno;
+
+        if (err == EISCONN)
+        {
+            return TCP_Client_Success;
+        }
+
+        ESP_LOGW("TCP_Client",
+             "connect failed errno=%d (%s)",
+             err,
+             strerror(err));
+
         return TCP_Client_Error_Connect;
     }
 
@@ -38,7 +50,7 @@ TCP_Client_Error TCP_Client_Connect(TCP_Client *client, const char *ip, uint16_t
 
 void TCP_Client_Dispose(TCP_Client *client)
 {
-    if (client->socket < 0)
+if (client->socket < 0)
         return;
 
     close(client->socket);
