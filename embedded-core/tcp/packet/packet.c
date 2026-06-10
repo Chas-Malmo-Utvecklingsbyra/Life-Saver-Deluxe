@@ -36,6 +36,10 @@ char* Packet_Job_To_String(Packet_Job job)
         {
             return "Debug";
         }
+        case Packet_Job_Acknowledge:
+        {
+            return "Acknowledge";
+        }
         default:
         {
             return NULL;
@@ -45,12 +49,12 @@ char* Packet_Job_To_String(Packet_Job job)
 
 Packet_Job Packet_Job_From_String(const char* string)
 {
-    ESP_LOGI(TAG, "MADE IT IN HERE!");
-    
     // Returns if job is found
     Packet_Job_Find_Job(string, "Initialize", Packet_Job_Initialize);
     Packet_Job_Find_Job(string, "Data", Packet_Job_Data);
     Packet_Job_Find_Job(string, "Heartbeat", Packet_Job_Heartbeat);
+    Packet_Job_Find_Job(string, "Acknowledge", Packet_Job_Acknowledge);
+
 
     return Packet_Job_Unknown;
 }

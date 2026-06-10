@@ -28,10 +28,11 @@ static const char* TAG = "Door/Window Sensor";
 static TCP_Client client = {};
 static char guid[RANDOM_MAX_UUID_V4_LENGTH];
 static atomic_bool has_guid = false;
+static atomic_bool is_sending_data = false;
 
 static void send_data_to_home_hub(const char* data)
 {
-	if (has_guid && Internet_Is_Connected())
+	if (has_guid && Internet_Is_Connected() && !is_sending_data)
 	{
 		char buffer[256];
 		snprintf(buffer, 256, "%s|%s", guid, data);
@@ -39,7 +40,11 @@ static void send_data_to_home_hub(const char* data)
 		char* packet = Packet_Build(Packet_Job_Data, buffer);
 		if (TCP_Client_Send(&client, packet, strlen(packet)) != TCP_Client_Success)
 		{
-			ESP_LOGW(TAG, "Could not send data packet to server.");
+			//ESP_LOGW(TAG, "Could not send data packet to server, probably trying to connect to MSDNS.");
+		}
+		else
+		{
+			is_sending_data = true;
 		}
 		Arena_Reset();
 	}
@@ -47,23 +52,16 @@ static void send_data_to_home_hub(const char* data)
 
 void sensor_read_task(void* params)
 {
-	int prev_state = -1;
 	while (true)
 	{
 		int state = gpio_get_level(SENSOR_GPIO_PORT);
 
-		if (state == 0 && state != prev_state)
+		if (state == 0)
 		{
-			ESP_LOGI(TAG, "CLOSED!");
-			prev_state = state;
-
 			send_data_to_home_hub("false");
 		}
-		else if (state == 1 && state != prev_state)
+		else if (state == 1)
 		{
-			ESP_LOGI(TAG, "OPEN!");
-			prev_state = state;
-
 			send_data_to_home_hub("true");
 		}
 		
@@ -80,6 +78,12 @@ void sensor_initialize_task(void* params)
 		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 
+	while (!Internet_Is_Connected())
+	{
+		ESP_LOGW(TAG, "Waiting for internet connection...");
+		vTaskDelay(pdMS_TO_TICKS(500));
+	}
+
 	mdns_init();
 	mdns_hostname_set(MDNS_HOSTNAME);
 
@@ -87,12 +91,6 @@ void sensor_initialize_task(void* params)
 	while (mdns_query_a(MDNS_HOMEHUB, 1000, &result) != ESP_OK)
 	{
 		ESP_LOGW(TAG, "mDNS lookup failed for %s", MDNS_HOMEHUB);
-		vTaskDelay(pdMS_TO_TICKS(500));
-	}
-
-	while (!Internet_Is_Connected())
-	{
-		ESP_LOGW(TAG, "Waiting for internet connection...");
 		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 
@@ -160,8 +158,6 @@ void read_tcp_task(void* params)
 			{
 				break;
 			}
-
-			ESP_LOGI(TAG, "Looppoop");
 		}
 
 		if (total_bytes != 0)
@@ -229,6 +225,11 @@ void read_tcp_task(void* params)
 					Arena_Reset();
 					break;
 				}
+				case Packet_Job_Acknowledge:
+				{
+					is_sending_data = false;
+					break;
+				}
 				default:
 				{
 					break;
@@ -293,7 +294,7 @@ void app_main(void)
 
 	initialize_guid();
 
-	Internet_Initialize("username", "password");
+	Internet_Initialize("iPhone", "devpassword");
 
 	setup_gpio();
 

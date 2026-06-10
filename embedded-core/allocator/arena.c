@@ -14,7 +14,7 @@ void* Arena_Malloc(size_t size)
         return NULL;
     }
 
-    ESP_LOGI("Arena Allocator", "Allocated byte (%zu/%zu)", internal.bytes_in_use + size, ALLOCATOR_ARENA_SIZE);
+    //ESP_LOGI("Arena Allocator", "Allocated byte (%zu/%zu)", internal.bytes_in_use + size, ALLOCATOR_ARENA_SIZE);
 
 
     size_t old_size = internal.bytes_in_use;

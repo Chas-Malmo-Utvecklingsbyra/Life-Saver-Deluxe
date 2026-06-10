@@ -28,8 +28,6 @@ SemaphoreHandle_t env_sensor_mutex = NULL;
 
 void full_data_received(TCP_Server_Client* client)
 {
-    ESP_LOGI(TAG, "Received data: [%s]", client->data);
-
     cJSON* root = cJSON_Parse(client->data);
     if (root == NULL)
     {
@@ -62,13 +60,13 @@ void full_data_received(TCP_Server_Client* client)
         return;
     }
     
-    ESP_LOGI(TAG, "Parsed out job: [%s]", job_str);
+    //ESP_LOGI(TAG, "Parsed out job: [%s]", job_str);
 
     switch (Packet_Job_From_String(job_str))
     {
         case Packet_Job_Initialize:
         {
-            ESP_LOGI(TAG, "Made it in here!");
+            //ESP_LOGI(TAG, "Made it in here!");
 
             char* data_str = cJSON_GetStringValue(data_json);
             if (data_str == NULL)
@@ -179,6 +177,13 @@ void full_data_received(TCP_Server_Client* client)
             sensor->type = Sensor_Type_Magnetic;
 
             ESP_LOGI(TAG, "Got value: (%s) | (%s) | (%d)", uuid, real_data, *(bool*)sensor->data);
+
+            char* packet = Packet_Build(Packet_Job_Acknowledge, NULL);
+            if (TCP_Server_Send(client, packet, strlen(packet)) != TCP_Server_Success)
+            {
+                ESP_LOGI(TAG, "Failed to Send data to Client");
+            }
+            Arena_Reset();
 
             //ESP_LOGI(TAG, "Received some data.... Needs processing!");
             break;
@@ -304,7 +309,7 @@ void app_main(void)
 
     //Sensor_Print_All();
 
-	Internet_Initialize("username", "password");
+	Internet_Initialize("iPhone", "devpassword");
     xTaskCreate(tcp_server_task, "TCPServerTask", 4096, NULL, 10, NULL);
 
     esp_err_t mdns_err = mdns_init();

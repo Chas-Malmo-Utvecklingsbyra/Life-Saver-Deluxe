@@ -142,7 +142,6 @@ void TCP_Server_Recv(TCP_Server *server)
 
             if (bytes > 0)
             {
-                ESP_LOGI(TAG, "bytes increased");
                 total_bytes += bytes;
             }
 
@@ -157,7 +156,6 @@ void TCP_Server_Recv(TCP_Server *server)
                 break;
             }
 
-            ESP_LOGI(TAG, "Looppoop");
         }
 
         if (total_bytes == 0)
@@ -165,13 +163,10 @@ void TCP_Server_Recv(TCP_Server *server)
             continue;
         }
 
-        ESP_LOGI(TAG, "Entering out of here");
-
         strncpy(client_sockets[i].data, buffer, 1024);
         buffer[total_bytes] = '\0';
         client_sockets[i].len = total_bytes;
 
-        ESP_LOGI(TAG, "Entering callback");
         server->callback(&client_sockets[i]);
 
         memset(buffer, 0, 1024);
