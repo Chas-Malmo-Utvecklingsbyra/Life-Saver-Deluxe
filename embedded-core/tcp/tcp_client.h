@@ -64,6 +64,20 @@ TCP_Client_Error TCP_Client_Connect(TCP_Client *client, const char *ip, uint16_t
  */
 void TCP_Client_Dispose(TCP_Client *client);
 
+/**
+ * 
+ * @brief Sends a TCP message to a TCP_Client
+ * 
+ * TCP_Client_Send sends data to the client using sockets.
+ *
+ * @param data The data to send to the client.
+ * @param length The length of the data which should be sent to the client.
+ * 
+ * @return TCP_Client_Error depending on the result of the action. TCP_Client_Success for success!
+ *
+ * @note Return values may be TCP_Client_Success, TCP_Client_Error_Send or TCP_Client_Error_Socket
+ * 
+ */
 TCP_Client_Error TCP_Client_Send(TCP_Client* client, const void* data, size_t length);
 
 #endif

@@ -95,6 +95,14 @@ File_System_Error File_System_Read_File(const char* file_name, char* out_buffer,
  */
 bool File_System_File_Exists(const char* file_name);
 
+
+/**
+ * @brief Get the current File System type
+ *
+ * 
+ * @return Returns current File_System_Type type that the file system is using
+ * 
+ */
 File_System_Type File_System_Get_Type();
 
 #endif
