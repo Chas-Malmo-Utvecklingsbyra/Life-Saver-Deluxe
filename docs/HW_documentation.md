@@ -162,7 +162,7 @@ ESP32-C3 ----/
 | Input Voltage | 5 V DC |
 | Operating Voltage | 3.3 V |
 
-# Pinout
+# Pin Configuration
 
 | Device | GPIO | Function |
 |---------|---------|----------|
@@ -171,6 +171,8 @@ ESP32-C3 ----/
 | ESP32-C3 #1 | GPIO2 | Door Sensor #1 |
 | ESP32-C3 #2 | GPIO2 | Window Sensor |
 | ESP32-C3 #3 | GPIO2 | Door Sensor #2 |
+
+For further information regarding pin-configuration: https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description
 
 # System Limitations
 
