@@ -4,13 +4,12 @@
 #include "json/cJSON.h"
 #include "http_server.h"
 
-static const char *TAG = "http_server";
-static CameraConfig_t *s_config = NULL;
+static const char *TAG = "HTTP_SERVER";
+static AddressConfig_t *ServerConfig = NULL;
 
-/* POST /config
- * Body (JSON): {"object_detection_server_url":"...","homehub_server_url":"..."}
- * Both fields are optional – only provided fields are updated.
- */
+/// @brief Handle POST requests to update the server configuration
+/// @param req The HTTP request object
+/// @return ESP_OK on success, ESP_FAIL on failure
 static esp_err_t config_post_handler(httpd_req_t *req)
 {
     char buf[512];
@@ -40,17 +39,17 @@ static esp_err_t config_post_handler(httpd_req_t *req)
     cJSON *obj_url = cJSON_GetObjectItem(root, "object_detection_server_url");
     if (cJSON_IsString(obj_url) && obj_url->valuestring)
     {
-        strlcpy(s_config->object_detection_server_url, obj_url->valuestring,
-                sizeof(s_config->object_detection_server_url));
-        ESP_LOGI(TAG, "object_detection_server_url set to: %s", s_config->object_detection_server_url);
+        strlcpy(ServerConfig->object_detection_server_url, obj_url->valuestring,
+                sizeof(ServerConfig->object_detection_server_url));
+        ESP_LOGI(TAG, "object_detection_server_url set to: %s", ServerConfig->object_detection_server_url);
     }
 
     cJSON *hub_url = cJSON_GetObjectItem(root, "homehub_server_url");
     if (cJSON_IsString(hub_url) && hub_url->valuestring)
     {
-        strlcpy(s_config->homehub_server_url, hub_url->valuestring,
-                sizeof(s_config->homehub_server_url));
-        ESP_LOGI(TAG, "homehub_server_url set to: %s", s_config->homehub_server_url);
+        strlcpy(ServerConfig->homehub_server_url, hub_url->valuestring,
+                sizeof(ServerConfig->homehub_server_url));
+        ESP_LOGI(TAG, "homehub_server_url set to: %s", ServerConfig->homehub_server_url);
     }
 
     cJSON_Delete(root);
@@ -60,12 +59,14 @@ static esp_err_t config_post_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-/* GET /config – returns the current config as JSON */
+/// @brief Handle GET requests to retrieve the current configuration
+/// @param req The HTTP request object
+/// @return ESP_OK on success, ESP_FAIL on failure
 static esp_err_t config_get_handler(httpd_req_t *req)
 {
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "object_detection_server_url", s_config->object_detection_server_url);
-    cJSON_AddStringToObject(root, "homehub_server_url", s_config->homehub_server_url);
+    cJSON_AddStringToObject(root, "object_detection_server_url", ServerConfig->object_detection_server_url);
+    cJSON_AddStringToObject(root, "homehub_server_url", ServerConfig->homehub_server_url);
 
     char *json_str = cJSON_PrintUnformatted(root);
     cJSON_Delete(root);
@@ -82,9 +83,10 @@ static esp_err_t config_get_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-int http_server_setup(CameraConfig_t *config)
+int http_server_setup(AddressConfig_t *config)
 {
-    s_config = config;
+    ESP_LOGI(TAG, "Setting up HTTP server...");
+    ServerConfig = config;
 
     httpd_config_t server_config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server = NULL;

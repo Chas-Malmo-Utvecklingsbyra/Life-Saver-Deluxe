@@ -35,6 +35,12 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
     {
     case HTTP_EVENT_ERROR:
         ESP_LOGI(TAG, "HTTP_EVENT_ERROR");
+        if (output_buffer)
+        {
+            free(output_buffer);
+            output_buffer = NULL;
+        }
+        output_len = 0;
         break;
 
     case HTTP_EVENT_ON_CONNECTED:
@@ -77,7 +83,6 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
                 int content_len = esp_http_client_get_content_length(evt->client);
                 if (output_buffer == NULL)
                 {
-                    // We initialize output_buffer with 0 because it is used by strlen() and similar functions therefore should be null terminated.
                     output_buffer = (char *)calloc(content_len + 1, sizeof(char));
                     output_len = 0;
                     if (output_buffer == NULL)
@@ -122,15 +127,18 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
 
 esp_err_t http_client_post(const char *url, const char *path, Http_Client_Content_Type_e content_type, const char *post_data, const uint16_t post_data_len, char *response_buffer, uint16_t buffer_size)
 {
-    ESP_LOGI(TAG, "Starting HTTP POST request to URL: %s%s", url, path);
-    
+    // Build full URL by combining base URL and path
+    char full_url[512];
+    snprintf(full_url, sizeof(full_url), "%s%s", url, path);
+    ESP_LOGI(TAG, "Starting HTTP POST request to URL: %s", full_url);
+
     esp_http_client_config_t config = {
-        .url = url,
-        .path = path,
+        .url = full_url,
         .method = HTTP_METHOD_POST,
         .event_handler = http_event_handler,
         .user_data = response_buffer,
         .disable_auto_redirect = true,
+        .timeout_ms = 5000,
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);

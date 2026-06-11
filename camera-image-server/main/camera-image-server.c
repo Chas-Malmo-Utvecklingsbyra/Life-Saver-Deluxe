@@ -3,33 +3,34 @@
 #include <esp_log.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "connect_wifi.h"
 #include "esp_camera.h"
 #include "esp_http_client.h"
 #include "esp_timer.h"
-#include "camera.h"
-#include "http_client.h"
-#include "http_server.h"
+#include "wifi/connect_wifi.h"
+#include "camera/camera.h"
+#include "http_client/http_client.h"
+#include "http_server/http_server.h"
 
 #define BOARD_ESP32CAM_AITHINKER
 #include "camera_pins.h"
 
-static const char *TAG = "camera-image-server";
-static CameraConfig_t cameraConfig_g = {
-    .object_detection_server_url = "http://172.31.234.58:8080",
-    .homehub_server_url = "http://"
-};
-
 #define IMAGE_SETTINGS 1
 #define CONFIG_XCLK_FREQ 20000000 // 20000000
 
+static const char *TAG = "camera-image-server";
+static AddressConfig_t cameraConfig_g = {
+    .object_detection_server_url = "http://192.168.1.5:8080",
+    .homehub_server_url = "http://"
+};
+
+
 
 /// @brief Initialize the camera
-/// @param  
+/// @param
 /// @return ESP_OK on success, error code otherwise
 static esp_err_t init_camera(void)
 {
-    camera_config_t camera_config = {
+    camera_config_t cameraJPEGConfig = {
         .pin_pwdn = CAM_PIN_PWDN,
         .pin_reset = CAM_PIN_RESET,
         .pin_xclk = CAM_PIN_XCLK,
@@ -47,27 +48,26 @@ static esp_err_t init_camera(void)
         .pin_vsync = CAM_PIN_VSYNC,
         .pin_href = CAM_PIN_HREF,
         .pin_pclk = CAM_PIN_PCLK,
-        
+
         .xclk_freq_hz = CONFIG_XCLK_FREQ,
         .ledc_timer = LEDC_TIMER_0,
         .ledc_channel = LEDC_CHANNEL_0,
-        
+
         .pixel_format = PIXFORMAT_JPEG,
         .frame_size = FRAMESIZE_VGA,
         .jpeg_quality = 10,
         .fb_count = 1,
         //.fb_location = CAMERA_FB_IN_PSRAM,
-        .grab_mode = CAMERA_GRAB_WHEN_EMPTY
-    };
+        .grab_mode = CAMERA_GRAB_WHEN_EMPTY};
 
-    esp_err_t err = esp_camera_init(&camera_config);
+    esp_err_t err = esp_camera_init(&cameraJPEGConfig);
     if (err != ESP_OK)
         return err;
 
-    err =esp_camera_set_psram_mode(true);
+    err = esp_camera_set_psram_mode(true);
     if (err != ESP_OK)
     {
-        ESP_LOGI(TAG, "Failed to set PSRAM mode: %s", esp_err_to_name(err));
+        ESP_LOGE(TAG, "Failed to set PSRAM mode: %s", esp_err_to_name(err));
         return err;
     }
     ESP_LOGI(TAG, "Camera initialized successfully");
@@ -85,10 +85,10 @@ bool set_camera_image_settings()
 
     // If you enable gain_ctrl or exposure_ctrl it will prevent a lot of the other settings having any effect
     // more info on settings here: https://randomnerdtutorials.com/esp32-cam-ov2640-camera-settings/
-    sensor->set_gain_ctrl(sensor, 0);            // auto gain off (1 or 0)
-    sensor->set_exposure_ctrl(sensor, 0);        // auto exposure off (1 or 0)
-    sensor->set_agc_gain(sensor, 0);             // set gain manually (0 - 31)
-    sensor->set_aec_value(sensor, 0);            // set exposure manually  (0-1200)
+    sensor->set_gain_ctrl(sensor, 1);            // auto gain off (1 or 0)
+    sensor->set_exposure_ctrl(sensor, 1);        // auto exposure off (1 or 0)
+    //sensor->set_agc_gain(sensor, 0);             // set gain manually (0 - 31)
+    //sensor->set_aec_value(sensor, 0);            // set exposure manually  (0-1200)
     sensor->set_vflip(sensor, 0);                // Invert image (0 or 1)
     sensor->set_quality(sensor, 10);             // (0 - 63)
     sensor->set_gainceiling(sensor, GAINCEILING_32X); // Image gain (GAINCEILING_x2, x4, x8, x16, x32, x64 or x128)
@@ -131,38 +131,37 @@ void send_image_post(void)
 
 void camera_loop_task(void *parameters)
 {
-    if (!set_camera_image_settings())
-    {
-        ESP_LOGI(TAG, "Failed to apply camera image settings");
-        return;
-    }
+
     
     while (true)
     {
         if(!capture_still())
         {
-            ESP_LOGI(TAG, "Failed to capture image");
-            return;
+            ESP_LOGE(TAG, "Failed to capture image");
+            vTaskDelay(pdMS_TO_TICKS(1000));
+            continue;
         }
         
         uint16_t changes = motion_detect();
-        update_frame();
-        
+
         if ((changes >= imageThresholdL) && (changes <= imageThresholdH))
         {
+            update_frame();
             if(tCounter >= tCounterTrigger)
             {
                 tCounter = 0;
                 latestChanges = changes;
                 ESP_LOGI(TAG, "Motion detected with %u changed blocks", changes);
                 send_image_post();
-                
             }
             else
             {
-                tCounter++;
                 ESP_LOGI(TAG, "Motion suspected with %u changed blocks, waiting for confirmation (%u/%u)", changes, tCounter, tCounterTrigger);
             }
+        }
+        else
+        {
+            update_frame();
         }
         vTaskDelay(pdMS_TO_TICKS(1000)); // delay for 1 second before capturing next image
     }
@@ -179,7 +178,13 @@ void app_main()
     }
     
     ESP_LOGI(TAG, "NVS initialized successfully\n");
+    
+#ifdef CONFIG_WIFI_SSID
     connect_wifi();
+    #else
+    ESP_LOGI(TAG, "No Wi-Fi credentials provided, skipping Wi-Fi connection\n");
+#endif
+    
 
     if (wifi_connect_status)
         ESP_LOGI(TAG, "Connected to Wi-Fi successfully\n");
@@ -190,6 +195,18 @@ void app_main()
     if (err != ESP_OK)
     {
         printf("err: %s\n", esp_err_to_name(err));
+        return;
+    }
+
+    if (!set_camera_image_settings())
+    {
+        ESP_LOGE(TAG, "Failed to apply camera image settings");
+        return;
+    }
+    
+    if (!camera_motion_init())
+    {
+        ESP_LOGE(TAG, "Failed to allocate motion detection buffer");
         return;
     }
     

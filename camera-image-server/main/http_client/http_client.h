@@ -19,7 +19,7 @@
 #include <lwip/api.h>
 #include <lwip/netdb.h>
 
-typedef enum
+typedef enum Http_Client_Content_Type_e
 {
     HTTP_CONTENT_TYPE_OCTET_STREAM, // For binary data
     HTTP_CONTENT_TYPE_JPEG,

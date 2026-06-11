@@ -6,7 +6,7 @@ set(EMBEDDED_CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../embedded-core")
 
 idf_component_register(
     SRCS ${APP_SOURCES} "../../embedded-core/json/cJSON.c"
-    INCLUDE_DIRS "." "${EMBEDDED_CORE_DIR}"
+    INCLUDE_DIRS "." "camera" "wifi" "http_client" "http_server" "${EMBEDDED_CORE_DIR}"
     REQUIRES
         nvs_flash 
         esp_psram 
