@@ -4,8 +4,6 @@
 
 #include "spiffs/spiffs.h"
 
-static const char *TAG = "File System";
-
 // This wont need to be mutexed as we only read data from it after Initialization.
 static File_System singleton_file_system;
 

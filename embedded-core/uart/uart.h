@@ -2,6 +2,6 @@
 #define UART_H
 
 void uart_init(void);
-static void uart_rx_task(void *arg);
+void uart_rx_task(void *arg);
 
 #endif

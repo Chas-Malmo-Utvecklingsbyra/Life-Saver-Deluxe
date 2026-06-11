@@ -43,7 +43,7 @@ void uart_init(void)
     ESP_LOGI(TAG, "UART%d initialized at %d baud", UART_PORT, UART_BAUD);
 }
 
-static void uart_rx_task(void *arg)
+void uart_rx_task(void *arg)
 {
     uint8_t *buf = (uint8_t *)malloc(BUF_SIZE);
     if (buf == NULL)
