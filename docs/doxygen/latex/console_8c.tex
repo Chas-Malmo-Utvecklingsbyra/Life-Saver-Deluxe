@@ -1,0 +1,83 @@
+\doxysection{embedded-\/core/\+console/\+console.c File Reference}
+\hypertarget{console_8c}{}\label{console_8c}\index{embedded-\/core/console/console.c@{embedded-\/core/console/console.c}}
+{\ttfamily \+\#include "{}console.\+h"{}}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}esp\+\_\+console.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{console_8c_a6a263ecb14433b186a4fafd9022ddc50}{Console\+\_\+\+Command\+\_\+\+Add}} (\doxymbox{\hyperlink{struct_console___command}{Console\+\_\+\+Command}} command)
+\begin{DoxyCompactList}\small\item\em Add commands to the \doxylink{struct_console}{Console}. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{console_8c_a68f3a833fe1f08233bfc9cac9773c48c}{Console\+\_\+\+Initialize}} ()
+\begin{DoxyCompactList}\small\item\em Initialize the \doxylink{struct_console}{Console}. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{console_8c_a25bbddea6968dfdc38c720cca82076d6}{Console\+\_\+\+Dispose}} ()
+\begin{DoxyCompactList}\small\item\em Dispose the internal \doxylink{struct_console}{Console} struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{console_8c_doc-func-members}
+\Hypertarget{console_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{console_8c_a6a263ecb14433b186a4fafd9022ddc50}\index{console.c@{console.c}!Console\_Command\_Add@{Console\_Command\_Add}}
+\index{Console\_Command\_Add@{Console\_Command\_Add}!console.c@{console.c}}
+\doxysubsubsection{\texorpdfstring{Console\_Command\_Add()}{Console\_Command\_Add()}}
+{\footnotesize\ttfamily \label{console_8c_a6a263ecb14433b186a4fafd9022ddc50} 
+bool Console\+\_\+\+Command\+\_\+\+Add (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_console___command}{Console\+\_\+\+Command}}}]{command}{}\end{DoxyParamCaption})}
+
+
+
+Add commands to the \doxylink{struct_console}{Console}. 
+
+This function adds useable Commands to the \doxylink{struct_console}{Console}. Commands should always be added BEFORE initializing the \doxylink{struct_console}{Console}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The \doxylink{struct_console___command}{Console\+\_\+\+Command} to add to the command list\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true on Success and false on Failed!
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Adding Commands will realloc the dynamically allocated "{}list"{} to fit the size of the command. 
+\end{DoxyNote}
+\Hypertarget{console_8c_a25bbddea6968dfdc38c720cca82076d6}\index{console.c@{console.c}!Console\_Dispose@{Console\_Dispose}}
+\index{Console\_Dispose@{Console\_Dispose}!console.c@{console.c}}
+\doxysubsubsection{\texorpdfstring{Console\_Dispose()}{Console\_Dispose()}}
+{\footnotesize\ttfamily \label{console_8c_a25bbddea6968dfdc38c720cca82076d6} 
+void Console\+\_\+\+Dispose (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dispose the internal \doxylink{struct_console}{Console} struct. 
+
+This is mostly used to dispose the internal \doxylink{struct_console}{Console} struct to then Initialize it again. This does NOT need to be use at all as this lives out the full program.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The data to send to the client. \\
+\hline
+{\em length} & The length of the data which should be sent to the client.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{tcp__client_8h_aa8309f00a40095cb5191738a5490a6a6}{TCP\+\_\+\+Client\+\_\+\+Error} depending on the result of the action. TCP\+\_\+\+Client\+\_\+\+Success for success!
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Return values may be TCP\+\_\+\+Client\+\_\+\+Success, TCP\+\_\+\+Client\+\_\+\+Error\+\_\+\+Send or TCP\+\_\+\+Client\+\_\+\+Error\+\_\+\+Socket 
+\end{DoxyNote}
+\Hypertarget{console_8c_a68f3a833fe1f08233bfc9cac9773c48c}\index{console.c@{console.c}!Console\_Initialize@{Console\_Initialize}}
+\index{Console\_Initialize@{Console\_Initialize}!console.c@{console.c}}
+\doxysubsubsection{\texorpdfstring{Console\_Initialize()}{Console\_Initialize()}}
+{\footnotesize\ttfamily \label{console_8c_a68f3a833fe1f08233bfc9cac9773c48c} 
+void Console\+\_\+\+Initialize (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the \doxylink{struct_console}{Console}. 
+
+This Initialize the \doxylink{struct_console}{Console} to take in input for debugging purposes. This communicates using UART.
+
+\begin{DoxyWarning}{Warning}
+Console\+\_\+\+Command\+\_\+\+Add should be used before using \doxylink{console_8h_a68f3a833fe1f08233bfc9cac9773c48c}{Console\+\_\+\+Initialize()} s \texorpdfstring{$\ast$}{*} 
+\end{DoxyWarning}

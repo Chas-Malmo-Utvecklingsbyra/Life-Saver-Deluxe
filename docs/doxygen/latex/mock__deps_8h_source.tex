@@ -1,0 +1,40 @@
+\doxysection{mock\+\_\+deps.\+h}
+\hypertarget{mock__deps_8h_source}{}\label{mock__deps_8h_source}\index{embedded-\/core/file\_system/mocks/mock\_deps.h@{embedded-\/core/file\_system/mocks/mock\_deps.h}}
+\doxymbox{\hyperlink{mock__deps_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MOCK\_DEPS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MOCK\_DEPS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ ──\ ESP-\/IDF\ stubs\ ───────────────────────────────────────\ */}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ ESP\_LOGI(tag,\ fmt,\ ...)\ ((void)0)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ ESP\_LOGE(tag,\ fmt,\ ...)\ ((void)0)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ ESP\_LOGW(tag,\ fmt,\ ...)\ ((void)0)}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ ──\ SPIFFS\ stub\ ─────────────────────────────────────────\ */}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{mock__deps_8c_a7834e1efb03a85c592aa699055321a5c}{mock\_spiffs\_init\_result}};}
+\DoxyCodeLine{00016\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{spiffs_8c_aa35604b4edcf201c146374316105df8c}{Spiffs\_Initialize}}(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{mock__deps_8c_a7834e1efb03a85c592aa699055321a5c}{mock\_spiffs\_init\_result}};\ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ ──\ FILE\ mock\ control\ ───────────────────────────────────\ */}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{bool}\ \ \doxymbox{\hyperlink{mock__deps_8c_a622b086c73c18b6d294c7fc939a8575b}{mock\_fopen\_fail}};}
+\DoxyCodeLine{00020\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{bool}\ \ \doxymbox{\hyperlink{mock__deps_8c_aa47211ad6f83be3edc6b60f18d602fca}{mock\_fprintf\_fail}};}
+\DoxyCodeLine{00021\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{bool}\ \ \doxymbox{\hyperlink{mock__deps_8c_a77bdafc21199298c4af64e1db415d0dc}{mock\_fgets\_fail}};}
+\DoxyCodeLine{00022\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{char}\ \ \doxymbox{\hyperlink{mock__deps_8c_a640277d2667ad9c5365abb901d0ce373}{mock\_file\_content}}[512];\ \ \ \textcolor{comment}{/*\ content\ fgets\ "{}reads"{}\ */}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ fopen(path,\ mode)\ \ mock\_fopen((path),(mode))}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ fclose(f)\ \ \ \ \ \ \ \ \ \ mock\_fclose(f)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ fprintf(f,\ ...)\ \ \ \ mock\_fprintf(f,\ \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ fgets(buf,n,f)\ \ \ \ \ mock\_fgets(buf,n,f)}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ FILE\ *\doxymbox{\hyperlink{mock__deps_8h_a212905414e34fcfd82a231a4860ab747}{mock\_fopen}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *mode);}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ \ \ \doxymbox{\hyperlink{mock__deps_8h_a02fab9f892d5555003bcabf8f36f4825}{mock\_fclose}}(FILE\ *\doxymbox{\hyperlink{unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}});}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \ \ \doxymbox{\hyperlink{mock__deps_8h_abc1ab93140efc1942aa3dd231878c151}{mock\_fprintf}}(FILE\ *\doxymbox{\hyperlink{unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aa813b2b7bde1a5a1f528cd9d9aa9ee7d}{fmt}},\ ...);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{mock__deps_8h_a08fbc0127ca735b12604dbfdef8f8a7c}{mock\_fgets}}(\textcolor{keywordtype}{char}\ *buf,\ \textcolor{keywordtype}{int}\ n,\ FILE\ *\doxymbox{\hyperlink{unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}});}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ MOCK\_DEPS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,54 @@
+\doxysection{tcp\+\_\+server.\+h}
+\hypertarget{tcp__server_8h_source}{}\label{tcp__server_8h_source}\index{embedded-\/core/tcp/tcp\_server.h@{embedded-\/core/tcp/tcp\_server.h}}
+\doxymbox{\hyperlink{tcp__server_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TCP\_SERVER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TCP\_SERVER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifndef\ TCP\_SERVER\_BACKLOG}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\ \ \ \ \#define\ TCP\_SERVER\_BACKLOG\ 5}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <lwip/sockets.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <lwip/netdb.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <lwip/inet.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{struct_t_c_p___server___client_adc6d9f8f602e5f6d0953eb7fdc1a775c}{data}}[1024];}
+\DoxyCodeLine{00017\ \ \ \ \ uint16\_t\ \doxymbox{\hyperlink{struct_t_c_p___server___client_a8aed22e2c7b283705ec82e0120515618}{len}};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_t_c_p___server___client_a3666576f6b88007cc7b8f26c7da596c8}{socket}};}
+\DoxyCodeLine{00019\ \}\ \doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\_Server\_Client}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ void\ (*\doxymbox{\hyperlink{tcp__server_8h_a6ed4d34eeadbf6139d30a0ae4f440ff9}{TCP\_Full\_Data\_Received}})(\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\_Server\_Client}}*\ client);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_t_c_p___server_a3666576f6b88007cc7b8f26c7da596c8}{socket}};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{struct\ }sockaddr\_in\ \doxymbox{\hyperlink{struct_t_c_p___server_aa3b1c22a319ba0228cc0bbcb86c04283}{server\_addr}};}
+\DoxyCodeLine{00027\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a6ed4d34eeadbf6139d30a0ae4f440ff9}{TCP\_Full\_Data\_Received}}\ \doxymbox{\hyperlink{struct_t_c_p___server_af841d59f5227bcc5ebb64c4c68c1091c}{callback}};\ \textcolor{comment}{//\ This\ is\ called\ when\ message\ is\ received\ through\ TCP\_Server\ recv\ function.}}
+\DoxyCodeLine{00028\ \}\ \doxymbox{\hyperlink{struct_t_c_p___server}{TCP\_Server}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92efa84585adf8c86db114787ddba429d2efe}{TCP\_Server\_Error\_Socket}},}
+\DoxyCodeLine{00033\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92efa3e3db94608853e7ba7e53abbae4f917d}{TCP\_Server\_Error\_Bind}},}
+\DoxyCodeLine{00034\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92efa461fcc8d950e6a3c0bb63f9c9d39e865}{TCP\_Server\_Error\_Listen}},}
+\DoxyCodeLine{00035\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92efa34ce6c5f352ea3f647b9c8db68a6b763}{TCP\_Server\_Error\_Send}},}
+\DoxyCodeLine{00036\ \ \ \ \ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92efad5945d93c8ea1d02c4cac46583604367}{TCP\_Server\_Success}}}
+\DoxyCodeLine{00037\ \}\ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\_Server\_Error}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00053\ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\_Server\_Error}}\ \doxymbox{\hyperlink{tcp__server_8h_a4933df11f27f41b1ad554d725bdee4cf}{TCP\_Server\_Setup}}(\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\_Server}}\ *out\_server,\ uint16\_t\ port,\ \doxymbox{\hyperlink{tcp__server_8h_a6ed4d34eeadbf6139d30a0ae4f440ff9}{TCP\_Full\_Data\_Received}}\ callback);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{tcp__server_8h_a36e6a93177a5ceb4beb92c684ea1e356}{TCP\_Server\_Work}}(\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\_Server}}\ *server);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00078\ \doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\_Server\_Error}}\ \doxymbox{\hyperlink{tcp__server_8h_a5b564da02b5b46bf209015fa45107f4c}{TCP\_Server\_Send}}(\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\_Server\_Client}}*\ client,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a03c83e0884e2e3a1783db79f2d67101f}{length}});}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

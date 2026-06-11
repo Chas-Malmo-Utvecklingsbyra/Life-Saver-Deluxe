@@ -1,0 +1,132 @@
+\doxysection{embedded-\/core/\+tcp/\+tcp\+\_\+server.c File Reference}
+\hypertarget{tcp__server_8c}{}\label{tcp__server_8c}\index{embedded-\/core/tcp/tcp\_server.c@{embedded-\/core/tcp/tcp\_server.c}}
+{\ttfamily \+\#include "{}tcp\+\_\+server.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$freertos/\+\+Free\+RTOS.\+h$>$}\newline
+{\ttfamily \+\#include $<$freertos/\+task.\+h$>$}\newline
+{\ttfamily \+\#include $<$esp\+\_\+log.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{tcp__server_8c_a4edaa466e6c4e3bbd2400f3bc0decaa0}{CLIENT\+\_\+\+SOCKETS\+\_\+\+MAX}}~50
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{tcp__server_8c_af74a7b1436c0cecec76a2800e8e46426}{TCP\+\_\+\+Server\+\_\+\+Bind}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}server)
+\item 
+bool \doxymbox{\hyperlink{tcp__server_8c_aae507aaf3bb4d20838572decf00548f0}{TCP\+\_\+\+Server\+\_\+\+Listen}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}server)
+\item 
+void \doxymbox{\hyperlink{tcp__server_8c_a0ce3f0f52d829f107620d8dcbad64596}{TCP\+\_\+\+Server\+\_\+\+Accept}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}server)
+\item 
+\doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error}} \doxymbox{\hyperlink{tcp__server_8c_a4933df11f27f41b1ad554d725bdee4cf}{TCP\+\_\+\+Server\+\_\+\+Setup}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}out\+\_\+server, uint16\+\_\+t port, \doxymbox{\hyperlink{tcp__server_8h_a6ed4d34eeadbf6139d30a0ae4f440ff9}{TCP\+\_\+\+Full\+\_\+\+Data\+\_\+\+Received}} callback)
+\begin{DoxyCompactList}\small\item\em This should be called first when wanting to setup \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error}} \doxymbox{\hyperlink{tcp__server_8c_a5b564da02b5b46bf209015fa45107f4c}{TCP\+\_\+\+Server\+\_\+\+Send}} (\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\+\_\+\+Server\+\_\+\+Client}} \texorpdfstring{$\ast$}{*}client, const void \texorpdfstring{$\ast$}{*}data, size\+\_\+t length)
+\begin{DoxyCompactList}\small\item\em This should be called first when wanting to setup \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{tcp__server_8c_a4ed32fa14b2078b32c20b62b2cd99477}{TCP\+\_\+\+Server\+\_\+\+Recv}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}server)
+\item 
+void \doxymbox{\hyperlink{tcp__server_8c_a36e6a93177a5ceb4beb92c684ea1e356}{TCP\+\_\+\+Server\+\_\+\+Work}} (\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}server)
+\begin{DoxyCompactList}\small\item\em This is the main work loop for the \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}, which should be used after TCP\+\_\+\+Server\+\_\+\+Setup in a loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{tcp__server_8c_doc-define-members}
+\Hypertarget{tcp__server_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{tcp__server_8c_a4edaa466e6c4e3bbd2400f3bc0decaa0}\index{tcp\_server.c@{tcp\_server.c}!CLIENT\_SOCKETS\_MAX@{CLIENT\_SOCKETS\_MAX}}
+\index{CLIENT\_SOCKETS\_MAX@{CLIENT\_SOCKETS\_MAX}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{CLIENT\_SOCKETS\_MAX}{CLIENT\_SOCKETS\_MAX}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a4edaa466e6c4e3bbd2400f3bc0decaa0} 
+\+\#define CLIENT\+\_\+\+SOCKETS\+\_\+\+MAX~50}
+
+
+
+\label{tcp__server_8c_doc-func-members}
+\Hypertarget{tcp__server_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{tcp__server_8c_a0ce3f0f52d829f107620d8dcbad64596}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Accept@{TCP\_Server\_Accept}}
+\index{TCP\_Server\_Accept@{TCP\_Server\_Accept}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Accept()}{TCP\_Server\_Accept()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a0ce3f0f52d829f107620d8dcbad64596} 
+void TCP\+\_\+\+Server\+\_\+\+Accept (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{server}{}\end{DoxyParamCaption})}
+
+\Hypertarget{tcp__server_8c_af74a7b1436c0cecec76a2800e8e46426}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Bind@{TCP\_Server\_Bind}}
+\index{TCP\_Server\_Bind@{TCP\_Server\_Bind}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Bind()}{TCP\_Server\_Bind()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_af74a7b1436c0cecec76a2800e8e46426} 
+bool TCP\+\_\+\+Server\+\_\+\+Bind (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{server}{}\end{DoxyParamCaption})}
+
+\Hypertarget{tcp__server_8c_aae507aaf3bb4d20838572decf00548f0}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Listen@{TCP\_Server\_Listen}}
+\index{TCP\_Server\_Listen@{TCP\_Server\_Listen}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Listen()}{TCP\_Server\_Listen()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_aae507aaf3bb4d20838572decf00548f0} 
+bool TCP\+\_\+\+Server\+\_\+\+Listen (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{server}{}\end{DoxyParamCaption})}
+
+\Hypertarget{tcp__server_8c_a4ed32fa14b2078b32c20b62b2cd99477}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Recv@{TCP\_Server\_Recv}}
+\index{TCP\_Server\_Recv@{TCP\_Server\_Recv}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Recv()}{TCP\_Server\_Recv()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a4ed32fa14b2078b32c20b62b2cd99477} 
+void TCP\+\_\+\+Server\+\_\+\+Recv (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{server}{}\end{DoxyParamCaption})}
+
+\Hypertarget{tcp__server_8c_a5b564da02b5b46bf209015fa45107f4c}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Send@{TCP\_Server\_Send}}
+\index{TCP\_Server\_Send@{TCP\_Server\_Send}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Send()}{TCP\_Server\_Send()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a5b564da02b5b46bf209015fa45107f4c} 
+\doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error}} TCP\+\_\+\+Server\+\_\+\+Send (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\+\_\+\+Server\+\_\+\+Client}} \texorpdfstring{$\ast$}{*}}]{client}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{size\+\_\+t}]{length}{}\end{DoxyParamCaption})}
+
+
+
+This should be called first when wanting to setup \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}. 
+
+TCP\+\_\+\+Server\+\_\+\+Setup creates a socket, binds and listens.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+\_\+server} & Sets socket and server\+\_\+addr in \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server} struct. \\
+\hline
+{\em port} & The port that will be binded to (0 to 65535). \\
+\hline
+{\em callback} & The callback that is called when \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server} receives the full nullterminated data from a connection.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success returns TCP\+\_\+\+Server\+\_\+\+Success, otherwise returns a \doxylink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error} enumerator. 
+\end{DoxyReturn}
+\Hypertarget{tcp__server_8c_a4933df11f27f41b1ad554d725bdee4cf}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Setup@{TCP\_Server\_Setup}}
+\index{TCP\_Server\_Setup@{TCP\_Server\_Setup}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Setup()}{TCP\_Server\_Setup()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a4933df11f27f41b1ad554d725bdee4cf} 
+\doxymbox{\hyperlink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error}} TCP\+\_\+\+Server\+\_\+\+Setup (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{out\+\_\+server}{, }\item[{uint16\+\_\+t}]{port}{, }\item[{\doxymbox{\hyperlink{tcp__server_8h_a6ed4d34eeadbf6139d30a0ae4f440ff9}{TCP\+\_\+\+Full\+\_\+\+Data\+\_\+\+Received}}}]{callback}{}\end{DoxyParamCaption})}
+
+
+
+This should be called first when wanting to setup \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}. 
+
+TCP\+\_\+\+Server\+\_\+\+Setup creates a socket, binds and listens.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+\_\+server} & Sets socket and server\+\_\+addr in \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server} struct. \\
+\hline
+{\em port} & The port that will be binded to (0 to 65535). \\
+\hline
+{\em callback} & The callback that is called when \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server} receives the full nullterminated data from a connection.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success returns TCP\+\_\+\+Server\+\_\+\+Success, otherwise returns a \doxylink{tcp__server_8h_a58765e76a66b192a01cb1233225d92ef}{TCP\+\_\+\+Server\+\_\+\+Error} enumerator. 
+\end{DoxyReturn}
+\Hypertarget{tcp__server_8c_a36e6a93177a5ceb4beb92c684ea1e356}\index{tcp\_server.c@{tcp\_server.c}!TCP\_Server\_Work@{TCP\_Server\_Work}}
+\index{TCP\_Server\_Work@{TCP\_Server\_Work}!tcp\_server.c@{tcp\_server.c}}
+\doxysubsubsection{\texorpdfstring{TCP\_Server\_Work()}{TCP\_Server\_Work()}}
+{\footnotesize\ttfamily \label{tcp__server_8c_a36e6a93177a5ceb4beb92c684ea1e356} 
+void TCP\+\_\+\+Server\+\_\+\+Work (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server}{TCP\+\_\+\+Server}} \texorpdfstring{$\ast$}{*}}]{server}{}\end{DoxyParamCaption})}
+
+
+
+This is the main work loop for the \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server}, which should be used after TCP\+\_\+\+Server\+\_\+\+Setup in a loop. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server} & Takes in a \doxylink{struct_t_c_p___server}{TCP\+\_\+\+Server} struct \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,207 @@
+\doxysection{embedded-\/core/\+bme280/\+bme280.c File Reference}
+\hypertarget{bme280_8c}{}\label{bme280_8c}\index{embedded-\/core/bme280/bme280.c@{embedded-\/core/bme280/bme280.c}}
+{\ttfamily \+\#include "{}bme280.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+i2c\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}i2c/\+i2c.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structbme280__calib__t}{bme280\+\_\+calib\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structbme280__raw__t}{bme280\+\_\+raw\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_ad9ecf80e1eac083d16ec47f9d3aeb39f}{I2\+C\+\_\+\+PORT}}~I2\+C\+\_\+\+NUM\+\_\+0
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a18aefd12ad84d4c33dc97923cb821e47}{I2\+C\+\_\+\+SDA}}~GPIO\+\_\+\+NUM\+\_\+8
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a212ca328a6409c98f8c3dfbbe1ba561d}{I2\+C\+\_\+\+SCL}}~GPIO\+\_\+\+NUM\+\_\+9
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a0d8bea689bb240eefaa35ca71cc1ed9f}{I2\+C\+\_\+\+FREQ\+\_\+\+HZ}}~100000
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a19c94d0c70268b50d30cdc8edd445530}{BME280\+\_\+\+ADDR}}~0x77
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_ab7b991526e0de94f718fce711778fdbb}{BME280\+\_\+\+REG\+\_\+\+ID}}~0x\+D0
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_adfde06a0ea4e1247643f3476b3d517bc}{BME280\+\_\+\+REG\+\_\+\+CALIB}}~0x88
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a44216431a5dcbcb9075cceda85b15c75}{BME280\+\_\+\+CTRL\+\_\+\+HUM\+\_\+\+REG}}~0x\+F2
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a1aba057504fa166bc5711a0aaba193fd}{BME280\+\_\+\+CTRL\+\_\+\+HUM\+\_\+\+BYTE}}~0x01
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a34483b4a562393f91fe3f01d676abb88}{BME280\+\_\+\+CTRL\+\_\+\+MEAS\+\_\+\+REG}}~0x\+F4
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_a19e35553ac5feb022ecb26beea7901eb}{BME280\+\_\+\+CTRL\+\_\+\+MEAS\+\_\+\+BYTE}}~0x27
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_af95ae3245402bc051c260f1695e2e98d}{BME280\+\_\+\+MEAS\+\_\+\+DATA\+\_\+\+REG}}~0x\+F7
+\item 
+\+\#define \doxymbox{\hyperlink{bme280_8c_ac8c61bd2fdc391886d8da5c2de78292a}{I2\+C\+\_\+\+TIMEOUT\+\_\+\+MS}}~1000
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_aff189f3f860a58ec5ad054d15d8db470}{i2c\+\_\+master\+\_\+init}} ()
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_ac0c95f7588778eaa95daa161d5de2d15}{bme280\+\_\+read\+\_\+calibration}} ()
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_af899cd7b8b589d6d37c25c3478b144cf}{bme280\+\_\+start\+\_\+measurement}} ()
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_a727a4b0428472e65a68f8bf378e1f0a9}{bme280\+\_\+read\+\_\+meas}} (\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} \texorpdfstring{$\ast$}{*}meas)
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_ac2257b8b6b6eff9c7f113b8cb4b8d58d}{bme280\+\_\+work}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} \doxymbox{\hyperlink{bme280_8c_a78ae852e189a9d81c673d64a7ecb01c5}{meas}}
+\item 
+bool \doxymbox{\hyperlink{bme280_8c_a2a2c4aa14e033e6e40be186b9b4a304d}{bme280\+\_\+running}}
+\item 
+Semaphore\+Handle\+\_\+t \doxymbox{\hyperlink{bme280_8c_a802fa6f8c93bee8a4eba07568b5505b4}{env\+\_\+sensor\+\_\+mutex}}
+\end{DoxyCompactItemize}
+
+
+\label{bme280_8c_doc-define-members}
+\Hypertarget{bme280_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{bme280_8c_a19c94d0c70268b50d30cdc8edd445530}\index{bme280.c@{bme280.c}!BME280\_ADDR@{BME280\_ADDR}}
+\index{BME280\_ADDR@{BME280\_ADDR}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_ADDR}{BME280\_ADDR}}
+{\footnotesize\ttfamily \label{bme280_8c_a19c94d0c70268b50d30cdc8edd445530} 
+\+\#define BME280\+\_\+\+ADDR~0x77}
+
+\Hypertarget{bme280_8c_a1aba057504fa166bc5711a0aaba193fd}\index{bme280.c@{bme280.c}!BME280\_CTRL\_HUM\_BYTE@{BME280\_CTRL\_HUM\_BYTE}}
+\index{BME280\_CTRL\_HUM\_BYTE@{BME280\_CTRL\_HUM\_BYTE}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_CTRL\_HUM\_BYTE}{BME280\_CTRL\_HUM\_BYTE}}
+{\footnotesize\ttfamily \label{bme280_8c_a1aba057504fa166bc5711a0aaba193fd} 
+\+\#define BME280\+\_\+\+CTRL\+\_\+\+HUM\+\_\+\+BYTE~0x01}
+
+\Hypertarget{bme280_8c_a44216431a5dcbcb9075cceda85b15c75}\index{bme280.c@{bme280.c}!BME280\_CTRL\_HUM\_REG@{BME280\_CTRL\_HUM\_REG}}
+\index{BME280\_CTRL\_HUM\_REG@{BME280\_CTRL\_HUM\_REG}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_CTRL\_HUM\_REG}{BME280\_CTRL\_HUM\_REG}}
+{\footnotesize\ttfamily \label{bme280_8c_a44216431a5dcbcb9075cceda85b15c75} 
+\+\#define BME280\+\_\+\+CTRL\+\_\+\+HUM\+\_\+\+REG~0x\+F2}
+
+\Hypertarget{bme280_8c_a19e35553ac5feb022ecb26beea7901eb}\index{bme280.c@{bme280.c}!BME280\_CTRL\_MEAS\_BYTE@{BME280\_CTRL\_MEAS\_BYTE}}
+\index{BME280\_CTRL\_MEAS\_BYTE@{BME280\_CTRL\_MEAS\_BYTE}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_CTRL\_MEAS\_BYTE}{BME280\_CTRL\_MEAS\_BYTE}}
+{\footnotesize\ttfamily \label{bme280_8c_a19e35553ac5feb022ecb26beea7901eb} 
+\+\#define BME280\+\_\+\+CTRL\+\_\+\+MEAS\+\_\+\+BYTE~0x27}
+
+\Hypertarget{bme280_8c_a34483b4a562393f91fe3f01d676abb88}\index{bme280.c@{bme280.c}!BME280\_CTRL\_MEAS\_REG@{BME280\_CTRL\_MEAS\_REG}}
+\index{BME280\_CTRL\_MEAS\_REG@{BME280\_CTRL\_MEAS\_REG}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_CTRL\_MEAS\_REG}{BME280\_CTRL\_MEAS\_REG}}
+{\footnotesize\ttfamily \label{bme280_8c_a34483b4a562393f91fe3f01d676abb88} 
+\+\#define BME280\+\_\+\+CTRL\+\_\+\+MEAS\+\_\+\+REG~0x\+F4}
+
+\Hypertarget{bme280_8c_af95ae3245402bc051c260f1695e2e98d}\index{bme280.c@{bme280.c}!BME280\_MEAS\_DATA\_REG@{BME280\_MEAS\_DATA\_REG}}
+\index{BME280\_MEAS\_DATA\_REG@{BME280\_MEAS\_DATA\_REG}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_MEAS\_DATA\_REG}{BME280\_MEAS\_DATA\_REG}}
+{\footnotesize\ttfamily \label{bme280_8c_af95ae3245402bc051c260f1695e2e98d} 
+\+\#define BME280\+\_\+\+MEAS\+\_\+\+DATA\+\_\+\+REG~0x\+F7}
+
+\Hypertarget{bme280_8c_adfde06a0ea4e1247643f3476b3d517bc}\index{bme280.c@{bme280.c}!BME280\_REG\_CALIB@{BME280\_REG\_CALIB}}
+\index{BME280\_REG\_CALIB@{BME280\_REG\_CALIB}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_REG\_CALIB}{BME280\_REG\_CALIB}}
+{\footnotesize\ttfamily \label{bme280_8c_adfde06a0ea4e1247643f3476b3d517bc} 
+\+\#define BME280\+\_\+\+REG\+\_\+\+CALIB~0x88}
+
+\Hypertarget{bme280_8c_ab7b991526e0de94f718fce711778fdbb}\index{bme280.c@{bme280.c}!BME280\_REG\_ID@{BME280\_REG\_ID}}
+\index{BME280\_REG\_ID@{BME280\_REG\_ID}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{BME280\_REG\_ID}{BME280\_REG\_ID}}
+{\footnotesize\ttfamily \label{bme280_8c_ab7b991526e0de94f718fce711778fdbb} 
+\+\#define BME280\+\_\+\+REG\+\_\+\+ID~0x\+D0}
+
+\Hypertarget{bme280_8c_a0d8bea689bb240eefaa35ca71cc1ed9f}\index{bme280.c@{bme280.c}!I2C\_FREQ\_HZ@{I2C\_FREQ\_HZ}}
+\index{I2C\_FREQ\_HZ@{I2C\_FREQ\_HZ}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_FREQ\_HZ}{I2C\_FREQ\_HZ}}
+{\footnotesize\ttfamily \label{bme280_8c_a0d8bea689bb240eefaa35ca71cc1ed9f} 
+\+\#define I2\+C\+\_\+\+FREQ\+\_\+\+HZ~100000}
+
+\Hypertarget{bme280_8c_ad9ecf80e1eac083d16ec47f9d3aeb39f}\index{bme280.c@{bme280.c}!I2C\_PORT@{I2C\_PORT}}
+\index{I2C\_PORT@{I2C\_PORT}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_PORT}{I2C\_PORT}}
+{\footnotesize\ttfamily \label{bme280_8c_ad9ecf80e1eac083d16ec47f9d3aeb39f} 
+\+\#define I2\+C\+\_\+\+PORT~I2\+C\+\_\+\+NUM\+\_\+0}
+
+\Hypertarget{bme280_8c_a212ca328a6409c98f8c3dfbbe1ba561d}\index{bme280.c@{bme280.c}!I2C\_SCL@{I2C\_SCL}}
+\index{I2C\_SCL@{I2C\_SCL}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_SCL}{I2C\_SCL}}
+{\footnotesize\ttfamily \label{bme280_8c_a212ca328a6409c98f8c3dfbbe1ba561d} 
+\+\#define I2\+C\+\_\+\+SCL~GPIO\+\_\+\+NUM\+\_\+9}
+
+\Hypertarget{bme280_8c_a18aefd12ad84d4c33dc97923cb821e47}\index{bme280.c@{bme280.c}!I2C\_SDA@{I2C\_SDA}}
+\index{I2C\_SDA@{I2C\_SDA}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_SDA}{I2C\_SDA}}
+{\footnotesize\ttfamily \label{bme280_8c_a18aefd12ad84d4c33dc97923cb821e47} 
+\+\#define I2\+C\+\_\+\+SDA~GPIO\+\_\+\+NUM\+\_\+8}
+
+\Hypertarget{bme280_8c_ac8c61bd2fdc391886d8da5c2de78292a}\index{bme280.c@{bme280.c}!I2C\_TIMEOUT\_MS@{I2C\_TIMEOUT\_MS}}
+\index{I2C\_TIMEOUT\_MS@{I2C\_TIMEOUT\_MS}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_TIMEOUT\_MS}{I2C\_TIMEOUT\_MS}}
+{\footnotesize\ttfamily \label{bme280_8c_ac8c61bd2fdc391886d8da5c2de78292a} 
+\+\#define I2\+C\+\_\+\+TIMEOUT\+\_\+\+MS~1000}
+
+
+
+\label{bme280_8c_doc-func-members}
+\Hypertarget{bme280_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{bme280_8c_ac0c95f7588778eaa95daa161d5de2d15}\index{bme280.c@{bme280.c}!bme280\_read\_calibration@{bme280\_read\_calibration}}
+\index{bme280\_read\_calibration@{bme280\_read\_calibration}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_read\_calibration()}{bme280\_read\_calibration()}}
+{\footnotesize\ttfamily \label{bme280_8c_ac0c95f7588778eaa95daa161d5de2d15} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} bme280\+\_\+read\+\_\+calibration (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{bme280_8c_a727a4b0428472e65a68f8bf378e1f0a9}\index{bme280.c@{bme280.c}!bme280\_read\_meas@{bme280\_read\_meas}}
+\index{bme280\_read\_meas@{bme280\_read\_meas}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_read\_meas()}{bme280\_read\_meas()}}
+{\footnotesize\ttfamily \label{bme280_8c_a727a4b0428472e65a68f8bf378e1f0a9} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} bme280\+\_\+read\+\_\+meas (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{meas}{}\end{DoxyParamCaption})}
+
+\Hypertarget{bme280_8c_af899cd7b8b589d6d37c25c3478b144cf}\index{bme280.c@{bme280.c}!bme280\_start\_measurement@{bme280\_start\_measurement}}
+\index{bme280\_start\_measurement@{bme280\_start\_measurement}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_start\_measurement()}{bme280\_start\_measurement()}}
+{\footnotesize\ttfamily \label{bme280_8c_af899cd7b8b589d6d37c25c3478b144cf} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} bme280\+\_\+start\+\_\+measurement (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{bme280_8c_ac2257b8b6b6eff9c7f113b8cb4b8d58d}\index{bme280.c@{bme280.c}!bme280\_work@{bme280\_work}}
+\index{bme280\_work@{bme280\_work}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_work()}{bme280\_work()}}
+{\footnotesize\ttfamily \label{bme280_8c_ac2257b8b6b6eff9c7f113b8cb4b8d58d} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} bme280\+\_\+work (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{bme280_8c_aff189f3f860a58ec5ad054d15d8db470}\index{bme280.c@{bme280.c}!i2c\_master\_init@{i2c\_master\_init}}
+\index{i2c\_master\_init@{i2c\_master\_init}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{i2c\_master\_init()}{i2c\_master\_init()}}
+{\footnotesize\ttfamily \label{bme280_8c_aff189f3f860a58ec5ad054d15d8db470} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} i2c\+\_\+master\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\label{bme280_8c_doc-var-members}
+\Hypertarget{bme280_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{bme280_8c_a2a2c4aa14e033e6e40be186b9b4a304d}\index{bme280.c@{bme280.c}!bme280\_running@{bme280\_running}}
+\index{bme280\_running@{bme280\_running}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_running}{bme280\_running}}
+{\footnotesize\ttfamily \label{bme280_8c_a2a2c4aa14e033e6e40be186b9b4a304d} 
+bool bme280\+\_\+running\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{bme280_8c_a802fa6f8c93bee8a4eba07568b5505b4}\index{bme280.c@{bme280.c}!env\_sensor\_mutex@{env\_sensor\_mutex}}
+\index{env\_sensor\_mutex@{env\_sensor\_mutex}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{env\_sensor\_mutex}{env\_sensor\_mutex}}
+{\footnotesize\ttfamily \label{bme280_8c_a802fa6f8c93bee8a4eba07568b5505b4} 
+Semaphore\+Handle\+\_\+t env\+\_\+sensor\+\_\+mutex\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{bme280_8c_a78ae852e189a9d81c673d64a7ecb01c5}\index{bme280.c@{bme280.c}!meas@{meas}}
+\index{meas@{meas}!bme280.c@{bme280.c}}
+\doxysubsubsection{\texorpdfstring{meas}{meas}}
+{\footnotesize\ttfamily \label{bme280_8c_a78ae852e189a9d81c673d64a7ecb01c5} 
+\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} meas}
+

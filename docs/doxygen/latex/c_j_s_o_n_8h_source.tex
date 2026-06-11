@@ -1,0 +1,312 @@
+\doxysection{c\+JSON.\+h}
+\hypertarget{c_j_s_o_n_8h_source}{}\label{c_j_s_o_n_8h_source}\index{embedded-\/core/json/cJSON.h@{embedded-\/core/json/cJSON.h}}
+\doxymbox{\hyperlink{c_j_s_o_n_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ \ Copyright\ (c)\ 2009-\/2017\ Dave\ Gamble\ and\ cJSON\ contributors}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ \ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ THE\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ cJSON\_\_h}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ cJSON\_\_h}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00027\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#if\ !defined(\_\_WINDOWS\_\_)\ \&\&\ (defined(WIN32)\ ||\ defined(WIN64)\ ||\ defined(\_MSC\_VER)\ ||\ defined(\_WIN32))}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ \_\_WINDOWS\_\_}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifdef\ \_\_WINDOWS\_\_}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{/*\ When\ compiling\ for\ windows,\ we\ specify\ a\ specific\ calling\ convention\ to\ avoid\ issues\ where\ we\ are\ being\ called\ from\ a\ project\ with\ a\ different\ default\ calling\ convention.\ \ For\ windows\ you\ have\ 3\ define\ options:}}
+\DoxyCodeLine{00038\ \textcolor{comment}{}}
+\DoxyCodeLine{00039\ \textcolor{comment}{CJSON\_HIDE\_SYMBOLS\ -\/\ Define\ this\ in\ the\ case\ where\ you\ don't\ want\ to\ ever\ dllexport\ symbols}}
+\DoxyCodeLine{00040\ \textcolor{comment}{CJSON\_EXPORT\_SYMBOLS\ -\/\ Define\ this\ on\ library\ build\ when\ you\ want\ to\ dllexport\ symbols\ (default)}}
+\DoxyCodeLine{00041\ \textcolor{comment}{CJSON\_IMPORT\_SYMBOLS\ -\/\ Define\ this\ if\ you\ want\ to\ dllimport\ symbol}}
+\DoxyCodeLine{00042\ \textcolor{comment}{}}
+\DoxyCodeLine{00043\ \textcolor{comment}{For\ *nix\ builds\ that\ support\ visibility\ attribute,\ you\ can\ define\ similar\ behavior\ by}}
+\DoxyCodeLine{00044\ \textcolor{comment}{}}
+\DoxyCodeLine{00045\ \textcolor{comment}{setting\ default\ visibility\ to\ hidden\ by\ adding}}
+\DoxyCodeLine{00046\ \textcolor{comment}{-\/fvisibility=hidden\ (for\ gcc)}}
+\DoxyCodeLine{00047\ \textcolor{comment}{or}}
+\DoxyCodeLine{00048\ \textcolor{comment}{-\/xldscope=hidden\ (for\ sun\ cc)}}
+\DoxyCodeLine{00049\ \textcolor{comment}{to\ CFLAGS}}
+\DoxyCodeLine{00050\ \textcolor{comment}{}}
+\DoxyCodeLine{00051\ \textcolor{comment}{then\ using\ the\ CJSON\_API\_VISIBILITY\ flag\ to\ "{}export"{}\ the\ same\ symbols\ the\ way\ CJSON\_EXPORT\_SYMBOLS\ does}}
+\DoxyCodeLine{00052\ \textcolor{comment}{}}
+\DoxyCodeLine{00053\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ CJSON\_CDECL\ \_\_cdecl}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ CJSON\_STDCALL\ \_\_stdcall}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{comment}{/*\ export\ symbols\ by\ default,\ this\ is\ necessary\ for\ copy\ pasting\ the\ C\ and\ header\ file\ */}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#if\ !defined(CJSON\_HIDE\_SYMBOLS)\ \&\&\ !defined(CJSON\_IMPORT\_SYMBOLS)\ \&\&\ !defined(CJSON\_EXPORT\_SYMBOLS)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ CJSON\_EXPORT\_SYMBOLS}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#if\ defined(CJSON\_HIDE\_SYMBOLS)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ CJSON\_PUBLIC(type)\ \ \ type\ CJSON\_STDCALL}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#elif\ defined(CJSON\_EXPORT\_SYMBOLS)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ CJSON\_PUBLIC(type)\ \ \ \_\_declspec(dllexport)\ type\ CJSON\_STDCALL}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#elif\ defined(CJSON\_IMPORT\_SYMBOLS)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ CJSON\_PUBLIC(type)\ \ \ \_\_declspec(dllimport)\ type\ CJSON\_STDCALL}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{/*\ !\_\_WINDOWS\_\_\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ CJSON\_CDECL}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ CJSON\_STDCALL}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#if\ (defined(\_\_GNUC\_\_)\ ||\ defined(\_\_SUNPRO\_CC)\ ||\ defined\ (\_\_SUNPRO\_C))\ \&\&\ defined(CJSON\_API\_VISIBILITY)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ CJSON\_PUBLIC(type)\ \ \ \_\_attribute\_\_((visibility("{}default"{})))\ type}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ CJSON\_PUBLIC(type)\ type}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{/*\ project\ version\ */}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ CJSON\_VERSION\_MAJOR\ 1}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ CJSON\_VERSION\_MINOR\ 7}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ CJSON\_VERSION\_PATCH\ 19}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{comment}{/*\ cJSON\ Types:\ */}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ cJSON\_Invalid\ (0)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ cJSON\_False\ \ (1\ <<\ 0)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ cJSON\_True\ \ \ (1\ <<\ 1)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ cJSON\_NULL\ \ \ (1\ <<\ 2)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ cJSON\_Number\ (1\ <<\ 3)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ cJSON\_String\ (1\ <<\ 4)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ cJSON\_Array\ \ (1\ <<\ 5)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ cJSON\_Object\ (1\ <<\ 6)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ cJSON\_Raw\ \ \ \ (1\ <<\ 7)\ }\textcolor{comment}{/*\ raw\ json\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ cJSON\_IsReference\ 256}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ cJSON\_StringIsConst\ 512}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{comment}{/*\ The\ cJSON\ structure:\ */}}
+\DoxyCodeLine{00103\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}}
+\DoxyCodeLine{00104\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{/*\ next/prev\ allow\ you\ to\ walk\ array/object\ chains.\ Alternatively,\ use\ GetArraySize/GetArrayItem/GetObjectItem\ */}}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{structc_j_s_o_n_a91a95ab3a28ac01716663d0bdd7215f9}{next}};}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{structc_j_s_o_n_afb239ebe62815dd62d272600c24d1e1a}{prev}};}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{comment}{/*\ An\ array\ or\ object\ item\ will\ have\ a\ child\ pointer\ pointing\ to\ a\ chain\ of\ the\ items\ in\ the\ array/object.\ */}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{structc_j_s_o_n_af3da6753e4916f328721d324d62af50d}{child}};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{comment}{/*\ The\ type\ of\ the\ item,\ as\ above.\ */}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structc_j_s_o_n_ac765329451135abec74c45e1897abf26}{type}};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{comment}{/*\ The\ item's\ string,\ if\ type==cJSON\_String\ \ and\ type\ ==\ cJSON\_Raw\ */}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{structc_j_s_o_n_a4d2b95f0dc1f37a46452f5ddd6963455}{valuestring}};}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{/*\ writing\ to\ valueint\ is\ DEPRECATED,\ use\ cJSON\_SetNumberValue\ instead\ */}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structc_j_s_o_n_af69506d34291edd0be9fa15660ac01ec}{valueint}};}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{/*\ The\ item's\ number,\ if\ type==cJSON\_Number\ */}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{double}\ \doxymbox{\hyperlink{structc_j_s_o_n_a2983295369d8ff0183638d8550a22263}{valuedouble}};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{comment}{/*\ The\ item's\ name\ string,\ if\ this\ item\ is\ the\ child\ of,\ or\ is\ in\ the\ list\ of\ subitems\ of\ an\ object.\ */}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{structc_j_s_o_n_aed1cfb225a5fb77461e7972691e68a72}{string}};}
+\DoxyCodeLine{00123\ \}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structc_j_s_o_n___hooks}{cJSON\_Hooks}}}
+\DoxyCodeLine{00126\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{comment}{/*\ malloc/free\ are\ CDECL\ on\ Windows\ regardless\ of\ the\ default\ calling\ convention\ of\ the\ compiler,\ so\ ensure\ the\ hooks\ allow\ passing\ those\ functions\ directly.\ */}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *(\doxymbox{\hyperlink{c_j_s_o_n_8h_a79203c3ba406ffd5736627cc1e082e38}{CJSON\_CDECL}}\ *\doxymbox{\hyperlink{structc_j_s_o_n___hooks_a192e64a2d8356c430f19cf4962182f74}{malloc\_fn}})(\textcolor{keywordtype}{size\_t}\ sz);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \doxymbox{\hyperlink{structc_j_s_o_n___hooks_a412fda15a94a7afee60590f880b1f2d6}{void}}\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_a79203c3ba406ffd5736627cc1e082e38}{CJSON\_CDECL}}\ *free\_fn)(\textcolor{keywordtype}{void}\ *ptr);}
+\DoxyCodeLine{00130\ \}\ \doxymbox{\hyperlink{structc_j_s_o_n___hooks}{cJSON\_Hooks}};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{comment}{/*\ Limits\ how\ deeply\ nested\ arrays/objects\ can\ be\ before\ cJSON\ rejects\ to\ parse\ them.}}
+\DoxyCodeLine{00135\ \textcolor{comment}{\ *\ This\ is\ to\ prevent\ stack\ overflows.\ */}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#ifndef\ CJSON\_NESTING\_LIMIT}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ CJSON\_NESTING\_LIMIT\ 1000}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{comment}{/*\ Limits\ the\ length\ of\ circular\ references\ can\ be\ before\ cJSON\ rejects\ to\ parse\ them.}}
+\DoxyCodeLine{00141\ \textcolor{comment}{\ *\ This\ is\ to\ prevent\ stack\ overflows.\ */}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#ifndef\ CJSON\_CIRCULAR\_LIMIT}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ CJSON\_CIRCULAR\_LIMIT\ 10000}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{comment}{/*\ returns\ the\ version\ of\ cJSON\ as\ a\ string\ */}}
+\DoxyCodeLine{00147\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*)\ cJSON\_Version(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{comment}{/*\ Supply\ malloc,\ realloc\ and\ free\ functions\ to\ cJSON\ */}}
+\DoxyCodeLine{00150\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_InitHooks(\doxymbox{\hyperlink{structc_j_s_o_n___hooks}{cJSON\_Hooks}}*\ hooks);}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{comment}{/*\ Memory\ Management:\ the\ caller\ is\ always\ responsible\ to\ free\ the\ results\ from\ all\ variants\ of\ cJSON\_Parse\ (with\ cJSON\_Delete)\ and\ cJSON\_Print\ (with\ stdlib\ free,\ cJSON\_Hooks.free\_fn,\ or\ cJSON\_free\ as\ appropriate).\ The\ exception\ is\ cJSON\_PrintPreallocated,\ where\ the\ caller\ has\ full\ responsibility\ of\ the\ buffer.\ */}}
+\DoxyCodeLine{00153\ \textcolor{comment}{/*\ Supply\ a\ block\ of\ JSON,\ and\ this\ returns\ a\ cJSON\ object\ you\ can\ interrogate.\ */}}
+\DoxyCodeLine{00154\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_Parse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *value);}
+\DoxyCodeLine{00155\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_ParseWithLength(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *value,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a7beaf9b4ef5e4c7254cc3298a3424354}{buffer\_length}});}
+\DoxyCodeLine{00156\ \textcolor{comment}{/*\ ParseWithOpts\ allows\ you\ to\ require\ (and\ check)\ that\ the\ JSON\ is\ null\ terminated,\ and\ to\ retrieve\ the\ pointer\ to\ the\ final\ byte\ parsed.\ */}}
+\DoxyCodeLine{00157\ \textcolor{comment}{/*\ If\ you\ supply\ a\ ptr\ in\ return\_parse\_end\ and\ parsing\ fails,\ then\ return\_parse\_end\ will\ contain\ a\ pointer\ to\ the\ error\ so\ will\ match\ cJSON\_GetErrorPtr().\ */}}
+\DoxyCodeLine{00158\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_ParseWithOpts(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *value,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **\doxymbox{\hyperlink{c_j_s_o_n_8h_a7725ae4fa33fc499614c6895ee9ee44a}{return\_parse\_end}},\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a68bc5d2265c7694323a75615f7ac0130}{require\_null\_terminated}});}
+\DoxyCodeLine{00159\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_ParseWithLengthOpts(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *value,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a7beaf9b4ef5e4c7254cc3298a3424354}{buffer\_length}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **\doxymbox{\hyperlink{c_j_s_o_n_8h_a7725ae4fa33fc499614c6895ee9ee44a}{return\_parse\_end}},\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a68bc5d2265c7694323a75615f7ac0130}{require\_null\_terminated}});}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{comment}{/*\ Render\ a\ cJSON\ entity\ to\ text\ for\ transfer/storage.\ */}}
+\DoxyCodeLine{00162\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{char}\ *)\ cJSON\_Print(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00163\ \textcolor{comment}{/*\ Render\ a\ cJSON\ entity\ to\ text\ for\ transfer/storage\ without\ any\ formatting.\ */}}
+\DoxyCodeLine{00164\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{char}\ *)\ cJSON\_PrintUnformatted(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00165\ \textcolor{comment}{/*\ Render\ a\ cJSON\ entity\ to\ text\ using\ a\ buffered\ strategy.\ prebuffer\ is\ a\ guess\ at\ the\ final\ size.\ guessing\ well\ reduces\ reallocation.\ fmt=0\ gives\ unformatted,\ =1\ gives\ formatted\ */}}
+\DoxyCodeLine{00166\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{char}\ *)\ cJSON\_PrintBuffered(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}},\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a039dc262c2ae63f95cfe193245f8ee7e}{prebuffer}},\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aa813b2b7bde1a5a1f528cd9d9aa9ee7d}{fmt}});}
+\DoxyCodeLine{00167\ \textcolor{comment}{/*\ Render\ a\ cJSON\ entity\ to\ text\ using\ a\ buffer\ already\ allocated\ in\ memory\ with\ given\ length.\ Returns\ 1\ on\ success\ and\ 0\ on\ failure.\ */}}
+\DoxyCodeLine{00168\ \textcolor{comment}{/*\ NOTE:\ cJSON\ is\ not\ always\ 100\%\ accurate\ in\ estimating\ how\ much\ memory\ it\ will\ use,\ so\ to\ be\ safe\ allocate\ 5\ bytes\ more\ than\ you\ actually\ need\ */}}
+\DoxyCodeLine{00169\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_PrintPreallocated(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}},\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a03c83e0884e2e3a1783db79f2d67101f}{length}},\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}});}
+\DoxyCodeLine{00170\ \textcolor{comment}{/*\ Delete\ a\ cJSON\ entity\ and\ all\ subentities.\ */}}
+\DoxyCodeLine{00171\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_Delete(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{comment}{/*\ Returns\ the\ number\ of\ items\ in\ an\ array\ (or\ object).\ */}}
+\DoxyCodeLine{00174\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{int})\ cJSON\_GetArraySize(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array);}
+\DoxyCodeLine{00175\ \textcolor{comment}{/*\ Retrieve\ item\ number\ "{}index"{}\ from\ array\ "{}array"{}.\ Returns\ NULL\ if\ unsuccessful.\ */}}
+\DoxyCodeLine{00176\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_GetArrayItem(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00177\ \textcolor{comment}{/*\ Get\ item\ "{}string"{}\ from\ object.\ Case\ insensitive.\ */}}
+\DoxyCodeLine{00178\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_GetObjectItem(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string});}
+\DoxyCodeLine{00179\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_GetObjectItemCaseSensitive(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string});}
+\DoxyCodeLine{00180\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_HasObjectItem(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00181\ \textcolor{comment}{/*\ For\ analysing\ failed\ parses.\ This\ returns\ a\ pointer\ to\ the\ parse\ error.\ You'll\ probably\ need\ to\ look\ a\ few\ chars\ back\ to\ make\ sense\ of\ it.\ Defined\ when\ cJSON\_Parse()\ returns\ 0.\ 0\ when\ cJSON\_Parse()\ succeeds.\ */}}
+\DoxyCodeLine{00182\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *)\ cJSON\_GetErrorPtr(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{comment}{/*\ Check\ item\ type\ and\ return\ its\ value\ */}}
+\DoxyCodeLine{00185\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{char}\ *)\ cJSON\_GetStringValue(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00186\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{double})\ cJSON\_GetNumberValue(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{comment}{/*\ These\ functions\ check\ the\ type\ of\ an\ item\ */}}
+\DoxyCodeLine{00189\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsInvalid(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00190\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsFalse(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00191\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsTrue(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00192\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsBool(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00193\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsNull(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00194\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsNumber(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00195\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsString(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00196\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsArray(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00197\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsObject(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00198\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_IsRaw(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \textcolor{comment}{/*\ These\ calls\ create\ a\ cJSON\ item\ of\ the\ appropriate\ type.\ */}}
+\DoxyCodeLine{00201\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateNull(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00202\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateTrue(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00203\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateFalse(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00204\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateBool(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \textcolor{keywordtype}{boolean});}
+\DoxyCodeLine{00205\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateNumber(\textcolor{keywordtype}{double}\ num);}
+\DoxyCodeLine{00206\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateString(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00207\ \textcolor{comment}{/*\ raw\ json\ */}}
+\DoxyCodeLine{00208\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateRaw(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a788db922597cf2fb6389e278f822e59f}{raw}});}
+\DoxyCodeLine{00209\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateArray(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00210\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateObject(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \textcolor{comment}{/*\ Create\ a\ string\ where\ valuestring\ references\ a\ string\ so}}
+\DoxyCodeLine{00213\ \textcolor{comment}{\ *\ it\ will\ not\ be\ freed\ by\ cJSON\_Delete\ */}}
+\DoxyCodeLine{00214\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateStringReference(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00215\ \textcolor{comment}{/*\ Create\ an\ object/array\ that\ only\ references\ it's\ elements\ so}}
+\DoxyCodeLine{00216\ \textcolor{comment}{\ *\ they\ will\ not\ be\ freed\ by\ cJSON\_Delete\ */}}
+\DoxyCodeLine{00217\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateObjectReference(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *child);}
+\DoxyCodeLine{00218\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateArrayReference(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *child);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \textcolor{comment}{/*\ These\ utilities\ create\ an\ Array\ of\ count\ items.}}
+\DoxyCodeLine{00221\ \textcolor{comment}{\ *\ The\ parameter\ count\ cannot\ be\ greater\ than\ the\ number\ of\ elements\ in\ the\ number\ array,\ otherwise\ array\ access\ will\ be\ out\ of\ bounds.*/}}
+\DoxyCodeLine{00222\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateIntArray(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *numbers,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}});}
+\DoxyCodeLine{00223\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateFloatArray(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *numbers,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}});}
+\DoxyCodeLine{00224\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateDoubleArray(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ *numbers,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}});}
+\DoxyCodeLine{00225\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_CreateStringArray(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{const}\ *strings,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}});}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \textcolor{comment}{/*\ Append\ item\ to\ the\ specified\ array/object.\ */}}
+\DoxyCodeLine{00228\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_AddItemToArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00229\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_AddItemToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00230\ \textcolor{comment}{/*\ Use\ this\ when\ string\ is\ definitely\ const\ (i.e.\ a\ literal,\ or\ as\ good\ as),\ and\ will\ definitely\ survive\ the\ cJSON\ object.}}
+\DoxyCodeLine{00231\ \textcolor{comment}{\ *\ WARNING:\ When\ this\ function\ was\ used,\ make\ sure\ to\ always\ check\ that\ (item-\/>type\ \&\ cJSON\_StringIsConst)\ is\ zero\ before}}
+\DoxyCodeLine{00232\ \textcolor{comment}{\ *\ writing\ to\ \`{}item-\/>string`\ */}}
+\DoxyCodeLine{00233\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_AddItemToObjectCS(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00234\ \textcolor{comment}{/*\ Append\ reference\ to\ item\ to\ the\ specified\ array/object.\ Use\ this\ when\ you\ want\ to\ add\ an\ existing\ cJSON\ to\ a\ new\ cJSON,\ but\ don't\ want\ to\ corrupt\ your\ existing\ cJSON.\ */}}
+\DoxyCodeLine{00235\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_AddItemReferenceToArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00236\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_AddItemReferenceToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{comment}{/*\ Remove/Detach\ items\ from\ Arrays/Objects.\ */}}
+\DoxyCodeLine{00239\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_DetachItemViaPointer(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *parent,\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}});}
+\DoxyCodeLine{00240\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_DetachItemFromArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aa2a4dae2a14de4093826005f9bdfd3bb}{which}});}
+\DoxyCodeLine{00241\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_DeleteItemFromArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aa2a4dae2a14de4093826005f9bdfd3bb}{which}});}
+\DoxyCodeLine{00242\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_DetachItemFromObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00243\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_DetachItemFromObjectCaseSensitive(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00244\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_DeleteItemFromObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00245\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_DeleteItemFromObjectCaseSensitive(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \textcolor{comment}{/*\ Update\ array\ items.\ */}}
+\DoxyCodeLine{00248\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_InsertItemInArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aa2a4dae2a14de4093826005f9bdfd3bb}{which}},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_abd13e53985a93dee588f840f06aac973}{newitem}});\ \textcolor{comment}{/*\ Shifts\ pre-\/existing\ items\ to\ the\ right.\ */}}
+\DoxyCodeLine{00249\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_ReplaceItemViaPointer(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ parent,\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a10573fccca598ec39809e8beb3f7f791}{replacement}});}
+\DoxyCodeLine{00250\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_ReplaceItemInArray(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *array,\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aa2a4dae2a14de4093826005f9bdfd3bb}{which}},\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_abd13e53985a93dee588f840f06aac973}{newitem}});}
+\DoxyCodeLine{00251\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_ReplaceItemInObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_abd13e53985a93dee588f840f06aac973}{newitem}});}
+\DoxyCodeLine{00252\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_ReplaceItemInObjectCaseSensitive(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_abd13e53985a93dee588f840f06aac973}{newitem}});}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \textcolor{comment}{/*\ Duplicate\ a\ cJSON\ item\ */}}
+\DoxyCodeLine{00255\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *)\ cJSON\_Duplicate(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}},\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_afc8d1c385c6dc37e1c5b640869ce4ab6}{recurse}});}
+\DoxyCodeLine{00256\ \textcolor{comment}{/*\ Duplicate\ will\ create\ a\ new,\ identical\ cJSON\ item\ to\ the\ one\ you\ pass,\ in\ new\ memory\ that\ will}}
+\DoxyCodeLine{00257\ \textcolor{comment}{\ *\ need\ to\ be\ released.\ With\ recurse!=0,\ it\ will\ duplicate\ any\ children\ connected\ to\ the\ item.}}
+\DoxyCodeLine{00258\ \textcolor{comment}{\ *\ The\ item-\/>next\ and\ -\/>prev\ pointers\ are\ always\ zero\ on\ return\ from\ Duplicate.\ */}}
+\DoxyCodeLine{00259\ \textcolor{comment}{/*\ Recursively\ compare\ two\ cJSON\ items\ for\ equality.\ If\ either\ a\ or\ b\ is\ NULL\ or\ invalid,\ they\ will\ be\ considered\ unequal.}}
+\DoxyCodeLine{00260\ \textcolor{comment}{\ *\ case\_sensitive\ determines\ if\ object\ keys\ are\ treated\ case\ sensitive\ (1)\ or\ case\ insensitive\ (0)\ */}}
+\DoxyCodeLine{00261\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}})\ cJSON\_Compare(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ a,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a05334336676ca1cd88db19ede4a065de}{case\_sensitive}});}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \textcolor{comment}{/*\ Minify\ a\ strings,\ remove\ blank\ characters(such\ as\ '\ ',\ '\(\backslash\)t',\ '\(\backslash\)r',\ '\(\backslash\)n')\ from\ strings.}}
+\DoxyCodeLine{00264\ \textcolor{comment}{\ *\ The\ input\ pointer\ json\ cannot\ point\ to\ a\ read-\/only\ address\ area,\ such\ as\ a\ string\ constant,\ }}
+\DoxyCodeLine{00265\ \textcolor{comment}{\ *\ but\ should\ point\ to\ a\ readable\ and\ writable\ address\ area.\ */}}
+\DoxyCodeLine{00266\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_Minify(\textcolor{keywordtype}{char}\ *json);}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \textcolor{comment}{/*\ Helper\ functions\ for\ creating\ and\ adding\ items\ to\ an\ object\ at\ the\ same\ time.}}
+\DoxyCodeLine{00269\ \textcolor{comment}{\ *\ They\ return\ the\ added\ item\ or\ NULL\ on\ failure.\ */}}
+\DoxyCodeLine{00270\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddNullToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00271\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddTrueToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00272\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddFalseToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00273\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddBoolToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{cJSON\_bool}}\ \textcolor{keywordtype}{boolean});}
+\DoxyCodeLine{00274\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddNumberToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a01b4671c6b7cc8f831c951c000a37735}{number}});}
+\DoxyCodeLine{00275\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddStringToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string});}
+\DoxyCodeLine{00276\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddRawToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a788db922597cf2fb6389e278f822e59f}{raw}});}
+\DoxyCodeLine{00277\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddObjectToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00278\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}*)\ cJSON\_AddArrayToObject(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \textcolor{comment}{/*\ When\ assigning\ an\ integer\ value,\ it\ needs\ to\ be\ propagated\ to\ valuedouble\ too.\ */}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ cJSON\_SetIntValue(object,\ number)\ ((object)\ ?\ (object)-\/>valueint\ =\ (object)-\/>valuedouble\ =\ (number)\ :\ (number))}}
+\DoxyCodeLine{00282\ \textcolor{comment}{/*\ helper\ for\ the\ cJSON\_SetNumberValue\ macro\ */}}
+\DoxyCodeLine{00283\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{double})\ cJSON\_SetNumberHelper(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keywordtype}{double}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a01b4671c6b7cc8f831c951c000a37735}{number}});}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ cJSON\_SetNumberValue(object,\ number)\ ((object\ !=\ NULL)\ ?\ cJSON\_SetNumberHelper(object,\ (double)number)\ :\ (number))}}
+\DoxyCodeLine{00285\ \textcolor{comment}{/*\ Change\ the\ valuestring\ of\ a\ cJSON\_String\ object,\ only\ takes\ effect\ when\ type\ of\ object\ is\ cJSON\_String\ */}}
+\DoxyCodeLine{00286\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{char}*)\ cJSON\_SetValuestring(\doxymbox{\hyperlink{structc_j_s_o_n}{cJSON}}\ *\textcolor{keywordtype}{object},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aa770d5dc55a1031ccff9aee4e96acf8f}{valuestring}});}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{comment}{/*\ If\ the\ object\ is\ not\ a\ boolean\ type\ this\ does\ nothing\ and\ returns\ cJSON\_Invalid\ else\ it\ returns\ the\ new\ type*/}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ cJSON\_SetBoolValue(object,\ boolValue)\ (\ \(\backslash\)}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\ \ \ \ (object\ !=\ NULL\ \&\&\ ((object)-\/>type\ \&\ (cJSON\_False|cJSON\_True)))\ ?\ \(\backslash\)}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\ \ \ \ (object)-\/>type=((object)-\/>type\ \&(\string~(cJSON\_False|cJSON\_True)))|((boolValue)?cJSON\_True:cJSON\_False)\ :\ \(\backslash\)}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\ \ \ \ cJSON\_Invalid\(\backslash\)}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{)}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{comment}{/*\ Macro\ for\ iterating\ over\ an\ array\ or\ object\ */}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ cJSON\_ArrayForEach(element,\ array)\ for(element\ =\ (array\ !=\ NULL)\ ?\ (array)-\/>child\ :\ NULL;\ element\ !=\ NULL;\ element\ =\ element-\/>next)}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \textcolor{comment}{/*\ malloc/free\ objects\ using\ the\ malloc/free\ functions\ that\ have\ been\ set\ with\ cJSON\_InitHooks\ */}}
+\DoxyCodeLine{00299\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void}\ *)\ cJSON\_malloc(\textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00300\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a70709a6f2a7e45debe4f5abe345fcb86}{CJSON\_PUBLIC}}(\textcolor{keywordtype}{void})\ cJSON\_free(\textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00303\ \}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

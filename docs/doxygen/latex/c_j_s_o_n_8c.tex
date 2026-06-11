@@ -1,0 +1,269 @@
+\doxysection{embedded-\/core/\+json/\+c\+JSON.c File Reference}
+\hypertarget{c_j_s_o_n_8c}{}\label{c_j_s_o_n_8c}\index{embedded-\/core/json/cJSON.c@{embedded-\/core/json/cJSON.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$math.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$limits.\+h$>$}\newline
+{\ttfamily \+\#include $<$ctype.\+h$>$}\newline
+{\ttfamily \+\#include $<$float.\+h$>$}\newline
+{\ttfamily \+\#include "{}c\+JSON.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structerror}{error}}
+\item 
+struct \doxymbox{\hyperlink{structinternal__hooks}{internal\+\_\+hooks}}
+\item 
+struct \doxymbox{\hyperlink{structparse__buffer}{parse\+\_\+buffer}}
+\item 
+struct \doxymbox{\hyperlink{structprintbuffer}{printbuffer}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}{true}}~((\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}})1)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}~((\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}})0)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_abad128f70dbd5a06aa93fe79b3acc4df}{isinf}}(d)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a11b2d271b8abcb53159ffb82dc29547a}{isnan}}(d)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a8abfcc76130f3f991d124dd22d7e69bc}{NAN}}~0.\+0/\+0.\+0
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a7fd7640617f7ffead7a9b1408c9d0ae8}{internal\+\_\+malloc}}~malloc
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a940bb34b2c297c3d8297d506a3955839}{internal\+\_\+free}}~free
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a91654176e81c707d28b99dd0bf783ed5}{internal\+\_\+realloc}}~realloc
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a5714bac836668a1b9af55465b78531ef}{static\+\_\+strlen}}(string\+\_\+literal)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a2257377f8b81f4f76a16b698f681af34}{can\+\_\+read}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},  size)
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_ae210aa01f1afe7510658c392f0f6e128}{can\+\_\+access\+\_\+at\+\_\+index}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},  \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}})
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a5c873a43d8a78ce9a6d9e8eb41d65d2d}{cannot\+\_\+access\+\_\+at\+\_\+index}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},  \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}})
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_ac538057ef78677344d222b763251af5e}{buffer\+\_\+at\+\_\+offset}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})
+\item 
+\+\#define \doxymbox{\hyperlink{c_j_s_o_n_8c_a13f540fa846f658531751b5ccb78f303}{cjson\+\_\+min}}(a,  \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct internal\+\_\+hooks \doxymbox{\hyperlink{c_j_s_o_n_8c_a584019da8f9922a232f41f6f6ffa4ede}{internal\+\_\+hooks}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_a312f68be4be2921a09b9ba24d554900d}{CJSON\+\_\+\+PUBLIC}} (const char \texorpdfstring{$\ast$}{*})
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_a7b2c22f062a3076b09d526268d540b1f}{CJSON\+\_\+\+PUBLIC}} (char \texorpdfstring{$\ast$}{*})
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_a4f2f67c8ce831561e7a1f5b173954037}{CJSON\+\_\+\+PUBLIC}} (double)
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_a9e943a63b19411e07fe82f46a56e35e5}{CJSON\+\_\+\+PUBLIC}} (void)
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_aa2ca313f61c789be20f8a69b651043c3}{CJSON\+\_\+\+PUBLIC}} (\doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*})
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_aed7e219a2b9187880c97c6f0ea5fa1b4}{CJSON\+\_\+\+PUBLIC}} (\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}})
+\item 
+\doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{c_j_s_o_n_8c_a7916f8c63594d49f98777b2f2153e245}{c\+JSON\+\_\+\+Duplicate\+\_\+rec}} (const \doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*}item, size\+\_\+t depth, \doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}} recurse)
+\item 
+\doxymbox{\hyperlink{c_j_s_o_n_8c_a0b3a6bc5d2c01a027675cf52246b9424}{CJSON\+\_\+\+PUBLIC}} (void \texorpdfstring{$\ast$}{*})
+\end{DoxyCompactItemize}
+
+
+\label{c_j_s_o_n_8c_doc-define-members}
+\Hypertarget{c_j_s_o_n_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{c_j_s_o_n_8c_ac538057ef78677344d222b763251af5e}\index{cJSON.c@{cJSON.c}!buffer\_at\_offset@{buffer\_at\_offset}}
+\index{buffer\_at\_offset@{buffer\_at\_offset}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{buffer\_at\_offset}{buffer\_at\_offset}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_ac538057ef78677344d222b763251af5e} 
+\+\#define buffer\+\_\+at\+\_\+offset(\begin{DoxyParamCaption}\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{((\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>content\ +\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>offset)}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_ae210aa01f1afe7510658c392f0f6e128}\index{cJSON.c@{cJSON.c}!can\_access\_at\_index@{can\_access\_at\_index}}
+\index{can\_access\_at\_index@{can\_access\_at\_index}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{can\_access\_at\_index}{can\_access\_at\_index}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_ae210aa01f1afe7510658c392f0f6e128} 
+\+\#define can\+\_\+access\+\_\+at\+\_\+index(\begin{DoxyParamCaption}\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}}{, }\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{((\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}\ !=\ NULL)\ \&\&\ (((\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>offset\ +\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}})\ <\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>length))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a2257377f8b81f4f76a16b698f681af34}\index{cJSON.c@{cJSON.c}!can\_read@{can\_read}}
+\index{can\_read@{can\_read}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{can\_read}{can\_read}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a2257377f8b81f4f76a16b698f681af34} 
+\+\#define can\+\_\+read(\begin{DoxyParamCaption}\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}}{, }\item[{}]{size}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{((\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}\ !=\ NULL)\ \&\&\ (((\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>offset\ +\ size)\ <=\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}})-\/>length))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a5c873a43d8a78ce9a6d9e8eb41d65d2d}\index{cJSON.c@{cJSON.c}!cannot\_access\_at\_index@{cannot\_access\_at\_index}}
+\index{cannot\_access\_at\_index@{cannot\_access\_at\_index}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{cannot\_access\_at\_index}{cannot\_access\_at\_index}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a5c873a43d8a78ce9a6d9e8eb41d65d2d} 
+\+\#define cannot\+\_\+access\+\_\+at\+\_\+index(\begin{DoxyParamCaption}\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}}{, }\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(!\doxymbox{\hyperlink{c_j_s_o_n_8c_ae210aa01f1afe7510658c392f0f6e128}{can\_access\_at\_index}}(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}}))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a13f540fa846f658531751b5ccb78f303}\index{cJSON.c@{cJSON.c}!cjson\_min@{cjson\_min}}
+\index{cjson\_min@{cjson\_min}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{cjson\_min}{cjson\_min}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a13f540fa846f658531751b5ccb78f303} 
+\+\#define cjson\+\_\+min(\begin{DoxyParamCaption}\item[{}]{a}{, }\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(((a)\ <\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}))\ ?\ (a)\ :\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}\index{cJSON.c@{cJSON.c}!false@{false}}
+\index{false@{false}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{false}{false}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727} 
+\+\#define false~((\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}})0)}
+
+\Hypertarget{c_j_s_o_n_8c_a940bb34b2c297c3d8297d506a3955839}\index{cJSON.c@{cJSON.c}!internal\_free@{internal\_free}}
+\index{internal\_free@{internal\_free}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{internal\_free}{internal\_free}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a940bb34b2c297c3d8297d506a3955839} 
+\+\#define internal\+\_\+free~free}
+
+\Hypertarget{c_j_s_o_n_8c_a7fd7640617f7ffead7a9b1408c9d0ae8}\index{cJSON.c@{cJSON.c}!internal\_malloc@{internal\_malloc}}
+\index{internal\_malloc@{internal\_malloc}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{internal\_malloc}{internal\_malloc}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a7fd7640617f7ffead7a9b1408c9d0ae8} 
+\+\#define internal\+\_\+malloc~malloc}
+
+\Hypertarget{c_j_s_o_n_8c_a91654176e81c707d28b99dd0bf783ed5}\index{cJSON.c@{cJSON.c}!internal\_realloc@{internal\_realloc}}
+\index{internal\_realloc@{internal\_realloc}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{internal\_realloc}{internal\_realloc}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a91654176e81c707d28b99dd0bf783ed5} 
+\+\#define internal\+\_\+realloc~realloc}
+
+\Hypertarget{c_j_s_o_n_8c_abad128f70dbd5a06aa93fe79b3acc4df}\index{cJSON.c@{cJSON.c}!isinf@{isinf}}
+\index{isinf@{isinf}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{isinf}{isinf}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_abad128f70dbd5a06aa93fe79b3acc4df} 
+\+\#define isinf(\begin{DoxyParamCaption}\item[{}]{d}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(\doxymbox{\hyperlink{c_j_s_o_n_8c_a11b2d271b8abcb53159ffb82dc29547a}{isnan}}((d\ -\/\ d))\ \&\&\ !\doxymbox{\hyperlink{c_j_s_o_n_8c_a11b2d271b8abcb53159ffb82dc29547a}{isnan}}(d))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a11b2d271b8abcb53159ffb82dc29547a}\index{cJSON.c@{cJSON.c}!isnan@{isnan}}
+\index{isnan@{isnan}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{isnan}{isnan}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a11b2d271b8abcb53159ffb82dc29547a} 
+\+\#define isnan(\begin{DoxyParamCaption}\item[{}]{d}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(d\ !=\ d)}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a8abfcc76130f3f991d124dd22d7e69bc}\index{cJSON.c@{cJSON.c}!NAN@{NAN}}
+\index{NAN@{NAN}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{NAN}{NAN}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a8abfcc76130f3f991d124dd22d7e69bc} 
+\+\#define NAN~0.\+0/\+0.\+0}
+
+\Hypertarget{c_j_s_o_n_8c_a5714bac836668a1b9af55465b78531ef}\index{cJSON.c@{cJSON.c}!static\_strlen@{static\_strlen}}
+\index{static\_strlen@{static\_strlen}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{static\_strlen}{static\_strlen}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a5714bac836668a1b9af55465b78531ef} 
+\+\#define static\+\_\+strlen(\begin{DoxyParamCaption}\item[{}]{string\+\_\+literal}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(\textcolor{keyword}{sizeof}(string\_literal)\ -\/\ \textcolor{keyword}{sizeof}(\textcolor{stringliteral}{"{}"{}}))}
+
+\end{DoxyCode}
+\Hypertarget{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}\index{cJSON.c@{cJSON.c}!true@{true}}
+\index{true@{true}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{true}{true}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7} 
+\+\#define true~((\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}})1)}
+
+
+
+\label{c_j_s_o_n_8c_doc-typedef-members}
+\Hypertarget{c_j_s_o_n_8c_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{c_j_s_o_n_8c_a584019da8f9922a232f41f6f6ffa4ede}\index{cJSON.c@{cJSON.c}!internal\_hooks@{internal\_hooks}}
+\index{internal\_hooks@{internal\_hooks}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{internal\_hooks}{internal\_hooks}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a584019da8f9922a232f41f6f6ffa4ede} 
+typedef struct internal\+\_\+hooks internal\+\_\+hooks}
+
+
+
+\label{c_j_s_o_n_8c_doc-func-members}
+\Hypertarget{c_j_s_o_n_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{c_j_s_o_n_8c_a7916f8c63594d49f98777b2f2153e245}\index{cJSON.c@{cJSON.c}!cJSON\_Duplicate\_rec@{cJSON\_Duplicate\_rec}}
+\index{cJSON\_Duplicate\_rec@{cJSON\_Duplicate\_rec}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{cJSON\_Duplicate\_rec()}{cJSON\_Duplicate\_rec()}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a7916f8c63594d49f98777b2f2153e245} 
+\doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*} c\+JSON\+\_\+\+Duplicate\+\_\+rec (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*}}]{item}{, }\item[{size\+\_\+t}]{depth}{, }\item[{\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}}}]{recurse}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_a7b2c22f062a3076b09d526268d540b1f}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [1/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a7b2c22f062a3076b09d526268d540b1f} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_aa2ca313f61c789be20f8a69b651043c3}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [2/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_aa2ca313f61c789be20f8a69b651043c3} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structc_j_s_o_n}{c\+JSON}} \texorpdfstring{$\ast$}{*}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_aed7e219a2b9187880c97c6f0ea5fa1b4}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [3/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_aed7e219a2b9187880c97c6f0ea5fa1b4} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{c_j_s_o_n_8h_aea0a1491f73d98b7cc4b8b791c408a4a}{c\+JSON\+\_\+bool}}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_a312f68be4be2921a09b9ba24d554900d}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [4/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a312f68be4be2921a09b9ba24d554900d} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_a4f2f67c8ce831561e7a1f5b173954037}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [5/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a4f2f67c8ce831561e7a1f5b173954037} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{double}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_a0b3a6bc5d2c01a027675cf52246b9424}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [6/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a0b3a6bc5d2c01a027675cf52246b9424} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{c_j_s_o_n_8c_a9e943a63b19411e07fe82f46a56e35e5}\index{cJSON.c@{cJSON.c}!CJSON\_PUBLIC@{CJSON\_PUBLIC}}
+\index{CJSON\_PUBLIC@{CJSON\_PUBLIC}!cJSON.c@{cJSON.c}}
+\doxysubsubsection{\texorpdfstring{CJSON\_PUBLIC()}{CJSON\_PUBLIC()}\hspace{0.1cm}{\footnotesize\ttfamily [7/7]}}
+{\footnotesize\ttfamily \label{c_j_s_o_n_8c_a9e943a63b19411e07fe82f46a56e35e5} 
+CJSON\+\_\+\+PUBLIC (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+

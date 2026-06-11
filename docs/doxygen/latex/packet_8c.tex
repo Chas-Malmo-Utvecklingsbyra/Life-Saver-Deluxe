@@ -1,0 +1,112 @@
+\doxysection{embedded-\/core/\+tcp/\+packet/\+packet.c File Reference}
+\hypertarget{packet_8c}{}\label{packet_8c}\index{embedded-\/core/tcp/packet/packet.c@{embedded-\/core/tcp/packet/packet.c}}
+{\ttfamily \+\#include "{}packet.\+h"{}}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$esp\+\_\+log.\+h$>$}\newline
+{\ttfamily \+\#include "{}allocator/\+arena.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+json/\+c\+JSON.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{packet_8c_af5f2bb90235dbc8c8ae18d8b13fac60c}{Packet\+\_\+\+Job\+\_\+\+Find\+\_\+\+Job}}(str\+\_\+value1,  str\+\_\+value2,  return\+\_\+value)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{packet_8c_af57681c38093f569c76dd37ac55eedfa}{Packet\+\_\+\+Job\+\_\+\+To\+\_\+\+String}} (\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}} job)
+\begin{DoxyCompactList}\small\item\em Converts the \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} type to the string version. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}} \doxymbox{\hyperlink{packet_8c_aa5ed2f72481c7abe384e5c5e4dd31b5b}{Packet\+\_\+\+Job\+\_\+\+From\+\_\+\+String}} (const char \texorpdfstring{$\ast$}{*}string)
+\begin{DoxyCompactList}\small\item\em Converts the string to a \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} enumerable. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{packet_8c_ae12038c9064a9293d381ae941c3a2b0e}{Packet\+\_\+\+Build}} (\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}} job, const char \texorpdfstring{$\ast$}{*}message)
+\begin{DoxyCompactList}\small\item\em Builds a Packet for commmunicating with our ESP32\+S3 via TCP. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{packet_8c_doc-define-members}
+\Hypertarget{packet_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{packet_8c_af5f2bb90235dbc8c8ae18d8b13fac60c}\index{packet.c@{packet.c}!Packet\_Job\_Find\_Job@{Packet\_Job\_Find\_Job}}
+\index{Packet\_Job\_Find\_Job@{Packet\_Job\_Find\_Job}!packet.c@{packet.c}}
+\doxysubsubsection{\texorpdfstring{Packet\_Job\_Find\_Job}{Packet\_Job\_Find\_Job}}
+{\footnotesize\ttfamily \label{packet_8c_af5f2bb90235dbc8c8ae18d8b13fac60c} 
+\+\#define Packet\+\_\+\+Job\+\_\+\+Find\+\_\+\+Job(\begin{DoxyParamCaption}\item[{}]{str\+\_\+value1}{, }\item[{}]{str\+\_\+value2}{, }\item[{}]{return\+\_\+value}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{do}\ \{\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ if\ (strcmp((str\_value1),\ (str\_value2))\ ==\ 0)\ \{\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ return\ (return\_value);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \(\backslash\)}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{while}(0)\ \(\backslash\)}
+
+\end{DoxyCode}
+
+
+\label{packet_8c_doc-func-members}
+\Hypertarget{packet_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{packet_8c_ae12038c9064a9293d381ae941c3a2b0e}\index{packet.c@{packet.c}!Packet\_Build@{Packet\_Build}}
+\index{Packet\_Build@{Packet\_Build}!packet.c@{packet.c}}
+\doxysubsubsection{\texorpdfstring{Packet\_Build()}{Packet\_Build()}}
+{\footnotesize\ttfamily \label{packet_8c_ae12038c9064a9293d381ae941c3a2b0e} 
+char \texorpdfstring{$\ast$}{*} Packet\+\_\+\+Build (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}}}]{job}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{message}{}\end{DoxyParamCaption})}
+
+
+
+Builds a Packet for commmunicating with our ESP32\+S3 via TCP. 
+
+This Packet\+\_\+\+Build uses the Arena allocator, which means that it needs to be cleared via \doxylink{arena_8c_ae607bcf95f8aee275aa5bec673388549}{Arena\+\_\+\+Reset()} after usage to not harm other areas of the code.
+
+
+\begin{DoxyParams}{Parameters}
+{\em job} & What type of Job to send. \\
+\hline
+{\em message} & The data which should be put into the packet and sent.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a char\texorpdfstring{$\ast$}{*} to the Packet in the arena allocator memory. 
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+\doxylink{arena_8c_ae607bcf95f8aee275aa5bec673388549}{Arena\+\_\+\+Reset()} should be used to clear the memory after having used the packet. DO NOT USE FREE! 
+\end{DoxyWarning}
+\Hypertarget{packet_8c_aa5ed2f72481c7abe384e5c5e4dd31b5b}\index{packet.c@{packet.c}!Packet\_Job\_From\_String@{Packet\_Job\_From\_String}}
+\index{Packet\_Job\_From\_String@{Packet\_Job\_From\_String}!packet.c@{packet.c}}
+\doxysubsubsection{\texorpdfstring{Packet\_Job\_From\_String()}{Packet\_Job\_From\_String()}}
+{\footnotesize\ttfamily \label{packet_8c_aa5ed2f72481c7abe384e5c5e4dd31b5b} 
+\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}} Packet\+\_\+\+Job\+\_\+\+From\+\_\+\+String (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{string}{}\end{DoxyParamCaption})}
+
+
+
+Converts the string to a \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} enumerable. 
+
+This does the opposite of Packet\+\_\+\+Job\+\_\+\+To\+\_\+\+String.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & The string to convert to \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} enumerable corresponding to the string. 
+\end{DoxyReturn}
+\Hypertarget{packet_8c_af57681c38093f569c76dd37ac55eedfa}\index{packet.c@{packet.c}!Packet\_Job\_To\_String@{Packet\_Job\_To\_String}}
+\index{Packet\_Job\_To\_String@{Packet\_Job\_To\_String}!packet.c@{packet.c}}
+\doxysubsubsection{\texorpdfstring{Packet\_Job\_To\_String()}{Packet\_Job\_To\_String()}}
+{\footnotesize\ttfamily \label{packet_8c_af57681c38093f569c76dd37ac55eedfa} 
+char \texorpdfstring{$\ast$}{*} Packet\+\_\+\+Job\+\_\+\+To\+\_\+\+String (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}}}]{job}{}\end{DoxyParamCaption})}
+
+
+
+Converts the \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} type to the string version. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em job} & The \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job} type to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the string version of \doxylink{packet_8h_a9f2c05183ade45b45430c7573ed7b892}{Packet\+\_\+\+Job}
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+The return value should NOT need be freed 
+\end{DoxyNote}

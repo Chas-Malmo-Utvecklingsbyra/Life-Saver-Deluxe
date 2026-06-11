@@ -1,0 +1,79 @@
+\doxysection{embedded-\/core/\+allocator/\+arena.h File Reference}
+\hypertarget{arena_8h}{}\label{arena_8h}\index{embedded-\/core/allocator/arena.h@{embedded-\/core/allocator/arena.h}}
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_allocator___arena}{Allocator\+\_\+\+Arena}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{arena_8h_acc06b8c5238e976013edb8e43f359144}{ALLOCATOR\+\_\+\+ARENA\+\_\+\+SIZE}}~1024
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{arena_8h_a671f88e974169033fb62cd7a30e33ee7}{Arena\+\_\+\+Malloc}} (size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Allocate a space in the arena allocator. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{arena_8h_ae607bcf95f8aee275aa5bec673388549}{Arena\+\_\+\+Reset}} ()
+\begin{DoxyCompactList}\small\item\em Clears the memory of the Arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{arena_8h_doc-define-members}
+\Hypertarget{arena_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{arena_8h_acc06b8c5238e976013edb8e43f359144}\index{arena.h@{arena.h}!ALLOCATOR\_ARENA\_SIZE@{ALLOCATOR\_ARENA\_SIZE}}
+\index{ALLOCATOR\_ARENA\_SIZE@{ALLOCATOR\_ARENA\_SIZE}!arena.h@{arena.h}}
+\doxysubsubsection{\texorpdfstring{ALLOCATOR\_ARENA\_SIZE}{ALLOCATOR\_ARENA\_SIZE}}
+{\footnotesize\ttfamily \label{arena_8h_acc06b8c5238e976013edb8e43f359144} 
+\+\#define ALLOCATOR\+\_\+\+ARENA\+\_\+\+SIZE~1024}
+
+
+
+\label{arena_8h_doc-func-members}
+\Hypertarget{arena_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{arena_8h_a671f88e974169033fb62cd7a30e33ee7}\index{arena.h@{arena.h}!Arena\_Malloc@{Arena\_Malloc}}
+\index{Arena\_Malloc@{Arena\_Malloc}!arena.h@{arena.h}}
+\doxysubsubsection{\texorpdfstring{Arena\_Malloc()}{Arena\_Malloc()}}
+{\footnotesize\ttfamily \label{arena_8h_a671f88e974169033fb62cd7a30e33ee7} 
+void \texorpdfstring{$\ast$}{*} Arena\+\_\+\+Malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Allocate a space in the arena allocator. 
+
+This function works pretty much exactly how malloc works, this does NOT use the heap at all.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The size of the buffer you wanna allocate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the address of your allocated memory. NULL if there is no available memory!
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This does NOT use the heap, instead it exists in the .data section of the program. 
+\end{DoxyNote}
+\Hypertarget{arena_8h_ae607bcf95f8aee275aa5bec673388549}\index{arena.h@{arena.h}!Arena\_Reset@{Arena\_Reset}}
+\index{Arena\_Reset@{Arena\_Reset}!arena.h@{arena.h}}
+\doxysubsubsection{\texorpdfstring{Arena\_Reset()}{Arena\_Reset()}}
+{\footnotesize\ttfamily \label{arena_8h_ae607bcf95f8aee275aa5bec673388549} 
+void Arena\+\_\+\+Reset (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Clears the memory of the Arena. 
+
+This should be used whenever you are done using the data in the Arena to not clutter the memory available. Otherwise you will run out of memory fast!
+
+Examples are:\+
+
+Using Packet\+\_\+\+Build and then after having sent it to your Client you can use \doxylink{arena_8h_ae607bcf95f8aee275aa5bec673388549}{Arena\+\_\+\+Reset()} to clear the Memory!
+
+\begin{DoxyWarning}{Warning}
+This clears ALL the memory reserved with Arena\+\_\+\+Malloc. 
+\end{DoxyWarning}
