@@ -1,6 +1,19 @@
 var searchData=
 [
-  ['mock_5fdeps_2ec_0',['mock_deps.c',['../mock__deps_8c.html',1,'']]],
-  ['mock_5fdeps_2eh_1',['mock_deps.h',['../mock__deps_8h.html',1,'']]],
-  ['mock_5fesp_5fspiffs_2ec_2',['mock_esp_spiffs.c',['../mock__esp__spiffs_8c.html',1,'']]]
+  ['gui_2ec_0',['gui.c',['../gui_8c.html',1,'']]],
+  ['gui_2eh_1',['gui.h',['../gui_8h.html',1,'']]],
+  ['gui_5fbacklight_2ec_2',['gui_backlight.c',['../gui__backlight_8c.html',1,'']]],
+  ['gui_5fbacklight_2eh_3',['gui_backlight.h',['../gui__backlight_8h.html',1,'']]],
+  ['gui_5frename_2ec_4',['gui_rename.c',['../gui__rename_8c.html',1,'']]],
+  ['gui_5frename_2eh_5',['gui_rename.h',['../gui__rename_8h.html',1,'']]],
+  ['gui_5fscreensaver_2ec_6',['gui_screensaver.c',['../gui__screensaver_8c.html',1,'']]],
+  ['gui_5fscreensaver_2eh_7',['gui_screensaver.h',['../gui__screensaver_8h.html',1,'']]],
+  ['gui_5fsensors_2ec_8',['gui_sensors.c',['../gui__sensors_8c.html',1,'']]],
+  ['gui_5fsensors_2eh_9',['gui_sensors.h',['../gui__sensors_8h.html',1,'']]],
+  ['gui_5fsidebar_2ec_10',['gui_sidebar.c',['../gui__sidebar_8c.html',1,'']]],
+  ['gui_5fsidebar_2eh_11',['gui_sidebar.h',['../gui__sidebar_8h.html',1,'']]],
+  ['gui_5ftabs_2ec_12',['gui_tabs.c',['../gui__tabs_8c.html',1,'']]],
+  ['gui_5ftabs_2eh_13',['gui_tabs.h',['../gui__tabs_8h.html',1,'']]],
+  ['gui_5fthemes_2ec_14',['gui_themes.c',['../gui__themes_8c.html',1,'']]],
+  ['gui_5fthemes_2eh_15',['gui_themes.h',['../gui__themes_8h.html',1,'']]]
 ];

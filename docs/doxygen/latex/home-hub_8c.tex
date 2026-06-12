@@ -1,0 +1,99 @@
+\doxysection{home-\/hub/\+main/\+home-\/hub.c File Reference}
+\hypertarget{home-hub_8c}{}\label{home-hub_8c}\index{home-\/hub/main/home-\/hub.c@{home-\/hub/main/home-\/hub.c}}
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$mdns.\+h$>$}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}internet/\+internet.\+h"{}}\newline
+{\ttfamily \+\#include "{}tcp/\+tcp\+\_\+server.\+h"{}}\newline
+{\ttfamily \+\#include "{}json/\+c\+JSON.\+h"{}}\newline
+{\ttfamily \+\#include "{}tcp/\+packet/\+packet.\+h"{}}\newline
+{\ttfamily \+\#include "{}sensor/\+sensor.\+h"{}}\newline
+{\ttfamily \+\#include "{}file\+\_\+system/\+file\+\_\+system.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui/\+gui.\+h"{}}\newline
+{\ttfamily \+\#include "{}bme280/\+bme280.\+h"{}}\newline
+{\ttfamily \+\#include "{}console/\+console.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+heap\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}allocator/\+arena.\+h"{}}\newline
+{\ttfamily \+\#include "{}random/\+random.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_8c_a614217d263be1fb1a5f76e2ff7be19a2}{PORT}}~6060
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{home-hub_8c_a06257b5434a3032ac0b5fae454d82878}{full\+\_\+data\+\_\+received}} (\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\+\_\+\+Server\+\_\+\+Client}} \texorpdfstring{$\ast$}{*}client)
+\item 
+void \doxymbox{\hyperlink{home-hub_8c_ac655a053527f7c827a96d6ba5e641ac0}{tcp\+\_\+server\+\_\+task}} (void \texorpdfstring{$\ast$}{*}params)
+\item 
+void \doxymbox{\hyperlink{home-hub_8c_ab6fd974fe60e787751873d15a4f26e58}{bme280\+\_\+task}} (void \texorpdfstring{$\ast$}{*}params)
+\item 
+void \doxymbox{\hyperlink{home-hub_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{home-hub_8c_a2a2c4aa14e033e6e40be186b9b4a304d}{bme280\+\_\+running}} = \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}
+\item 
+Semaphore\+Handle\+\_\+t \doxymbox{\hyperlink{home-hub_8c_a802fa6f8c93bee8a4eba07568b5505b4}{env\+\_\+sensor\+\_\+mutex}} = NULL
+\end{DoxyCompactItemize}
+
+
+\label{home-hub_8c_doc-define-members}
+\Hypertarget{home-hub_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_8c_a614217d263be1fb1a5f76e2ff7be19a2}\index{home-\/hub.c@{home-\/hub.c}!PORT@{PORT}}
+\index{PORT@{PORT}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{PORT}{PORT}}
+{\footnotesize\ttfamily \label{home-hub_8c_a614217d263be1fb1a5f76e2ff7be19a2} 
+\+\#define PORT~6060}
+
+
+
+\label{home-hub_8c_doc-func-members}
+\Hypertarget{home-hub_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{home-hub_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\index{home-\/hub.c@{home-\/hub.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{home-hub_8c_a630544a7f0a2cc40d8a7fefab7e2fe70} 
+void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{home-hub_8c_ab6fd974fe60e787751873d15a4f26e58}\index{home-\/hub.c@{home-\/hub.c}!bme280\_task@{bme280\_task}}
+\index{bme280\_task@{bme280\_task}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_task()}{bme280\_task()}}
+{\footnotesize\ttfamily \label{home-hub_8c_ab6fd974fe60e787751873d15a4f26e58} 
+void bme280\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{params}{}\end{DoxyParamCaption})}
+
+\Hypertarget{home-hub_8c_a06257b5434a3032ac0b5fae454d82878}\index{home-\/hub.c@{home-\/hub.c}!full\_data\_received@{full\_data\_received}}
+\index{full\_data\_received@{full\_data\_received}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{full\_data\_received()}{full\_data\_received()}}
+{\footnotesize\ttfamily \label{home-hub_8c_a06257b5434a3032ac0b5fae454d82878} 
+void full\+\_\+data\+\_\+received (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_t_c_p___server___client}{TCP\+\_\+\+Server\+\_\+\+Client}} \texorpdfstring{$\ast$}{*}}]{client}{}\end{DoxyParamCaption})}
+
+\Hypertarget{home-hub_8c_ac655a053527f7c827a96d6ba5e641ac0}\index{home-\/hub.c@{home-\/hub.c}!tcp\_server\_task@{tcp\_server\_task}}
+\index{tcp\_server\_task@{tcp\_server\_task}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{tcp\_server\_task()}{tcp\_server\_task()}}
+{\footnotesize\ttfamily \label{home-hub_8c_ac655a053527f7c827a96d6ba5e641ac0} 
+void tcp\+\_\+server\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{params}{}\end{DoxyParamCaption})}
+
+
+
+\label{home-hub_8c_doc-var-members}
+\Hypertarget{home-hub_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{home-hub_8c_a2a2c4aa14e033e6e40be186b9b4a304d}\index{home-\/hub.c@{home-\/hub.c}!bme280\_running@{bme280\_running}}
+\index{bme280\_running@{bme280\_running}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_running}{bme280\_running}}
+{\footnotesize\ttfamily \label{home-hub_8c_a2a2c4aa14e033e6e40be186b9b4a304d} 
+bool bme280\+\_\+running = \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}}
+
+\Hypertarget{home-hub_8c_a802fa6f8c93bee8a4eba07568b5505b4}\index{home-\/hub.c@{home-\/hub.c}!env\_sensor\_mutex@{env\_sensor\_mutex}}
+\index{env\_sensor\_mutex@{env\_sensor\_mutex}!home-\/hub.c@{home-\/hub.c}}
+\doxysubsubsection{\texorpdfstring{env\_sensor\_mutex}{env\_sensor\_mutex}}
+{\footnotesize\ttfamily \label{home-hub_8c_a802fa6f8c93bee8a4eba07568b5505b4} 
+Semaphore\+Handle\+\_\+t env\+\_\+sensor\+\_\+mutex = NULL}
+

@@ -1,0 +1,261 @@
+\doxysection{camera-\/image-\/server/\+main/\+camera/\+camera.c File Reference}
+\hypertarget{camera_8c}{}\label{camera_8c}\index{camera-\/image-\/server/main/camera/camera.c@{camera-\/image-\/server/main/camera/camera.c}}
+{\ttfamily \+\#include "{}camera.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}math.\+h"{}}\newline
+{\ttfamily \+\#include "{}jpeg\+\_\+decoder.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+heap\+\_\+caps.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{camera_8c_a5c6dcda70846d20d2a1af4ce3319bbf2}{DECODE\+\_\+\+BUF\+\_\+\+SIZE}}~(\doxymbox{\hyperlink{camera_8h_a6e52619a3b3774b1f97c1cfd6e168b54}{FWIDTH}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{camera_8h_aedbb311c97c3797784ae6d9a02518d3f}{FHEIGHT}} \texorpdfstring{$\ast$}{*} 3)
+\item 
+\+\#define \doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}}~5
+\item 
+\+\#define \doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}~5
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{camera_8c_a1b26c6b2e85e1d6cd6902fbdb43ce67a}{camera\+\_\+motion\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize motion detection. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{camera_8c_ad05e3ba016e9d0cf8d27914d1886dca6}{rebuild\+\_\+block\+\_\+mask}} (void)
+\begin{DoxyCompactList}\small\item\em Rebuild the block mask based on the current mask\+\_\+frame configuration. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{camera_8c_a8b038dcc25a7f1c256bede88b6fdba0e}{update\+\_\+frame}} ()
+\begin{DoxyCompactList}\small\item\em Update the previous frame with the current frame data. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{camera_8c_ae2387884ede8176236c539d59dfe36a8}{capture\+\_\+still}} ()
+\begin{DoxyCompactList}\small\item\em Capture a still image and update the current frame data for motion detection. \end{DoxyCompactList}\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a1f5dbf49908e43b9e17c0736a876d52f}{motion\+\_\+detect}} ()
+\begin{DoxyCompactList}\small\item\em Perform motion detection on the current frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \doxymbox{\hyperlink{camera_8c_a38e7c65bebf905d1e816716d3ca01467}{camera\+Image\+Gain}} = 0
+\item 
+float \doxymbox{\hyperlink{camera_8c_a4e4d2c4f4f249f85ae7b45b3d9f2bd41}{camera\+Image\+Exposure}} = 0
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_aae3c3489ca26df4ffaaf0133a5529239}{prev\+\_\+frame}} \+[\doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}}]\+\+[\doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}}]\+ = \{0\}
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_af08a2e52512bad4ab01af2eefd0e97ea}{current\+\_\+frame}} \+[\doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}}]\+\+[\doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}}]\+ = \{0\}
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a0b16eba9d328dcf7a6a19bc35ebd8148}{average\+Pix}} = 0
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a9f49516ac45f15db1d85246d8d917fd0}{target\+Brightness}} = 120
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_ae0b4bb1c5574f609e653007e3576cdfd}{block\+Threshold}} = 10
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a524d56e62df97dfdd87ebb6e45cde609}{image\+ThresholdL}} = 1
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a6cfea584b552bd7e506ad1778f02a611}{image\+ThresholdH}} = 255
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_ae30cf9dffeb545ce6b937b390e93f587}{t\+Counter}} = 0
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_aeb7f8afb4393901af2f26e489cacdf6a}{t\+Counter\+Trigger}} = 2
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a88269be9f3ad40a6b8798ed5e05a52f8}{latest\+Changes}} = 0
+\item 
+uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_ab0511dfaecc9c1af9870577344661023}{mask\+\_\+active}} = \doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}
+\item 
+const uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a3fc513eee7e8c07e08dccb83a5b810e1}{mask\+Block\+Width}} = \doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}} /\+ \doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}}
+\item 
+const uint16\+\_\+t \doxymbox{\hyperlink{camera_8c_a8a83781201b7cb389898b8b7e401b7b4}{mask\+Block\+Height}} = \doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}} /\+ \doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}
+\item 
+bool \doxymbox{\hyperlink{camera_8c_a3e6802b2ed414ac46c4a7504608c6b27}{mask\+\_\+frame}} \+[\doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}}]\+\+[\doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}]\+
+\end{DoxyCompactItemize}
+
+
+\label{camera_8c_doc-define-members}
+\Hypertarget{camera_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{camera_8c_a5c6dcda70846d20d2a1af4ce3319bbf2}\index{camera.c@{camera.c}!DECODE\_BUF\_SIZE@{DECODE\_BUF\_SIZE}}
+\index{DECODE\_BUF\_SIZE@{DECODE\_BUF\_SIZE}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{DECODE\_BUF\_SIZE}{DECODE\_BUF\_SIZE}}
+{\footnotesize\ttfamily \label{camera_8c_a5c6dcda70846d20d2a1af4ce3319bbf2} 
+\+\#define DECODE\+\_\+\+BUF\+\_\+\+SIZE~(\doxymbox{\hyperlink{camera_8h_a6e52619a3b3774b1f97c1cfd6e168b54}{FWIDTH}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{camera_8h_aedbb311c97c3797784ae6d9a02518d3f}{FHEIGHT}} \texorpdfstring{$\ast$}{*} 3)}
+
+\Hypertarget{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}\index{camera.c@{camera.c}!MASK\_COLUMNS@{MASK\_COLUMNS}}
+\index{MASK\_COLUMNS@{MASK\_COLUMNS}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{MASK\_COLUMNS}{MASK\_COLUMNS}}
+{\footnotesize\ttfamily \label{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3} 
+\+\#define MASK\+\_\+\+COLUMNS~5}
+
+\Hypertarget{camera_8c_a8d549a98ff3954013b297c4b3a41b015}\index{camera.c@{camera.c}!MASK\_ROWS@{MASK\_ROWS}}
+\index{MASK\_ROWS@{MASK\_ROWS}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{MASK\_ROWS}{MASK\_ROWS}}
+{\footnotesize\ttfamily \label{camera_8c_a8d549a98ff3954013b297c4b3a41b015} 
+\+\#define MASK\+\_\+\+ROWS~5}
+
+
+
+\label{camera_8c_doc-func-members}
+\Hypertarget{camera_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{camera_8c_a1b26c6b2e85e1d6cd6902fbdb43ce67a}\index{camera.c@{camera.c}!camera\_motion\_init@{camera\_motion\_init}}
+\index{camera\_motion\_init@{camera\_motion\_init}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{camera\_motion\_init()}{camera\_motion\_init()}}
+{\footnotesize\ttfamily \label{camera_8c_a1b26c6b2e85e1d6cd6902fbdb43ce67a} 
+bool camera\+\_\+motion\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize motion detection. 
+
+\begin{DoxyReturn}{Returns}
+true if initialization was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{camera_8c_ae2387884ede8176236c539d59dfe36a8}\index{camera.c@{camera.c}!capture\_still@{capture\_still}}
+\index{capture\_still@{capture\_still}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{capture\_still()}{capture\_still()}}
+{\footnotesize\ttfamily \label{camera_8c_ae2387884ede8176236c539d59dfe36a8} 
+bool capture\+\_\+still (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Capture a still image and update the current frame data for motion detection. 
+
+\begin{DoxyReturn}{Returns}
+true if the capture was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{camera_8c_a1f5dbf49908e43b9e17c0736a876d52f}\index{camera.c@{camera.c}!motion\_detect@{motion\_detect}}
+\index{motion\_detect@{motion\_detect}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{motion\_detect()}{motion\_detect()}}
+{\footnotesize\ttfamily \label{camera_8c_a1f5dbf49908e43b9e17c0736a876d52f} 
+uint16\+\_\+t motion\+\_\+detect (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Perform motion detection on the current frame. 
+
+\begin{DoxyReturn}{Returns}
+the number of changed blocks detected 
+\end{DoxyReturn}
+\Hypertarget{camera_8c_ad05e3ba016e9d0cf8d27914d1886dca6}\index{camera.c@{camera.c}!rebuild\_block\_mask@{rebuild\_block\_mask}}
+\index{rebuild\_block\_mask@{rebuild\_block\_mask}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{rebuild\_block\_mask()}{rebuild\_block\_mask()}}
+{\footnotesize\ttfamily \label{camera_8c_ad05e3ba016e9d0cf8d27914d1886dca6} 
+void rebuild\+\_\+block\+\_\+mask (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Rebuild the block mask based on the current mask\+\_\+frame configuration. 
+
+\Hypertarget{camera_8c_a8b038dcc25a7f1c256bede88b6fdba0e}\index{camera.c@{camera.c}!update\_frame@{update\_frame}}
+\index{update\_frame@{update\_frame}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{update\_frame()}{update\_frame()}}
+{\footnotesize\ttfamily \label{camera_8c_a8b038dcc25a7f1c256bede88b6fdba0e} 
+void update\+\_\+frame (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Update the previous frame with the current frame data. 
+
+
+
+\label{camera_8c_doc-var-members}
+\Hypertarget{camera_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{camera_8c_a0b16eba9d328dcf7a6a19bc35ebd8148}\index{camera.c@{camera.c}!averagePix@{averagePix}}
+\index{averagePix@{averagePix}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{averagePix}{averagePix}}
+{\footnotesize\ttfamily \label{camera_8c_a0b16eba9d328dcf7a6a19bc35ebd8148} 
+uint16\+\_\+t average\+Pix = 0}
+
+\Hypertarget{camera_8c_ae0b4bb1c5574f609e653007e3576cdfd}\index{camera.c@{camera.c}!blockThreshold@{blockThreshold}}
+\index{blockThreshold@{blockThreshold}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{blockThreshold}{blockThreshold}}
+{\footnotesize\ttfamily \label{camera_8c_ae0b4bb1c5574f609e653007e3576cdfd} 
+uint16\+\_\+t block\+Threshold = 10}
+
+\Hypertarget{camera_8c_a4e4d2c4f4f249f85ae7b45b3d9f2bd41}\index{camera.c@{camera.c}!cameraImageExposure@{cameraImageExposure}}
+\index{cameraImageExposure@{cameraImageExposure}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{cameraImageExposure}{cameraImageExposure}}
+{\footnotesize\ttfamily \label{camera_8c_a4e4d2c4f4f249f85ae7b45b3d9f2bd41} 
+float camera\+Image\+Exposure = 0}
+
+\Hypertarget{camera_8c_a38e7c65bebf905d1e816716d3ca01467}\index{camera.c@{camera.c}!cameraImageGain@{cameraImageGain}}
+\index{cameraImageGain@{cameraImageGain}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{cameraImageGain}{cameraImageGain}}
+{\footnotesize\ttfamily \label{camera_8c_a38e7c65bebf905d1e816716d3ca01467} 
+float camera\+Image\+Gain = 0}
+
+\Hypertarget{camera_8c_af08a2e52512bad4ab01af2eefd0e97ea}\index{camera.c@{camera.c}!current\_frame@{current\_frame}}
+\index{current\_frame@{current\_frame}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{current\_frame}{current\_frame}}
+{\footnotesize\ttfamily \label{camera_8c_af08a2e52512bad4ab01af2eefd0e97ea} 
+uint16\+\_\+t current\+\_\+frame\+[\doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}}]\+\+[\doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}}]\+ = \{0\}}
+
+\Hypertarget{camera_8c_a6cfea584b552bd7e506ad1778f02a611}\index{camera.c@{camera.c}!imageThresholdH@{imageThresholdH}}
+\index{imageThresholdH@{imageThresholdH}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{imageThresholdH}{imageThresholdH}}
+{\footnotesize\ttfamily \label{camera_8c_a6cfea584b552bd7e506ad1778f02a611} 
+uint16\+\_\+t image\+ThresholdH = 255}
+
+\Hypertarget{camera_8c_a524d56e62df97dfdd87ebb6e45cde609}\index{camera.c@{camera.c}!imageThresholdL@{imageThresholdL}}
+\index{imageThresholdL@{imageThresholdL}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{imageThresholdL}{imageThresholdL}}
+{\footnotesize\ttfamily \label{camera_8c_a524d56e62df97dfdd87ebb6e45cde609} 
+uint16\+\_\+t image\+ThresholdL = 1}
+
+\Hypertarget{camera_8c_a88269be9f3ad40a6b8798ed5e05a52f8}\index{camera.c@{camera.c}!latestChanges@{latestChanges}}
+\index{latestChanges@{latestChanges}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{latestChanges}{latestChanges}}
+{\footnotesize\ttfamily \label{camera_8c_a88269be9f3ad40a6b8798ed5e05a52f8} 
+uint16\+\_\+t latest\+Changes = 0}
+
+\Hypertarget{camera_8c_ab0511dfaecc9c1af9870577344661023}\index{camera.c@{camera.c}!mask\_active@{mask\_active}}
+\index{mask\_active@{mask\_active}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{mask\_active}{mask\_active}}
+{\footnotesize\ttfamily \label{camera_8c_ab0511dfaecc9c1af9870577344661023} 
+uint16\+\_\+t mask\+\_\+active = \doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}}
+
+\Hypertarget{camera_8c_a3e6802b2ed414ac46c4a7504608c6b27}\index{camera.c@{camera.c}!mask\_frame@{mask\_frame}}
+\index{mask\_frame@{mask\_frame}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{mask\_frame}{mask\_frame}}
+{\footnotesize\ttfamily \label{camera_8c_a3e6802b2ed414ac46c4a7504608c6b27} 
+bool mask\+\_\+frame\+[\doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}}]\+\+[\doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}]\+}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{\{\textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true}\}\}}
+
+\end{DoxyCode}
+\Hypertarget{camera_8c_a8a83781201b7cb389898b8b7e401b7b4}\index{camera.c@{camera.c}!maskBlockHeight@{maskBlockHeight}}
+\index{maskBlockHeight@{maskBlockHeight}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{maskBlockHeight}{maskBlockHeight}}
+{\footnotesize\ttfamily \label{camera_8c_a8a83781201b7cb389898b8b7e401b7b4} 
+const uint16\+\_\+t mask\+Block\+Height = \doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}} /\+ \doxymbox{\hyperlink{camera_8c_a8d549a98ff3954013b297c4b3a41b015}{MASK\+\_\+\+ROWS}}}
+
+\Hypertarget{camera_8c_a3fc513eee7e8c07e08dccb83a5b810e1}\index{camera.c@{camera.c}!maskBlockWidth@{maskBlockWidth}}
+\index{maskBlockWidth@{maskBlockWidth}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{maskBlockWidth}{maskBlockWidth}}
+{\footnotesize\ttfamily \label{camera_8c_a3fc513eee7e8c07e08dccb83a5b810e1} 
+const uint16\+\_\+t mask\+Block\+Width = \doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}} /\+ \doxymbox{\hyperlink{camera_8c_af51eaebcb02834de7a4dcc0563fe48e3}{MASK\+\_\+\+COLUMNS}}}
+
+\Hypertarget{camera_8c_aae3c3489ca26df4ffaaf0133a5529239}\index{camera.c@{camera.c}!prev\_frame@{prev\_frame}}
+\index{prev\_frame@{prev\_frame}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{prev\_frame}{prev\_frame}}
+{\footnotesize\ttfamily \label{camera_8c_aae3c3489ca26df4ffaaf0133a5529239} 
+uint16\+\_\+t prev\+\_\+frame\+[\doxymbox{\hyperlink{camera_8h_ad435a18ef42aa68e48fa714a54740f0a}{FH}}]\+\+[\doxymbox{\hyperlink{camera_8h_a7580312c9272504613c8aa077e4343e1}{FW}}]\+ = \{0\}}
+
+\Hypertarget{camera_8c_a9f49516ac45f15db1d85246d8d917fd0}\index{camera.c@{camera.c}!targetBrightness@{targetBrightness}}
+\index{targetBrightness@{targetBrightness}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{targetBrightness}{targetBrightness}}
+{\footnotesize\ttfamily \label{camera_8c_a9f49516ac45f15db1d85246d8d917fd0} 
+uint16\+\_\+t target\+Brightness = 120}
+
+\Hypertarget{camera_8c_ae30cf9dffeb545ce6b937b390e93f587}\index{camera.c@{camera.c}!tCounter@{tCounter}}
+\index{tCounter@{tCounter}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{tCounter}{tCounter}}
+{\footnotesize\ttfamily \label{camera_8c_ae30cf9dffeb545ce6b937b390e93f587} 
+uint16\+\_\+t t\+Counter = 0}
+
+\Hypertarget{camera_8c_aeb7f8afb4393901af2f26e489cacdf6a}\index{camera.c@{camera.c}!tCounterTrigger@{tCounterTrigger}}
+\index{tCounterTrigger@{tCounterTrigger}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{tCounterTrigger}{tCounterTrigger}}
+{\footnotesize\ttfamily \label{camera_8c_aeb7f8afb4393901af2f26e489cacdf6a} 
+uint16\+\_\+t t\+Counter\+Trigger = 2}
+

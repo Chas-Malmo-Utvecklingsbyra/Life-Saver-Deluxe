@@ -1,0 +1,27 @@
+var camera_8c =
+[
+    [ "DECODE_BUF_SIZE", "camera_8c.html#a5c6dcda70846d20d2a1af4ce3319bbf2", null ],
+    [ "MASK_COLUMNS", "camera_8c.html#af51eaebcb02834de7a4dcc0563fe48e3", null ],
+    [ "MASK_ROWS", "camera_8c.html#a8d549a98ff3954013b297c4b3a41b015", null ],
+    [ "camera_motion_init", "camera_8c.html#a1b26c6b2e85e1d6cd6902fbdb43ce67a", null ],
+    [ "capture_still", "camera_8c.html#ae2387884ede8176236c539d59dfe36a8", null ],
+    [ "motion_detect", "camera_8c.html#a1f5dbf49908e43b9e17c0736a876d52f", null ],
+    [ "rebuild_block_mask", "camera_8c.html#ad05e3ba016e9d0cf8d27914d1886dca6", null ],
+    [ "update_frame", "camera_8c.html#a8b038dcc25a7f1c256bede88b6fdba0e", null ],
+    [ "averagePix", "camera_8c.html#a0b16eba9d328dcf7a6a19bc35ebd8148", null ],
+    [ "blockThreshold", "camera_8c.html#ae0b4bb1c5574f609e653007e3576cdfd", null ],
+    [ "cameraImageExposure", "camera_8c.html#a4e4d2c4f4f249f85ae7b45b3d9f2bd41", null ],
+    [ "cameraImageGain", "camera_8c.html#a38e7c65bebf905d1e816716d3ca01467", null ],
+    [ "current_frame", "camera_8c.html#af08a2e52512bad4ab01af2eefd0e97ea", null ],
+    [ "imageThresholdH", "camera_8c.html#a6cfea584b552bd7e506ad1778f02a611", null ],
+    [ "imageThresholdL", "camera_8c.html#a524d56e62df97dfdd87ebb6e45cde609", null ],
+    [ "latestChanges", "camera_8c.html#a88269be9f3ad40a6b8798ed5e05a52f8", null ],
+    [ "mask_active", "camera_8c.html#ab0511dfaecc9c1af9870577344661023", null ],
+    [ "mask_frame", "camera_8c.html#a3e6802b2ed414ac46c4a7504608c6b27", null ],
+    [ "maskBlockHeight", "camera_8c.html#a8a83781201b7cb389898b8b7e401b7b4", null ],
+    [ "maskBlockWidth", "camera_8c.html#a3fc513eee7e8c07e08dccb83a5b810e1", null ],
+    [ "prev_frame", "camera_8c.html#aae3c3489ca26df4ffaaf0133a5529239", null ],
+    [ "targetBrightness", "camera_8c.html#a9f49516ac45f15db1d85246d8d917fd0", null ],
+    [ "tCounter", "camera_8c.html#ae30cf9dffeb545ce6b937b390e93f587", null ],
+    [ "tCounterTrigger", "camera_8c.html#aeb7f8afb4393901af2f26e489cacdf6a", null ]
+];

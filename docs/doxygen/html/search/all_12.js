@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['valuedouble_0',['valuedouble',['../structc_j_s_o_n.html#a2983295369d8ff0183638d8550a22263',1,'cJSON']]],
-  ['valueint_1',['valueint',['../structc_j_s_o_n.html#af69506d34291edd0be9fa15660ac01ec',1,'cJSON']]],
-  ['valuestring_2',['valuestring',['../structc_j_s_o_n.html#a4d2b95f0dc1f37a46452f5ddd6963455',1,'cJSON::valuestring'],['../c_j_s_o_n_8h.html#aa770d5dc55a1031ccff9aee4e96acf8f',1,'valuestring:&#160;cJSON.h']]],
-  ['verifytest_3',['verifyTest',['../unity_8h.html#aeb6db8fdb0691ec531a093d12c3ff4c2',1,'unity.h']]],
-  ['void_4',['void',['../structinternal__hooks.html#a3e16bc9dd17d5b0102dd051a2cbbdcee',1,'internal_hooks::void()'],['../structc_j_s_o_n___hooks.html#a412fda15a94a7afee60590f880b1f2d6',1,'cJSON_Hooks::void()']]]
+  ['object_5fdetection_5fserver_5furl_0',['object_detection_server_url',['../struct_address_config__t.html#aaa605866a40f425cbca2fb27359038cc',1,'AddressConfig_t']]],
+  ['offset_1',['offset',['../structparse__buffer.html#aadb6d6eb83e646653a1402032e45dcab',1,'parse_buffer::offset'],['../structprintbuffer.html#aadb6d6eb83e646653a1402032e45dcab',1,'printbuffer::offset']]],
+  ['on_5fui_5fpoll_5ftimer_2',['on_ui_poll_timer',['../gui__sensors_8c.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c'],['../gui__sensors_8h.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c']]],
+  ['open_5frename_5foverlay_3',['open_rename_overlay',['../gui__rename_8c.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c'],['../gui__rename_8h.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c']]],
+  ['optional_4',['Optional',['../md__r_e_a_d_m_e.html#autotoc_md42',1,'']]],
+  ['overview_5',['Overview',['../md__r_e_a_d_m_e.html#autotoc_md25',1,'Overview'],['../md_docs_2_h_w__documentation.html',1,'System Overview']]]
 ];

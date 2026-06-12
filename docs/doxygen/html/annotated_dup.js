@@ -1,9 +1,11 @@
 var annotated_dup =
 [
+    [ "AddressConfig_t", "struct_address_config__t.html", "struct_address_config__t" ],
     [ "Allocator_Arena", "struct_allocator___arena.html", "struct_allocator___arena" ],
     [ "bme280_calib_t", "structbme280__calib__t.html", "structbme280__calib__t" ],
     [ "bme280_meas_t", "structbme280__meas__t.html", "structbme280__meas__t" ],
     [ "bme280_raw_t", "structbme280__raw__t.html", "structbme280__raw__t" ],
+    [ "BME280Ui", "struct_b_m_e280_ui.html", "struct_b_m_e280_ui" ],
     [ "cJSON", "structc_j_s_o_n.html", "structc_j_s_o_n" ],
     [ "cJSON_Hooks", "structc_j_s_o_n___hooks.html", "structc_j_s_o_n___hooks" ],
     [ "Console", "struct_console.html", "struct_console" ],
@@ -14,8 +16,12 @@ var annotated_dup =
     [ "internal_hooks", "structinternal__hooks.html", "structinternal__hooks" ],
     [ "parse_buffer", "structparse__buffer.html", "structparse__buffer" ],
     [ "printbuffer", "structprintbuffer.html", "structprintbuffer" ],
+    [ "ScreensaverControl", "struct_screensaver_control.html", "struct_screensaver_control" ],
+    [ "Sensor", "struct_sensor.html", "struct_sensor" ],
+    [ "SensorUi", "struct_sensor_ui.html", "struct_sensor_ui" ],
     [ "TCP_Client", "struct_t_c_p___client.html", "struct_t_c_p___client" ],
     [ "TCP_Server", "struct_t_c_p___server.html", "struct_t_c_p___server" ],
     [ "TCP_Server_Client", "struct_t_c_p___server___client.html", "struct_t_c_p___server___client" ],
+    [ "theme_t", "structtheme__t.html", "structtheme__t" ],
     [ "UNITY_STORAGE_T", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t.html", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t" ]
 ];

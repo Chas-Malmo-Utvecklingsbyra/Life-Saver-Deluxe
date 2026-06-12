@@ -1,0 +1,139 @@
+\doxysection{home-\/hub/\+main/\+gui/\+gui\+\_\+sensors.c File Reference}
+\hypertarget{gui__sensors_8c}{}\label{gui__sensors_8c}\index{home-\/hub/main/gui/gui\_sensors.c@{home-\/hub/main/gui/gui\_sensors.c}}
+{\ttfamily \+\#include "{}gui\+\_\+sensors.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+rename.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+themes.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+sensor/\+sensor\+\_\+settings.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{gui__sensors_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}~"{}GUI\+\_\+\+SENSORS"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{gui__sensors_8c_a78eea51978adc8876074660d0799efe8}{sensor\+\_\+ui\+\_\+reset}} (void)
+\item 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5}{ui\+\_\+build\+\_\+sensor\+\_\+card}} (lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}parent, \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*}sensor, const char \texorpdfstring{$\ast$}{*}name)
+\item 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90}{ui\+\_\+build\+\_\+env\+\_\+card}} (lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}parent, const char \texorpdfstring{$\ast$}{*}title, int32\+\_\+t range\+\_\+min, int32\+\_\+t range\+\_\+max, \doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \texorpdfstring{$\ast$}{*}out)
+\item 
+void \doxymbox{\hyperlink{gui__sensors_8c_adee96262dcc0318ed9a06afad9d36987}{on\+\_\+ui\+\_\+poll\+\_\+timer}} (lv\+\_\+timer\+\_\+t \texorpdfstring{$\ast$}{*}timer)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a97db531d21911db60f31c5446ad6edd5}{current\+\_\+theme}}
+\item 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui__sensors_8c_a05e224ee6d2d90a1daf49b93e224f5ee}{main\+\_\+tabview}}
+\item 
+\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} \doxymbox{\hyperlink{gui__sensors_8c_a78ae852e189a9d81c673d64a7ecb01c5}{meas}}
+\item 
+bool \doxymbox{\hyperlink{gui__sensors_8c_a2a2c4aa14e033e6e40be186b9b4a304d}{bme280\+\_\+running}}
+\item 
+Semaphore\+Handle\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a802fa6f8c93bee8a4eba07568b5505b4}{env\+\_\+sensor\+\_\+mutex}}
+\item 
+\doxymbox{\hyperlink{struct_sensor_ui}{Sensor\+Ui}} \doxymbox{\hyperlink{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58}{sensor\+\_\+uis}} \+[\doxymbox{\hyperlink{sensor_8h_aa3d1fc2927eec213e6b5f9e854c392d2}{MAX\+\_\+\+SENSORS}}]\+
+\item 
+size\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a3c0d34c909af874607f727f4d3607ec6}{sensor\+\_\+ui\+\_\+count}} = 0
+\item 
+\doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \doxymbox{\hyperlink{gui__sensors_8c_acd80ba98a259303b153aeff66c29361a}{bme280\+\_\+ui}} \+[3]\+
+\end{DoxyCompactItemize}
+
+
+\label{gui__sensors_8c_doc-define-members}
+\Hypertarget{gui__sensors_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{gui__sensors_8c_afc3d101f633a076cc1ca84b85b6224b2}\index{gui\_sensors.c@{gui\_sensors.c}!TAG@{TAG}}
+\index{TAG@{TAG}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_afc3d101f633a076cc1ca84b85b6224b2} 
+\+\#define TAG~"{}GUI\+\_\+\+SENSORS"{}}
+
+
+
+\label{gui__sensors_8c_doc-func-members}
+\Hypertarget{gui__sensors_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{gui__sensors_8c_adee96262dcc0318ed9a06afad9d36987}\index{gui\_sensors.c@{gui\_sensors.c}!on\_ui\_poll\_timer@{on\_ui\_poll\_timer}}
+\index{on\_ui\_poll\_timer@{on\_ui\_poll\_timer}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{on\_ui\_poll\_timer()}{on\_ui\_poll\_timer()}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_adee96262dcc0318ed9a06afad9d36987} 
+void on\+\_\+ui\+\_\+poll\+\_\+timer (\begin{DoxyParamCaption}\item[{lv\+\_\+timer\+\_\+t \texorpdfstring{$\ast$}{*}}]{timer}{}\end{DoxyParamCaption})}
+
+\Hypertarget{gui__sensors_8c_a78eea51978adc8876074660d0799efe8}\index{gui\_sensors.c@{gui\_sensors.c}!sensor\_ui\_reset@{sensor\_ui\_reset}}
+\index{sensor\_ui\_reset@{sensor\_ui\_reset}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{sensor\_ui\_reset()}{sensor\_ui\_reset()}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a78eea51978adc8876074660d0799efe8} 
+void sensor\+\_\+ui\+\_\+reset (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90}\index{gui\_sensors.c@{gui\_sensors.c}!ui\_build\_env\_card@{ui\_build\_env\_card}}
+\index{ui\_build\_env\_card@{ui\_build\_env\_card}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{ui\_build\_env\_card()}{ui\_build\_env\_card()}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90} 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} ui\+\_\+build\+\_\+env\+\_\+card (\begin{DoxyParamCaption}\item[{lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}}]{parent}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{title}{, }\item[{int32\+\_\+t}]{range\+\_\+min}{, }\item[{int32\+\_\+t}]{range\+\_\+max}{, }\item[{\doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \texorpdfstring{$\ast$}{*}}]{out}{}\end{DoxyParamCaption})}
+
+\Hypertarget{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5}\index{gui\_sensors.c@{gui\_sensors.c}!ui\_build\_sensor\_card@{ui\_build\_sensor\_card}}
+\index{ui\_build\_sensor\_card@{ui\_build\_sensor\_card}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{ui\_build\_sensor\_card()}{ui\_build\_sensor\_card()}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5} 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} ui\+\_\+build\+\_\+sensor\+\_\+card (\begin{DoxyParamCaption}\item[{lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}}]{parent}{, }\item[{\doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*}}]{sensor}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{}\end{DoxyParamCaption})}
+
+
+
+\label{gui__sensors_8c_doc-var-members}
+\Hypertarget{gui__sensors_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{gui__sensors_8c_a2a2c4aa14e033e6e40be186b9b4a304d}\index{gui\_sensors.c@{gui\_sensors.c}!bme280\_running@{bme280\_running}}
+\index{bme280\_running@{bme280\_running}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_running}{bme280\_running}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a2a2c4aa14e033e6e40be186b9b4a304d} 
+bool bme280\+\_\+running\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{gui__sensors_8c_acd80ba98a259303b153aeff66c29361a}\index{gui\_sensors.c@{gui\_sensors.c}!bme280\_ui@{bme280\_ui}}
+\index{bme280\_ui@{bme280\_ui}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{bme280\_ui}{bme280\_ui}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_acd80ba98a259303b153aeff66c29361a} 
+\doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} bme280\+\_\+ui\+[3]\+}
+
+\Hypertarget{gui__sensors_8c_a97db531d21911db60f31c5446ad6edd5}\index{gui\_sensors.c@{gui\_sensors.c}!current\_theme@{current\_theme}}
+\index{current\_theme@{current\_theme}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{current\_theme}{current\_theme}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a97db531d21911db60f31c5446ad6edd5} 
+uint8\+\_\+t current\+\_\+theme\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{gui__sensors_8c_a802fa6f8c93bee8a4eba07568b5505b4}\index{gui\_sensors.c@{gui\_sensors.c}!env\_sensor\_mutex@{env\_sensor\_mutex}}
+\index{env\_sensor\_mutex@{env\_sensor\_mutex}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{env\_sensor\_mutex}{env\_sensor\_mutex}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a802fa6f8c93bee8a4eba07568b5505b4} 
+Semaphore\+Handle\+\_\+t env\+\_\+sensor\+\_\+mutex\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{gui__sensors_8c_a05e224ee6d2d90a1daf49b93e224f5ee}\index{gui\_sensors.c@{gui\_sensors.c}!main\_tabview@{main\_tabview}}
+\index{main\_tabview@{main\_tabview}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{main\_tabview}{main\_tabview}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a05e224ee6d2d90a1daf49b93e224f5ee} 
+lv\+\_\+obj\+\_\+t\texorpdfstring{$\ast$}{*} main\+\_\+tabview\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{gui__sensors_8c_a78ae852e189a9d81c673d64a7ecb01c5}\index{gui\_sensors.c@{gui\_sensors.c}!meas@{meas}}
+\index{meas@{meas}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{meas}{meas}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a78ae852e189a9d81c673d64a7ecb01c5} 
+\doxymbox{\hyperlink{structbme280__meas__t}{bme280\+\_\+meas\+\_\+t}} meas\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{gui__sensors_8c_a3c0d34c909af874607f727f4d3607ec6}\index{gui\_sensors.c@{gui\_sensors.c}!sensor\_ui\_count@{sensor\_ui\_count}}
+\index{sensor\_ui\_count@{sensor\_ui\_count}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{sensor\_ui\_count}{sensor\_ui\_count}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a3c0d34c909af874607f727f4d3607ec6} 
+size\+\_\+t sensor\+\_\+ui\+\_\+count = 0}
+
+\Hypertarget{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58}\index{gui\_sensors.c@{gui\_sensors.c}!sensor\_uis@{sensor\_uis}}
+\index{sensor\_uis@{sensor\_uis}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{sensor\_uis}{sensor\_uis}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58} 
+\doxymbox{\hyperlink{struct_sensor_ui}{Sensor\+Ui}} sensor\+\_\+uis\+[\doxymbox{\hyperlink{sensor_8h_aa3d1fc2927eec213e6b5f9e854c392d2}{MAX\+\_\+\+SENSORS}}]\+}
+

@@ -1,0 +1,126 @@
+\doxysection{home-\/hub/\+main/\+gui/\+gui.c File Reference}
+\hypertarget{gui_8c}{}\label{gui_8c}\index{home-\/hub/main/gui/gui.c@{home-\/hub/main/gui/gui.c}}
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}lvgl.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+timer.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+ops.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+rgb.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+touch.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+touch\+\_\+gt911.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+i2c\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+gpio.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+backlight.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+rename.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+screensaver.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+sensors.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+sidebar.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+tabs.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui\+\_\+themes.\+h"{}}\newline
+{\ttfamily \+\#include "{}internet/\+internet.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+sensor/\+sensor.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+sensor/\+sensor\+\_\+settings.\+h"{}}\newline
+{\ttfamily \+\#include "{}i2c/\+i2c.\+h"{}}\newline
+{\ttfamily \+\#include "{}bme280/\+bme280.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{gui_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}~"{}GUI"{}
+\item 
+\+\#define \doxymbox{\hyperlink{gui_8c_ab649ede4d6a182143a457aaa38482089}{LCD\+\_\+\+H\+\_\+\+RES}}~1024
+\item 
+\+\#define \doxymbox{\hyperlink{gui_8c_a710a494c87c55adc39d7fca4967a8df3}{LCD\+\_\+\+V\+\_\+\+RES}}~600
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8}{ui\+\_\+rebuild\+\_\+all}} (void)
+\item 
+void \doxymbox{\hyperlink{gui_8c_a6b4f2fc589a1178e9694af03e25e06df}{gui\+\_\+update\+\_\+network\+\_\+status}} (void \texorpdfstring{$\ast$}{*}arg)
+\item 
+void \doxymbox{\hyperlink{gui_8c_a4cf713b8207ef50beef99a9d71693e7f}{lvgl\+\_\+task}} (void \texorpdfstring{$\ast$}{*}arg)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+lv\+\_\+display\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui_8c_a784b728b0617c85caf2c6d5006f08a94}{lvgl\+\_\+disp}} = NULL
+\item 
+lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui_8c_a05e224ee6d2d90a1daf49b93e224f5ee}{main\+\_\+tabview}} = NULL
+\item 
+uint8\+\_\+t \doxymbox{\hyperlink{gui_8c_a97db531d21911db60f31c5446ad6edd5}{current\+\_\+theme}} = 0
+\end{DoxyCompactItemize}
+
+
+\label{gui_8c_doc-define-members}
+\Hypertarget{gui_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{gui_8c_ab649ede4d6a182143a457aaa38482089}\index{gui.c@{gui.c}!LCD\_H\_RES@{LCD\_H\_RES}}
+\index{LCD\_H\_RES@{LCD\_H\_RES}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_H\_RES}{LCD\_H\_RES}}
+{\footnotesize\ttfamily \label{gui_8c_ab649ede4d6a182143a457aaa38482089} 
+\+\#define LCD\+\_\+\+H\+\_\+\+RES~1024}
+
+\Hypertarget{gui_8c_a710a494c87c55adc39d7fca4967a8df3}\index{gui.c@{gui.c}!LCD\_V\_RES@{LCD\_V\_RES}}
+\index{LCD\_V\_RES@{LCD\_V\_RES}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_V\_RES}{LCD\_V\_RES}}
+{\footnotesize\ttfamily \label{gui_8c_a710a494c87c55adc39d7fca4967a8df3} 
+\+\#define LCD\+\_\+\+V\+\_\+\+RES~600}
+
+\Hypertarget{gui_8c_afc3d101f633a076cc1ca84b85b6224b2}\index{gui.c@{gui.c}!TAG@{TAG}}
+\index{TAG@{TAG}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily \label{gui_8c_afc3d101f633a076cc1ca84b85b6224b2} 
+\+\#define TAG~"{}GUI"{}}
+
+
+
+\label{gui_8c_doc-func-members}
+\Hypertarget{gui_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{gui_8c_a6b4f2fc589a1178e9694af03e25e06df}\index{gui.c@{gui.c}!gui\_update\_network\_status@{gui\_update\_network\_status}}
+\index{gui\_update\_network\_status@{gui\_update\_network\_status}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_update\_network\_status()}{gui\_update\_network\_status()}}
+{\footnotesize\ttfamily \label{gui_8c_a6b4f2fc589a1178e9694af03e25e06df} 
+void gui\+\_\+update\+\_\+network\+\_\+status (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{gui_8c_a4cf713b8207ef50beef99a9d71693e7f}\index{gui.c@{gui.c}!lvgl\_task@{lvgl\_task}}
+\index{lvgl\_task@{lvgl\_task}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_task()}{lvgl\_task()}}
+{\footnotesize\ttfamily \label{gui_8c_a4cf713b8207ef50beef99a9d71693e7f} 
+void lvgl\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8}\index{gui.c@{gui.c}!ui\_rebuild\_all@{ui\_rebuild\_all}}
+\index{ui\_rebuild\_all@{ui\_rebuild\_all}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{ui\_rebuild\_all()}{ui\_rebuild\_all()}}
+{\footnotesize\ttfamily \label{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8} 
+void ui\+\_\+rebuild\+\_\+all (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+\label{gui_8c_doc-var-members}
+\Hypertarget{gui_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{gui_8c_a97db531d21911db60f31c5446ad6edd5}\index{gui.c@{gui.c}!current\_theme@{current\_theme}}
+\index{current\_theme@{current\_theme}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{current\_theme}{current\_theme}}
+{\footnotesize\ttfamily \label{gui_8c_a97db531d21911db60f31c5446ad6edd5} 
+uint8\+\_\+t current\+\_\+theme = 0}
+
+\Hypertarget{gui_8c_a784b728b0617c85caf2c6d5006f08a94}\index{gui.c@{gui.c}!lvgl\_disp@{lvgl\_disp}}
+\index{lvgl\_disp@{lvgl\_disp}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_disp}{lvgl\_disp}}
+{\footnotesize\ttfamily \label{gui_8c_a784b728b0617c85caf2c6d5006f08a94} 
+lv\+\_\+display\+\_\+t\texorpdfstring{$\ast$}{*} lvgl\+\_\+disp = NULL}
+
+\Hypertarget{gui_8c_a05e224ee6d2d90a1daf49b93e224f5ee}\index{gui.c@{gui.c}!main\_tabview@{main\_tabview}}
+\index{main\_tabview@{main\_tabview}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{main\_tabview}{main\_tabview}}
+{\footnotesize\ttfamily \label{gui_8c_a05e224ee6d2d90a1daf49b93e224f5ee} 
+lv\+\_\+obj\+\_\+t\texorpdfstring{$\ast$}{*} main\+\_\+tabview = NULL}
+

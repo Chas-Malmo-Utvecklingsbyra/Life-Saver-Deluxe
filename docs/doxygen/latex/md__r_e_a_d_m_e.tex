@@ -1,0 +1,219 @@
+\chapter{Life-\/\+Saver-\/\+Deluxe }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Life-\/Saver-\/Deluxe@{Life-\/Saver-\/Deluxe}}
+\label{md__r_e_a_d_m_e_autotoc_md23}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md23}%
+
+
+Home security and environmental monitoring system built on ESP32 microcontrollers.
+
+Developed by {\bfseries{Chas Malmö Utvecklingsbyrå}}.
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md25}{}\doxysection{\texorpdfstring{Overview}{Overview}}\label{md__r_e_a_d_m_e_autotoc_md25}
+Life-\/\+Saver Deluxe is a distributed home monitoring system consisting of a central Home Hub and multiple wireless sensor nodes.
+
+The system monitors:\+
+
+
+\begin{DoxyItemize}
+\item Door and window status using magnetic sensors
+\item Temperature
+\item Humidity
+\item Air pressure
+\item Camera-\/based monitoring (experimental)
+\end{DoxyItemize}
+
+The architecture is designed around ESP32 devices communicating over Wi-\/\+Fi.
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md27}{}\doxysection{\texorpdfstring{Features}{Features}}\label{md__r_e_a_d_m_e_autotoc_md27}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md28}{}\doxysubsection{\texorpdfstring{Home Hub (ESP32-\/\+S3)}{Home Hub (ESP32-\/\+S3)}}\label{md__r_e_a_d_m_e_autotoc_md28}
+
+\begin{DoxyItemize}
+\item LVGL-\/based graphical user interface
+\item \doxylink{struct_sensor}{Sensor} management
+\item \doxylink{struct_sensor}{Sensor} placement management
+\item Environmental monitoring
+\item Wi-\/\+Fi communication
+\item Event logging
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md29}{}\doxysubsection{\texorpdfstring{Sensor Nodes (ESP32-\/\+C3)}{Sensor Nodes (ESP32-\/\+C3)}}\label{md__r_e_a_d_m_e_autotoc_md29}
+
+\begin{DoxyItemize}
+\item Magnetic door/\+window sensors
+\item Low-\/latency status updates
+\item Wireless communication with Home Hub
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md30}{}\doxysubsection{\texorpdfstring{Environmental Monitoring}{Environmental Monitoring}}\label{md__r_e_a_d_m_e_autotoc_md30}
+
+\begin{DoxyItemize}
+\item Temperature measurement
+\item Humidity measurement
+\item Air pressure measurement
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md31}{}\doxysubsection{\texorpdfstring{Camera Module (Experimental)}{Camera Module (Experimental)}}\label{md__r_e_a_d_m_e_autotoc_md31}
+
+\begin{DoxyItemize}
+\item Motion detection
+\item Object recognition
+\item Image capture
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md33}{}\doxysection{\texorpdfstring{System Architecture}{System Architecture}}\label{md__r_e_a_d_m_e_autotoc_md33}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ \ ESP32-\/S3\ \ \ \ |\ I2C\ \ |\ \ \ \ BME280\ \ \ \ \ \ |}
+\DoxyCodeLine{|\ \ Home\ Hub\ \ \ \ \ \ |-\/-\/-\/-\/-\/-\/|\ Temp/Hum/Press\ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/+\ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ |\ Wi-\/Fi}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ ESP32-\/C3\ \#1\ \ |}
+\DoxyCodeLine{|\ Door\ Sensor\ \ \ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ ESP32-\/C3\ \#2\ \ |}
+\DoxyCodeLine{|\ Window\ Sensor\ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ ESP32-\/C3\ \#3\ \ |}
+\DoxyCodeLine{|\ Door\ Sensor\ \ \ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ ESP32-\/CAM\ \ \ \ |}
+\DoxyCodeLine{|\ Experimental\ \ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md35}{}\doxysection{\texorpdfstring{Technology Stack}{Technology Stack}}\label{md__r_e_a_d_m_e_autotoc_md35}
+
+\begin{DoxyItemize}
+\item ESP-\/\+IDF
+\item Free\+RTOS
+\item LVGL
+\item C
+\item C++
+\item Wi-\/\+Fi Networking
+\item TCP/\+\+IP
+\item HTTP
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md37}{}\doxysection{\texorpdfstring{Repository Structure}{Repository Structure}}\label{md__r_e_a_d_m_e_autotoc_md37}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Life-\/Saver-\/Deluxe/}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ Embedded\_Core/}
+\DoxyCodeLine{│\ \ \ └──\ Shared\ embedded\ framework}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ Home\_Hub/}
+\DoxyCodeLine{│\ \ \ └──\ ESP32-\/S3\ application}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ Magnetic\_Sensor/}
+\DoxyCodeLine{│\ \ \ └──\ ESP32-\/C3\ sensor\ firmware}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ docs/}
+\DoxyCodeLine{│\ \ \ └──\ Project\ documentation}
+\DoxyCodeLine{│}
+\DoxyCodeLine{└──\ tests/}
+\DoxyCodeLine{\ \ \ \ └──\ Unit\ tests}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md39}{}\doxysection{\texorpdfstring{Hardware Requirements}{Hardware Requirements}}\label{md__r_e_a_d_m_e_autotoc_md39}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md40}{}\doxysubsection{\texorpdfstring{Home Hub}{Home Hub}}\label{md__r_e_a_d_m_e_autotoc_md40}
+
+\begin{DoxyItemize}
+\item ESP32-\/\+S3
+\item Display
+\item BME280 \doxylink{struct_sensor}{Sensor}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md41}{}\doxysubsection{\texorpdfstring{Sensor Node}{Sensor Node}}\label{md__r_e_a_d_m_e_autotoc_md41}
+
+\begin{DoxyItemize}
+\item ESP32-\/\+C3
+\item Magnetic Reed \doxylink{struct_sensor}{Sensor}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md42}{}\doxysubsection{\texorpdfstring{Optional}{Optional}}\label{md__r_e_a_d_m_e_autotoc_md42}
+
+\begin{DoxyItemize}
+\item ESP32-\/\+CAM
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md44}{}\doxysection{\texorpdfstring{Building the Project}{Building the Project}}\label{md__r_e_a_d_m_e_autotoc_md44}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md45}{}\doxysubsection{\texorpdfstring{Prerequisites}{Prerequisites}}\label{md__r_e_a_d_m_e_autotoc_md45}
+
+\begin{DoxyItemize}
+\item ESP-\/\+IDF
+\item Python 3.\+x
+\item Git
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md46}{}\doxysubsection{\texorpdfstring{Clone Repository}{Clone Repository}}\label{md__r_e_a_d_m_e_autotoc_md46}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/Chas-\/Malmo-\/Utvecklingsbyra/Life-\/Saver-\/Deluxe.git}
+\DoxyCodeLine{cd\ Life-\/Saver-\/Deluxe}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md47}{}\doxysubsection{\texorpdfstring{Build}{Build}}\label{md__r_e_a_d_m_e_autotoc_md47}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ build}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md48}{}\doxysubsection{\texorpdfstring{Flash}{Flash}}\label{md__r_e_a_d_m_e_autotoc_md48}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ flash}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md49}{}\doxysubsection{\texorpdfstring{Monitor}{Monitor}}\label{md__r_e_a_d_m_e_autotoc_md49}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ monitor}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md51}{}\doxysection{\texorpdfstring{Documentation}{Documentation}}\label{md__r_e_a_d_m_e_autotoc_md51}
+Additional documentation can be found in the {\ttfamily /\+docs} directory.
+
+Included documentation:\+
+
+
+\begin{DoxyItemize}
+\item Hardware Documentation
+\item Sequence Diagrams
+\item Signal Flow Diagrams
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md53}{}\doxysection{\texorpdfstring{Development Process}{Development Process}}\label{md__r_e_a_d_m_e_autotoc_md53}
+The project follows an iterative SCRUM-\/inspired development process.
+
+Project duration:\+
+
+
+\begin{DoxyItemize}
+\item Start:\+ Week 14
+\item Final Delivery:\+ Week 25
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md55}{}\doxysection{\texorpdfstring{Team Members}{Team Members}}\label{md__r_e_a_d_m_e_autotoc_md55}
+
+\begin{DoxyItemize}
+\item Emilio Ganibegovic
+\item Pär Lundh
+\item Henrik Westerlund
+\item Lukas Städe
+\item Isa Shipshani 
+\end{DoxyItemize}
