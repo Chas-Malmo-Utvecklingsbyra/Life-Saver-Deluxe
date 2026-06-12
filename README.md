@@ -10,7 +10,7 @@ Developed by **Chas Malmö Utvecklingsbyrå**.
 
 ### Home-Hub
 
-Home Tab:
+Home Tab with sensor updates in real-time:
 
 <img width="723" height="413" alt="20260612_105901-ezgif com-crop" src="https://github.com/user-attachments/assets/0e128615-3bd0-4fa0-aac5-8db8b47f5a9e" />
 
