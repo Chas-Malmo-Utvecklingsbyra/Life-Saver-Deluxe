@@ -183,10 +183,8 @@ Additional documentation can be found in the `/docs` directory.
 Included documentation:
 
 * Hardware Documentation
-* Architecture Documentation
 * Sequence Diagrams
 * Signal Flow Diagrams
-* Troubleshooting Guide
 
 ---
 
