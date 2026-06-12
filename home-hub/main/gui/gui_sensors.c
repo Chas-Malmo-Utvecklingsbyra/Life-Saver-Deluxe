@@ -241,7 +241,7 @@ void on_ui_poll_timer(lv_timer_t *timer)
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
-    snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%02ld°C", meas.T / 100, meas.T % 100);
+    snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%01ld°C", meas.T / 100, (meas.T % 100) / 10);
     snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldhPa", press_hpa);
     snprintf(bme280_ui[2].data, sizeof(bme280_ui[2].data), "%ld%%", hum_pct);
 
@@ -249,7 +249,7 @@ void on_ui_poll_timer(lv_timer_t *timer)
     lv_label_set_text(bme280_ui[1].data_label, bme280_ui[1].data);
     lv_label_set_text(bme280_ui[2].data_label, bme280_ui[2].data);
 
-    lv_arc_set_value(bme280_ui[0].arc, temp_c);
+    lv_arc_set_value(bme280_ui[0].arc, temp_c );
     lv_arc_set_value(bme280_ui[1].arc, press_hpa);
     lv_arc_set_value(bme280_ui[2].arc, hum_pct);
 }
