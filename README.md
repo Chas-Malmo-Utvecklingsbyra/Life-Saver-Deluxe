@@ -6,6 +6,27 @@ Developed by **Chas Malmö Utvecklingsbyrå**.
 
 ---
 
+## Example pics
+
+### Home-Hub
+
+Home Tab:
+
+<img width="723" height="413" alt="20260612_105901-ezgif com-crop" src="https://github.com/user-attachments/assets/0e128615-3bd0-4fa0-aac5-8db8b47f5a9e" />
+
+Environment Tab:
+
+<img width="3156" height="1726" alt="20260611_115019" src="https://github.com/user-attachments/assets/afcbf5a7-5a1f-4dbe-a0cf-5070af3382a7" />
+
+Settings Tab:
+
+<img width="3048" height="1538" alt="20260612_110601" src="https://github.com/user-attachments/assets/fda9c2bf-53c3-459c-87dd-e54211a5f328" />
+
+### Cam-module:
+<img width="1134" height="951" alt="image (1)" src="https://github.com/user-attachments/assets/d3be9410-5c6a-4df9-b1a6-689a1f15f170" />
+
+---
+
 ## Overview
 
 Life-Saver Deluxe is a distributed home monitoring system consisting of a central Home Hub and multiple wireless sensor nodes.
@@ -65,7 +86,7 @@ The architecture is designed around ESP32 devices communicating over Wi-Fi.
         |
 +-------+--------+
 |   ESP32-C3 #1  |
-| Door Sensor    |
+| Door Sensor #1 |
 +----------------+
 
 +----------------+
@@ -75,7 +96,7 @@ The architecture is designed around ESP32 devices communicating over Wi-Fi.
 
 +----------------+
 |   ESP32-C3 #3  |
-| Door Sensor    |
+| Door Sensor #2 |
 +----------------+
 
 +----------------+
@@ -94,8 +115,8 @@ The architecture is designed around ESP32 devices communicating over Wi-Fi.
 * C
 * C++
 * Wi-Fi Networking
-* TCP/IP
-* HTTP
+* TCP/IP (Magnetic Sensor)
+* HTTP (Cam)
 
 ---
 
@@ -185,6 +206,12 @@ Included documentation:
 * Hardware Documentation
 * Sequence Diagrams
 * Signal Flow Diagrams
+
+---
+
+## Sequence diagram
+
+<img width="605" height="1055" alt="Skärmbild 2026-06-12 104923" src="https://github.com/user-attachments/assets/3c7319bf-10a1-4c8a-8c27-3dc10d04e74f" />
 
 ---
 
