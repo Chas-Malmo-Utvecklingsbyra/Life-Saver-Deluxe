@@ -16,7 +16,7 @@ Home Tab with sensor updates in real-time:
 
 Environment Tab:
 
-<img width="3156" height="1726" alt="20260611_115019" src="https://github.com/user-attachments/assets/afcbf5a7-5a1f-4dbe-a0cf-5070af3382a7" />
+<img width="3438" height="1848" alt="20260612_114712" src="https://github.com/user-attachments/assets/f8620dab-ef8a-48e0-992a-fc6c1ecf3ffc" />
 
 Settings Tab:
 
