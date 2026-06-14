@@ -2,7 +2,15 @@
 
 #include <string.h>
 
+#ifdef UNIT_TEST
+
+#include "mocks/mock_deps.h"
+
+#else
+
 #include "esp_log.h"
+
+#endif
 
 static Allocator_Arena internal = {0};
 
