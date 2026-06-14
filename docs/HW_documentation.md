@@ -33,7 +33,7 @@ The system includes:
 |   ESP32-C3 #3  |----->| Magnetic Sensor|
 +----------------+      +----------------+
 
-Experimental:
+Experimental (Not yet fully integrated):
 
 +----------------+      +----------------+
 |   ESP32-CAM    |----->| Motion         |
@@ -45,7 +45,7 @@ Experimental:
 
 ## 1. ESP32-S3
 
-The system's central unit is responsible for:
+The Home Hub is responsible for:
 
 - GUI (LVGL)
 - Communication with sensor nodes
@@ -135,9 +135,7 @@ Measures:
 
 ### Address
 
-```text
-0x77
-```
+Configured I2C address: `0x77`
 
 ### Connections
 
@@ -173,7 +171,7 @@ ESP32-C3 ----/
         |
         v
     ESP32-C3
-        |    WiFi/TCP
+        |    Wi-Fi/TCP
         v
     ESP32-S3
         |
@@ -189,12 +187,14 @@ ESP32-C3 ----/
     ESP32-S3
         | 
         v
-GUI Environment Tab
+    GUI Update
 ```
 
 ### Camera Monitoring
+
+> **Note:** The ESP32-CAM Subsystem is currently being worked into the program and this is just an example of how it could work
+
 ```text
->**Note:** The ESP32-CAM Subsystem is currently being worked into the program and this is just an example of how it could work
     ESP32-CAM
         |    HTTP
         v
@@ -213,6 +213,8 @@ GUI Environment Tab
 
 # Pin Configuration
 
+## Application GPIO Usage
+
 | Device | GPIO | Function |
 |---------|---------|----------|
 | ESP32-S3 | GPIO4 | GT911 Interrupt |
@@ -222,7 +224,7 @@ GUI Environment Tab
 | ESP32-C3 #2 | GPIO2 | Window Sensor |
 | ESP32-C3 #3 | GPIO2 | Door Sensor #2 |
 
-# Display Interface GPIOs
+## Display Interface GPIOs
 
 The following GPIOs are reserved by the Waveshare LCD subsystem:
 
@@ -231,11 +233,25 @@ The following GPIOs are reserved by the Waveshare LCD subsystem:
 | GPIO3 | VSYNC |
 | GPIO5 | Display Enable |
 | GPIO7 | Pixel Clock |
-| The RGB display subsystem reserves additional GPIOs for data transfer: |
-| GPIO0, GPIO1, GPIO2, GPIO10, GPIO14, GPIO17,|
-| GPIO18, GPIO21, GPIO38, GPIO39, GPIO40-48 |
 
-For further information regarding pin-configuration on WaveShares ESP32-S3: https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description
+## Additional Reserved Display GPIOs
+
+The RGB display subsystem reserves additional GPIOs for data transfer:
+
+- GPIO0
+- GPIO1
+- GPIO2
+- GPIO10
+- GPIO14
+- GPIO17
+- GPIO18
+- GPIO21
+- GPIO38
+- GPIO39
+- GPIO40 through GPIO48
+
+For further information regarding the WaveShares ESP32-S3 display module, see the official documentation: 
+https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description
 
 # System Limitations
 
