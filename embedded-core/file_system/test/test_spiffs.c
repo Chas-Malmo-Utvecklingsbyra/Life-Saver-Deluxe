@@ -1,6 +1,6 @@
-#include "../unity/unity.h"
+#include "../../unity/unity.h"
 #include "../mocks/esp_spiffs.h"
-#include "../src/spiffs.h"
+#include "../spiffs/spiffs.h"
 
 void setUp(void)
 {
@@ -10,9 +10,7 @@ void setUp(void)
 void tearDown(void) { /* nothing */ }
 
 
-/* ════════════════════════════════════════════════════════════
-   Spiffs_Initialize
-   ════════════════════════════════════════════════════════════ */
+/* Spiffs_Initialize */
 
 void test_Spiffs_Initialize_Returns_True_On_Success(void)
 {

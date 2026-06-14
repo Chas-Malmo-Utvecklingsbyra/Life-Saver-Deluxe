@@ -3,12 +3,12 @@
 
 #include <stdbool.h>
 
-/* ── esp_err_t stub ─────────────────────────────────────── */
+/* esp_err_t stub */
 typedef int esp_err_t;
 #define ESP_OK  0
 #define ESP_FAIL -1
 
-/* ── Mock control ───────────────────────────────────────── */
+/* Mock control */
 extern bool mock_esp_vfs_spiffs_register_result;
 
 typedef struct {

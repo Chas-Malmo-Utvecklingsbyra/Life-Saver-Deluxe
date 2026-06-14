@@ -1,4 +1,8 @@
-#include "internet.h"
+#ifdef UNIT_TEST
+
+#include "mocks/mock_deps.h"
+
+#else
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
@@ -6,6 +10,8 @@
 #include <esp_event.h>
 #include <nvs_flash.h>
 #include <esp_log.h>
+
+#endif
 
 #include <stdatomic.h>
 

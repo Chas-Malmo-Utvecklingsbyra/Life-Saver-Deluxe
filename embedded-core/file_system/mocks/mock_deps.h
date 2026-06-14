@@ -6,16 +6,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-/* ── ESP-IDF stubs ─────────────────────────────────────── */
+/* ESP-IDF stubs */
 #define ESP_LOGI(tag, fmt, ...) ((void)0)
 #define ESP_LOGE(tag, fmt, ...) ((void)0)
 #define ESP_LOGW(tag, fmt, ...) ((void)0)
 
-/* ── SPIFFS stub ───────────────────────────────────────── */
+/* SPIFFS stub */
 extern bool mock_spiffs_init_result;
 static inline bool Spiffs_Initialize(void) { return mock_spiffs_init_result; }
 
-/* ── FILE mock control ─────────────────────────────────── */
+/* FILE mock control */
 extern bool  mock_fopen_fail;
 extern bool  mock_fprintf_fail;
 extern bool  mock_fgets_fail;

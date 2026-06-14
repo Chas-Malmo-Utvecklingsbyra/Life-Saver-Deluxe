@@ -1,6 +1,7 @@
 #ifndef SPIFFS_H
 #define SPIFFS_H
 
+#include <stdbool.h>
 /**
  * @brief Initializes Spiffs
  *
