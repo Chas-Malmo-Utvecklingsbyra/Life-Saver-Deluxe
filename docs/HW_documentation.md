@@ -49,8 +49,8 @@ The system's central unit is responsible for:
 
 - GUI (LVGL)
 - Communication with sensor nodes
-- Handling sensor placement
-- Collecting data from the BME280 sensor
+- Managing sensor placement and configuration
+- Acquiring environmental data from the BME280 sensor
 
 ### Technical Data
 
@@ -62,13 +62,23 @@ The system's central unit is responsible for:
 | Communication | Wi-Fi, Bluetooth |
 | Voltage | 3.3 V |
 
+### Display
+
+| Parameter | Value |
+|------------|--------|
+| Resolution | 1024 x 600 |
+| Interface | RGB565 |
+| Touch Controller | GT911 |
+| Touch Interface | I2C |
+| Touch Address | 0x5D |
+
 ## 2. ESP32-C3 Sensor Nodes
 
 Each ESP32-C3 operates as an independent sensor node connected to a single magnetic door or window sensor.
 
 Responsibilities:
 
-- Reading sensor data
+- Monitoring magnetic sensor state
 - Sending status updates to the ESP32-S3
 
 ### Connections
@@ -135,8 +145,8 @@ Measures:
 |---------|-----------|
 | VCC | 3.3V |
 | GND | GND |
-| SDA | SDA |
-| SCL | SCL |
+| SDA | GPIO8 |
+| SCL | GPIO9 |
 
 # Communication Architecture
 
@@ -155,6 +165,45 @@ ESP32-C3 ----/
 - TCP sockets are used between sensor nodes and the Home Hub.
 - HTTP is used for communication with the ESP32-CAM module.
 
+## Signal Flow
+
+### Door/Window Sensor Event
+```text
+  Magnetic Sensor
+        |
+        v
+    ESP32-C3
+        |    WiFi/TCP
+        v
+    ESP32-S3
+        |
+        v
+    GUI Update
+```
+
+### Environmental Sensor Event (BME280)
+```text
+      BME280
+        |    I2C
+        v
+    ESP32-S3
+        | 
+        v
+GUI Environment Tab
+```
+
+### Camera Monitoring
+```text
+>**Note:** The ESP32-CAM Subsystem is currently being worked into the program and this is just an example of how it could work
+    ESP32-CAM
+        |    HTTP
+        v
+    ESP32-S3
+        | 
+        v
+       GUI
+```
+
 # Power Supply
 
 | Parameter | Value |
@@ -166,13 +215,27 @@ ESP32-C3 ----/
 
 | Device | GPIO | Function |
 |---------|---------|----------|
+| ESP32-S3 | GPIO4 | GT911 Interrupt |
 | ESP32-S3 | GPIO8 | I2C SDA |
 | ESP32-S3 | GPIO9 | I2C SCL |
 | ESP32-C3 #1 | GPIO2 | Door Sensor #1 |
 | ESP32-C3 #2 | GPIO2 | Window Sensor |
 | ESP32-C3 #3 | GPIO2 | Door Sensor #2 |
 
-For further information regarding pin-configuration: https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description
+# Display Interface GPIOs
+
+The following GPIOs are reserved by the Waveshare LCD subsystem:
+
+| GPIO | Function |
+|---------|----------|
+| GPIO3 | VSYNC |
+| GPIO5 | Display Enable |
+| GPIO7 | Pixel Clock |
+| The RGB display subsystem reserves additional GPIOs for data transfer: |
+| GPIO0, GPIO1, GPIO2, GPIO10, GPIO14, GPIO17,|
+| GPIO18, GPIO21, GPIO38, GPIO39, GPIO40-48 |
+
+For further information regarding pin-configuration on WaveShares ESP32-S3: https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description
 
 # System Limitations
 
