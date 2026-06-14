@@ -6,19 +6,19 @@ Developed by **Chas Malmö Utvecklingsbyrå**.
 
 ---
 
-## Example pics
+## Demo
 
 ### Home-Hub
 
-Home Tab with sensor updates in real-time:
+Home Tab provides real-time sensor monitoring:
 
 <img width="723" height="413" alt="20260612_105901-ezgif com-crop" src="https://github.com/user-attachments/assets/0e128615-3bd0-4fa0-aac5-8db8b47f5a9e" />
 
-Environment Tab:
+Environmental monitoring:
 
 <img width="3438" height="1848" alt="20260612_114712" src="https://github.com/user-attachments/assets/f8620dab-ef8a-48e0-992a-fc6c1ecf3ffc" />
 
-Settings Tab:
+Settings configuration:
 
 <img width="3048" height="1538" alt="20260612_110601" src="https://github.com/user-attachments/assets/fda9c2bf-53c3-459c-87dd-e54211a5f328" />
 
@@ -81,6 +81,7 @@ The architecture is designed around ESP32 devices communicating over Wi-Fi.
 |    ESP32-S3    | I2C  |    BME280      |
 |  Home Hub      |------| Temp/Hum/Press |
 +-------+--------+      +----------------+
+        ^
         |
         | Wi-Fi
         |
@@ -201,11 +202,8 @@ idf.py monitor
 
 Additional documentation can be found in the `/docs` directory.
 
-Included documentation:
-
-* Hardware Documentation
-* Sequence Diagrams
-* Signal Flow Diagrams
+- [Hardware Documentation](docs/HW_documentation.md)
+  Which includes Sequence Diagrams, Signal Flow Diagrams and Pin Configuration and more.
 
 ---
 
@@ -226,10 +224,23 @@ Project duration:
 
 ---
 
+## Key Learnings
+
+This project involved:
+
+- Embedded systems development using ESP-IDF
+- FreeRTOS task management
+- LVGL GUI development
+- TCP/IP communication between ESP32 devices
+- I2C sensor integration
+- Hardware debugging and validation
+
+---
+
 ## Team Members
 
-* Emilio Ganibegovic
-* Pär Lundh
-* Henrik Westerlund
-* Lukas Städe
-* Isa Shipshani
+- [Emilio Ganibegovic](https://github.com/AlCapone1234)
+- [Pär Lundh](https://github.com/lundhpargmailcom)
+- [Henrik Westerlund](https://github.com/Henrik-Westerlund)
+- [Lukas Städe](https://github.com/HoffaQt)
+- [Isa Shipshani](https://github.com/isashiphotmailcom)
