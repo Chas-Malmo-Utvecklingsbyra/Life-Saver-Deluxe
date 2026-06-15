@@ -14,6 +14,14 @@ static int32_t ss_vel_y             = 2;
 
 extern const lv_image_dsc_t chas_logo_small;
 
+/**
+ * @brief Updates the screensaver animation.
+ *
+ * Moves the bouncing logo across the display and
+ * reverses its direction when reaching a screen edge.
+ *
+ * @param timer LVGL timer that triggered the callback.
+ */
 static void on_screensaver_tick(lv_timer_t *timer)
 {
     if (!ss.active || ss_bouncer == NULL) return;

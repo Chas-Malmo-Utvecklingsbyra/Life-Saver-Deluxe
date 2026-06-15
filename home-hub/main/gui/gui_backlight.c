@@ -5,8 +5,13 @@
 #include "freertos/task.h"
 #include "esp_err.h"
 
+/**
+ * @brief Handle to the backlight I2C device.
+ *
+ * Initialized during backlight_init() and used for
+ * subsequent brightness updates.
+ */
 static i2c_master_dev_handle_t backlight_dev = NULL;
-
 
 void set_brightness(uint8_t percent)
 {

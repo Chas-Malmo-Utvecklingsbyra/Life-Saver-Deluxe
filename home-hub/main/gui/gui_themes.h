@@ -4,6 +4,12 @@
 #include <stdint.h>
 #include "lvgl.h"
 
+/**
+ * @brief Theme definition used by the GUI.
+ *
+ * Contains all colors, fonts and image resources
+ * required to render a complete application theme.
+ */
 typedef struct 
 {
     const char *name;
@@ -22,7 +28,14 @@ typedef struct
     const lv_font_t *font_small;
 } theme_t;
 
+/**
+ * @brief Available application themes.
+ */
 extern const theme_t themes[4];
+
+/**
+ * @brief Index of the currently active theme.
+ */
 extern uint8_t current_theme;
 
 #endif

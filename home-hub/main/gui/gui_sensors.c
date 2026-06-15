@@ -28,11 +28,25 @@ void sensor_ui_reset(void)
     memset(sensor_uis, 0, sizeof(sensor_uis));
 }
 
+/**
+ * @brief Async handler that opens rename dialog.
+ *
+ * Executed on LVGL async context to ensure thread safety.
+ *
+ * @param arg Pointer to SensorUi instance.
+ */
 static void on_sensor_tap_async(void *arg)
 {
     open_rename_overlay((SensorUi *)arg);
 }
 
+/**
+ * @brief LVGL event callback for sensor card taps.
+ *
+ * Validates active tab context and schedules async rename overlay.
+ *
+ * @param e LVGL event object.
+ */
 static void on_sensor_card_tapped(lv_event_t *e)
 {
     SensorUi *ui = (SensorUi *)lv_event_get_user_data(e);
@@ -249,7 +263,7 @@ void on_ui_poll_timer(lv_timer_t *timer)
     lv_label_set_text(bme280_ui[1].data_label, bme280_ui[1].data);
     lv_label_set_text(bme280_ui[2].data_label, bme280_ui[2].data);
 
-    lv_arc_set_value(bme280_ui[0].arc, temp_c );
+    lv_arc_set_value(bme280_ui[0].arc, temp_c);
     lv_arc_set_value(bme280_ui[1].arc, press_hpa);
     lv_arc_set_value(bme280_ui[2].arc, hum_pct);
 }

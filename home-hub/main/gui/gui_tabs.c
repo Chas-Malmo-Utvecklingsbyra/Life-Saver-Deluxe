@@ -15,25 +15,52 @@
 #define LCD_H_RES   1204
 #define LCD_V_RES   600
 
-
+/**
+ * @brief Handles theme selection.
+ *
+ * Updates global theme index and triggers full UI rebuild.
+ *
+ * @param e LVGL event containing theme index.
+ */
 static void on_theme_button_pressed(lv_event_t *e)
 {
     current_theme = (uint8_t)(uintptr_t)lv_event_get_user_data(e);
     lv_async_call((lv_async_cb_t)ui_rebuild_all, NULL);
 }
 
+/**
+ * @brief Handles brightness slider changes.
+ *
+ * Updates hardware backlight brightness.
+ *
+ * @param e LVGL event object.
+ */
 static void on_brightness_slider_changed(lv_event_t *e)
 {
     lv_obj_t *slider = lv_event_get_target(e);
     set_brightness((uint8_t)lv_slider_get_value(slider));
 }
 
+/**
+ * @brief Toggles screensaver enabled state.
+ *
+ * Updates global screensaver_enabled flag.
+ *
+ * @param e LVGL event object.
+ */
 static void on_screensaver_toggle_changed(lv_event_t *e)
 {
     lv_obj_t *toggle = lv_event_get_target(e);
     screensaver_enabled = lv_obj_has_state(toggle, LV_STATE_CHECKED);
 }
 
+/**
+ * @brief Updates screensaver timeout value.
+ *
+ * Converts slider value (seconds) into milliseconds and updates UI label.
+ *
+ * @param e LVGL event object.
+ */
 static void on_screensaver_timeout_slider_changed(lv_event_t *e)
 {
     lv_obj_t *slider = lv_event_get_target(e);
@@ -48,6 +75,16 @@ static void on_screensaver_timeout_slider_changed(lv_event_t *e)
     }
 }
 
+/**
+ * @brief Creates a reusable settings card container.
+ *
+ * Provides consistent styling for grouped settings sections.
+ *
+ * @param parent Parent container.
+ * @param title Card title text.
+ *
+ * @return Created LVGL card object.
+ */
 static lv_obj_t *ui_build_settings_card(lv_obj_t *parent, const char *title)
 {
     const theme_t *t = &themes[current_theme];

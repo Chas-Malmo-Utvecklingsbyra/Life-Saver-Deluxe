@@ -14,6 +14,13 @@ extern uint8_t current_theme;
 extern lv_obj_t *main_tabview;
 lv_obj_t *wifi_status_label = NULL;
 
+/**
+ * @brief Handles navigation button presses.
+ *
+ * Switches active tab in main tabview and closes overlays.
+ *
+ * @param e LVGL event object containing tab index.
+ */
 static void on_nav_button_pressed(lv_event_t *e)
 {
     close_rename_overlay();

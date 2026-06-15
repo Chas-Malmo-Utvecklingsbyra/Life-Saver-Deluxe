@@ -59,17 +59,44 @@ static const esp_lcd_panel_io_i2c_config_t io_config =
     .flags.disable_control_phase    = 1,
 };
 
+/**
+ * @brief LVGL tick callback.
+ *
+ * Increments the LVGL internal tick counter.
+ *
+ * @param arg Unused callback argument.
+ */
 static void lv_tick_cb(void *arg)
 {
     lv_tick_inc(1);
 }
 
+/**
+ * @brief Flushes rendered LVGL data to the LCD panel.
+ *
+ * Transfers the rendered framebuffer region to the
+ * display driver and notifies LVGL when the operation
+ * has completed.
+ *
+ * @param disp LVGL display instance.
+ * @param area Updated display region.
+ * @param px_map Pixel buffer to be rendered.
+ */
 static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
     esp_lcd_panel_draw_bitmap(panel_handle, area->x1, area->y1, area->x2 + 1, area->y2 + 1, px_map);
     lv_display_flush_ready(disp);
 }
 
+/**
+ * @brief Reads touch input from the GT911 controller.
+ *
+ * Updates LVGL input state using the latest touch data
+ * and handles screensaver wake-up events.
+ *
+ * @param indev LVGL input device.
+ * @param data Output touch state structure.
+ */
 static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
     esp_lcd_touch_read_data(touch_handle);
@@ -99,6 +126,12 @@ static void touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
     data->state = LV_INDEV_STATE_RELEASED;
 }
 
+/**
+ * @brief Initializes the RGB LCD panel.
+ *
+ * Configures panel timing parameters, frame buffers,
+ * and starts the display hardware.
+ */
 static void display_init(void)
 {
     esp_lcd_rgb_panel_config_t config = 
@@ -138,6 +171,12 @@ static void display_init(void)
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 }
 
+/**
+ * @brief Initializes the LVGL display port.
+ *
+ * Creates the LVGL display instance, assigns frame
+ * buffers, and registers the display flush callback.
+ */
 static void lvgl_port_init(void)
 {
     lv_init();
@@ -230,6 +269,14 @@ void ui_rebuild_all(void)
    UI EXTERNAL INTERFACE:
 ==========================*/
 
+/**
+ * @brief Updates the Wi-Fi status label asynchronously.
+ *
+ * Synchronizes the displayed network status with the
+ * current connectivity state.
+ *
+ * @param arg Unused callback argument.
+ */
 static void on_wifi_status_async(void *arg)
 {
     if (wifi_status_label == NULL || ss.active) return;
@@ -251,6 +298,14 @@ static void on_wifi_status_async(void *arg)
     lv_obj_set_style_text_color(wifi_status_label, lv_color_hex(color), 0);
 }
 
+/**
+ * @brief Background task for Wi-Fi status updates.
+ *
+ * Periodically schedules UI-safe updates of the
+ * network status indicator.
+ *
+ * @param arg FreeRTOS task argument.
+ */
 void gui_update_network_status(void *arg)
 {
     while (1)
