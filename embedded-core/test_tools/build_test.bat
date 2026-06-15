@@ -9,6 +9,7 @@ if "%1"=="" (
     echo   build_test.bat arena
     echo   build_test.bat random
     echo   build_test.bat i2c
+    echo   build_test.bat all
     echo.
     pause
     exit /b
@@ -21,6 +22,7 @@ if "%1"=="internet" goto INTERNET
 if "%1"=="arena" goto ARENA
 if "%1"=="random" goto RANDOM
 if "%1"=="i2c" goto I2C
+if "%1"=="all" goto ALL
 
 echo Unknown test: %1
 pause
@@ -175,6 +177,31 @@ run_i2c_tests.exe
 
 goto END
 
+:ALL
+
+call "%~f0" file_system nopause
+if errorlevel 1 goto END
+
+call "%~f0" spiffs nopause
+if errorlevel 1 goto END
+
+call "%~f0" internet nopause
+if errorlevel 1 goto END
+
+call "%~f0" arena nopause
+if errorlevel 1 goto END
+
+call "%~f0" random nopause
+if errorlevel 1 goto END
+
+call "%~f0" i2c nopause
+if errorlevel 1 goto END
+
+echo.
+echo All unit tests completed successfully!
+
+goto END
+
 
 :BUILD_FAILED
 echo.
@@ -182,4 +209,7 @@ echo Build FAILED.
 
 :END
 echo.
+
+if "%2"=="nopause" exit /b
+
 pause
