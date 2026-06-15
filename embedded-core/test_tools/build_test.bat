@@ -38,6 +38,7 @@ gcc -DUNIT_TEST ^
 -I..\unity ^
 ..\unity\unity.c ^
 mocks\mock_deps.c ^
+file_system.c ^
 spiffs\spiffs.c ^
 test\main.c ^
 test\test_file_system.c ^
@@ -64,6 +65,7 @@ gcc -DUNIT_TEST ^
 -I..\unity ^
 ..\unity\unity.c ^
 mocks\mock_deps.c ^
+file_system.c ^
 spiffs\spiffs.c ^
 test\test_spiffs.c ^
 -o run_spiffs_tests.exe

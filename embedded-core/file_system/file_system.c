@@ -1,6 +1,12 @@
 #include "file_system.h"
 #include <string.h>
+
+#ifdef UNIT_TEST
+#include "mocks/mock_deps.h"
+#else
+#include <esp_log.h>
 #include "spiffs/spiffs.h"
+#endif
 
 // This wont need to be mutexed as we only read data from it after Initialization.
 static File_System singleton_file_system;

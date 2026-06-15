@@ -1,145 +1,68 @@
-#include "file_system.h"
+#include "../../unity/unity.h"
 
-#ifdef UNIT_TEST
-#include "mocks/mock_deps.h"
-#else
-#include <esp_log.h>
-#endif
+/* Test functions */
 
-#ifndef UNIT_TEST
-#include "spiffs/spiffs.h"
-#endif
+/* File_System_Initialize */
+extern void test_Initialize_Spiffs_Fails_Returns_Error_Spiffs(void);
+extern void test_Initialize_Spiffs_Success(void);
+extern void test_Initialize_Returns_Already_Initialized_On_Second_Call(void);
 
-static const char *TAG = "File System";
+/* File_System_Get_Type */
+extern void test_Get_Type_Returns_Spiffs_After_Init(void);
 
-// This wont need to be mutexed as we only read data from it after Initialization.
-static File_System singleton_file_system;
+/* File_System_Write_File */
+extern void test_Write_File_Success(void);
+extern void test_Write_File_Null_Text_Creates_File(void);
+extern void test_Write_File_Fopen_Fails_Returns_Error_File(void);
+extern void test_Write_File_Fprintf_Fails_Returns_Error_File_Write(void);
+extern void test_Write_File_Long_Text_Success(void);
+extern void test_Write_File_Multiple_Times(void);
 
+/* File_System_Read_File */
+extern void test_Read_File_Success_Returns_Correct_Data(void);
+extern void test_Read_File_Fopen_Fails_Returns_Error_File(void);
+extern void test_Read_File_Fgets_Fails_Returns_Error_File_Read(void);
+extern void test_Read_File_Buffer_Truncated_To_Length(void);
+extern void test_Read_File_Multiple_Times(void);
 
-File_System_Error File_System_Initialize(File_System_Type type)
+/* File_System_File_Exists */
+extern void test_File_Exists_Returns_True_When_File_Found(void);
+extern void test_File_Exists_Returns_False_When_File_Not_Found(void);
+extern void test_File_Exists_Multiple_Times(void);
+
+int main(void)
 {
-    static bool initialized = false;
-    if (initialized)
-    {
-        return File_System_Error_Already_Initialized;
-    }
+    UNITY_BEGIN();
 
-    memset(&singleton_file_system, 0, sizeof(singleton_file_system));
-    switch (type)
-    {
-        case File_System_Type_Spiffs:
-        {
-            if (!Spiffs_Initialize())
-            {
-                return File_System_Error_Spiffs;
-            }
-            singleton_file_system.type = File_System_Type_Spiffs;
-            singleton_file_system.path = "/spiffs/";
+    /* File_System_Initialize
+       SPIFFS failure must be tested before successful initialization,
+       since the initialized flag is static. */
+    RUN_TEST(test_Initialize_Spiffs_Fails_Returns_Error_Spiffs);
+    RUN_TEST(test_Initialize_Spiffs_Success);
+    RUN_TEST(test_Initialize_Returns_Already_Initialized_On_Second_Call);
 
-            initialized = true;
-            return File_System_Success;
-        }
-        default:
-        {
-            return File_System_Error_Unknown;
-        }
-    }
+    /* File_System_Get_Type */
+    RUN_TEST(test_Get_Type_Returns_Spiffs_After_Init);
 
-    initialized = true;
-    return File_System_Success;
-}
+    /* File_System_Write_File */
+    RUN_TEST(test_Write_File_Success);
+    RUN_TEST(test_Write_File_Null_Text_Creates_File);
+    RUN_TEST(test_Write_File_Fopen_Fails_Returns_Error_File);
+    RUN_TEST(test_Write_File_Fprintf_Fails_Returns_Error_File_Write);
+    RUN_TEST(test_Write_File_Long_Text_Success);
+    RUN_TEST(test_Write_File_Multiple_Times);
 
+    /* File_System_Read_File */
+    RUN_TEST(test_Read_File_Success_Returns_Correct_Data);
+    RUN_TEST(test_Read_File_Fopen_Fails_Returns_Error_File);
+    RUN_TEST(test_Read_File_Fgets_Fails_Returns_Error_File_Read);
+    RUN_TEST(test_Read_File_Buffer_Truncated_To_Length);
+    RUN_TEST(test_Read_File_Multiple_Times);
 
-File_System_Error File_System_Write_File(const char* file_name, const char* text, const char* mode)
-{
-    char buffer[255] = {};
-    snprintf(buffer, sizeof(buffer), "%s%s", singleton_file_system.path, file_name);
-    FILE *file = NULL;
+    /* File_System_File_Exists */
+    RUN_TEST(test_File_Exists_Returns_True_When_File_Found);
+    RUN_TEST(test_File_Exists_Returns_False_When_File_Not_Found);
+    RUN_TEST(test_File_Exists_Multiple_Times);
 
-    if (singleton_file_system.type == File_System_Type_Spiffs)
-    {
-        file = fopen(buffer, mode);
-        if (file == NULL)
-        {
-            return File_System_Error_File;
-        }
-
-        // if we only want to just create a file
-        if (text == NULL)
-        {
-            fclose(file);
-            return File_System_Success;
-        }
-
-        if (fprintf(file, text) < 0)
-        {
-            fclose(file);
-            file = NULL;
-
-            return File_System_Error_File_Write;
-        }
-
-    }
-
-    if (file != NULL)
-    {
-        fclose(file);
-    }
-
-    return File_System_Success;
-}
-
-File_System_Error File_System_Read_File(const char* file_name, char* out_buffer, size_t length)
-{
-    char path[255] = {};
-    snprintf(path, sizeof(path), "%s%s", singleton_file_system.path, file_name);
-    
-    FILE *file = NULL;
-
-
-    if (singleton_file_system.type == File_System_Type_Spiffs)
-    {
-        file = fopen(path, "r");
-        if (file == NULL)
-        {
-            return File_System_Error_File;
-        }
-
-        if (fgets(out_buffer, length, file) == NULL)
-        {
-            fclose(file);
-            return File_System_Error_File_Read;
-        }
-    }
-
-    fclose(file);
-
-    return File_System_Success;
-}
-
-bool File_System_File_Exists(const char* file_name)
-{
-    char path[255] = {};
-    snprintf(path, sizeof(path), "%s%s", singleton_file_system.path, file_name);
-
-    FILE *file = NULL;
-
-    if (singleton_file_system.type == File_System_Type_Spiffs)
-    {
-        file = fopen(path, "r");
-        if (file == NULL)
-        {
-            return false;
-        }
-
-        fclose(file);
-        return true;
-    }
-
-    return false;
-}
-
-File_System_Type File_System_Get_Type()
-{
-    return singleton_file_system.type;
+    return UNITY_END();
 }
