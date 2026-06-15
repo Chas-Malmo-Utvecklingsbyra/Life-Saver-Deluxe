@@ -2,7 +2,15 @@
 
 #include <stdio.h>
 
+#ifdef UNIT_TEST
+
+#include "mocks/mock_deps.h"
+
+#else
+
 #include <esp_random.h>
+
+#endif
 
 void Random_Generate_UUID_v4(char *uuid_buffer) 
 {

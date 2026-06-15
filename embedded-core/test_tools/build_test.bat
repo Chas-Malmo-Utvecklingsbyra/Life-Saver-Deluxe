@@ -7,6 +7,7 @@ if "%1"=="" (
     echo   build_test.bat spiffs
     echo   build_test.bat internet
     echo   build_test.bat arena
+    echo   build_test.bat random
     echo.
     pause
     exit /b
@@ -17,6 +18,7 @@ if "%1"=="file_system" goto FILE_SYSTEM
 if "%1"=="spiffs" goto SPIFFS
 if "%1"=="internet" goto INTERNET
 if "%1"=="arena" goto ARENA
+if "%1"=="random" goto RANDOM
 
 echo Unknown test: %1
 pause
@@ -118,6 +120,31 @@ echo Running Arena tests...
 echo.
 
 run_arena_tests.exe
+
+goto END
+
+:RANDOM
+
+cd /d "%~dp0..\random"
+
+gcc -DUNIT_TEST ^
+-I. ^
+-Imocks ^
+-I..\unity ^
+..\unity\unity.c ^
+mocks\mock_deps.c ^
+random.c ^
+test\main.c ^
+test\test_random.c ^
+-o run_random_tests.exe
+
+if errorlevel 1 goto BUILD_FAILED
+
+echo.
+echo Running Random tests...
+echo.
+
+run_random_tests.exe
 
 goto END
 
