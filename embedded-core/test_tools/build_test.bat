@@ -8,6 +8,7 @@ if "%1"=="" (
     echo   build_test.bat internet
     echo   build_test.bat arena
     echo   build_test.bat random
+    echo   build_test.bat i2c
     echo.
     pause
     exit /b
@@ -19,6 +20,7 @@ if "%1"=="spiffs" goto SPIFFS
 if "%1"=="internet" goto INTERNET
 if "%1"=="arena" goto ARENA
 if "%1"=="random" goto RANDOM
+if "%1"=="i2c" goto I2C
 
 echo Unknown test: %1
 pause
@@ -145,6 +147,31 @@ echo Running Random tests...
 echo.
 
 run_random_tests.exe
+
+goto END
+
+:I2C
+
+cd /d "%~dp0..\i2c"
+
+gcc -DUNIT_TEST ^
+-I. ^
+-Imocks ^
+-I..\unity ^
+..\unity\unity.c ^
+mocks\mock_deps.c ^
+i2c.c ^
+test\main.c ^
+test\test_i2c.c ^
+-o run_i2c_tests.exe
+
+if errorlevel 1 goto BUILD_FAILED
+
+echo.
+echo Running I2C tests...
+echo.
+
+run_i2c_tests.exe
 
 goto END
 

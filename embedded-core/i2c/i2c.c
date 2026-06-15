@@ -1,5 +1,16 @@
 #include "i2c.h"
 
+#ifdef UNIT_TEST
+
+#include "mocks/mock_deps.h"
+
+#else
+
+#include "driver/i2c_master.h"
+
+#endif
+
+
 static i2c_master_bus_handle_t bus_handle = NULL;
 
 esp_err_t i2c_init(void)
@@ -24,3 +35,12 @@ i2c_master_bus_handle_t i2c_get_bus(void)
 {
     return bus_handle;
 }
+
+#ifdef UNIT_TEST
+
+void i2c_reset(void)
+{
+    bus_handle = NULL;
+}
+
+#endif
