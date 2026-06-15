@@ -7,6 +7,8 @@
 #include "../sensor/sensor.h"
 #include "bme280/bme280.h"
 
+extern bool ui_rebuilding;
+
 /**
  * @brief Maximum length of a sensor display name (excluding null terminator).
  */

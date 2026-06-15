@@ -67,12 +67,19 @@ static void rename_kb_event_cb(lv_event_t *e)
                     placement = PLACEMENT_UNASSIGNED;
                     break;
             }
+            
+            bool placement_changed = (rename_target->sensor->placement != placement);
 
             rename_target->sensor->placement = placement;
             sensor_placement_set(rename_target->sensor->guid, placement);
+            
+            close_rename_overlay();  
+            
+            if (placement_changed)
+            {
+                ui_rebuild_all();
+            }
         }
-        close_rename_overlay();        
-        lv_async_call((lv_async_cb_t)ui_rebuild_all, NULL);
     }
     else if (code == LV_EVENT_CANCEL)
     {
@@ -149,6 +156,7 @@ void open_rename_overlay(SensorUi *ui)
     lv_obj_set_style_border_color(rename_ta, lv_color_hex(t->button), 0);
     lv_obj_set_style_border_width(rename_ta, 2, 0);
     lv_obj_set_style_radius(rename_ta, 8, 0);
+    lv_obj_set_style_anim_duration(rename_ta, 0, LV_PART_CURSOR | LV_STATE_FOCUSED);
 
     placement_dd = lv_dropdown_create(panel);
     lv_dropdown_set_options(placement_dd, "Door\n""Window\n""Unassigned");
