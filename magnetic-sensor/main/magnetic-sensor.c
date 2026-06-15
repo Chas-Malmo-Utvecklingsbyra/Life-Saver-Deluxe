@@ -298,14 +298,6 @@ void app_main(void)
 
 	setup_gpio();
 
-	BaseType_t read_task_result = xTaskCreate(sensor_read_task, "ReadTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
-	if (read_task_result != pdPASS)
-	{
-		// Task failed to be created
-		ESP_LOGE(TAG, "ReadTask failed to be created!");
-		return;
-	}
-
 	BaseType_t initialize_task_result = xTaskCreate(sensor_initialize_task, "InitializeTask", BYTES_TO_WORD(4096), NULL, 10, NULL);
 	if (initialize_task_result != pdPASS)
 	{
@@ -314,7 +306,15 @@ void app_main(void)
 		return;
 	}
 
-	BaseType_t tcp_read_task_result = xTaskCreate(read_tcp_task, "TcpReadTask", 4096, NULL, 10, NULL);
+	BaseType_t read_task_result = xTaskCreate(sensor_read_task, "ReadTask", BYTES_TO_WORD(4096), NULL, 9, NULL);
+	if (read_task_result != pdPASS)
+	{
+		// Task failed to be created
+		ESP_LOGE(TAG, "ReadTask failed to be created!");
+		return;
+	}
+
+	BaseType_t tcp_read_task_result = xTaskCreate(read_tcp_task, "TcpReadTask", 4096, NULL, 8, NULL);
 	if (tcp_read_task_result != pdPASS)
 	{
 		// Task failed to be created
