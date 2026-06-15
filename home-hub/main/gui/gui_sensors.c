@@ -1,6 +1,7 @@
 #include "gui_sensors.h"
 #include "gui_rename.h"
 #include "gui_themes.h"
+#include "gui.h"
 #include "../sensor/sensor_settings.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -17,10 +18,13 @@ extern lv_obj_t *main_tabview;
 extern bme280_meas_t meas;
 extern bool bme280_running;
 extern SemaphoreHandle_t env_sensor_mutex;
+extern bool ui_rebuilding;
 
 SensorUi sensor_uis[MAX_SENSORS];
 size_t sensor_ui_count = 0;
 BME280Ui bme280_ui[3];
+
+static uint32_t wifi_counter = 0;
 
 void sensor_ui_reset(void)
 {
@@ -37,7 +41,13 @@ void sensor_ui_reset(void)
  */
 static void on_sensor_tap_async(void *arg)
 {
-    open_rename_overlay((SensorUi *)arg);
+    SensorUi *ui = (SensorUi *)arg;
+
+    if (ui == NULL) return;
+    if (ui_rebuilding) return;
+    if (ui->card == NULL) return;
+
+    open_rename_overlay(ui);
 }
 
 /**
@@ -197,6 +207,8 @@ lv_obj_t *ui_build_env_card(lv_obj_t *parent, const char *title, int32_t range_m
 
 void on_ui_poll_timer(lv_timer_t *timer)
 {
+    if (ui_rebuilding) return;
+
     // Magnetic Sensors
     for (size_t i = 0; i < sensor_ui_count; i++)
     {
@@ -209,10 +221,9 @@ void on_ui_poll_timer(lv_timer_t *timer)
         bool has_data = (data_ptr != NULL);
         bool open = has_data && *(bool *)data_ptr;
 
-        if (ui->initialized && ui->last_has_data == has_data && ui->last_open == open)
-        {
+        bool changed = (!ui->initialized || ui->last_has_data != has_data || ui->last_open != open);
+        if (!changed)
             continue;
-        }
 
         ui->initialized = true;
         ui->last_has_data = has_data;
@@ -220,12 +231,15 @@ void on_ui_poll_timer(lv_timer_t *timer)
 
         uint32_t status_color = !has_data ? 0x888888 : (open ? 0xFF5555 : 0x50FA7B);
 
+        if (ui->status_label == NULL || ui->dot == NULL || ui->card == NULL) continue;
         lv_label_set_text(ui->status_label, !has_data ? "UNKNOWN" : (open ? "OPEN" : "CLOSED"));
         lv_obj_set_style_text_color(ui->status_label, lv_color_hex(status_color), 0);
         lv_obj_set_style_bg_color(ui->dot, lv_color_hex(status_color), 0);
     }
 
     // BME280 Sensor
+    if (bme280_ui[0].data_label == NULL) return;
+
     if (bme280_running == false)
     {
         lv_label_set_text(bme280_ui[0].data_label, "--");
@@ -234,28 +248,24 @@ void on_ui_poll_timer(lv_timer_t *timer)
         return;
     }
 
-    int32_t temp_c;
+    int32_t temp_raw;
     int32_t press_hpa;
     int32_t hum_pct;
-    while (1)
+    if (xSemaphoreTake(env_sensor_mutex, pdMS_TO_TICKS(10)) == pdTRUE)
     {
-        if (xSemaphoreTake(env_sensor_mutex, pdMS_TO_TICKS(100)) == pdTRUE)
-        {
-            temp_c = (int32_t)(meas.T / 100);
-            press_hpa = (int32_t)(meas.P / 256 / 100);
-            hum_pct = (int32_t)(meas.H / 1024);
-            
-            xSemaphoreGive(env_sensor_mutex);
-            break;
-        }
-        else
-        {
-            ESP_LOGW(TAG, "Mutex timeout in on_ui_poll_timer");
-        }
-        vTaskDelay(pdMS_TO_TICKS(10));
+        temp_raw = meas.T;
+        press_hpa = meas.P / 256 / 100;
+        hum_pct = meas.H / 1024;
+
+        xSemaphoreGive(env_sensor_mutex);
+    }
+    else
+    {
+        ESP_LOGW(TAG, "Mutex timeout in on_ui_poll_timer");
+        return;
     }
 
-    snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%01ld°C", meas.T / 100, (meas.T % 100) / 10);
+    snprintf(bme280_ui[0].data, sizeof(bme280_ui[0].data), "%ld.%01ld°C", temp_raw / 100, labs(temp_raw % 100) / 10);
     snprintf(bme280_ui[1].data, sizeof(bme280_ui[1].data), "%ldhPa", press_hpa);
     snprintf(bme280_ui[2].data, sizeof(bme280_ui[2].data), "%ld%%", hum_pct);
 
@@ -263,8 +273,17 @@ void on_ui_poll_timer(lv_timer_t *timer)
     lv_label_set_text(bme280_ui[1].data_label, bme280_ui[1].data);
     lv_label_set_text(bme280_ui[2].data_label, bme280_ui[2].data);
 
+    int32_t temp_c = temp_raw / 100;
     lv_arc_set_value(bme280_ui[0].arc, temp_c);
     lv_arc_set_value(bme280_ui[1].arc, press_hpa);
     lv_arc_set_value(bme280_ui[2].arc, hum_pct);
+
+    wifi_counter++;
+
+    if (wifi_counter >= 2)
+    {
+        wifi_counter = 0;
+        on_wifi_status_update();
+    }
 }
 

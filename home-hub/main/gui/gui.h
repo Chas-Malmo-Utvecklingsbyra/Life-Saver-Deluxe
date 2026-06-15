@@ -13,6 +13,14 @@
 void ui_rebuild_all(void);
 
 /**
+ * @brief Updates the Wi-Fi status label.
+ *
+ * Synchronizes the displayed network status with the
+ * current connectivity state.
+ */
+void on_wifi_status_update(void);
+
+/**
  * @brief Main LVGL task.
  *
  * Initializes the display, touch controller, LVGL,

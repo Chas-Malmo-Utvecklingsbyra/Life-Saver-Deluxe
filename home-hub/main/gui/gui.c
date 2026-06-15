@@ -46,6 +46,7 @@ uint8_t current_theme                           = 0;
 static uint32_t last_input_time                 = 0;
 static bool wifi_last_connected                 = false;
 static bool wifi_first_update                   = true;
+bool ui_rebuilding                              = false;
 static lv_timer_t *ui_update_timer              = NULL;
 
 
@@ -195,21 +196,30 @@ static void lvgl_port_init(void)
 
 void ui_rebuild_all(void)
 {
+    if (ui_update_timer != NULL)
+    {
+        lv_timer_pause(ui_update_timer);
+    }
+
+    ui_rebuilding = true;
+
+    lv_obj_t *old_screen = screen_main;
+
     const theme_t *t = &themes[current_theme];
 
     close_rename_overlay();
 
     main_tabview        = NULL;
-    wifi_status_label   = NULL;
+    wifi_status_label   = NULL;    
     
-    sensor_ui_reset();
-
-    if (screen_main)
+    if (old_screen)
     {
-        lv_obj_delete(screen_main);
+        lv_obj_delete(old_screen);
         screen_main = NULL;
     }
-
+    
+    sensor_ui_reset();
+    
     if (screen_screensaver)
     {
         lv_obj_delete(screen_screensaver);
@@ -263,21 +273,20 @@ void ui_rebuild_all(void)
 
     lv_screen_load(screen_main);
     lv_obj_update_layout(screen_main);
+
+    ui_rebuilding = false;
+
+    if (ui_update_timer != NULL)
+    {
+        lv_timer_resume(ui_update_timer);
+    }
 }
 
 /* =======================
    UI EXTERNAL INTERFACE:
 ==========================*/
 
-/**
- * @brief Updates the Wi-Fi status label asynchronously.
- *
- * Synchronizes the displayed network status with the
- * current connectivity state.
- *
- * @param arg Unused callback argument.
- */
-static void on_wifi_status_async(void *arg)
+void on_wifi_status_update(void)
 {
     if (wifi_status_label == NULL || ss.active) return;
 
@@ -296,23 +305,6 @@ static void on_wifi_status_async(void *arg)
     
     lv_label_set_text(wifi_status_label, text);
     lv_obj_set_style_text_color(wifi_status_label, lv_color_hex(color), 0);
-}
-
-/**
- * @brief Background task for Wi-Fi status updates.
- *
- * Periodically schedules UI-safe updates of the
- * network status indicator.
- *
- * @param arg FreeRTOS task argument.
- */
-void gui_update_network_status(void *arg)
-{
-    while (1)
-    {
-        lv_async_call(on_wifi_status_async, NULL);
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
 }
 
 void lvgl_task(void *arg)
@@ -373,15 +365,6 @@ void lvgl_task(void *arg)
 
     ui_update_timer = lv_timer_create(on_ui_poll_timer, 250, NULL);
     last_input_time = lv_tick_get();
-
-    xTaskCreate(
-        gui_update_network_status,
-        "GUIUpdateNetworkStatus",
-        4096,
-        NULL,
-        8,
-        NULL
-    );
 
     while (1)
     {
