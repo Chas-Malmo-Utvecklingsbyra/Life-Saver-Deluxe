@@ -1,0 +1,78 @@
+\doxysection{strfunc.\+h}
+\hypertarget{strfunc_8h_source}{}\label{strfunc_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/internal/strfunc.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/internal/strfunc.h}}
+\doxymbox{\hyperlink{strfunc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Copyright\ (C)\ 2015\ THL\ A29\ Limited,\ a\ Tencent\ company,\ and\ Milo\ Yip.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_INTERNAL\_STRFUNC\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_INTERNAL\_STRFUNC\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <cwchar>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespaceinternal}{internal}}\ \{}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Ch>}
+\DoxyCodeLine{00031\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{StrLen}}(\textcolor{keyword}{const}\ Ch*\ s)\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(s\ !=\ 0);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{const}\ Ch*\ p\ =\ s;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{while}\ (*p)\ ++p;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}(p\ -\/\ s);}
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00039\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{StrLen}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ s)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}(std::strlen(s));}
+\DoxyCodeLine{00041\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00044\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{StrLen}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{wchar\_t}*\ s)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}(std::wcslen(s));}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Ch>}
+\DoxyCodeLine{00055\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{namespaceinternal_a8d8e3cf93e9b811c207711d0b353de02}{StrCmp}}(\textcolor{keyword}{const}\ Ch*\ s1,\ \textcolor{keyword}{const}\ Ch*\ s2)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(s1\ !=\ 0);}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(s2\ !=\ 0);}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{while}(*s1\ \&\&\ (*s1\ ==\ *s2))\ \{\ s1++;\ s2++;\ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(*s1)\ <\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(*s2)\ ?\ -\/1\ :\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(*s1)\ >\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(*s2);}
+\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Encoding>}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespaceinternal_ae0fdb25cef0b6da0b7c22466db3509aa}{CountStringCodePoint}}(\textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Encoding::Ch*\ s,\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a03c83e0884e2e3a1783db79f2d67101f}{length}},\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}*\ outCount)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(s\ !=\ 0);}
+\DoxyCodeLine{00066\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(outCount\ !=\ 0);}
+\DoxyCodeLine{00067\ \ \ \ \ \doxymbox{\hyperlink{struct_generic_string_stream}{GenericStringStream<Encoding>}}\ is(s);}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Encoding::Ch*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ =\ s\ +\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a03c83e0884e2e3a1783db79f2d67101f}{length}};}
+\DoxyCodeLine{00069\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}}\ =\ 0;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{while}\ (is.\doxymbox{\hyperlink{struct_generic_string_stream_ae94f24752319a45b3e3a057f6da0701c}{src\_}}\ <\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}})\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ codepoint;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Encoding::Decode(is,\ \&codepoint))}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}}++;}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ *outCount\ =\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}};}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00078\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \}\ \textcolor{comment}{//\ namespace\ internal}}
+\DoxyCodeLine{00081\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_INTERNAL\_STRFUNC\_H\_}}
+
+\end{DoxyCode}

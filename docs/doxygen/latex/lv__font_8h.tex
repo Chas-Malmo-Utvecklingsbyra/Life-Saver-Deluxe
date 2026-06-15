@@ -1,0 +1,371 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+font/\+lv\+\_\+font.h File Reference}
+\hypertarget{lv__font_8h}{}\label{lv__font_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/font/lv\_font.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/font/lv\_font.h}}
+{\ttfamily \+\#include "{}../\+lv\+\_\+conf\+\_\+internal.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+symbol\+\_\+def.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+draw/\+lv\+\_\+draw\+\_\+buf.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{struct__lv__font__t}{\+\_\+lv\+\_\+font\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{struct__lv__font__class__t}{\+\_\+lv\+\_\+font\+\_\+class\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{struct__lv__font__info__t}{\+\_\+lv\+\_\+font\+\_\+info\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\+\_\+\+FONT\+\_\+\+DECLARE}}(font\+\_\+name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe}{lv\+\_\+font\+\_\+glyph\+\_\+format\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8feaf1382d413db24d720d02c2ae44118a66}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+NONE}} = 0
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fead2b69a39826fc62fdb1a9326bcc21921}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A1}} = 0x01
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea23dc1f9b682553a0a2af72a7c733cf2a}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A2}} = 0x02
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea315fdbd0c09727bfd77705fa8ebd92f7}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A3}} = 0x03
+, \newline
+\doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea112899189dd339afd7a602306707d81a}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A4}} = 0x04
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea880c9a0ef5c1a3e1fa5105a0cb0c00b9}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A8}} = 0x08
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea2763f3a2b28aa16d2f77ac7ee5bd6057}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+IMAGE}} = 0x19
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea871886769b4675fc95d74ec487a89b23}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+VECTOR}} = 0x1A
+, \newline
+\doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea75b9999286f606ea9ca6c67fc459c565}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+SVG}} = 0x1B
+, \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea92a727e035c6dd4d7960e6547dc8fcd3}{LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+CUSTOM}} = 0x\+FF
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0a}{lv\+\_\+font\+\_\+subpx\+\_\+t}} \{ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa42ce5dd58dccaf30f3120b670d16f9ed}{LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+NONE}}
+, \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0e4b5e5f9dcf094cb64e26e0ce9ccee2}{LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+HOR}}
+, \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aae3679432bd6c0e449ac246a657b7fb39}{LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+VER}}
+, \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0532bf697c7bdf38c2553dfbca52df0c}{LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+BOTH}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\+\_\+font\+\_\+kerning\+\_\+t}} \{ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a4dcee7f7f3dbf7b33a82883143d75812}{LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NORMAL}}
+, \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a60330de27d10a1521624e3df6d7e0685}{LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NONE}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__font_8h_a0c9610b563d9a5ec1e9f73bdd5f33f3a}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+bitmap}} (\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}g\+\_\+dsc, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}draw\+\_\+buf)
+\item 
+const void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__font_8h_ada04d411de19a4b1f0a1dab900988121}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+static\+\_\+bitmap}} (\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}g\+\_\+dsc)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__font_8h_a6d683128f280abccca7f34c2d478838e}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+dsc}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}font, \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc\+\_\+out, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} letter, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} letter\+\_\+next)
+\item 
+void \doxymbox{\hyperlink{lv__font_8h_a7afeb46ac72bfb1c1e75d48896bc2704}{lv\+\_\+font\+\_\+glyph\+\_\+release\+\_\+draw\+\_\+data}} (\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}g\+\_\+dsc)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \doxymbox{\hyperlink{lv__font_8h_aa5d36298f9831f65e9c6dd8dc3dfd60f}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+width}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}font, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} letter, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} letter\+\_\+next)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__font_8h_a31276b4a547162f2b902c18bb29b5c5d}{lv\+\_\+font\+\_\+get\+\_\+line\+\_\+height}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}font)
+\item 
+void \doxymbox{\hyperlink{lv__font_8h_a03c42aab75edc74ff3be02dd9d55eb53}{lv\+\_\+font\+\_\+set\+\_\+kerning}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}font, \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\+\_\+font\+\_\+kerning\+\_\+t}} kerning)
+\item 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__font_8h_a8ea041425061f9580525e49c6ada8de1}{lv\+\_\+font\+\_\+get\+\_\+default}} (void)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__font_8h_a52d5ebfb3cf0be7eb315ddde45c44ca9}{lv\+\_\+font\+\_\+info\+\_\+is\+\_\+equal}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\+\_\+font\+\_\+info\+\_\+t}} \texorpdfstring{$\ast$}{*}ft\+\_\+info\+\_\+1, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\+\_\+font\+\_\+info\+\_\+t}} \texorpdfstring{$\ast$}{*}ft\+\_\+info\+\_\+2)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__font_8h_a7fecfd59326ddb9c6e522e8053f6953d}{lv\+\_\+font\+\_\+has\+\_\+static\+\_\+bitmap}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}font)
+\end{DoxyCompactItemize}
+
+
+\label{lv__font_8h_doc-define-members}
+\Hypertarget{lv__font_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_DECLARE@{LV\_FONT\_DECLARE}}
+\index{LV\_FONT\_DECLARE@{LV\_FONT\_DECLARE}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{LV\_FONT\_DECLARE}{LV\_FONT\_DECLARE}}
+{\footnotesize\ttfamily \label{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac} 
+\+\#define LV\+\_\+\+FONT\+\_\+\+DECLARE(\begin{DoxyParamCaption}\item[{}]{font\+\_\+name}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{lv__conf__cmsis_8h_a52a21700fe5946c140157ebf74459a46}{LV\_ATTRIBUTE\_EXTERN\_DATA}}\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ font\_name;}
+
+\end{DoxyCode}
+
+
+\label{lv__font_8h_doc-enum-members}
+\Hypertarget{lv__font_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe}\index{lv\_font.h@{lv\_font.h}!lv\_font\_glyph\_format\_t@{lv\_font\_glyph\_format\_t}}
+\index{lv\_font\_glyph\_format\_t@{lv\_font\_glyph\_format\_t}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_glyph\_format\_t}{lv\_font\_glyph\_format\_t}}
+{\footnotesize\ttfamily \label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe} 
+enum \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe}{lv\+\_\+font\+\_\+glyph\+\_\+format\+\_\+t}}}
+
+The font format. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_NONE@{LV\_FONT\_GLYPH\_FORMAT\_NONE}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_NONE@{LV\_FONT\_GLYPH\_FORMAT\_NONE}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8feaf1382d413db24d720d02c2ae44118a66}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8feaf1382d413db24d720d02c2ae44118a66} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+NONE&Maybe not visible Legacy simple formats \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_A1@{LV\_FONT\_GLYPH\_FORMAT\_A1}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_A1@{LV\_FONT\_GLYPH\_FORMAT\_A1}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fead2b69a39826fc62fdb1a9326bcc21921}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fead2b69a39826fc62fdb1a9326bcc21921} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A1&1 bit per pixel \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_A2@{LV\_FONT\_GLYPH\_FORMAT\_A2}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_A2@{LV\_FONT\_GLYPH\_FORMAT\_A2}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea23dc1f9b682553a0a2af72a7c733cf2a}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea23dc1f9b682553a0a2af72a7c733cf2a} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A2&2 bit per pixel \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_A3@{LV\_FONT\_GLYPH\_FORMAT\_A3}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_A3@{LV\_FONT\_GLYPH\_FORMAT\_A3}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea315fdbd0c09727bfd77705fa8ebd92f7}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea315fdbd0c09727bfd77705fa8ebd92f7} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A3&3 bit per pixel \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_A4@{LV\_FONT\_GLYPH\_FORMAT\_A4}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_A4@{LV\_FONT\_GLYPH\_FORMAT\_A4}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea112899189dd339afd7a602306707d81a}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea112899189dd339afd7a602306707d81a} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A4&4 bit per pixel \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_A8@{LV\_FONT\_GLYPH\_FORMAT\_A8}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_A8@{LV\_FONT\_GLYPH\_FORMAT\_A8}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea880c9a0ef5c1a3e1fa5105a0cb0c00b9}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea880c9a0ef5c1a3e1fa5105a0cb0c00b9} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+A8&8 bit per pixel \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_IMAGE@{LV\_FONT\_GLYPH\_FORMAT\_IMAGE}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_IMAGE@{LV\_FONT\_GLYPH\_FORMAT\_IMAGE}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea2763f3a2b28aa16d2f77ac7ee5bd6057}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea2763f3a2b28aa16d2f77ac7ee5bd6057} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+IMAGE&Image format Advanced formats \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_VECTOR@{LV\_FONT\_GLYPH\_FORMAT\_VECTOR}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_VECTOR@{LV\_FONT\_GLYPH\_FORMAT\_VECTOR}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea871886769b4675fc95d74ec487a89b23}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea871886769b4675fc95d74ec487a89b23} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+VECTOR&Vectorial format \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_SVG@{LV\_FONT\_GLYPH\_FORMAT\_SVG}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_SVG@{LV\_FONT\_GLYPH\_FORMAT\_SVG}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea75b9999286f606ea9ca6c67fc459c565}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea75b9999286f606ea9ca6c67fc459c565} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+SVG&SVG format \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_GLYPH\_FORMAT\_CUSTOM@{LV\_FONT\_GLYPH\_FORMAT\_CUSTOM}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_GLYPH\_FORMAT\_CUSTOM@{LV\_FONT\_GLYPH\_FORMAT\_CUSTOM}}
+}\Hypertarget{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea92a727e035c6dd4d7960e6547dc8fcd3}\label{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea92a727e035c6dd4d7960e6547dc8fcd3} 
+LV\+\_\+\+FONT\+\_\+\+GLYPH\+\_\+\+FORMAT\+\_\+\+CUSTOM&Custom format \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}\index{lv\_font.h@{lv\_font.h}!lv\_font\_kerning\_t@{lv\_font\_kerning\_t}}
+\index{lv\_font\_kerning\_t@{lv\_font\_kerning\_t}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_kerning\_t}{lv\_font\_kerning\_t}}
+{\footnotesize\ttfamily \label{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2} 
+enum \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\+\_\+font\+\_\+kerning\+\_\+t}}}
+
+Adjust letter spacing for specific character pairs. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_KERNING\_NORMAL@{LV\_FONT\_KERNING\_NORMAL}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_KERNING\_NORMAL@{LV\_FONT\_KERNING\_NORMAL}}
+}\Hypertarget{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a4dcee7f7f3dbf7b33a82883143d75812}\label{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a4dcee7f7f3dbf7b33a82883143d75812} 
+LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NORMAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_KERNING\_NONE@{LV\_FONT\_KERNING\_NONE}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_KERNING\_NONE@{LV\_FONT\_KERNING\_NONE}}
+}\Hypertarget{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a60330de27d10a1521624e3df6d7e0685}\label{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a60330de27d10a1521624e3df6d7e0685} 
+LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NONE&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0a}\index{lv\_font.h@{lv\_font.h}!lv\_font\_subpx\_t@{lv\_font\_subpx\_t}}
+\index{lv\_font\_subpx\_t@{lv\_font\_subpx\_t}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_subpx\_t}{lv\_font\_subpx\_t}}
+{\footnotesize\ttfamily \label{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0a} 
+enum \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0a}{lv\+\_\+font\+\_\+subpx\+\_\+t}}}
+
+The bitmaps might be upscaled by 3 to achieve subpixel rendering. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_SUBPX\_NONE@{LV\_FONT\_SUBPX\_NONE}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_SUBPX\_NONE@{LV\_FONT\_SUBPX\_NONE}}
+}\Hypertarget{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa42ce5dd58dccaf30f3120b670d16f9ed}\label{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa42ce5dd58dccaf30f3120b670d16f9ed} 
+LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_SUBPX\_HOR@{LV\_FONT\_SUBPX\_HOR}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_SUBPX\_HOR@{LV\_FONT\_SUBPX\_HOR}}
+}\Hypertarget{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0e4b5e5f9dcf094cb64e26e0ce9ccee2}\label{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0e4b5e5f9dcf094cb64e26e0ce9ccee2} 
+LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+HOR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_SUBPX\_VER@{LV\_FONT\_SUBPX\_VER}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_SUBPX\_VER@{LV\_FONT\_SUBPX\_VER}}
+}\Hypertarget{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aae3679432bd6c0e449ac246a657b7fb39}\label{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aae3679432bd6c0e449ac246a657b7fb39} 
+LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+VER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_FONT\_SUBPX\_BOTH@{LV\_FONT\_SUBPX\_BOTH}!lv\_font.h@{lv\_font.h}}
+\index{lv\_font.h@{lv\_font.h}!LV\_FONT\_SUBPX\_BOTH@{LV\_FONT\_SUBPX\_BOTH}}
+}\Hypertarget{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0532bf697c7bdf38c2553dfbca52df0c}\label{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0532bf697c7bdf38c2553dfbca52df0c} 
+LV\+\_\+\+FONT\+\_\+\+SUBPX\+\_\+\+BOTH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{lv__font_8h_doc-func-members}
+\Hypertarget{lv__font_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__font_8h_a8ea041425061f9580525e49c6ada8de1}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_default@{lv\_font\_get\_default}}
+\index{lv\_font\_get\_default@{lv\_font\_get\_default}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_default()}{lv\_font\_get\_default()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a8ea041425061f9580525e49c6ada8de1} 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+font\+\_\+get\+\_\+default (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Get the default font, defined by LV\+\_\+\+FONT\+\_\+\+DEFAULT \begin{DoxyReturn}{Returns}
+return pointer to the default font 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a0c9610b563d9a5ec1e9f73bdd5f33f3a}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_glyph\_bitmap@{lv\_font\_get\_glyph\_bitmap}}
+\index{lv\_font\_get\_glyph\_bitmap@{lv\_font\_get\_glyph\_bitmap}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_glyph\_bitmap()}{lv\_font\_get\_glyph\_bitmap()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a0c9610b563d9a5ec1e9f73bdd5f33f3a} 
+const void \texorpdfstring{$\ast$}{*} lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+bitmap (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{g\+\_\+dsc}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{draw\+\_\+buf}{}\end{DoxyParamCaption})}
+
+Return with the bitmap of a font. It always converts the normal fonts to A8 format in a draw\+\_\+buf with LV\+\_\+\+DRAW\+\_\+\+BUF\+\_\+\+ALIGN and LV\+\_\+\+DRAW\+\_\+\+BUF\+\_\+\+STRIDE\+\_\+\+ALIGN \begin{DoxyNote}{Note}
+You must call \doxylink{lv__font_8h_a6d683128f280abccca7f34c2d478838e}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+dsc()} to get {\ttfamily g\+\_\+dsc} (\doxylink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}) before you can call this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em g\+\_\+dsc} & the glyph descriptor including which font to use, which supply the glyph\+\_\+index and the format. \\
+\hline
+{\em draw\+\_\+buf} & a draw buffer that can be used to store the bitmap of the glyph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the glyph\textquotesingle{}s data. It can be a draw buffer for bitmap fonts or an image source for imgfonts. 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a6d683128f280abccca7f34c2d478838e}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_glyph\_dsc@{lv\_font\_get\_glyph\_dsc}}
+\index{lv\_font\_get\_glyph\_dsc@{lv\_font\_get\_glyph\_dsc}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_glyph\_dsc()}{lv\_font\_get\_glyph\_dsc()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a6d683128f280abccca7f34c2d478838e} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+dsc (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{font}{, }\item[{\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc\+\_\+out}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{letter}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{letter\+\_\+next}{}\end{DoxyParamCaption})}
+
+Get the descriptor of a glyph 
+\begin{DoxyParams}{Parameters}
+{\em font} & pointer to font \\
+\hline
+{\em dsc\+\_\+out} & store the result descriptor here \\
+\hline
+{\em letter} & a UNICODE letter code \\
+\hline
+{\em letter\+\_\+next} & the next letter after {\ttfamily letter}. Used for kerning \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ descriptor is successfully loaded into {\ttfamily dsc\+\_\+out}. false:\+ the letter was not found, no data is loaded to {\ttfamily dsc\+\_\+out} 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_ada04d411de19a4b1f0a1dab900988121}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_glyph\_static\_bitmap@{lv\_font\_get\_glyph\_static\_bitmap}}
+\index{lv\_font\_get\_glyph\_static\_bitmap@{lv\_font\_get\_glyph\_static\_bitmap}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_glyph\_static\_bitmap()}{lv\_font\_get\_glyph\_static\_bitmap()}}
+{\footnotesize\ttfamily \label{lv__font_8h_ada04d411de19a4b1f0a1dab900988121} 
+const void \texorpdfstring{$\ast$}{*} lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+static\+\_\+bitmap (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{g\+\_\+dsc}{}\end{DoxyParamCaption})}
+
+Return the bitmap as it is. It works only if the font stores the bitmap in a non-\/volitile memory. 
+\begin{DoxyParams}{Parameters}
+{\em g\+\_\+dsc} & the glyph descriptor including which font to use, which supply the glyph\+\_\+index and the format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the bitmap as it is 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_aa5d36298f9831f65e9c6dd8dc3dfd60f}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_glyph\_width@{lv\_font\_get\_glyph\_width}}
+\index{lv\_font\_get\_glyph\_width@{lv\_font\_get\_glyph\_width}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_glyph\_width()}{lv\_font\_get\_glyph\_width()}}
+{\footnotesize\ttfamily \label{lv__font_8h_aa5d36298f9831f65e9c6dd8dc3dfd60f} 
+\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+width (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{font}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{letter}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{letter\+\_\+next}{}\end{DoxyParamCaption})}
+
+Get the width of a glyph with kerning 
+\begin{DoxyParams}{Parameters}
+{\em font} & pointer to a font \\
+\hline
+{\em letter} & a UNICODE letter \\
+\hline
+{\em letter\+\_\+next} & the next letter after {\ttfamily letter}. Used for kerning \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the width of the glyph 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a31276b4a547162f2b902c18bb29b5c5d}\index{lv\_font.h@{lv\_font.h}!lv\_font\_get\_line\_height@{lv\_font\_get\_line\_height}}
+\index{lv\_font\_get\_line\_height@{lv\_font\_get\_line\_height}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_get\_line\_height()}{lv\_font\_get\_line\_height()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a31276b4a547162f2b902c18bb29b5c5d} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+font\+\_\+get\+\_\+line\+\_\+height (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{font}{}\end{DoxyParamCaption})}
+
+Get the line height of a font. All characters fit into this height 
+\begin{DoxyParams}{Parameters}
+{\em font} & pointer to a font \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the height of a font 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a7afeb46ac72bfb1c1e75d48896bc2704}\index{lv\_font.h@{lv\_font.h}!lv\_font\_glyph\_release\_draw\_data@{lv\_font\_glyph\_release\_draw\_data}}
+\index{lv\_font\_glyph\_release\_draw\_data@{lv\_font\_glyph\_release\_draw\_data}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_glyph\_release\_draw\_data()}{lv\_font\_glyph\_release\_draw\_data()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a7afeb46ac72bfb1c1e75d48896bc2704} 
+void lv\+\_\+font\+\_\+glyph\+\_\+release\+\_\+draw\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{g\+\_\+dsc}{}\end{DoxyParamCaption})}
+
+Release the bitmap of a font. \begin{DoxyNote}{Note}
+You must call \doxylink{lv__font_8h_a6d683128f280abccca7f34c2d478838e}{lv\+\_\+font\+\_\+get\+\_\+glyph\+\_\+dsc()} to get {\ttfamily g\+\_\+dsc} (\doxylink{structlv__font__glyph__dsc__t}{lv\+\_\+font\+\_\+glyph\+\_\+dsc\+\_\+t}) before you can call this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em g\+\_\+dsc} & the glyph descriptor including which font to use, which supply the glyph\+\_\+index and the format. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__font_8h_a7fecfd59326ddb9c6e522e8053f6953d}\index{lv\_font.h@{lv\_font.h}!lv\_font\_has\_static\_bitmap@{lv\_font\_has\_static\_bitmap}}
+\index{lv\_font\_has\_static\_bitmap@{lv\_font\_has\_static\_bitmap}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_has\_static\_bitmap()}{lv\_font\_has\_static\_bitmap()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a7fecfd59326ddb9c6e522e8053f6953d} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+font\+\_\+has\+\_\+static\+\_\+bitmap (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{font}{}\end{DoxyParamCaption})}
+
+Checks if a font has a static rendering bitmap. 
+\begin{DoxyParams}{Parameters}
+{\em font} & pointer to a font \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+return true if the font has a bitmap generated for static rendering. 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a52d5ebfb3cf0be7eb315ddde45c44ca9}\index{lv\_font.h@{lv\_font.h}!lv\_font\_info\_is\_equal@{lv\_font\_info\_is\_equal}}
+\index{lv\_font\_info\_is\_equal@{lv\_font\_info\_is\_equal}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_info\_is\_equal()}{lv\_font\_info\_is\_equal()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a52d5ebfb3cf0be7eb315ddde45c44ca9} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+font\+\_\+info\+\_\+is\+\_\+equal (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\+\_\+font\+\_\+info\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ft\+\_\+info\+\_\+1}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\+\_\+font\+\_\+info\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ft\+\_\+info\+\_\+2}{}\end{DoxyParamCaption})}
+
+Compare font information. 
+\begin{DoxyParams}{Parameters}
+{\em ft\+\_\+info\+\_\+1} & font information 1. \\
+\hline
+{\em ft\+\_\+info\+\_\+2} & font information 2. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+return true if the fonts are equal. 
+\end{DoxyReturn}
+\Hypertarget{lv__font_8h_a03c42aab75edc74ff3be02dd9d55eb53}\index{lv\_font.h@{lv\_font.h}!lv\_font\_set\_kerning@{lv\_font\_set\_kerning}}
+\index{lv\_font\_set\_kerning@{lv\_font\_set\_kerning}!lv\_font.h@{lv\_font.h}}
+\doxysubsubsection{\texorpdfstring{lv\_font\_set\_kerning()}{lv\_font\_set\_kerning()}}
+{\footnotesize\ttfamily \label{lv__font_8h_a03c42aab75edc74ff3be02dd9d55eb53} 
+void lv\+\_\+font\+\_\+set\+\_\+kerning (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\+\_\+font\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{font}{, }\item[{\doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\+\_\+font\+\_\+kerning\+\_\+t}}}]{kerning}{}\end{DoxyParamCaption})}
+
+Configure the use of kerning information stored in a font 
+\begin{DoxyParams}{Parameters}
+{\em font} & pointer to a font \\
+\hline
+{\em kerning} & {\ttfamily \doxylink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a4dcee7f7f3dbf7b33a82883143d75812}{LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NORMAL}} (default) or {\ttfamily \doxylink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a60330de27d10a1521624e3df6d7e0685}{LV\+\_\+\+FONT\+\_\+\+KERNING\+\_\+\+NONE}} \\
+\hline
+\end{DoxyParams}

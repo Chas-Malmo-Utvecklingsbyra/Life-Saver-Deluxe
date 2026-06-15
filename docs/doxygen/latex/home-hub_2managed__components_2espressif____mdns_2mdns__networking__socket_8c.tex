@@ -1,0 +1,204 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+networking\+\_\+socket.c File Reference}
+\hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c}{}\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c}\index{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_networking\_socket.c@{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_networking\_socket.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}esp\+\_\+event.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+networking.\+h"{}}\newline
+{\ttfamily \+\#include $<$sys/\+types.\+h$>$}\newline
+{\ttfamily \+\#include $<$sys/\+socket.\+h$>$}\newline
+{\ttfamily \+\#include $<$arpa/\+inet.\+h$>$}\newline
+{\ttfamily \+\#include $<$netdb.\+h$>$}\newline
+{\ttfamily \+\#include $<$errno.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$unistd.\+h$>$}\newline
+{\ttfamily \+\#include $<$sys/\+param.\+h$>$}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+netif.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+service.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structinterfaces}{interfaces}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a96548646562811588d19c4e0acde1161}{s6\+\_\+addr32}}~un.\+u32\+\_\+addr
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \doxymbox{\hyperlink{structinterfaces}{interfaces}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a92328d2954d4626035fbf7f535e56cfe}{interfaces\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2a}{interface\+\_\+protocol}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aa0b59213fade26137651e17c8c00392c5}{PROTO\+\_\+\+IPV4}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} MDNS\+\_\+\+IP\+\_\+\+PROTOCOL\+\_\+\+V4
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aafffbb25c4534418ad3480a90fefe2ccf}{PROTO\+\_\+\+IPV6}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} MDNS\+\_\+\+IP\+\_\+\+PROTOCOL\+\_\+\+V6
+ \}
+\begin{DoxyCompactList}\small\item\em MDNS Server Networking module implemented using BSD sockets. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_abc81ef5d330a2ae718ac7a90c2694e96}{mdns\+\_\+priv\+\_\+if\+\_\+ready}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Check if the netif on the selected interfacce and protocol is ready. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef7f911fa6cdf6884a77ebbf56171ae2}{mdns\+\_\+priv\+\_\+get\+\_\+packet\+\_\+data}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Gets data pointer to the m\+DNS packet. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a8c8eeacdd16f846cf9ff6197f517b5a2}{mdns\+\_\+priv\+\_\+get\+\_\+packet\+\_\+len}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Gets data length of c. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a69eecf620f38ec19f860d7e41f74921f}{mdns\+\_\+priv\+\_\+packet\+\_\+free}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Free the m\+DNS packet. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a7e0842dcee92a1dfdeb8ddc09e2b688f}{mdns\+\_\+priv\+\_\+if\+\_\+deinit}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Stop PCB. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef6e4bd5685c3d9c3c0fad72cd417e25}{mdns\+\_\+priv\+\_\+if\+\_\+write}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, const esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}ip, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}data, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} len)
+\begin{DoxyCompactList}\small\item\em send packet over UDP \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_ab6416768af30bf789f12a55ae7289a6b}{sock\+\_\+recv\+\_\+task}} (void \texorpdfstring{$\ast$}{*}arg)
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a270cbc6b2806d2352f3b377ce7ff12c8}{mdns\+\_\+priv\+\_\+if\+\_\+init}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Start PCB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-define-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a96548646562811588d19c4e0acde1161}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!s6\_addr32@{s6\_addr32}}
+\index{s6\_addr32@{s6\_addr32}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{s6\_addr32}{s6\_addr32}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a96548646562811588d19c4e0acde1161} 
+\+\#define s6\+\_\+addr32~un.\+u32\+\_\+addr}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-typedef-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a92328d2954d4626035fbf7f535e56cfe}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!interfaces\_t@{interfaces\_t}}
+\index{interfaces\_t@{interfaces\_t}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{interfaces\_t}{interfaces\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a92328d2954d4626035fbf7f535e56cfe} 
+typedef struct \doxymbox{\hyperlink{structinterfaces}{interfaces}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__lwip_8c_a92328d2954d4626035fbf7f535e56cfe}{interfaces\+\_\+t}}}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-enum-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2a}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!interface\_protocol@{interface\_protocol}}
+\index{interface\_protocol@{interface\_protocol}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{interface\_protocol}{interface\_protocol}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2a} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__networking__lwip_8c_a0876edc0f21ab64f6d16b9c958a11e2a}{interface\+\_\+protocol}}}
+
+
+
+MDNS Server Networking module implemented using BSD sockets. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROTO\_IPV4@{PROTO\_IPV4}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!PROTO\_IPV4@{PROTO\_IPV4}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aa0b59213fade26137651e17c8c00392c5}\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aa0b59213fade26137651e17c8c00392c5} 
+PROTO\+\_\+\+IPV4&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROTO\_IPV6@{PROTO\_IPV6}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!PROTO\_IPV6@{PROTO\_IPV6}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aafffbb25c4534418ad3480a90fefe2ccf}\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a0876edc0f21ab64f6d16b9c958a11e2aafffbb25c4534418ad3480a90fefe2ccf} 
+PROTO\+\_\+\+IPV6&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-func-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef7f911fa6cdf6884a77ebbf56171ae2}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_get\_packet\_data@{mdns\_priv\_get\_packet\_data}}
+\index{mdns\_priv\_get\_packet\_data@{mdns\_priv\_get\_packet\_data}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_packet\_data()}{mdns\_priv\_get\_packet\_data()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef7f911fa6cdf6884a77ebbf56171ae2} 
+void \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+packet\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Gets data pointer to the m\+DNS packet. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a8c8eeacdd16f846cf9ff6197f517b5a2}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_get\_packet\_len@{mdns\_priv\_get\_packet\_len}}
+\index{mdns\_priv\_get\_packet\_len@{mdns\_priv\_get\_packet\_len}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_packet\_len()}{mdns\_priv\_get\_packet\_len()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a8c8eeacdd16f846cf9ff6197f517b5a2} 
+\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} mdns\+\_\+priv\+\_\+get\+\_\+packet\+\_\+len (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Gets data length of c. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a7e0842dcee92a1dfdeb8ddc09e2b688f}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_if\_deinit@{mdns\_priv\_if\_deinit}}
+\index{mdns\_priv\_if\_deinit@{mdns\_priv\_if\_deinit}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_if\_deinit()}{mdns\_priv\_if\_deinit()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a7e0842dcee92a1dfdeb8ddc09e2b688f} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+priv\+\_\+if\+\_\+deinit (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Stop PCB. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a270cbc6b2806d2352f3b377ce7ff12c8}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_if\_init@{mdns\_priv\_if\_init}}
+\index{mdns\_priv\_if\_init@{mdns\_priv\_if\_init}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_if\_init()}{mdns\_priv\_if\_init()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a270cbc6b2806d2352f3b377ce7ff12c8} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+priv\+\_\+if\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Start PCB. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_abc81ef5d330a2ae718ac7a90c2694e96}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_if\_ready@{mdns\_priv\_if\_ready}}
+\index{mdns\_priv\_if\_ready@{mdns\_priv\_if\_ready}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_if\_ready()}{mdns\_priv\_if\_ready()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_abc81ef5d330a2ae718ac7a90c2694e96} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+if\+\_\+ready (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Check if the netif on the selected interfacce and protocol is ready. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef6e4bd5685c3d9c3c0fad72cd417e25}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_if\_write@{mdns\_priv\_if\_write}}
+\index{mdns\_priv\_if\_write@{mdns\_priv\_if\_write}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_if\_write()}{mdns\_priv\_if\_write()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_aef6e4bd5685c3d9c3c0fad72cd417e25} 
+\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} mdns\+\_\+priv\+\_\+if\+\_\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{const esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}}]{ip}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{len}{}\end{DoxyParamCaption})}
+
+
+
+send packet over UDP 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server} & The server \\
+\hline
+{\em data} & byte array containing the packet data \\
+\hline
+{\em len} & length of the packet data\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+length of sent packet or 0 on error 
+\end{DoxyReturn}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a69eecf620f38ec19f860d7e41f74921f}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!mdns\_priv\_packet\_free@{mdns\_priv\_packet\_free}}
+\index{mdns\_priv\_packet\_free@{mdns\_priv\_packet\_free}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_packet\_free()}{mdns\_priv\_packet\_free()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_a69eecf620f38ec19f860d7e41f74921f} 
+void mdns\+\_\+priv\+\_\+packet\+\_\+free (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Free the m\+DNS packet. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_ab6416768af30bf789f12a55ae7289a6b}\index{mdns\_networking\_socket.c@{mdns\_networking\_socket.c}!sock\_recv\_task@{sock\_recv\_task}}
+\index{sock\_recv\_task@{sock\_recv\_task}!mdns\_networking\_socket.c@{mdns\_networking\_socket.c}}
+\doxysubsubsection{\texorpdfstring{sock\_recv\_task()}{sock\_recv\_task()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__networking__socket_8c_ab6416768af30bf789f12a55ae7289a6b} 
+void sock\+\_\+recv\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+

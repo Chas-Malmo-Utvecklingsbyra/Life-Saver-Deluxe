@@ -1,0 +1,116 @@
+\doxysection{lv\+\_\+opengles\+\_\+private.\+h}
+\hypertarget{lv__opengles__private_8h_source}{}\label{lv__opengles__private_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/opengles/lv\_opengles\_private.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/opengles/lv\_opengles\_private.h}}
+\doxymbox{\hyperlink{lv__opengles__private_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_OPENGLES\_PRIVATE\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_OPENGLES\_PRIVATE\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ LV\_USE\_OPENGLES}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ LV\_USE\_EGL}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{gles2_8h}{glad/include/glad/gles2.h}}"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{egl_8h}{glad/include/glad/egl.h}}"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00024\ \textcolor{comment}{/*\ For\ now,\ by\ default\ we\ add\ glew\ and\ glfw.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ In\ the\ future\ we\ need\ to\ consider\ adding\ a\ config\ for\ setting\ these\ includes*/}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_EGL*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{/*\ In\ desktop\ GL\ (<Gl/gl.h>)\ these\ symbols\ are\ defined\ but\ for\ EGL}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *\ they\ are\ defined\ as\ extensions\ with\ the\ \_EXT\ suffix\ */}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#ifndef\ GL\_BGRA}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ GL\_BGRA\ GL\_BGRA\_EXT}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*GL\_BGRA*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#ifndef\ GL\_TEXTURE\_MAX\_LEVEL}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_MAX\_LEVEL\ GL\_TEXTURE\_MAX\_LEVEL\_APPLE}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*GL\_TEXTURE\_MAX\_LEVEL*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifndef\ GL\_UNPACK\_ROW\_LENGTH}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_ROW\_LENGTH\ GL\_UNPACK\_ROW\_LENGTH\_EXT}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*GL\_UNPACK\_ROW\_LENGTH*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#ifndef\ glGenVertexArrays}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ glGenVertexArrays\ glGenVertexArraysOES}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#ifndef\ glBindVertexArray}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ glBindVertexArray\ glBindVertexArrayOES}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#ifndef\ glDeleteVertexArrays}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ glDeleteVertexArrays\ glDeleteVertexArraysOES}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#ifndef\ glTexStorage2D}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ glTexStorage2D\ glTexStorage2DEXT}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#ifndef\ GL\_RGBA32F}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ GL\_RGBA32F\ 0x8814}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#ifndef\ GL\_NUM\_EXTENSIONS}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ GL\_NUM\_EXTENSIONS\ 0x821D}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#ifndef\ GL\_RGB8}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ GL\_RGB8\ 0x8051}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#ifndef\ GL\_RGBA8}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ GL\_RGBA8\ 0x8058}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#ifndef\ LV\_GL\_PREFERRED\_DEPTH}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#ifdef\ GL\_DEPTH\_COMPONENT24}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ LV\_GL\_PREFERRED\_DEPTH\ GL\_DEPTH\_COMPONENT24}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00083\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ *\ This\ will\ not\ run\ correctly\ yet,\ it\ compiles\ fine\ but\ fails\ to\ render\ on\ RPi3B.\ \ Work\ in\ progress.}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00086\ \textcolor{comment}{\#ifdef\ GL\_DEPTH\_COMPONENT24\_OES}}
+\DoxyCodeLine{00087\ \textcolor{comment}{\#define\ LV\_GL\_PREFERRED\_DEPTH\ GL\_DEPTH\_COMPONENT24\_OES}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\#else}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\#define\ LV\_GL\_PREFERRED\_DEPTH\ GL\_DEPTH\_COMPONENT16}}
+\DoxyCodeLine{00090\ \textcolor{comment}{\#endif}}
+\DoxyCodeLine{00091\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ LV\_GL\_PREFERRED\_DEPTH\ GL\_DEPTH\_COMPONENT16}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00095\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00096\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00097\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00100\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00101\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00104\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00105\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_OPENGLES*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00110\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_OPENGLES\_PRIVATE\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

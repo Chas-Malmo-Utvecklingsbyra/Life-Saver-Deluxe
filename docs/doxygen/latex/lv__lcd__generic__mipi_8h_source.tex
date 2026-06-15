@@ -1,0 +1,172 @@
+\doxysection{lv\+\_\+lcd\+\_\+generic\+\_\+mipi.\+h}
+\hypertarget{lv__lcd__generic__mipi_8h_source}{}\label{lv__lcd__generic__mipi_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/display/lcd/lv\_lcd\_generic\_mipi.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/display/lcd/lv\_lcd\_generic\_mipi.h}}
+\doxymbox{\hyperlink{lv__lcd__generic__mipi_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#ifndef\ LV\_LCD\_GENERIC\_MIPI\_H}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ LV\_LCD\_GENERIC\_MIPI\_H}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__display_8h}{../../../display/lv\_display.h}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#if\ LV\_USE\_GENERIC\_MIPI}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{/*\ MIPI\ DCS\ (Display\ Command\ Set)\ v1.02.00\ User\ Command\ Set\ */}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_NOP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00\ \ \ \ }\textcolor{comment}{/*\ No\ Operation\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SOFT\_RESET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ \ \ \ }\textcolor{comment}{/*\ Software\ Reset\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_POWER\_MODE\ \ \ \ \ \ \ \ \ \ \ 0x0A\ \ \ \ }\textcolor{comment}{/*\ Get\ the\ current\ power\ mode\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_ADDRESS\_MODE\ \ \ \ \ \ \ \ \ 0x0B\ \ \ \ }\textcolor{comment}{/*\ Get\ the\ data\ order\ for\ transfers\ from\ the\ Host\ to\ the\ display\ module\ and\ from\ the\ frame\ memory\ to\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_PIXEL\_FORMAT\ \ \ \ \ \ \ \ \ 0x0C\ \ \ \ }\textcolor{comment}{/*\ Get\ the\ current\ pixel\ format\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_DISPLAY\_MODE\ \ \ \ \ \ \ \ \ 0x0D\ \ \ \ }\textcolor{comment}{/*\ Get\ the\ current\ display\ mode\ from\ the\ peripheral\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_SIGNAL\_MODE\ \ \ \ \ \ \ \ \ \ 0x0E\ \ \ \ }\textcolor{comment}{/*\ Get\ display\ module\ signaling\ mode\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_DIAGNOSTIC\_RESULT\ \ \ \ 0x0F\ \ \ \ }\textcolor{comment}{/*\ Get\ Peripheral\ Self-\/Diagnostic\ Result\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_ENTER\_SLEEP\_MODE\ \ \ \ \ \ \ \ \ 0x10\ \ \ \ }\textcolor{comment}{/*\ Power\ for\ the\ display\ panel\ is\ off\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_EXIT\_SLEEP\_MODE\ \ \ \ \ \ \ \ \ \ 0x11\ \ \ \ }\textcolor{comment}{/*\ Power\ for\ the\ display\ panel\ is\ on\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_ENTER\_PARTIAL\_MODE\ \ \ \ \ \ \ 0x12\ \ \ \ }\textcolor{comment}{/*\ Part\ of\ the\ display\ area\ is\ used\ for\ image\ display\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_ENTER\_NORMAL\_MODE\ \ \ \ \ \ \ \ 0x13\ \ \ \ }\textcolor{comment}{/*\ The\ whole\ display\ area\ is\ used\ for\ image\ display\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_EXIT\_INVERT\_MODE\ \ \ \ \ \ \ \ \ 0x20\ \ \ \ }\textcolor{comment}{/*\ Displayed\ image\ colors\ are\ not\ inverted\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_ENTER\_INVERT\_MODE\ \ \ \ \ \ \ \ 0x21\ \ \ \ }\textcolor{comment}{/*\ Displayed\ image\ colors\ are\ inverted\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_GAMMA\_CURVE\ \ \ \ \ \ \ \ \ \ 0x26\ \ \ \ }\textcolor{comment}{/*\ Selects\ the\ gamma\ curve\ used\ by\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_DISPLAY\_OFF\ \ \ \ \ \ \ \ \ \ 0x28\ \ \ \ }\textcolor{comment}{/*\ Blanks\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_DISPLAY\_ON\ \ \ \ \ \ \ \ \ \ \ 0x29\ \ \ \ }\textcolor{comment}{/*\ Show\ the\ image\ on\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_COLUMN\_ADDRESS\ \ \ \ \ \ \ 0x2A\ \ \ \ }\textcolor{comment}{/*\ Set\ the\ column\ extent\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_PAGE\_ADDRESS\ \ \ \ \ \ \ \ \ 0x2B\ \ \ \ }\textcolor{comment}{/*\ Set\ the\ page\ extent\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_WRITE\_MEMORY\_START\ \ \ \ \ \ \ 0x2C\ \ \ \ }\textcolor{comment}{/*\ Transfer\ image\ data\ from\ the\ Host\ Processor\ to\ the\ peripheral\ starting\ at\ the\ location\ provided\ by\ set\_column\_address\ and\ set\_page\_address\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_READ\_MEMORY\_START\ \ \ \ \ \ \ \ 0x2E\ \ \ \ }\textcolor{comment}{/*\ Transfer\ image\ data\ from\ the\ peripheral\ to\ the\ Host\ Processor\ interface\ starting\ at\ the\ location\ provided\ by\ set\_column\_address\ and\ set\_page\_address\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_PARTIAL\_ROWS\ \ \ \ \ \ \ \ \ 0x30\ \ \ \ }\textcolor{comment}{/*\ Defines\ the\ number\ of\ rows\ in\ the\ partial\ display\ area\ on\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_PARTIAL\_COLUMNS\ \ \ \ \ \ 0x31\ \ \ \ }\textcolor{comment}{/*\ Defines\ the\ number\ of\ columns\ in\ the\ partial\ display\ area\ on\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_SCROLL\_AREA\ \ \ \ \ \ \ \ \ \ 0x33\ \ \ \ }\textcolor{comment}{/*\ Defines\ the\ vertical\ scrolling\ and\ fixed\ area\ on\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_TEAR\_OFF\ \ \ \ \ \ \ \ \ \ \ \ \ 0x34\ \ \ \ }\textcolor{comment}{/*\ Synchronization\ information\ is\ not\ sent\ from\ the\ display\ module\ to\ the\ host\ processor\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_TEAR\_ON\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x35\ \ \ \ }\textcolor{comment}{/*\ Synchronization\ information\ is\ sent\ from\ the\ display\ module\ to\ the\ host\ processor\ at\ the\ start\ of\ VFP\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_ADDRESS\_MODE\ \ \ \ \ \ \ \ \ 0x36\ \ \ \ }\textcolor{comment}{/*\ Set\ the\ data\ order\ for\ transfers\ from\ the\ Host\ to\ the\ display\ module\ and\ from\ the\ frame\ memory\ to\ the\ display\ device\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_SCROLL\_START\ \ \ \ \ \ \ \ \ 0x37\ \ \ \ }\textcolor{comment}{/*\ Defines\ the\ vertical\ scrolling\ starting\ point\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_EXIT\_IDLE\_MODE\ \ \ \ \ \ \ \ \ \ \ 0x38\ \ \ \ }\textcolor{comment}{/*\ Full\ color\ depth\ is\ used\ on\ the\ display\ panel\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_ENTER\_IDLE\_MODE\ \ \ \ \ \ \ \ \ \ 0x39\ \ \ \ }\textcolor{comment}{/*\ Reduced\ color\ depth\ is\ used\ on\ the\ display\ panel\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_PIXEL\_FORMAT\ \ \ \ \ \ \ \ \ 0x3A\ \ \ \ }\textcolor{comment}{/*\ Defines\ how\ many\ bits\ per\ pixel\ are\ used\ in\ the\ interface\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_WRITE\_MEMORY\_CONTINUE\ \ \ \ 0x3C\ \ \ \ }\textcolor{comment}{/*\ Transfer\ image\ information\ from\ the\ Host\ Processor\ interface\ to\ the\ peripheral\ from\ the\ last\ written\ location\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_READ\_MEMORY\_CONTINUE\ \ \ \ \ 0x3E\ \ \ \ }\textcolor{comment}{/*\ Read\ image\ data\ from\ the\ peripheral\ continuing\ after\ the\ last\ read\_memory\_continue\ or\ read\_memory\_start\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_SET\_TEAR\_SCANLINE\ \ \ \ \ \ \ \ 0x44\ \ \ \ }\textcolor{comment}{/*\ Synchronization\ information\ is\ sent\ from\ the\ display\ module\ to\ the\ host\ processor\ when\ the\ display\ device\ refresh\ reaches\ the\ provided\ scanline\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_GET\_SCANLINE\ \ \ \ \ \ \ \ \ \ \ \ \ 0x45\ \ \ \ }\textcolor{comment}{/*\ Get\ the\ current\ scanline\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_READ\_DDB\_CONTINUE\ \ \ \ \ \ \ \ 0xA8\ \ \ \ }\textcolor{comment}{/*\ Continue\ reading\ the\ DDB\ from\ the\ last\ read\ location\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_READ\_DDB\_START\ \ \ \ \ \ \ \ \ \ \ 0xA1\ \ \ \ }\textcolor{comment}{/*\ Read\ the\ DDB\ from\ the\ provided\ location\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{/*\ address\ mode\ flag\ masks\ */}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_FLIP\_VERTICAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 0)\ \ \ \ }\textcolor{comment}{/*\ This\ bit\ flips\ the\ image\ shown\ on\ the\ display\ device\ top\ to\ bottom.\ No\ change\ is\ made\ to\ the\ frame\ memory\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_FLIP\_HORIZONTAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 1)\ \ \ \ }\textcolor{comment}{/*\ This\ bit\ flips\ the\ image\ shown\ on\ the\ display\ device\ left\ to\ right.\ No\ change\ is\ made\ to\ the\ frame\ memory\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_DATA\_LATCH\_DATA\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 2)\ \ \ \ }\textcolor{comment}{/*\ Display\ Data\ Latch\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_RGB\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 3)\ \ \ \ }\textcolor{comment}{/*\ RGB/BGR\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_LINE\_ADDRESS\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 4)\ \ \ \ }\textcolor{comment}{/*\ Line\ Address\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_PAGE\_COLUMN\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 5)\ \ \ \ }\textcolor{comment}{/*\ Page/Column\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_COLUMN\_ADDRESS\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 6)\ \ \ \ }\textcolor{comment}{/*\ Column\ Address\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ LV\_LCD\_MASK\_PAGE\_ADDRESS\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 7)\ \ \ \ }\textcolor{comment}{/*\ Page\ Address\ Order\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_FLIP\_VERTICAL\_\_NOT\_FLIPPED\ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_FLIP\_VERTICAL\_\_FLIPPED\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_FLIP\_VERTICAL\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ This\ bit\ flips\ the\ image\ shown\ on\ the\ display\ device\ top\ to\ bottom.\ No\ change\ is\ made\ to\ the\ frame\ memory\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_FLIP\_HORIZONTAL\_\_NOT\_FLIPPED\ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_FLIP\_HORIZONTAL\_\_FLIPPED\ \ \ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_FLIP\_HORIZONTAL\ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ This\ bit\ flips\ the\ image\ shown\ on\ the\ display\ device\ left\ to\ right.\ No\ change\ is\ made\ to\ the\ frame\ memory\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_DATA\_LATCH\_DATA\_ORDER\_\_LTOR\ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Display\ Data\ Latch\ Order:\ LCD\ Refresh\ Left\ to\ Right\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_DATA\_LATCH\_DATA\_ORDER\_\_RTOL\ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_DATA\_LATCH\_DATA\_ORDER\ \ \ }\textcolor{comment}{/*\ Display\ Data\ Latch\ Order:\ LCD\ Refresh\ Right\ to\ Left\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_RGB\_ORDER\_\_RGB\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ RGB/BGR\ Order:\ RGB\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_RGB\_ORDER\_\_BGR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_RGB\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ RGB/BGR\ Order:\ BGR\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_LINE\_ADDRESS\_ORDER\_\_TTOB\ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Line\ Address\ Order:\ LCD\ Refresh\ Top\ to\ Bottom\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_LINE\_ADDRESS\_ORDER\_\_BTOT\ \ \ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_LINE\_ADDRESS\_ORDER\ \ \ \ \ \ }\textcolor{comment}{/*\ Line\ Address\ Order:\ LCD\ Refresh\ Bottom\ to\ Top\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_PAGE\_COLUMN\_ORDER\_\_NORMAL\ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Page/Column\ Order:\ Normal\ Mode\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_PAGE\_COLUMN\_ORDER\_\_REVERSE\ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_PAGE\_COLUMN\_ORDER\ \ \ \ \ \ \ }\textcolor{comment}{/*\ Page/Column\ Order:\ Reverse\ Mode\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_COLUMN\_ADDRESS\_ORDER\_\_LTOR\ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Column\ Address\ Order:\ Left\ to\ Right\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_COLUMN\_ADDRESS\_ORDER\_\_RTOL\ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_COLUMN\_ADDRESS\_ORDER\ \ \ \ }\textcolor{comment}{/*\ Column\ Address\ Order:\ Right\ to\ Left\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_PAGE\_ADDRESS\_ORDER\_\_TTOB\ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ Page\ Address\ Order:\ Top\ to\ Bottom\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ LV\_LCD\_BIT\_PAGE\_ADDRESS\_ORDER\_\_BTOT\ \ \ \ \ \ \ \ \ \ \ \ \ LV\_LCD\_MASK\_PAGE\_ADDRESS\_ORDER\ \ \ \ \ \ }\textcolor{comment}{/*\ Page\ Address\ Order:\ Bottom\ to\ Top\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{/*\ predefined\ gamma\ curves\ */}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ LV\_LCD\_GAMMA\_2\_2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01\ \ \ \ }\textcolor{comment}{/*\ 2.2\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ LV\_LCD\_GAMMA\_1\_8\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x02\ \ \ \ }\textcolor{comment}{/*\ 1.8\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ LV\_LCD\_GAMMA\_2\_5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x04\ \ \ \ }\textcolor{comment}{/*\ 2.5\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ LV\_LCD\_GAMMA\_1\_0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08\ \ \ \ }\textcolor{comment}{/*\ 1.0\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{comment}{/*\ common\ pixel\ formats\ */}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ LV\_LCD\_PIXEL\_FORMAT\_RGB565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x55\ \ \ \ }\textcolor{comment}{/*\ bus:\ 16\ bits,\ pixel:\ 16\ bits\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ LV\_LCD\_PIXEL\_FORMAT\_RGB666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x66\ \ \ \ }\textcolor{comment}{/*\ bus:\ 18\ bits,\ pixel:\ 18\ bits\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{comment}{/*\ flags\ for\ lv\_lcd\_xxx\_create()\ */}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ LV\_LCD\_FLAG\_NONE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000000UL}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ LV\_LCD\_FLAG\_MIRROR\_X\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001UL}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ LV\_LCD\_FLAG\_MIRROR\_Y\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002UL}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ LV\_LCD\_FLAG\_BGR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008UL}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ LV\_LCD\_FLAG\_RGB666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000010UL}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{comment}{/*\ command\ list\ */}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_DELAY\_MS\ \ \ \ \ 0xff}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ LV\_LCD\_CMD\_EOF\ \ \ \ \ \ \ \ \ \ 0xff}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00125\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00126\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_lcd\_flag\_t;}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{typedef}\ void\ (*lv\_lcd\_send\_cmd\_cb\_t)(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a211d3daf40c1a37d55231eb6b5429db2}{cmd}},\ \textcolor{keywordtype}{size\_t}\ cmd\_size,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ param,}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ param\_size);}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{typedef}\ void\ (*lv\_lcd\_send\_color\_cb\_t)(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a211d3daf40c1a37d55231eb6b5429db2}{cmd}},\ \textcolor{keywordtype}{size\_t}\ cmd\_size,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ param,}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ param\_size);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00160\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ \ \ \ \ \ *\ \ \ \ \ disp;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ the\ associated\ LVGL\ display\ object\ */}}
+\DoxyCodeLine{00161\ \ \ \ \ lv\_lcd\_send\_cmd\_cb\_t\ \ \ \ send\_cmd;\ \ \ \ \ \ \ \textcolor{comment}{/*\ platform-\/specific\ implementation\ to\ send\ a\ command\ to\ the\ LCD\ controller\ */}}
+\DoxyCodeLine{00162\ \ \ \ \ lv\_lcd\_send\_color\_cb\_t\ \ send\_color;\ \ \ \ \ \textcolor{comment}{/*\ platform-\/specific\ implementation\ to\ send\ pixel\ data\ to\ the\ LCD\ controller\ */}}
+\DoxyCodeLine{00163\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\_gap;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ x\ offset\ of\ the\ (0,0)\ pixel\ in\ VRAM\ */}}
+\DoxyCodeLine{00164\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\_gap;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ y\ offset\ of\ the\ (0,0)\ pixel\ in\ VRAM\ */}}
+\DoxyCodeLine{00165\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ madctl\_reg;\ \ \ \ \ \textcolor{comment}{/*\ current\ value\ of\ MADCTL\ register\ */}}
+\DoxyCodeLine{00166\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ colmod\_reg;\ \ \ \ \ \textcolor{comment}{/*\ current\ value\ of\ COLMOD\ register\ */}}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mirror\_x;}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mirror\_y;}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\_xy;}
+\DoxyCodeLine{00170\ \}\ lv\_lcd\_generic\_mipi\_driver\_t;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00173\ \textcolor{comment}{\ *\ \ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00174\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00186\ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ lv\_lcd\_generic\_mipi\_create(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hor\_res,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ver\_res,\ lv\_lcd\_flag\_t\ flags,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lv\_lcd\_send\_cmd\_cb\_t\ send\_cmd\_cb,\ lv\_lcd\_send\_color\_cb\_t\ send\_color\_cb);}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00195\ \textcolor{keywordtype}{void}\ lv\_lcd\_generic\_mipi\_set\_gap(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ x,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ y);}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00202\ \textcolor{keywordtype}{void}\ lv\_lcd\_generic\_mipi\_set\_invert(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \textcolor{keywordtype}{bool}\ invert);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00212\ \textcolor{keywordtype}{void}\ lv\_lcd\_generic\_mipi\_set\_address\_mode(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \textcolor{keywordtype}{bool}\ mirror\_x,\ \textcolor{keywordtype}{bool}\ mirror\_y,\ \textcolor{keywordtype}{bool}\ swap\_xy,\ \textcolor{keywordtype}{bool}\ bgr);}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00219\ \textcolor{keywordtype}{void}\ lv\_lcd\_generic\_mipi\_set\_gamma\_curve(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ gamma);}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00226\ \textcolor{keywordtype}{void}\ lv\_lcd\_generic\_mipi\_send\_cmd\_list(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ cmd\_list);}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00229\ \textcolor{comment}{\ *\ \ \ \ \ \ OTHERS}}
+\DoxyCodeLine{00230\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00233\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00234\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GENERIC\_MIPI*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00240\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_LCD\_GENERIC\_MIPI\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,175 @@
+\doxysection{lv\+\_\+obj\+\_\+property.\+h}
+\hypertarget{lv__obj__property_8h_source}{}\label{lv__obj__property_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_property.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_property.h}}
+\doxymbox{\hyperlink{lv__obj__property_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_OBJ\_PROPERTY\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_OBJ\_PROPERTY\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__style_8h}{../misc/lv\_style.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ LV\_USE\_OBJ\_PROPERTY}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*All\ possible\ property\ value\ types*/}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_INVALID\ \ \ \ \ \ \ \ 0\ \ \ }\textcolor{comment}{/*Use\ default\ 0\ as\ invalid\ to\ detect\ program\ outliers*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_INT\ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ }\textcolor{comment}{/*int32\_t\ type*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_PRECISE\ \ \ \ \ \ \ \ 2\ \ \ }\textcolor{comment}{/*lv\_value\_precise\_t,\ int32\_t\ or\ float\ depending\ on\ LV\_USE\_FLOAT*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_COLOR\ \ \ \ \ \ \ \ \ \ 3\ \ \ }\textcolor{comment}{/*ARGB8888\ type*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_POINT\ \ \ \ \ \ \ \ \ \ 4\ \ \ }\textcolor{comment}{/*lv\_point\_t\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_POINTER\ \ \ \ \ \ \ \ 5\ \ \ }\textcolor{comment}{/*void\ *\ pointer*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_IMGSRC\ \ \ \ \ \ \ \ \ 6\ \ \ }\textcolor{comment}{/*Special\ pointer\ for\ image*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_TEXT\ \ \ \ \ \ \ \ \ \ \ 7\ \ \ }\textcolor{comment}{/*Special\ pointer\ of\ char*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_OBJ\ \ \ \ \ \ \ \ \ \ \ \ 8\ \ \ }\textcolor{comment}{/*Special\ pointer\ of\ lv\_obj\_t*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_DISPLAY\ \ \ \ \ \ \ \ 9\ \ \ }\textcolor{comment}{/*Special\ pointer\ of\ lv\_display\_t*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_FONT\ \ \ \ \ \ \ \ \ \ \ 10\ \ }\textcolor{comment}{/*Special\ pointer\ of\ lv\_font\_t*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_BOOL\ \ \ \ \ \ \ \ \ \ \ 11\ \ }\textcolor{comment}{/*int32\_t\ type*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE\_SHIFT\ \ \ \ \ \ \ \ \ \ 28}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_TYPE2\_SHIFT\ \ \ \ \ \ \ \ \ 24}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{/*\ Example:}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ *\ LV\_PROPERTY\_ID(OBJ,\ FLAG\_CLICKABLE,\ LV\_PROPERTY\_TYPE\_INT,\ 1),}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *\ produces}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *\ LV\_PROPERTY\_OBJ\_FLAG\_CLICKABLE\ =\ (LV\_PROPERTY\_OBJ\_START\ +\ (1))\ |\ ((LV\_PROPERTY\_TYPE\_INT)\ <<\ LV\_PROPERTY\_TYPE\_SHIFT)}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_ID(clz,\ name,\ type,\ index)\ \ \ \ \ \ \ \ \ \ LV\_PROPERTY\_\#\#\ clz\ \#\#\_\#\#name\ =\ (LV\_PROPERTY\_\#\#\ clz\ \#\#\_START\ +\ ((int)index))\ |\ ((type)\ <<\ LV\_PROPERTY\_TYPE\_SHIFT)}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{/*\ Example:}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ LV\_PROPERTY\_ID2(SLIDER,\ VALUE,\ LV\_PROPERTY\_TYPE\_INT,\ LV\_PROPERTY\_TYPE\_BOOL,\ 0)}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *\ produces}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ *\ LV\_PROPERTY\_SLIDER\_VALUE\ =\ (LV\_PROPERTY\_SLIDER\_START\ +\ (0))\ |\ ((LV\_PROPERTY\_TYPE\_INT)\ <<\ LV\_PROPERTY\_TYPE\_SHIFT)\ |\ ((LV\_PROPERTY\_TYPE\_BOOL)\ <<\ LV\_PROPERTY\_TYPE2\_SHIFT)}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_ID2(clz,\ name,\ type,\ type2,\ index)\ \ LV\_PROPERTY\_ID(clz,\ name,\ type,\ index)\ |\ ((type2)\ <<\ LV\_PROPERTY\_TYPE2\_SHIFT)}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_ID\_TYPE(id)\ ((id)\ >>\ LV\_PROPERTY\_TYPE\_SHIFT)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_ID\_TYPE2(id)\ ((id)\ >>\ LV\_PROPERTY\_TYPE\_SHIFT)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ LV\_PROPERTY\_ID\_INDEX(id)\ ((id)\ \&\ 0xfffffff)}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{/*Set\ properties\ from\ an\ array\ of\ lv\_property\_t*/}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ LV\_OBJ\_SET\_PROPERTY\_ARRAY(obj,\ array)\ lv\_obj\_set\_properties(obj,\ array,\ sizeof(array)/sizeof(array[0]))}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{enum}\ \_lv\_prop\_id\_range\_boundary\_t\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ LV\_PROPERTY\_ID\_INVALID\ \ \ \ \ \ =\ 0,}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{/*ID\ 0x01\ to\ 0xff\ are\ style\ ID,\ check\ lv\_style\_prop\_t*/}}
+\DoxyCodeLine{00075\ \ \ \ \ LV\_PROPERTY\_STYLE\_START\ \ \ \ \ =\ 0x00,}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ LV\_PROPERTY\_ID\_START\ \ \ \ \ \ \ \ =\ 0x0100,\ \textcolor{comment}{/*ID\ smaller\ than\ 0xff\ is\ style\ ID*/}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{/*Define\ the\ property\ ID\ for\ every\ widget\ here.\ */}}
+\DoxyCodeLine{00079\ \ \ \ \ LV\_PROPERTY\_OBJ\_START\ \ \ \ \ \ \ =\ 0x0100,\ \textcolor{comment}{/*\ lv\_obj.c\ */}}
+\DoxyCodeLine{00080\ \ \ \ \ LV\_PROPERTY\_IMAGE\_START\ \ \ \ \ =\ 0x0200,\ \textcolor{comment}{/*\ lv\_image.c\ */}}
+\DoxyCodeLine{00081\ \ \ \ \ LV\_PROPERTY\_LABEL\_START\ \ \ \ \ =\ 0x0300,\ \textcolor{comment}{/*\ lv\_label.c\ */}}
+\DoxyCodeLine{00082\ \ \ \ \ LV\_PROPERTY\_KEYBOARD\_START\ \ =\ 0x0400,\ \textcolor{comment}{/*\ lv\_keyboard.c\ */}}
+\DoxyCodeLine{00083\ \ \ \ \ LV\_PROPERTY\_TEXTAREA\_START\ \ =\ 0x0500,\ \textcolor{comment}{/*\ lv\_textarea.c\ */}}
+\DoxyCodeLine{00084\ \ \ \ \ LV\_PROPERTY\_ROLLER\_START\ \ \ \ =\ 0x0600,\ \textcolor{comment}{/*\ lv\_roller.c\ */}}
+\DoxyCodeLine{00085\ \ \ \ \ LV\_PROPERTY\_DROPDOWN\_START\ \ =\ 0x0700,\ \textcolor{comment}{/*\ lv\_dropdown.c\ */}}
+\DoxyCodeLine{00086\ \ \ \ \ LV\_PROPERTY\_SLIDER\_START\ \ \ \ =\ 0x0800,\ \textcolor{comment}{/*\ lv\_slider.c\ */}}
+\DoxyCodeLine{00087\ \ \ \ \ LV\_PROPERTY\_ANIMIMAGE\_START\ =\ 0x0900,\ \textcolor{comment}{/*\ lv\_animimage.c\ */}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{/*Special\ ID,\ use\ it\ to\ extend\ ID\ and\ make\ sure\ it's\ unique\ and\ compile\ time\ determinant*/}}
+\DoxyCodeLine{00090\ \ \ \ \ LV\_PROPERTY\_ID\_BUILTIN\_LAST\ =\ 0xffff,\ \textcolor{comment}{/*ID\ of\ 0x10000\ \string~\ 0xfffffff\ is\ reserved\ for\ user*/}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ LV\_PROPERTY\_ID\_ANY\ \ \ \ \ \ \ \ \ \ =\ 0x7ffffffe,\ \textcolor{comment}{/*Special\ ID\ used\ by\ lvgl\ to\ intercept\ all\ setter/getter\ call.*/}}
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{struct\ }\_lv\_property\_name\_t\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}};}
+\DoxyCodeLine{00097\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ id;}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00101\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ id;}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ num;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ num\_u;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ enable;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ ptr;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ color;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5a7caf7a6d6e9ef7ce147c4d2f629eb8}{lv\_value\_precise\_t}}\ precise;\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ point;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{unionlv__style__value__t}{lv\_style\_value\_t}}\ style;\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ selector;\ \ \ \ \ \ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ num;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ num\_u;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ enable;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ ptr;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ color;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5a7caf7a6d6e9ef7ce147c4d2f629eb8}{lv\_value\_precise\_t}}\ precise;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ arg1,\ arg2;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00150\ \ \ \ \ \};}
+\DoxyCodeLine{00151\ \}\ lv\_property\_t;}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00154\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ id;}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ setter;\ \ \ \ \ \ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ getter;\ \ \ \ \ \ }
+\DoxyCodeLine{00158\ \}\ lv\_property\_ops\_t;}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00161\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00162\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00165\ \textcolor{comment}{\ *\ Setter\ functions}}
+\DoxyCodeLine{00166\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00174\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_obj\_set\_property(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ lv\_property\_t\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00183\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_obj\_set\_properties(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ lv\_property\_t\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}});}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00186\ \textcolor{comment}{\ *\ Getter\ functions}}
+\DoxyCodeLine{00187\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00196\ lv\_property\_t\ lv\_obj\_get\_property(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00205\ lv\_property\_t\ lv\_obj\_get\_style\_property(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ \textcolor{keywordtype}{id},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ selector);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00215\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ lv\_obj\_property\_get\_id(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00224\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ lv\_obj\_class\_property\_get\_id(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\_obj\_class\_t}}\ *\ clz,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00231\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0306ffef52606607423dd111b74c26c6}{lv\_prop\_id\_t}}\ lv\_style\_property\_get\_id(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00234\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00235\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__obj__property__names_8h}{../widgets/property/lv\_obj\_property\_names.h}}"{}}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__style__properties_8h}{../widgets/property/lv\_style\_properties.h}}"{}}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_OBJ\_PROPERTY*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00243\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_OBJ\_PROPERTY\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

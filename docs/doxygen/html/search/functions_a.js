@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['packet_5fbuild_0',['Packet_Build',['../packet_8c.html#ae12038c9064a9293d381ae941c3a2b0e',1,'Packet_Build(Packet_Job job, const char *message):&#160;packet.c'],['../packet_8h.html#ae12038c9064a9293d381ae941c3a2b0e',1,'Packet_Build(Packet_Job job, const char *message):&#160;packet.c']]],
-  ['packet_5fjob_5ffrom_5fstring_1',['Packet_Job_From_String',['../packet_8c.html#aa5ed2f72481c7abe384e5c5e4dd31b5b',1,'Packet_Job_From_String(const char *string):&#160;packet.c'],['../packet_8h.html#aa5ed2f72481c7abe384e5c5e4dd31b5b',1,'Packet_Job_From_String(const char *string):&#160;packet.c']]],
-  ['packet_5fjob_5fto_5fstring_2',['Packet_Job_To_String',['../packet_8c.html#af57681c38093f569c76dd37ac55eedfa',1,'Packet_Job_To_String(Packet_Job job):&#160;packet.c'],['../packet_8h.html#af57681c38093f569c76dd37ac55eedfa',1,'Packet_Job_To_String(Packet_Job job):&#160;packet.c']]]
+  ['on_5fui_5fpoll_5ftimer_0',['on_ui_poll_timer',['../gui__sensors_8c.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c'],['../gui__sensors_8h.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c']]],
+  ['on_5fwifi_5fstatus_5fupdate_1',['on_wifi_status_update',['../gui_8c.html#a76a93b59985275c2c57d52153324e7a4',1,'on_wifi_status_update(void):&#160;gui.c'],['../gui_8h.html#a76a93b59985275c2c57d52153324e7a4',1,'on_wifi_status_update(void):&#160;gui.c']]],
+  ['open_5frename_5foverlay_2',['open_rename_overlay',['../gui__rename_8c.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c'],['../gui__rename_8h.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c']]]
 ];

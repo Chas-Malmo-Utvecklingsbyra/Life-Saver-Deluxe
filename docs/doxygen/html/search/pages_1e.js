@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['v0_201_200_202023_2001_2012_0',['v0.1.0 - 2023-01-12',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md51',1,'']]],
+  ['v0_202_200_202023_2002_2023_1',['v0.2.0 - 2023-02-23',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md50',1,'']]],
+  ['v0_202_201_202023_2003_2009_2',['v0.2.1 - 2023-03-09',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md48',1,'']]],
+  ['v0_203_200_202023_2003_2010_3',['v0.3.0 - 2023-03-10',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md47',1,'']]],
+  ['v0_204_200_202023_2003_2013_4',['v0.4.0 - 2023-03-13',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md45',1,'']]],
+  ['v0_204_201_202023_2003_2015_5',['v0.4.1 - 2023-03-15',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md44',1,'']]],
+  ['v0_204_202_202023_2003_2020_6',['v0.4.2 - 2023-03-20',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md42',1,'']]],
+  ['v0_204_203_202023_2003_2024_7',['v0.4.3 - 2023-03-24',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md41',1,'']]],
+  ['v0_204_204_202023_2004_2007_8',['v0.4.4 - 2023-04-07',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md40',1,'']]],
+  ['v0_204_205_202023_2004_2017_9',['v0.4.5 - 2023-04-17',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md39',1,'']]],
+  ['v0_204_206_202023_2004_2020_10',['v0.4.6 - 2023-04-20',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md38',1,'']]],
+  ['v0_204_207_202023_2004_2021_11',['v0.4.7 - 2023-04-21',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md37',1,'']]],
+  ['v0_204_208_202023_2005_2024_12',['v0.4.8 - 2023-05-24',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md35',1,'']]],
+  ['v0_205_200_202023_2008_2002_13',['v0.5.0 - 2023-08-02',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md34',1,'']]],
+  ['v0_205_201_202023_2008_2022_14',['v0.5.1 - 2023-08-22',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md33',1,'']]],
+  ['v0_205_202_202023_2009_2015_15',['v0.5.2 - 2023-09-15',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html#autotoc_md32',1,'']]],
+  ['v0_205_203_202023_2009_2015_16',['v0.5.3 - 2023-09-15',['../md_home-hub_2managed__components_2espressif____cmake__utilities_2_c_h_a_n_g_e_l_o_g.html',1,'']]],
+  ['v4_20users_17',['Features (Functional change for button v4 users)',['../md_home-hub_2managed__components_2espressif____esp__lvgl__port_2_c_h_a_n_g_e_l_o_g.html#autotoc_md93',1,'']]],
+  ['version_18',['Version',['../dir_e9e1be9cccd44b3761395ab1e74f00b7.html#autotoc_md154',1,'LVGL Version'],['../dir_d313b08771c3d01f8741c98300d382f9.html#autotoc_md172',1,'LVGL Version']]],
+  ['version_205_19',['This is version 5',['../dir_3db7668f542e31246327b765bef22fce.html#autotoc_md482',1,'']]],
+  ['version_20compatibility_20',['LVGL Version Compatibility',['../dir_d313b08771c3d01f8741c98300d382f9.html#autotoc_md173',1,'']]],
+  ['visão_20geral_21',['📒 Visão geral',['../md_home-hub_2managed__components_2lvgl____lvgl_2docs_2_r_e_a_d_m_e__pt___b_r.html#autotoc_md399',1,'']]],
+  ['vs_20graphical_20settings_22',['Example FPS improvement vs graphical settings',['../md_home-hub_2managed__components_2espressif____esp__lvgl__port_2docs_2performance.html#autotoc_md147',1,'']]]
+];

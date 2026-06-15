@@ -1,0 +1,1063 @@
+\doxysection{EVE.\+h}
+\hypertarget{_e_v_e_8h_source}{}\label{_e_v_e_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/FT800-\/FT813/EVE.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/FT800-\/FT813/EVE.h}}
+\doxymbox{\hyperlink{_e_v_e_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{@file\ \ \ \ EVE.h}}
+\DoxyCodeLine{00003\ \textcolor{comment}{@brief\ \ \ Contains\ FT80x/FT81x/BT81x\ API\ definitions}}
+\DoxyCodeLine{00004\ \textcolor{comment}{@version\ 5.0}}
+\DoxyCodeLine{00005\ \textcolor{comment}{@date\ \ \ \ 2024-\/01-\/28}}
+\DoxyCodeLine{00006\ \textcolor{comment}{@author\ \ Rudolph\ Riedel}}
+\DoxyCodeLine{00007\ \textcolor{comment}{}}
+\DoxyCodeLine{00008\ \textcolor{comment}{@section\ LICENSE}}
+\DoxyCodeLine{00009\ \textcolor{comment}{}}
+\DoxyCodeLine{00010\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Copyright\ (c)\ 2016-\/2024\ Rudolph\ Riedel}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy\ of}}
+\DoxyCodeLine{00015\ \textcolor{comment}{this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal\ in}}
+\DoxyCodeLine{00016\ \textcolor{comment}{the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00017\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,}}
+\DoxyCodeLine{00018\ \textcolor{comment}{and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software}}
+\DoxyCodeLine{00019\ \textcolor{comment}{is\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00022\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{}}
+\DoxyCodeLine{00024\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00025\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,\ FITNESS}}
+\DoxyCodeLine{00026\ \textcolor{comment}{FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR}}
+\DoxyCodeLine{00027\ \textcolor{comment}{COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER}}
+\DoxyCodeLine{00028\ \textcolor{comment}{IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN}}
+\DoxyCodeLine{00029\ \textcolor{comment}{CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{}}
+\DoxyCodeLine{00031\ \textcolor{comment}{@section\ History}}
+\DoxyCodeLine{00032\ \textcolor{comment}{}}
+\DoxyCodeLine{00033\ \textcolor{comment}{5.0}}
+\DoxyCodeLine{00034\ \textcolor{comment}{-\/\ started\ to\ add\ BT817\ /\ BT818\ defines}}
+\DoxyCodeLine{00035\ \textcolor{comment}{-\/\ cleanup:\ removed\ FT80x\ defines}}
+\DoxyCodeLine{00036\ \textcolor{comment}{-\/\ replaced\ BT81X\_ENABLE\ with\ "{}EVE\_GEN\ >\ 2"{}}}
+\DoxyCodeLine{00037\ \textcolor{comment}{-\/\ removed\ FT81X\_ENABLE\ as\ FT81x\ already\ is\ the\ lowest\ supported\ chip\ revision\ now}}
+\DoxyCodeLine{00038\ \textcolor{comment}{-\/\ added\ more\ BT817\ /\ BT818\ defines}}
+\DoxyCodeLine{00039\ \textcolor{comment}{-\/\ removed\ undocumented\ registers\ and\ commands}}
+\DoxyCodeLine{00040\ \textcolor{comment}{-\/\ merged\ FT80x\ and\ FT81x\ definitions\ as\ FT81x\ is\ baseline\ now}}
+\DoxyCodeLine{00041\ \textcolor{comment}{-\/\ removed\ the\ history\ from\ before\ 4.0}}
+\DoxyCodeLine{00042\ \textcolor{comment}{-\/\ fixed\ typo:\ REG\_AH\_CYCLE\_MAX\ -\/>\ REG\_AH\_HCYCLE\_MAX}}
+\DoxyCodeLine{00043\ \textcolor{comment}{-\/\ re-\/arranged\ the\ host\ commands,\ removed\ EVE\_CLKINT\ for\ BT817/BT818,}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ removed\ FT80x\ EVE\_CLK36M\ and\ EVE\_CLK48M}}
+\DoxyCodeLine{00045\ \textcolor{comment}{-\/\ added\ EVE\_OPT\_OVERLAY}}
+\DoxyCodeLine{00046\ \textcolor{comment}{-\/\ removed\ the\ 4.0\ history}}
+\DoxyCodeLine{00047\ \textcolor{comment}{-\/\ fixed\ some\ MISRA-\/C\ issues}}
+\DoxyCodeLine{00048\ \textcolor{comment}{-\/\ removed\ macro\ BEGIN(prim)\ -\/\ use\ (DL\_BEGIN\ |\ EVE\_BITMAPS)\ for\ example}}
+\DoxyCodeLine{00049\ \textcolor{comment}{-\/\ removed\ macro\ END()\ -\/\ use\ define\ DL\_END}}
+\DoxyCodeLine{00050\ \textcolor{comment}{-\/\ removed\ macro\ RESTORE\_CONTEXT()\ -\/\ use\ define\ DL\_RESTORE\_CONTEXT}}
+\DoxyCodeLine{00051\ \textcolor{comment}{-\/\ removed\ macro\ RETURN()\ -\/\ use\ define\ DL\_RETURN}}
+\DoxyCodeLine{00052\ \textcolor{comment}{-\/\ removed\ macro\ SAVE\_CONTEXT()\ -\/\ use\ define\ DL\_SAVE\_CONTEXT}}
+\DoxyCodeLine{00053\ \textcolor{comment}{-\/\ basic\ maintenance:\ checked\ for\ violations\ of\ white\ space\ and\ indent\ rules}}
+\DoxyCodeLine{00054\ \textcolor{comment}{-\/\ more\ linter\ fixes}}
+\DoxyCodeLine{00055\ \textcolor{comment}{-\/\ changed\ EVE\_COMPRESSED\_RGBA\_ASTC\_nxn\_KHR\ to\ EVE\_ASTC\_nXn\ to\ fix\ linter}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ \ \ \ warnings\ and\ used\ the\ opportunity\ to\ make\ these\ shorter}}
+\DoxyCodeLine{00057\ \textcolor{comment}{-\/\ added\ DL\_COLOR\_A\ as\ alternative\ to\ the\ COLOR\_A\ macro}}
+\DoxyCodeLine{00058\ \textcolor{comment}{-\/\ added\ defines\ for\ all\ DL\_\ display\ list\ commands}}
+\DoxyCodeLine{00059\ \textcolor{comment}{-\/\ cleaned\ up\ the\ macros}}
+\DoxyCodeLine{00060\ \textcolor{comment}{-\/\ fix:\ changed\ DL\_CLEAR\_RGB\ to\ DL\_CLEAR\_COLOR\_RGB}}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ \ \ \ as\ this\ is\ what\ the\ programming\ guide\ uses}}
+\DoxyCodeLine{00062\ \textcolor{comment}{-\/\ fix:\ renamed\ EVE\_ROM\_FONT\_ADDR\ to\ EVE\_ROM\_FONTROOT}}
+\DoxyCodeLine{00063\ \textcolor{comment}{-\/\ added\ \#ifdef\ \_\_cplusplus\ /\ extern\ "{}C"{}\ to\ allow}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ \ \ \ adding\ EVE\_\ functions\ to\ C++\ code}}
+\DoxyCodeLine{00065\ \textcolor{comment}{-\/\ fix:\ typo\ REG\_COPRO\_PATCH\_DTR\ -\/>\ REG\_COPRO\_PATCH\_PTR}}
+\DoxyCodeLine{00066\ \textcolor{comment}{-\/\ started\ to\ convert\ the\ function-\/like\ macros\ to\ static\ inline\ functions\ to\ be}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ \ a\ little\ friendlier\ towards\ C++\ in\ regards\ of\ type-\/safety}}
+\DoxyCodeLine{00068\ \textcolor{comment}{-\/\ added\ type-\/casts\ to\ all\ simple\ macros}}
+\DoxyCodeLine{00069\ \textcolor{comment}{-\/\ converted\ some\ more\ function-\/like\ macros\ to\ static\ inline\ functions}}
+\DoxyCodeLine{00070\ \textcolor{comment}{-\/\ converted\ the\ rest\ of\ the\ function-\/like\ macros\ to\ static\ inline\ functions}}
+\DoxyCodeLine{00071\ \textcolor{comment}{-\/\ fix:\ forgot\ to\ comment\ out\ the\ EVE2\ BITMAP\_TRANSFORM\_E\ when\ converting\ it\ to\ an\ inline\ function}}
+\DoxyCodeLine{00072\ \textcolor{comment}{}}
+\DoxyCodeLine{00073\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#ifndef\ EVE\_H}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ EVE\_H}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{_e_v_e__target_8h}{EVE\_target.h}}"{}}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00081\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{_e_v_e__config_8h}{EVE\_config.h}}"{}}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{_e_v_e__commands_8h}{EVE\_commands.h}}"{}}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{comment}{/*\ Memory\ */}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_G\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00000000UL)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ EVE\_ROM\_CHIPID\ \ \ \ ((uint32\_t)\ 0x000C0000UL)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ EVE\_ROM\_FONT\ \ \ \ \ \ ((uint32\_t)\ 0x001E0000UL)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ EVE\_ROM\_FONTROOT\ \ ((uint32\_t)\ 0x002FFFFCUL)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_DL\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00300000UL)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_REG\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302000UL)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_CMD\ \ \ \ \ \ \ ((uint32\_t)\ 0x00308000UL)}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{comment}{/*\ Memory\ buffer\ sizes\ */}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_G\_SIZE\ \ \ ((uint32\_t)\ 1024U*1024UL)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ EVE\_CMDFIFO\_SIZE\ ((uint32\_t)\ 4U*1024UL)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_DL\_SIZE\ \ ((uint32\_t)\ 8U*1024UL)}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{comment}{/*\ diplay\ list\ list\ commands,\ most\ need\ OR's\ arguments\ */}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ DL\_DISPLAY\ \ \ \ \ \ \ ((uint32\_t)\ 0x00000000UL)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_SOURCE\ ((uint32\_t)\ 0x01000000UL)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ DL\_CLEAR\_COLOR\_RGB\ ((uint32\_t)\ 0x02000000UL)}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ DL\_TAG\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x03000000UL)}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ DL\_COLOR\_RGB\ \ \ \ \ ((uint32\_t)\ 0x04000000UL)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_HANDLE\ ((uint32\_t)\ 0x05000000UL)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ DL\_CELL\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x06000000UL)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_LAYOUT\ ((uint32\_t)\ 0x07000000UL)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_SIZE\ \ \ ((uint32\_t)\ 0x08000000UL)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ DL\_ALPHA\_FUNC\ \ \ \ ((uint32\_t)\ 0x09000000UL)}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ DL\_STENCIL\_FUNC\ \ ((uint32\_t)\ 0x0A000000UL)}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ DL\_BLEND\_FUNC\ \ \ \ ((uint32\_t)\ 0x0B000000UL)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ DL\_STENCIL\_OP\ \ \ \ ((uint32\_t)\ 0x0C000000UL)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ DL\_POINT\_SIZE\ \ \ \ ((uint32\_t)\ 0x0D000000UL)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ DL\_LINE\_WIDTH\ \ \ \ ((uint32\_t)\ 0x0E000000UL)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ DL\_CLEAR\_COLOR\_A\ ((uint32\_t)\ 0x0F000000UL)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ DL\_COLOR\_A\ \ \ \ \ \ \ ((uint32\_t)\ 0x10000000UL)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ DL\_CLEAR\_STENCIL\ ((uint32\_t)\ 0x11000000UL)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ DL\_CLEAR\_TAG\ \ \ \ \ ((uint32\_t)\ 0x12000000UL)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ DL\_STENCIL\_MASK\ \ ((uint32\_t)\ 0x13000000UL)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ DL\_TAG\_MASK\ \ \ \ \ \ ((uint32\_t)\ 0x14000000UL)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_A\ ((uint32\_t)\ 0x15000000UL)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_B\ ((uint32\_t)\ 0x16000000UL)}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_C\ ((uint32\_t)\ 0x17000000UL)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_D\ ((uint32\_t)\ 0x18000000UL)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_E\ ((uint32\_t)\ 0x19000000UL)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_TRANSFORM\_F\ ((uint32\_t)\ 0x1A000000UL)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ DL\_SCISSOR\_XY\ \ \ \ ((uint32\_t)\ 0x1B000000UL)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ DL\_SCISSOR\_SIZE\ \ ((uint32\_t)\ 0x1C000000UL)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ DL\_CALL\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x1D000000UL)}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ DL\_JUMP\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x1E000000UL)}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ DL\_BEGIN\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x1F000000UL)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ DL\_COLOR\_MASK\ \ \ \ ((uint32\_t)\ 0x20000000UL)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ DL\_END\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x21000000UL)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ DL\_SAVE\_CONTEXT\ \ ((uint32\_t)\ 0x22000000UL)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ DL\_RESTORE\_CONTEXT\ ((uint32\_t)\ 0x23000000UL)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ DL\_RETURN\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x24000000UL)}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ DL\_MACRO\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x25000000UL)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ DL\_CLEAR\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x26000000UL)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ DL\_VERTEX\_FORMAT\ ((uint32\_t)\ 0x27000000UL)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_LAYOUT\_H\ ((uint32\_t)\ 0x28000000UL)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_SIZE\_H\ ((uint32\_t)\ 0x29000000UL)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ DL\_PALETTE\_SOURCE\ ((uint32\_t)\ 0x2A000000UL)}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ DL\_VERTEX\_TRANSLATE\_X\ ((uint32\_t)\ 0x2B000000UL)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ DL\_VERTEX\_TRANSLATE\_Y\ ((uint32\_t)\ 0x2C000000UL)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ DL\_NOP\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x2D000000UL)}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ DL\_VERTEX2F\ \ \ \ \ ((uint32\_t)\ 0x40000000UL)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ DL\_VERTEX2II\ \ \ \ ((uint32\_t)\ 0x80000000UL)}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ CLR\_COL\ \ \ \ \ ((uint8\_t)\ 0x4U)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ CLR\_STN\ \ \ \ \ ((uint8\_t)\ 0x2U)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ CLR\_TAG\ \ \ \ \ ((uint8\_t)\ 0x1U)}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \textcolor{comment}{/*\ Host\ commands\ */}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ EVE\_ACTIVE\ \ \ \ \ \ \ ((uint8\_t)\ 0x00U)\ }\textcolor{comment}{/*\ place\ EVE\ in\ active\ state\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ EVE\_STANDBY\ \ \ \ \ \ ((uint8\_t)\ 0x41U)\ }\textcolor{comment}{/*\ place\ EVE\ in\ Standby\ (clk\ running)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ EVE\_SLEEP\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x42U)\ }\textcolor{comment}{/*\ place\ EVE\ in\ Sleep\ (clk\ off)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ EVE\_CLKEXT\ \ \ \ \ \ \ ((uint8\_t)\ 0x44U)\ }\textcolor{comment}{/*\ select\ external\ clock\ source\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ EVE\_CLKINT\ \ \ \ \ \ \ ((uint8\_t)\ 0x48U)\ }\textcolor{comment}{/*\ select\ internal\ clock\ source,\ not\ a\ valid\ option\ for\ BT817\ /\ BT818\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ EVE\_PWRDOWN\ \ \ \ \ \ ((uint8\_t)\ 0x50U)\ }\textcolor{comment}{/*\ place\ EVE\ in\ Power\ Down\ (core\ off)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ EVE\_CLKSEL\ \ \ \ \ \ \ ((uint8\_t)\ 0x61U)\ }\textcolor{comment}{/*\ configure\ system\ clock\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ EVE\_RST\_PULSE\ \ \ \ ((uint8\_t)\ 0x68U)\ }\textcolor{comment}{/*\ reset\ core\ -\/\ all\ registers\ default\ and\ processors\ reset\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ EVE\_CORERST\ \ \ \ \ \ ((uint8\_t)\ 0x68U)\ }\textcolor{comment}{/*\ reset\ core\ -\/\ all\ registers\ default\ and\ processors\ reset\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ EVE\_PINDRIVE\ \ \ \ \ ((uint8\_t)\ 0x70U)\ }\textcolor{comment}{/*\ setup\ drive\ strength\ for\ various\ pins\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ EVE\_PIN\_PD\_STATE\ ((uint8\_t)\ 0x71U)\ }\textcolor{comment}{/*\ setup\ how\ pins\ behave\ during\ power\ down\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{comment}{/*\ Graphic\ command\ defines\ */}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ EVE\_NEVER\ \ \ \ \ \ ((uint8\_t)\ 0UL)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ EVE\_LESS\ \ \ \ \ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ EVE\_LEQUAL\ \ \ \ \ ((uint8\_t)\ 2UL)}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ EVE\_GREATER\ \ \ \ ((uint8\_t)\ 3UL)}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ EVE\_GEQUAL\ \ \ \ \ ((uint8\_t)\ 4UL)}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ EVE\_EQUAL\ \ \ \ \ \ ((uint8\_t)\ 5UL)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ EVE\_NOTEQUAL\ \ \ ((uint8\_t)\ 6UL)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ EVE\_ALWAYS\ \ \ \ \ ((uint8\_t)\ 7UL)}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \textcolor{comment}{/*\ Bitmap\ formats\ */}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ EVE\_ARGB1555\ \ \ ((uint8\_t)\ 0UL)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ EVE\_L1\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ EVE\_L4\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 2UL)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ EVE\_L8\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 3UL)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ EVE\_RGB332\ \ \ \ \ ((uint8\_t)\ 4UL)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ EVE\_ARGB2\ \ \ \ \ \ ((uint8\_t)\ 5UL)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ EVE\_ARGB4\ \ \ \ \ \ ((uint8\_t)\ 6UL)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ EVE\_RGB565\ \ \ \ \ ((uint8\_t)\ 7UL)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ EVE\_PALETTED\ \ \ ((uint8\_t)\ 8UL)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ EVE\_TEXT8X8\ \ \ \ ((uint8\_t)\ 9UL)}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ EVE\_TEXTVGA\ \ \ \ ((uint8\_t)\ 10UL)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ EVE\_BARGRAPH\ \ \ ((uint8\_t)\ 11UL)}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{comment}{/*\ Bitmap\ filter\ types\ */}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ EVE\_NEAREST\ \ \ \ ((uint8\_t)\ 0UL)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ EVE\_BILINEAR\ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{comment}{/*\ Bitmap\ wrap\ types\ */}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ EVE\_BORDER\ \ \ \ \ ((uint8\_t)\ 0UL)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ EVE\_REPEAT\ \ \ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \textcolor{comment}{/*\ Stencil\ defines\ */}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#define\ EVE\_KEEP\ \ \ \ \ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ EVE\_REPLACE\ \ \ \ ((uint8\_t)\ 2UL)}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ EVE\_INCR\ \ \ \ \ \ \ ((uint8\_t)\ 3UL)}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ EVE\_DECR\ \ \ \ \ \ \ ((uint8\_t)\ 4UL)}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ EVE\_INVERT\ \ \ \ \ ((uint8\_t)\ 5UL)}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \textcolor{comment}{/*\ Graphics\ display\ list\ swap\ defines\ */}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#define\ EVE\_DLSWAP\_DONE\ \ \ ((uint8\_t)\ 0UL)}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#define\ EVE\_DLSWAP\_LINE\ \ \ ((uint8\_t)\ 1UL)}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ EVE\_DLSWAP\_FRAME\ \ ((uint8\_t)\ 2UL)}}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \textcolor{comment}{/*\ Interrupt\ bits\ */}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ EVE\_INT\_SWAP\ \ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x01)}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#define\ EVE\_INT\_TOUCH\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x02)}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ EVE\_INT\_TAG\ \ \ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x04)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ EVE\_INT\_SOUND\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x08)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ EVE\_INT\_PLAYBACK\ \ \ \ \ \ ((uint8\_t)\ 0x10)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ EVE\_INT\_CMDEMPTY\ \ \ \ \ \ ((uint8\_t)\ 0x20)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ EVE\_INT\_CMDFLAG\ \ \ \ \ \ \ ((uint8\_t)\ 0x40)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ EVE\_INT\_CONVCOMPLETE\ \ ((uint8\_t)\ 0x80)}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \textcolor{comment}{/*\ Touch\ mode\ */}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ EVE\_TMODE\_OFF\ \ \ \ \ \ \ \ ((uint8\_t)\ 0U)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ EVE\_TMODE\_ONESHOT\ \ \ \ ((uint8\_t)\ 1U)}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ EVE\_TMODE\_FRAME\ \ \ \ \ \ ((uint8\_t)\ 2U)}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ EVE\_TMODE\_CONTINUOUS\ ((uint8\_t)\ 3U)}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{comment}{/*\ Alpha\ blending\ */}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#define\ EVE\_ZERO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0UL)}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ EVE\_ONE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 1UL)}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ EVE\_SRC\_ALPHA\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 2UL)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ EVE\_DST\_ALPHA\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 3UL)}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ EVE\_ONE\_MINUS\_SRC\_ALPHA\ \ ((uint32\_t)\ 4UL)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#define\ EVE\_ONE\_MINUS\_DST\_ALPHA\ \ ((uint32\_t)\ 5UL)}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{comment}{/*\ Graphics\ primitives\ */}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#define\ EVE\_BITMAPS\ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 1UL)}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ EVE\_POINTS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 2UL)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#define\ EVE\_LINES\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 3UL)}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ EVE\_LINE\_STRIP\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 4UL)}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ EVE\_EDGE\_STRIP\_R\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 5UL)}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ EVE\_EDGE\_STRIP\_L\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 6UL)}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#define\ EVE\_EDGE\_STRIP\_A\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 7UL)}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#define\ EVE\_EDGE\_STRIP\_B\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 8UL)}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#define\ EVE\_RECTS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 9UL)}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ EVE\_INT\_G8\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 18UL)}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ EVE\_INT\_L8C\ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 12UL)}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ EVE\_INT\_VGA\ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 13UL)}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ EVE\_PALETTED565\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 14UL)}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ EVE\_PALETTED4444\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 15UL)}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ EVE\_PALETTED8\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 16UL)}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ EVE\_L2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 17UL)}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \textcolor{comment}{/*\ Widget\ command\ options\ */}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_MONO\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 1U)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NODL\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 2U)}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_FLAT\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 256U)}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_CENTERX\ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 512U)}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_CENTERY\ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 1024U)}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_CENTER\ \ \ \ \ \ \ \ \ \ \ (EVE\_OPT\_CENTERX\ |\ EVE\_OPT\_CENTERY)}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOBACK\ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 4096U)}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOTICKS\ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 8192U)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOHM\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 16384U)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOPOINTER\ \ \ \ \ \ \ \ ((uint16\_t)\ 16384U)}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOSECS\ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 32768U)}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOHANDS\ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 49152U)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_RIGHTX\ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 2048U)}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_SIGNED\ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 256U)}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_MEDIAFIFO\ \ \ \ \ \ \ \ ((uint16\_t)\ 16U)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_FULLSCREEN\ \ \ \ \ \ \ ((uint16\_t)\ 8U)}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_NOTEAR\ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 4U)}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_SOUND\ \ \ \ \ \ \ \ \ \ \ \ ((uint16\_t)\ 32U)}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{comment}{/*\ ADC\ */}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ EVE\_ADC\_DIFFERENTIAL\ \ \ \ \ ((uint32\_t)\ 1UL)}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ EVE\_ADC\_SINGLE\_ENDED\ \ \ \ \ ((uint32\_t)\ 0UL)}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{comment}{/*\ Fonts\ */}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ EVE\_NUMCHAR\_PERFONT\ \ \ \ \ ((uint32\_t)\ 128UL)\ \ }\textcolor{comment}{/*\ number\ of\ font\ characters\ per\ bitmap\ handle\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ EVE\_FONT\_TABLE\_SIZE\ \ \ \ \ ((uint32\_t)\ 148UL)\ \ }\textcolor{comment}{/*\ size\ of\ the\ font\ table\ -\/\ utilized\ for\ loopup\ by\ the\ graphics\ engine\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ EVE\_FONT\_TABLE\_POINTER\ \ ((uint32\_t)\ 0xFFFFCUL)\ }\textcolor{comment}{/*\ pointer\ to\ the\ inbuilt\ font\ tables\ starting\ from\ bitmap\ handle\ 16\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{comment}{/*\ Audio\ sample\ type\ defines\ */}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#define\ EVE\_LINEAR\_SAMPLES\ \ \ \ \ \ \ ((uint32\_t)\ 0UL)\ }\textcolor{comment}{/*\ 8bit\ signed\ samples\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\#define\ EVE\_ULAW\_SAMPLES\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 1UL)\ }\textcolor{comment}{/*\ 8bit\ ulaw\ samples\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ EVE\_ADPCM\_SAMPLES\ \ \ \ \ \ \ \ ((uint32\_t)\ 2UL)\ }\textcolor{comment}{/*\ 4bit\ ima\ adpcm\ samples\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \textcolor{comment}{/*\ Synthesized\ sound\ */}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#define\ EVE\_SILENCE\ \ \ \ \ \ ((uint8\_t)\ 0x00U)}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ EVE\_SQUAREWAVE\ \ \ ((uint8\_t)\ 0x01U)}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ EVE\_SINEWAVE\ \ \ \ \ ((uint8\_t)\ 0x02U)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#define\ EVE\_SAWTOOTH\ \ \ \ \ ((uint8\_t)\ 0x03U)}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ EVE\_TRIANGLE\ \ \ \ \ ((uint8\_t)\ 0x04U)}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#define\ EVE\_BEEPING\ \ \ \ \ \ ((uint8\_t)\ 0x05U)}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#define\ EVE\_ALARM\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x06U)}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#define\ EVE\_WARBLE\ \ \ \ \ \ \ ((uint8\_t)\ 0x07U)}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#define\ EVE\_CAROUSEL\ \ \ \ \ ((uint8\_t)\ 0x08U)}}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\#define\ EVE\_PIPS(n)\ \ \ \ \ \ ((uint8\_t)\ (0x0FU\ +\ (n)))}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ EVE\_HARP\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x40U)}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#define\ EVE\_XYLOPHONE\ \ \ \ ((uint8\_t)\ 0x41U)}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#define\ EVE\_TUBA\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x42U)}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\#define\ EVE\_GLOCKENSPIEL\ ((uint8\_t)\ 0x43U)}}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#define\ EVE\_ORGAN\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x44U)}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\#define\ EVE\_TRUMPET\ \ \ \ \ \ ((uint8\_t)\ 0x45U)}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#define\ EVE\_PIANO\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x46U)}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#define\ EVE\_CHIMES\ \ \ \ \ \ \ ((uint8\_t)\ 0x47U)}}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#define\ EVE\_MUSICBOX\ \ \ \ \ ((uint8\_t)\ 0x48U)}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#define\ EVE\_BELL\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x49U)}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#define\ EVE\_CLICK\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x50U)}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\#define\ EVE\_SWITCH\ \ \ \ \ \ \ ((uint8\_t)\ 0x51U)}}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\#define\ EVE\_COWBELL\ \ \ \ \ \ ((uint8\_t)\ 0x52U)}}
+\DoxyCodeLine{00315\ \textcolor{preprocessor}{\#define\ EVE\_NOTCH\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x53U)}}
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#define\ EVE\_HIHAT\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x54U)}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\#define\ EVE\_KICKDRUM\ \ \ \ \ ((uint8\_t)\ 0x55U)}}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\#define\ EVE\_POP\ \ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x56U)}}
+\DoxyCodeLine{00319\ \textcolor{preprocessor}{\#define\ EVE\_CLACK\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x57U)}}
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#define\ EVE\_CHACK\ \ \ \ \ \ \ \ ((uint8\_t)\ 0x58U)}}
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\#define\ EVE\_MUTE\ \ \ \ \ \ \ \ \ ((uint8\_t)\ 0x60U)}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#define\ EVE\_UNMUTE\ \ \ \ \ \ \ ((uint8\_t)\ 0x61U)}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{comment}{/*\ Synthesized\ sound\ frequencies,\ midi\ note\ */}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A0\ \ \ ((uint8\_t)\ 21U)}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_0\ \ ((uint8\_t)\ 22U)}}
+\DoxyCodeLine{00327\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B0\ \ \ ((uint8\_t)\ 23U)}}
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C1\ \ \ ((uint8\_t)\ 24U)}}
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_1\ \ ((uint8\_t)\ 25U)}}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D1\ \ \ ((uint8\_t)\ 26U)}}
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_1\ \ ((uint8\_t)\ 27U)}}
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E1\ \ \ ((uint8\_t)\ 28U)}}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F1\ \ \ ((uint8\_t)\ 29U)}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_1\ \ ((uint8\_t)\ 30U)}}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G1\ \ \ ((uint8\_t)\ 31U)}}
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_1\ \ ((uint8\_t)\ 32U)}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A1\ \ \ ((uint8\_t)\ 33U)}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_1\ \ ((uint8\_t)\ 34U)}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B1\ \ \ ((uint8\_t)\ 35U)}}
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C2\ \ \ ((uint8\_t)\ 36U)}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_2\ \ ((uint8\_t)\ 37U)}}
+\DoxyCodeLine{00342\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D2\ \ \ ((uint8\_t)\ 38U)}}
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_2\ \ ((uint8\_t)\ 39U)}}
+\DoxyCodeLine{00344\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E2\ \ \ ((uint8\_t)\ 40U)}}
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F2\ \ \ ((uint8\_t)\ 41U)}}
+\DoxyCodeLine{00346\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_2\ \ ((uint8\_t)\ 42U)}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G2\ \ \ ((uint8\_t)\ 43U)}}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_2\ \ ((uint8\_t)\ 44U)}}
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A2\ \ \ ((uint8\_t)\ 45U)}}
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_2\ \ ((uint8\_t)\ 46U)}}
+\DoxyCodeLine{00351\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B2\ \ \ ((uint8\_t)\ 47U)}}
+\DoxyCodeLine{00352\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C3\ \ \ ((uint8\_t)\ 48U)}}
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_3\ \ ((uint8\_t)\ 49U)}}
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D3\ \ \ ((uint8\_t)\ 50U)}}
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_3\ \ ((uint8\_t)\ 51U)}}
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E3\ \ \ ((uint8\_t)\ 52U)}}
+\DoxyCodeLine{00357\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F3\ \ \ ((uint8\_t)\ 53U)}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_3\ \ ((uint8\_t)\ 54U)}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G3\ \ \ ((uint8\_t)\ 55U)}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_3\ \ ((uint8\_t)\ 56U)}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A3\ \ \ ((uint8\_t)\ 57U)}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_3\ \ ((uint8\_t)\ 58U)}}
+\DoxyCodeLine{00363\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B3\ \ \ ((uint8\_t)\ 59U)}}
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C4\ \ \ ((uint8\_t)\ 60U)}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_4\ \ ((uint8\_t)\ 61U)}}
+\DoxyCodeLine{00366\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D4\ \ \ ((uint8\_t)\ 62U)}}
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_4\ \ ((uint8\_t)\ 63U)}}
+\DoxyCodeLine{00368\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E4\ \ \ ((uint8\_t)\ 64U)}}
+\DoxyCodeLine{00369\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F4\ \ \ ((uint8\_t)\ 65U)}}
+\DoxyCodeLine{00370\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_4\ \ ((uint8\_t)\ 66U)}}
+\DoxyCodeLine{00371\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G4\ \ \ ((uint8\_t)\ 67U)}}
+\DoxyCodeLine{00372\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_4\ \ ((uint8\_t)\ 68U)}}
+\DoxyCodeLine{00373\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A4\ \ \ ((uint8\_t)\ 69U)}}
+\DoxyCodeLine{00374\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_4\ \ ((uint8\_t)\ 70U)}}
+\DoxyCodeLine{00375\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B4\ \ \ ((uint8\_t)\ 71U)}}
+\DoxyCodeLine{00376\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C5\ \ \ ((uint8\_t)\ 72U)}}
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_5\ \ ((uint8\_t)\ 73U)}}
+\DoxyCodeLine{00378\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D5\ \ \ ((uint8\_t)\ 74U)}}
+\DoxyCodeLine{00379\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_5\ \ ((uint8\_t)\ 75U)}}
+\DoxyCodeLine{00380\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E5\ \ \ ((uint8\_t)\ 76U)}}
+\DoxyCodeLine{00381\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F5\ \ \ ((uint8\_t)\ 77U)}}
+\DoxyCodeLine{00382\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_5\ \ ((uint8\_t)\ 78U)}}
+\DoxyCodeLine{00383\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G5\ \ \ ((uint8\_t)\ 79U)}}
+\DoxyCodeLine{00384\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_5\ \ ((uint8\_t)\ 80U)}}
+\DoxyCodeLine{00385\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A5\ \ \ ((uint8\_t)\ 81U)}}
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_5\ \ ((uint8\_t)\ 82U)}}
+\DoxyCodeLine{00387\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B5\ \ \ ((uint8\_t)\ 83U)}}
+\DoxyCodeLine{00388\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C6\ \ \ ((uint8\_t)\ 84U)}}
+\DoxyCodeLine{00389\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_6\ \ ((uint8\_t)\ 85U)}}
+\DoxyCodeLine{00390\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D6\ \ \ ((uint8\_t)\ 86U)}}
+\DoxyCodeLine{00391\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_6\ \ ((uint8\_t)\ 87U)}}
+\DoxyCodeLine{00392\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E6\ \ \ ((uint8\_t)\ 88U)}}
+\DoxyCodeLine{00393\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F6\ \ \ ((uint8\_t)\ 89U)}}
+\DoxyCodeLine{00394\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_6\ \ ((uint8\_t)\ 90U)}}
+\DoxyCodeLine{00395\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G6\ \ \ ((uint8\_t)\ 91U)}}
+\DoxyCodeLine{00396\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_6\ \ ((uint8\_t)\ 92U)}}
+\DoxyCodeLine{00397\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A6\ \ \ ((uint8\_t)\ 93U)}}
+\DoxyCodeLine{00398\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_6\ \ ((uint8\_t)\ 94U)}}
+\DoxyCodeLine{00399\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B6\ \ \ ((uint8\_t)\ 95U)}}
+\DoxyCodeLine{00400\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C7\ \ \ ((uint8\_t)\ 96U)}}
+\DoxyCodeLine{00401\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C\_7\ \ ((uint8\_t)\ 97U)}}
+\DoxyCodeLine{00402\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D7\ \ \ ((uint8\_t)\ 98U)}}
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_D\_7\ \ ((uint8\_t)\ 99U)}}
+\DoxyCodeLine{00404\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_E7\ \ \ ((uint8\_t)\ 100U)}}
+\DoxyCodeLine{00405\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F7\ \ \ ((uint8\_t)\ 101U)}}
+\DoxyCodeLine{00406\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_F\_7\ \ ((uint8\_t)\ 102U)}}
+\DoxyCodeLine{00407\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G7\ \ \ ((uint8\_t)\ 103U)}}
+\DoxyCodeLine{00408\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_G\_7\ \ ((uint8\_t)\ 104U)}}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A7\ \ \ ((uint8\_t)\ 105U)}}
+\DoxyCodeLine{00410\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_A\_7\ \ ((uint8\_t)\ 106U)}}
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_B7\ \ \ ((uint8\_t)\ 107U)}}
+\DoxyCodeLine{00412\ \textcolor{preprocessor}{\#define\ EVE\_MIDI\_C8\ \ \ ((uint8\_t)\ 108U)}}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \textcolor{comment}{/*\ GPIO\ bits\ */}}
+\DoxyCodeLine{00415\ \textcolor{preprocessor}{\#define\ EVE\_GPIO0\ \ ((uint8\_t)\ 0U)}}
+\DoxyCodeLine{00416\ \textcolor{preprocessor}{\#define\ EVE\_GPIO1\ \ ((uint8\_t)\ 1U)\ }\textcolor{comment}{/*\ default\ gpio\ pin\ for\ audio\ shutdown,\ 1\ -\/\ enable,\ 0\ -\/\ disable\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00417\ \textcolor{preprocessor}{\#define\ EVE\_GPIO7\ \ ((uint8\_t)\ 7U)\ }\textcolor{comment}{/*\ default\ gpio\ pin\ for\ display\ enable,\ 1\ -\/\ enable,\ 0\ -\/\ disable\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{comment}{/*\ Display\ rotation\ */}}
+\DoxyCodeLine{00420\ \textcolor{preprocessor}{\#define\ EVE\_DISPLAY\_0\ \ \ ((uint8\_t)\ 0U)\ }\textcolor{comment}{/*\ 0\ degrees\ rotation\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00421\ \textcolor{preprocessor}{\#define\ EVE\_DISPLAY\_180\ ((uint8\_t)\ 1U)\ }\textcolor{comment}{/*\ 180\ degrees\ rotation\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \textcolor{comment}{/*\ Commands\ */}}
+\DoxyCodeLine{00424\ \textcolor{preprocessor}{\#define\ CMD\_APPEND\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1EUL)}}
+\DoxyCodeLine{00425\ \textcolor{preprocessor}{\#define\ CMD\_BGCOLOR\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF09UL)}}
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\#define\ CMD\_BUTTON\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0DUL)}}
+\DoxyCodeLine{00427\ \textcolor{preprocessor}{\#define\ CMD\_CALIBRATE\ \ \ \ ((uint32\_t)\ 0xFFFFFF15UL)}}
+\DoxyCodeLine{00428\ \textcolor{preprocessor}{\#define\ CMD\_CLOCK\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF14UL)}}
+\DoxyCodeLine{00429\ \textcolor{preprocessor}{\#define\ CMD\_COLDSTART\ \ \ \ ((uint32\_t)\ 0xFFFFFF32UL)}}
+\DoxyCodeLine{00430\ \textcolor{preprocessor}{\#define\ CMD\_DIAL\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF2DUL)}}
+\DoxyCodeLine{00431\ \textcolor{preprocessor}{\#define\ CMD\_DLSTART\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF00UL)}}
+\DoxyCodeLine{00432\ \textcolor{preprocessor}{\#define\ CMD\_FGCOLOR\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0AUL)}}
+\DoxyCodeLine{00433\ \textcolor{preprocessor}{\#define\ CMD\_GAUGE\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF13UL)}}
+\DoxyCodeLine{00434\ \textcolor{preprocessor}{\#define\ CMD\_GETMATRIX\ \ \ \ ((uint32\_t)\ 0xFFFFFF33UL)}}
+\DoxyCodeLine{00435\ \textcolor{preprocessor}{\#define\ CMD\_GETPROPS\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF25UL)}}
+\DoxyCodeLine{00436\ \textcolor{preprocessor}{\#define\ CMD\_GETPTR\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF23UL)}}
+\DoxyCodeLine{00437\ \textcolor{preprocessor}{\#define\ CMD\_GRADCOLOR\ \ \ \ ((uint32\_t)\ 0xFFFFFF34UL)}}
+\DoxyCodeLine{00438\ \textcolor{preprocessor}{\#define\ CMD\_GRADIENT\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0BUL)}}
+\DoxyCodeLine{00439\ \textcolor{preprocessor}{\#define\ CMD\_INFLATE\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF22UL)}}
+\DoxyCodeLine{00440\ \textcolor{preprocessor}{\#define\ CMD\_INTERRUPT\ \ \ \ ((uint32\_t)\ 0xFFFFFF02UL)}}
+\DoxyCodeLine{00441\ \textcolor{preprocessor}{\#define\ CMD\_KEYS\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0EUL)}}
+\DoxyCodeLine{00442\ \textcolor{preprocessor}{\#define\ CMD\_LOADIDENTITY\ ((uint32\_t)\ 0xFFFFFF26UL)}}
+\DoxyCodeLine{00443\ \textcolor{preprocessor}{\#define\ CMD\_LOADIMAGE\ \ \ \ ((uint32\_t)\ 0xFFFFFF24UL)}}
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\#define\ CMD\_LOGO\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF31UL)}}
+\DoxyCodeLine{00445\ \textcolor{preprocessor}{\#define\ CMD\_MEDIAFIFO\ \ \ \ ((uint32\_t)\ 0xFFFFFF39UL)}}
+\DoxyCodeLine{00446\ \textcolor{preprocessor}{\#define\ CMD\_MEMCPY\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1DUL)}}
+\DoxyCodeLine{00447\ \textcolor{preprocessor}{\#define\ CMD\_MEMCRC\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF18UL)}}
+\DoxyCodeLine{00448\ \textcolor{preprocessor}{\#define\ CMD\_MEMSET\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1BUL)}}
+\DoxyCodeLine{00449\ \textcolor{preprocessor}{\#define\ CMD\_MEMWRITE\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1AUL)}}
+\DoxyCodeLine{00450\ \textcolor{preprocessor}{\#define\ CMD\_MEMZERO\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1CUL)}}
+\DoxyCodeLine{00451\ \textcolor{preprocessor}{\#define\ CMD\_NUMBER\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF2EUL)}}
+\DoxyCodeLine{00452\ \textcolor{preprocessor}{\#define\ CMD\_PLAYVIDEO\ \ \ \ ((uint32\_t)\ 0xFFFFFF3AUL)}}
+\DoxyCodeLine{00453\ \textcolor{preprocessor}{\#define\ CMD\_PROGRESS\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0FUL)}}
+\DoxyCodeLine{00454\ \textcolor{preprocessor}{\#define\ CMD\_REGREAD\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF19UL)}}
+\DoxyCodeLine{00455\ \textcolor{preprocessor}{\#define\ CMD\_ROMFONT\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF3FUL)}}
+\DoxyCodeLine{00456\ \textcolor{preprocessor}{\#define\ CMD\_ROTATE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF29UL)}}
+\DoxyCodeLine{00457\ \textcolor{preprocessor}{\#define\ CMD\_SCALE\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF28UL)}}
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\#define\ CMD\_SCREENSAVER\ \ ((uint32\_t)\ 0xFFFFFF2FUL)}}
+\DoxyCodeLine{00459\ \textcolor{preprocessor}{\#define\ CMD\_SCROLLBAR\ \ \ \ ((uint32\_t)\ 0xFFFFFF11UL)}}
+\DoxyCodeLine{00460\ \textcolor{preprocessor}{\#define\ CMD\_SETBASE\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF38UL)}}
+\DoxyCodeLine{00461\ \textcolor{preprocessor}{\#define\ CMD\_SETBITMAP\ \ \ \ ((uint32\_t)\ 0xFFFFFF43UL)}}
+\DoxyCodeLine{00462\ \textcolor{preprocessor}{\#define\ CMD\_SETFONT\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF2BUL)}}
+\DoxyCodeLine{00463\ \textcolor{preprocessor}{\#define\ CMD\_SETFONT2\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF3BUL)}}
+\DoxyCodeLine{00464\ \textcolor{preprocessor}{\#define\ CMD\_SETMATRIX\ \ \ \ ((uint32\_t)\ 0xFFFFFF2AUL)}}
+\DoxyCodeLine{00465\ \textcolor{preprocessor}{\#define\ CMD\_SETROTATE\ \ \ \ ((uint32\_t)\ 0xFFFFFF36UL)}}
+\DoxyCodeLine{00466\ \textcolor{preprocessor}{\#define\ CMD\_SETSCRATCH\ \ \ ((uint32\_t)\ 0xFFFFFF3CUL)}}
+\DoxyCodeLine{00467\ \textcolor{preprocessor}{\#define\ CMD\_SKETCH\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF30UL)}}
+\DoxyCodeLine{00468\ \textcolor{preprocessor}{\#define\ CMD\_SLIDER\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF10UL)}}
+\DoxyCodeLine{00469\ \textcolor{preprocessor}{\#define\ CMD\_SNAPSHOT\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF1FUL)}}
+\DoxyCodeLine{00470\ \textcolor{preprocessor}{\#define\ CMD\_SNAPSHOT2\ \ \ \ ((uint32\_t)\ 0xFFFFFF37UL)}}
+\DoxyCodeLine{00471\ \textcolor{preprocessor}{\#define\ CMD\_SPINNER\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF16UL)}}
+\DoxyCodeLine{00472\ \textcolor{preprocessor}{\#define\ CMD\_STOP\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF17UL)}}
+\DoxyCodeLine{00473\ \textcolor{preprocessor}{\#define\ CMD\_SWAP\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF01UL)}}
+\DoxyCodeLine{00474\ \textcolor{preprocessor}{\#define\ CMD\_TEXT\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF0CUL)}}
+\DoxyCodeLine{00475\ \textcolor{preprocessor}{\#define\ CMD\_TOGGLE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF12UL)}}
+\DoxyCodeLine{00476\ \textcolor{preprocessor}{\#define\ CMD\_TRACK\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF2CUL)}}
+\DoxyCodeLine{00477\ \textcolor{preprocessor}{\#define\ CMD\_TRANSLATE\ \ \ \ ((uint32\_t)\ 0xFFFFFF27UL)}}
+\DoxyCodeLine{00478\ \textcolor{preprocessor}{\#define\ CMD\_VIDEOFRAME\ \ \ ((uint32\_t)\ 0xFFFFFF41UL)}}
+\DoxyCodeLine{00479\ \textcolor{preprocessor}{\#define\ CMD\_VIDEOSTART\ \ \ ((uint32\_t)\ 0xFFFFFF40UL)}}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \textcolor{comment}{/*\ Registers\ */}}
+\DoxyCodeLine{00482\ \textcolor{preprocessor}{\#define\ REG\_ANA\_COMP\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302184UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00483\ \textcolor{preprocessor}{\#define\ REG\_BIST\_EN\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302174UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00484\ \textcolor{preprocessor}{\#define\ REG\_CLOCK\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302008UL)}}
+\DoxyCodeLine{00485\ \textcolor{preprocessor}{\#define\ REG\_CMDB\_SPACE\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302574UL)}}
+\DoxyCodeLine{00486\ \textcolor{preprocessor}{\#define\ REG\_CMDB\_WRITE\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302578UL)}}
+\DoxyCodeLine{00487\ \textcolor{preprocessor}{\#define\ REG\_CMD\_DL\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302100UL)}}
+\DoxyCodeLine{00488\ \textcolor{preprocessor}{\#define\ REG\_CMD\_READ\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020f8UL)}}
+\DoxyCodeLine{00489\ \textcolor{preprocessor}{\#define\ REG\_CMD\_WRITE\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020fcUL)}}
+\DoxyCodeLine{00490\ \textcolor{preprocessor}{\#define\ REG\_CPURESET\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302020UL)}}
+\DoxyCodeLine{00491\ \textcolor{preprocessor}{\#define\ REG\_CSPREAD\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302068UL)}}
+\DoxyCodeLine{00492\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_EXTENDED\ \ ((uint32\_t)\ 0x00302108UL)}}
+\DoxyCodeLine{00493\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH0\_XY\ ((uint32\_t)\ 0x00302124UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00494\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH4\_X\ \ ((uint32\_t)\ 0x0030216cUL)}}
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH4\_Y\ \ ((uint32\_t)\ 0x00302120UL)}}
+\DoxyCodeLine{00496\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH1\_XY\ ((uint32\_t)\ 0x0030211cUL)}}
+\DoxyCodeLine{00497\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH2\_XY\ ((uint32\_t)\ 0x0030218cUL)}}
+\DoxyCodeLine{00498\ \textcolor{preprocessor}{\#define\ REG\_CTOUCH\_TOUCH3\_XY\ ((uint32\_t)\ 0x00302190UL)}}
+\DoxyCodeLine{00499\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_CONFIG\ \ \ \ \ ((uint32\_t)\ 0x00302168UL)}}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\#define\ REG\_DATESTAMP\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302564UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\#define\ REG\_DITHER\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302060UL)}}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\#define\ REG\_DLSWAP\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302054UL)}}
+\DoxyCodeLine{00503\ \textcolor{preprocessor}{\#define\ REG\_FRAMES\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302004UL)}}
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#define\ REG\_FREQUENCY\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030200cUL)}}
+\DoxyCodeLine{00505\ \textcolor{preprocessor}{\#define\ REG\_GPIO\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302094UL)}}
+\DoxyCodeLine{00506\ \textcolor{preprocessor}{\#define\ REG\_GPIOX\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030209cUL)}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\#define\ REG\_GPIOX\_DIR\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302098UL)}}
+\DoxyCodeLine{00508\ \textcolor{preprocessor}{\#define\ REG\_GPIO\_DIR\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302090UL)}}
+\DoxyCodeLine{00509\ \textcolor{preprocessor}{\#define\ REG\_HCYCLE\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030202cUL)}}
+\DoxyCodeLine{00510\ \textcolor{preprocessor}{\#define\ REG\_HOFFSET\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302030UL)}}
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\#define\ REG\_HSIZE\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302034UL)}}
+\DoxyCodeLine{00512\ \textcolor{preprocessor}{\#define\ REG\_HSYNC0\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302038UL)}}
+\DoxyCodeLine{00513\ \textcolor{preprocessor}{\#define\ REG\_HSYNC1\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030203cUL)}}
+\DoxyCodeLine{00514\ \textcolor{preprocessor}{\#define\ REG\_ID\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302000UL)}}
+\DoxyCodeLine{00515\ \textcolor{preprocessor}{\#define\ REG\_INT\_EN\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020acUL)}}
+\DoxyCodeLine{00516\ \textcolor{preprocessor}{\#define\ REG\_INT\_FLAGS\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020a8UL)}}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\#define\ REG\_INT\_MASK\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020b0UL)}}
+\DoxyCodeLine{00518\ \textcolor{preprocessor}{\#define\ REG\_MACRO\_0\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020d8UL)}}
+\DoxyCodeLine{00519\ \textcolor{preprocessor}{\#define\ REG\_MACRO\_1\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020dcUL)}}
+\DoxyCodeLine{00520\ \textcolor{preprocessor}{\#define\ REG\_MEDIAFIFO\_READ\ \ \ ((uint32\_t)\ 0x00309014UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00521\ \textcolor{preprocessor}{\#define\ REG\_MEDIAFIFO\_WRITE\ \ ((uint32\_t)\ 0x00309018UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00522\ \textcolor{preprocessor}{\#define\ REG\_OUTBITS\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030205cUL)}}
+\DoxyCodeLine{00523\ \textcolor{preprocessor}{\#define\ REG\_PCLK\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302070UL)}}
+\DoxyCodeLine{00524\ \textcolor{preprocessor}{\#define\ REG\_PCLK\_POL\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030206cUL)}}
+\DoxyCodeLine{00525\ \textcolor{preprocessor}{\#define\ REG\_PLAY\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030208cUL)}}
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_FORMAT\ \ ((uint32\_t)\ 0x003020c4UL)}}
+\DoxyCodeLine{00527\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_FREQ\ \ \ \ ((uint32\_t)\ 0x003020c0UL)}}
+\DoxyCodeLine{00528\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_LENGTH\ \ ((uint32\_t)\ 0x003020b8UL)}}
+\DoxyCodeLine{00529\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_LOOP\ \ \ \ ((uint32\_t)\ 0x003020c8UL)}}
+\DoxyCodeLine{00530\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_PLAY\ \ \ \ ((uint32\_t)\ 0x003020ccUL)}}
+\DoxyCodeLine{00531\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_READPTR\ ((uint32\_t)\ 0x003020bcUL)}}
+\DoxyCodeLine{00532\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_START\ \ \ ((uint32\_t)\ 0x003020b4UL)}}
+\DoxyCodeLine{00533\ \textcolor{preprocessor}{\#define\ REG\_PWM\_DUTY\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020d4UL)}}
+\DoxyCodeLine{00534\ \textcolor{preprocessor}{\#define\ REG\_PWM\_HZ\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x003020d0UL)}}
+\DoxyCodeLine{00535\ \textcolor{preprocessor}{\#define\ REG\_RENDERMODE\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302010UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00536\ \textcolor{preprocessor}{\#define\ REG\_ROTATE\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302058UL)}}
+\DoxyCodeLine{00537\ \textcolor{preprocessor}{\#define\ REG\_SNAPFORMAT\ \ \ \ \ \ \ ((uint32\_t)\ 0x0030201cUL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00538\ \textcolor{preprocessor}{\#define\ REG\_SNAPSHOT\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302018UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00539\ \textcolor{preprocessor}{\#define\ REG\_SNAPY\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302014UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00540\ \textcolor{preprocessor}{\#define\ REG\_SOUND\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302088UL)}}
+\DoxyCodeLine{00541\ \textcolor{preprocessor}{\#define\ REG\_SPI\_WIDTH\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302188UL)\ }\textcolor{comment}{/*\ listed\ with\ false\ offset\ in\ programmers\ guide\ V1.1\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\#define\ REG\_SWIZZLE\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302064UL)}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\#define\ REG\_TAG\ \ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030207cUL)}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\#define\ REG\_TAG\_X\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302074UL)}}
+\DoxyCodeLine{00545\ \textcolor{preprocessor}{\#define\ REG\_TAG\_Y\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302078UL)}}
+\DoxyCodeLine{00546\ \textcolor{preprocessor}{\#define\ REG\_TAP\_CRC\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302024UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\#define\ REG\_TAP\_MASK\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302028UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00548\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_ADC\_MODE\ \ \ ((uint32\_t)\ 0x00302108UL)}}
+\DoxyCodeLine{00549\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_CHARGE\ \ \ \ \ ((uint32\_t)\ 0x0030210cUL)}}
+\DoxyCodeLine{00550\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_DIRECT\_XY\ \ ((uint32\_t)\ 0x0030218cUL)}}
+\DoxyCodeLine{00551\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_DIRECT\_Z1Z2\ ((uint32\_t)\ 0x00302190UL)}}
+\DoxyCodeLine{00552\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_MODE\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302104UL)}}
+\DoxyCodeLine{00553\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_OVERSAMPLE\ ((uint32\_t)\ 0x00302114UL)}}
+\DoxyCodeLine{00554\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_RAW\_XY\ \ \ \ \ ((uint32\_t)\ 0x0030211cUL)}}
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_RZ\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302120UL)}}
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_RZTHRESH\ \ \ ((uint32\_t)\ 0x00302118UL)}}
+\DoxyCodeLine{00557\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_SCREEN\_XY\ \ ((uint32\_t)\ 0x00302124UL)}}
+\DoxyCodeLine{00558\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_SETTLE\ \ \ \ \ ((uint32\_t)\ 0x00302110UL)}}
+\DoxyCodeLine{00559\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030212cUL)}}
+\DoxyCodeLine{00560\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG1\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302134UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00561\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG1\_XY\ \ \ \ ((uint32\_t)\ 0x00302130UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00562\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG2\ \ \ \ \ \ \ ((uint32\_t)\ 0x0030213cUL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00563\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG2\_XY\ \ \ \ ((uint32\_t)\ 0x00302138UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00564\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG3\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302144UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00565\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG3\_XY\ \ \ \ ((uint32\_t)\ 0x00302140UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00566\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG4\ \ \ \ \ \ \ ((uint32\_t)\ 0x0030214cUL)}\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00567\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG4\_XY\ \ \ \ ((uint32\_t)\ 0x00302148UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ datasheet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00568\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TAG\_XY\ \ \ \ \ ((uint32\_t)\ 0x00302128UL)}}
+\DoxyCodeLine{00569\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_A\ ((uint32\_t)\ 0x00302150UL)}}
+\DoxyCodeLine{00570\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_B\ ((uint32\_t)\ 0x00302154UL)}}
+\DoxyCodeLine{00571\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_C\ ((uint32\_t)\ 0x00302158UL)}}
+\DoxyCodeLine{00572\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_D\ ((uint32\_t)\ 0x0030215cUL)}}
+\DoxyCodeLine{00573\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_E\ ((uint32\_t)\ 0x00302160UL)}}
+\DoxyCodeLine{00574\ \textcolor{preprocessor}{\#define\ REG\_TOUCH\_TRANSFORM\_F\ ((uint32\_t)\ 0x00302164UL)}}
+\DoxyCodeLine{00575\ \textcolor{preprocessor}{\#define\ REG\_TRACKER\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00309000UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00576\ \textcolor{preprocessor}{\#define\ REG\_TRACKER\_1\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00309004UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00577\ \textcolor{preprocessor}{\#define\ REG\_TRACKER\_2\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00309008UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00578\ \textcolor{preprocessor}{\#define\ REG\_TRACKER\_3\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030900cUL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00579\ \textcolor{preprocessor}{\#define\ REG\_TRACKER\_4\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00309010UL)\ }\textcolor{comment}{/*\ only\ listed\ in\ programmers\ guide\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00580\ \textcolor{preprocessor}{\#define\ REG\_TRIM\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302180UL)}}
+\DoxyCodeLine{00581\ \textcolor{preprocessor}{\#define\ REG\_VCYCLE\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302040UL)}}
+\DoxyCodeLine{00582\ \textcolor{preprocessor}{\#define\ REG\_VOFFSET\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302044UL)}}
+\DoxyCodeLine{00583\ \textcolor{preprocessor}{\#define\ REG\_VOL\_PB\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302080UL)}}
+\DoxyCodeLine{00584\ \textcolor{preprocessor}{\#define\ REG\_VOL\_SOUND\ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302084UL)}}
+\DoxyCodeLine{00585\ \textcolor{preprocessor}{\#define\ REG\_VSIZE\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302048UL)}}
+\DoxyCodeLine{00586\ \textcolor{preprocessor}{\#define\ REG\_VSYNC0\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x0030204cUL)}}
+\DoxyCodeLine{00587\ \textcolor{preprocessor}{\#define\ REG\_VSYNC1\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00302050UL)}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \textcolor{comment}{/*\ Macros\ for\ static\ display\ list\ generation\ */}}
+\DoxyCodeLine{00591\ }
+\DoxyCodeLine{00592\ \textcolor{comment}{//\#define\ ALPHA\_FUNC(func,ref)\ ((DL\_ALPHA\_FUNC)\ |\ (((func)\ \&\ 7UL)\ <<\ 8U)\ |\ ((ref)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00598\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a82b6cf4db0fb9187e412400a1717e3c3}{ALPHA\_FUNC}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ func,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ ref)}
+\DoxyCodeLine{00599\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ funcv\ =\ ((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ func\ \&\ 7U)\ <<\ 8U;}
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a8c39fe27c5a8c60a1de57f60548c29c9}{DL\_ALPHA\_FUNC}}\ |\ funcv\ |\ ref);}
+\DoxyCodeLine{00602\ \}}
+\DoxyCodeLine{00603\ }
+\DoxyCodeLine{00604\ \textcolor{comment}{//\#define\ BITMAP\_HANDLE(handle)\ ((DL\_BITMAP\_HANDLE)\ |\ ((handle)\ \&\ 0x1FUL))}}
+\DoxyCodeLine{00609\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a3b26e79773c2c3be266fedd443f51504}{BITMAP\_HANDLE}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ handle)}
+\DoxyCodeLine{00610\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a3ba09550c4bff0ca52b6f94bb12b0481}{DL\_BITMAP\_HANDLE}}\ |\ ((handle)\ \&\ 0x1FUL));}
+\DoxyCodeLine{00612\ \}}
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \textcolor{comment}{//\#define\ BITMAP\_LAYOUT(format,linestride,height)\ ((DL\_BITMAP\_LAYOUT)\ |\ (((format)\ \&\ 0x1FUL)\ <<\ 19U)\ |\ (((linestride)\ \&\ 0x3FFUL)\ <<\ 9U)\ |\ ((height)\ \&\ 0x1FFUL))}}
+\DoxyCodeLine{00619\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a27158f9ca89a5296ccd13f7df045a481}{BITMAP\_LAYOUT}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ linestride,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ height)}
+\DoxyCodeLine{00620\ \{}
+\DoxyCodeLine{00621\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ formatv\ =\ ((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}}\ \&\ 0x1FUL)\ <<\ 19U;}
+\DoxyCodeLine{00622\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ linestridev\ =\ ((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ linestride\ \&\ 0x3FFUL)\ <<\ 9U;}
+\DoxyCodeLine{00623\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ heightv\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a509290c21d570ff479c1b9d9b1fe8810}{height}}\ \&\ 0x1FFUL;}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa1ba65c140d7dc6992249d818499a9d0}{DL\_BITMAP\_LAYOUT}}\ |\ formatv\ |\ linestridev\ |\ heightv);}
+\DoxyCodeLine{00625\ \}}
+\DoxyCodeLine{00626\ }
+\DoxyCodeLine{00627\ \textcolor{comment}{//\#define\ BITMAP\_SIZE(filter,wrapx,wrapy,width,height)\ ((DL\_BITMAP\_SIZE)\ |\ (((filter)\ \&\ 1UL)\ <<\ 20U)\ |\ (((wrapx)\ \&\ 1UL)\ <<\ 19U)\ |\ (((wrapy)\ \&\ 1UL)\ <<\ 18U)\ |\ (((width)\ \&\ 0x1FFUL)\ <<\ 9U)\ |\ ((height)\ \&\ 0x1FFUL))}}
+\DoxyCodeLine{00632\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ab2b47ae5cd2bfbb65314f5a303f78763}{BITMAP\_SIZE}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ filter,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ wrapx,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ wrapy,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ height)}
+\DoxyCodeLine{00633\ \{}
+\DoxyCodeLine{00634\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ filterv\ =\ (filter\ \&\ 0x1UL)\ <<\ 20U;}
+\DoxyCodeLine{00635\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ wrapxv\ =\ (wrapx\ \&\ 0x1UL)\ <<\ 19U;}
+\DoxyCodeLine{00636\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ wrapyv\ =\ (wrapy\ \&\ 0x1UL)\ <<\ 18U;}
+\DoxyCodeLine{00637\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ widthv\ =\ (\doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ \&\ 0x1FFUL)\ <<\ 9U;}
+\DoxyCodeLine{00638\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ heightv\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a509290c21d570ff479c1b9d9b1fe8810}{height}}\ \&\ 0x1FFUL;}
+\DoxyCodeLine{00639\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a7f0ff0b75b40f9f9b56195f985efcb48}{DL\_BITMAP\_SIZE}}\ |\ filterv\ |\ wrapxv\ |\ wrapyv\ |\ widthv\ |\ heightv);}
+\DoxyCodeLine{00640\ \}}
+\DoxyCodeLine{00641\ }
+\DoxyCodeLine{00642\ \textcolor{comment}{//\#define\ BITMAP\_LAYOUT\_H(linestride,height)\ ((DL\_BITMAP\_LAYOUT\_H)\ |\ (((((linestride)\ \&\ 0xC00U)\ >>\ 10U)\&3UL)\ <<\ 2U)\ |\ ((((height)\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL))}}
+\DoxyCodeLine{00650\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a943b99e995bb1ef30cc0a1f61b685409}{BITMAP\_LAYOUT\_H}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ linestride,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ height)}
+\DoxyCodeLine{00651\ \{}
+\DoxyCodeLine{00652\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ linestridev\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((((linestride\ \&\ 0xC00U)\ >>\ 10U)\ \&3UL)\ <<\ 2U);}
+\DoxyCodeLine{00653\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ heightv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (((height\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL);}
+\DoxyCodeLine{00654\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a95d04f7d84533c39a5612b6d37e24923}{DL\_BITMAP\_LAYOUT\_H}}\ |\ linestridev\ |\ heightv);}
+\DoxyCodeLine{00655\ \}}
+\DoxyCodeLine{00656\ }
+\DoxyCodeLine{00657\ \textcolor{comment}{//\#define\ BITMAP\_SIZE\_H(width,height)\ ((DL\_BITMAP\_SIZE\_H)\ |\ (((((width)\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL)\ <<\ 2U)\ |\ ((((height)\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL))}}
+\DoxyCodeLine{00665\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a451efac07815917035f6d015d92dccd0}{BITMAP\_SIZE\_H}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ height)}
+\DoxyCodeLine{00666\ \{}
+\DoxyCodeLine{00667\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ widthv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((((width\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL)\ <<\ 2U);}
+\DoxyCodeLine{00668\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ heightv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (((height\ \&\ 0x600U)\ >>\ 9U)\ \&\ 3UL);}
+\DoxyCodeLine{00669\ \ \ \ \ \textcolor{keywordflow}{return}\ ((\doxymbox{\hyperlink{_e_v_e_8h_a1126a8db87f1f2d38da35dff92258772}{DL\_BITMAP\_SIZE\_H}})\ |\ widthv\ |\ heightv);}
+\DoxyCodeLine{00670\ \}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \textcolor{comment}{//\#define\ BITMAP\_SOURCE(addr)\ ((DL\_BITMAP\_SOURCE)\ |\ ((addr)\ \&\ 0x3FFFFFUL))}}
+\DoxyCodeLine{00677\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a61cd3ecc5b3a9b0eca8a93f05d8c664f}{BITMAP\_SOURCE}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ addr)}
+\DoxyCodeLine{00678\ \{}
+\DoxyCodeLine{00679\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a0f2096fd6fbe2a29e6256f3e7057f16e}{DL\_BITMAP\_SOURCE}}\ |\ (addr\ \&\ 0x3FFFFFUL));}
+\DoxyCodeLine{00680\ \}}
+\DoxyCodeLine{00681\ }
+\DoxyCodeLine{00682\ \textcolor{preprocessor}{\#if\ EVE\_GEN\ <\ 3\ }\textcolor{comment}{/*\ only\ define\ these\ for\ FT81x\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00683\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_A(a)\ ((DL\_BITMAP\_TRANSFORM\_A)\ |\ ((a)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00688\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a8567d3e03386870c5eca946c694b283e}{BITMAP\_TRANSFORM\_A}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00689\ \{}
+\DoxyCodeLine{00690\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a95852aab332d07e9999869933ed9d73c}{DL\_BITMAP\_TRANSFORM\_A}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00691\ \}}
+\DoxyCodeLine{00692\ }
+\DoxyCodeLine{00693\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_B(b)\ ((DL\_BITMAP\_TRANSFORM\_B)\ |\ ((b)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00698\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a2bab3c1f8e5f91d203b119f56c1ddad9}{BITMAP\_TRANSFORM\_B}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00699\ \{}
+\DoxyCodeLine{00700\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa2d51eb7b8ce70f5da07650dfdc8c6a4}{DL\_BITMAP\_TRANSFORM\_B}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00701\ \}}
+\DoxyCodeLine{00702\ }
+\DoxyCodeLine{00703\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_D(d)\ ((DL\_BITMAP\_TRANSFORM\_D)\ |\ ((d)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00708\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a4deb56029c1693e6248418d313532c3f}{BITMAP\_TRANSFORM\_D}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00709\ \{}
+\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a3a7b09a97c4986eceafe169ad43e5593}{DL\_BITMAP\_TRANSFORM\_D}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00711\ \}}
+\DoxyCodeLine{00712\ }
+\DoxyCodeLine{00713\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_E(e)\ ((DL\_BITMAP\_TRANSFORM\_E)\ |\ ((e)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00718\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a2e793f9a2142efb134d838d11fb2df84}{BITMAP\_TRANSFORM\_E}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00719\ \{}
+\DoxyCodeLine{00720\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a7f70241c4f9c1616953fe250848ed63a}{DL\_BITMAP\_TRANSFORM\_E}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00721\ \}}
+\DoxyCodeLine{00722\ }
+\DoxyCodeLine{00723\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00724\ }
+\DoxyCodeLine{00725\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_C(c)\ ((DL\_BITMAP\_TRANSFORM\_C)\ |\ ((c)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00730\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a58135a5e47615aa11d6d98420198d3c3}{BITMAP\_TRANSFORM\_C}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00731\ \{}
+\DoxyCodeLine{00732\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a90b478dfc66e4561f472aa65d78f5f5d}{DL\_BITMAP\_TRANSFORM\_C}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00733\ \}}
+\DoxyCodeLine{00734\ }
+\DoxyCodeLine{00735\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_F(f)\ ((DL\_BITMAP\_TRANSFORM\_F)\ |\ ((f)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{00740\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a91e715fb3ed101e0ce8a7aeae042ca9d}{BITMAP\_TRANSFORM\_F}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{00741\ \{}
+\DoxyCodeLine{00742\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a275977963cd25fb99cd0151f66d62231}{DL\_BITMAP\_TRANSFORM\_F}}\ |\ (val\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{00743\ \}}
+\DoxyCodeLine{00744\ }
+\DoxyCodeLine{00745\ \textcolor{comment}{//\#define\ BLEND\_FUNC(src,dst)\ ((DL\_BLEND\_FUNC)\ |\ (((src)\ \&\ 7UL)\ <<\ 3U)\ |\ ((dst)\ \&\ 7UL))}}
+\DoxyCodeLine{00750\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a697c10b290420a96249690943022c07d}{BLEND\_FUNC}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ src,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ dst)}
+\DoxyCodeLine{00751\ \{}
+\DoxyCodeLine{00752\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ srcv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((src\ \&\ 7UL)\ <<\ 3U);}
+\DoxyCodeLine{00753\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ dstv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (dst\ \&\ 7UL);}
+\DoxyCodeLine{00754\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a1c737d3e32b581f2864cf1693440796a}{DL\_BLEND\_FUNC}}\ |\ srcv\ |\ dstv);}
+\DoxyCodeLine{00755\ \}}
+\DoxyCodeLine{00756\ }
+\DoxyCodeLine{00757\ \textcolor{comment}{//\#define\ CALL(dest)\ ((DL\_CALL)\ |\ ((dest)\ \&\ 0xFFFFUL))}}
+\DoxyCodeLine{00763\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a7b532ac5acaa9cab80a9c9ffaab2d109}{CALL}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ dest)}
+\DoxyCodeLine{00764\ \{}
+\DoxyCodeLine{00765\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa276b1119d7636b0251bd62161d2b87f}{DL\_CALL}}\ |\ (dest\ \&\ 0x7FFUL));}
+\DoxyCodeLine{00766\ \}}
+\DoxyCodeLine{00767\ }
+\DoxyCodeLine{00768\ \textcolor{comment}{//\#define\ JUMP(dest)\ ((DL\_JUMP)\ |\ ((dest)\ \&\ 0xFFFFUL))}}
+\DoxyCodeLine{00774\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a4bf44c0203030cc5d07fd32d30a5756e}{JUMP}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ dest)}
+\DoxyCodeLine{00775\ \{}
+\DoxyCodeLine{00776\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a8fba4d3a6bc269f7d6f4c60f3802bf2c}{DL\_JUMP}}\ |\ (dest\ \&\ 0x7FFUL));}
+\DoxyCodeLine{00777\ \}}
+\DoxyCodeLine{00778\ }
+\DoxyCodeLine{00779\ \textcolor{comment}{//\#define\ CELL(cell)\ ((DL\_CELL)\ |\ ((cell)\ \&\ 0x7FUL))}}
+\DoxyCodeLine{00784\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ad510ac6df573d23203374e24dba373d2}{CELL}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ cell)}
+\DoxyCodeLine{00785\ \{}
+\DoxyCodeLine{00786\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a5111a51ae08d0bae1d0944e67a7faab9}{DL\_CELL}}\ |\ (cell\ \&\ 0x7FUL));}
+\DoxyCodeLine{00787\ \}}
+\DoxyCodeLine{00788\ }
+\DoxyCodeLine{00789\ \textcolor{comment}{//\#define\ CLEAR(c,s,t)\ ((DL\_CLEAR)\ |\ (((c)\ \&\ 1UL)\ <<\ 2U)\ |\ (((s)\ \&\ 1UL)\ <<\ 1U)\ |\ ((t)\ \&\ 1UL))}}
+\DoxyCodeLine{00794\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a218ebaaf7d9afe6257021f3c08e59959}{CLEAR}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ color,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ stencil,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ tag)}
+\DoxyCodeLine{00795\ \{}
+\DoxyCodeLine{00796\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ colorv\ =\ (color\ \&\ 1UL)\ <<\ 2U;}
+\DoxyCodeLine{00797\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ stencilv\ =\ (stencil\ \&\ 1UL)\ <<\ 1U;}
+\DoxyCodeLine{00798\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ tagv\ =\ (tag\ \&\ 1UL);}
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{lv__ft81x__defines_8h_a82bdb8c3cc2eb0ca1f49533fefff54e1}{DL\_CLEAR}}\ |\ colorv\ |\ stencilv\ |\ tagv);}
+\DoxyCodeLine{00800\ \}}
+\DoxyCodeLine{00801\ }
+\DoxyCodeLine{00802\ \textcolor{comment}{//\#define\ CLEAR\_COLOR\_A(alpha)\ ((DL\_CLEAR\_COLOR\_A)\ |\ ((alpha)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00807\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_adbd48697165bc73ad3005b6baea5234c}{CLEAR\_COLOR\_A}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ alpha)}
+\DoxyCodeLine{00808\ \{}
+\DoxyCodeLine{00809\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_abd2e002ed8f13d1eb4b81ece7118854b}{DL\_CLEAR\_COLOR\_A}}\ |\ alpha);}
+\DoxyCodeLine{00810\ \}}
+\DoxyCodeLine{00811\ }
+\DoxyCodeLine{00812\ \textcolor{comment}{//\#define\ CLEAR\_COLOR\_RGB(red,green,blue)\ ((DL\_CLEAR\_COLOR\_RGB)\ |\ (((red)\ \&\ 0xFFUL)\ <<\ 16U)\ |\ (((green)\ \&\ 0xFFUL)\ <<\ 8U)\ |\ ((blue)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00817\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ae6375b17ea6f06bf81357fe9350e1c1c}{CLEAR\_COLOR\_RGB}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ red,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ green,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ blue)}
+\DoxyCodeLine{00818\ \{}
+\DoxyCodeLine{00819\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ redv\ =\ ((red\ \&\ 0xFFUL)\ <<\ 16U);}
+\DoxyCodeLine{00820\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ greenv\ =\ ((green\ \&\ 0xFFUL)\ <<\ 8U);}
+\DoxyCodeLine{00821\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ bluev\ =\ (blue\ \&\ 0xFFUL);}
+\DoxyCodeLine{00822\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ad509e98cf55503d26fa84fca9beb5188}{DL\_CLEAR\_COLOR\_RGB}}\ |\ redv\ |\ greenv\ |\ bluev);}
+\DoxyCodeLine{00823\ \}}
+\DoxyCodeLine{00824\ }
+\DoxyCodeLine{00825\ \textcolor{comment}{//\#define\ CLEAR\_STENCIL(s)\ ((DL\_CLEAR\_STENCIL)\ |\ ((s)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00830\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ae0249f477337c280f967c49bf2806624}{CLEAR\_STENCIL}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ val)}
+\DoxyCodeLine{00831\ \{}
+\DoxyCodeLine{00832\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_adc9e9f511895fc01fc28eafedb901041}{DL\_CLEAR\_STENCIL}}\ |\ val);}
+\DoxyCodeLine{00833\ \}}
+\DoxyCodeLine{00834\ }
+\DoxyCodeLine{00835\ \textcolor{comment}{//\#define\ CLEAR\_TAG(s)\ ((DL\_CLEAR\_TAG)\ |\ ((s)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00840\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a86b3280d702d3637b7983ff5cca09a7f}{CLEAR\_TAG}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ val)}
+\DoxyCodeLine{00841\ \{}
+\DoxyCodeLine{00842\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a865f1f481b9ab7afea2533826846c97d}{DL\_CLEAR\_TAG}}\ |\ val);}
+\DoxyCodeLine{00843\ \}}
+\DoxyCodeLine{00844\ }
+\DoxyCodeLine{00845\ \textcolor{comment}{//\#define\ COLOR\_A(alpha)\ ((DL\_COLOR\_A)\ |\ ((alpha)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00850\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_acfdadc1159ee2d3194c48f798404fcfa}{COLOR\_A}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ alpha)}
+\DoxyCodeLine{00851\ \{}
+\DoxyCodeLine{00852\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a4bdc97edbc262189d8a832d936b9aafe}{DL\_COLOR\_A}}\ |\ alpha);}
+\DoxyCodeLine{00853\ \}}
+\DoxyCodeLine{00854\ }
+\DoxyCodeLine{00855\ \textcolor{comment}{//\#define\ COLOR\_MASK(r,g,b,a)\ ((DL\_COLOR\_MASK)\ |\ (((r)\ \&\ 1UL)\ <<\ 3U)\ |\ (((g)\ \&\ 1UL)\ <<\ 2U)\ |\ (((b)\ \&\ 1UL)\ <<\ 1U)\ |\ ((a)\ \&\ 1UL))}}
+\DoxyCodeLine{00860\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_acb428c2c8d594f921338a189360e7a30}{COLOR\_MASK}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ red,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ green,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ blue,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ alpha)}
+\DoxyCodeLine{00861\ \{}
+\DoxyCodeLine{00862\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ redv\ =\ ((red\ \&\ 1UL)\ <<\ 3U);}
+\DoxyCodeLine{00863\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ greenv\ =\ ((green\ \&\ 1UL)\ <<\ 2U);}
+\DoxyCodeLine{00864\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ bluev\ =\ ((blue\ \&\ 1UL)\ <<\ 1U);}
+\DoxyCodeLine{00865\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ alphav\ =\ (alpha\ \&\ 1UL);}
+\DoxyCodeLine{00866\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a9654131fdb7b6301c351c191f1bdf87d}{DL\_COLOR\_MASK}}\ |\ redv\ |\ greenv\ |\ bluev\ |\ alphav);}
+\DoxyCodeLine{00867\ \}}
+\DoxyCodeLine{00868\ }
+\DoxyCodeLine{00869\ \textcolor{comment}{//\#define\ COLOR\_RGB(red,green,blue)\ ((DL\_COLOR\_RGB)\ |\ (((red)\ \&\ 0xFFUL)\ <<\ 16U)\ |\ (((green)\ \&\ 0xFFUL)\ <<\ 8U)\ |\ ((blue)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00874\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a59c390601a75b4d869e7cfc58d2430bf}{COLOR\_RGB}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ red,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ green,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ blue)}
+\DoxyCodeLine{00875\ \{}
+\DoxyCodeLine{00876\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ redv\ =\ ((red\ \&\ 0xFFUL)\ <<\ 16U);}
+\DoxyCodeLine{00877\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ greenv\ =\ ((green\ \&\ 0xFFUL)\ <<\ 8U);}
+\DoxyCodeLine{00878\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ bluev\ =\ (blue\ \&\ 0xFFUL);}
+\DoxyCodeLine{00879\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{lv__ft81x__defines_8h_ad1a49a87ef5fb596737f3b206255e7a3}{DL\_COLOR\_RGB}}\ |\ redv\ |\ greenv\ |\ bluev);}
+\DoxyCodeLine{00880\ \}}
+\DoxyCodeLine{00881\ }
+\DoxyCodeLine{00882\ \textcolor{comment}{//\#define\ LINE\_WIDTH(width)\ ((DL\_LINE\_WIDTH)\ |\ (((uint32\_t)\ (width))\ \&\ 0xFFFUL))}}
+\DoxyCodeLine{00887\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a8764958e4fa66c3948353226f82cedaf}{LINE\_WIDTH}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ width)}
+\DoxyCodeLine{00888\ \{}
+\DoxyCodeLine{00889\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa75e09cb9a4ddf3da6a49607c4545e5b}{DL\_LINE\_WIDTH}}\ |\ (width\ \&\ 0xFFFUL));}
+\DoxyCodeLine{00890\ \}}
+\DoxyCodeLine{00891\ }
+\DoxyCodeLine{00892\ \textcolor{comment}{//\#define\ MACRO(m)\ ((DL\_MACRO)\ |\ ((m)\ \&\ 1UL))}}
+\DoxyCodeLine{00897\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a87ebad475865694e7fdd2a78641d2e94}{MACRO}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ macro)}
+\DoxyCodeLine{00898\ \{}
+\DoxyCodeLine{00899\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a8fb4ed2d17f1ea687b39468230d881fb}{DL\_MACRO}}\ |\ (macro\ \&\ 0x1UL));}
+\DoxyCodeLine{00900\ \}}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \textcolor{comment}{//\#define\ PALETTE\_SOURCE(addr)\ ((DL\_PALETTE\_SOURCE)\ |\ ((addr)\ \&\ 0x3FFFFF3UL))}}
+\DoxyCodeLine{00908\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ab0c5c082e4bc525efc1e32eb3a3f1709}{PALETTE\_SOURCE}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ addr)}
+\DoxyCodeLine{00909\ \{}
+\DoxyCodeLine{00910\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ad316cee47b33590ca411aadb87448d96}{DL\_PALETTE\_SOURCE}}\ |\ (addr\ \&\ 0x3FFFFFUL));}
+\DoxyCodeLine{00911\ \}}
+\DoxyCodeLine{00912\ }
+\DoxyCodeLine{00913\ \textcolor{comment}{//\#define\ POINT\_SIZE(size)\ ((DL\_POINT\_SIZE)\ |\ ((size)\ \&\ 0x1FFFUL))}}
+\DoxyCodeLine{00918\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a0ea3c2f6796bc274dd15b62697a51f90}{POINT\_SIZE}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ size)}
+\DoxyCodeLine{00919\ \{}
+\DoxyCodeLine{00920\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{lv__ft81x__defines_8h_aa3c089241d093fc6aa86a44b5cd2a38f}{DL\_POINT\_SIZE}}\ |\ (size\ \&\ 0x1FFFUL));}
+\DoxyCodeLine{00921\ \}}
+\DoxyCodeLine{00922\ }
+\DoxyCodeLine{00923\ \textcolor{comment}{//\#define\ SCISSOR\_SIZE(width,height)\ ((DL\_SCISSOR\_SIZE)\ |\ (((width)\ \&\ 0xFFFUL)\ <<\ 12U)\ |\ ((height)\ \&\ 0xFFFUL))}}
+\DoxyCodeLine{00929\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_aa85852e949bfe61ee64d3c10efea3231}{SCISSOR\_SIZE}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ height)}
+\DoxyCodeLine{00930\ \{}
+\DoxyCodeLine{00931\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ widthv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((width\ \&\ 0xFFFUL)\ <<\ 12U);}
+\DoxyCodeLine{00932\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ heightv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (height\ \&\ 0xFFFUL);}
+\DoxyCodeLine{00933\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_afb6a3f6537e1a0cf7f8ef215b445e032}{DL\_SCISSOR\_SIZE}}\ |\ widthv\ |\ heightv);}
+\DoxyCodeLine{00934\ \}}
+\DoxyCodeLine{00935\ }
+\DoxyCodeLine{00936\ \textcolor{comment}{//\#define\ SCISSOR\_XY(x,y)\ ((DL\_SCISSOR\_XY)\ |\ (((x)\ \&\ 0x7FFUL)\ <<\ 11U)\ |\ ((y)\ \&\ 0x7FFUL))}}
+\DoxyCodeLine{00942\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ae8499e1d6e043119ab772187fc30eafb}{SCISSOR\_XY}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ xc0,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ yc0)}
+\DoxyCodeLine{00943\ \{}
+\DoxyCodeLine{00944\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ xc0v\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((xc0\ \&\ 0x7FFUL)\ <<\ 11U);}
+\DoxyCodeLine{00945\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ yc0v\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (yc0\ \&\ 0x7FFUL);}
+\DoxyCodeLine{00946\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a0fab36abfe9ddff699a40d52862306ae}{DL\_SCISSOR\_XY}}\ |\ xc0v\ |\ yc0v);}
+\DoxyCodeLine{00947\ \}}
+\DoxyCodeLine{00948\ }
+\DoxyCodeLine{00949\ \textcolor{comment}{//\#define\ STENCIL\_FUNC(func,ref,mask)\ ((DL\_STENCIL\_FUNC)\ |\ (((func)\ \&\ 7UL)\ <<\ 16U)\ |\ (((ref)\ \&\ 0xFFUL)\ <<\ 8U)|((mask)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00954\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ae153695da1d88b6b2b035290fed35b94}{STENCIL\_FUNC}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ func,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ ref,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ mask)}
+\DoxyCodeLine{00955\ \{}
+\DoxyCodeLine{00956\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ funcv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((func\ \&\ 7UL)\ <<\ 16U);}
+\DoxyCodeLine{00957\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ refv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((ref\ \&\ 0xFFUL)\ <<\ 8U);}
+\DoxyCodeLine{00958\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ maskv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (mask\ \&\ 0xFFUL);}
+\DoxyCodeLine{00959\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a06020f744bd74ea69ce93506395580e4}{DL\_STENCIL\_FUNC}}\ |\ funcv\ |\ refv\ |\ maskv);}
+\DoxyCodeLine{00960\ \}}
+\DoxyCodeLine{00961\ }
+\DoxyCodeLine{00962\ \textcolor{comment}{//\#define\ STENCIL\_MASK(mask)\ ((DL\_STENCIL\_MASK)\ |\ ((mask)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00967\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a87175292703f2c0a2da10a2955e7a95e}{STENCIL\_MASK}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ mask)}
+\DoxyCodeLine{00968\ \{}
+\DoxyCodeLine{00969\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a8a7d43ca260ff4aec16abd7f7aec2f83}{DL\_STENCIL\_MASK}}\ |\ mask);}
+\DoxyCodeLine{00970\ \}}
+\DoxyCodeLine{00971\ }
+\DoxyCodeLine{00972\ \textcolor{comment}{//\#define\ STENCIL\_OP(sfail,spass)\ ((DL\_STENCIL\_OP)\ |\ (((sfail)\ \&\ 7UL)\ <<\ 3U)\ |\ ((spass)\ \&\ 7UL))}}
+\DoxyCodeLine{00977\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ad5ed5ea9e77ffb0e00f8ef3d301dc2d2}{STENCIL\_OP}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ sfail,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ spass)}
+\DoxyCodeLine{00978\ \{}
+\DoxyCodeLine{00979\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ sfailv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((sfail\ \&\ 0x07UL)\ <<\ 3U);}
+\DoxyCodeLine{00980\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ spassv\ =\ (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ (spass\ \&\ 0x07UL);}
+\DoxyCodeLine{00981\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ad722076e853bbb9165e2d946d912ea2c}{DL\_STENCIL\_OP}}\ |\ sfailv\ |\ spassv);}
+\DoxyCodeLine{00982\ \}}
+\DoxyCodeLine{00983\ }
+\DoxyCodeLine{00984\ \textcolor{comment}{//\#define\ TAG(s)\ ((DL\_TAG)\ |\ ((s)\ \&\ 0xFFUL))}}
+\DoxyCodeLine{00989\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{gui_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ tagval)}
+\DoxyCodeLine{00990\ \{}
+\DoxyCodeLine{00991\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_accd2bc033ed6896c8a02adee96f71d51}{DL\_TAG}}\ |\ tagval);}
+\DoxyCodeLine{00992\ \}}
+\DoxyCodeLine{00993\ }
+\DoxyCodeLine{00994\ \textcolor{comment}{//\#define\ TAG\_MASK(mask)\ ((DL\_TAG\_MASK)\ |\ ((mask)\ \&\ 1UL))}}
+\DoxyCodeLine{00999\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a1680f05c32c3783cb4c4e1eb6d6b9ed4}{TAG\_MASK}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ mask)}
+\DoxyCodeLine{01000\ \{}
+\DoxyCodeLine{01001\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ac70c3b68b958f5405048708d4ea795e1}{DL\_TAG\_MASK}}\ |\ ((mask)\ \&\ 1UL));}
+\DoxyCodeLine{01002\ \}}
+\DoxyCodeLine{01003\ }
+\DoxyCodeLine{01004\ \textcolor{comment}{//\#define\ VERTEX2F(x,y)\ ((DL\_VERTEX2F)\ |\ ((((uint32\_t)\ (x))\ \&\ 0x7FFFUL)\ <<\ 15U)\ |\ (((uint32\_t)\ (y))\ \&\ 0x7FFFUL))}}
+\DoxyCodeLine{01009\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a033cea1b18c3f010aaa0293f6972069a}{VERTEX2F}}(\doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ xc0,\ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ yc0)}
+\DoxyCodeLine{01010\ \{}
+\DoxyCodeLine{01011\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ xc0v\ =\ ((((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}})\ xc0))\ \&\ 0x7FFFUL)\ <<\ 15U);}
+\DoxyCodeLine{01012\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ yc0v\ =\ (((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ ((\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}})\ yc0))\ \&\ 0x7FFFUL);}
+\DoxyCodeLine{01013\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a80856928673fd20649137cac8355814d}{DL\_VERTEX2F}}\ |\ xc0v\ |\ yc0v);}
+\DoxyCodeLine{01014\ \}}
+\DoxyCodeLine{01015\ }
+\DoxyCodeLine{01016\ \textcolor{comment}{//\#define\ VERTEX2II(x,y,handle,cell)\ ((DL\_VERTEX2II)\ |\ (((x)\ \&\ 0x1FFUL)\ <<\ 21U)\ |\ (((y)\ \&\ 0x1FFUL)\ <<\ 12U)\ |\ (((handle)\ \&\ 0x1FUL)\ <<\ 7U)\ |\ ((cell)\ \&\ 0x7FUL))}}
+\DoxyCodeLine{01021\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_ae779df636416e900ddc15b95cf2a923c}{VERTEX2II}}(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ xc0,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ yc0,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ handle,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ cell)}
+\DoxyCodeLine{01022\ \{}
+\DoxyCodeLine{01023\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ xc0v\ =\ ((((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ xc0)\ \&\ 0x1FFUL)\ <<\ 21U);}
+\DoxyCodeLine{01024\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ yc0v\ =\ ((((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ yc0)\ \&\ 0x1FFUL)\ <<\ 12U);}
+\DoxyCodeLine{01025\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ handlev\ =\ ((((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ handle)\ \&\ 0x1FUL)\ <<\ 7U);}
+\DoxyCodeLine{01026\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ cellv\ =\ (((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ cell)\ \&\ 0x7FUL);}
+\DoxyCodeLine{01027\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa8c00167f607b30af3cf2834178a0bfe}{DL\_VERTEX2II}}\ |\ xc0v\ |\ yc0v\ |\ handlev\ |\ cellv);}
+\DoxyCodeLine{01028\ \}}
+\DoxyCodeLine{01029\ }
+\DoxyCodeLine{01030\ \textcolor{comment}{//\#define\ VERTEX\_FORMAT(frac)\ ((DL\_VERTEX\_FORMAT)\ |\ ((frac)\ \&\ 7UL))}}
+\DoxyCodeLine{01035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a3127914a3b9e01ac259be2577252ceb1}{VERTEX\_FORMAT}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ frac)}
+\DoxyCodeLine{01036\ \{}
+\DoxyCodeLine{01037\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ac94336bac2180a5e20e55362fe0e5f82}{DL\_VERTEX\_FORMAT}}\ |\ ((frac)\ \&\ 7UL));}
+\DoxyCodeLine{01038\ \}}
+\DoxyCodeLine{01039\ }
+\DoxyCodeLine{01040\ \textcolor{comment}{//\#define\ VERTEX\_TRANSLATE\_X(x)\ ((DL\_VERTEX\_TRANSLATE\_X)\ |\ ((x)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01045\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a760ad4babf6b6039de153e58ba506ed2}{VERTEX\_TRANSLATE\_X}}(\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ xco)}
+\DoxyCodeLine{01046\ \{}
+\DoxyCodeLine{01047\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_acc3d6775c7037650851614f0daed7327}{DL\_VERTEX\_TRANSLATE\_X}}\ |\ (((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ xco)\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{01048\ \}}
+\DoxyCodeLine{01049\ }
+\DoxyCodeLine{01050\ \textcolor{comment}{//\#define\ VERTEX\_TRANSLATE\_Y(y)\ ((DL\_VERTEX\_TRANSLATE\_Y)\ |\ ((y)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01055\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a09147bff0128196ecfd93e58aa153ec6}{VERTEX\_TRANSLATE\_Y}}(\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ yco)}
+\DoxyCodeLine{01056\ \{}
+\DoxyCodeLine{01057\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_ac87d827c8c372de5f320cf3f58f33ba2}{DL\_VERTEX\_TRANSLATE\_Y}}\ |\ (((\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})\ yco)\ \&\ 0x1FFFFUL));}
+\DoxyCodeLine{01058\ \}}
+\DoxyCodeLine{01059\ }
+\DoxyCodeLine{01060\ \textcolor{comment}{/*\ \#define\ BEGIN(prim)\ ((DL\_BEGIN)\ |\ ((prim)\ \&\ 15UL))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_BEGIN\ */}}
+\DoxyCodeLine{01061\ \textcolor{comment}{/*\ \#define\ DISPLAY()\ ((DL\_DISPLAY))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_DISPLAY\ */}}
+\DoxyCodeLine{01062\ \textcolor{comment}{/*\ \#define\ END()\ ((DL\_END))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_END\ */}}
+\DoxyCodeLine{01063\ \textcolor{comment}{/*\ \#define\ RESTORE\_CONTEXT()\ ((DL\_RESTORE\_CONTEXT))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_RESTORE\_CONTEXT\ */}}
+\DoxyCodeLine{01064\ \textcolor{comment}{/*\ \#define\ RETURN()\ ((DL\_RETURN))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_RETURN\ */}}
+\DoxyCodeLine{01065\ \textcolor{comment}{/*\ \#define\ SAVE\_CONTEXT()\ ((DL\_SAVE\_CONTEXT))\ */}\ \textcolor{comment}{/*\ use\ define\ DL\_SAVE\_CONTEXT\ */}}
+\DoxyCodeLine{01066\ \textcolor{comment}{/*\ \#define\ NOP()\ ((DL\_NOP))\ */}}
+\DoxyCodeLine{01067\ }
+\DoxyCodeLine{01068\ \textcolor{comment}{/*\ \#\#\#\#\#\#\#\#\#\#\ EVE\ Generation\ 3:\ BT815\ /\ BT816\ definitions\ \#\#\#\#\#\#\#\#\#\#\ */}}
+\DoxyCodeLine{01069\ }
+\DoxyCodeLine{01070\ \textcolor{preprocessor}{\#if\ EVE\_GEN\ >\ 2}}
+\DoxyCodeLine{01071\ }
+\DoxyCodeLine{01072\ \textcolor{preprocessor}{\#define\ EVE\_GLFORMAT\ \ ((uint32\_t)\ 31UL)\ }\textcolor{comment}{/*\ used\ with\ BITMAP\_LAYOUT\ to\ indicate\ bitmap-\/format\ is\ specified\ by\ BITMAP\_EXT\_FORMAT\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01073\ }
+\DoxyCodeLine{01074\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_EXT\_FORMAT\ ((uint32\_t)\ 0x2E000000UL)\ }\textcolor{comment}{/*\ requires\ OR'd\ arguments\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01075\ \textcolor{preprocessor}{\#define\ DL\_BITMAP\_SWIZZLE\ \ \ \ ((uint32\_t)\ 0x2F000000UL)}}
+\DoxyCodeLine{01076\ \textcolor{comment}{/*\ \#define\ DL\_INT\_FRR\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x30000000UL)\ */}\ \textcolor{comment}{/*\ ESE\ displays\ "{}Internal:\ flash\ read\ result"{}\ -\/\ undocumented\ display\ list\ command\ */}}
+\DoxyCodeLine{01077\ }
+\DoxyCodeLine{01078\ \textcolor{comment}{/*\ Extended\ Bitmap\ formats\ */}}
+\DoxyCodeLine{01079\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_4X4\ \ \ ((uint32\_t)\ 37808UL)}}
+\DoxyCodeLine{01080\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_5X4\ \ \ ((uint32\_t)\ 37809UL)}}
+\DoxyCodeLine{01081\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_5X5\ \ \ ((uint32\_t)\ 37810UL)}}
+\DoxyCodeLine{01082\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_6X5\ \ \ ((uint32\_t)\ 37811UL)}}
+\DoxyCodeLine{01083\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_6X6\ \ \ ((uint32\_t)\ 37812UL)}}
+\DoxyCodeLine{01084\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_8X5\ \ \ ((uint32\_t)\ 37813UL)}}
+\DoxyCodeLine{01085\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_8X6\ \ \ ((uint32\_t)\ 37814UL)}}
+\DoxyCodeLine{01086\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_8X8\ \ \ ((uint32\_t)\ 37815UL)}}
+\DoxyCodeLine{01087\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_10X5\ \ ((uint32\_t)\ 37816UL)}}
+\DoxyCodeLine{01088\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_10X6\ \ ((uint32\_t)\ 37817UL)}}
+\DoxyCodeLine{01089\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_10X8\ \ ((uint32\_t)\ 37818UL)}}
+\DoxyCodeLine{01090\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_10X10\ ((uint32\_t)\ 37819UL)}}
+\DoxyCodeLine{01091\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_12X10\ ((uint32\_t)\ 37820UL)}}
+\DoxyCodeLine{01092\ \textcolor{preprocessor}{\#define\ EVE\_ASTC\_12X12\ ((uint32\_t)\ 37821UL)}}
+\DoxyCodeLine{01093\ }
+\DoxyCodeLine{01094\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_ERR\_REPORT\ \ \ \ \ \ ((uint32\_t)\ 0x309800UL)\ }\textcolor{comment}{/*\ max\ 128\ bytes\ null\ terminated\ string\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01095\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_FLASH\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x800000UL)}}
+\DoxyCodeLine{01096\ \textcolor{preprocessor}{\#define\ EVE\_RAM\_FLASH\_POSTBLOB\ \ ((uint32\_t)\ 0x801000UL)}}
+\DoxyCodeLine{01097\ }
+\DoxyCodeLine{01098\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_FLASH\ \ ((uint16\_t)\ 64U)}}
+\DoxyCodeLine{01099\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_OVERLAY\ ((uint16\_t)\ 128U)}}
+\DoxyCodeLine{01100\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_FORMAT\ ((uint16\_t)\ 4096U)}}
+\DoxyCodeLine{01101\ \textcolor{preprocessor}{\#define\ EVE\_OPT\_FILL\ \ \ ((uint16\_t)\ 8192U)}}
+\DoxyCodeLine{01102\ }
+\DoxyCodeLine{01103\ \textcolor{comment}{/*\ Commands\ for\ BT815\ /\ BT816\ */}}
+\DoxyCodeLine{01104\ \textcolor{preprocessor}{\#define\ CMD\_BITMAP\_TRANSFORM\ ((uint32\_t)\ 0xFFFFFF21UL)}}
+\DoxyCodeLine{01105\ \textcolor{preprocessor}{\#define\ CMD\_SYNC\ \ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF42UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_SYNC)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01106\ \textcolor{preprocessor}{\#define\ CMD\_FLASHERASE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF44UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_FLASHERASE)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01107\ \textcolor{preprocessor}{\#define\ CMD\_FLASHWRITE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF45UL)}}
+\DoxyCodeLine{01108\ \textcolor{preprocessor}{\#define\ CMD\_FLASHREAD\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF46UL)}}
+\DoxyCodeLine{01109\ \textcolor{preprocessor}{\#define\ CMD\_FLASHUPDATE\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF47UL)}}
+\DoxyCodeLine{01110\ \textcolor{preprocessor}{\#define\ CMD\_FLASHDETACH\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF48UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_FLASHDETACH)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01111\ \textcolor{preprocessor}{\#define\ CMD\_FLASHATTACH\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF49UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_FLASHATTACH)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01112\ \textcolor{preprocessor}{\#define\ CMD\_FLASHFAST\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF4AUL)}}
+\DoxyCodeLine{01113\ \textcolor{preprocessor}{\#define\ CMD\_FLASHSPIDESEL\ \ \ \ ((uint32\_t)\ 0xFFFFFF4BUL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_FLASHSPIDESEL)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01114\ \textcolor{preprocessor}{\#define\ CMD\_FLASHSPITX\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF4CUL)}}
+\DoxyCodeLine{01115\ \textcolor{preprocessor}{\#define\ CMD\_FLASHSPIRX\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF4DUL)}}
+\DoxyCodeLine{01116\ \textcolor{preprocessor}{\#define\ CMD\_FLASHSOURCE\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF4EUL)}}
+\DoxyCodeLine{01117\ \textcolor{preprocessor}{\#define\ CMD\_CLEARCACHE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF4FUL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_CLEARCACHE)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01118\ \textcolor{preprocessor}{\#define\ CMD\_INFLATE2\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF50UL)}}
+\DoxyCodeLine{01119\ \textcolor{preprocessor}{\#define\ CMD\_ROTATEAROUND\ \ \ \ \ ((uint32\_t)\ 0xFFFFFF51UL)}}
+\DoxyCodeLine{01120\ \textcolor{preprocessor}{\#define\ CMD\_RESETFONTS\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF52UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_RESETFONTS)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01121\ \textcolor{preprocessor}{\#define\ CMD\_ANIMSTART\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF53UL)}}
+\DoxyCodeLine{01122\ \textcolor{preprocessor}{\#define\ CMD\_ANIMSTOP\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF54UL)}}
+\DoxyCodeLine{01123\ \textcolor{preprocessor}{\#define\ CMD\_ANIMXY\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF55UL)}}
+\DoxyCodeLine{01124\ \textcolor{preprocessor}{\#define\ CMD\_ANIMDRAW\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF56UL)}}
+\DoxyCodeLine{01125\ \textcolor{preprocessor}{\#define\ CMD\_GRADIENTA\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF57UL)}}
+\DoxyCodeLine{01126\ \textcolor{preprocessor}{\#define\ CMD\_FILLWIDTH\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF58UL)}}
+\DoxyCodeLine{01127\ \textcolor{preprocessor}{\#define\ CMD\_APPENDF\ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF59UL)}}
+\DoxyCodeLine{01128\ \textcolor{preprocessor}{\#define\ CMD\_ANIMFRAME\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF5AUL)}}
+\DoxyCodeLine{01129\ \textcolor{preprocessor}{\#define\ CMD\_VIDEOSTARTF\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF5FUL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_VIDEOSTARTF)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01130\ }
+\DoxyCodeLine{01131\ \textcolor{comment}{/*\ Registers\ for\ BT815\ /\ BT816\ */}}
+\DoxyCodeLine{01132\ \textcolor{preprocessor}{\#define\ REG\_ADAPTIVE\_FRAMERATE\ ((uint32\_t)\ 0x0030257cUL)}}
+\DoxyCodeLine{01133\ \textcolor{preprocessor}{\#define\ REG\_PLAYBACK\_PAUSE\ \ \ \ \ ((uint32\_t)\ 0x003025ecUL)}}
+\DoxyCodeLine{01134\ \textcolor{preprocessor}{\#define\ REG\_FLASH\_STATUS\ \ \ \ \ \ \ ((uint32\_t)\ 0x003025f0UL)}}
+\DoxyCodeLine{01135\ \textcolor{preprocessor}{\#define\ REG\_FLASH\_SIZE\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0x00309024UL)}}
+\DoxyCodeLine{01136\ \textcolor{preprocessor}{\#define\ REG\_PLAY\_CONTROL\ \ \ \ \ \ \ ((uint32\_t)\ 0x0030914eUL)}}
+\DoxyCodeLine{01137\ \textcolor{preprocessor}{\#define\ REG\_COPRO\_PATCH\_PTR\ \ \ \ ((uint32\_t)\ 0x00309162UL)}}
+\DoxyCodeLine{01138\ }
+\DoxyCodeLine{01139\ \textcolor{comment}{/*\ Macros\ for\ BT815\ /\ BT816\ */}}
+\DoxyCodeLine{01140\ }
+\DoxyCodeLine{01141\ \textcolor{comment}{//\#define\ BITMAP\_EXT\_FORMAT(format)\ ((DL\_BITMAP\_EXT\_FORMAT)\ |\ ((format)\ \&\ 0xFFFFUL))}}
+\DoxyCodeLine{01146\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ BITMAP\_EXT\_FORMAT(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}})}
+\DoxyCodeLine{01147\ \{}
+\DoxyCodeLine{01148\ \ \ \ \ \textcolor{keywordflow}{return}\ (DL\_BITMAP\_EXT\_FORMAT\ |\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}});}
+\DoxyCodeLine{01149\ \}}
+\DoxyCodeLine{01150\ }
+\DoxyCodeLine{01151\ \textcolor{comment}{//\#define\ BITMAP\_SWIZZLE(r,g,b,a)\ ((DL\_BITMAP\_SWIZZLE)\ |\ (((r)\ \&\ 7UL)\ <<\ 9U)\ |\ (((g)\ \&\ 7UL)\ <<\ 6U)\ |\ (((b)\ \&\ 7UL)\ <<\ 3U)\ |\ ((a)\ \&\ 7UL))}}
+\DoxyCodeLine{01156\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ BITMAP\_SWIZZLE(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ red,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ green,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ blue,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ alpha)}
+\DoxyCodeLine{01157\ \{}
+\DoxyCodeLine{01158\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ redv\ =\ ((red\ \&\ 7UL)\ <<\ 9U);}
+\DoxyCodeLine{01159\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ greenv\ =\ ((green\ \&\ 7UL)\ <<\ 6U);}
+\DoxyCodeLine{01160\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ bluev\ =\ ((blue\ \&\ 7UL)\ <<\ 3U);}
+\DoxyCodeLine{01161\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ alphav\ =\ (alpha\ \&\ 7UL);}
+\DoxyCodeLine{01162\ \ \ \ \ \textcolor{keywordflow}{return}\ (DL\_BITMAP\_SWIZZLE\ |\ redv\ |\ greenv\ |\ bluev\ |\ alphav);}
+\DoxyCodeLine{01163\ \}}
+\DoxyCodeLine{01164\ }
+\DoxyCodeLine{01165\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_A\_EXT(p,v)\ ((DL\_BITMAP\_TRANSFORM\_A)\ |\ (((p)\ \&\ 1UL)\ <<\ 17U)\ |\ ((v)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01170\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a8567d3e03386870c5eca946c694b283e}{BITMAP\_TRANSFORM\_A}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ prc,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{01171\ \{}
+\DoxyCodeLine{01172\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ prcv\ =\ ((prc\ \&\ 1UL)\ <<\ 17U);}
+\DoxyCodeLine{01173\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ valv\ =\ (val\ \&\ 0x1FFFFUL);}
+\DoxyCodeLine{01174\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a95852aab332d07e9999869933ed9d73c}{DL\_BITMAP\_TRANSFORM\_A}}\ |\ prcv\ |\ valv);}
+\DoxyCodeLine{01175\ \}}
+\DoxyCodeLine{01176\ }
+\DoxyCodeLine{01177\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_B\_EXT(p,v)\ ((DL\_BITMAP\_TRANSFORM\_B)\ |\ (((p)\ \&\ 1UL)\ <<\ 17U)\ |\ ((v)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01182\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a2bab3c1f8e5f91d203b119f56c1ddad9}{BITMAP\_TRANSFORM\_B}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ prc,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{01183\ \{}
+\DoxyCodeLine{01184\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ prcv\ =\ ((prc\ \&\ 1UL)\ <<\ 17U);}
+\DoxyCodeLine{01185\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ valv\ =\ (val\ \&\ 0x1FFFFUL);}
+\DoxyCodeLine{01186\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_aa2d51eb7b8ce70f5da07650dfdc8c6a4}{DL\_BITMAP\_TRANSFORM\_B}}\ |\ prcv\ |\ valv);}
+\DoxyCodeLine{01187\ \}}
+\DoxyCodeLine{01188\ }
+\DoxyCodeLine{01189\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_D\_EXT(p,v)\ ((DL\_BITMAP\_TRANSFORM\_D)\ |\ (((p)\ \&\ 1UL)\ <<\ 17U)\ |\ ((v)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01194\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a4deb56029c1693e6248418d313532c3f}{BITMAP\_TRANSFORM\_D}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ prc,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{01195\ \{}
+\DoxyCodeLine{01196\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ prcv\ =\ ((prc\ \&\ 1UL)\ <<\ 17U);}
+\DoxyCodeLine{01197\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ valv\ =\ (val\ \&\ 0x1FFFFUL);}
+\DoxyCodeLine{01198\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a3a7b09a97c4986eceafe169ad43e5593}{DL\_BITMAP\_TRANSFORM\_D}}\ |\ prcv\ |\ valv);}
+\DoxyCodeLine{01199\ \}}
+\DoxyCodeLine{01200\ }
+\DoxyCodeLine{01201\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_E\_EXT(p,v)\ ((DL\_BITMAP\_TRANSFORM\_E)\ |\ (((p)\ \&\ 1UL)\ <<\ 17U)\ |\ ((v)\ \&\ 0x1FFFFUL))}}
+\DoxyCodeLine{01206\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__ft81x__defines_8h_a2e793f9a2142efb134d838d11fb2df84}{BITMAP\_TRANSFORM\_E}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ prc,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val)}
+\DoxyCodeLine{01207\ \{}
+\DoxyCodeLine{01208\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ prcv\ =\ ((prc\ \&\ 1UL)\ <<\ 17U);}
+\DoxyCodeLine{01209\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keyword}{const}\ valv\ =\ (val\ \&\ 0x1FFFFUL);}
+\DoxyCodeLine{01210\ \ \ \ \ \textcolor{keywordflow}{return}\ (\doxymbox{\hyperlink{_e_v_e_8h_a7f70241c4f9c1616953fe250848ed63a}{DL\_BITMAP\_TRANSFORM\_E}}\ |\ prcv\ |\ valv);}
+\DoxyCodeLine{01211\ \}}
+\DoxyCodeLine{01212\ }
+\DoxyCodeLine{01213\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_A(a)\ BITMAP\_TRANSFORM\_A\_EXT(0UL,(a))}}
+\DoxyCodeLine{01214\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_B(b)\ BITMAP\_TRANSFORM\_B\_EXT(0UL,(b))}}
+\DoxyCodeLine{01215\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_D(d)\ BITMAP\_TRANSFORM\_D\_EXT(0UL,(d))}}
+\DoxyCodeLine{01216\ \textcolor{comment}{//\#define\ BITMAP\_TRANSFORM\_E(e)\ BITMAP\_TRANSFORM\_E\_EXT(0UL,(e))}}
+\DoxyCodeLine{01217\ }
+\DoxyCodeLine{01218\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{/*\ EVE\_GEN\ >\ 2\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01219\ }
+\DoxyCodeLine{01220\ \textcolor{comment}{/*\ \#\#\#\#\#\#\#\#\#\#\ EVE\ Generation\ 4:\ BT817\ /\ BT818\ definitions\ \#\#\#\#\#\#\#\#\#\#\ */}}
+\DoxyCodeLine{01221\ }
+\DoxyCodeLine{01222\ \textcolor{preprocessor}{\#if\ EVE\_GEN\ >\ 3}}
+\DoxyCodeLine{01223\ }
+\DoxyCodeLine{01224\ \textcolor{comment}{/*\ Commands\ for\ BT817\ /\ BT818\ */}}
+\DoxyCodeLine{01225\ \textcolor{preprocessor}{\#define\ CMD\_ANIMFRAMERAM\ \ \ ((uint32\_t)\ 0xFFFFFF6DUL)}}
+\DoxyCodeLine{01226\ \textcolor{preprocessor}{\#define\ CMD\_ANIMSTARTRAM\ \ \ ((uint32\_t)\ 0xFFFFFF6EUL)}}
+\DoxyCodeLine{01227\ \textcolor{preprocessor}{\#define\ CMD\_APILEVEL\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF63UL)}}
+\DoxyCodeLine{01228\ \textcolor{preprocessor}{\#define\ CMD\_CALIBRATESUB\ \ \ ((uint32\_t)\ 0xFFFFFF60UL)}}
+\DoxyCodeLine{01229\ \textcolor{preprocessor}{\#define\ CMD\_CALLLIST\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF67UL)}}
+\DoxyCodeLine{01230\ \textcolor{preprocessor}{\#define\ CMD\_ENDLIST\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF69UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_ENDLIST)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01231\ \textcolor{preprocessor}{\#define\ CMD\_FLASHPROGRAM\ \ \ ((uint32\_t)\ 0xFFFFFF70UL)}}
+\DoxyCodeLine{01232\ \textcolor{preprocessor}{\#define\ CMD\_FONTCACHE\ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF6BUL)}}
+\DoxyCodeLine{01233\ \textcolor{preprocessor}{\#define\ CMD\_FONTCACHEQUERY\ ((uint32\_t)\ 0xFFFFFF6CUL)}}
+\DoxyCodeLine{01234\ \textcolor{preprocessor}{\#define\ CMD\_GETIMAGE\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF64UL)}}
+\DoxyCodeLine{01235\ \textcolor{preprocessor}{\#define\ CMD\_HSF\ \ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF62UL)}}
+\DoxyCodeLine{01236\ \textcolor{preprocessor}{\#define\ CMD\_LINETIME\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF5EUL)}}
+\DoxyCodeLine{01237\ \textcolor{preprocessor}{\#define\ CMD\_NEWLIST\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF68UL)}}
+\DoxyCodeLine{01238\ \textcolor{preprocessor}{\#define\ CMD\_PCLKFREQ\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF6AUL)}}
+\DoxyCodeLine{01239\ \textcolor{preprocessor}{\#define\ CMD\_RETURN\ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF66UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_RETURN)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01240\ \textcolor{preprocessor}{\#define\ CMD\_RUNANIM\ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF6FUL)}}
+\DoxyCodeLine{01241\ \textcolor{preprocessor}{\#define\ CMD\_TESTCARD\ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF61UL)\ }\textcolor{comment}{/*\ does\ not\ need\ a\ dedicated\ function,\ just\ use\ EVE\_cmd\_dl(CMD\_TESTCARD)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01242\ \textcolor{preprocessor}{\#define\ CMD\_WAIT\ \ \ \ \ \ \ \ \ \ \ ((uint32\_t)\ 0xFFFFFF65UL)}}
+\DoxyCodeLine{01243\ }
+\DoxyCodeLine{01244\ \textcolor{comment}{/*\ Registers\ for\ BT817\ /\ BT818\ */}}
+\DoxyCodeLine{01245\ \textcolor{preprocessor}{\#define\ REG\_UNDERRUN\ \ \ \ \ \ ((uint32\_t)\ 0x0030260cUL)}}
+\DoxyCodeLine{01246\ \textcolor{preprocessor}{\#define\ REG\_AH\_HCYCLE\_MAX\ ((uint32\_t)\ 0x00302610UL)}}
+\DoxyCodeLine{01247\ \textcolor{preprocessor}{\#define\ REG\_PCLK\_FREQ\ \ \ \ \ ((uint32\_t)\ 0x00302614UL)}}
+\DoxyCodeLine{01248\ \textcolor{preprocessor}{\#define\ REG\_PCLK\_2X\ \ \ \ \ \ \ ((uint32\_t)\ 0x00302618UL)}}
+\DoxyCodeLine{01249\ \textcolor{preprocessor}{\#define\ REG\_ANIM\_ACTIVE\ \ \ ((uint32\_t)\ 0x0030902CUL)}}
+\DoxyCodeLine{01250\ }
+\DoxyCodeLine{01251\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \ EVE\_GEN\ >\ 3\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01252\ }
+\DoxyCodeLine{01253\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{01254\ \}}
+\DoxyCodeLine{01255\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01256\ }
+\DoxyCodeLine{01257\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ EVE\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,205 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+esp\+\_\+lvgl\+\_\+port/\+examples/\+touchscreen/\+main/\+main.c File Reference}
+\hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c}{}\label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c}\index{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/examples/touchscreen/main/main.c@{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/examples/touchscreen/main/main.c}}
+{\ttfamily \+\#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+check.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+i2c\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+gpio.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+spi\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+io.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+vendor.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+ops.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+touch\+\_\+tt21100.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ae5b79f2ecb045ef0693ba92ec050f440}{EXAMPLE\+\_\+\+LCD\+\_\+\+H\+\_\+\+RES}}~(320)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a76c4876008780d0fb3ec432efd6c4a51}{EXAMPLE\+\_\+\+LCD\+\_\+\+V\+\_\+\+RES}}~(240)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_adb1b5d857e5a76e324ff96a4a1f5a566}{EXAMPLE\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+NUM}}~(SPI3\+\_\+\+HOST)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a63c2789a0c95a69a19fb6d870a88d073}{EXAMPLE\+\_\+\+LCD\+\_\+\+PIXEL\+\_\+\+CLK\+\_\+\+HZ}}~(40 \texorpdfstring{$\ast$}{*} 1000 \texorpdfstring{$\ast$}{*} 1000)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a0386bffe9f1256c007a18e33cf2e6869}{EXAMPLE\+\_\+\+LCD\+\_\+\+CMD\+\_\+\+BITS}}~(8)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a118236fd0beacc9f0c096d0f7e56d144}{EXAMPLE\+\_\+\+LCD\+\_\+\+PARAM\+\_\+\+BITS}}~(8)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_abb5a0ae2bcc43b8d4c4695362f9450ff}{EXAMPLE\+\_\+\+LCD\+\_\+\+BITS\+\_\+\+PER\+\_\+\+PIXEL}}~(16)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ace57027c56186042b6417a19e034430d}{EXAMPLE\+\_\+\+LCD\+\_\+\+DRAW\+\_\+\+BUFF\+\_\+\+DOUBLE}}~(1)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5fdba992310790aed9fbb7dfdacb1c68}{EXAMPLE\+\_\+\+LCD\+\_\+\+DRAW\+\_\+\+BUFF\+\_\+\+HEIGHT}}~(50)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a486d54cc227be039f2ba51056a3e3272}{EXAMPLE\+\_\+\+LCD\+\_\+\+BL\+\_\+\+ON\+\_\+\+LEVEL}}~(1)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a2aecb24e29653d415122ed1394ac7a58}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+SCLK}}~(GPIO\+\_\+\+NUM\+\_\+7)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a073f2eb19be410bb2fdb824eca8ce097}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+MOSI}}~(GPIO\+\_\+\+NUM\+\_\+6)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a1c70659a665c0d1af7f6bd7c4b0fcefd}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+RST}}~(GPIO\+\_\+\+NUM\+\_\+48)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a01835abe0db5baf2ac029a3282e64280}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+DC}}~(GPIO\+\_\+\+NUM\+\_\+4)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_aefc4500535b3fd8da1aea22f5db5f15b}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+CS}}~(GPIO\+\_\+\+NUM\+\_\+5)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a534a5232a47aa63d4f1af777017c4282}{EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+BL}}~(GPIO\+\_\+\+NUM\+\_\+45)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a84b1af776c9aa31dd08b4c52a29536c3}{EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+NUM}}~(0)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_acfd381d2ef9095decd6b2fc77abd5e89}{EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+CLK\+\_\+\+HZ}}~(400000)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a44107daf6ce6f54cf6494295c3083284}{EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+SCL}}~(GPIO\+\_\+\+NUM\+\_\+18)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5ba2cfab8bc58a3867b01cfcdc5850df}{EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+SDA}}~(GPIO\+\_\+\+NUM\+\_\+8)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a7310bb3106edba92116e1339e4928990}{EXAMPLE\+\_\+\+TOUCH\+\_\+\+GPIO\+\_\+\+INT}}~(GPIO\+\_\+\+NUM\+\_\+3)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\end{DoxyCompactItemize}
+
+
+\label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_doc-define-members}
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_abb5a0ae2bcc43b8d4c4695362f9450ff}\index{main.c@{main.c}!EXAMPLE\_LCD\_BITS\_PER\_PIXEL@{EXAMPLE\_LCD\_BITS\_PER\_PIXEL}}
+\index{EXAMPLE\_LCD\_BITS\_PER\_PIXEL@{EXAMPLE\_LCD\_BITS\_PER\_PIXEL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_BITS\_PER\_PIXEL}{EXAMPLE\_LCD\_BITS\_PER\_PIXEL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_abb5a0ae2bcc43b8d4c4695362f9450ff} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+BITS\+\_\+\+PER\+\_\+\+PIXEL~(16)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a486d54cc227be039f2ba51056a3e3272}\index{main.c@{main.c}!EXAMPLE\_LCD\_BL\_ON\_LEVEL@{EXAMPLE\_LCD\_BL\_ON\_LEVEL}}
+\index{EXAMPLE\_LCD\_BL\_ON\_LEVEL@{EXAMPLE\_LCD\_BL\_ON\_LEVEL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_BL\_ON\_LEVEL}{EXAMPLE\_LCD\_BL\_ON\_LEVEL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a486d54cc227be039f2ba51056a3e3272} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+BL\+\_\+\+ON\+\_\+\+LEVEL~(1)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a0386bffe9f1256c007a18e33cf2e6869}\index{main.c@{main.c}!EXAMPLE\_LCD\_CMD\_BITS@{EXAMPLE\_LCD\_CMD\_BITS}}
+\index{EXAMPLE\_LCD\_CMD\_BITS@{EXAMPLE\_LCD\_CMD\_BITS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_CMD\_BITS}{EXAMPLE\_LCD\_CMD\_BITS}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a0386bffe9f1256c007a18e33cf2e6869} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+CMD\+\_\+\+BITS~(8)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ace57027c56186042b6417a19e034430d}\index{main.c@{main.c}!EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE@{EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE}}
+\index{EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE@{EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE}{EXAMPLE\_LCD\_DRAW\_BUFF\_DOUBLE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ace57027c56186042b6417a19e034430d} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+DRAW\+\_\+\+BUFF\+\_\+\+DOUBLE~(1)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5fdba992310790aed9fbb7dfdacb1c68}\index{main.c@{main.c}!EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT@{EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT}}
+\index{EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT@{EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT}{EXAMPLE\_LCD\_DRAW\_BUFF\_HEIGHT}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5fdba992310790aed9fbb7dfdacb1c68} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+DRAW\+\_\+\+BUFF\+\_\+\+HEIGHT~(50)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a534a5232a47aa63d4f1af777017c4282}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_BL@{EXAMPLE\_LCD\_GPIO\_BL}}
+\index{EXAMPLE\_LCD\_GPIO\_BL@{EXAMPLE\_LCD\_GPIO\_BL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_BL}{EXAMPLE\_LCD\_GPIO\_BL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a534a5232a47aa63d4f1af777017c4282} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+BL~(GPIO\+\_\+\+NUM\+\_\+45)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_aefc4500535b3fd8da1aea22f5db5f15b}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_CS@{EXAMPLE\_LCD\_GPIO\_CS}}
+\index{EXAMPLE\_LCD\_GPIO\_CS@{EXAMPLE\_LCD\_GPIO\_CS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_CS}{EXAMPLE\_LCD\_GPIO\_CS}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_aefc4500535b3fd8da1aea22f5db5f15b} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+CS~(GPIO\+\_\+\+NUM\+\_\+5)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a01835abe0db5baf2ac029a3282e64280}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_DC@{EXAMPLE\_LCD\_GPIO\_DC}}
+\index{EXAMPLE\_LCD\_GPIO\_DC@{EXAMPLE\_LCD\_GPIO\_DC}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_DC}{EXAMPLE\_LCD\_GPIO\_DC}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a01835abe0db5baf2ac029a3282e64280} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+DC~(GPIO\+\_\+\+NUM\+\_\+4)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a073f2eb19be410bb2fdb824eca8ce097}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_MOSI@{EXAMPLE\_LCD\_GPIO\_MOSI}}
+\index{EXAMPLE\_LCD\_GPIO\_MOSI@{EXAMPLE\_LCD\_GPIO\_MOSI}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_MOSI}{EXAMPLE\_LCD\_GPIO\_MOSI}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a073f2eb19be410bb2fdb824eca8ce097} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+MOSI~(GPIO\+\_\+\+NUM\+\_\+6)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a1c70659a665c0d1af7f6bd7c4b0fcefd}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_RST@{EXAMPLE\_LCD\_GPIO\_RST}}
+\index{EXAMPLE\_LCD\_GPIO\_RST@{EXAMPLE\_LCD\_GPIO\_RST}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_RST}{EXAMPLE\_LCD\_GPIO\_RST}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a1c70659a665c0d1af7f6bd7c4b0fcefd} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+RST~(GPIO\+\_\+\+NUM\+\_\+48)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a2aecb24e29653d415122ed1394ac7a58}\index{main.c@{main.c}!EXAMPLE\_LCD\_GPIO\_SCLK@{EXAMPLE\_LCD\_GPIO\_SCLK}}
+\index{EXAMPLE\_LCD\_GPIO\_SCLK@{EXAMPLE\_LCD\_GPIO\_SCLK}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_GPIO\_SCLK}{EXAMPLE\_LCD\_GPIO\_SCLK}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a2aecb24e29653d415122ed1394ac7a58} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+GPIO\+\_\+\+SCLK~(GPIO\+\_\+\+NUM\+\_\+7)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ae5b79f2ecb045ef0693ba92ec050f440}\index{main.c@{main.c}!EXAMPLE\_LCD\_H\_RES@{EXAMPLE\_LCD\_H\_RES}}
+\index{EXAMPLE\_LCD\_H\_RES@{EXAMPLE\_LCD\_H\_RES}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_H\_RES}{EXAMPLE\_LCD\_H\_RES}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_ae5b79f2ecb045ef0693ba92ec050f440} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+H\+\_\+\+RES~(320)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a118236fd0beacc9f0c096d0f7e56d144}\index{main.c@{main.c}!EXAMPLE\_LCD\_PARAM\_BITS@{EXAMPLE\_LCD\_PARAM\_BITS}}
+\index{EXAMPLE\_LCD\_PARAM\_BITS@{EXAMPLE\_LCD\_PARAM\_BITS}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_PARAM\_BITS}{EXAMPLE\_LCD\_PARAM\_BITS}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a118236fd0beacc9f0c096d0f7e56d144} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+PARAM\+\_\+\+BITS~(8)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a63c2789a0c95a69a19fb6d870a88d073}\index{main.c@{main.c}!EXAMPLE\_LCD\_PIXEL\_CLK\_HZ@{EXAMPLE\_LCD\_PIXEL\_CLK\_HZ}}
+\index{EXAMPLE\_LCD\_PIXEL\_CLK\_HZ@{EXAMPLE\_LCD\_PIXEL\_CLK\_HZ}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_PIXEL\_CLK\_HZ}{EXAMPLE\_LCD\_PIXEL\_CLK\_HZ}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a63c2789a0c95a69a19fb6d870a88d073} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+PIXEL\+\_\+\+CLK\+\_\+\+HZ~(40 \texorpdfstring{$\ast$}{*} 1000 \texorpdfstring{$\ast$}{*} 1000)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_adb1b5d857e5a76e324ff96a4a1f5a566}\index{main.c@{main.c}!EXAMPLE\_LCD\_SPI\_NUM@{EXAMPLE\_LCD\_SPI\_NUM}}
+\index{EXAMPLE\_LCD\_SPI\_NUM@{EXAMPLE\_LCD\_SPI\_NUM}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_SPI\_NUM}{EXAMPLE\_LCD\_SPI\_NUM}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_adb1b5d857e5a76e324ff96a4a1f5a566} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+NUM~(SPI3\+\_\+\+HOST)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a76c4876008780d0fb3ec432efd6c4a51}\index{main.c@{main.c}!EXAMPLE\_LCD\_V\_RES@{EXAMPLE\_LCD\_V\_RES}}
+\index{EXAMPLE\_LCD\_V\_RES@{EXAMPLE\_LCD\_V\_RES}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_V\_RES}{EXAMPLE\_LCD\_V\_RES}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a76c4876008780d0fb3ec432efd6c4a51} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+V\+\_\+\+RES~(240)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a7310bb3106edba92116e1339e4928990}\index{main.c@{main.c}!EXAMPLE\_TOUCH\_GPIO\_INT@{EXAMPLE\_TOUCH\_GPIO\_INT}}
+\index{EXAMPLE\_TOUCH\_GPIO\_INT@{EXAMPLE\_TOUCH\_GPIO\_INT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_TOUCH\_GPIO\_INT}{EXAMPLE\_TOUCH\_GPIO\_INT}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a7310bb3106edba92116e1339e4928990} 
+\+\#define EXAMPLE\+\_\+\+TOUCH\+\_\+\+GPIO\+\_\+\+INT~(GPIO\+\_\+\+NUM\+\_\+3)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_acfd381d2ef9095decd6b2fc77abd5e89}\index{main.c@{main.c}!EXAMPLE\_TOUCH\_I2C\_CLK\_HZ@{EXAMPLE\_TOUCH\_I2C\_CLK\_HZ}}
+\index{EXAMPLE\_TOUCH\_I2C\_CLK\_HZ@{EXAMPLE\_TOUCH\_I2C\_CLK\_HZ}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_TOUCH\_I2C\_CLK\_HZ}{EXAMPLE\_TOUCH\_I2C\_CLK\_HZ}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_acfd381d2ef9095decd6b2fc77abd5e89} 
+\+\#define EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+CLK\+\_\+\+HZ~(400000)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a84b1af776c9aa31dd08b4c52a29536c3}\index{main.c@{main.c}!EXAMPLE\_TOUCH\_I2C\_NUM@{EXAMPLE\_TOUCH\_I2C\_NUM}}
+\index{EXAMPLE\_TOUCH\_I2C\_NUM@{EXAMPLE\_TOUCH\_I2C\_NUM}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_TOUCH\_I2C\_NUM}{EXAMPLE\_TOUCH\_I2C\_NUM}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a84b1af776c9aa31dd08b4c52a29536c3} 
+\+\#define EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+NUM~(0)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a44107daf6ce6f54cf6494295c3083284}\index{main.c@{main.c}!EXAMPLE\_TOUCH\_I2C\_SCL@{EXAMPLE\_TOUCH\_I2C\_SCL}}
+\index{EXAMPLE\_TOUCH\_I2C\_SCL@{EXAMPLE\_TOUCH\_I2C\_SCL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_TOUCH\_I2C\_SCL}{EXAMPLE\_TOUCH\_I2C\_SCL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a44107daf6ce6f54cf6494295c3083284} 
+\+\#define EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+SCL~(GPIO\+\_\+\+NUM\+\_\+18)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5ba2cfab8bc58a3867b01cfcdc5850df}\index{main.c@{main.c}!EXAMPLE\_TOUCH\_I2C\_SDA@{EXAMPLE\_TOUCH\_I2C\_SDA}}
+\index{EXAMPLE\_TOUCH\_I2C\_SDA@{EXAMPLE\_TOUCH\_I2C\_SDA}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_TOUCH\_I2C\_SDA}{EXAMPLE\_TOUCH\_I2C\_SDA}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a5ba2cfab8bc58a3867b01cfcdc5850df} 
+\+\#define EXAMPLE\+\_\+\+TOUCH\+\_\+\+I2\+C\+\_\+\+SDA~(GPIO\+\_\+\+NUM\+\_\+8)}
+
+
+
+\label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_doc-func-members}
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\index{main.c@{main.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____esp__lvgl__port_2examples_2touchscreen_2main_2main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70} 
+void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+

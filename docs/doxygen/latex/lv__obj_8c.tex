@@ -1,0 +1,511 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+core/\+lv\+\_\+obj.c File Reference}
+\hypertarget{lv__obj_8c}{}\label{lv__obj_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj.c}}
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+event\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+style\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+event\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+class\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+refr.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+group.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+themes/\+lv\+\_\+theme.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+assert.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+anim\+\_\+timeline.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+tick/\+lv\+\_\+tick.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+stdlib/\+lv\+\_\+string.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+draw\+\_\+private.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structscreen__load__anim__dsc__t}{screen\+\_\+load\+\_\+anim\+\_\+dsc\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structtimeline__play__dsc__t}{timeline\+\_\+play\+\_\+dsc\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj_8c_a9be806f23ad96997f1d62c1a6dfabe05}{MY\+\_\+\+CLASS}}~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj_8c_a68c68ec521cab370ea0d1e5f2b2bef85}{LV\+\_\+\+OBJ\+\_\+\+DEF\+\_\+\+WIDTH}}~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(100))
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj_8c_a99e3c00b0412448e5f97215ad4dca771}{LV\+\_\+\+OBJ\+\_\+\+DEF\+\_\+\+HEIGHT}}~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(50))
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj_8c_ac49b55bcbc734037ef017dc04308e7dc}{STYLE\+\_\+\+TRANSITION\+\_\+\+MAX}}~32
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj_8c_acf57dc362a43990cbad93921da833b5d}{lv\+\_\+obj\+\_\+create}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}parent)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a87fa70194789d48ea3dba01d1c28c984}{lv\+\_\+obj\+\_\+add\+\_\+flag}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} f)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_ac197364e3e11a3422c0ec2956b00927b}{lv\+\_\+obj\+\_\+remove\+\_\+flag}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} f)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_ac0cf8d92626f909958463b23840a2d46}{lv\+\_\+obj\+\_\+set\+\_\+flag}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} f, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} v)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_adbd258635d3d653e5446336764044db1}{lv\+\_\+obj\+\_\+add\+\_\+state}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} state)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_ae4b5f01ddbd6937a58d5b934dec69c50}{lv\+\_\+obj\+\_\+remove\+\_\+state}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} state)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a2979f97d93bd2805ac8ecb092f7e4638}{lv\+\_\+obj\+\_\+set\+\_\+state}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} state, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} v)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_a349bf1b6dea18bd0ab189e7a1c06a662}{lv\+\_\+obj\+\_\+has\+\_\+flag}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} f)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_a29244deb39942043ee658fbb8e1a47d2}{lv\+\_\+obj\+\_\+has\+\_\+flag\+\_\+any}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} f)
+\item 
+\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} \doxymbox{\hyperlink{lv__obj_8c_a512731c24ce12b0e62abb3179cbde6ed}{lv\+\_\+obj\+\_\+get\+\_\+state}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_af6296b36dd5eddc61f5544761b1ff5a7}{lv\+\_\+obj\+\_\+has\+\_\+state}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} state)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj_8c_a17896b421b64c466e0095a89def4d9e5}{lv\+\_\+obj\+\_\+get\+\_\+group}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a1b734607bd80d900ba862375d08227cf}{lv\+\_\+obj\+\_\+allocate\+\_\+spec\+\_\+attr}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_a3d7bedf32977bdf5a8ddfa01f1302c08}{lv\+\_\+obj\+\_\+check\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_a27480f49b6f82e0e2643c1dd09735e9d}{lv\+\_\+obj\+\_\+has\+\_\+class}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj_8c_a30595a041d9abd1a81629965d22a82e0}{lv\+\_\+obj\+\_\+get\+\_\+class}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj_8c_a4c220acd20b632ad2d4ca7cd7a3023bb}{lv\+\_\+obj\+\_\+is\+\_\+valid}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a0955e47d2cb3421e975dea873fb12d43}{lv\+\_\+obj\+\_\+null\+\_\+on\+\_\+delete}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}obj\+\_\+ptr)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a02aa4ef9c759ada3ddd0b5b557fd7d4b}{lv\+\_\+obj\+\_\+add\+\_\+screen\+\_\+load\+\_\+event}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} trigger, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}screen, \doxymbox{\hyperlink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}} anim\+\_\+type, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} duration, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} delay)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a1262cc1ed5a509ee62f475adde3eab47}{lv\+\_\+obj\+\_\+add\+\_\+screen\+\_\+create\+\_\+event}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} trigger, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeafa7c3defcafd64be08c45c6e864b3}{lv\+\_\+screen\+\_\+create\+\_\+cb\+\_\+t}} screen\+\_\+create\+\_\+cb, \doxymbox{\hyperlink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}} anim\+\_\+type, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} duration, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} delay)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_aa7170dc953f27f901895e79f7de9a915}{lv\+\_\+obj\+\_\+add\+\_\+play\+\_\+timeline\+\_\+event}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} trigger, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a769fcfd75ee4426abc152fb61accab4d}{lv\+\_\+anim\+\_\+timeline\+\_\+t}} \texorpdfstring{$\ast$}{*}at, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} delay, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} reverse)
+\item 
+void \doxymbox{\hyperlink{lv__obj_8c_a5958414c4e1ac62921956c5654e07baf}{lv\+\_\+obj\+\_\+set\+\_\+user\+\_\+data}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj_8c_ade61b9545ddcda311e77df94186c698f}{lv\+\_\+obj\+\_\+get\+\_\+user\+\_\+data}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}}
+\end{DoxyCompactItemize}
+
+
+\label{lv__obj_8c_doc-define-members}
+\Hypertarget{lv__obj_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__obj_8c_a99e3c00b0412448e5f97215ad4dca771}\index{lv\_obj.c@{lv\_obj.c}!LV\_OBJ\_DEF\_HEIGHT@{LV\_OBJ\_DEF\_HEIGHT}}
+\index{LV\_OBJ\_DEF\_HEIGHT@{LV\_OBJ\_DEF\_HEIGHT}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{LV\_OBJ\_DEF\_HEIGHT}{LV\_OBJ\_DEF\_HEIGHT}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a99e3c00b0412448e5f97215ad4dca771} 
+\+\#define LV\+\_\+\+OBJ\+\_\+\+DEF\+\_\+\+HEIGHT~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(50))}
+
+\Hypertarget{lv__obj_8c_a68c68ec521cab370ea0d1e5f2b2bef85}\index{lv\_obj.c@{lv\_obj.c}!LV\_OBJ\_DEF\_WIDTH@{LV\_OBJ\_DEF\_WIDTH}}
+\index{LV\_OBJ\_DEF\_WIDTH@{LV\_OBJ\_DEF\_WIDTH}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{LV\_OBJ\_DEF\_WIDTH}{LV\_OBJ\_DEF\_WIDTH}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a68c68ec521cab370ea0d1e5f2b2bef85} 
+\+\#define LV\+\_\+\+OBJ\+\_\+\+DEF\+\_\+\+WIDTH~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(100))}
+
+\Hypertarget{lv__obj_8c_a9be806f23ad96997f1d62c1a6dfabe05}\index{lv\_obj.c@{lv\_obj.c}!MY\_CLASS@{MY\_CLASS}}
+\index{MY\_CLASS@{MY\_CLASS}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{MY\_CLASS}{MY\_CLASS}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a9be806f23ad96997f1d62c1a6dfabe05} 
+\+\#define MY\+\_\+\+CLASS~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})}
+
+\Hypertarget{lv__obj_8c_ac49b55bcbc734037ef017dc04308e7dc}\index{lv\_obj.c@{lv\_obj.c}!STYLE\_TRANSITION\_MAX@{STYLE\_TRANSITION\_MAX}}
+\index{STYLE\_TRANSITION\_MAX@{STYLE\_TRANSITION\_MAX}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{STYLE\_TRANSITION\_MAX}{STYLE\_TRANSITION\_MAX}}
+{\footnotesize\ttfamily \label{lv__obj_8c_ac49b55bcbc734037ef017dc04308e7dc} 
+\+\#define STYLE\+\_\+\+TRANSITION\+\_\+\+MAX~32}
+
+
+
+\label{lv__obj_8c_doc-func-members}
+\Hypertarget{lv__obj_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__obj_8c_a87fa70194789d48ea3dba01d1c28c984}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_add\_flag@{lv\_obj\_add\_flag}}
+\index{lv\_obj\_add\_flag@{lv\_obj\_add\_flag}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_add\_flag()}{lv\_obj\_add\_flag()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a87fa70194789d48ea3dba01d1c28c984} 
+void lv\+\_\+obj\+\_\+add\+\_\+flag (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}}}]{f}{}\end{DoxyParamCaption})}
+
+Set one or more flags 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em f} & OR-\/ed values from {\ttfamily \doxylink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_aa7170dc953f27f901895e79f7de9a915}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_add\_play\_timeline\_event@{lv\_obj\_add\_play\_timeline\_event}}
+\index{lv\_obj\_add\_play\_timeline\_event@{lv\_obj\_add\_play\_timeline\_event}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_add\_play\_timeline\_event()}{lv\_obj\_add\_play\_timeline\_event()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_aa7170dc953f27f901895e79f7de9a915} 
+void lv\+\_\+obj\+\_\+add\+\_\+play\+\_\+timeline\+\_\+event (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{trigger}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a769fcfd75ee4426abc152fb61accab4d}{lv\+\_\+anim\+\_\+timeline\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{at}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{delay}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{reverse}{}\end{DoxyParamCaption})}
+
+Play a timeline animation on a trigger 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to widget which should trigger playing the animation \\
+\hline
+{\em trigger} & an event code, e.\+g. {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771aa02bc86fc8e7a7edab3634a816c19ab6}{LV\+\_\+\+EVENT\+\_\+\+CLICKED}} \\
+\hline
+{\em at} & pointer to an animation timeline \\
+\hline
+{\em delay} & wait time before starting the animation \\
+\hline
+{\em reverse} & true:\+ play in reverse \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a1262cc1ed5a509ee62f475adde3eab47}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_add\_screen\_create\_event@{lv\_obj\_add\_screen\_create\_event}}
+\index{lv\_obj\_add\_screen\_create\_event@{lv\_obj\_add\_screen\_create\_event}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_add\_screen\_create\_event()}{lv\_obj\_add\_screen\_create\_event()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a1262cc1ed5a509ee62f475adde3eab47} 
+void lv\+\_\+obj\+\_\+add\+\_\+screen\+\_\+create\+\_\+event (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{trigger}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeafa7c3defcafd64be08c45c6e864b3}{lv\+\_\+screen\+\_\+create\+\_\+cb\+\_\+t}}}]{screen\+\_\+create\+\_\+cb}{, }\item[{\doxymbox{\hyperlink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}}}]{anim\+\_\+type}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{duration}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{delay}{}\end{DoxyParamCaption})}
+
+Add an event handler to a widget that will create a screen on a trigger. The created screen will be deleted when it\textquotesingle{}s unloaded 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to widget which should load the screen \\
+\hline
+{\em trigger} & an event code, e.\+g. {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771aa02bc86fc8e7a7edab3634a816c19ab6}{LV\+\_\+\+EVENT\+\_\+\+CLICKED}} \\
+\hline
+{\em screen\+\_\+create\+\_\+cb} & a callback to create the screen, e.\+g. {\ttfamily \doxylink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t} \texorpdfstring{$\ast$}{*} myscreen\+\_\+create(void)} \\
+\hline
+{\em anim\+\_\+type} & element of {\ttfamily \doxylink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}} the screen load animation \\
+\hline
+{\em duration} & duration of the animation in milliseconds \\
+\hline
+{\em delay} & delay before the screen load in milliseconds \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a02aa4ef9c759ada3ddd0b5b557fd7d4b}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_add\_screen\_load\_event@{lv\_obj\_add\_screen\_load\_event}}
+\index{lv\_obj\_add\_screen\_load\_event@{lv\_obj\_add\_screen\_load\_event}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_add\_screen\_load\_event()}{lv\_obj\_add\_screen\_load\_event()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a02aa4ef9c759ada3ddd0b5b557fd7d4b} 
+void lv\+\_\+obj\+\_\+add\+\_\+screen\+\_\+load\+\_\+event (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{trigger}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{screen}{, }\item[{\doxymbox{\hyperlink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}}}]{anim\+\_\+type}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{duration}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{delay}{}\end{DoxyParamCaption})}
+
+Add an event handler to a widget that will load a screen on a trigger. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to widget which should load the screen \\
+\hline
+{\em trigger} & an event code, e.\+g. {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771aa02bc86fc8e7a7edab3634a816c19ab6}{LV\+\_\+\+EVENT\+\_\+\+CLICKED}} \\
+\hline
+{\em screen} & the screen to load (must be a valid widget) \\
+\hline
+{\em anim\+\_\+type} & element of {\ttfamily \doxylink{lv__display_8h_a7222183909f247555bc12568fc1d1c42}{lv\+\_\+screen\+\_\+load\+\_\+anim\+\_\+t}} the screen load animation \\
+\hline
+{\em duration} & duration of the animation in milliseconds \\
+\hline
+{\em delay} & delay before the screen load in milliseconds \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_adbd258635d3d653e5446336764044db1}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_add\_state@{lv\_obj\_add\_state}}
+\index{lv\_obj\_add\_state@{lv\_obj\_add\_state}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_add\_state()}{lv\_obj\_add\_state()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_adbd258635d3d653e5446336764044db1} 
+void lv\+\_\+obj\+\_\+add\+\_\+state (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}}}]{state}{}\end{DoxyParamCaption})}
+
+Add one or more states to the object. The other state bits will remain unchanged. If specified in the styles, transition animation will be started from the previous state to the current. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em state} & the states to add. E.\+g {\ttfamily \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a69673539aa92d84848a992fb3baea649}{LV\+\_\+\+STATE\+\_\+\+PRESSED} \texorpdfstring{$\vert$}{|} \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a5fb9f48f09dbcf9d45b0f79675e793cb}{LV\+\_\+\+STATE\+\_\+\+FOCUSED}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a1b734607bd80d900ba862375d08227cf}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_allocate\_spec\_attr@{lv\_obj\_allocate\_spec\_attr}}
+\index{lv\_obj\_allocate\_spec\_attr@{lv\_obj\_allocate\_spec\_attr}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_allocate\_spec\_attr()}{lv\_obj\_allocate\_spec\_attr()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a1b734607bd80d900ba862375d08227cf} 
+void lv\+\_\+obj\+\_\+allocate\+\_\+spec\+\_\+attr (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Allocate special data for an object if not allocated yet. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a3d7bedf32977bdf5a8ddfa01f1302c08}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_check\_type@{lv\_obj\_check\_type}}
+\index{lv\_obj\_check\_type@{lv\_obj\_check\_type}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_check\_type()}{lv\_obj\_check\_type()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a3d7bedf32977bdf5a8ddfa01f1302c08} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+check\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Check the type of obj. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em class\+\_\+p} & a class to check (e.\+g. {\ttfamily \doxylink{lv__slider_8c_a6e4e9fa8d4d1036cebb913e1dea92a5c}{lv\+\_\+slider\+\_\+class}}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ {\ttfamily class\+\_\+p} is the {\ttfamily obj} class. 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_acf57dc362a43990cbad93921da833b5d}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_create@{lv\_obj\_create}}
+\index{lv\_obj\_create@{lv\_obj\_create}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_create()}{lv\_obj\_create()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_acf57dc362a43990cbad93921da833b5d} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+create (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{parent}{}\end{DoxyParamCaption})}
+
+Create a base object (a rectangle) 
+\begin{DoxyParams}{Parameters}
+{\em parent} & pointer to a parent object. If NULL then a screen will be created. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the new object 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a30595a041d9abd1a81629965d22a82e0}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_get\_class@{lv\_obj\_get\_class}}
+\index{lv\_obj\_get\_class@{lv\_obj\_get\_class}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_class()}{lv\_obj\_get\_class()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a30595a041d9abd1a81629965d22a82e0} 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+class (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the class (type) of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the class (type) of the object 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a17896b421b64c466e0095a89def4d9e5}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_get\_group@{lv\_obj\_get\_group}}
+\index{lv\_obj\_get\_group@{lv\_obj\_get\_group}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_group()}{lv\_obj\_get\_group()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a17896b421b64c466e0095a89def4d9e5} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+group (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the group of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pointer to group of the object 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a512731c24ce12b0e62abb3179cbde6ed}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_get\_state@{lv\_obj\_get\_state}}
+\index{lv\_obj\_get\_state@{lv\_obj\_get\_state}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_state()}{lv\_obj\_get\_state()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a512731c24ce12b0e62abb3179cbde6ed} 
+\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+state (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the state of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the state (OR-\/ed values from {\ttfamily \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}}) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_ade61b9545ddcda311e77df94186c698f}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_get\_user\_data@{lv\_obj\_get\_user\_data}}
+\index{lv\_obj\_get\_user\_data@{lv\_obj\_get\_user\_data}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_user\_data()}{lv\_obj\_get\_user\_data()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_ade61b9545ddcda311e77df94186c698f} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+user\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the user\+\_\+data field of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pointer to the user\+\_\+data of the object 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a27480f49b6f82e0e2643c1dd09735e9d}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_has\_class@{lv\_obj\_has\_class}}
+\index{lv\_obj\_has\_class@{lv\_obj\_has\_class}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_has\_class()}{lv\_obj\_has\_class()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a27480f49b6f82e0e2643c1dd09735e9d} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+has\+\_\+class (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Check if any object has a given class (type). It checks the ancestor classes too. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em class\+\_\+p} & a class to check (e.\+g. {\ttfamily \doxylink{lv__slider_8c_a6e4e9fa8d4d1036cebb913e1dea92a5c}{lv\+\_\+slider\+\_\+class}}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ {\ttfamily obj} has the given class 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a349bf1b6dea18bd0ab189e7a1c06a662}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_has\_flag@{lv\_obj\_has\_flag}}
+\index{lv\_obj\_has\_flag@{lv\_obj\_has\_flag}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_has\_flag()}{lv\_obj\_has\_flag()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a349bf1b6dea18bd0ab189e7a1c06a662} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+has\+\_\+flag (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}}}]{f}{}\end{DoxyParamCaption})}
+
+Check if a given flag or all the given flags are set on an object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em f} & the flag(s) to check (OR-\/ed values can be used) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ all flags are set; false:\+ not all flags are set 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a29244deb39942043ee658fbb8e1a47d2}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_has\_flag\_any@{lv\_obj\_has\_flag\_any}}
+\index{lv\_obj\_has\_flag\_any@{lv\_obj\_has\_flag\_any}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_has\_flag\_any()}{lv\_obj\_has\_flag\_any()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a29244deb39942043ee658fbb8e1a47d2} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+has\+\_\+flag\+\_\+any (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}}}]{f}{}\end{DoxyParamCaption})}
+
+Check if a given flag or any of the flags are set on an object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em f} & the flag(s) to check (OR-\/ed values can be used) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ at least one flag is set; false:\+ none of the flags are set 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_af6296b36dd5eddc61f5544761b1ff5a7}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_has\_state@{lv\_obj\_has\_state}}
+\index{lv\_obj\_has\_state@{lv\_obj\_has\_state}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_has\_state()}{lv\_obj\_has\_state()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_af6296b36dd5eddc61f5544761b1ff5a7} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+has\+\_\+state (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}}}]{state}{}\end{DoxyParamCaption})}
+
+Check if the object is in a given state or not. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em state} & a state or combination of states to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ {\ttfamily obj} is in {\ttfamily \doxylink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}}; false:\+ {\ttfamily obj} is not in {\ttfamily \doxylink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}} 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a4c220acd20b632ad2d4ca7cd7a3023bb}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_is\_valid@{lv\_obj\_is\_valid}}
+\index{lv\_obj\_is\_valid@{lv\_obj\_is\_valid}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_is\_valid()}{lv\_obj\_is\_valid()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a4c220acd20b632ad2d4ca7cd7a3023bb} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+is\+\_\+valid (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Check if any object is still "{}alive"{}. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ valid 
+\end{DoxyReturn}
+\Hypertarget{lv__obj_8c_a0955e47d2cb3421e975dea873fb12d43}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_null\_on\_delete@{lv\_obj\_null\_on\_delete}}
+\index{lv\_obj\_null\_on\_delete@{lv\_obj\_null\_on\_delete}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_null\_on\_delete()}{lv\_obj\_null\_on\_delete()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a0955e47d2cb3421e975dea873fb12d43} 
+void lv\+\_\+obj\+\_\+null\+\_\+on\+\_\+delete (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{obj\+\_\+ptr}{}\end{DoxyParamCaption})}
+
+Utility to set an object reference to NULL when it gets deleted. The reference should be in a location that will not become invalid during the object\textquotesingle{}s lifetime, i.\+e. static or allocated. 
+\begin{DoxyParams}{Parameters}
+{\em obj\+\_\+ptr} & a pointer to a pointer to an object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_ac197364e3e11a3422c0ec2956b00927b}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_remove\_flag@{lv\_obj\_remove\_flag}}
+\index{lv\_obj\_remove\_flag@{lv\_obj\_remove\_flag}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_remove\_flag()}{lv\_obj\_remove\_flag()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_ac197364e3e11a3422c0ec2956b00927b} 
+void lv\+\_\+obj\+\_\+remove\+\_\+flag (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}}}]{f}{}\end{DoxyParamCaption})}
+
+Remove one or more flags 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em f} & OR-\/ed values from {\ttfamily \doxylink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} to clear. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_ae4b5f01ddbd6937a58d5b934dec69c50}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_remove\_state@{lv\_obj\_remove\_state}}
+\index{lv\_obj\_remove\_state@{lv\_obj\_remove\_state}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_remove\_state()}{lv\_obj\_remove\_state()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_ae4b5f01ddbd6937a58d5b934dec69c50} 
+void lv\+\_\+obj\+\_\+remove\+\_\+state (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}}}]{state}{}\end{DoxyParamCaption})}
+
+Remove one or more states to the object. The other state bits will remain unchanged. If specified in the styles, transition animation will be started from the previous state to the current. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em state} & the states to add. E.\+g {\ttfamily \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a69673539aa92d84848a992fb3baea649}{LV\+\_\+\+STATE\+\_\+\+PRESSED} \texorpdfstring{$\vert$}{|} \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a5fb9f48f09dbcf9d45b0f79675e793cb}{LV\+\_\+\+STATE\+\_\+\+FOCUSED}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_ac0cf8d92626f909958463b23840a2d46}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_set\_flag@{lv\_obj\_set\_flag}}
+\index{lv\_obj\_set\_flag@{lv\_obj\_set\_flag}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_flag()}{lv\_obj\_set\_flag()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_ac0cf8d92626f909958463b23840a2d46} 
+void lv\+\_\+obj\+\_\+set\+\_\+flag (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}}}]{f}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{v}{}\end{DoxyParamCaption})}
+
+Set add or remove one or more flags. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em f} & OR-\/ed values from {\ttfamily \doxylink{lv__obj_8h_a94ae3b3ad803db4d65e5c735efce219a}{lv\+\_\+obj\+\_\+flag\+\_\+t}} to update. \\
+\hline
+{\em v} & true:\+ add the flags; false:\+ remove the flags \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a2979f97d93bd2805ac8ecb092f7e4638}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_set\_state@{lv\_obj\_set\_state}}
+\index{lv\_obj\_set\_state@{lv\_obj\_set\_state}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_state()}{lv\_obj\_set\_state()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a2979f97d93bd2805ac8ecb092f7e4638} 
+void lv\+\_\+obj\+\_\+set\+\_\+state (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5}{lv\+\_\+state\+\_\+t}}}]{state}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{v}{}\end{DoxyParamCaption})}
+
+Add or remove one or more states to the object. The other state bits will remain unchanged. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em state} & the states to add. E.\+g {\ttfamily \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a69673539aa92d84848a992fb3baea649}{LV\+\_\+\+STATE\+\_\+\+PRESSED} \texorpdfstring{$\vert$}{|} \doxylink{lv__obj__style_8h_a1a992070c236042354cd579c43c4f5e5a5fb9f48f09dbcf9d45b0f79675e793cb}{LV\+\_\+\+STATE\+\_\+\+FOCUSED}} \\
+\hline
+{\em v} & true:\+ add the states; false:\+ remove the states \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj_8c_a5958414c4e1ac62921956c5654e07baf}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_set\_user\_data@{lv\_obj\_set\_user\_data}}
+\index{lv\_obj\_set\_user\_data@{lv\_obj\_set\_user\_data}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_user\_data()}{lv\_obj\_set\_user\_data()}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a5958414c4e1ac62921956c5654e07baf} 
+void lv\+\_\+obj\+\_\+set\+\_\+user\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+Set the user\+\_\+data field of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em user\+\_\+data} & pointer to the new user\+\_\+data. \\
+\hline
+\end{DoxyParams}
+
+
+\label{lv__obj_8c_doc-var-members}
+\Hypertarget{lv__obj_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}\index{lv\_obj.c@{lv\_obj.c}!lv\_obj\_class@{lv\_obj\_class}}
+\index{lv\_obj\_class@{lv\_obj\_class}!lv\_obj.c@{lv\_obj.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_class}{lv\_obj\_class}}
+{\footnotesize\ttfamily \label{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44} 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} lv\+\_\+obj\+\_\+class}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \{}
+\DoxyCodeLine{\ \ \ \ .constructor\_cb\ =\ lv\_obj\_constructor,}
+\DoxyCodeLine{\ \ \ \ .destructor\_cb\ =\ lv\_obj\_destructor,}
+\DoxyCodeLine{\ \ \ \ .event\_cb\ =\ lv\_obj\_event,}
+\DoxyCodeLine{\ \ \ \ .width\_def\ =\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_aadf0386c6d60d0c07153b38654f6b6d3}{LV\_DPI\_DEF}},}
+\DoxyCodeLine{\ \ \ \ .height\_def\ =\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_aadf0386c6d60d0c07153b38654f6b6d3}{LV\_DPI\_DEF}},}
+\DoxyCodeLine{\ \ \ \ .editable\ =\ \doxymbox{\hyperlink{lv__obj__class_8h_a86f3f042b274542776ab1a066cfe7c82a8f71b520721c9990497639fdf7c69128}{LV\_OBJ\_CLASS\_EDITABLE\_FALSE}},}
+\DoxyCodeLine{\ \ \ \ .group\_def\ =\ \doxymbox{\hyperlink{lv__obj__class_8h_aebc1dfe87bf60e09142aea1746c6871da1ef50a6cb279713cf8ac90861c61b605}{LV\_OBJ\_CLASS\_GROUP\_DEF\_FALSE}},}
+\DoxyCodeLine{\ \ \ \ .instance\_size\ =\ (\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}})),}
+\DoxyCodeLine{\ \ \ \ .base\_class\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},}
+\DoxyCodeLine{\ \ \ \ .\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}}\ =\ \textcolor{stringliteral}{"{}lv\_obj"{}},}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+Make the base object\textquotesingle{}s class publicly available. 

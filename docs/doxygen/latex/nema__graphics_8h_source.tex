@@ -1,0 +1,412 @@
+\doxysection{nema\+\_\+graphics.\+h}
+\hypertarget{nema__graphics_8h_source}{}\label{nema__graphics_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_graphics.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_graphics.h}}
+\doxymbox{\hyperlink{nema__graphics_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ TSI\ 2023.xmo\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*******************************************************************************}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2023\ Think\ Silicon\ Single\ Member\ PC}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ of\ this\ header\ file\ and/or\ associated\ documentation\ files\ to\ use,\ copy,}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ Materials,\ and\ to\ permit\ persons\ to\ whom\ the\ Materials\ are\ furnished\ to\ do}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Materials.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ MODIFICATIONS\ TO\ THIS\ FILE\ MAY\ MEAN\ IT\ NO\ LONGER\ ACCURATELY\ REFLECTS}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ NEMAGFX\ API.\ THE\ UNMODIFIED,\ NORMATIVE\ VERSIONS\ OF\ THINK-\/SILICON\ NEMAGFX}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ SPECIFICATIONS\ AND\ HEADER\ INFORMATION\ ARE\ LOCATED\ AT:}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ \ \ https://think-\/silicon.com/products/software/nemagfx-\/api}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ The\ software\ is\ provided\ 'as\ is',\ without\ warranty\ of\ any\ kind,\ express\ or}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ \ implied,\ including\ but\ not\ limited\ to\ the\ warranties\ of\ merchantability,}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ \ fitness\ for\ a\ particular\ purpose\ and\ noninfringement.\ In\ no\ event\ shall}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ Think\ Silicon\ Single\ Member\ PC\ be\ liable\ for\ any\ claim,\ damages\ or\ other}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ \ liability,\ whether\ in\ an\ action\ of\ contract,\ tort\ or\ otherwise,\ arising}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ \ from,\ out\ of\ or\ in\ connection\ with\ the\ software\ or\ the\ use\ or\ other\ dealings}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ \ in\ the\ software.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ ******************************************************************************/}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#ifndef\ NEMA\_GRAPHICS\_H\_\_}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ NEMA\_GRAPHICS\_H\_\_}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__sys__defs_8h}{nema\_sys\_defs.h}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__hal_8h}{nema\_hal.h}}"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__matrix3x3_8h}{nema\_matrix3x3.h}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__img__obj__}{\_img\_obj\_}}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{nema__hal_8h_aaf4fdd75a994a7d3763561468c37830b}{nema\_buffer\_t}}\ \doxymbox{\hyperlink{struct__img__obj___a24b45c7cfc4dc7f0a83fee8c27a3c846}{bo}};}
+\DoxyCodeLine{00042\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{struct__img__obj___a69e28057d97f59f81862a467cc6299fc}{w}};}
+\DoxyCodeLine{00043\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{struct__img__obj___a8bf5747847b23fa2d39ef956e10bfbd3}{h}};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \doxymbox{\hyperlink{struct__img__obj___a08f66a6870d87afcd5dc1b60d1019692}{stride}};}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{struct__img__obj___a66b2ef8398a8bbb0f5816f22a7b138da}{color}};}
+\DoxyCodeLine{00046\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \doxymbox{\hyperlink{struct__img__obj___a7864fd50d470f893524181b4a59d9828}{format}};}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \doxymbox{\hyperlink{struct__img__obj___afb3d2cc9a2943c15d9545097d5a0a7d2}{sampling\_mode}};\ \textcolor{comment}{//\ NEMA\_FILTER*}}
+\DoxyCodeLine{00048\ \}\ \doxymbox{\hyperlink{nema__graphics_8h_a0272f2cece8c408662a9cf16d84d60d8}{img\_obj\_t}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{nema__graphics_8h_a0272f2cece8c408662a9cf16d84d60d8}{img\_obj\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\_img\_obj\_t}};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700a40b894708900794efb90ebc9bdc4a1d9}{NEMA\_NOTEX}}\ \ =\ -\/1,\ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700ad4d523066733cd52aa98f160c7b58ba9}{NEMA\_TEX0}}\ \ \ =\ \ 0,\ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700ac55222e40024dbe4d566c0fb3fb32fb4}{NEMA\_TEX1}}\ \ \ =\ \ 1,\ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700a205bf9ba384ce0bfd2164603e400f86f}{NEMA\_TEX2}}\ \ \ =\ \ 2,\ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700abd22699aeadbe0988377b8fe3ef53416}{NEMA\_TEX3}}\ \ \ =\ \ 3,\ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700a3f66b4fb44814a899297466224e014c6}{NEMA\_TEXMAX}}\ =\ \ 4\ \ \ \ \ }
+\DoxyCodeLine{00059\ \}\ \doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700}{nema\_tex\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ NEMA\_RGBX8888\ \ \ 0x00U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA8888\ \ \ 0x01U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ NEMA\_XRGB8888\ \ \ 0x02U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ NEMA\_ARGB8888\ \ \ 0x03U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ NEMA\_RGB565\ \ \ \ \ 0x04U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA5650\ \ \ 0x04U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA5551\ \ \ 0x05U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA4444\ \ \ 0x06U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA0800\ \ \ 0x07U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ NEMA\_A8\ \ \ \ \ \ \ \ \ 0x08U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA0008\ \ \ 0x08U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ NEMA\_L8\ \ \ \ \ \ \ \ \ 0x09U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA3320\ \ \ 0x38U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ NEMA\_RGB332\ \ \ \ \ 0x38U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ NEMA\_BW1\ \ \ \ \ \ \ \ 0x0CU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ NEMA\_A1\ \ \ \ \ \ \ \ \ 0x0CU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ NEMA\_L1\ \ \ \ \ \ \ \ \ 0x0BU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ NEMA\_UYVY\ \ \ \ \ \ \ 0x0DU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ NEMA\_ABGR8888\ \ \ 0x0EU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ NEMA\_XBGR8888\ \ \ 0x0FU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ NEMA\_BGRA8888\ \ \ 0x10U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ NEMA\_BGRX8888\ \ \ 0x11U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ NEMA\_TSC4\ \ \ \ \ \ \ 0x12U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ NEMA\_TSC6\ \ \ \ \ \ \ 0x16U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ NEMA\_TSC6A\ \ \ \ \ \ 0x17U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ NEMA\_RV\ \ \ \ \ \ \ \ \ 0x18U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ NEMA\_GU\ \ \ \ \ \ \ \ \ 0x19U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ NEMA\_BY\ \ \ \ \ \ \ \ \ 0x1AU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ NEMA\_YUV\ \ \ \ \ \ \ \ 0x1BU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ NEMA\_Z24\_8\ \ \ \ \ \ 0x1cU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ NEMA\_Z16\ \ \ \ \ \ \ \ 0x1dU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ NEMA\_UV\ \ \ \ \ \ \ \ \ 0x1eU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ NEMA\_A1LE\ \ \ \ \ \ \ 0x27U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ NEMA\_A2LE\ \ \ \ \ \ \ 0x28U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ NEMA\_A4LE\ \ \ \ \ \ \ 0x29U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ NEMA\_L1LE\ \ \ \ \ \ \ 0x2AU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ NEMA\_L2LE\ \ \ \ \ \ \ 0x2BU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ NEMA\_L4LE\ \ \ \ \ \ \ 0x2CU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ NEMA\_A2\ \ \ \ \ \ \ \ \ 0x30U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ NEMA\_A4\ \ \ \ \ \ \ \ \ 0x34U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ NEMA\_L2\ \ \ \ \ \ \ \ \ 0x31U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ NEMA\_L4\ \ \ \ \ \ \ \ \ 0x35U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ NEMA\_BGR24\ \ \ \ \ \ 0x39U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ NEMA\_RGB24\ \ \ \ \ \ 0x3CU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ NEMA\_RV10\ \ \ \ \ \ \ 0x3DU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ NEMA\_GU10\ \ \ \ \ \ \ 0x3EU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ NEMA\_BY10\ \ \ \ \ \ \ 0x3FU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ NEMA\_RGBA2222\ \ \ 0x40U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ NEMA\_ABGR2222\ \ \ 0x41U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ NEMA\_BGRA2222\ \ \ 0x42U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ NEMA\_ARGB2222\ \ \ 0x43U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ NEMA\_AL88\ \ \ \ \ \ \ 0x44U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ NEMA\_AL44\ \ \ \ \ \ \ 0x45U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ NEMA\_ARGB1555\ \ \ 0x46U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ NEMA\_ARGB4444\ \ \ 0x47U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ NEMA\_BGRA5650\ \ \ 0x13U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ NEMA\_BGR565\ \ \ \ \ 0x13U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ NEMA\_BGRA5551\ \ \ 0x48U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ NEMA\_ABGR1555\ \ \ 0x49U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ NEMA\_BGRA4444\ \ \ 0x4aU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ NEMA\_ABGR4444\ \ \ 0x4bU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ NEMA\_TSC12\ \ \ \ \ \ 0x4cU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ NEMA\_TSC12A\ \ \ \ \ 0x4dU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ NEMA\_TSC6AP\ \ \ \ \ 0x4eU\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ NEMA\_DITHER\ \ \ \ \ 0x80U\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ NEMA\_FORMAT\_MASK\ 0x7FU\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ Texture\ Unit\ Parameters}}
+\DoxyCodeLine{00134\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{comment}{//\ Filtering\ -\/\ 0:0}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ NEMA\_FILTER\_PS\ \ 0x00U\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ NEMA\_FILTER\_BL\ \ 0x01U\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{comment}{//\ Wrapping\ Mode\ 3:2}}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_CLAMP\ \ (0x00U)\ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_REPEAT\ (0x01U<<2)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_BORDER\ (0x02U<<2)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_MIRROR\ (0x03U<<2)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{comment}{//\ Texture\ Coordinates\ Ordering\ 4:4}}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_MORTON\_ORDER\ (0x10U)}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{//\ Texture\ Coordinates\ Format\ 6:5}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_RANGE\_0\_1\ \ \ (0x1U<<5)\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ NEMA\_TEX\_LEFT\_HANDED\ (0x1U<<6)\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}};}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{comment}{//\ Triangle\ Culling}}
+\DoxyCodeLine{00159\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00160\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8fa11778ebd81ae89297742f300b4de4392}{NEMA\_CULL\_NONE}}\ =\ 0\ \ \ \ \ \ ,\ }
+\DoxyCodeLine{00162\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8faadb079f2d271edb35c86e73990c5c440}{NEMA\_CULL\_CW}}\ \ \ =\ (1U<<28),\ \ \ }
+\DoxyCodeLine{00163\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8fafeecbccce48fda3f3a48a1cda917624d}{NEMA\_CULL\_CCW}}\ \ =\ (1U<<29),\ \ }
+\DoxyCodeLine{00164\ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8fa7cc9135ef75afcdb01a6a9ab462b4625}{NEMA\_CULL\_ALL}}\ \ =\ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8faadb079f2d271edb35c86e73990c5c440}{NEMA\_CULL\_CW}}\ |\ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8fafeecbccce48fda3f3a48a1cda917624d}{NEMA\_CULL\_CCW}}\ \ \ }
+\DoxyCodeLine{00165\ \}\ \doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8f}{nema\_tri\_cull\_t}};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{comment}{//\ Rotation\ Modes}}
+\DoxyCodeLine{00168\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_000\_CCW\ \ (0x0U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_090\_CCW\ \ (0x1U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_180\_CCW\ \ (0x2U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_270\_CCW\ \ (0x3U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_000\_CW\ \ \ (0x0U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_270\_CW\ \ \ (0x1U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_180\_CW\ \ \ (0x2U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ NEMA\_ROT\_090\_CW\ \ \ (0x3U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ NEMA\_MIR\_VERT\ \ \ \ \ (0x4U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ NEMA\_MIR\_HOR\ \ \ \ \ \ (0x8U)\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00187\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_aeaacfce8b759e4af40670762ac05ba63}{nema\_checkGPUPresence}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ TEXTURES\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00202\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a618578efb5d4f9011eb2ce8f831364b3}{nema\_bind\_tex}}(\doxymbox{\hyperlink{nema__graphics_8h_ad8f3f3d8ce83959e054e17e63611f700}{nema\_tex\_t}}\ texid,\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ addr\_gpu,}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ stride,\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ wrap\_mode);}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00212\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aa85c42820a0008d6ad01ec4016f9b4da}{nema\_set\_tex\_color}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ color);}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ CONSTREGS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00222\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a692cbb613f10c7bb44d747bb5cbdd15e}{nema\_set\_const\_reg}}(\textcolor{keywordtype}{int}\ reg,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ CLIP\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00234\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ae1091e3619d2c4e53e99f69dac1865f7}{nema\_set\_clip}}(\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ w,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ h);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ab4c4ef9dd5ccd7de7fb1b6b4ddff1a4a}{nema\_enable\_gradient}}(\textcolor{keywordtype}{int}\ enable);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ac8451ade502989dcc47427e5c6ac7ac7}{nema\_enable\_depth}}(\textcolor{keywordtype}{int}\ enable);}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00249\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_a5561970a4bedc5d47fb7bbf148ebf9cf}{nema\_enable\_aa}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ e0,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ e1,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ e2,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ e3);}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ DIRTY\ REGIONS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00262\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aabd7bf1b0a2f3b8de086f7c5fae7880d}{nema\_get\_dirty\_region}}(\textcolor{keywordtype}{int}\ *minx,\ \textcolor{keywordtype}{int}\ *miny,\ \textcolor{keywordtype}{int}\ *maxx,\ \textcolor{keywordtype}{int}\ *maxy);}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00271\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a90b58b871c79b99d51cd0c547c58e01f}{nema\_clear\_dirty\_region}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00280\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a56583cdd9f01023fa5cdb6dc3865d46a}{nema\_clear\_dirty\_region\_imm}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ UTILS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00289\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a2f9982d7797ccb402c6e8b981f18dcd7}{nema\_tri\_cull}}(\doxymbox{\hyperlink{nema__graphics_8h_afaa5567b3809cf0f97e6859f8819ab8f}{nema\_tri\_cull\_t}}\ cull);}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00297\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_afd25516dfc6931c62666787975292c1d}{nema\_format\_size}}\ (\doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}});}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00307\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_ad7342ed66a4a664a539d52a7eb07776d}{nema\_stride\_size}}(\doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ wrap\_mode,\ \textcolor{keywordtype}{int}\ width);}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00319\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_af2ee9b7dcb37ab76f941354923da833a}{nema\_texture\_size}}(\doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ wrap\_mode,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height);}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00330\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_a6867f473b5cd05bcd605e6d76b109014}{nema\_rgba}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ R,}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ G,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ B,}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ A);}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00341\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{nema__graphics_8h_a7b12014def588116bc59f2d8e5101721}{nema\_premultiply\_rgba}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba);}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00348\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_a5d89f80e3906e76d1c07d97600c13c1c}{nema\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00358\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{nema__graphics_8h_abc60062d15e14e9844b588248bb536b3}{nema\_reinit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ CONTEXT\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00372\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_acc4b54081a59333e40b8faf0976a7af5}{nema\_bind\_src\_tex}}(\doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ baseaddr\_phys,}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ stride,\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ mode);}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00386\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ac86d1764c0fe96b0cff4e2a8d93c0ca8}{nema\_bind\_src2\_tex}}(\doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ baseaddr\_phys,}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ stride,\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ mode);}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00399\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ab00135eb84f8300bb32efd289468bf93}{nema\_bind\_dst\_tex}}(\doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ baseaddr\_phys,}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ stride);}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00416\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aeebcda4585dc1f3e8a506bccd5e6b3f1}{nema\_bind\_lut\_tex}}(\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ baseaddr\_phys,}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ stride,\ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ mode,}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ palette\_baseaddr\_phys,}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_acf136295acc72ab3c24b9c34f6d797c6}{nema\_tex\_format\_t}}\ palette\_format);}
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00429\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ab8b046e6b047c90036365ba24c2ac553}{nema\_bind\_depth\_buffer}}(\doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ baseaddr\_phys,}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height);}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00433\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ DEPTH\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00434\ \textcolor{keywordtype}{void}\ nema\_set\_depth(\textcolor{keywordtype}{float}\ start,\ \textcolor{keywordtype}{float}\ dx,\ \textcolor{keywordtype}{float}\ dy);}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ GRADIENT\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00438\ \textcolor{keywordtype}{void}\ nema\_set\_gradient(\textcolor{keywordtype}{float}\ r\_init,\ \textcolor{keywordtype}{float}\ g\_init,\ \textcolor{keywordtype}{float}\ b\_init,\ \textcolor{keywordtype}{float}\ a\_init,}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ r\_dx,\ \textcolor{keywordtype}{float}\ r\_dy,}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ g\_dx,\ \textcolor{keywordtype}{float}\ g\_dy,}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ b\_dx,\ \textcolor{keywordtype}{float}\ b\_dy,}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ a\_dx,\ \textcolor{keywordtype}{float}\ a\_dy);}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ DRAWING\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00451\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ae5af451ea9ba3382e49b93c4e41e6e0d}{nema\_clear}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00458\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a649bfcb9c8f803df06a8c95e9b778d9c}{nema\_clear\_depth}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ val);}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00471\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a366943ddea41f4b67bb5f1a91cf74a97}{nema\_draw\_line}}(\textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ y0,\ \textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00487\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00488\ \doxymbox{\hyperlink{nema__graphics_8h_acd5840132bed3c60d6ad46af76c4c5f3}{nema\_draw\_line\_aa}}(\textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,\ \textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ w,}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00490\ }
+\DoxyCodeLine{00501\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a337d14e66926b6f9184f7a7b4d3b4ded}{nema\_draw\_circle}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ r,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00502\ }
+\DoxyCodeLine{00514\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ac0822cba846f7a539b0520e892de26d5}{nema\_draw\_circle\_aa}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ w,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00528\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a88d79d0d44fba5d7ba2ae682544082a9}{nema\_draw\_rounded\_rect}}(\textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ y0,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h,\ \textcolor{keywordtype}{int}\ r,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00541\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a3c5840a5d495c7a7a0fde2a96073addd}{nema\_draw\_rect}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00553\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ac2c1d48c86e2b349543b677e4ebc599d}{nema\_fill\_circle}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ r,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00565\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a1217a2102066c61344cd6d0c867cf931}{nema\_fill\_circle\_aa}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ r,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00579\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a1e830311e3368d44043df575e99b6700}{nema\_fill\_triangle}}(\textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ y0,\ \textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00580\ }
+\DoxyCodeLine{00593\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a1ed4fae23018c4bc0ff438dc11d47c47}{nema\_fill\_rounded\_rect}}(\textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ y0,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h,\ \textcolor{keywordtype}{int}\ r,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00606\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a38f778f36bb131445bfec0563e14d67c}{nema\_fill\_rect}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00623\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a6ac96f3bc464527f297c3cf538b1a032}{nema\_fill\_quad}}(\textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ y0,\ \textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00624\ }
+\DoxyCodeLine{00625\ }
+\DoxyCodeLine{00637\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a4e31afdb09a15907328d9fb9ae0fd36a}{nema\_fill\_rect\_f}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ w,\ \textcolor{keywordtype}{float}\ h,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00638\ }
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00655\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a9ab2025698e342cf203511f5672c4cbb}{nema\_fill\_quad\_f}}(\textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,\ \textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2,\ \textcolor{keywordtype}{float}\ x3,\ \textcolor{keywordtype}{float}\ y3,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00656\ }
+\DoxyCodeLine{00657\ }
+\DoxyCodeLine{00670\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_af10529a470139e0123fda85d7b789f1e}{nema\_fill\_triangle\_f}}(\textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,\ \textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba8888);}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ BLITTING\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00682\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a706405549099daa6d59d8ad2fad1f87b}{nema\_blit}}\ (\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ }
+\DoxyCodeLine{00693\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ac7b3095991d0685378485e3a6186e694}{nema\_blit\_rounded}}\ (\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ r);}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00704\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a6b343629d6924aca72be0d7096d1dbb9}{nema\_blit\_rect}}\ (\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h);}
+\DoxyCodeLine{00705\ }
+\DoxyCodeLine{00718\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aa0b38a583f86ea127414c7f4cdd667da}{nema\_blit\_subrect}}(\textcolor{keywordtype}{int}\ dst\_x,\ \textcolor{keywordtype}{int}\ dst\_y,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h,\ \textcolor{keywordtype}{int}\ src\_x,\ \textcolor{keywordtype}{int}\ src\_y);}
+\DoxyCodeLine{00719\ }
+\DoxyCodeLine{00729\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a0c49796e51bc3fcd4163569e1309b8b6}{nema\_blit\_rect\_fit}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h);}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00746\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aeb85129faefbfb178ac2425313d63476}{nema\_blit\_subrect\_fit}}(\ \textcolor{keywordtype}{int}\ dst\_x,\ \textcolor{keywordtype}{int}\ dst\_y,\ \textcolor{keywordtype}{int}\ dst\_w,\ \textcolor{keywordtype}{int}\ dst\_h,}
+\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ src\_x,\ \textcolor{keywordtype}{int}\ src\_y,\ \textcolor{keywordtype}{int}\ src\_w,\ \textcolor{keywordtype}{int}\ src\_h);}
+\DoxyCodeLine{00748\ }
+\DoxyCodeLine{00759\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a780707028dc121015b61cd750e7a1314}{nema\_blit\_rotate\_pivot}}(\ \textcolor{keywordtype}{float}\ cx,\ \textcolor{keywordtype}{float}\ cy,}
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ px,\ \textcolor{keywordtype}{float}\ py,\ \textcolor{keywordtype}{float}\ degrees\_cw\ );}
+\DoxyCodeLine{00761\ }
+\DoxyCodeLine{00770\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a16827b29f3fc19a33975823291b4b2e5}{nema\_blit\_rotate}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rotation);}
+\DoxyCodeLine{00771\ }
+\DoxyCodeLine{00784\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_aca8ee3da2a58d63a565fade701fc2d6a}{nema\_blit\_rotate\_partial}}(\textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sw,\ \textcolor{keywordtype}{int}\ sh,}
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ \ \textcolor{keywordtype}{int}\ y,}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rotation);}
+\DoxyCodeLine{00788\ }
+\DoxyCodeLine{00789\ }
+\DoxyCodeLine{00807\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_add3a8532b9fe2ca916faefe7be4033f6}{nema\_blit\_tri\_fit}}\ (\textcolor{keywordtype}{float}\ dx0,\ \textcolor{keywordtype}{float}\ dy0,\ \textcolor{keywordtype}{int}\ v0,}
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx1,\ \textcolor{keywordtype}{float}\ dy1,\ \textcolor{keywordtype}{int}\ v1,}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx2,\ \textcolor{keywordtype}{float}\ dy2,\ \textcolor{keywordtype}{int}\ v2);}
+\DoxyCodeLine{00810\ }
+\DoxyCodeLine{00831\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a93c75380b038de648cb1cd31fdc11cb8}{nema\_blit\_tri\_uv}}\ \ (\textcolor{keywordtype}{float}\ dx0,\ \textcolor{keywordtype}{float}\ dy0,\ \textcolor{keywordtype}{float}\ dw0,}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx1,\ \textcolor{keywordtype}{float}\ dy1,\ \textcolor{keywordtype}{float}\ dw1,}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx2,\ \textcolor{keywordtype}{float}\ dy2,\ \textcolor{keywordtype}{float}\ dw2,}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ sx0,\ \textcolor{keywordtype}{float}\ sy0,}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ sx1,\ \textcolor{keywordtype}{float}\ sy1,}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ sx2,\ \textcolor{keywordtype}{float}\ sy2}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00838\ }
+\DoxyCodeLine{00853\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a12f95ee15f49e82ba1577d9145172725}{nema\_blit\_quad\_fit}}\ (\textcolor{keywordtype}{float}\ dx0,\ \textcolor{keywordtype}{float}\ dy0,}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx1,\ \textcolor{keywordtype}{float}\ dy1,}
+\DoxyCodeLine{00855\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx2,\ \textcolor{keywordtype}{float}\ dy2,}
+\DoxyCodeLine{00856\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx3,\ \textcolor{keywordtype}{float}\ dy3);}
+\DoxyCodeLine{00857\ }
+\DoxyCodeLine{00876\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a46cf562759838d49826c778dc8a5948b}{nema\_blit\_subrect\_quad\_fit}}(\textcolor{keywordtype}{float}\ dx0,\ \textcolor{keywordtype}{float}\ dy0,}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx1,\ \textcolor{keywordtype}{float}\ dy1,}
+\DoxyCodeLine{00878\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx2,\ \textcolor{keywordtype}{float}\ dy2,}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx3,\ \textcolor{keywordtype}{float}\ dy3,}
+\DoxyCodeLine{00880\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,}
+\DoxyCodeLine{00881\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sw,\ \textcolor{keywordtype}{int}\ sh);}
+\DoxyCodeLine{00882\ }
+\DoxyCodeLine{00897\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ad0406c119f62d8ce688cdd43bba533f8}{nema\_blit\_quad\_m}}(\textcolor{keywordtype}{float}\ dx0,\ \textcolor{keywordtype}{float}\ dy0,}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx1,\ \textcolor{keywordtype}{float}\ dy1,}
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx2,\ \textcolor{keywordtype}{float}\ dy2,}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dx3,\ \textcolor{keywordtype}{float}\ dy3,\ \doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\_matrix3x3\_t}}\ m);}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ }
+\DoxyCodeLine{00903\ }
+\DoxyCodeLine{00904\ }
+\DoxyCodeLine{00910\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a900c3e697afe20344249bfaa07c9c491}{nema\_brk\_enable}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00911\ }
+\DoxyCodeLine{00917\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a14845af764b9b37421e05bd951b5b108}{nema\_brk\_disable}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00918\ }
+\DoxyCodeLine{00919\ }
+\DoxyCodeLine{00925\ \textcolor{keywordtype}{int}\ \ \doxymbox{\hyperlink{nema__graphics_8h_afd8b003aa4263a0ee98ab1ee4f7219d7}{nema\_brk\_add}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00926\ }
+\DoxyCodeLine{00933\ \textcolor{keywordtype}{int}\ \ \doxymbox{\hyperlink{nema__graphics_8h_aa5307f77a7a4f93463db8f564d02de81}{nema\_brk\_wait}}(\textcolor{keywordtype}{int}\ brk\_id);}
+\DoxyCodeLine{00934\ }
+\DoxyCodeLine{00939\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a39492e73251f69600798b3fa69474df0}{nema\_brk\_continue}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00940\ }
+\DoxyCodeLine{00947\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_adcd2d4116c881e3c32d2bf217077f6ac}{nema\_ext\_hold\_enable}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00948\ }
+\DoxyCodeLine{00955\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a38ea9c7b4f2ada541bb56f65c103e726}{nema\_ext\_hold\_disable}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00956\ }
+\DoxyCodeLine{00963\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a3f1c9b1d452622fa05e041ee179b8c75}{nema\_ext\_hold\_irq\_enable}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00964\ }
+\DoxyCodeLine{00971\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a9afe21a31e1c6927863bd902510aa127}{nema\_ext\_hold\_irq\_disable}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00972\ }
+\DoxyCodeLine{00973\ }
+\DoxyCodeLine{00981\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ad0e00f32c8cd6cd27ca5c1be86d24bf0}{nema\_ext\_hold\_assert}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id,\ \textcolor{keywordtype}{int}\ stop);}
+\DoxyCodeLine{00982\ }
+\DoxyCodeLine{00989\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_ab67e7f193b847ad039d1111e9039d074}{nema\_ext\_hold\_deassert}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00990\ }
+\DoxyCodeLine{00997\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a9f3a993ea48daf3159379af184795ab8}{nema\_ext\_hold\_assert\_imm}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{00998\ }
+\DoxyCodeLine{01005\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__graphics_8h_a9efea337cf3b568a77d7a48261eabe9e}{nema\_ext\_hold\_deassert\_imm}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hold\_id);}
+\DoxyCodeLine{01006\ }
+\DoxyCodeLine{01012\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{nema__graphics_8h_acd798d833379e52b60a62345fa200074}{nema\_get\_sw\_device\_name}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01013\ }
+\DoxyCodeLine{01014\ }
+\DoxyCodeLine{01015\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{01016\ \}}
+\DoxyCodeLine{01017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01018\ }
+\DoxyCodeLine{01019\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

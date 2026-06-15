@@ -1,0 +1,109 @@
+\doxysection{lv\+\_\+uefi.\+h}
+\hypertarget{lv__uefi_8h_source}{}\label{lv__uefi_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/uefi/lv\_uefi.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/uefi/lv\_uefi.h}}
+\doxymbox{\hyperlink{lv__uefi_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_UEFI\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_UEFI\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#if\ LV\_USE\_UEFI}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ \#include\ LV\_USE\_UEFI\_INCLUDE}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_\_clang\_\_)\ ||\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(\_\_x86\_64\_\_)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_X64\_\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_64BIT\_\_}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(\_\_i386\_\_)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_X86\_\_}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_32BIT\_\_}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(\_\_aarch64\_\_)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_AARCH64\_\_}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_64BIT\_\_}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#error\ Architecture\ is\ not\ supported}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ LV\_UEFI\_STATIC\_ASSERT\ \_Static\_assert}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(\_M\_AMD64)\ \&\&\ !defined(\_M\_ARM64)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_X64\_\_}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_64BIT\_\_}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(\_M\_IX86)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_X86\_\_}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_32BIT\_\_}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(\_M\_ARM64)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_ARCH\_AARCH64\_\_}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ \_\_LV\_UEFI\_64BIT\_\_}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#error\ Architecture\ is\ not\ supported}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ LV\_UEFI\_STATIC\_ASSERT\ static\_assert}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Your\ compiler\ is\ not\ supported}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ LV\_USE\_UEFI\_INCLUDE}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ LV\_USE\_UEFI\_INCLUDE}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ No\ UEFI\ headers\ available}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ Verify\ that\ all\ required\ protocols\ are\ known}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_LOADED\_IMAGE\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_LOADED\_IMAGE\_PROTOCOL}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_SIMPLE\_FILE\_SYSTEM\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_SIMPLE\_FILE\_SYSTEM\_PROTOCOL}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_SIMPLE\_TEXT\_INPUT\_EX\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_SIMPLE\_TEXT\_INPUT\_EX\_PROTOCOL}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_SIMPLE\_TEXT\_INPUT\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_SIMPLE\_TEXT\_INPUT\_PROTOCOL}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_SIMPLE\_POINTER\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_SIMPLE\_POINTER\_PROTOCOL}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_ABSOLUTE\_POINTER\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_ABSOLUTE\_POINTER\_PROTOCOL}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_GRAPHICS\_OUTPUT\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_GRAPHICS\_OUTPUT\_PROTOCOL}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_EDID\_ACTIVE\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_EDID\_ACTIVE\_PROTOCOL}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_FILE\_INFO\_ID)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_FILE\_INFO}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \#if\ !defined(EFI\_TIMESTAMP\_PROTOCOL\_GUID)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#error\ Missing\ support\ for\ EFI\_TIMESTAMP\_PROTOCOL\_GUID}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ Verify\ that\ all\ types\ have\ the\ correct\ size}}
+\DoxyCodeLine{00084\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(BOOLEAN)\ \ ==\ 1,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'BOOLEAN'\ failed."{}});}
+\DoxyCodeLine{00085\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INT8)\ \ \ \ \ ==\ 1,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INT8'\ failed."{}});}
+\DoxyCodeLine{00086\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINT8)\ \ \ \ ==\ 1,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINT8'\ failed."{}});}
+\DoxyCodeLine{00087\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INT16)\ \ \ \ ==\ 2,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INT16'\ failed."{}});}
+\DoxyCodeLine{00088\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINT16)\ \ \ ==\ 2,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINT16'\ failed."{}});}
+\DoxyCodeLine{00089\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INT32)\ \ \ \ ==\ 4,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INT32'\ failed."{}});}
+\DoxyCodeLine{00090\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINT32)\ \ \ ==\ 4,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINT32'\ failed."{}});}
+\DoxyCodeLine{00091\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INT64)\ \ \ \ ==\ 8,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INT64'\ failed."{}});}
+\DoxyCodeLine{00092\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINT64)\ \ \ ==\ 8,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINT64'\ failed."{}});}
+\DoxyCodeLine{00093\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(CHAR8)\ \ \ \ ==\ 1,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'CHAR8'\ failed."{}});}
+\DoxyCodeLine{00094\ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(CHAR16)\ \ \ ==\ 2,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'CHAR16'\ failed."{}});}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ \_\_LV\_UEFI\_32BIT\_\_}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INTN)\ \ \ ==\ 4,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INTN'\ failed."{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINTN)\ \ ==\ 4,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINTN'\ failed."{}});}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(INTN)\ \ \ ==\ 8,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'INTN'\ failed."{}});}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ LV\_UEFI\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(UINTN)\ \ ==\ 8,\ \textcolor{stringliteral}{"{}Size\ check\ for\ 'UINTN'\ failed."{}});}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

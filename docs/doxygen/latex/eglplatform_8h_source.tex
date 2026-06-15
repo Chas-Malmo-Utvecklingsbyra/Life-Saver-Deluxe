@@ -1,0 +1,187 @@
+\doxysection{eglplatform.\+h}
+\hypertarget{eglplatform_8h_source}{}\label{eglplatform_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/opengles/glad/include/EGL/eglplatform.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/opengles/glad/include/EGL/eglplatform.h}}
+\doxymbox{\hyperlink{eglplatform_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_\_eglplatform\_h\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_\_eglplatform\_h\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengles__egl_8h}{../../../lv\_opengles\_egl.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#if\ LV\_USE\_EGL}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00009\ \textcolor{comment}{**\ Copyright\ 2007-\/2020\ The\ Khronos\ Group\ Inc.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{**\ SPDX-\/License-\/Identifier:\ Apache-\/2.0}}
+\DoxyCodeLine{00011\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ Platform-\/specific\ types\ and\ definitions\ for\ egl.h}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ Adopters\ may\ modify\ khrplatform.h\ and\ this\ file\ to\ suit\ their\ platform.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ You\ are\ encouraged\ to\ submit\ all\ modifications\ to\ the\ Khronos\ group\ so\ that}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ they\ can\ be\ included\ in\ future\ versions\ of\ this\ file.\ \ Please\ submit\ changes}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ by\ filing\ an\ issue\ or\ pull\ request\ on\ the\ public\ Khronos\ EGL\ Registry,\ at}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ https://www.github.com/KhronosGroup/EGL-\/Registry/}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <\doxymbox{\hyperlink{khrplatform_8h}{KHR/khrplatform.h}}>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{/*\ Macros\ used\ in\ EGL\ function\ prototype\ declarations.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ EGL\ functions\ should\ be\ prototyped\ as:}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *\ EGLAPI\ return-\/type\ EGLAPIENTRY\ eglFunction(arguments);}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ typedef\ return-\/type\ (EXPAPIENTRYP\ PFNEGLFUNCTIONPROC)\ (arguments);}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *\ KHRONOS\_APICALL\ and\ KHRONOS\_APIENTRY\ are\ defined\ in\ KHR/khrplatform.h}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#ifndef\ EGLAPI}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ EGLAPI\ KHRONOS\_APICALL}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifndef\ EGLAPIENTRY}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ EGLAPIENTRY\ \ KHRONOS\_APIENTRY}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ EGLAPIENTRYP\ EGLAPIENTRY*}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{/*\ The\ types\ NativeDisplayType,\ NativeWindowType,\ and\ NativePixmapType}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *\ are\ aliases\ of\ window-\/system-\/dependent\ types,\ such\ as\ X\ Display\ *\ or}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *\ Windows\ Device\ Context.\ They\ must\ be\ defined\ in\ platform-\/specific}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ *\ code\ below.\ The\ EGL-\/prefixed\ versions\ of\ Native*Type\ are\ the\ same}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ *\ types,\ renamed\ in\ EGL\ 1.3\ so\ all\ types\ in\ the\ API\ start\ with\ "{}EGL"{}.}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *\ Khronos\ STRONGLY\ RECOMMENDS\ that\ you\ use\ the\ default\ definitions}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ provided\ below,\ since\ these\ changes\ affect\ both\ binary\ and\ source}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *\ portability\ of\ applications\ using\ EGL\ running\ on\ different\ EGL}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ *\ implementations.}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#if\ defined(EGL\_NO\_PLATFORM\_SPECIFIC\_TYPES)}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativeDisplayType;}
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativePixmapType;}
+\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativeWindowType;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#elif\ defined(\_WIN32)\ ||\ defined(\_\_VC32\_\_)\ \&\&\ !defined(\_\_CYGWIN\_\_)\ \&\&\ !defined(\_\_SCITECH\_SNAP\_\_)\ }\textcolor{comment}{/*\ Win32\ and\ WinCE\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#ifndef\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN\ 1}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{typedef}\ HDC\ \ \ \ \ EGLNativeDisplayType;}
+\DoxyCodeLine{00068\ \textcolor{keyword}{typedef}\ HBITMAP\ EGLNativePixmapType;}
+\DoxyCodeLine{00069\ \textcolor{keyword}{typedef}\ HWND\ \ \ \ EGLNativeWindowType;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#elif\ defined(\_\_QNX\_\_)}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ \ \ \ \ \ EGLNativeDisplayType;}
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_screen\_pixmap*\ EGLNativePixmapType;\ \ \textcolor{comment}{/*\ screen\_pixmap\_t\ */}}
+\DoxyCodeLine{00075\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_screen\_window*\ EGLNativeWindowType;\ \ \textcolor{comment}{/*\ screen\_window\_t\ */}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#elif\ defined(\_\_EMSCRIPTEN\_\_)}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ EGLNativeDisplayType;}
+\DoxyCodeLine{00080\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ EGLNativePixmapType;}
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ EGLNativeWindowType;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#elif\ defined(\_\_WINSCW\_\_)\ ||\ defined(\_\_SYMBIAN32\_\_)\ \ }\textcolor{comment}{/*\ Symbian\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \ \ EGLNativeDisplayType;}
+\DoxyCodeLine{00086\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativePixmapType;}
+\DoxyCodeLine{00087\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativeWindowType;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#elif\ defined(WL\_EGL\_PLATFORM)}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }wl\_display\ \ \ \ \ *EGLNativeDisplayType;}
+\DoxyCodeLine{00092\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }wl\_egl\_pixmap\ \ *EGLNativePixmapType;}
+\DoxyCodeLine{00093\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }wl\_egl\_window\ \ *EGLNativeWindowType;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#elif\ defined(\_\_GBM\_\_)}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }gbm\_device\ \ *EGLNativeDisplayType;}
+\DoxyCodeLine{00098\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }gbm\_bo\ \ \ \ \ \ *EGLNativePixmapType;}
+\DoxyCodeLine{00099\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *EGLNativeWindowType;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#elif\ defined(\_\_ANDROID\_\_)\ ||\ defined(ANDROID)}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{struct\ }ANativeWindow;}
+\DoxyCodeLine{00104\ \textcolor{keyword}{struct\ }egl\_native\_pixmap\_t;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EGLNativeDisplayType;}
+\DoxyCodeLine{00107\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }egl\_native\_pixmap\_t*\ \ \ \ \ EGLNativePixmapType;}
+\DoxyCodeLine{00108\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }ANativeWindow*\ \ \ \ \ \ \ \ \ \ \ EGLNativeWindowType;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#elif\ defined(USE\_OZONE)}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_abd3131a20f4053d808d4277db3e39a23}{intptr\_t}}\ EGLNativeDisplayType;}
+\DoxyCodeLine{00113\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_abd3131a20f4053d808d4277db3e39a23}{intptr\_t}}\ EGLNativePixmapType;}
+\DoxyCodeLine{00114\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_abd3131a20f4053d808d4277db3e39a23}{intptr\_t}}\ EGLNativeWindowType;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#elif\ defined(USE\_X11)}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{comment}{/*\ X11\ (tentative)\ \ */}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#include\ <X11/Xlib.h>}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#include\ <X11/Xutil.h>}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{typedef}\ Display\ *EGLNativeDisplayType;}
+\DoxyCodeLine{00123\ \textcolor{keyword}{typedef}\ Pixmap\ \ \ EGLNativePixmapType;}
+\DoxyCodeLine{00124\ \textcolor{keyword}{typedef}\ Window\ \ \ EGLNativeWindowType;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#elif\ defined(\_\_unix\_\_)}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ *EGLNativeDisplayType;}
+\DoxyCodeLine{00129\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ EGLNativePixmapType;}
+\DoxyCodeLine{00130\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ EGLNativeWindowType;}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \ \ EGLNativeDisplayType;}
+\DoxyCodeLine{00135\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativePixmapType;}
+\DoxyCodeLine{00136\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *EGLNativeWindowType;}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#elif\ defined(\_\_HAIKU\_\_)}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#include\ <kernel/image.h>}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ *EGLNativeDisplayType;}
+\DoxyCodeLine{00143\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ \ EGLNativePixmapType;}
+\DoxyCodeLine{00144\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ \ EGLNativeWindowType;}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#elif\ defined(\_\_Fuchsia\_\_)}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ *EGLNativeDisplayType;}
+\DoxyCodeLine{00149\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ \ EGLNativePixmapType;}
+\DoxyCodeLine{00150\ \textcolor{keyword}{typedef}\ khronos\_uintptr\_t\ \ EGLNativeWindowType;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#error\ "{}Platform\ not\ recognized"{}}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{comment}{/*\ EGL\ 1.2\ types,\ renamed\ for\ consistency\ in\ EGL\ 1.3\ */}}
+\DoxyCodeLine{00157\ \textcolor{keyword}{typedef}\ EGLNativeDisplayType\ NativeDisplayType;}
+\DoxyCodeLine{00158\ \textcolor{keyword}{typedef}\ EGLNativePixmapType\ \ NativePixmapType;}
+\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ EGLNativeWindowType\ \ NativeWindowType;}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{comment}{/*\ Define\ EGLint.\ This\ must\ be\ a\ signed\ integral\ type\ large\ enough\ to\ contain}}
+\DoxyCodeLine{00163\ \textcolor{comment}{\ *\ all\ legal\ attribute\ names\ and\ values\ passed\ into\ and\ out\ of\ EGL,\ whether}}
+\DoxyCodeLine{00164\ \textcolor{comment}{\ *\ their\ type\ is\ boolean,\ bitmask,\ enumerant\ (symbolic\ constant),\ integer,}}
+\DoxyCodeLine{00165\ \textcolor{comment}{\ *\ handle,\ or\ other.\ \ While\ in\ general\ a\ 32-\/bit\ integer\ will\ suffice,\ if}}
+\DoxyCodeLine{00166\ \textcolor{comment}{\ *\ handles\ are\ 64\ bit\ types,\ then\ EGLint\ should\ be\ defined\ as\ a\ signed\ 64-\/bit}}
+\DoxyCodeLine{00167\ \textcolor{comment}{\ *\ integer\ type.}}
+\DoxyCodeLine{00168\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00169\ \textcolor{keyword}{typedef}\ khronos\_int32\_t\ EGLint;}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{comment}{/*\ C++\ /\ C\ typecast\ macros\ for\ special\ EGL\ handle\ values\ */}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#if\ defined(\_\_cplusplus)}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ EGL\_CAST(type,\ value)\ (static\_cast<type>(value))}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ EGL\_CAST(type,\ value)\ ((type)\ (value))}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_EGL*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_\_eglplatform\_h\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

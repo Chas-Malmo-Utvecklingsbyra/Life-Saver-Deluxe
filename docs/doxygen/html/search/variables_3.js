@@ -4,5 +4,6 @@ var searchData=
   ['data_5flabel_1',['data_label',['../struct_b_m_e280_ui.html#a31bddcf58f8e8f27f61ee99174de0a9d',1,'BME280Ui']]],
   ['depth_2',['depth',['../structparse__buffer.html#a820c167ceaaa9759b0ca2695d22db55c',1,'parse_buffer::depth'],['../structprintbuffer.html#a820c167ceaaa9759b0ca2695d22db55c',1,'printbuffer::depth']]],
   ['display_5fname_3',['display_name',['../struct_sensor_ui.html#a3914ce2e2353705bab7bb445d6f1ebe7',1,'SensorUi']]],
-  ['dot_4',['dot',['../struct_sensor_ui.html#a69c4ee084645d6c48be6492842562fa0',1,'SensorUi']]]
+  ['dot_4',['dot',['../struct_sensor_ui.html#a69c4ee084645d6c48be6492842562fa0',1,'SensorUi']]],
+  ['dummy_5',['dummy',['../structwifi__init__config__t.html#a7c1d654b7b6114d7a0abc8d351dd1bcd',1,'wifi_init_config_t']]]
 ];

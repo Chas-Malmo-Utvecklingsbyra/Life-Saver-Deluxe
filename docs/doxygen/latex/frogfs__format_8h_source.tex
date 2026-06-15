@@ -1,0 +1,66 @@
+\doxysection{frogfs\+\_\+format.\+h}
+\hypertarget{frogfs__format_8h_source}{}\label{frogfs__format_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/frogfs/src/frogfs\_format.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/frogfs/src/frogfs\_format.h}}
+\doxymbox{\hyperlink{frogfs__format_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ This\ Source\ Code\ Form\ is\ subject\ to\ the\ terms\ of\ the\ Mozilla\ Public}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ License,\ v.\ 2.0.\ If\ a\ copy\ of\ the\ MPL\ was\ not\ distributed\ with\ this}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ file,\ You\ can\ obtain\ one\ at\ http://mozilla.org/MPL/2.0/.\ */}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ LV\_STDINT\_INCLUDE}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ FROGFS\_IS\_DIR(e)\ (e-\/>u.child\_count\ <\ 0xFF00)}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ FROGFS\_IS\_FILE(e)\ (e-\/>u.child\_count\ >=\ 0xFF00)}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ FROGFS\_IS\_COMP(e)\ (e-\/>u.child\_count\ >\ 0xFF00)}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__head__t}{frogfs\_head\_t}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__head__t_a57f54349f4fd1cbbb52058812e146af2}{magic}};\ }
+\DoxyCodeLine{00031\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structfrogfs__head__t_a66e462ea8340d6a40a6858c018c41fb5}{ver\_major}};\ }
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structfrogfs__head__t_a9f863422bcc720d3712869e0450161c3}{ver\_minor}};\ }
+\DoxyCodeLine{00033\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structfrogfs__head__t_aedb4b059ab3e4aff48a8e4d0959dd213}{num\_entries}};\ }
+\DoxyCodeLine{00034\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__head__t_a259798c29c9d8529b204ae7d726b06b7}{bin\_sz}};\ }
+\DoxyCodeLine{00035\ \}\ \doxymbox{\hyperlink{structfrogfs__head__t}{frogfs\_head\_t}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__hash__t}{frogfs\_hash\_t}}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__hash__t_a11ecb029164e055f28f4123ce3748862}{hash}};\ }
+\DoxyCodeLine{00042\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__hash__t_a310d45a2b93bc0bae0f815bbd6a7d4f8}{offs}};\ }
+\DoxyCodeLine{00043\ \}\ \doxymbox{\hyperlink{structfrogfs__hash__t}{frogfs\_hash\_t}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__entry__t}{frogfs\_entry\_t}}\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__entry__t_a4148cf7fdc90be22e53cc0f523e74252}{parent}};\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structfrogfs__entry__t_a823c74f955e563a0d7c613be7c39ff54}{child\_count}};\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structfrogfs__entry__t_aeb626e525b4a8a7381eda9c3d11400cb}{compression}};\ }
+\DoxyCodeLine{00053\ \ \ \ \ \}\ \doxymbox{\hyperlink{structfrogfs__entry__t_a7bd0b1d2b4bfa5c002e2999c279223a8}{u}};}
+\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structfrogfs__entry__t_a255b42eb07c6426defefe0e7bb923417}{seg\_sz}};\ }
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structfrogfs__entry__t_af530051ef5f85888afe5ed2b28090000}{opts}};\ }
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__dir__t}{frogfs\_dir\_t}}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structfrogfs__entry__t}{frogfs\_entry\_t}}\ \doxymbox{\hyperlink{structfrogfs__dir__t_adf82fd740bf4d6ad905ce707f5d6ac8e}{entry}};}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__dir__t_a47a56840d3da292d519bbbc9555479dd}{children}}[];}
+\DoxyCodeLine{00064\ \}\ \doxymbox{\hyperlink{structfrogfs__dir__t}{frogfs\_dir\_t}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__file__t}{frogfs\_file\_t}}\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structfrogfs__entry__t}{frogfs\_entry\_t}}\ \doxymbox{\hyperlink{structfrogfs__file__t_adf82fd740bf4d6ad905ce707f5d6ac8e}{entry}};}
+\DoxyCodeLine{00071\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__file__t_ae6f89c7b9be8edebcec4d6539c415b8f}{data\_offs}};}
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__file__t_af719ed7415007e30931aa8198dae405e}{data\_sz}};}
+\DoxyCodeLine{00073\ \}\ \doxymbox{\hyperlink{structfrogfs__file__t}{frogfs\_file\_t}};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__comp__t}{frogfs\_comp\_t}}\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structfrogfs__entry__t}{frogfs\_entry\_t}}\ \doxymbox{\hyperlink{structfrogfs__comp__t_adf82fd740bf4d6ad905ce707f5d6ac8e}{entry}};}
+\DoxyCodeLine{00080\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__comp__t_ae6f89c7b9be8edebcec4d6539c415b8f}{data\_offs}};}
+\DoxyCodeLine{00081\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__comp__t_af719ed7415007e30931aa8198dae405e}{data\_sz}};\ }
+\DoxyCodeLine{00082\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__comp__t_adb42a134fd79e7a1b034028d6fa386cd}{real\_sz}};\ }
+\DoxyCodeLine{00083\ \}\ \doxymbox{\hyperlink{structfrogfs__comp__t}{frogfs\_comp\_t}};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structfrogfs__foot__t}{frogfs\_foot\_t}}\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structfrogfs__foot__t_a7ba6d986496f16e7c9bb92ea0265914d}{crc32}};\ }
+\DoxyCodeLine{00090\ \}\ \doxymbox{\hyperlink{structfrogfs__foot__t}{frogfs\_foot\_t}};}
+
+\end{DoxyCode}

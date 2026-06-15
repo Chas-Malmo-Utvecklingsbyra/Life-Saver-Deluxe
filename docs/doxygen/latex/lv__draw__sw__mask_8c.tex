@@ -1,0 +1,254 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+sw/\+lv\+\_\+draw\+\_\+sw\+\_\+mask.c File Reference}
+\hypertarget{lv__draw__sw__mask_8c}{}\label{lv__draw__sw__mask_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/lv\_draw\_sw\_mask.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/lv\_draw\_sw\_mask.c}}
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+lv\+\_\+draw\+\_\+mask\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+lv\+\_\+draw.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+core/\+lv\+\_\+global.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+assert.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+osal/\+lv\+\_\+os\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+stdlib/\+lv\+\_\+string.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a87f4f1548d94060df312dc0a36d121d9}{CIRCLE\+\_\+\+CACHE\+\_\+\+LIFE\+\_\+\+MAX}}~1000
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a9271464a7125c47f1c2cbb5f0229617e}{CIRCLE\+\_\+\+CACHE\+\_\+\+AGING}}(life,  r)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a9ede760fc0ebf9c46941a1e1f450af3d}{circle\+\_\+cache\+\_\+mutex}}~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$draw\+\_\+info.\+circle\+\_\+cache\+\_\+mutex
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__mask_8c_ad80108c9b4c93f72f03696098c372cd7}{\+\_\+circle\+\_\+cache}}~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$sw\+\_\+circle\+\_\+cache
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_ab5b7c3b3a1661427b0925a7fda2dd703}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+init}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a3907917e6156ab73bf09c34c36bae6c5}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+deinit}} (void)
+\item 
+\doxymbox{\hyperlink{lv__draw__sw__mask_8h_a21c45d3f7852840b88102010f30715e0}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+res\+\_\+t}} \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a100f71531f2cc079a1a5ef10b45ff3d4}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+apply}} (void \texorpdfstring{$\ast$}{*}masks\+[$\,$]\+, \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} \texorpdfstring{$\ast$}{*}mask\+\_\+buf, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} abs\+\_\+x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} abs\+\_\+y, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} len)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a254f8dc8e03bdfbd7a62cd6528906131}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+free\+\_\+param}} (void \texorpdfstring{$\ast$}{*}p)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a200c54c67b76fecbcda3ac6c43dcaa07}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+cleanup}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a8bd9f0c252d2938b2a18dc88249060fc}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+points\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a404c6aab005691e33f300f84218622e7}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} p1x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} p1y, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} p2x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} p2y, \doxymbox{\hyperlink{lv__draw__sw__mask_8h_a09c1dd4237dab9671679f3d6a0bad49b}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t}} side)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a1bea45c5fe39c4ea4a5c0599e1c5aa0d}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+angle\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a404c6aab005691e33f300f84218622e7}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} p1x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} py, \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}} angle, \doxymbox{\hyperlink{lv__draw__sw__mask_8h_a09c1dd4237dab9671679f3d6a0bad49b}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t}} side)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_ae929609cdac40abe4f2c6fe51ece3c3a}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+angle\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fdcfd3cdc79fb824dae6e8050486a14}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+angle\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} vertex\+\_\+x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} vertex\+\_\+y, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} start\+\_\+angle, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} end\+\_\+angle)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_af7ea8bb24c55dd72c487a17a4d216cf9}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+radius\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ae475d5595142139ba6adc0f85e015862}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+radius\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}rect, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} radius, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} inv)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_acc2e8abcccf2f5d47ec8baa996e60fa0}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+fade\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad3dd6be3a01afe393ef9d676c85e03fc}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+fade\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords, \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} opa\+\_\+top, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y\+\_\+top, \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} opa\+\_\+bottom, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y\+\_\+bottom)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__mask_8c_a645c3bc572d618de40319a0ae08599fc}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+map\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a1d153f92ff6457d9d5034c7bd28791f8}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+map\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}param, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords, const \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} \texorpdfstring{$\ast$}{*}map)
+\end{DoxyCompactItemize}
+
+
+\label{lv__draw__sw__mask_8c_doc-define-members}
+\Hypertarget{lv__draw__sw__mask_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__draw__sw__mask_8c_ad80108c9b4c93f72f03696098c372cd7}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!\_circle\_cache@{\_circle\_cache}}
+\index{\_circle\_cache@{\_circle\_cache}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{\_circle\_cache}{\_circle\_cache}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_ad80108c9b4c93f72f03696098c372cd7} 
+\+\#define \+\_\+circle\+\_\+cache~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$sw\+\_\+circle\+\_\+cache}
+
+\Hypertarget{lv__draw__sw__mask_8c_a9271464a7125c47f1c2cbb5f0229617e}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!CIRCLE\_CACHE\_AGING@{CIRCLE\_CACHE\_AGING}}
+\index{CIRCLE\_CACHE\_AGING@{CIRCLE\_CACHE\_AGING}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{CIRCLE\_CACHE\_AGING}{CIRCLE\_CACHE\_AGING}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a9271464a7125c47f1c2cbb5f0229617e} 
+\+\#define CIRCLE\+\_\+\+CACHE\+\_\+\+AGING(\begin{DoxyParamCaption}\item[{}]{life}{, }\item[{}]{r}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{life\ =\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__math_8h_ab075eda3daab5b70cb8dac91262f8f34}{LV\_MIN}}(life\ +\ (r\ <\ 16\ ?\ 1\ :\ (r\ >>\ 4)),\ 1000)}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__mask_8c_a87f4f1548d94060df312dc0a36d121d9}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!CIRCLE\_CACHE\_LIFE\_MAX@{CIRCLE\_CACHE\_LIFE\_MAX}}
+\index{CIRCLE\_CACHE\_LIFE\_MAX@{CIRCLE\_CACHE\_LIFE\_MAX}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{CIRCLE\_CACHE\_LIFE\_MAX}{CIRCLE\_CACHE\_LIFE\_MAX}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a87f4f1548d94060df312dc0a36d121d9} 
+\+\#define CIRCLE\+\_\+\+CACHE\+\_\+\+LIFE\+\_\+\+MAX~1000}
+
+\Hypertarget{lv__draw__sw__mask_8c_a9ede760fc0ebf9c46941a1e1f450af3d}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!circle\_cache\_mutex@{circle\_cache\_mutex}}
+\index{circle\_cache\_mutex@{circle\_cache\_mutex}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{circle\_cache\_mutex}{circle\_cache\_mutex}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a9ede760fc0ebf9c46941a1e1f450af3d} 
+\+\#define circle\+\_\+cache\+\_\+mutex~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$draw\+\_\+info.\+circle\+\_\+cache\+\_\+mutex}
+
+
+
+\label{lv__draw__sw__mask_8c_doc-func-members}
+\Hypertarget{lv__draw__sw__mask_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__draw__sw__mask_8c_ae929609cdac40abe4f2c6fe51ece3c3a}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_angle\_init@{lv\_draw\_sw\_mask\_angle\_init}}
+\index{lv\_draw\_sw\_mask\_angle\_init@{lv\_draw\_sw\_mask\_angle\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_angle\_init()}{lv\_draw\_sw\_mask\_angle\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_ae929609cdac40abe4f2c6fe51ece3c3a} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+angle\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fdcfd3cdc79fb824dae6e8050486a14}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+angle\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{vertex\+\_\+x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{vertex\+\_\+y}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{start\+\_\+angle}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{end\+\_\+angle}{}\end{DoxyParamCaption})}
+
+Initialize an angle mask. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to a {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em vertex\+\_\+x} & X coordinate of the angle vertex (absolute coordinates) \\
+\hline
+{\em vertex\+\_\+y} & Y coordinate of the angle vertex (absolute coordinates) \\
+\hline
+{\em start\+\_\+angle} & start angle in degrees. 0 deg on the right, 90 deg, on the bottom \\
+\hline
+{\em end\+\_\+angle} & end angle \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_a100f71531f2cc079a1a5ef10b45ff3d4}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_apply@{lv\_draw\_sw\_mask\_apply}}
+\index{lv\_draw\_sw\_mask\_apply@{lv\_draw\_sw\_mask\_apply}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_apply()}{lv\_draw\_sw\_mask\_apply()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a100f71531f2cc079a1a5ef10b45ff3d4} 
+\doxymbox{\hyperlink{lv__draw__sw__mask_8h_a21c45d3f7852840b88102010f30715e0}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+res\+\_\+t}} \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+apply (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{masks}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{mask\+\_\+buf}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{abs\+\_\+x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{abs\+\_\+y}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{len}{}\end{DoxyParamCaption})}
+
+Apply the added buffers on a line. Used internally by the library\textquotesingle{}s drawing routines. 
+\begin{DoxyParams}{Parameters}
+{\em masks} & the masks list to apply, must be ended with NULL pointer in array. \\
+\hline
+{\em mask\+\_\+buf} & store the result mask here. Has to be {\ttfamily len} byte long. Should be initialized with {\ttfamily 0x\+FF}. \\
+\hline
+{\em abs\+\_\+x} & absolute X coordinate where the line to calculate start \\
+\hline
+{\em abs\+\_\+y} & absolute Y coordinate where the line to calculate start \\
+\hline
+{\em len} & length of the line to calculate (in pixel count) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+One of these values:\+
+\begin{DoxyItemize}
+\item {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+RES\+\_\+\+FULL\+\_\+\+TRANSP}:\+ the whole line is transparent. {\ttfamily mask\+\_\+buf} is not set to zero
+\item {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+RES\+\_\+\+FULL\+\_\+\+COVER}:\+ the whole line is fully visible. {\ttfamily mask\+\_\+buf} is unchanged
+\item {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+RES\+\_\+\+CHANGED}:\+ {\ttfamily mask\+\_\+buf} has changed, it shows the desired opacity of each pixel in the given line 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lv__draw__sw__mask_8c_a200c54c67b76fecbcda3ac6c43dcaa07}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_cleanup@{lv\_draw\_sw\_mask\_cleanup}}
+\index{lv\_draw\_sw\_mask\_cleanup@{lv\_draw\_sw\_mask\_cleanup}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_cleanup()}{lv\_draw\_sw\_mask\_cleanup()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a200c54c67b76fecbcda3ac6c43dcaa07} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+cleanup (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Called by LVGL the rendering of a screen is ready to clean up the temporal (cache) data of the masks \Hypertarget{lv__draw__sw__mask_8c_a3907917e6156ab73bf09c34c36bae6c5}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_deinit@{lv\_draw\_sw\_mask\_deinit}}
+\index{lv\_draw\_sw\_mask\_deinit@{lv\_draw\_sw\_mask\_deinit}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_deinit()}{lv\_draw\_sw\_mask\_deinit()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a3907917e6156ab73bf09c34c36bae6c5} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__draw__sw__mask_8c_acc2e8abcccf2f5d47ec8baa996e60fa0}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_fade\_init@{lv\_draw\_sw\_mask\_fade\_init}}
+\index{lv\_draw\_sw\_mask\_fade\_init@{lv\_draw\_sw\_mask\_fade\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_fade\_init()}{lv\_draw\_sw\_mask\_fade\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_acc2e8abcccf2f5d47ec8baa996e60fa0} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+fade\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad3dd6be3a01afe393ef9d676c85e03fc}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+fade\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{, }\item[{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}}}]{opa\+\_\+top}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y\+\_\+top}{, }\item[{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}}}]{opa\+\_\+bottom}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y\+\_\+bottom}{}\end{DoxyParamCaption})}
+
+Initialize a fade mask. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to a {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em coords} & coordinates of the area to affect (absolute coordinates) \\
+\hline
+{\em opa\+\_\+top} & opacity on the top \\
+\hline
+{\em y\+\_\+top} & at which coordinate start to change to opacity to {\ttfamily opa\+\_\+bottom} \\
+\hline
+{\em opa\+\_\+bottom} & opacity at the bottom \\
+\hline
+{\em y\+\_\+bottom} & at which coordinate reach {\ttfamily opa\+\_\+bottom}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_a254f8dc8e03bdfbd7a62cd6528906131}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_free\_param@{lv\_draw\_sw\_mask\_free\_param}}
+\index{lv\_draw\_sw\_mask\_free\_param@{lv\_draw\_sw\_mask\_free\_param}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_free\_param()}{lv\_draw\_sw\_mask\_free\_param()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a254f8dc8e03bdfbd7a62cd6528906131} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+free\+\_\+param (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+Free the data from the parameter. It\textquotesingle{}s called inside {\ttfamily lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+remove\+\_\+id} and {\ttfamily lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+remove\+\_\+custom} Needs to be called only in special cases when the mask is not added by {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+add} and not removed by {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+remove\+\_\+id} or {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+remove\+\_\+custom} 
+\begin{DoxyParams}{Parameters}
+{\em p} & pointer to a mask parameter \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_ab5b7c3b3a1661427b0925a7fda2dd703}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_init@{lv\_draw\_sw\_mask\_init}}
+\index{lv\_draw\_sw\_mask\_init@{lv\_draw\_sw\_mask\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_init()}{lv\_draw\_sw\_mask\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_ab5b7c3b3a1661427b0925a7fda2dd703} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__draw__sw__mask_8c_a1bea45c5fe39c4ea4a5c0599e1c5aa0d}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_line\_angle\_init@{lv\_draw\_sw\_mask\_line\_angle\_init}}
+\index{lv\_draw\_sw\_mask\_line\_angle\_init@{lv\_draw\_sw\_mask\_line\_angle\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_line\_angle\_init()}{lv\_draw\_sw\_mask\_line\_angle\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a1bea45c5fe39c4ea4a5c0599e1c5aa0d} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+angle\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a404c6aab005691e33f300f84218622e7}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{px}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{py}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}}}]{angle}{, }\item[{\doxymbox{\hyperlink{lv__draw__sw__mask_8h_a09c1dd4237dab9671679f3d6a0bad49b}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t}}}]{side}{}\end{DoxyParamCaption})}
+
+Initialize a line mask from a point and an angle. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to a {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em px} & X coordinate of a point of the line \\
+\hline
+{\em py} & X coordinate of a point of the line \\
+\hline
+{\em angle} & right 0 deg, bottom:\+ 90 \\
+\hline
+{\em side} & an element of {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t} to describe which side to keep. With {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+LINE\+\_\+\+SIDE\+\_\+\+LEFT/\+\+RIGHT} and horizontal line all pixels are kept With {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+LINE\+\_\+\+SIDE\+\_\+\+TOP/\+\+BOTTOM} and vertical line all pixels are kept \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_a8bd9f0c252d2938b2a18dc88249060fc}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_line\_points\_init@{lv\_draw\_sw\_mask\_line\_points\_init}}
+\index{lv\_draw\_sw\_mask\_line\_points\_init@{lv\_draw\_sw\_mask\_line\_points\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_line\_points\_init()}{lv\_draw\_sw\_mask\_line\_points\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a8bd9f0c252d2938b2a18dc88249060fc} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+points\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a404c6aab005691e33f300f84218622e7}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{p1x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{p1y}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{p2x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{p2y}{, }\item[{\doxymbox{\hyperlink{lv__draw__sw__mask_8h_a09c1dd4237dab9671679f3d6a0bad49b}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t}}}]{side}{}\end{DoxyParamCaption})}
+
+Initialize a line mask from two points. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to a {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em p1x} & X coordinate of the first point of the line \\
+\hline
+{\em p1y} & Y coordinate of the first point of the line \\
+\hline
+{\em p2x} & X coordinate of the second point of the line \\
+\hline
+{\em p2y} & y coordinate of the second point of the line \\
+\hline
+{\em side} & and element of {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+line\+\_\+side\+\_\+t} to describe which side to keep. With {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+LINE\+\_\+\+SIDE\+\_\+\+LEFT/\+\+RIGHT} and horizontal line all pixels are kept With {\ttfamily LV\+\_\+\+DRAW\+\_\+\+MASK\+\_\+\+LINE\+\_\+\+SIDE\+\_\+\+TOP/\+\+BOTTOM} and vertical line all pixels are kept \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_a645c3bc572d618de40319a0ae08599fc}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_map\_init@{lv\_draw\_sw\_mask\_map\_init}}
+\index{lv\_draw\_sw\_mask\_map\_init@{lv\_draw\_sw\_mask\_map\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_map\_init()}{lv\_draw\_sw\_mask\_map\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_a645c3bc572d618de40319a0ae08599fc} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+map\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a1d153f92ff6457d9d5034c7bd28791f8}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+map\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{, }\item[{const \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\+\_\+opa\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{map}{}\end{DoxyParamCaption})}
+
+Initialize a map mask. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to a {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em coords} & coordinates of the map (absolute coordinates) \\
+\hline
+{\em map} & array of bytes with the mask values \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__mask_8c_af7ea8bb24c55dd72c487a17a4d216cf9}\index{lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}!lv\_draw\_sw\_mask\_radius\_init@{lv\_draw\_sw\_mask\_radius\_init}}
+\index{lv\_draw\_sw\_mask\_radius\_init@{lv\_draw\_sw\_mask\_radius\_init}!lv\_draw\_sw\_mask.c@{lv\_draw\_sw\_mask.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_mask\_radius\_init()}{lv\_draw\_sw\_mask\_radius\_init()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__mask_8c_af7ea8bb24c55dd72c487a17a4d216cf9} 
+void lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+radius\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ae475d5595142139ba6adc0f85e015862}{lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+radius\+\_\+param\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{param}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{rect}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{radius}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{inv}{}\end{DoxyParamCaption})}
+
+Initialize a fade mask. 
+\begin{DoxyParams}{Parameters}
+{\em param} & pointer to an {\ttfamily lv\+\_\+draw\+\_\+mask\+\_\+radius\+\_\+param\+\_\+t} to initialize \\
+\hline
+{\em rect} & coordinates of the rectangle to affect (absolute coordinates) \\
+\hline
+{\em radius} & radius of the rectangle \\
+\hline
+{\em inv} & true:\+ keep the pixels inside the rectangle; keep the pixels outside of the rectangle \\
+\hline
+\end{DoxyParams}

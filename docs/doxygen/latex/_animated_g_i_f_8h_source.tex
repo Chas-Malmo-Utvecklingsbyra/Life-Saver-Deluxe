@@ -1,0 +1,233 @@
+\doxysection{Animated\+GIF.\+h}
+\hypertarget{_animated_g_i_f_8h_source}{}\label{_animated_g_i_f_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gif/AnimatedGIF/src/AnimatedGIF.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gif/AnimatedGIF/src/AnimatedGIF.h}}
+\doxymbox{\hyperlink{_animated_g_i_f_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Copyright\ 2020\ BitBank\ Software,\ Inc.\ All\ Rights\ Reserved.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ \_\_ANIMATEDGIF\_\_}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ \_\_ANIMATEDGIF\_\_}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__fs_8h}{../../../../misc/lv\_fs.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ LV\_STDINT\_INCLUDE}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ LV\_LIMITS\_INCLUDE}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2stdlib_2lv__string_8h}{../../../../stdlib/lv\_string.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ GIF\ Animator}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ Written\ by\ Larry\ Bank}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ Copyright\ (c)\ 2020\ BitBank\ Software,\ Inc.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ bitbank@pobox.com}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Designed\ to\ decode\ images\ up\ to\ 480x320\ on\ MCUs}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ using\ less\ than\ 22K\ of\ RAM}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ ...and\ decode\ any\ sized\ image\ when\ more\ RAM\ is\ available}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ **\ NEW\ **}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ Turbo\ mode\ added\ Feb\ 18,\ 2024.\ This\ option\ decodes\ images}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ up\ to\ 30x\ faster\ if\ there\ is\ enough\ RAM\ (48K\ +\ full\ framebuffer)}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{/*\ GIF\ Defines\ and\ variables\ */}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ MAX\_CHUNK\_SIZE\ 255}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ These\ 2\ macros\ can\ be\ changed\ to\ limit\ the\ amount\ of\ RAM}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ required\ by\ the\ decoder.\ For\ example,\ decoding\ 1-\/bit\ images\ to}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ a\ 128x32\ display\ will\ not\ need\ a\ max\ code\ size\ of\ 12\ nor\ a\ palette}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ with\ 256\ entries}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ TURBO\_BUFFER\_SIZE\ 0x6100}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ If\ you\ intend\ to\ decode\ generic\ GIFs,\ you\ want\ this\ value\ to\ be\ 12.\ If\ you\ are\ using\ GIFs\ solely\ for\ animations\ in}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ your\ own\ project,\ and\ you\ control\ the\ GIFs\ you\ intend\ to\ play,\ then\ you\ can\ save\ additional\ RAM\ here:}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ the\ decoder\ must\ reserve\ a\ minimum\ of\ 4\ byte\ *\ (1<<MAX\_CODE\_SIZE)\ for\ the\ dictionary,\ but\ based\ on\ implementation}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ actually\ reserves\ 5\ byte\ *\ (1<<MAX\_CODE\_SIZE).\ Small\ or\ low\ colour\ GIFs\ may\ inherently\ not\ require\ a\ large}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ dictionary.\ For\ larger\ GIFs,\ the\ en(!)coder\ can\ "{}voluntarily"{}\ choose\ not\ to\ utilize\ the\ entire\ dictionary.\ I.e.,}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ by\ preparing\ (specially\ encoding)\ the\ GIFs,\ you\ can\ save\ >10kB\ RAM,\ but\ you\ will\ not\ be\ able\ to\ decode\ arbitrary}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ images\ anymore.\ One\ application\ to\ craft\ such\ GIFs\ can\ be\ found\ here\ (use\ option\ -\/d)}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ https://create.stephan-\/brumme.com/flexigif-\/lossless-\/gif-\/lzw-\/optimization/}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ MAX\_CODE\_SIZE\ 12}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ MAX\_COLORS\ 256}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ MAX\_WIDTH\ 480}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ LZW\_BUF\_SIZE\ (6*MAX\_CHUNK\_SIZE)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ LZW\_HIGHWATER\ (4*MAX\_CHUNK\_SIZE)}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ This\ buffer\ is\ used\ to\ store\ the\ pixel\ sequence\ in\ reverse\ order}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ it\ needs\ to\ be\ large\ enough\ to\ hold\ the\ longest\ possible}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ sequence\ (1<<MAX\_CODE\_SIZE)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ FILE\_BUF\_SIZE\ (1<<MAX\_CODE\_SIZE)}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ PIXEL\_FIRST\ 0}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ PIXEL\_LAST\ (1<<MAX\_CODE\_SIZE)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ LINK\_UNUSED\ 5911\ }\textcolor{comment}{//\ 0x1717\ to\ use\ memset}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ LINK\_END\ 5912}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ MAX\_HASH\ 5003}}
+\DoxyCodeLine{00071\ \textcolor{comment}{//\ expanded\ LZW\ buffer\ for\ Turbo\ mode}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ LZW\_BUF\_SIZE\_TURBO\ (LZW\_BUF\_SIZE\ +\ (2<<MAX\_CODE\_SIZE)\ +\ (PIXEL\_LAST*2)\ +\ MAX\_WIDTH)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ LZW\_HIGHWATER\_TURBO\ ((LZW\_BUF\_SIZE\_TURBO\ *\ 14)\ /\ 16)}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{comment}{//}}
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ Pixel\ types}}
+\DoxyCodeLine{00077\ \textcolor{comment}{//}}
+\DoxyCodeLine{00078\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00079\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73abf9d632a075d203fb5dabda65af52e18}{GIF\_PALETTE\_RGB565\_LE}}\ =\ 0,\ \textcolor{comment}{//\ little\ endian\ (default)}}
+\DoxyCodeLine{00080\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73a14d045d22195668e5c9b6c41555f854e}{GIF\_PALETTE\_RGB565\_BE}},\ \ \ \ \ \textcolor{comment}{//\ big\ endian}}
+\DoxyCodeLine{00081\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73a7a35d9e1b9c0fa3fed3d5fe3c62e8d1d}{GIF\_PALETTE\_RGB888}},\ \ \ \ \ \ \ \ \textcolor{comment}{//\ original\ 24-\/bpp\ entries}}
+\DoxyCodeLine{00082\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73abc37c1041a3da16c3ee25d347e359263}{GIF\_PALETTE\_RGB8888}},\ \ \ \ \ \ \ \textcolor{comment}{//\ 32-\/bit\ (alpha\ =\ 0xff\ or\ 0x00)}}
+\DoxyCodeLine{00083\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73ab28ffcd23b01a212e36eab6f66d90fc5}{GIF\_PALETTE\_1BPP}},\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1-\/bit\ per\ pixel\ (horizontal,\ MSB\ on\ left)}}
+\DoxyCodeLine{00084\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_aeb6494dd370adcfbf24991c52a1f8c73a67a26deb8e58761a96aeb0d3082a31b7}{GIF\_PALETTE\_1BPP\_OLED}}\ \ \ \ \ \ \textcolor{comment}{//\ 1-\/bit\ per\ pixel\ (vertical,\ LSB\ on\ top)}}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ for\ compatibility\ with\ older\ code}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ LITTLE\_ENDIAN\_PIXELS\ GIF\_PALETTE\_RGB565\_LE}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ BIG\_ENDIAN\_PIXELS\ GIF\_PALETTE\_RGB565\_BE}}
+\DoxyCodeLine{00089\ \textcolor{comment}{//}}
+\DoxyCodeLine{00090\ \textcolor{comment}{//\ Draw\ types}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//\ RAW\ =\ 8-\/bit\ palettized\ pixels\ requiring\ transparent\ pixel\ handling\ and\ conversion\ through\ the\ palette.}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ \ \ \ \ \ \ Each\ line\ is\ sent\ to\ the\ GIFDraw\ callback\ as\ 8-\/bit\ pixels.\ If\ a\ framebuffer\ exists,\ the\ lines\ will\ be}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ \ \ \ \ \ \ written\ there\ too.\ The\ GIFDraw\ callback\ is\ optional\ if\ there\ is\ a\ framebuffer\ allocated.}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ COOKED\ =\ 16/24/32-\/bpp\ fully\ rendered\ pixels\ ready\ for\ display.\ This\ requires\ a\ full\ frame\ buffer\ with\ extra}}
+\DoxyCodeLine{00097\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ room\ for\ the\ fully\ rendered\ pixels\ at\ the\ end\ of\ the\ 8-\/bit\ pixel\ buffer.\ For\ example,\ a\ 160x120}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ canvas\ size\ with\ 24-\/bit\ output\ would\ require\ (160*120\ +\ 3*160)\ bytes.}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ Each\ prepared\ line\ is\ sent\ to\ the\ GIFDraw\ callback\ as\ a\ row\ of\ 16/24/32-\/bit\ pixels.}}
+\DoxyCodeLine{00100\ \textcolor{comment}{//}}
+\DoxyCodeLine{00101\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00102\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_afad0df3c18301ddb798608d63ad6fdaea7905a295521df75bff723463635e1a0d}{GIF\_DRAW\_RAW}}\ =\ 0,}
+\DoxyCodeLine{00103\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_afad0df3c18301ddb798608d63ad6fdaea4bed69469569c049aa33aa9e39330318}{GIF\_DRAW\_COOKED}}}
+\DoxyCodeLine{00104\ \};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00107\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faae33cf82923226aa3465d4cc1503559e6}{GIF\_SUCCESS}}\ =\ 0,}
+\DoxyCodeLine{00108\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faaafcfc7da2aea06a89e01a4d0d43f6b58}{GIF\_DECODE\_ERROR}},}
+\DoxyCodeLine{00109\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faaeab13411986a5348f737f5e5b1ced690}{GIF\_TOO\_WIDE}},}
+\DoxyCodeLine{00110\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa45605bcf07660e3853e44ccd4b9e3901}{GIF\_INVALID\_PARAMETER}},}
+\DoxyCodeLine{00111\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa747bccf1601fd70779fba70eb6748b30}{GIF\_UNSUPPORTED\_FEATURE}},}
+\DoxyCodeLine{00112\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa69dacf272ca8c3a0c0b73c0a1d55e5fd}{GIF\_FILE\_NOT\_OPEN}},}
+\DoxyCodeLine{00113\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa6d3d9cc9b9d6336aa06fe70d7593e18c}{GIF\_EARLY\_EOF}},}
+\DoxyCodeLine{00114\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faaec028f9d8e8055932e18ef08bbdc32d4}{GIF\_EMPTY\_FRAME}},}
+\DoxyCodeLine{00115\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa38c8dde231715d9633b17bdb6e78b27b}{GIF\_BAD\_FILE}},}
+\DoxyCodeLine{00116\ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a95809b666a47abc1591d7f417134e7faa0d44ebaf1f5a1f0dd3619cc75c16fa33}{GIF\_ERROR\_MEMORY}}}
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structgif__file__tag}{gif\_file\_tag}}}
+\DoxyCodeLine{00120\ \{}
+\DoxyCodeLine{00121\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__file__tag_a2e1eae7c5f5439f90938b62d4eef34d6}{iPos}};\ \textcolor{comment}{//\ current\ file\ position}}
+\DoxyCodeLine{00122\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__file__tag_a6b7e12df96eb1a3c79f68c7f959175fe}{iSize}};\ \textcolor{comment}{//\ file\ size}}
+\DoxyCodeLine{00123\ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\doxymbox{\hyperlink{structgif__file__tag_a77f0d5374ee675db57c0b29946ca7744}{pData}};\ \textcolor{comment}{//\ memory\ file\ pointer}}
+\DoxyCodeLine{00124\ \ \ \doxymbox{\hyperlink{structlv__fs__file__t}{lv\_fs\_file\_t}}\ \doxymbox{\hyperlink{structgif__file__tag_aab90d2ab6f2339dddaa6b01955d63368}{fHandle}};\ \textcolor{comment}{//\ class\ pointer\ to\ File/SdFat\ or\ whatever\ you\ want}}
+\DoxyCodeLine{00125\ \}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a86e916ac1cab38b6ffde163712d46acd}{GIFFILE}};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structgif__info__tag}{gif\_info\_tag}}}
+\DoxyCodeLine{00128\ \{}
+\DoxyCodeLine{00129\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__info__tag_a6c623a44de9675d7cc600c96cdee001d}{iFrameCount}};\ \textcolor{comment}{//\ total\ frames\ in\ file}}
+\DoxyCodeLine{00130\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__info__tag_a35490c02c2473d73317ce78309168701}{iDuration}};\ \textcolor{comment}{//\ duration\ of\ animation\ in\ milliseconds}}
+\DoxyCodeLine{00131\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__info__tag_a42e147ab3f6fc8fc756e0f17e9e9990d}{iMaxDelay}};\ \textcolor{comment}{//\ maximum\ frame\ delay}}
+\DoxyCodeLine{00132\ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structgif__info__tag_aedca321be4f3ab38bab719258c6a3aa2}{iMinDelay}};\ \textcolor{comment}{//\ minimum\ frame\ delay}}
+\DoxyCodeLine{00133\ \}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a142e26aa07a95897112f6d879960f70f}{GIFINFO}};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structgif__draw__tag}{gif\_draw\_tag}}}
+\DoxyCodeLine{00136\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__draw__tag_aa46fd71a7485fa548df5fd9356167814}{iX}},\ \doxymbox{\hyperlink{structgif__draw__tag_a40c1eea16ed01cb492c2faf0eeb8a6e7}{iY}};\ \textcolor{comment}{//\ Corner\ offset\ of\ this\ frame\ on\ the\ canvas}}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__draw__tag_a0a2f84ed7838f07779ae24c5a9086d33}{y}};\ \textcolor{comment}{//\ current\ line\ being\ drawn\ (0\ =\ top\ line\ of\ image)}}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__draw__tag_a339c9f28b92af29925c235e75f37bd11}{iWidth}},\ \doxymbox{\hyperlink{structgif__draw__tag_a2884aa55a9f2544c59a08976071b1d64}{iHeight}};\ \textcolor{comment}{//\ size\ of\ this\ frame}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__draw__tag_a6d10d9ad30890494c04a444e309acb3e}{iCanvasWidth}};\ \textcolor{comment}{//\ need\ this\ to\ know\ where\ to\ place\ output\ in\ a\ fully\ cooked\ bitmap}}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{structgif__draw__tag_afcecb2add875c6162c0c6874d2c50faa}{pUser}};\ \textcolor{comment}{//\ user\ supplied\ pointer}}
+\DoxyCodeLine{00142\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\doxymbox{\hyperlink{structgif__draw__tag_afd8c130f1c2ec878fa34afcfe1708215}{pPixels}};\ \textcolor{comment}{//\ 8-\/bit\ source\ pixels\ for\ this\ line}}
+\DoxyCodeLine{00143\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *\doxymbox{\hyperlink{structgif__draw__tag_a8fc2f7fad86d6f9473daaf67c0100d4b}{pPalette}};\ \textcolor{comment}{//\ little\ or\ big-\/endian\ RGB565\ palette\ entries\ (default)}}
+\DoxyCodeLine{00144\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\doxymbox{\hyperlink{structgif__draw__tag_aacec2b5e210876b49167e992daa5dfd1}{pPalette24}};\ \textcolor{comment}{//\ RGB888\ palette\ (optional)}}
+\DoxyCodeLine{00145\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_a4fac5b6e74f7ebd679d30fb8ad4db5fe}{ucTransparent}};\ \textcolor{comment}{//\ transparent\ color}}
+\DoxyCodeLine{00146\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_aa64eb33dd49551d6575e6c71e272a09b}{ucHasTransparency}};\ \textcolor{comment}{//\ flag\ indicating\ the\ transparent\ color\ is\ in\ use}}
+\DoxyCodeLine{00147\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_a6a8c0a6ceb125aa8a94130a7ac1eb7ae}{ucDisposalMethod}};\ \textcolor{comment}{//\ frame\ disposal\ method}}
+\DoxyCodeLine{00148\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_abb0f9e8fafcdbe63213f10f57ec1e9a7}{ucBackground}};\ \textcolor{comment}{//\ background\ color}}
+\DoxyCodeLine{00149\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_a433643d8072217c374812317a9dd0e85}{ucPaletteType}};\ \textcolor{comment}{//\ type\ of\ palette\ entries}}
+\DoxyCodeLine{00150\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structgif__draw__tag_af28835eefe60478d03f274f5b08f3bcc}{ucIsGlobalPalette}};\ \textcolor{comment}{//\ Flag\ to\ indicate\ that\ a\ global\ palette,\ rather\ than\ a\ local\ palette\ is\ being\ used}}
+\DoxyCodeLine{00151\ \}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_ae3a05a7da11c245593d6dd32c121a27c}{GIFDRAW}};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{comment}{//\ Callback\ function\ prototypes}}
+\DoxyCodeLine{00154\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a30b9cd103fa4c7bf8f3e3225753b2226}{GIF\_READ\_CALLBACK}})(\doxymbox{\hyperlink{_animated_g_i_f_8h_a86e916ac1cab38b6ffde163712d46acd}{GIFFILE}}\ *pFile,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *pBuf,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ iLen);}
+\DoxyCodeLine{00155\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a6532dbab86d5981eeb6dbbd9f74a18dd}{GIF\_SEEK\_CALLBACK}})(\doxymbox{\hyperlink{_animated_g_i_f_8h_a86e916ac1cab38b6ffde163712d46acd}{GIFFILE}}\ *pFile,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ iPosition);}
+\DoxyCodeLine{00156\ \textcolor{keyword}{typedef}\ void\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a374adc522252ec3c2d3aa01963d1c0fa}{GIF\_DRAW\_CALLBACK}})(\doxymbox{\hyperlink{_animated_g_i_f_8h_ae3a05a7da11c245593d6dd32c121a27c}{GIFDRAW}}\ *pDraw);}
+\DoxyCodeLine{00157\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a3430f5a6d2b9ec04824fd203bbb5f073}{GIF\_OPEN\_CALLBACK}})(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *szFilename,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ *pFileSize);}
+\DoxyCodeLine{00158\ \textcolor{keyword}{typedef}\ void\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a1595499a4473479fa7d515868e9fe580}{GIF\_CLOSE\_CALLBACK}})(\doxymbox{\hyperlink{structlv__fs__file__t}{lv\_fs\_file\_t}}\ *pHandle);}
+\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_a0d7cee5c8928bffcbd41f784a93e4401}{GIF\_ALLOC\_CALLBACK}})(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ iSize);}
+\DoxyCodeLine{00160\ \textcolor{keyword}{typedef}\ void\ (\doxymbox{\hyperlink{_animated_g_i_f_8h_ad55a57f73289dc58f233fd0a5072ea9e}{GIF\_FREE\_CALLBACK}})(\textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}});}
+\DoxyCodeLine{00161\ \textcolor{comment}{//}}
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ our\ private\ structure\ to\ hold\ a\ GIF\ image\ decode\ state}}
+\DoxyCodeLine{00163\ \textcolor{comment}{//}}
+\DoxyCodeLine{00164\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structgif__image__tag}{gif\_image\_tag}}}
+\DoxyCodeLine{00165\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_afa8b5a0745d72ea5709171795872281f}{iWidth}},\ \doxymbox{\hyperlink{structgif__image__tag_a420a52e37daad8df3f88a81db236db93}{iHeight}},\ \doxymbox{\hyperlink{structgif__image__tag_aa22c48308225f3e4832dde86ef04c505}{iCanvasWidth}},\ \doxymbox{\hyperlink{structgif__image__tag_a0de634ba42613f099b867e2636438d60}{iCanvasHeight}};}
+\DoxyCodeLine{00167\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_a5868a0019c65d0182f142d9e8edd74b1}{iX}},\ \doxymbox{\hyperlink{structgif__image__tag_af8e5beef3eab9616061a517b44d35de2}{iY}};\ \textcolor{comment}{//\ GIF\ corner\ offset}}
+\DoxyCodeLine{00168\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_aef38e784ee52a089a52030745f213f7b}{iBpp}};}
+\DoxyCodeLine{00169\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_a132900404ca144de8bb3b91d547095e2}{iError}};\ \textcolor{comment}{//\ last\ error}}
+\DoxyCodeLine{00170\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_aef95e01c9bea47a0dfb071a21104e595}{iFrameDelay}};\ \textcolor{comment}{//\ delay\ in\ milliseconds\ for\ this\ frame}}
+\DoxyCodeLine{00171\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_a8590feb0f8a35ca8022e9adc787bdde9}{iRepeatCount}};\ \textcolor{comment}{//\ NETSCAPE\ animation\ repeat\ count.\ 0=forever}}
+\DoxyCodeLine{00172\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structgif__image__tag_ac266f0eb4602171af5070713b592cce7}{iXCount}},\ \doxymbox{\hyperlink{structgif__image__tag_ae9e82a54d7da0682260e195b0b1b4677}{iYCount}};\ \textcolor{comment}{//\ decoding\ position\ in\ image\ (countdown\ values)}}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__image__tag_a177d78ba81f9fe722744d7bc66d1bf70}{iLZWOff}};\ \textcolor{comment}{//\ current\ LZW\ data\ offset}}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__image__tag_af87a6cccde60f4b8d204cb600ee96d20}{iLZWSize}};\ \textcolor{comment}{//\ current\ quantity\ of\ data\ in\ the\ LZW\ buffer}}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structgif__image__tag_a91c12d24e3e6fd6b3afa155d8752813e}{iCommentPos}};\ \textcolor{comment}{//\ file\ offset\ of\ start\ of\ comment\ data}}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordtype}{short}\ \doxymbox{\hyperlink{structgif__image__tag_a32e3711af1fd98f7eb9b18b19cbfbea3}{sCommentLen}};\ \textcolor{comment}{//\ length\ of\ comment}}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_a2109597d9917bf3d3b7c654704272f58}{bEndOfFrame}};}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_aa566aa4f53a03f01c66df3acf4ca56f1}{ucGIFBits}},\ \doxymbox{\hyperlink{structgif__image__tag_a949901bf38948481c4370f807063cdae}{ucBackground}},\ \doxymbox{\hyperlink{structgif__image__tag_a8fc9f403f5148ab61f0158b1ce50b75b}{ucTransparent}},\ \doxymbox{\hyperlink{structgif__image__tag_a7995d2ba6e885456ad7d157858af70de}{ucCodeStart}},\ \doxymbox{\hyperlink{structgif__image__tag_a16efa1a1e1b52606c6d88540e3300a88}{ucMap}},\ \doxymbox{\hyperlink{structgif__image__tag_a4dc78526841233b8babe1ba36cf303aa}{bUseLocalPalette}};}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_aa5379eb36942cd969adeebb6393b9028}{ucPaletteType}};\ \textcolor{comment}{//\ RGB565\ or\ RGB888}}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_a6145e297fe054567b8dfce7de4e34a1b}{ucDrawType}};\ \textcolor{comment}{//\ RAW\ or\ COOKED}}
+\DoxyCodeLine{00181\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a30b9cd103fa4c7bf8f3e3225753b2226}{GIF\_READ\_CALLBACK}}\ *\doxymbox{\hyperlink{structgif__image__tag_a930992f7334b226a286a7fc56bf63c74}{pfnRead}};}
+\DoxyCodeLine{00182\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a6532dbab86d5981eeb6dbbd9f74a18dd}{GIF\_SEEK\_CALLBACK}}\ *\doxymbox{\hyperlink{structgif__image__tag_aae2d709942c87c017f05c42cdede4c66}{pfnSeek}};}
+\DoxyCodeLine{00183\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a374adc522252ec3c2d3aa01963d1c0fa}{GIF\_DRAW\_CALLBACK}}\ *\doxymbox{\hyperlink{structgif__image__tag_aa4324bacc902c78f791179b7e592986a}{pfnDraw}};}
+\DoxyCodeLine{00184\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a3430f5a6d2b9ec04824fd203bbb5f073}{GIF\_OPEN\_CALLBACK}}\ *\doxymbox{\hyperlink{structgif__image__tag_a5c091bd50072859f58a569398d897221}{pfnOpen}};}
+\DoxyCodeLine{00185\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a1595499a4473479fa7d515868e9fe580}{GIF\_CLOSE\_CALLBACK}}\ *\doxymbox{\hyperlink{structgif__image__tag_af6546a5c5e20fe15b9c82d06998406ef}{pfnClose}};}
+\DoxyCodeLine{00186\ \ \ \ \ \doxymbox{\hyperlink{_animated_g_i_f_8h_a86e916ac1cab38b6ffde163712d46acd}{GIFFILE}}\ \doxymbox{\hyperlink{structgif__image__tag_a5721e5e3981f6b7d176c459df31a2faa}{GIFFile}};}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{structgif__image__tag_afcecb2add875c6162c0c6874d2c50faa}{pUser}};}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{structgif__image__tag_aea92dfa5c13fd8c85a4a8239f931eb84}{pFrameBuffer}};}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{structgif__image__tag_af638d656100be73fd9aef0f609ae1c6c}{pTurboBuffer}};}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{structgif__image__tag_aed2e0e4a2efb52caf50412bfb61e50a1}{pPixels}},\ *\doxymbox{\hyperlink{structgif__image__tag_a020d2a32808eeef5836f841aef1e0c55}{pOldPixels}};}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_abfb6c6ad0e9717018a5c74264fd358e7}{ucFileBuf}}[\doxymbox{\hyperlink{_animated_g_i_f_8h_a88fd4f23f482118ee3fcb9aa17a754f5}{FILE\_BUF\_SIZE}}];\ \textcolor{comment}{//\ holds\ temp\ data\ and\ pixel\ stack}}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \doxymbox{\hyperlink{structgif__image__tag_a9858e70e70b13c4183e8ed9290a9f8fd}{pPalette}}[(\doxymbox{\hyperlink{_animated_g_i_f_8h_afa10696a87fae6ed066323b7b6750947}{MAX\_COLORS}}\ *\ 3)/2];\ \textcolor{comment}{//\ can\ hold\ RGB565\ or\ RGB888\ -\/\ set\ in\ begin()}}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \doxymbox{\hyperlink{structgif__image__tag_ac01d665950e46057e83e8a6c39cf29fc}{pLocalPalette}}[(\doxymbox{\hyperlink{_animated_g_i_f_8h_afa10696a87fae6ed066323b7b6750947}{MAX\_COLORS}}\ *\ 3)/2];\ \textcolor{comment}{//\ color\ palettes\ for\ GIF\ images}}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_a823a7e783ccef9d192ccd1102ded8081}{ucLZW}}[\doxymbox{\hyperlink{_animated_g_i_f_8h_a95eb342349277c6e9c2ca6878911ab15}{LZW\_BUF\_SIZE}}];\ \textcolor{comment}{//\ holds\ de-\/chunked\ LZW\ data}}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{comment}{//\ These\ next\ 3\ are\ used\ in\ Turbo\ mode\ to\ have\ a\ larger\ ucLZW\ buffer}}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \doxymbox{\hyperlink{structgif__image__tag_a6d41dcf36943ca4cb69d311efb06dcac}{usGIFTable}}[1<<\doxymbox{\hyperlink{_animated_g_i_f_8h_ac417f30b11356d61ab40f1dad7337ae7}{MAX\_CODE\_SIZE}}];}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_a7c1a9daaae1fbdd632ebc690fdad862a}{ucGIFPixels}}[(\doxymbox{\hyperlink{_animated_g_i_f_8h_ae0303b672a9c3ac21db9eb7bc0906376}{PIXEL\_LAST}}*2)];}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{structgif__image__tag_ac79abcf306206bcacb4f8f8dcda2853a}{ucLineBuf}}[\doxymbox{\hyperlink{_animated_g_i_f_8h_a0e9d4003787634607af9e97e14b9668b}{MAX\_WIDTH}}];\ \textcolor{comment}{//\ current\ line}}
+\DoxyCodeLine{00199\ \}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}};}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{comment}{//\ C\ interface}}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a245594a45a75367af292afc566b63853}{GIF\_openRAM}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *pData,\ \textcolor{keywordtype}{int}\ iDataSize,\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a374adc522252ec3c2d3aa01963d1c0fa}{GIF\_DRAW\_CALLBACK}}\ *pfnDraw);}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a2323ab5d82a81d769fa4698c913e9bea}{GIF\_openFile}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *szFilename,\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a374adc522252ec3c2d3aa01963d1c0fa}{GIF\_DRAW\_CALLBACK}}\ *pfnDraw);}
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a2517d708cbfdf36a53a6ae4c4ea00618}{GIF\_close}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a07f778aa1aa8156a26d79439bfb7ae10}{GIF\_begin}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ucPaletteType);}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a08fcf5a0b56fc6b5f98ece2f86670aba}{GIF\_reset}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a8fa50f877e378669369e4d4e76303888}{GIF\_playFrame}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \textcolor{keywordtype}{int}\ *delayMilliseconds,\ \textcolor{keywordtype}{void}\ *pUser);}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_aa1a0a60fea632d5a0b60b887d36fecac}{GIF\_getCanvasWidth}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a993f39e5c2908a0dbf6157531980f3fc}{GIF\_getCanvasHeight}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_ac6973e29a4d62e039a2d78e501f0797d}{GIF\_getComment}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \textcolor{keywordtype}{char}\ *destBuffer);}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a6972f3b9ac2488bee54038876088f02e}{GIF\_getInfo}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF,\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a142e26aa07a95897112f6d879960f70f}{GIFINFO}}\ *pInfo);}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a6a3b2b409918d7e8d02b138552024e6e}{GIF\_getLastError}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{_animated_g_i_f_8h_a9437f4421edad4bc618ea59404ab6f1b}{GIF\_getLoopCount}}(\doxymbox{\hyperlink{_animated_g_i_f_8h_a8dd0bb4d3a02c3fc42a3b77eab8566ec}{GIFIMAGE}}\ *pGIF);}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ REGISTER\_WIDTH\ 32}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#ifdef\ ALLOWS\_UNALIGNED}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\ \ \ \ \#define\ INTELSHORT(p)\ (*(uint16\_t\ *)p)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\ \ \ \ \#define\ INTELLONG(p)\ (*(uint32\_t\ *)p)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{comment}{//\ Due\ to\ unaligned\ memory\ causing\ an\ exception,\ we\ have\ to\ do\ these\ macros\ the\ slow\ way}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ \#define\ INTELSHORT(p)\ ((*p)\ +\ (*(p+1)<<8))}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\ \ \ \ \#define\ INTELLONG(p)\ ((*p)\ +\ (*(p+1)<<8)\ +\ (*(p+2)<<16)\ +\ (*(p+3)<<24))}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ALLOWS\_UNALIGNED}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#define\ BIGINT\ int32\_t}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ BIGUINT\ uint32\_t}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_ANIMATEDGIF\_\_}}
+
+\end{DoxyCode}

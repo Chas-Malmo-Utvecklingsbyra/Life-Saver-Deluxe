@@ -1,0 +1,82 @@
+\doxysection{lv\+\_\+draw\+\_\+nema\+\_\+gfx\+\_\+utils.\+h}
+\hypertarget{lv__draw__nema__gfx__utils_8h_source}{}\label{lv__draw__nema__gfx__utils_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/nema\_gfx/lv\_draw\_nema\_gfx\_utils.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/nema\_gfx/lv\_draw\_nema\_gfx\_utils.h}}
+\doxymbox{\hyperlink{lv__draw__nema__gfx__utils_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifndef\ LV\_DRAW\_NEMA\_GFX\_UTILS\_H}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_NEMA\_GFX\_UTILS\_H}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#if\ LV\_USE\_NEMA\_GFX}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__sw_8h}{../sw/lv\_draw\_sw.h}}"{}}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__core_8h}{nema\_core.h}}"{}}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__utils_8h}{nema\_utils.h}}"{}}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__error_8h}{nema\_error.h}}"{}}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__provisional_8h}{nema\_provisional.h}}"{}}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__vg_8h}{nema\_vg.h}}"{}}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifndef\ NEMA\_VIRT2PHYS}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ NEMA\_VIRT2PHYS}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00060\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ NEMA\_VIRT2PHYS(\textcolor{keywordtype}{void}\ *\ addr);}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{/*Color\ depth:\ 1\ (1\ byte\ per\ pixel),\ 8\ (RGB332),\ 16\ (RGB565),\ 32\ (ARGB8888)*/}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#if\ LV\_COLOR\_DEPTH\ ==\ 8}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_COLOR\_FORMAT\ NEMA\_L8}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_FORMAT\_MULTIPLIER\ 1}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#elif\ LV\_COLOR\_DEPTH\ ==\ 16}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_COLOR\_FORMAT\ NEMA\_RGB565}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_FORMAT\_MULTIPLIER\ 2}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#elif\ LV\_COLOR\_DEPTH\ ==\ 24}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_COLOR\_FORMAT\ NEMA\_BGR24}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_FORMAT\_MULTIPLIER\ 3}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#elif\ LV\_COLOR\_DEPTH\ ==\ 32}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_COLOR\_FORMAT\ NEMA\_BGRA8888}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ LV\_NEMA\_GFX\_FORMAT\_MULTIPLIER\ 4}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00077\ \textcolor{comment}{/*Can't\ use\ GPU\ with\ other\ formats*/}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#error\ Selected\ Color\ Depth\ Not\ Supported}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00082\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00083\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{bool}\ lv\_nemagfx\_is\_cf\_supported(\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\_color\_format\_t}}\ cf);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00097\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_nemagfx\_cf\_to\_nema(\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\_color\_format\_t}}\ cf);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00107\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_nemagfx\_blending\_mode(\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__style_8h_a2e4fe7f18d18a05b245ee4a1fdaca0f9}{lv\_blend\_mode\_t}}\ lv\_blend\_mode);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00120\ \textcolor{keywordtype}{void}\ lv\_nemagfx\_grad\_set(\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ gradient,\ \doxymbox{\hyperlink{structlv__grad__dsc__t}{lv\_grad\_dsc\_t}}\ lv\_grad,\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_ab5986a13b2c8fc841068a051eaf53066}{lv\_opa\_t}}\ opa);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00123\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00124\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{/*LV\_USE\_NEMA\_GFX*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00129\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_DRAW\_NEMA\_GFX\_UTILS\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

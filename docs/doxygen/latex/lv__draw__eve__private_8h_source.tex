@@ -1,0 +1,120 @@
+\doxysection{lv\+\_\+draw\+\_\+eve\+\_\+private.\+h}
+\hypertarget{lv__draw__eve__private_8h_source}{}\label{lv__draw__eve__private_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/eve/lv\_draw\_eve\_private.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/eve/lv\_draw\_eve\_private.h}}
+\doxymbox{\hyperlink{lv__draw__eve__private_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ Author:\ juanj}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ \ Modified\ by\ LVGL}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ LV\_DRAW\_EVE\_PRIVATE\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_EVE\_PRIVATE\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__eve_8h}{lv\_draw\_eve.h}}"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#if\ LV\_USE\_DRAW\_EVE}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__eve__target_8h}{lv\_draw\_eve\_target.h}}"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__eve__ram__g_8h}{lv\_draw\_eve\_ram\_g.h}}"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__private_8h}{../lv\_draw\_private.h}}"{}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__global_8h}{../../core/lv\_global.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__triangle_8h}{../lv\_draw\_triangle.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__line_8h}{../lv\_draw\_line.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__label_8h}{../lv\_draw\_label.h}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__font__fmt__txt_8h}{../../font/lv\_font\_fmt\_txt.h}}"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__arc_8h}{../lv\_draw\_arc.h}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#if\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\ !=\ 0\ \&\&\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\ <\ 4}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#warning\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\ cannot\ be\ less\ than\ 4.\ Using\ 0\ (buffering\ disabled).}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL\ 0}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00052\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ key;}
+\DoxyCodeLine{00053\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ addr;}
+\DoxyCodeLine{00054\ \}\ lv\_draw\_eve\_ramg\_hash\_table\_cell\_t;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ramg\_addr\_end;}
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hash\_table\_cell\_count;}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hash\_table\_cells\_occupied;}
+\DoxyCodeLine{00060\ \ \ \ \ lv\_draw\_eve\_ramg\_hash\_table\_cell\_t\ *\ hash\_table;}
+\DoxyCodeLine{00061\ \}\ lv\_draw\_eve\_ramg\_t;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{struct\ }\_lv\_draw\_eve\_unit\_t\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_abef3cb242f32d3c69635d7f9347620f6}{lv\_draw\_unit\_t}}\ base\_unit;}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ task\_act;}
+\DoxyCodeLine{00066\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ disp;}
+\DoxyCodeLine{00067\ \ \ \ \ lv\_draw\_eve\_ramg\_t\ ramg;}
+\DoxyCodeLine{00068\ \ \ \ \ lv\_draw\_eve\_parameters\_t\ params;}
+\DoxyCodeLine{00069\ \ \ \ \ lv\_draw\_eve\_operation\_cb\_t\ op\_cb;}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#if\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL}}
+\DoxyCodeLine{00071\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}};}
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL];}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00074\ \};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00077\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00078\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_image(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\_draw\_image\_dsc\_t}}\ *\ draw\_dsc,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__area__t}{lv\_area\_t}}\ *\ coords);}
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{bool}\ lv\_draw\_eve\_image\_src\_check(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ src);}
+\DoxyCodeLine{00083\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_draw\_eve\_image\_upload\_image(\textcolor{keywordtype}{bool}\ burst\_is\_active,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__image__dsc__t}{lv\_image\_dsc\_t}}\ *\ img\_dsc);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_fill(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__fill__dsc__t}{lv\_draw\_fill\_dsc\_t}}\ *\ dsc,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__area__t}{lv\_area\_t}}\ *\ coords);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_border(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__border__dsc__t}{lv\_draw\_border\_dsc\_t}}\ *\ dsc,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__area__t}{lv\_area\_t}}\ *\ coords);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_line(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__line__dsc__t}{lv\_draw\_line\_dsc\_t}}\ *\ dsc);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_label(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__label__dsc__t}{lv\_draw\_label\_dsc\_t}}\ *\ dsc,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__area__t}{lv\_area\_t}}\ *\ coords);}
+\DoxyCodeLine{00094\ \textcolor{keywordtype}{bool}\ lv\_draw\_eve\_label\_font\_check(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00095\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_draw\_eve\_label\_upload\_glyph(\textcolor{keywordtype}{bool}\ burst\_is\_active,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__font__fmt__txt__dsc__t}{lv\_font\_fmt\_txt\_dsc\_t}}\ *\ font\_dsc,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ gid\_index);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_arc(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__arc__dsc__t}{lv\_draw\_arc\_dsc\_t}}\ *\ dsc,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__area__t}{lv\_area\_t}}\ *\ coords);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keywordtype}{void}\ lv\_draw\_eve\_triangle(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\_draw\_task\_t}}\ *\ t,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlv__draw__triangle__dsc__t}{lv\_draw\_triangle\_dsc\_t}}\ *\ dsc);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00103\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00104\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ DEGREES(n)\ ((65536UL\ *\ (n))\ /\ 3600)}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ F16(x)\ \ \ \ \ ((int32\_t)((x)\ *\ 65536L))}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ lv\_draw\_eve\_unit\_g\ (LV\_GLOBAL\_DEFAULT()-\/>draw\_eve\_unit)}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_DRAW\_EVE*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00114\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_DRAW\_EVE\_PRIVATE\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

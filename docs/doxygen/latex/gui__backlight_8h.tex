@@ -15,10 +15,10 @@
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \doxymbox{\hyperlink{gui__backlight_8h_a718ad747a787b9f4cd83abf56e014abf}{backlight\+\_\+init}} (void)
-\item 
 void \doxymbox{\hyperlink{gui__backlight_8h_a32239132197d707d69fbe8507bb009c3}{set\+\_\+brightness}} (uint8\+\_\+t percent)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Sets the display brightness. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{gui__backlight_8h_a718ad747a787b9f4cd83abf56e014abf}{backlight\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the LCD backlight controller. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \label{gui__backlight_8h_doc-define-members}
@@ -30,25 +30,25 @@ void \doxymbox{\hyperlink{gui__backlight_8h_a32239132197d707d69fbe8507bb009c3}{s
 {\footnotesize\ttfamily \label{gui__backlight_8h_a4dae4ef51d9b3cd9058b2a209c39fc12} 
 \+\#define BACKLIGHT\+\_\+\+I2\+C\+\_\+\+ADDR~0x24}
 
-\Hypertarget{gui__backlight_8h_a57a9cd1d2cfb597e5131f251dc3eb6ad}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_MAX\_PCT@{BACKLIGHT\_MAX\_PCT}}
+I2C address of the backlight controller. \Hypertarget{gui__backlight_8h_a57a9cd1d2cfb597e5131f251dc3eb6ad}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_MAX\_PCT@{BACKLIGHT\_MAX\_PCT}}
 \index{BACKLIGHT\_MAX\_PCT@{BACKLIGHT\_MAX\_PCT}!gui\_backlight.h@{gui\_backlight.h}}
 \doxysubsubsection{\texorpdfstring{BACKLIGHT\_MAX\_PCT}{BACKLIGHT\_MAX\_PCT}}
 {\footnotesize\ttfamily \label{gui__backlight_8h_a57a9cd1d2cfb597e5131f251dc3eb6ad} 
 \+\#define BACKLIGHT\+\_\+\+MAX\+\_\+\+PCT~97}
 
-\Hypertarget{gui__backlight_8h_a1e501585f1637cf8479cdaa1fc3769bf}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_MIN\_PCT@{BACKLIGHT\_MIN\_PCT}}
+Maximum allowed brightness percentage. \Hypertarget{gui__backlight_8h_a1e501585f1637cf8479cdaa1fc3769bf}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_MIN\_PCT@{BACKLIGHT\_MIN\_PCT}}
 \index{BACKLIGHT\_MIN\_PCT@{BACKLIGHT\_MIN\_PCT}!gui\_backlight.h@{gui\_backlight.h}}
 \doxysubsubsection{\texorpdfstring{BACKLIGHT\_MIN\_PCT}{BACKLIGHT\_MIN\_PCT}}
 {\footnotesize\ttfamily \label{gui__backlight_8h_a1e501585f1637cf8479cdaa1fc3769bf} 
 \+\#define BACKLIGHT\+\_\+\+MIN\+\_\+\+PCT~10}
 
-\Hypertarget{gui__backlight_8h_a025532b4fe476e7da09c6acbadeae87e}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_PWM\_REG@{BACKLIGHT\_PWM\_REG}}
+Minimum allowed brightness percentage. \Hypertarget{gui__backlight_8h_a025532b4fe476e7da09c6acbadeae87e}\index{gui\_backlight.h@{gui\_backlight.h}!BACKLIGHT\_PWM\_REG@{BACKLIGHT\_PWM\_REG}}
 \index{BACKLIGHT\_PWM\_REG@{BACKLIGHT\_PWM\_REG}!gui\_backlight.h@{gui\_backlight.h}}
 \doxysubsubsection{\texorpdfstring{BACKLIGHT\_PWM\_REG}{BACKLIGHT\_PWM\_REG}}
 {\footnotesize\ttfamily \label{gui__backlight_8h_a025532b4fe476e7da09c6acbadeae87e} 
 \+\#define BACKLIGHT\+\_\+\+PWM\+\_\+\+REG~0x05}
 
-
+PWM register used for brightness control. 
 
 \label{gui__backlight_8h_doc-func-members}
 \Hypertarget{gui__backlight_8h_doc-func-members}
@@ -59,9 +59,34 @@ void \doxymbox{\hyperlink{gui__backlight_8h_a32239132197d707d69fbe8507bb009c3}{s
 {\footnotesize\ttfamily \label{gui__backlight_8h_a718ad747a787b9f4cd83abf56e014abf} 
 void backlight\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
 
+
+
+Initializes the LCD backlight controller. 
+
+Configures the I2C backlight device, sets the required IO expander registers, releases display and touch reset lines, and applies a default brightness level.
+
+\begin{DoxyNote}{Note}
+Must be called after I2C has been initialized. 
+\end{DoxyNote}
 \Hypertarget{gui__backlight_8h_a32239132197d707d69fbe8507bb009c3}\index{gui\_backlight.h@{gui\_backlight.h}!set\_brightness@{set\_brightness}}
 \index{set\_brightness@{set\_brightness}!gui\_backlight.h@{gui\_backlight.h}}
 \doxysubsubsection{\texorpdfstring{set\_brightness()}{set\_brightness()}}
 {\footnotesize\ttfamily \label{gui__backlight_8h_a32239132197d707d69fbe8507bb009c3} 
 void set\+\_\+brightness (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{percent}{}\end{DoxyParamCaption})}
 
+
+
+Sets the display brightness. 
+
+Converts a percentage value into the PWM value required by the backlight controller and transmits it over I2C.
+
+Values outside the supported range are clamped to the configured minimum and maximum limits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em percent} & Brightness percentage (0-\/100).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Values are automatically clamped to valid limits. 
+\end{DoxyNote}

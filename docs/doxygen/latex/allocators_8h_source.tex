@@ -1,0 +1,618 @@
+\doxysection{allocators.\+h}
+\hypertarget{allocators_8h_source}{}\label{allocators_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/allocators.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/allocators.h}}
+\doxymbox{\hyperlink{allocators_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Copyright\ (C)\ 2015\ THL\ A29\ Limited,\ a\ Tencent\ company,\ and\ Milo\ Yip.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_ALLOCATORS\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ALLOCATORS\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{rapidjson_8h}{rapidjson.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{meta_8h}{internal/meta.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__assert_8h}{../../../misc/lv\_assert.h}}"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ Allocator}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_ALLOCATOR\_DEFAULT\_CHUNK\_CAPACITY}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ALLOCATOR\_DEFAULT\_CHUNK\_CAPACITY\ (64\ *\ 1024)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ CrtAllocator}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_crt_allocator}{CrtAllocator}}\ \{}
+\DoxyCodeLine{00086\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_crt_allocator_ad3e1137cca869fe3a1c8eeaab0308f9b}{kNeedFree}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_crt_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(\textcolor{keywordtype}{size\_t}\ size)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size)\ \{\ \textcolor{comment}{//\ \ behavior\ of\ malloc(0)\ is\ implementation\ defined.}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *\ p\ =\ \doxymbox{\hyperlink{rapidjson_8h_a047ad77d620d1ae97c1bc70a9f316f27}{RAPIDJSON\_MALLOC}}(size);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__assert_8h_a124f08761ffc45565d4511eaf68f777e}{LV\_ASSERT\_MALLOC}}(p);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};\ \textcolor{comment}{//\ standardize\ to\ returning\ NULL.}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_crt_allocator_abbe73e5f1855f3b1343c779c777bb7c0}{Realloc}}(\textcolor{keywordtype}{void}*\ originalPtr,\ \textcolor{keywordtype}{size\_t}\ originalSize,\ \textcolor{keywordtype}{size\_t}\ newSize)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ (void)originalSize;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newSize\ ==\ 0)\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_aa6d5138eed2c5b311d9862d191393a5f}{RAPIDJSON\_FREE}}(originalPtr);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *\ p\ =\ \doxymbox{\hyperlink{rapidjson_8h_aa2c0f2121d7803191a43609ea5d8dd67}{RAPIDJSON\_REALLOC}}(originalPtr,\ newSize);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__assert_8h_a124f08761ffc45565d4511eaf68f777e}{LV\_ASSERT\_MALLOC}}(p);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_crt_allocator_a14af6464adaa0c612f1f00c8187e1789}{Free}}(\textcolor{keywordtype}{void}\ *ptr)\ RAPIDJSON\_NOEXCEPT\ \{\ \doxymbox{\hyperlink{rapidjson_8h_aa6d5138eed2c5b311d9862d191393a5f}{RAPIDJSON\_FREE}}(ptr);\ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_crt_allocator_a54e4bcbc7c71eda84a177068f0567d0f}{operator==}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_crt_allocator}{CrtAllocator}}\&)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_crt_allocator_ac76cfde94455f0304a40b5db28e0b24d}{operator!=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_crt_allocator}{CrtAllocator}}\&)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00118\ \textcolor{comment}{//\ MemoryPoolAllocator}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ BaseAllocator\ =\ CrtAllocator>}
+\DoxyCodeLine{00137\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\ \{}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{struct\ }ChunkHeader\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ capacity;\ \ \ \ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ ChunkHeader\ *next;\ \ }
+\DoxyCodeLine{00145\ \ \ \ \ \};}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{struct\ }SharedData\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ ChunkHeader\ *chunkHead;\ \ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ BaseAllocator*\ ownBaseAllocator;\ }
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ refcount;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ownBuffer;}
+\DoxyCodeLine{00152\ \ \ \ \ \};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ SIZEOF\_SHARED\_DATA\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga583915242504c7fdb36e826f02f76242}{RAPIDJSON\_ALIGN}}(\textcolor{keyword}{sizeof}(SharedData));}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ SIZEOF\_CHUNK\_HEADER\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga583915242504c7fdb36e826f02f76242}{RAPIDJSON\_ALIGN}}(\textcolor{keyword}{sizeof}(ChunkHeader));}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ ChunkHeader\ *GetChunkHead(SharedData\ *shared)}
+\DoxyCodeLine{00158\ \ \ \ \ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}ChunkHeader*\textcolor{keyword}{>}(\textcolor{keyword}{reinterpret\_cast<}\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\textcolor{keyword}{>}(shared)\ +\ SIZEOF\_SHARED\_DATA);}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *GetChunkBuffer(SharedData\ *shared)}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\textcolor{keyword}{>}(shared-\/>chunkHead)\ +\ SIZEOF\_CHUNK\_HEADER;}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ kDefaultChunkCapacity\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga860570d04d489be08b9835d2ec58bac5}{RAPIDJSON\_ALLOCATOR\_DEFAULT\_CHUNK\_CAPACITY}};\ }
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_memory_pool_allocator_ad3e1137cca869fe3a1c8eeaab0308f9b}{kNeedFree}}\ =\ \textcolor{keyword}{false};\ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_memory_pool_allocator_afaecdde57925afb1fa9f061ad47a6bb1}{kRefCounted}}\ =\ \textcolor{keyword}{true};\ \ \ }
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{explicit}}
+\DoxyCodeLine{00177\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}(\textcolor{keywordtype}{size\_t}\ chunkSize\ =\ kDefaultChunkCapacity,\ BaseAllocator*\ baseAllocator\ =\ 0)\ :}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ chunk\_capacity\_(chunkSize),}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ baseAllocator\_(baseAllocator\ ?\ baseAllocator\ :\ \doxymbox{\hyperlink{rapidjson_8h_abdc7cd7902748ffe6626d71c59a73c3b}{RAPIDJSON\_NEW}}(BaseAllocator)()),}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ shared\_(static\_cast<SharedData*>(baseAllocator\_\ ?\ baseAllocator\_-\/>\doxymbox{\hyperlink{class_memory_pool_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(SIZEOF\_SHARED\_DATA\ +\ SIZEOF\_CHUNK\_HEADER)\ :\ 0))}
+\DoxyCodeLine{00181\ \ \ \ \ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(baseAllocator\_\ !=\ 0);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(shared\_\ !=\ 0);}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (baseAllocator)\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>ownBaseAllocator\ =\ 0;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>ownBaseAllocator\ =\ baseAllocator\_;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead\ =\ GetChunkHead(shared\_);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>capacity\ =\ 0;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>size\ =\ 0;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>next\ =\ 0;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ shared\_-\/>ownBuffer\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ shared\_-\/>refcount\ =\ 1;}
+\DoxyCodeLine{00196\ \ \ \ \ \}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00208\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a5916b3da4f8b64c23c4af4277d3a7da6}{MemoryPoolAllocator}}(\textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ chunkSize\ =\ kDefaultChunkCapacity,\ BaseAllocator*\ baseAllocator\ =\ 0)\ :}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ chunk\_capacity\_(chunkSize),}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ baseAllocator\_(baseAllocator),}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ shared\_(static\_cast<SharedData*>(AlignBuffer(\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},\ size)))}
+\DoxyCodeLine{00212\ \ \ \ \ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(size\ >=\ SIZEOF\_SHARED\_DATA\ +\ SIZEOF\_CHUNK\_HEADER);}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead\ =\ GetChunkHead(shared\_);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>capacity\ =\ size\ -\/\ SIZEOF\_SHARED\_DATA\ -\/\ SIZEOF\_CHUNK\_HEADER;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>size\ =\ 0;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>next\ =\ 0;}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ shared\_-\/>ownBaseAllocator\ =\ 0;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ shared\_-\/>ownBuffer\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ shared\_-\/>refcount\ =\ 1;}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_ab2b15f65576fb6c1298adeb8d39d4918}{MemoryPoolAllocator}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ chunk\_capacity\_(rhs.chunk\_capacity\_),}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_),}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ shared\_(rhs.shared\_)}
+\DoxyCodeLine{00227\ \ \ \ \ \{}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ ++shared\_-\/>refcount;}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ \doxymbox{\hyperlink{class_memory_pool_allocator_ac3f1c1cca68052eda0018a80696ab58a}{operator=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00232\ \ \ \ \ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(rhs.shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ ++rhs.shared\_-\/>refcount;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ this-\/>\doxymbox{\hyperlink{class_memory_pool_allocator_a7eba1baade725f49b8f8cb01711f1753}{\string~MemoryPoolAllocator}}();}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ baseAllocator\_\ =\ rhs.baseAllocator\_;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ chunk\_capacity\_\ =\ rhs.chunk\_capacity\_;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ shared\_\ =\ rhs.shared\_;}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11\_RVALUE\_REFS}}
+\DoxyCodeLine{00243\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}(\doxymbox{\hyperlink{class_memory_pool_allocator}{MemoryPoolAllocator}}\&\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ chunk\_capacity\_(rhs.chunk\_capacity\_),}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_),}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ shared\_(rhs.shared\_)}
+\DoxyCodeLine{00247\ \ \ \ \ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(rhs.shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ rhs.shared\_\ =\ 0;}
+\DoxyCodeLine{00250\ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ \doxymbox{\hyperlink{class_memory_pool_allocator_ac3f1c1cca68052eda0018a80696ab58a}{operator=}}(\doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\&\ rhs)\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00252\ \ \ \ \ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(rhs.shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ this-\/>\doxymbox{\hyperlink{class_memory_pool_allocator_a7eba1baade725f49b8f8cb01711f1753}{\string~MemoryPoolAllocator}}();}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ baseAllocator\_\ =\ rhs.baseAllocator\_;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ chunk\_capacity\_\ =\ rhs.chunk\_capacity\_;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ shared\_\ =\ rhs.shared\_;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ rhs.shared\_\ =\ 0;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00260\ \ \ \ \ \}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00266\ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a7eba1baade725f49b8f8cb01711f1753}{\string~MemoryPoolAllocator}}()\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!shared\_)\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ do\ nothing\ if\ moved}}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shared\_-\/>refcount\ >\ 1)\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ -\/-\/shared\_-\/>refcount;}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_memory_pool_allocator_a3d1c6093d672a8386109439899cd2837}{Clear}}();}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ BaseAllocator\ *\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}}\ =\ shared\_-\/>ownBaseAllocator;}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shared\_-\/>ownBuffer)\ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ baseAllocator\_-\/>Free(shared\_);}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a52c941c3fdd646527cdcd42aa846a28a}{RAPIDJSON\_DELETE}}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}});}
+\DoxyCodeLine{00281\ \ \ \ \ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a3d1c6093d672a8386109439899cd2837}{Clear}}()\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;;)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ ChunkHeader*\ c\ =\ shared\_-\/>chunkHead;}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!c-\/>next)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead\ =\ c-\/>next;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ baseAllocator\_-\/>Free(c);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>size\ =\ 0;}
+\DoxyCodeLine{00295\ \ \ \ \ \}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a71668259f0c35ee772bdf29a6f1e17f4}{Capacity}}()\ const\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ capacity\ =\ 0;}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (ChunkHeader*\ c\ =\ shared\_-\/>chunkHead;\ c\ !=\ 0;\ c\ =\ c-\/>next)}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ capacity\ +=\ c-\/>capacity;}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ capacity;}
+\DoxyCodeLine{00306\ \ \ \ \ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a550aacc717e1cf809085c3c12bba85ab}{Size}}()\ const\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size\ =\ 0;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (ChunkHeader*\ c\ =\ shared\_-\/>chunkHead;\ c\ !=\ 0;\ c\ =\ c-\/>next)}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ size\ +=\ c-\/>size;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00317\ \ \ \ \ \}}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a78c58b7e41419e59a5b46dd341d2a351}{Shared}}()\ const\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ shared\_-\/>refcount\ >\ 1;}
+\DoxyCodeLine{00325\ \ \ \ \ \}}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_memory_pool_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(\textcolor{keywordtype}{size\_t}\ size)\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!size)}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ size\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga583915242504c7fdb36e826f02f76242}{RAPIDJSON\_ALIGN}}(size);}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga6a2b1695c13e77ae425e3cbac980ccb5}{RAPIDJSON\_UNLIKELY}}(shared\_-\/>chunkHead-\/>size\ +\ size\ >\ shared\_-\/>chunkHead-\/>capacity))}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!AddChunk(chunk\_capacity\_\ >\ size\ ?\ chunk\_capacity\_\ :\ size))}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}}\ =\ GetChunkBuffer(shared\_)\ +\ shared\_-\/>chunkHead-\/>size;}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>size\ +=\ size;}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}};}
+\DoxyCodeLine{00341\ \ \ \ \ \}}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_memory_pool_allocator_abbe73e5f1855f3b1343c779c777bb7c0}{Realloc}}(\textcolor{keywordtype}{void}*\ originalPtr,\ \textcolor{keywordtype}{size\_t}\ originalSize,\ \textcolor{keywordtype}{size\_t}\ newSize)\ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (originalPtr\ ==\ 0)}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(newSize);}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newSize\ ==\ 0)}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ originalSize\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga583915242504c7fdb36e826f02f76242}{RAPIDJSON\_ALIGN}}(originalSize);}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ newSize\ =\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga583915242504c7fdb36e826f02f76242}{RAPIDJSON\_ALIGN}}(newSize);}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ not\ shrink\ if\ new\ size\ is\ smaller\ than\ original}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (originalSize\ >=\ newSize)}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ originalPtr;}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Simply\ expand\ it\ if\ it\ is\ the\ last\ allocation\ and\ there\ is\ sufficient\ space}}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (originalPtr\ ==\ GetChunkBuffer(shared\_)\ +\ shared\_-\/>chunkHead-\/>size\ -\/\ originalSize)\ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ increment\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(newSize\ -\/\ originalSize);}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shared\_-\/>chunkHead-\/>size\ +\ increment\ <=\ shared\_-\/>chunkHead-\/>capacity)\ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead-\/>size\ +=\ increment;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ originalPtr;}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Realloc\ process:\ allocate\ and\ copy\ memory,\ do\ not\ free\ original\ buffer.}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{void}*\ newBuffer\ =\ \doxymbox{\hyperlink{class_memory_pool_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(newSize))\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (originalSize)}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(newBuffer,\ originalPtr,\ originalSize);}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ newBuffer;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00376\ \ \ \ \ \}}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a14af6464adaa0c612f1f00c8187e1789}{Free}}(\textcolor{keywordtype}{void}\ *ptr)\ RAPIDJSON\_NOEXCEPT\ \{\ (void)ptr;\ \}\ \textcolor{comment}{//\ Do\ nothing}}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a514b64dd3040b356e06141e77586a88c}{operator==}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ rhs)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(rhs.shared\_-\/>refcount\ >\ 0);}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ shared\_\ ==\ rhs.shared\_;}
+\DoxyCodeLine{00386\ \ \ \ \ \}}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a652bf972583ddcd73c5a6d1ddc822a79}{operator!=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_memory_pool_allocator_a8c2a081adfe7a78f6d25414674cfae65}{MemoryPoolAllocator}}\&\ rhs)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !\doxymbox{\hyperlink{class_memory_pool_allocator_a514b64dd3040b356e06141e77586a88c}{operator==}}(rhs);}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordtype}{bool}\ AddChunk(\textcolor{keywordtype}{size\_t}\ capacity)\ \{}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!baseAllocator\_)}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>ownBaseAllocator\ =\ baseAllocator\_\ =\ \doxymbox{\hyperlink{rapidjson_8h_abdc7cd7902748ffe6626d71c59a73c3b}{RAPIDJSON\_NEW}}(BaseAllocator)();}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ChunkHeader*\ chunk\ =\ \textcolor{keyword}{static\_cast<}ChunkHeader*\textcolor{keyword}{>}(baseAllocator\_-\/>Malloc(SIZEOF\_CHUNK\_HEADER\ +\ capacity)))\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ chunk-\/>capacity\ =\ capacity;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ chunk-\/>size\ =\ 0;}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ chunk-\/>next\ =\ shared\_-\/>chunkHead;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ shared\_-\/>chunkHead\ =\ chunk;}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00409\ \ \ \ \ \}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}*\ AlignBuffer(\textcolor{keywordtype}{void}*\ buf,\ \textcolor{keywordtype}{size\_t}\ \&size)}
+\DoxyCodeLine{00412\ \ \ \ \ \{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(buf\ !=\ 0);}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ mask\ =\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)\ -\/\ 1;}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ ubuf\ =\ \textcolor{keyword}{reinterpret\_cast<}\doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\textcolor{keyword}{>}(\doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}});}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga6a2b1695c13e77ae425e3cbac980ccb5}{RAPIDJSON\_UNLIKELY}}(ubuf\ \&\ mask))\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_a31b85deecb45924320becd11d3ee16ce}{uintptr\_t}}\ abuf\ =\ (ubuf\ +\ mask)\ \&\ \string~mask;}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(size\ >=\ abuf\ -\/\ ubuf);}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}}\ =\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(abuf);}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ size\ -\/=\ abuf\ -\/\ ubuf;}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}};}
+\DoxyCodeLine{00423\ \ \ \ \ \}}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ chunk\_capacity\_;\ \ \ \ \ }
+\DoxyCodeLine{00426\ \ \ \ \ BaseAllocator*\ baseAllocator\_;\ \ }
+\DoxyCodeLine{00427\ \ \ \ \ SharedData\ *shared\_;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00428\ \};}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespaceinternal}{internal}}\ \{}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structinternal_1_1_is_ref_counted}{IsRefCounted}}\ :}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ FalseType}
+\DoxyCodeLine{00434\ \ \ \ \ \{\ \};}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structinternal_1_1_is_ref_counted}{IsRefCounted}}<T,\ typename\ \doxymbox{\hyperlink{namespaceinternal}{internal}}::EnableIfCond<T::kRefCounted>\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}>\ :}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ TrueType}
+\DoxyCodeLine{00438\ \ \ \ \ \{\ \};}
+\DoxyCodeLine{00439\ \}}
+\DoxyCodeLine{00440\ }
+\DoxyCodeLine{00441\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ A>}
+\DoxyCodeLine{00442\ \textcolor{keyword}{inline}\ T*\ \doxymbox{\hyperlink{allocators_8h_a8e4137cbc097868e8c3d785f6cca1223}{Realloc}}(A\&\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ T*\ old\_p,\ \textcolor{keywordtype}{size\_t}\ old\_n,\ \textcolor{keywordtype}{size\_t}\ new\_n)}
+\DoxyCodeLine{00443\ \{}
+\DoxyCodeLine{00444\ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_ga2b2a0d9143aa4fb31205a85b34c43952}{RAPIDJSON\_NOEXCEPT\_ASSERT}}(old\_n\ <=\ (std::numeric\_limits<size\_t>::max)()\ /\ \textcolor{keyword}{sizeof}(T)\ \&\&\ new\_n\ <=\ (std::numeric\_limits<size\_t>::max)()\ /\ \textcolor{keyword}{sizeof}(T));}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}}.Realloc(old\_p,\ old\_n\ *\ \textcolor{keyword}{sizeof}(T),\ new\_n\ *\ \textcolor{keyword}{sizeof}(T)));}
+\DoxyCodeLine{00446\ \}}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ A>}
+\DoxyCodeLine{00449\ \textcolor{keyword}{inline}\ T\ *\doxymbox{\hyperlink{allocators_8h_a7e0ace0214f18427d9ee8e76a5b3dcdf}{Malloc}}(A\&\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ \textcolor{keywordtype}{size\_t}\ n\ =\ 1)}
+\DoxyCodeLine{00450\ \{}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{allocators_8h_a8e4137cbc097868e8c3d785f6cca1223}{Realloc<T,\ A>}}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},\ 0,\ n);}
+\DoxyCodeLine{00452\ \}}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ A>}
+\DoxyCodeLine{00455\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{allocators_8h_a471c182d62d396b7d5d564e8d6a62d9e}{Free}}(A\&\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ T\ *p,\ \textcolor{keywordtype}{size\_t}\ n\ =\ 1)}
+\DoxyCodeLine{00456\ \{}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}\textcolor{keyword}{>}(\doxymbox{\hyperlink{allocators_8h_a8e4137cbc097868e8c3d785f6cca1223}{Realloc<T,\ A>}}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ p,\ n,\ 0));}
+\DoxyCodeLine{00458\ \}}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00461\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00462\ RAPIDJSON\_DIAG\_OFF(effc++)\ \textcolor{comment}{//\ std::allocator\ can\ safely\ be\ inherited}}
+\DoxyCodeLine{00463\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ BaseAllocator\ =\ CrtAllocator>}
+\DoxyCodeLine{00466\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}}\ :}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keyword}{public}\ std::allocator<T>}
+\DoxyCodeLine{00468\ \{}
+\DoxyCodeLine{00469\ \ \ \ \ \textcolor{keyword}{typedef}\ std::allocator<T>\ allocator\_type;}
+\DoxyCodeLine{00470\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keyword}{typedef}\ std::allocator\_traits<allocator\_type>\ traits\_type;}
+\DoxyCodeLine{00472\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keyword}{typedef}\ allocator\_type\ traits\_type;}
+\DoxyCodeLine{00474\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00476\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keyword}{typedef}\ BaseAllocator\ \doxymbox{\hyperlink{class_std_allocator_a8cefe997e8c352dff83fd6e155cccc19}{BaseAllocatorType}};}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00479\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ac73737cc402cbaa1859b3a4f3de58655}{StdAllocator}}()\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ allocator\_type(),}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ baseAllocator\_()}
+\DoxyCodeLine{00482\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ad07d54ec5e756ec99d6b4fea5d19bc66}{StdAllocator}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ allocator\_type(rhs),}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_)}
+\DoxyCodeLine{00487\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00490\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_aadfe2ee3f8355338ebdce05bcc6d9c8b}{StdAllocator}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ allocator\_type(rhs),}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_)}
+\DoxyCodeLine{00493\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11\_RVALUE\_REFS}}
+\DoxyCodeLine{00496\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}}(\doxymbox{\hyperlink{class_std_allocator}{StdAllocator}}\&\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ allocator\_type(std::move(rhs)),}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ baseAllocator\_(std::move(rhs.baseAllocator\_))}
+\DoxyCodeLine{00499\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keyword}{using\ }propagate\_on\_container\_move\_assignment\ =\ std::true\_type;}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keyword}{using\ }propagate\_on\_container\_swap\ =\ std::true\_type;}
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{comment}{/*\ implicit\ */}}
+\DoxyCodeLine{00507\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ab56f6f646b8dba84938e3f50f15f32ee}{StdAllocator}}(\textcolor{keyword}{const}\ BaseAllocator\&\ allocator)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ allocator\_type(),}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ baseAllocator\_(allocator)}
+\DoxyCodeLine{00510\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00511\ }
+\DoxyCodeLine{00512\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ab0dbe09daa7f08990c3674154577f43b}{\string~StdAllocator}}()\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00513\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_std_allocator_1_1rebind}{rebind}}\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\ \doxymbox{\hyperlink{struct_std_allocator_1_1rebind_a3eb7e535e8f1e04623379e6bbd56d427}{other}};}
+\DoxyCodeLine{00518\ \ \ \ \ \};}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00520\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ traits\_type::size\_type\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}};}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ traits\_type::difference\_type\ \ \ \doxymbox{\hyperlink{class_std_allocator_acb5cc57c8593718fd0a155c27e7de283}{difference\_type}};}
+\DoxyCodeLine{00522\ }
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ traits\_type::value\_type\ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a782bf4432817820c2ed3ccd4b7edc40b}{value\_type}};}
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ traits\_type::pointer\ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}};}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ traits\_type::const\_pointer\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a38d7f37fd4dae3d04857970a3be67046}{const\_pointer}};}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ std::add\_lvalue\_reference<value\_type>::type\ \&\doxymbox{\hyperlink{class_std_allocator_a7b74328c88e46196bffd4e77ae751a15}{reference}};}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ std::add\_lvalue\_reference<typename\ std::add\_const<value\_type>::type>::type\ \&\doxymbox{\hyperlink{class_std_allocator_ac9bbaa8b88dde6136049990e6f9f8fb9}{const\_reference}};}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}}(\doxymbox{\hyperlink{class_std_allocator_a7b74328c88e46196bffd4e77ae751a15}{reference}}\ r)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00533\ \ \ \ \ \{}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::addressof(r);}
+\DoxyCodeLine{00535\ \ \ \ \ \}}
+\DoxyCodeLine{00536\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a38d7f37fd4dae3d04857970a3be67046}{const\_pointer}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}}(\doxymbox{\hyperlink{class_std_allocator_ac9bbaa8b88dde6136049990e6f9f8fb9}{const\_reference}}\ r)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00537\ \ \ \ \ \{}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::addressof(r);}
+\DoxyCodeLine{00539\ \ \ \ \ \}}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00541\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ \doxymbox{\hyperlink{class_std_allocator_a34db2ac9079e2ba6c312d40ff450d676}{max\_size}}()\ const\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00542\ \ \ \ \ \{}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ traits\_type::max\_size(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00544\ \ \ \ \ \}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ ...Args>}
+\DoxyCodeLine{00547\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_a8a9834bfafdb56e7e3476928071d51ba}{construct}}(\doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ p,\ Args\&\&...\ args)}
+\DoxyCodeLine{00548\ \ \ \ \ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ traits\_type::construct(*\textcolor{keyword}{this},\ p,\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00550\ \ \ \ \ \}}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_aab1823d742973fba3433309bd3ee03f1}{destroy}}(\doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ p)}
+\DoxyCodeLine{00552\ \ \ \ \ \{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ traits\_type::destroy(*\textcolor{keyword}{this},\ p);}
+\DoxyCodeLine{00554\ \ \ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ !RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ allocator\_type::reference\ \ \ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a7b74328c88e46196bffd4e77ae751a15}{reference}};}
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ allocator\_type::const\_reference\ \doxymbox{\hyperlink{class_std_allocator_ac9bbaa8b88dde6136049990e6f9f8fb9}{const\_reference}};}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ \doxymbox{\hyperlink{class_std_allocator_a03e06f5cc5c9acdcb89924e32d243596}{address}}(\doxymbox{\hyperlink{class_std_allocator_a7b74328c88e46196bffd4e77ae751a15}{reference}}\ r)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00562\ \ \ \ \ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allocator\_type::address(r);}
+\DoxyCodeLine{00564\ \ \ \ \ \}}
+\DoxyCodeLine{00565\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a38d7f37fd4dae3d04857970a3be67046}{const\_pointer}}\ \doxymbox{\hyperlink{class_std_allocator_a1ac56598eb362d7a09e3bc0925c9db3b}{address}}(\doxymbox{\hyperlink{class_std_allocator_ac9bbaa8b88dde6136049990e6f9f8fb9}{const\_reference}}\ r)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00566\ \ \ \ \ \{}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allocator\_type::address(r);}
+\DoxyCodeLine{00568\ \ \ \ \ \}}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ \doxymbox{\hyperlink{class_std_allocator_a34db2ac9079e2ba6c312d40ff450d676}{max\_size}}()\ const\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00571\ \ \ \ \ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ allocator\_type::max\_size();}
+\DoxyCodeLine{00573\ \ \ \ \ \}}
+\DoxyCodeLine{00574\ }
+\DoxyCodeLine{00575\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_a8a9834bfafdb56e7e3476928071d51ba}{construct}}(\doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ p,\ \doxymbox{\hyperlink{class_std_allocator_ac9bbaa8b88dde6136049990e6f9f8fb9}{const\_reference}}\ r)}
+\DoxyCodeLine{00576\ \ \ \ \ \{}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ allocator\_type::construct(p,\ r);}
+\DoxyCodeLine{00578\ \ \ \ \ \}}
+\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_aab1823d742973fba3433309bd3ee03f1}{destroy}}(\doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ p)}
+\DoxyCodeLine{00580\ \ \ \ \ \{}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ allocator\_type::destroy(p);}
+\DoxyCodeLine{00582\ \ \ \ \ \}}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00587\ \ \ \ \ U*\ \doxymbox{\hyperlink{class_std_allocator_a31aeeee4e7f989d0152eae0f11450bdb}{allocate}}(\doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ n\ =\ 1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ =\ 0)}
+\DoxyCodeLine{00588\ \ \ \ \ \{}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ RAPIDJSON\_NAMESPACE::Malloc<U>(baseAllocator\_,\ n);}
+\DoxyCodeLine{00590\ \ \ \ \ \}}
+\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00592\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_a82d9ca7819c0dc84fa65235274acdf1c}{deallocate}}(U*\ p,\ \doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ n\ =\ 1)}
+\DoxyCodeLine{00593\ \ \ \ \ \{}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ RAPIDJSON\_NAMESPACE::Free<U>(baseAllocator\_,\ p,\ n);}
+\DoxyCodeLine{00595\ \ \ \ \ \}}
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00597\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ \doxymbox{\hyperlink{class_std_allocator_a1b24d33231fd08791f551ed291d766a3}{allocate}}(\doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ n\ =\ 1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ =\ 0)}
+\DoxyCodeLine{00598\ \ \ \ \ \{}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_std_allocator_a31aeeee4e7f989d0152eae0f11450bdb}{allocate<value\_type>}}(n);}
+\DoxyCodeLine{00600\ \ \ \ \ \}}
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_a6a44521ef7728eb86988580cf99a5c7a}{deallocate}}(\doxymbox{\hyperlink{class_std_allocator_ac302bbe07c0b838b6c21bd563fc50f06}{pointer}}\ p,\ \doxymbox{\hyperlink{class_std_allocator_a809e14c194ddaee9bb8bed7049212f09}{size\_type}}\ n\ =\ 1)}
+\DoxyCodeLine{00602\ \ \ \ \ \{}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_a82d9ca7819c0dc84fa65235274acdf1c}{deallocate<value\_type>}}(p,\ n);}
+\DoxyCodeLine{00604\ \ \ \ \ \}}
+\DoxyCodeLine{00605\ }
+\DoxyCodeLine{00606\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11}}
+\DoxyCodeLine{00607\ \ \ \ \ \textcolor{keyword}{using\ }is\_always\_equal\ =\ std::is\_empty<BaseAllocator>;}
+\DoxyCodeLine{00608\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_std_allocator_a46ff4c9881bd94c50fb25295d4c545ed}{operator==}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\&\ rhs)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00612\ \ \ \ \ \{}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ baseAllocator\_\ ==\ rhs.baseAllocator\_;}
+\DoxyCodeLine{00614\ \ \ \ \ \}}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00616\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_std_allocator_adec55b5e6d7dc76ba82f73c7666ac189}{operator!=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\&\ rhs)\ \textcolor{keyword}{const}\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00617\ \ \ \ \ \{}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !\doxymbox{\hyperlink{class_std_allocator_a46ff4c9881bd94c50fb25295d4c545ed}{operator==}}(rhs);}
+\DoxyCodeLine{00619\ \ \ \ \ \}}
+\DoxyCodeLine{00620\ }
+\DoxyCodeLine{00622\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_std_allocator_ad3e1137cca869fe3a1c8eeaab0308f9b}{kNeedFree}}\ =\ BaseAllocator::kNeedFree;}
+\DoxyCodeLine{00623\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_std_allocator_afaecdde57925afb1fa9f061ad47a6bb1}{kRefCounted}}\ =\ \doxymbox{\hyperlink{structinternal_1_1_is_ref_counted}{internal::IsRefCounted<BaseAllocator>::Value}};}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_std_allocator_a9a7684ec7a101845e6c146df4c3ddd67}{Malloc}}(\textcolor{keywordtype}{size\_t}\ size)}
+\DoxyCodeLine{00625\ \ \ \ \ \{}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ baseAllocator\_.Malloc(size);}
+\DoxyCodeLine{00627\ \ \ \ \ \}}
+\DoxyCodeLine{00628\ \ \ \ \ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_std_allocator_abbe73e5f1855f3b1343c779c777bb7c0}{Realloc}}(\textcolor{keywordtype}{void}*\ originalPtr,\ \textcolor{keywordtype}{size\_t}\ originalSize,\ \textcolor{keywordtype}{size\_t}\ newSize)}
+\DoxyCodeLine{00629\ \ \ \ \ \{}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ baseAllocator\_.Realloc(originalPtr,\ originalSize,\ newSize);}
+\DoxyCodeLine{00631\ \ \ \ \ \}}
+\DoxyCodeLine{00632\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_std_allocator_a14af6464adaa0c612f1f00c8187e1789}{Free}}(\textcolor{keywordtype}{void}\ *ptr)\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00633\ \ \ \ \ \{}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ BaseAllocator::Free(ptr);}
+\DoxyCodeLine{00635\ \ \ \ \ \}}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00638\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}>}
+\DoxyCodeLine{00639\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_std_allocator_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}};\ \textcolor{comment}{//\ access\ to\ StdAllocator<!T>.*}}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ \ \ \ \ BaseAllocator\ baseAllocator\_;}
+\DoxyCodeLine{00642\ \};}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \textcolor{preprocessor}{\#if\ !RAPIDJSON\_HAS\_CXX17\ }\textcolor{comment}{//\ std::allocator<void>\ deprecated\ in\ C++17}}
+\DoxyCodeLine{00645\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ BaseAllocator>}
+\DoxyCodeLine{00646\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}}<void,\ BaseAllocator>\ :}
+\DoxyCodeLine{00647\ \ \ \ \ \textcolor{keyword}{public}\ std::allocator<void>}
+\DoxyCodeLine{00648\ \{}
+\DoxyCodeLine{00649\ \ \ \ \ \textcolor{keyword}{typedef}\ std::allocator<void>\ allocator\_type;}
+\DoxyCodeLine{00650\ }
+\DoxyCodeLine{00651\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keyword}{typedef}\ BaseAllocator\ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_a8cefe997e8c352dff83fd6e155cccc19}{BaseAllocatorType}};}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_ac73737cc402cbaa1859b3a4f3de58655}{StdAllocator}}()\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ allocator\_type(),}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ baseAllocator\_()}
+\DoxyCodeLine{00657\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_ad07d54ec5e756ec99d6b4fea5d19bc66}{StdAllocator}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ allocator\_type(rhs),}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_)}
+\DoxyCodeLine{00662\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00663\ }
+\DoxyCodeLine{00664\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00665\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_aadfe2ee3f8355338ebdce05bcc6d9c8b}{StdAllocator}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\&\ rhs)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ allocator\_type(rhs),}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ baseAllocator\_(rhs.baseAllocator\_)}
+\DoxyCodeLine{00668\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00669\ }
+\DoxyCodeLine{00670\ \ \ \ \ \textcolor{comment}{/*\ implicit\ */}}
+\DoxyCodeLine{00671\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_adf08791f7f42593d1f6270f14b176dc8}{StdAllocator}}(\textcolor{keyword}{const}\ BaseAllocator\&\ baseAllocator)\ RAPIDJSON\_NOEXCEPT\ :}
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ allocator\_type(),}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ baseAllocator\_(baseAllocator)}
+\DoxyCodeLine{00674\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00675\ }
+\DoxyCodeLine{00676\ \ \ \ \ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_ab0dbe09daa7f08990c3674154577f43b}{\string~StdAllocator}}()\ RAPIDJSON\_NOEXCEPT}
+\DoxyCodeLine{00677\ \ \ \ \ \{\ \}}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_std_allocator_3_01void_00_01_base_allocator_01_4_1_1rebind}{rebind}}\ \{}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator<U,\ BaseAllocator>}}\ \doxymbox{\hyperlink{struct_std_allocator_3_01void_00_01_base_allocator_01_4_1_1rebind_a3eb7e535e8f1e04623379e6bbd56d427}{other}};}
+\DoxyCodeLine{00682\ \ \ \ \ \};}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ allocator\_type::value\_type\ \doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_adcad84b1bf751d2ad3e3ed5f0c82a25a}{value\_type}};}
+\DoxyCodeLine{00685\ }
+\DoxyCodeLine{00686\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00687\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}>}
+\DoxyCodeLine{00688\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_std_allocator_3_01void_00_01_base_allocator_01_4_afb3a6a655f835f6b9ec21fab41291287}{StdAllocator}};\ \textcolor{comment}{//\ access\ to\ StdAllocator<!T>.*}}
+\DoxyCodeLine{00689\ }
+\DoxyCodeLine{00690\ \ \ \ \ BaseAllocator\ baseAllocator\_;}
+\DoxyCodeLine{00691\ \};}
+\DoxyCodeLine{00692\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00693\ }
+\DoxyCodeLine{00694\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00695\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00696\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00697\ }
+\DoxyCodeLine{00698\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00699\ }
+\DoxyCodeLine{00700\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_ENCODINGS\_H\_}}
+
+\end{DoxyCode}

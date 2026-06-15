@@ -30,15 +30,15 @@ enum \doxymbox{\hyperlink{sensor_8h_a6389ca23fed3ff10f7990521fccbe026}{Sensor\+P
 \begin{DoxyCompactItemize}
 \item 
 void \doxymbox{\hyperlink{sensor_8h_a3cccf993cfe96c1d37f452993d7c84be}{Sensor\+\_\+\+Initialize\+\_\+\+All}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Initializes the \doxylink{struct_sensor}{Sensor} array. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{sensor_8h_afb5782bb8525195125f6c14213791748}{Sensor\+\_\+\+Add}} (\doxymbox{\hyperlink{sensor_8h_a485a70647e2d270984b20a30269d5ded}{Sensor\+\_\+\+Type}} type, char \texorpdfstring{$\ast$}{*}guid)
-\item 
+\begin{DoxyCompactList}\small\item\em Adds a \doxylink{struct_sensor}{Sensor} to the array. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{sensor_8h_aaa2bdd3264b0e6dea59583ed23257448}{Sensor\+\_\+\+Print\+\_\+\+All}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Prints info about ALL the sensors. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{sensor_8h_a670944d443b6f681a5494d60631d12e4}{Sensor\+\_\+\+Get\+\_\+\+By\+\_\+\+UUID}} (const char \texorpdfstring{$\ast$}{*}uuid)
-\item 
+\begin{DoxyCompactList}\small\item\em Get a \doxylink{struct_sensor}{Sensor} by UUID. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{sensor_8h_ab4f4950a47475102deccf2149fafa6a9}{Sensor\+\_\+\+Get\+\_\+\+All}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the \doxylink{struct_sensor}{Sensor} Array. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \label{sensor_8h_doc-define-members}
@@ -124,27 +124,75 @@ PLACEMENT\+\_\+\+UNASSIGNED&\\
 {\footnotesize\ttfamily \label{sensor_8h_afb5782bb8525195125f6c14213791748} 
 void Sensor\+\_\+\+Add (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{sensor_8h_a485a70647e2d270984b20a30269d5ded}{Sensor\+\_\+\+Type}}}]{type}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{guid}{}\end{DoxyParamCaption})}
 
+
+
+Adds a \doxylink{struct_sensor}{Sensor} to the array. 
+
+Adds a \doxylink{struct_sensor}{Sensor} to the array, Array size should be less than MAX\+\_\+\+SENSORS otherwise it will fail to add.
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The type of the \doxylink{struct_sensor}{Sensor}. \\
+\hline
+{\em guid} & The UUID of the \doxylink{struct_sensor}{Sensor} to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+guid means exact same as UUID in this case 
+\end{DoxyNote}
 \Hypertarget{sensor_8h_ab4f4950a47475102deccf2149fafa6a9}\index{sensor.h@{sensor.h}!Sensor\_Get\_All@{Sensor\_Get\_All}}
 \index{Sensor\_Get\_All@{Sensor\_Get\_All}!sensor.h@{sensor.h}}
 \doxysubsubsection{\texorpdfstring{Sensor\_Get\_All()}{Sensor\_Get\_All()}}
 {\footnotesize\ttfamily \label{sensor_8h_ab4f4950a47475102deccf2149fafa6a9} 
 \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*} Sensor\+\_\+\+Get\+\_\+\+All (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
+
+
+Get the \doxylink{struct_sensor}{Sensor} Array. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the sensor array.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function returns a pointer of a singleton. 
+\end{DoxyNote}
 \Hypertarget{sensor_8h_a670944d443b6f681a5494d60631d12e4}\index{sensor.h@{sensor.h}!Sensor\_Get\_By\_UUID@{Sensor\_Get\_By\_UUID}}
 \index{Sensor\_Get\_By\_UUID@{Sensor\_Get\_By\_UUID}!sensor.h@{sensor.h}}
 \doxysubsubsection{\texorpdfstring{Sensor\_Get\_By\_UUID()}{Sensor\_Get\_By\_UUID()}}
 {\footnotesize\ttfamily \label{sensor_8h_a670944d443b6f681a5494d60631d12e4} 
 \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*} Sensor\+\_\+\+Get\+\_\+\+By\+\_\+\+UUID (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{uuid}{}\end{DoxyParamCaption})}
 
+
+
+Get a \doxylink{struct_sensor}{Sensor} by UUID. 
+
+Loops through the \doxylink{struct_sensor}{Sensor} array and checks if UUID is equal and then returns the pointer to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em uuid} & The UUID that needs to match the sensor that is looked for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the sensor in the array. 
+\end{DoxyReturn}
 \Hypertarget{sensor_8h_a3cccf993cfe96c1d37f452993d7c84be}\index{sensor.h@{sensor.h}!Sensor\_Initialize\_All@{Sensor\_Initialize\_All}}
 \index{Sensor\_Initialize\_All@{Sensor\_Initialize\_All}!sensor.h@{sensor.h}}
 \doxysubsubsection{\texorpdfstring{Sensor\_Initialize\_All()}{Sensor\_Initialize\_All()}}
 {\footnotesize\ttfamily \label{sensor_8h_a3cccf993cfe96c1d37f452993d7c84be} 
 void Sensor\+\_\+\+Initialize\+\_\+\+All (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
+
+
+Initializes the \doxylink{struct_sensor}{Sensor} array. 
+
 \Hypertarget{sensor_8h_aaa2bdd3264b0e6dea59583ed23257448}\index{sensor.h@{sensor.h}!Sensor\_Print\_All@{Sensor\_Print\_All}}
 \index{Sensor\_Print\_All@{Sensor\_Print\_All}!sensor.h@{sensor.h}}
 \doxysubsubsection{\texorpdfstring{Sensor\_Print\_All()}{Sensor\_Print\_All()}}
 {\footnotesize\ttfamily \label{sensor_8h_aaa2bdd3264b0e6dea59583ed23257448} 
 void Sensor\+\_\+\+Print\+\_\+\+All (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Prints info about ALL the sensors. 
 

@@ -1,0 +1,70 @@
+\doxysection{tvg\+Xml\+Parser.\+h}
+\hypertarget{tvg_xml_parser_8h_source}{}\label{tvg_xml_parser_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgXmlParser.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgXmlParser.h}}
+\doxymbox{\hyperlink{tvg_xml_parser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2020\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_SIMPLE\_XML\_PARSER\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_SIMPLE\_XML\_PARSER\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_svg_loader_common_8h}{tvgSvgLoaderCommon.h}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ NUMBER\_OF\_XML\_ENTITIES\ 9}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \textcolor{keyword}{const}\ xmlEntity[]\ =\ \{\textcolor{stringliteral}{"{}\&\#10;"{}},\ \textcolor{stringliteral}{"{}\&quot;"{}},\ \textcolor{stringliteral}{"{}\&nbsp;"{}},\ \textcolor{stringliteral}{"{}\&apos;"{}},\ \textcolor{stringliteral}{"{}\&amp;"{}},\ \textcolor{stringliteral}{"{}\&lt;"{}},\ \textcolor{stringliteral}{"{}\&gt;"{}},\ \textcolor{stringliteral}{"{}\&\#035;"{}},\ \textcolor{stringliteral}{"{}\&\#039;"{}}\};}
+\DoxyCodeLine{00033\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ xmlEntityLength[]\ =\ \{5,\ 6,\ 6,\ 6,\ 5,\ 4,\ 4,\ 6,\ 6\};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{enum\ class}\ SimpleXMLType}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ Open\ =\ 0,\ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ OpenEmpty,\ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ Close,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ Data,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ CData,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ Error,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ Processing,\ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ Doctype,\ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ Comment,\ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ Ignored,\ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ DoctypeChild\ \ }
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*simpleXMLCb)(\textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}},\ SimpleXMLType\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{namespacetrace__filter_a6858851eee0e05f318897984757b59dc}{content}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a03c83e0884e2e3a1783db79f2d67101f}{length}});}
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*simpleXMLAttributeCb)(\textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{bool}\ simpleXmlParseAttributes(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ buf,\ \textcolor{keywordtype}{unsigned}\ bufLength,\ simpleXMLAttributeCb\ func,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data);}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{bool}\ simpleXmlParse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ buf,\ \textcolor{keywordtype}{unsigned}\ bufLength,\ \textcolor{keywordtype}{bool}\ strip,\ simpleXMLCb\ func,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{bool}\ simpleXmlParseW3CAttribute(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ buf,\ \textcolor{keywordtype}{unsigned}\ bufLength,\ simpleXMLAttributeCb\ func,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data);}
+\DoxyCodeLine{00056\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ simpleXmlParseCSSAttribute(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ buf,\ \textcolor{keywordtype}{unsigned}\ bufLength,\ \textcolor{keywordtype}{char}**\ tag,\ \textcolor{keywordtype}{char}**\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}**\ attrs,\ \textcolor{keywordtype}{unsigned}*\ attrsLength);}
+\DoxyCodeLine{00057\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ simpleXmlFindAttributesTag(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ buf,\ \textcolor{keywordtype}{unsigned}\ bufLength);}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{bool}\ isIgnoreUnsupportedLogElements(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ tagName);}
+\DoxyCodeLine{00059\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ simpleXmlNodeTypeToString(SvgNodeType\ type);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_SIMPLE\_XML\_PARSER\_H\_}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00064\ }
+
+\end{DoxyCode}

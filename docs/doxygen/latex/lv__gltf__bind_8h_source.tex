@@ -1,0 +1,71 @@
+\doxysection{lv\+\_\+gltf\+\_\+bind.\+h}
+\hypertarget{lv__gltf__bind_8h_source}{}\label{lv__gltf__bind_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_data/lv\_gltf\_bind.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_data/lv\_gltf\_bind.h}}
+\doxymbox{\hyperlink{lv__gltf__bind_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LV\_GLTF\_BIND\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gltf__model_8h}{lv\_gltf\_model.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#if\ LV\_USE\_GLTF}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_VISIBILITY,}
+\DoxyCodeLine{00014\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_POSITION,}
+\DoxyCodeLine{00015\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_ROTATION,}
+\DoxyCodeLine{00016\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_SCALE,}
+\DoxyCodeLine{00017\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_BASE\_COLOR,}
+\DoxyCodeLine{00018\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_ALPHA\_FACTOR,}
+\DoxyCodeLine{00019\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_EMIS\_COLOR,}
+\DoxyCodeLine{00020\ \ \ \ \ LV\_GLTF\_BIND\_PROP\_WORLD\_POSITION}
+\DoxyCodeLine{00021\ \}\ lv\_gltf\_bind\_prop\_t;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_MAX\_CHANNELS\ 4}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_CHANNEL\_0\ \ \ \ (0x01)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_CHANNEL\_1\ \ \ \ (0x02)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_CHANNEL\_2\ \ \ \ (0x04)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_BIND\_CHANNEL\_3\ \ \ \ (0x08)}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{\ LV\_GLTF\_BIND\_DIR\_READ,\ LV\_GLTF\_BIND\_DIR\_WRITE\ \}\ lv\_gltf\_bind\_dir\_t;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{struct\ }\_lv\_gltf\_bind\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{struct\ }\_lv\_gltf\_bind\ *\ next\_bind;}
+\DoxyCodeLine{00033\ \ \ \ \ lv\_gltf\_bind\_prop\_t\ prop;}
+\DoxyCodeLine{00034\ \ \ \ \ lv\_gltf\_bind\_dir\_t\ dir;}
+\DoxyCodeLine{00035\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ id;}
+\DoxyCodeLine{00036\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data\_mask;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}}[LV\_GLTF\_BIND\_MAX\_CHANNELS];}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ dirty;}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_gltf\_bind\ lv\_gltf\_bind\_t;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ lv\_gltf\_bind\_set(lv\_gltf\_bind\_t\ *\ bind,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ channel,\ \textcolor{keywordtype}{float}\ data);}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{float}\ lv\_gltf\_bind\_get(lv\_gltf\_bind\_t\ *\ bind,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ channel);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ lv\_gltf\_bind\_bind\_clean(lv\_gltf\_bind\_t\ *\ bind);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00062\ lv\_gltf\_bind\_t\ *\ lv\_gltf\_bind\_add\_by\_index(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\ data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}},\ lv\_gltf\_bind\_prop\_t\ which\_prop,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data\_mask,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lv\_gltf\_bind\_dir\_t\ dir);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00075\ lv\_gltf\_bind\_t\ *\ lv\_gltf\_bind\_add\_by\_ip(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\ data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ node\_ip,\ lv\_gltf\_bind\_prop\_t\ which\_prop,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data\_mask,\ lv\_gltf\_bind\_dir\_t\ dir);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00087\ lv\_gltf\_bind\_t\ *\ lv\_gltf\_bind\_add\_by\_path(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\ data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ path,\ lv\_gltf\_bind\_prop\_t\ which\_prop,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data\_mask,\ lv\_gltf\_bind\_dir\_t\ dir);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00099\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_gltf\_bind\_remove(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\ \_data,\ lv\_gltf\_bind\_t\ *\ bind);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00102\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GLTF*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_GLTF\_BIND\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

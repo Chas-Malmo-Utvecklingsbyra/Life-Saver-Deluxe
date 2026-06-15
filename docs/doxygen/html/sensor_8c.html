@@ -121,16 +121,21 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('sensor_8c.html
 <div class="textblock"><code>#include &quot;<a class="el" href="sensor_8h_source.html">sensor.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;esp_log.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="esp__log_8h_source.html">esp_log.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a3cccf993cfe96c1d37f452993d7c84be" id="r_a3cccf993cfe96c1d37f452993d7c84be"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3cccf993cfe96c1d37f452993d7c84be">Sensor_Initialize_All</a> ()</td></tr>
+<tr class="memdesc:a3cccf993cfe96c1d37f452993d7c84be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="struct_sensor.html">Sensor</a> array.  <br /></td></tr>
 <tr class="memitem:a33e315a5d99a3b665ecaba795f10e85a" id="r_a33e315a5d99a3b665ecaba795f10e85a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a33e315a5d99a3b665ecaba795f10e85a">Sensor_Spot_Empty</a> (size_t index)</td></tr>
 <tr class="memitem:afb5782bb8525195125f6c14213791748" id="r_afb5782bb8525195125f6c14213791748"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afb5782bb8525195125f6c14213791748">Sensor_Add</a> (<a class="el" href="sensor_8h.html#a485a70647e2d270984b20a30269d5ded">Sensor_Type</a> type, char *guid)</td></tr>
+<tr class="memdesc:afb5782bb8525195125f6c14213791748"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="struct_sensor.html">Sensor</a> to the array.  <br /></td></tr>
 <tr class="memitem:aaa2bdd3264b0e6dea59583ed23257448" id="r_aaa2bdd3264b0e6dea59583ed23257448"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aaa2bdd3264b0e6dea59583ed23257448">Sensor_Print_All</a> ()</td></tr>
+<tr class="memdesc:aaa2bdd3264b0e6dea59583ed23257448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints info about ALL the sensors.  <br /></td></tr>
 <tr class="memitem:a670944d443b6f681a5494d60631d12e4" id="r_a670944d443b6f681a5494d60631d12e4"><td class="memItemLeft"><a class="el" href="struct_sensor.html">Sensor</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a670944d443b6f681a5494d60631d12e4">Sensor_Get_By_UUID</a> (const char *uuid)</td></tr>
+<tr class="memdesc:a670944d443b6f681a5494d60631d12e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="struct_sensor.html">Sensor</a> by UUID.  <br /></td></tr>
 <tr class="memitem:ab4f4950a47475102deccf2149fafa6a9" id="r_ab4f4950a47475102deccf2149fafa6a9"><td class="memItemLeft"><a class="el" href="struct_sensor.html">Sensor</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab4f4950a47475102deccf2149fafa6a9">Sensor_Get_All</a> ()</td></tr>
+<tr class="memdesc:ab4f4950a47475102deccf2149fafa6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="struct_sensor.html">Sensor</a> Array.  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="afb5782bb8525195125f6c14213791748" name="afb5782bb8525195125f6c14213791748"></a>
@@ -152,6 +157,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Adds a <a class="el" href="struct_sensor.html">Sensor</a> to the array. </p>
+<p>Adds a <a class="el" href="struct_sensor.html">Sensor</a> to the array, Array size should be less than MAX_SENSORS otherwise it will fail to add.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The type of the <a class="el" href="struct_sensor.html">Sensor</a>. </td></tr>
+    <tr><td class="paramname">guid</td><td>The UUID of the <a class="el" href="struct_sensor.html">Sensor</a> to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>guid means exact same as UUID in this case </dd></dl>
+
 </div>
 </div>
 <a id="ab4f4950a47475102deccf2149fafa6a9" name="ab4f4950a47475102deccf2149fafa6a9"></a>
@@ -168,6 +184,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Get the <a class="el" href="struct_sensor.html">Sensor</a> Array. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the sensor array.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function returns a pointer of a singleton. </dd></dl>
 
 </div>
 </div>
@@ -186,6 +206,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get a <a class="el" href="struct_sensor.html">Sensor</a> by UUID. </p>
+<p>Loops through the <a class="el" href="struct_sensor.html">Sensor</a> array and checks if UUID is equal and then returns the pointer to it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uuid</td><td>The UUID that needs to match the sensor that is looked for. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the sensor in the array. </dd></dl>
+
 </div>
 </div>
 <a id="a3cccf993cfe96c1d37f452993d7c84be" name="a3cccf993cfe96c1d37f452993d7c84be"></a>
@@ -203,6 +233,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initializes the <a class="el" href="struct_sensor.html">Sensor</a> array. </p>
+
 </div>
 </div>
 <a id="aaa2bdd3264b0e6dea59583ed23257448" name="aaa2bdd3264b0e6dea59583ed23257448"></a>
@@ -219,6 +251,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Prints info about ALL the sensors. </p>
 
 </div>
 </div>

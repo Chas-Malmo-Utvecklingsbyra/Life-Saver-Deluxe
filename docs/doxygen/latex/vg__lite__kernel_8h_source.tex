@@ -1,0 +1,591 @@
+\doxysection{vg\+\_\+lite\+\_\+kernel.\+h}
+\hypertarget{vg__lite__kernel_8h_source}{}\label{vg__lite__kernel_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLiteKernel/vg\_lite\_kernel.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLiteKernel/vg\_lite\_kernel.h}}
+\doxymbox{\hyperlink{vg__lite__kernel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{00002\ \textcolor{comment}{*}}
+\DoxyCodeLine{00003\ \textcolor{comment}{*\ \ \ \ The\ MIT\ License\ (MIT)}}
+\DoxyCodeLine{00004\ \textcolor{comment}{*}}
+\DoxyCodeLine{00005\ \textcolor{comment}{*\ \ \ \ Copyright\ (c)\ 2014\ -\/\ 2022\ Vivante\ Corporation}}
+\DoxyCodeLine{00006\ \textcolor{comment}{*}}
+\DoxyCodeLine{00007\ \textcolor{comment}{*\ \ \ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a}}
+\DoxyCodeLine{00008\ \textcolor{comment}{*\ \ \ \ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),}}
+\DoxyCodeLine{00009\ \textcolor{comment}{*\ \ \ \ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation}}
+\DoxyCodeLine{00010\ \textcolor{comment}{*\ \ \ \ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{*\ \ \ \ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the}}
+\DoxyCodeLine{00012\ \textcolor{comment}{*\ \ \ \ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{*}}
+\DoxyCodeLine{00014\ \textcolor{comment}{*\ \ \ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00015\ \textcolor{comment}{*\ \ \ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{*}}
+\DoxyCodeLine{00017\ \textcolor{comment}{*\ \ \ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*\ \ \ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{*\ \ \ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{*\ \ \ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{*\ \ \ \ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*\ \ \ \ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER}}
+\DoxyCodeLine{00023\ \textcolor{comment}{*\ \ \ \ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{*}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*****************************************************************************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{*}}
+\DoxyCodeLine{00027\ \textcolor{comment}{*\ \ \ \ The\ GPL\ License\ (GPL)}}
+\DoxyCodeLine{00028\ \textcolor{comment}{*}}
+\DoxyCodeLine{00029\ \textcolor{comment}{*\ \ \ \ Copyright\ (C)\ 2014\ -\/\ 2022\ Vivante\ Corporation}}
+\DoxyCodeLine{00030\ \textcolor{comment}{*}}
+\DoxyCodeLine{00031\ \textcolor{comment}{*\ \ \ \ This\ program\ is\ free\ software;\ you\ can\ redistribute\ it\ and/or}}
+\DoxyCodeLine{00032\ \textcolor{comment}{*\ \ \ \ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00033\ \textcolor{comment}{*\ \ \ \ as\ published\ by\ the\ Free\ Software\ Foundation;\ either\ version\ 2}}
+\DoxyCodeLine{00034\ \textcolor{comment}{*\ \ \ \ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00035\ \textcolor{comment}{*}}
+\DoxyCodeLine{00036\ \textcolor{comment}{*\ \ \ \ This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00037\ \textcolor{comment}{*\ \ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00038\ \textcolor{comment}{*\ \ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00039\ \textcolor{comment}{*\ \ \ \ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00040\ \textcolor{comment}{*}}
+\DoxyCodeLine{00041\ \textcolor{comment}{*\ \ \ \ You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00042\ \textcolor{comment}{*\ \ \ \ along\ with\ this\ program;\ if\ not,\ write\ to\ the\ Free\ Software\ Foundation,}}
+\DoxyCodeLine{00043\ \textcolor{comment}{*\ \ \ \ Inc.,\ 51\ Franklin\ Street,\ Fifth\ Floor,\ Boston,\ MA\ 02110-\/1301,\ USA.}}
+\DoxyCodeLine{00044\ \textcolor{comment}{*}}
+\DoxyCodeLine{00045\ \textcolor{comment}{*****************************************************************************}}
+\DoxyCodeLine{00046\ \textcolor{comment}{*}}
+\DoxyCodeLine{00047\ \textcolor{comment}{*\ \ \ \ Note:\ This\ software\ is\ released\ under\ dual\ MIT\ and\ GPL\ licenses.\ A}}
+\DoxyCodeLine{00048\ \textcolor{comment}{*\ \ \ \ recipient\ may\ use\ this\ file\ under\ the\ terms\ of\ either\ the\ MIT\ license\ or}}
+\DoxyCodeLine{00049\ \textcolor{comment}{*\ \ \ \ GPL\ License.\ If\ you\ wish\ to\ use\ only\ one\ license\ not\ the\ other,\ you\ can}}
+\DoxyCodeLine{00050\ \textcolor{comment}{*\ \ \ \ indicate\ your\ decision\ by\ deleting\ one\ of\ the\ above\ license\ notices\ in\ your}}
+\DoxyCodeLine{00051\ \textcolor{comment}{*\ \ \ \ version\ of\ this\ file.}}
+\DoxyCodeLine{00052\ \textcolor{comment}{*}}
+\DoxyCodeLine{00053\ \textcolor{comment}{*****************************************************************************/}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#ifndef\ VG\_LITE\_KERNEL\_H}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ VG\_LITE\_KERNEL\_H}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#if\ LV\_USE\_VG\_LITE\_DRIVER}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{vg__lite__options_8h}{../VGLite/vg\_lite\_options.h}}"{}}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{vg__lite__option_8h}{vg\_lite\_option.h}}"{}}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/*\ Interrupt\ IDs\ from\ GPU.\ */}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ EVENT\_UNEXPECTED\_MESH\ \ 0x80000000}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ EVENT\_CMD\_BAD\_WRITE\ \ \ \ 0x40000000}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ EVENT\_ERROR\_RECOVER\ \ \ \ 0x20000000}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ EVENT\_CMD\_SWITCH\ \ \ \ \ \ \ 0x10000000}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ EVENT\_MCU\_BAD\_WRITE\ \ \ \ 0x08000000}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ EVENT\_END\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ EVENT\_FRAME\_END\ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ MAX\_CONTIGUOUS\_SIZE\ 0x04000000}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ VG\_LITE\_INFINITE\ \ \ \ 0xFFFFFFFF}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#if\ gcFEATURE\_VG\_SINGLE\_COMMAND\_BUFFER}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \#define\ CMDBUF\_COUNT\ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \#define\ CMDBUF\_COUNT\ \ \ \ \ \ \ \ 2}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ VG\_LITE\_ALIGN(number,\ alignment)\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \ \ (((number)\ +\ ((alignment)\ -\/\ 1))\ \&\ \string~((alignment)\ -\/\ 1))}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#ifndef\ \ BIT}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ \#define\ \ BIT(x)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ x)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ VG\_LITE\_KERNEL\_IS\_GPU\_IDLE()\ \(\backslash\)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ ((vg\_lite\_hal\_peek(VG\_LITE\_HW\_IDLE)\ \&\ VG\_LITE\_HW\_IDLE\_STATE)\ ==\ VG\_LITE\_HW\_IDLE\_STATE)}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{comment}{/*\ Hardware\ chip\ Ids\ */}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ GPU\_CHIP\_ID\_GCNANOLITEV\ \ \ \ \ \ \ \ \ 0x255}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ GPU\_CHIP\_ID\_GC355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x355}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ GPU\_CHIP\_ID\_GCNANOULTRAV\ \ \ \ \ \ \ \ 0x265}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{comment}{/*\ vg\_lite\_kernel\_map\_t\ flag\ type\ */}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ VG\_LITE\_HAL\_MAP\_DMABUF\ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ VG\_LITE\_HAL\_MAP\_USER\_MEMORY\ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ VG\_LITE\_HAL\_ALLOC\_4G\ \ \ \ \ \ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{/*\ vg\_lite\_kernel\_allocate\_t\ flag\ type\ */}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ VG\_LITE\_RESERVED\_ALLOCATOR\ \ \ \ \ \ 0x10000000}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ VG\_LITE\_GFP\_ALLOCATOR\ \ \ \ \ \ \ \ \ \ \ 0x20000000}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ VG\_LITE\_DMA\_ALLOCATOR\ \ \ \ \ \ \ \ \ \ \ 0x40000000}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ VG\_LITE\_MEMORY\_ALLOCATOR\_FLAG\ \ \ 0x70000000}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00110\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#ifndef\ VG\_LITE\_ERROR}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ VG\_LITE\_ERROR\ \ 1}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00122\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306}{vg\_lite\_error}}\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306ae14361f69cf9de698958535e6947285d}{VG\_LITE\_SUCCESS}}\ =\ 0,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00124\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a62b3ea89aabe11790cb2f465c2c11e1b}{VG\_LITE\_INVALID\_ARGUMENT}},\ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a52f7ba94088a54de1d3cb6ef54fa473a}{VG\_LITE\_OUT\_OF\_MEMORY}},\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00126\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a22ff751acefb0c87f47f9db76927bae4}{VG\_LITE\_NO\_CONTEXT}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00127\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306ad0187b20c7702f0dc430a57677279f21}{VG\_LITE\_TIMEOUT}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306ab695e16c6bdc764e6e1869c486d212f2}{VG\_LITE\_OUT\_OF\_RESOURCES}},\ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a44af22d9412a3939372569e9744783ae}{VG\_LITE\_GENERIC\_IO}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00130\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a483148299736b47fd7db378ed6f914cb}{VG\_LITE\_NOT\_SUPPORT}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a6ca3c658804e0c5133764e0017ca9f8e}{VG\_LITE\_ALREADY\_EXISTS}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00132\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a74797a83aa166cda738011c9897aecd3}{VG\_LITE\_NOT\_ALIGNED}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00133\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a87b3992823b29c74246eed518be099dd}{VG\_LITE\_FLEXA\_TIME\_OUT}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00134\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ac5f08ba5e904cb971762dc7cf1f26306a69d22c0f6c73b058494c688e12c253cd}{VG\_LITE\_FLEXA\_HANDSHAKE\_FAIL}},\ }
+\DoxyCodeLine{00135\ \ \ \ \ VG\_LITE\_SYSTEM\_CALL\_FAIL,\ \ \ \ \ }
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}};}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_kernel\_counter\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{/*\ Dont't\ touch\ the\ counter.\ */}}
+\DoxyCodeLine{00142\ \ \ \ \ VG\_LITE\_NONE,}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{comment}{/*\ Turn\ the\ counter\ on.\ */}}
+\DoxyCodeLine{00145\ \ \ \ \ VG\_LITE\_ON,}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{comment}{/*\ Turn\ the\ counter\ off.\ */}}
+\DoxyCodeLine{00148\ \ \ \ \ VG\_LITE\_OFF,}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{comment}{/*\ Query\ the\ counter\ and\ reset\ its\ values.\ */}}
+\DoxyCodeLine{00151\ \ \ \ \ VG\_LITE\_QUERY,}
+\DoxyCodeLine{00152\ \}}
+\DoxyCodeLine{00153\ vg\_lite\_kernel\_counter\_t;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_kernel\_command\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{/*\ Initialize\ the\ GPU.\ */}}
+\DoxyCodeLine{00157\ \ \ \ \ VG\_LITE\_INITIALIZE,}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{comment}{/*\ Terminate\ the\ GPU.\ */}}
+\DoxyCodeLine{00160\ \ \ \ \ VG\_LITE\_TERMINATE,}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{/*\ Allocate\ memory.\ */}}
+\DoxyCodeLine{00163\ \ \ \ \ VG\_LITE\_ALLOCATE,}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{comment}{/*\ Free\ memory.\ */}}
+\DoxyCodeLine{00166\ \ \ \ \ VG\_LITE\_FREE,}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{comment}{/*\ Submit\ a\ command\ buffer\ to\ the\ GPU.\ */}}
+\DoxyCodeLine{00169\ \ \ \ \ VG\_LITE\_SUBMIT,}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ the\ GPU\ to\ be\ completed.\ */}}
+\DoxyCodeLine{00172\ \ \ \ \ VG\_LITE\_WAIT,}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{comment}{/*\ Reset\ the\ GPU.\ */}}
+\DoxyCodeLine{00175\ \ \ \ \ VG\_LITE\_RESET,}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{comment}{/*\ Debug\ commands.\ */}}
+\DoxyCodeLine{00178\ \ \ \ \ VG\_LITE\_DEBUG,}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{comment}{/*\ Map\ memory.\ */}}
+\DoxyCodeLine{00181\ \ \ \ \ VG\_LITE\_MAP,}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{comment}{/*\ Unmap\ memory.\ */}}
+\DoxyCodeLine{00184\ \ \ \ \ VG\_LITE\_UNMAP,}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{comment}{/*\ Check\ info.\ */}}
+\DoxyCodeLine{00187\ \ \ \ \ VG\_LITE\_CHECK,}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{comment}{/*\ Query\ mem.\ */}}
+\DoxyCodeLine{00190\ \ \ \ \ VG\_LITE\_QUERY\_MEM,}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{comment}{/*\ Flexa\ disable\ */}}
+\DoxyCodeLine{00193\ \ \ \ \ VG\_LITE\_FLEXA\_DISABLE,}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{comment}{/*\ Flexa\ enable\ */}}
+\DoxyCodeLine{00196\ \ \ \ \ VG\_LITE\_FLEXA\_ENABLE,}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{comment}{/*\ Flexa\ stop\ frame\ */}}
+\DoxyCodeLine{00199\ \ \ \ \ VG\_LITE\_FLEXA\_STOP\_FRAME,}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{comment}{/*\ Set\ background\ address\ */}}
+\DoxyCodeLine{00202\ \ \ \ \ VG\_LITE\_FLEXA\_SET\_BACKGROUND\_ADDRESS,}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{comment}{/*\ Map\ memory\ to\ user\ */}}
+\DoxyCodeLine{00205\ \ \ \ \ VG\_LITE\_MAP\_MEMORY,}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{comment}{/*\ Unmap\ memory\ to\ user\ */}}
+\DoxyCodeLine{00208\ \ \ \ \ VG\_LITE\_UNMAP\_MEMORY,}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{comment}{/*\ Close\ gpu\ */}}
+\DoxyCodeLine{00211\ \ \ \ \ VG\_LITE\_CLOSE,}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{/*\ Operation\ cache\ */}}
+\DoxyCodeLine{00214\ \ \ \ \ VG\_LITE\_CACHE,}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{comment}{/*\ Export\ memory\ */}}
+\DoxyCodeLine{00217\ \ \ \ \ VG\_LITE\_EXPORT\_MEMORY,}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{comment}{/*\ Record\ GPU\ hardware\ running\ time\ */}}
+\DoxyCodeLine{00220\ \ \ \ \ VG\_LITE\_RECORD\_RUNNING\_TIME,}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{comment}{/*\ Set\ delay\ resume\ state\ */}}
+\DoxyCodeLine{00223\ \ \ \ \ VG\_LITE\_SET\_DELAY\_RESUME,}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{comment}{/*\ Query\ delay\ resume\ state\ */}}
+\DoxyCodeLine{00226\ \ \ \ \ VG\_LITE\_QUERY\_DELAY\_RESUME,}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{comment}{/*\ Set\ GPU\ clock\ state\ */}}
+\DoxyCodeLine{00229\ \ \ \ \ VG\_LITE\_SET\_GPU\_CLOCK\_STATE,}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \}}
+\DoxyCodeLine{00232\ vg\_lite\_kernel\_command\_t;}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_cache\_op\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ VG\_LITE\_CACHE\_CLEAN,}
+\DoxyCodeLine{00236\ \ \ \ \ VG\_LITE\_CACHE\_INVALIDATE,}
+\DoxyCodeLine{00237\ \ \ \ \ VG\_LITE\_CACHE\_FLUSH,}
+\DoxyCodeLine{00238\ \}}
+\DoxyCodeLine{00239\ vg\_lite\_cache\_op\_t;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_vidmem\_pool\ \{}
+\DoxyCodeLine{00242\ \ \ \ \ VG\_LITE\_POOL\_RESERVED\_MEMORY1\ =\ 0,}
+\DoxyCodeLine{00243\ \ \ \ \ VG\_LITE\_POOL\_RESERVED\_MEMORY2\ =\ 1,}
+\DoxyCodeLine{00244\ \}}
+\DoxyCodeLine{00245\ vg\_lite\_vidmem\_pool\_t;}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_gpu\_execute\_state\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ VG\_LITE\_GPU\_STOP\ =\ 0,}
+\DoxyCodeLine{00249\ \ \ \ \ VG\_LITE\_GPU\_RUN\ \ =\ 1,}
+\DoxyCodeLine{00250\ \}}
+\DoxyCodeLine{00251\ vg\_lite\_gpu\_execute\_state\_t;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \textcolor{comment}{/*\ Context\ structure.\ */}}
+\DoxyCodeLine{00254\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_context\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{comment}{/*\ Command\ buffer.\ */}}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ command\_buffer[CMDBUF\_COUNT];}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ command\_buffer\_logical[CMDBUF\_COUNT];}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ command\_buffer\_klogical[CMDBUF\_COUNT];}
+\DoxyCodeLine{00259\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_buffer\_physical[CMDBUF\_COUNT];}
+\DoxyCodeLine{00260\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ end\_of\_frame;}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{comment}{/*\ Tessellation\ buffer.\ */}}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ tess\_buffer;}
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ tessbuf\_logical;}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ tessbuf\_klogical;}
+\DoxyCodeLine{00266\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tessbuf\_physical;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{comment}{/*\ power\ context\ buffer\ \ */}}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ power\_context;}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ power\_context\_logical;}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ power\_context\_klogical;}
+\DoxyCodeLine{00272\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ power\_context\_physical;}
+\DoxyCodeLine{00273\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ power\_context\_size;}
+\DoxyCodeLine{00274\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ power\_context\_capacity;}
+\DoxyCodeLine{00275\ \}}
+\DoxyCodeLine{00276\ vg\_lite\_kernel\_context\_t;}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }capabilities\ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ tiled\ :\ 2;}
+\DoxyCodeLine{00280\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ l2\_cache\ :\ 1;}
+\DoxyCodeLine{00281\ \}}
+\DoxyCodeLine{00282\ capabilities\_t;}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }vg\_lite\_capabilities\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ capabilities\_t\ cap;}
+\DoxyCodeLine{00286\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}};}
+\DoxyCodeLine{00287\ \}}
+\DoxyCodeLine{00288\ vg\_lite\_capabilities\_t;}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_initialize\ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{comment}{/*\ INPUT\ */}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{comment}{/*\ Command\ buffer\ size.\ */}}
+\DoxyCodeLine{00294\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ command\_buffer\_size;}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{comment}{/*\ Tessellation\ buffer\ width.\ */}}
+\DoxyCodeLine{00297\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ tess\_width;}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{comment}{/*\ Tessellation\ buffer\ height.\ */}}
+\DoxyCodeLine{00300\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ tess\_height;}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{comment}{/*\ Memory\ pool\ for\ command\ buffer.\ */}}
+\DoxyCodeLine{00303\ \ \ \ \ vg\_lite\_vidmem\_pool\_t\ command\_buffer\_pool;}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{comment}{/*\ Memory\ pool\ for\ tessellation\ buffer.\ */}}
+\DoxyCodeLine{00306\ \ \ \ \ vg\_lite\_vidmem\_pool\_t\ tess\_buffer\_pool;}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{comment}{/*\ OUTPUT\ */}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{comment}{/*\ Context\ pointer.\ */}}
+\DoxyCodeLine{00311\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{comment}{/*\ Capabilities.\ */}}
+\DoxyCodeLine{00314\ \ \ \ \ vg\_lite\_capabilities\_t\ capabilities;}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{comment}{/*\ Allocated\ command\ buffer.\ */}}
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ command\_buffer[CMDBUF\_COUNT];}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{comment}{/*\ GPU\ address\ for\ command\ buffer.\ */}}
+\DoxyCodeLine{00320\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ command\_buffer\_gpu[CMDBUF\_COUNT];}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{comment}{/*\ GPU\ addresses\ for\ tesselation\ buffers.\ */}}
+\DoxyCodeLine{00323\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ physical\_addr;}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{comment}{/*\ Logic\ addresses\ for\ tessellation\ buffers:\ used\ by\ SW\ Tessellator.\ */}}
+\DoxyCodeLine{00326\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ logical\_addr;}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{comment}{/*\ Size\ of\ each\ level\ of\ the\ tesselation\ buffer.\ */}}
+\DoxyCodeLine{00329\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ tessbuf\_size;}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{comment}{/*\ Size\ of\ each\ level\ of\ the\ vg\ count\ buffer.\ */}}
+\DoxyCodeLine{00332\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ countbuf\_size;}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{comment}{/*\ Width\ and\ height\ of\ tessellation\ buffer.\ */}}
+\DoxyCodeLine{00335\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ tess\_w\_h;}
+\DoxyCodeLine{00336\ \}}
+\DoxyCodeLine{00337\ vg\_lite\_kernel\_initialize\_t;}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_terminate\ \{}
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{comment}{/*\ Context\ to\ terminate.\ */}}
+\DoxyCodeLine{00341\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00342\ \}}
+\DoxyCodeLine{00343\ vg\_lite\_kernel\_terminate\_t;}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_allocate\ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{comment}{/*\ INPUT\ */}}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ to\ allocate.\ */}}
+\DoxyCodeLine{00349\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes;}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{comment}{/*\ Flag\ to\ indicate\ whether\ the\ allocated\ memory\ is\ contiguous\ or\ not.\ */}}
+\DoxyCodeLine{00352\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ contiguous;}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{comment}{/*\ Flag\ to\ indicate\ where\ to\ allocate\ memory\ \ */}}
+\DoxyCodeLine{00355\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ flags;}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{comment}{/*\ select\ reserved\ memory\ pool\ */}}
+\DoxyCodeLine{00358\ \ \ \ \ vg\_lite\_vidmem\_pool\_t\ pool;}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ \textcolor{comment}{/*\ OUTPUT\ */}}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{comment}{/*\ Memory\ handle.\ */}}
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory\_handle;}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{comment}{/*\ Allocated\ memory.\ */}}
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory;}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{comment}{/*\ kernel\ memory\ */}}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ kmemory;}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{comment}{/*\ GPU\ address\ of\ allocated\ memory.\ */}}
+\DoxyCodeLine{00372\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ memory\_gpu;}
+\DoxyCodeLine{00373\ \}}
+\DoxyCodeLine{00374\ vg\_lite\_kernel\_allocate\_t;}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_free\ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{comment}{/*\ Memory\ handle\ to\ free.\ */}}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory\_handle;}
+\DoxyCodeLine{00379\ \}}
+\DoxyCodeLine{00380\ vg\_lite\_kernel\_free\_t;}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_submit\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{comment}{/*\ Context\ to\ submit\ to.\ */}}
+\DoxyCodeLine{00384\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{comment}{/*\ Pointer\ to\ command\ buffer.\ */}}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ commands;}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ in\ command\ buffer.\ */}}
+\DoxyCodeLine{00390\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ command\_size;}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{comment}{/*\ Command\ Buffer\ ID.\ */}}
+\DoxyCodeLine{00393\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ command\_id;}
+\DoxyCodeLine{00394\ \}}
+\DoxyCodeLine{00395\ vg\_lite\_kernel\_submit\_t;}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ vg\_lite\_gpu\_reset\_type\ \{}
+\DoxyCodeLine{00398\ \ \ \ \ RESTORE\_INIT\_COMMAND\ =\ 0,}
+\DoxyCodeLine{00399\ \ \ \ \ RESTORE\_LAST\_COMMAND\ =\ 1,}
+\DoxyCodeLine{00400\ \ \ \ \ RESTORE\_ALL\_COMMAND\ \ =\ 2,}
+\DoxyCodeLine{00401\ \ \ \ \ RESTORE\_NONE\ \ \ \ \ \ \ \ \ =\ 3,}
+\DoxyCodeLine{00402\ \}}
+\DoxyCodeLine{00403\ vg\_lite\_gpu\_reset\_type\_t;}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_wait\ \{}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{comment}{/*\ Context\ to\ wait\ for.\ */}}
+\DoxyCodeLine{00407\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{comment}{/*\ Timeout\ in\ milliseconds.\ */}}
+\DoxyCodeLine{00410\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ timeout\_ms;}
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{comment}{/*\ The\ event\ to\ wait.\ */}}
+\DoxyCodeLine{00413\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ event\_mask;}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{comment}{/*\ The\ event(s)\ got\ after\ waiting.\ */}}
+\DoxyCodeLine{00416\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ event\_got;}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{comment}{/*\ After\ GPU\ reset,\ select\ submit\ command\ */}}
+\DoxyCodeLine{00419\ \ \ \ \ vg\_lite\_gpu\_reset\_type\_t\ reset\_type;}
+\DoxyCodeLine{00420\ \}}
+\DoxyCodeLine{00421\ vg\_lite\_kernel\_wait\_t;}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_reset\ \{}
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{comment}{/*\ Context\ to\ reset.\ */}}
+\DoxyCodeLine{00425\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00426\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ delay\_resume\_flag;}
+\DoxyCodeLine{00427\ \}}
+\DoxyCodeLine{00428\ vg\_lite\_kernel\_reset\_t;}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_debug\ \{}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{comment}{/*\ Context\ to\ debug.\ */}}
+\DoxyCodeLine{00432\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{comment}{/*\ Bandwidth\ counter\ enabler.\ */}}
+\DoxyCodeLine{00435\ \ \ \ \ vg\_lite\_kernel\_counter\_t\ bandwidth\_counter;}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{comment}{/*\ Pixel\ counter\ enabler.\ */}}
+\DoxyCodeLine{00438\ \ \ \ \ vg\_lite\_kernel\_counter\_t\ pixel\_counters;}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{comment}{/*\ OUTPUT\ */}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{comment}{/*\ Bandwidth\ counters:}}
+\DoxyCodeLine{00443\ \textcolor{comment}{\ \ \ \ \ *\ \ [0]\ -\/\ burst\ of\ 8.}}
+\DoxyCodeLine{00444\ \textcolor{comment}{\ \ \ \ \ *\ \ [1]\ -\/\ burst\ of\ 16.}}
+\DoxyCodeLine{00445\ \textcolor{comment}{\ \ \ \ \ *\ \ [2]\ -\/\ burst\ of\ 32.}}
+\DoxyCodeLine{00446\ \textcolor{comment}{\ \ \ \ \ *\ \ [3]\ -\/\ burst\ of\ 64.}}
+\DoxyCodeLine{00447\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00448\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bandwidth[4];}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{comment}{/*\ Pixel\ counters:.}}
+\DoxyCodeLine{00451\ \textcolor{comment}{\ \ \ \ \ *\ \ [0]\ -\/\ Number\ of\ tessellated\ pixels.}}
+\DoxyCodeLine{00452\ \textcolor{comment}{\ \ \ \ \ *\ \ [1]\ -\/\ Number\ of\ imaged\ pixels.}}
+\DoxyCodeLine{00453\ \textcolor{comment}{\ \ \ \ \ *\ \ [2]\ -\/\ Number\ of\ rendered\ pixels.}}
+\DoxyCodeLine{00454\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00455\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ pixels[3];}
+\DoxyCodeLine{00456\ \}}
+\DoxyCodeLine{00457\ vg\_lite\_kernel\_debug\_t;}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_map\ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{comment}{/*\ INPUT\ */}}
+\DoxyCodeLine{00461\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ flags;}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{comment}{/*\ user\ memory\ */}}
+\DoxyCodeLine{00464\ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ to\ map.\ */}}
+\DoxyCodeLine{00465\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes;}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{comment}{/*\ Logical\ memory\ address\ or\ NULL.\ */}}
+\DoxyCodeLine{00468\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ logical;}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{comment}{/*\ Physical\ memory\ address\ or\ 0.\ */}}
+\DoxyCodeLine{00471\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ physical;}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{comment}{/*\ dma\_buf\ */}}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{comment}{/*\ dma\_buf\ fd\ */}}
+\DoxyCodeLine{00475\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ dma\_buf\_fd;}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{comment}{/*\ OUTPUT\ */}}
+\DoxyCodeLine{00478\ \ \ \ \ \textcolor{comment}{/*\ Memory\ handle\ for\ mapped\ memory.\ */}}
+\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory\_handle;}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{comment}{/*\ GPU\ address\ of\ mapped\ memory.\ */}}
+\DoxyCodeLine{00482\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ memory\_gpu;}
+\DoxyCodeLine{00483\ \}}
+\DoxyCodeLine{00484\ vg\_lite\_kernel\_map\_t;}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_unmap\ \{}
+\DoxyCodeLine{00487\ \ \ \ \ \textcolor{comment}{/*\ Memory\ handle\ to\ unmap.\ */}}
+\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory\_handle;}
+\DoxyCodeLine{00489\ \}}
+\DoxyCodeLine{00490\ vg\_lite\_kernel\_unmap\_t;}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_cache\ \{}
+\DoxyCodeLine{00493\ \ \ \ \ vg\_lite\_cache\_op\_t\ cache\_op;}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{comment}{/*\ Memory\ handle\ to\ operation.\ */}}
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ memory\_handle;}
+\DoxyCodeLine{00497\ \}}
+\DoxyCodeLine{00498\ vg\_lite\_kernel\_cache\_t;}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_info\ \{}
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{comment}{/*\ Register's\ address.\ */}}
+\DoxyCodeLine{00502\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ addr;}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{comment}{/*\ Check\ register\ info.\ */}}
+\DoxyCodeLine{00505\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ reg;}
+\DoxyCodeLine{00506\ \}}
+\DoxyCodeLine{00507\ vg\_lite\_kernel\_info\_t;}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_flexa\_info\ \{}
+\DoxyCodeLine{00510\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sbi\_mode;}
+\DoxyCodeLine{00511\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sync\_mode;}
+\DoxyCodeLine{00512\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flexa\_mode;}
+\DoxyCodeLine{00513\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\_id;}
+\DoxyCodeLine{00514\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_address;}
+\DoxyCodeLine{00515\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_count;}
+\DoxyCodeLine{00516\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_size;}
+\DoxyCodeLine{00517\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stop\_flag;}
+\DoxyCodeLine{00518\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_flag;}
+\DoxyCodeLine{00519\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reset\_flag;}
+\DoxyCodeLine{00520\ \}}
+\DoxyCodeLine{00521\ vg\_lite\_kernel\_flexa\_info\_t;}
+\DoxyCodeLine{00522\ }
+\DoxyCodeLine{00523\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_mem\ \{}
+\DoxyCodeLine{00524\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes;}
+\DoxyCodeLine{00525\ }
+\DoxyCodeLine{00526\ \ \ \ \ vg\_lite\_vidmem\_pool\_t\ pool;}
+\DoxyCodeLine{00527\ \}}
+\DoxyCodeLine{00528\ vg\_lite\_kernel\_mem\_t;}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_map\_memory\ \{}
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ to\ map.\ */}}
+\DoxyCodeLine{00532\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes;}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{comment}{/*\ Physical\ memory\ address.\ */}}
+\DoxyCodeLine{00535\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ physical;}
+\DoxyCodeLine{00536\ }
+\DoxyCodeLine{00537\ \ \ \ \ \textcolor{comment}{/*\ Logical\ memory\ address.\ */}}
+\DoxyCodeLine{00538\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ logical;}
+\DoxyCodeLine{00539\ \}}
+\DoxyCodeLine{00540\ vg\_lite\_kernel\_map\_memory\_t;}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_unmap\_memory\ \{}
+\DoxyCodeLine{00543\ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ to\ map.\ */}}
+\DoxyCodeLine{00544\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes;}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{comment}{/*\ Logical\ memory\ address.\ */}}
+\DoxyCodeLine{00547\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ logical;}
+\DoxyCodeLine{00548\ \}}
+\DoxyCodeLine{00549\ vg\_lite\_kernel\_unmap\_memory\_t;}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_close\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ vg\_lite\_kernel\_context\_t\ *\ context;}
+\DoxyCodeLine{00553\ \}}
+\DoxyCodeLine{00554\ vg\_lite\_kernel\_close\_t;}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_export\_memory\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ fd;}
+\DoxyCodeLine{00558\ \}}
+\DoxyCodeLine{00559\ vg\_lite\_kernel\_export\_memory\_t;}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_hardware\_running\_time\ \{}
+\DoxyCodeLine{00562\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ run\_time;}
+\DoxyCodeLine{00563\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ hertz;}
+\DoxyCodeLine{00564\ \}}
+\DoxyCodeLine{00565\ vg\_lite\_kernel\_hardware\_running\_time\_t;}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_delay\_resume\ \{}
+\DoxyCodeLine{00568\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ set\_delay\_resume;}
+\DoxyCodeLine{00569\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ query\_delay\_resume;}
+\DoxyCodeLine{00570\ \}}
+\DoxyCodeLine{00571\ vg\_lite\_kernel\_delay\_resume\_t;}
+\DoxyCodeLine{00572\ }
+\DoxyCodeLine{00573\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_kernel\_gpu\_clock\_state\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00575\ \}}
+\DoxyCodeLine{00576\ vg\_lite\_kernel\_gpu\_clock\_state\_t;}
+\DoxyCodeLine{00577\ }
+\DoxyCodeLine{00578\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_kernel(vg\_lite\_kernel\_command\_t\ command,\ \textcolor{keywordtype}{void}\ *\ data);}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00580\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ record\_running\_time(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ init\_buffer[12];}
+\DoxyCodeLine{00583\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ is\_init;}
+\DoxyCodeLine{00584\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{size\_t}\ physical\_address;}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00587\ \}}
+\DoxyCodeLine{00588\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_VG\_LITE\_DRIVER\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00591\ }
+\DoxyCodeLine{00592\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ VG\_LITE\_KERNEL\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

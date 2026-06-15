@@ -1,0 +1,186 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+core/\+lv\+\_\+refr.c File Reference}
+\hypertarget{lv__refr_8c}{}\label{lv__refr_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_refr.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_refr.c}}
+{\ttfamily \+\#include "{}lv\+\_\+refr\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+draw\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+draw/\+sw/\+lv\+\_\+draw\+\_\+sw\+\_\+mask\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+draw/\+lv\+\_\+draw\+\_\+mask\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+event\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+tick/\+lv\+\_\+tick.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+timer\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+profiler.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+draw/\+lv\+\_\+draw\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+font/\+lv\+\_\+font\+\_\+fmt\+\_\+txt.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+stdlib/\+lv\+\_\+string.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+global.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__refr_8c_aeb3816707dd1ff779e368f7f32677aca}{disp\+\_\+refr}}~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$disp\+\_\+refresh
+\item 
+\+\#define \doxymbox{\hyperlink{lv__refr_8c_a02ffc895961616482d3b7152dec1beaa}{LV\+\_\+\+TRACE\+\_\+\+REFR}}(...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a33b7cebf393f0217a53f62a6be056e2a}{lv\+\_\+refr\+\_\+init}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a2f764787d57a126af7fd6b81f5ebae77}{lv\+\_\+refr\+\_\+deinit}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a46355e9677a6d10d50a513f66226c1e0}{lv\+\_\+refr\+\_\+now}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_ab542c3785166fa3bf9d1314604467bcc}{lv\+\_\+obj\+\_\+redraw}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a2952f7876e368c4e9c77f83313de53f3}{lv\+\_\+inv\+\_\+area}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area\+\_\+p)
+\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}{lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a1045eeb27a9edde2ce0824c31165ffe9}{lv\+\_\+refr\+\_\+set\+\_\+disp\+\_\+refreshing}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a7578e0583266f60ab77cccc53f2055a9}{lv\+\_\+display\+\_\+refr\+\_\+timer}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*}tmr)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__refr_8c_ac39f930fba74514359d2d67e34b30751}{lv\+\_\+refr\+\_\+get\+\_\+top\+\_\+obj}} (const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area\+\_\+p, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__refr_8c_a7f3008af3834953089e30149f7c014c3}{lv\+\_\+obj\+\_\+refr}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\end{DoxyCompactItemize}
+
+
+\label{lv__refr_8c_doc-define-members}
+\Hypertarget{lv__refr_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__refr_8c_aeb3816707dd1ff779e368f7f32677aca}\index{lv\_refr.c@{lv\_refr.c}!disp\_refr@{disp\_refr}}
+\index{disp\_refr@{disp\_refr}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{disp\_refr}{disp\_refr}}
+{\footnotesize\ttfamily \label{lv__refr_8c_aeb3816707dd1ff779e368f7f32677aca} 
+\+\#define disp\+\_\+refr~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$disp\+\_\+refresh}
+
+\Hypertarget{lv__refr_8c_a02ffc895961616482d3b7152dec1beaa}\index{lv\_refr.c@{lv\_refr.c}!LV\_TRACE\_REFR@{LV\_TRACE\_REFR}}
+\index{LV\_TRACE\_REFR@{LV\_TRACE\_REFR}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{LV\_TRACE\_REFR}{LV\_TRACE\_REFR}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a02ffc895961616482d3b7152dec1beaa} 
+\+\#define LV\+\_\+\+TRACE\+\_\+\+REFR(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+
+
+\label{lv__refr_8c_doc-func-members}
+\Hypertarget{lv__refr_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__refr_8c_a7578e0583266f60ab77cccc53f2055a9}\index{lv\_refr.c@{lv\_refr.c}!lv\_display\_refr\_timer@{lv\_display\_refr\_timer}}
+\index{lv\_display\_refr\_timer@{lv\_display\_refr\_timer}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_display\_refr\_timer()}{lv\_display\_refr\_timer()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a7578e0583266f60ab77cccc53f2055a9} 
+void lv\+\_\+display\+\_\+refr\+\_\+timer (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{timer}{}\end{DoxyParamCaption})}
+
+Called periodically to handle the refreshing 
+\begin{DoxyParams}{Parameters}
+{\em timer} & pointer to the timer itself, or {\ttfamily \doxylink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__refr_8c_a2952f7876e368c4e9c77f83313de53f3}\index{lv\_refr.c@{lv\_refr.c}!lv\_inv\_area@{lv\_inv\_area}}
+\index{lv\_inv\_area@{lv\_inv\_area}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_inv\_area()}{lv\_inv\_area()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a2952f7876e368c4e9c77f83313de53f3} 
+void lv\+\_\+inv\+\_\+area (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area\+\_\+p}{}\end{DoxyParamCaption})}
+
+Invalidate an area on display to redraw it 
+\begin{DoxyParams}{Parameters}
+{\em area\+\_\+p} & pointer to area which should be invalidated (NULL:\+ delete the invalidated areas) \\
+\hline
+{\em disp} & pointer to display where the area should be invalidated (NULL can be used if there is only one display) \\
+\hline
+\end{DoxyParams}
+There are two reasons for this issue:\+ 1.\+LVGL API is being used across threads, such as modifying widget properties in another thread or within an interrupt handler during the main thread rendering process. 2.\+User-\/customized widget modify widget properties/\+styles again within the DRAW event.
+
+Therefore, ensure that LVGL is used in a single-\/threaded manner, or refer to documentation:\+ \href{https://docs.lvgl.io/master/porting/os.html}{\texttt{https:\+/\+/\+docs.\+lvgl.\+io/\+master/\+porting/\+os.\+html}} for proper locking mechanisms. Additionally, ensure that only drawing-\/related tasks are performed within the DRAW event, and move widget property/\+style modifications to other events.\Hypertarget{lv__refr_8c_ab542c3785166fa3bf9d1314604467bcc}\index{lv\_refr.c@{lv\_refr.c}!lv\_obj\_redraw@{lv\_obj\_redraw}}
+\index{lv\_obj\_redraw@{lv\_obj\_redraw}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_redraw()}{lv\_obj\_redraw()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_ab542c3785166fa3bf9d1314604467bcc} 
+void lv\+\_\+obj\+\_\+redraw (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Redrawn on object and all its children using the passed draw context 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer where to draw. \\
+\hline
+{\em obj} & the start object from the redraw should start \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__refr_8c_a7f3008af3834953089e30149f7c014c3}\index{lv\_refr.c@{lv\_refr.c}!lv\_obj\_refr@{lv\_obj\_refr}}
+\index{lv\_obj\_refr@{lv\_obj\_refr}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_refr()}{lv\_obj\_refr()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a7f3008af3834953089e30149f7c014c3} 
+void lv\+\_\+obj\+\_\+refr (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Render an object to a layer 
+\begin{DoxyParams}{Parameters}
+{\em layer} & target drawing layer \\
+\hline
+{\em obj} & object to render \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__refr_8c_a2f764787d57a126af7fd6b81f5ebae77}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_deinit@{lv\_refr\_deinit}}
+\index{lv\_refr\_deinit@{lv\_refr\_deinit}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_deinit()}{lv\_refr\_deinit()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a2f764787d57a126af7fd6b81f5ebae77} 
+void lv\+\_\+refr\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Deinitialize the screen refresh subsystem \Hypertarget{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_get\_disp\_refreshing@{lv\_refr\_get\_disp\_refreshing}}
+\index{lv\_refr\_get\_disp\_refreshing@{lv\_refr\_get\_disp\_refreshing}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_get\_disp\_refreshing()}{lv\_refr\_get\_disp\_refreshing()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Get the display which is being refreshed \begin{DoxyReturn}{Returns}
+the display being refreshed 
+\end{DoxyReturn}
+\Hypertarget{lv__refr_8c_ac39f930fba74514359d2d67e34b30751}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_get\_top\_obj@{lv\_refr\_get\_top\_obj}}
+\index{lv\_refr\_get\_top\_obj@{lv\_refr\_get\_top\_obj}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_get\_top\_obj()}{lv\_refr\_get\_top\_obj()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_ac39f930fba74514359d2d67e34b30751} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+refr\+\_\+get\+\_\+top\+\_\+obj (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area\+\_\+p}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Search the most top object which fully covers an area 
+\begin{DoxyParams}{Parameters}
+{\em area\+\_\+p} & pointer to an area \\
+\hline
+{\em obj} & the first object to start the searching (typically a screen) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{lv__refr_8c_a33b7cebf393f0217a53f62a6be056e2a}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_init@{lv\_refr\_init}}
+\index{lv\_refr\_init@{lv\_refr\_init}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_init()}{lv\_refr\_init()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a33b7cebf393f0217a53f62a6be056e2a} 
+void lv\+\_\+refr\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Initialize the screen refresh subsystem \Hypertarget{lv__refr_8c_a46355e9677a6d10d50a513f66226c1e0}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_now@{lv\_refr\_now}}
+\index{lv\_refr\_now@{lv\_refr\_now}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_now()}{lv\_refr\_now()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a46355e9677a6d10d50a513f66226c1e0} 
+void lv\+\_\+refr\+\_\+now (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+Redraw the invalidated areas now. Normally the redrawing is periodically executed in {\ttfamily \doxylink{lv__timer_8c_adb5cfb35b8a8ffe081b95c92b29c7c8c}{lv\+\_\+timer\+\_\+handler}} but a long blocking process can prevent the call of {\ttfamily \doxylink{lv__timer_8c_adb5cfb35b8a8ffe081b95c92b29c7c8c}{lv\+\_\+timer\+\_\+handler}}. In this case if the GUI is updated in the process (e.\+g. progress bar) this function can be called when the screen should be updated. 
+\begin{DoxyParams}{Parameters}
+{\em disp} & pointer to display to refresh. NULL to refresh all displays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__refr_8c_a1045eeb27a9edde2ce0824c31165ffe9}\index{lv\_refr.c@{lv\_refr.c}!lv\_refr\_set\_disp\_refreshing@{lv\_refr\_set\_disp\_refreshing}}
+\index{lv\_refr\_set\_disp\_refreshing@{lv\_refr\_set\_disp\_refreshing}!lv\_refr.c@{lv\_refr.c}}
+\doxysubsubsection{\texorpdfstring{lv\_refr\_set\_disp\_refreshing()}{lv\_refr\_set\_disp\_refreshing()}}
+{\footnotesize\ttfamily \label{lv__refr_8c_a1045eeb27a9edde2ce0824c31165ffe9} 
+void lv\+\_\+refr\+\_\+set\+\_\+disp\+\_\+refreshing (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+Get the display which is being refreshed \begin{DoxyReturn}{Returns}
+the display being refreshed
+\end{DoxyReturn}
+Set the display which is being refreshed 
+\begin{DoxyParams}{Parameters}
+{\em disp} & the display being refreshed \\
+\hline
+\end{DoxyParams}

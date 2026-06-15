@@ -1,0 +1,86 @@
+\doxysection{xmltok\+\_\+impl.\+h}
+\hypertarget{xmltok__impl_8h_source}{}\label{xmltok__impl_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmltok\_impl.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmltok\_impl.h}}
+\doxymbox{\hyperlink{xmltok__impl_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\ \ \_\_\ \ \ \ \ \ \ \ \ \ \ \ \_}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\(\backslash\)\ \(\backslash\)/\ /\_\ \_\_\ \ \ \_\_\ \_|\ |\_}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \_\ \(\backslash\)\(\backslash\)\ \ /|\ '\_\ \(\backslash\)\ /\ \_`\ |\ \_\_|}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \_\_//\ \ \(\backslash\)|\ |\_)\ |\ (\_|\ |\ |\_}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)\_\_\_/\_/\(\backslash\)\_\(\backslash\)\ .\_\_/\ \(\backslash\)\_\_,\_|\(\backslash\)\_\_|}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\_|\ XML\ parser}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 1997-\/2000\ Thai\ Open\ Source\ Software\ Center\ Ltd}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2000\ \ \ \ \ \ Clark\ Cooper\ <coopercc@users.sourceforge.net>}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2017-\/2019\ Sebastian\ Pipping\ <sebastian@pipping.org>}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ Licensed\ under\ the\ MIT\ license:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Permission\ is\ \ hereby\ granted,\ \ free\ of\ charge,\ \ to\ any\ \ person\ obtaining}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ a\ \ copy\ \ of\ \ this\ \ software\ \ \ and\ \ associated\ \ documentation\ \ files\ \ (the}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ "{}Software"{}),\ \ to\ \ deal\ in\ \ the\ \ Software\ \ without\ restriction,\ \ including}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ without\ \ limitation\ the\ \ rights\ \ to\ use,\ \ copy,\ \ modify,\ merge,\ \ publish,}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ persons\ \ to\ whom\ \ the\ Software\ \ is\ \ furnished\ to\ \ do\ so,\ \ subject\ to\ \ the}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ following\ conditions:}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ The\ above\ copyright\ \ notice\ and\ this\ permission\ notice\ \ shall\ be\ included}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ \ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ THE\ \ SOFTWARE\ \ IS\ \ PROVIDED\ \ "{}AS\ \ IS"{},\ \ WITHOUT\ \ WARRANTY\ \ OF\ \ ANY\ \ KIND,}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ EXPRESS\ \ OR\ IMPLIED,\ \ INCLUDING\ \ BUT\ \ NOT\ LIMITED\ \ TO\ \ THE\ WARRANTIES\ \ OF}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ \ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ DAMAGES\ OR\ \ OTHER\ LIABILITY,\ WHETHER\ \ IN\ AN\ \ ACTION\ OF\ CONTRACT,\ \ TORT\ OR}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ \ \ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00032\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00038\ \ \ BT\_NONXML,\ \ \ \textcolor{comment}{/*\ e.g.\ noncharacter-\/FFFF\ */}}
+\DoxyCodeLine{00039\ \ \ BT\_MALFORM,\ \ \textcolor{comment}{/*\ illegal,\ with\ regard\ to\ encoding\ */}}
+\DoxyCodeLine{00040\ \ \ BT\_LT,\ \ \ \ \ \ \ \textcolor{comment}{/*\ less\ than\ =\ "{}<"{}\ */}}
+\DoxyCodeLine{00041\ \ \ BT\_AMP,\ \ \ \ \ \ \textcolor{comment}{/*\ ampersand\ =\ "{}\&"{}\ */}}
+\DoxyCodeLine{00042\ \ \ BT\_RSQB,\ \ \ \ \ \textcolor{comment}{/*\ right\ square\ bracket\ =\ "{}["{}\ */}}
+\DoxyCodeLine{00043\ \ \ BT\_LEAD2,\ \ \ \ \textcolor{comment}{/*\ lead\ byte\ of\ a\ 2-\/byte\ UTF-\/8\ character\ */}}
+\DoxyCodeLine{00044\ \ \ BT\_LEAD3,\ \ \ \ \textcolor{comment}{/*\ lead\ byte\ of\ a\ 3-\/byte\ UTF-\/8\ character\ */}}
+\DoxyCodeLine{00045\ \ \ BT\_LEAD4,\ \ \ \ \textcolor{comment}{/*\ lead\ byte\ of\ a\ 4-\/byte\ UTF-\/8\ character\ */}}
+\DoxyCodeLine{00046\ \ \ BT\_TRAIL,\ \ \ \ \textcolor{comment}{/*\ trailing\ unit,\ e.g.\ second\ 16-\/bit\ unit\ of\ a\ 4-\/byte\ char.\ */}}
+\DoxyCodeLine{00047\ \ \ BT\_CR,\ \ \ \ \ \ \ \textcolor{comment}{/*\ carriage\ return\ =\ "{}\(\backslash\)r"{}\ */}}
+\DoxyCodeLine{00048\ \ \ BT\_LF,\ \ \ \ \ \ \ \textcolor{comment}{/*\ line\ feed\ =\ "{}\(\backslash\)n"{}\ */}}
+\DoxyCodeLine{00049\ \ \ BT\_GT,\ \ \ \ \ \ \ \textcolor{comment}{/*\ greater\ than\ =\ "{}>"{}\ */}}
+\DoxyCodeLine{00050\ \ \ BT\_QUOT,\ \ \ \ \ \textcolor{comment}{/*\ quotation\ character\ =\ "{}\(\backslash\)"{}"{}\ */}}
+\DoxyCodeLine{00051\ \ \ BT\_APOS,\ \ \ \ \ \textcolor{comment}{/*\ apostrophe\ =\ "{}'"{}\ */}}
+\DoxyCodeLine{00052\ \ \ BT\_EQUALS,\ \ \ \textcolor{comment}{/*\ equal\ sign\ =\ "{}="{}\ */}}
+\DoxyCodeLine{00053\ \ \ BT\_QUEST,\ \ \ \ \textcolor{comment}{/*\ question\ mark\ =\ "{}?"{}\ */}}
+\DoxyCodeLine{00054\ \ \ BT\_EXCL,\ \ \ \ \ \textcolor{comment}{/*\ exclamation\ mark\ =\ "{}!"{}\ */}}
+\DoxyCodeLine{00055\ \ \ BT\_SOL,\ \ \ \ \ \ \textcolor{comment}{/*\ solidus,\ slash\ =\ "{}/"{}\ */}}
+\DoxyCodeLine{00056\ \ \ BT\_SEMI,\ \ \ \ \ \textcolor{comment}{/*\ semicolon\ =\ "{};"{}\ */}}
+\DoxyCodeLine{00057\ \ \ BT\_NUM,\ \ \ \ \ \ \textcolor{comment}{/*\ number\ sign\ =\ "{}\#"{}\ */}}
+\DoxyCodeLine{00058\ \ \ BT\_LSQB,\ \ \ \ \ \textcolor{comment}{/*\ left\ square\ bracket\ =\ "{}["{}\ */}}
+\DoxyCodeLine{00059\ \ \ BT\_S,\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ white\ space,\ e.g.\ "{}\(\backslash\)t"{},\ "{}\ "{}[,\ "{}\(\backslash\)r"{}]\ */}}
+\DoxyCodeLine{00060\ \ \ BT\_NMSTRT,\ \ \ \textcolor{comment}{/*\ non-\/hex\ name\ start\ letter\ =\ "{}G"{}.."{}Z"{}\ +\ "{}g"{}.."{}z"{}\ +\ "{}\_"{}\ */}}
+\DoxyCodeLine{00061\ \ \ BT\_COLON,\ \ \ \ \textcolor{comment}{/*\ colon\ =\ "{}:"{}\ */}}
+\DoxyCodeLine{00062\ \ \ BT\_HEX,\ \ \ \ \ \ \textcolor{comment}{/*\ hex\ letter\ =\ "{}A"{}.."{}F"{}\ +\ "{}a"{}.."{}f"{}\ */}}
+\DoxyCodeLine{00063\ \ \ BT\_DIGIT,\ \ \ \ \textcolor{comment}{/*\ digit\ =\ "{}0"{}.."{}9"{}\ */}}
+\DoxyCodeLine{00064\ \ \ BT\_NAME,\ \ \ \ \ \textcolor{comment}{/*\ dot\ and\ middle\ dot\ =\ "{}."{}\ +\ chr(0xb7)\ */}}
+\DoxyCodeLine{00065\ \ \ BT\_MINUS,\ \ \ \ \textcolor{comment}{/*\ minus\ =\ "{}-\/"{}\ */}}
+\DoxyCodeLine{00066\ \ \ BT\_OTHER,\ \ \ \ \textcolor{comment}{/*\ known\ not\ to\ be\ a\ name\ or\ name\ start\ character\ */}}
+\DoxyCodeLine{00067\ \ \ BT\_NONASCII,\ \textcolor{comment}{/*\ might\ be\ a\ name\ or\ name\ start\ character\ */}}
+\DoxyCodeLine{00068\ \ \ BT\_PERCNT,\ \ \ \textcolor{comment}{/*\ percent\ sign\ =\ "{}\%"{}\ */}}
+\DoxyCodeLine{00069\ \ \ BT\_LPAR,\ \ \ \ \ \textcolor{comment}{/*\ left\ parenthesis\ =\ "{}("{}\ */}}
+\DoxyCodeLine{00070\ \ \ BT\_RPAR,\ \ \ \ \ \textcolor{comment}{/*\ right\ parenthesis\ =\ "{}("{}\ */}}
+\DoxyCodeLine{00071\ \ \ BT\_AST,\ \ \ \ \ \ \textcolor{comment}{/*\ asterisk\ =\ "{}*"{}\ */}}
+\DoxyCodeLine{00072\ \ \ BT\_PLUS,\ \ \ \ \ \textcolor{comment}{/*\ plus\ sign\ =\ "{}+"{}\ */}}
+\DoxyCodeLine{00073\ \ \ BT\_COMMA,\ \ \ \ \textcolor{comment}{/*\ comma\ =\ "{},"{}\ */}}
+\DoxyCodeLine{00074\ \ \ BT\_VERBAR\ \ \ \ \textcolor{comment}{/*\ vertical\ bar\ =\ "{}|"{}\ */}}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00080\ }
+
+\end{DoxyCode}

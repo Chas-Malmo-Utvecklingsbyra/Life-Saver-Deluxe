@@ -1,0 +1,108 @@
+\doxysection{lv\+\_\+wayland\+\_\+smm.\+h}
+\hypertarget{lv__wayland__smm_8h_source}{}\label{lv__wayland__smm_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/wayland/lv\_wayland\_smm.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/wayland/lv\_wayland\_smm.h}}
+\doxymbox{\hyperlink{lv__wayland__smm_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ LV\_WAYLAND\_SMM\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ LV\_WAYLAND\_SMM\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ \_WIN32}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__display_8h}{../../display/lv\_display.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ LV\_STDDEF\_INCLUDE}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ LV\_STDBOOL\_INCLUDE}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ LV\_USE\_WAYLAND}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ SMM\_FD\_NAME\ \ "{}lvgl-\/wayland"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ SMM\_POOL\_TAGS\ \ \ (1)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ SMM\_BUFFER\_TAGS\ (2)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ SMM\_GROUP\_TAGS\ \ (1)}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ smm\_pool\_t;}
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ smm\_buffer\_t;}
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ smm\_group\_t;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{struct\ }smm\_events\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ ctx;}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*new\_pool)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_pool\_t\ *\ pool);}
+\DoxyCodeLine{00048\ \ \ \ \ void\ (*expand\_pool)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_pool\_t\ *\ pool);}
+\DoxyCodeLine{00049\ \ \ \ \ void\ (*free\_pool)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_pool\_t\ *\ pool);}
+\DoxyCodeLine{00050\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*new\_buffer)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_buffer\_t\ *\ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}});}
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*init\_buffer)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_buffer\_t\ *\ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}});}
+\DoxyCodeLine{00052\ \ \ \ \ void\ (*free\_buffer)(\textcolor{keywordtype}{void}\ *\ ctx,\ smm\_buffer\_t\ *\ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}});}
+\DoxyCodeLine{00053\ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{struct\ }smm\_pool\_properties\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ tag[SMM\_POOL\_TAGS];}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ fd;}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{struct\ }smm\_buffer\_properties\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ tag[SMM\_BUFFER\_TAGS];}
+\DoxyCodeLine{00063\ \ \ \ \ smm\_group\_t\ *\ \textcolor{keyword}{const}\ group;}
+\DoxyCodeLine{00064\ \ \ \ \ smm\_pool\_t\ *\ \textcolor{keyword}{const}\ pool;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{namespacespectrum_a7a229a4786deeddd59c6091247a8c8a6}{offset}};}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{struct\ }smm\_group\_properties\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ tag[SMM\_GROUP\_TAGS];}
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{void}\ smm\_init(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ smm\_events\ *\ evs);}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{void}\ smm\_setctx(\textcolor{keywordtype}{void}\ *\ ctx);}
+\DoxyCodeLine{00074\ \textcolor{keywordtype}{void}\ smm\_deinit(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00075\ smm\_group\_t\ *\ smm\_create(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{void}\ smm\_resize(smm\_group\_t\ *\ grp,\ \textcolor{keywordtype}{size\_t}\ sz);}
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{void}\ smm\_destroy(smm\_group\_t\ *\ grp);}
+\DoxyCodeLine{00078\ smm\_buffer\_t\ *\ smm\_acquire(smm\_group\_t\ *\ grp);}
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ *\ smm\_map(smm\_buffer\_t\ *\ buf);}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ smm\_release(smm\_buffer\_t\ *\ buf);}
+\DoxyCodeLine{00081\ smm\_buffer\_t\ *\ smm\_latest(smm\_group\_t\ *\ grp);}
+\DoxyCodeLine{00082\ smm\_buffer\_t\ *\ smm\_next(smm\_buffer\_t\ *\ buf);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00086\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ SMM\_POOL\_PROPERTIES(p)\ ((const\ struct\ smm\_pool\_properties\ *)(p))}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ SMM\_BUFFER\_PROPERTIES(b)\ ((const\ struct\ smm\_buffer\_properties\ *)(b))}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ SMM\_GROUP\_PROPERTIES(g)\ ((const\ struct\ smm\_group\_properties\ *)(g))}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ SMM\_TAG(o,\ n,\ v)\ \(\backslash\)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ void\ **smm\_tag\ =\ (void\ **)((char\ *)o\ +\ (n\ *\ sizeof(void\ *)));\ \(\backslash\)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ *smm\_tag\ =\ (v);\ \(\backslash\)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\ \ \ \ \}\ while(0)}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_WAYLAND\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_WIN32\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00102\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_WAYLAND\_SMM\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

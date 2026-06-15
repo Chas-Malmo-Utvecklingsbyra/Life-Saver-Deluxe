@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('gui_8c.html','
 <code>#include &quot;freertos/FreeRTOS.h&quot;</code><br />
 <code>#include &quot;freertos/task.h&quot;</code><br />
 <code>#include &quot;freertos/semphr.h&quot;</code><br />
-<code>#include &quot;esp_log.h&quot;</code><br />
-<code>#include &quot;esp_err.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="esp__log_8h_source.html">esp_log.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="esp__err_8h_source.html">esp_err.h</a>&quot;</code><br />
 <code>#include &quot;esp_timer.h&quot;</code><br />
 <code>#include &quot;esp_lcd_panel_ops.h&quot;</code><br />
 <code>#include &quot;esp_lcd_panel_rgb.h&quot;</code><br />
@@ -156,14 +156,18 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa6c72a55cdb801e163c1fecaca1ed4a8" id="r_aa6c72a55cdb801e163c1fecaca1ed4a8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa6c72a55cdb801e163c1fecaca1ed4a8">ui_rebuild_all</a> (void)</td></tr>
-<tr class="memitem:a6b4f2fc589a1178e9694af03e25e06df" id="r_a6b4f2fc589a1178e9694af03e25e06df"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6b4f2fc589a1178e9694af03e25e06df">gui_update_network_status</a> (void *arg)</td></tr>
+<tr class="memdesc:aa6c72a55cdb801e163c1fecaca1ed4a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuilds the complete user interface.  <br /></td></tr>
+<tr class="memitem:a76a93b59985275c2c57d52153324e7a4" id="r_a76a93b59985275c2c57d52153324e7a4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a76a93b59985275c2c57d52153324e7a4">on_wifi_status_update</a> (void)</td></tr>
+<tr class="memdesc:a76a93b59985275c2c57d52153324e7a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the Wi-Fi status label.  <br /></td></tr>
 <tr class="memitem:a4cf713b8207ef50beef99a9d71693e7f" id="r_a4cf713b8207ef50beef99a9d71693e7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4cf713b8207ef50beef99a9d71693e7f">lvgl_task</a> (void *arg)</td></tr>
+<tr class="memdesc:a4cf713b8207ef50beef99a9d71693e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main LVGL task.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a784b728b0617c85caf2c6d5006f08a94" id="r_a784b728b0617c85caf2c6d5006f08a94"><td class="memItemLeft">lv_display_t *&#160;</td><td class="memItemRight"><a class="el" href="#a784b728b0617c85caf2c6d5006f08a94">lvgl_disp</a> = NULL</td></tr>
 <tr class="memitem:a05e224ee6d2d90a1daf49b93e224f5ee" id="r_a05e224ee6d2d90a1daf49b93e224f5ee"><td class="memItemLeft">lv_obj_t *&#160;</td><td class="memItemRight"><a class="el" href="#a05e224ee6d2d90a1daf49b93e224f5ee">main_tabview</a> = NULL</td></tr>
 <tr class="memitem:a97db531d21911db60f31c5446ad6edd5" id="r_a97db531d21911db60f31c5446ad6edd5"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a97db531d21911db60f31c5446ad6edd5">current_theme</a> = 0</td></tr>
+<tr class="memitem:a800a20426775e5dd71c3db9990e18a32" id="r_a800a20426775e5dd71c3db9990e18a32"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a800a20426775e5dd71c3db9990e18a32">ui_rebuilding</a> = <a class="el" href="c_j_s_o_n_8c.html#a65e9886d74aaee76545e83dd09011727">false</a></td></tr>
 </table>
 <a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
 <a id="ab649ede4d6a182143a457aaa38482089" name="ab649ede4d6a182143a457aaa38482089"></a>
@@ -209,23 +213,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a6b4f2fc589a1178e9694af03e25e06df" name="a6b4f2fc589a1178e9694af03e25e06df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b4f2fc589a1178e9694af03e25e06df">&#9670;&#160;</a></span>gui_update_network_status()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void gui_update_network_status </td>
-          <td>(</td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a4cf713b8207ef50beef99a9d71693e7f" name="a4cf713b8207ef50beef99a9d71693e7f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4cf713b8207ef50beef99a9d71693e7f">&#9670;&#160;</a></span>lvgl_task()</h2>
 
@@ -240,6 +227,35 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Main LVGL task. </p>
+<p>Initializes the display, touch controller, LVGL, screens, timers, and enters the main UI loop.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>FreeRTOS task argument. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a76a93b59985275c2c57d52153324e7a4" name="a76a93b59985275c2c57d52153324e7a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76a93b59985275c2c57d52153324e7a4">&#9670;&#160;</a></span>on_wifi_status_update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void on_wifi_status_update </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the Wi-Fi status label. </p>
+<p>Synchronizes the displayed network status with the current connectivity state. </p>
 
 </div>
 </div>
@@ -257,6 +273,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Rebuilds the complete user interface. </p>
+<p>Destroys existing screens and recreates all visual components using the currently selected theme and application state. </p>
 
 </div>
 </div>
@@ -297,6 +316,20 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">lv_obj_t* main_tabview = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a800a20426775e5dd71c3db9990e18a32" name="a800a20426775e5dd71c3db9990e18a32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a800a20426775e5dd71c3db9990e18a32">&#9670;&#160;</a></span>ui_rebuilding</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ui_rebuilding = <a class="el" href="c_j_s_o_n_8c.html#a65e9886d74aaee76545e83dd09011727">false</a></td>
         </tr>
       </table>
 </div><div class="memdoc">

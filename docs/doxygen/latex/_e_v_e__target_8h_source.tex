@@ -1,0 +1,117 @@
+\doxysection{EVE\+\_\+target.\+h}
+\hypertarget{_e_v_e__target_8h_source}{}\label{_e_v_e__target_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/FT800-\/FT813/EVE\_target.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/FT800-\/FT813/EVE\_target.h}}
+\doxymbox{\hyperlink{_e_v_e__target_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EVE\_TARGET\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EVE\_TARGET\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__eve__private_8h}{../../draw/eve/lv\_draw\_eve\_private.h}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__tick_8h}{../../tick/lv\_tick.h}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__utils_8h}{../../misc/lv\_utils.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__global_8h}{../../core/lv\_global.h}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ lv\_eve\_write\_buf\ (LV\_GLOBAL\_DEFAULT()-\/>draw\_eve\_unit-\/>lv\_eve\_write\_buf)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ lv\_eve\_write\_buf\_len\ (LV\_GLOBAL\_DEFAULT()-\/>draw\_eve\_unit-\/>lv\_eve\_write\_buf\_len)}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lv\_eve\_target\_flush\_write\_buf(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ DELAY\_MS(\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ ms)}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \doxymbox{\hyperlink{lv__tick_8c_ae6d51f7677241d44c6bfc1eb242b4ed3}{lv\_delay\_ms}}(ms);}
+\DoxyCodeLine{00017\ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ EVE\_cs\_set(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_CS\_ASSERT,\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},\ 0);}
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ EVE\_cs\_clear(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ lv\_eve\_target\_flush\_write\_buf();}
+\DoxyCodeLine{00027\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_CS\_DEASSERT,\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},\ 0);}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ EVE\_pdn\_set(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_POWERDOWN\_SET,\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},\ 0);}
+\DoxyCodeLine{00033\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ EVE\_pdn\_clear(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_POWERDOWN\_CLEAR,\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}},\ 0);}
+\DoxyCodeLine{00038\ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ spi\_transmit(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ data)}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#if\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}(\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}\ ==\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}))\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ lv\_eve\_target\_flush\_write\_buf();}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}++]\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}};}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00048\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_SPI\_SEND,\ \&data,\ \textcolor{keyword}{sizeof}(data));}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ spi\_transmit\_32(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data)}
+\DoxyCodeLine{00053\ \{}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#if\ LV\_BIG\_ENDIAN\_SYSTEM}}
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}}\ =\ lv\_swap\_bytes\_32(data);}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#if\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{if}(\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}\ +\ 4\ >\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}))\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ lv\_eve\_target\_flush\_write\_buf();}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ buf4\ =\ (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *)\ \&data;}
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}++]\ =\ buf4[0];}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}++]\ =\ buf4[1];}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}++]\ =\ buf4[2];}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}}[\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}++]\ =\ buf4[3];}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00067\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_SPI\_SEND,\ \&data,\ \textcolor{keyword}{sizeof}(data));}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lv\_eve\_target\_spi\_transmit\_buf(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ data,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size)}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ lv\_eve\_target\_flush\_write\_buf();}
+\DoxyCodeLine{00074\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_SPI\_SEND,\ (\textcolor{keywordtype}{void}\ *)\ data,\ size);}
+\DoxyCodeLine{00075\ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lv\_eve\_target\_flush\_write\_buf(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#if\ LV\_DRAW\_EVE\_WRITE\_BUFFER\_SIZE\_INTERNAL}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{if}(\doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}\ ==\ 0)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_SPI\_SEND,\ \doxymbox{\hyperlink{_e_v_e__target_8h_a9d1e7694559f4c38d84135eed04fdda8}{lv\_eve\_write\_buf}},\ \doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}});}
+\DoxyCodeLine{00084\ \ \ \ \ \doxymbox{\hyperlink{_e_v_e__target_8h_ab3ad22a38a64365756ef12397f318012}{lv\_eve\_write\_buf\_len}}\ =\ 0;}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00086\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ spi\_transmit\_burst(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data)}
+\DoxyCodeLine{00089\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ spi\_transmit\_32(data);}
+\DoxyCodeLine{00091\ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ spi\_receive(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ data)}
+\DoxyCodeLine{00094\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{comment}{/*\ \`{}data`\ is\ 0\ everywhere\ \`{}spi\_receive`\ is\ called\ in\ the\ FT800-\/FT813\ library\ */}}
+\DoxyCodeLine{00096\ \ \ \ \ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_ad07f3715eae2cfee3d5e0000edb150d7}{LV\_UNUSED}}(data);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ lv\_eve\_target\_flush\_write\_buf();}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ byte;}
+\DoxyCodeLine{00101\ \ \ \ \ lv\_draw\_eve\_unit\_g-\/>op\_cb(lv\_draw\_eve\_unit\_g-\/>disp,\ LV\_DRAW\_EVE\_OPERATION\_SPI\_RECEIVE,\ \&\textcolor{keywordtype}{byte},\ 1);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{return}\ byte;}
+\DoxyCodeLine{00104\ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ fetch\_flash\_byte(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *p\_data)}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{return}\ (*p\_data);}
+\DoxyCodeLine{00109\ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ EVE\_TARGET\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

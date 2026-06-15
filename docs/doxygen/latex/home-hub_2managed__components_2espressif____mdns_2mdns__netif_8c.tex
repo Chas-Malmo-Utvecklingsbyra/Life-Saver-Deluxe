@@ -1,0 +1,295 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+netif.c File Reference}
+\hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c}{}\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c}\index{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_netif.c@{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_netif.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}sdkconfig.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+event.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+debug.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+browser.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+netif.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+pcb.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+responder.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+service.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structmdns__interfaces}{mdns\+\_\+interfaces}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa4ebbbae412171198c7d4237b27729f7}{MDNS\+\_\+\+ESP\+\_\+\+WIFI\+\_\+\+ENABLED}}~\doxymbox{\hyperlink{home-hub_2build_2bootloader_2config_2sdkconfig_8h_afeadf9134128696d89bb3695de972b33}{CONFIG\+\_\+\+SOC\+\_\+\+WIFI\+\_\+\+SUPPORTED}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__interfaces}{mdns\+\_\+interfaces}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa3ebca7aab13cf91739384291247d2df}{mdns\+\_\+interfaces\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225}{mdns\+\_\+predef\+\_\+if\+\_\+t}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a0d4d221b86922e920f7fb369269dfa0c}{MDNS\+\_\+\+IF\+\_\+\+STA}} = 0
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a109c859635bb4908ba122aebfd5f469e}{MDNS\+\_\+\+IF\+\_\+\+AP}} = 1
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a87f9bb18eb6db8e01efde7d9e0323da1}{MDNS\+\_\+\+IF\+\_\+\+ETH}} = 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a895b8c0443d1948ee7d4aad34bfabc40}{mdns\+\_\+priv\+\_\+netif\+\_\+get\+\_\+other\+\_\+interface}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if)
+\begin{DoxyCompactList}\small\item\em Helper to get either ETH or STA if the other is provided Used when two interfaces are on the same subnet. \end{DoxyCompactList}\item 
+esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a1d5a985c25609403c22e512d73c9deba}{mdns\+\_\+priv\+\_\+get\+\_\+esp\+\_\+netif}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if)
+\begin{DoxyCompactList}\small\item\em Gets the actual esp\+\_\+netif pointer from the internal network interface list. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a956b4aee671145924caf89046b3b538c}{mdns\+\_\+priv\+\_\+netif\+\_\+disable}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if)
+\begin{DoxyCompactList}\small\item\em Clean the internal netif for the particular interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a0525c3a5bbc7405c925f21b05f66965c}{mdns\+\_\+priv\+\_\+netif\+\_\+unregister\+\_\+predefined\+\_\+handlers}} (void)
+\begin{DoxyCompactList}\small\item\em Unregister predefined (default) network interfaces. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aaf19d0a9f26c7cf74db476af063e0e65}{mdns\+\_\+priv\+\_\+netif\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the m\+DNS network interfaces. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a52083bbbeb90fdacc3d4ed93b12f085d}{mdns\+\_\+priv\+\_\+netif\+\_\+deinit}} (void)
+\begin{DoxyCompactList}\small\item\em Deinitialize the m\+DNS network interfaces. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a73730bf2cd7988ce75bb3397d3203cfa}{mdns\+\_\+netif\+\_\+action}} (esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}esp\+\_\+netif, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a14279e8f2e7c65c12320222a55f09fdf}{mdns\+\_\+event\+\_\+actions\+\_\+t}} event\+\_\+action)
+\begin{DoxyCompactList}\small\item\em Set esp\+\_\+netif to a desired state, or perform a desired action, such as enable/\+disable this interface or send announcement packets to this netif. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_ae4512122be1ad7c7f87536b944c43b78}{mdns\+\_\+register\+\_\+netif}} (esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}esp\+\_\+netif)
+\begin{DoxyCompactList}\small\item\em Register custom esp\+\_\+netif with m\+DNS functionality m\+DNS service runs by default on preconfigured interfaces (STA, AP, ETH). This API enables running the service on any customized interface, either using standard Wi\+Fi or Ethernet driver or any kind of user defined driver. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_af9bda443a1b8b50ed5ebbc6f5f58e62f}{mdns\+\_\+unregister\+\_\+netif}} (esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}esp\+\_\+netif)
+\begin{DoxyCompactList}\small\item\em Unregister esp-\/netif already registered in m\+DNS service. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-define-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa4ebbbae412171198c7d4237b27729f7}\index{mdns\_netif.c@{mdns\_netif.c}!MDNS\_ESP\_WIFI\_ENABLED@{MDNS\_ESP\_WIFI\_ENABLED}}
+\index{MDNS\_ESP\_WIFI\_ENABLED@{MDNS\_ESP\_WIFI\_ENABLED}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ESP\_WIFI\_ENABLED}{MDNS\_ESP\_WIFI\_ENABLED}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa4ebbbae412171198c7d4237b27729f7} 
+\+\#define MDNS\+\_\+\+ESP\+\_\+\+WIFI\+\_\+\+ENABLED~\doxymbox{\hyperlink{home-hub_2build_2bootloader_2config_2sdkconfig_8h_afeadf9134128696d89bb3695de972b33}{CONFIG\+\_\+\+SOC\+\_\+\+WIFI\+\_\+\+SUPPORTED}}}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-typedef-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa3ebca7aab13cf91739384291247d2df}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_interfaces\_t@{mdns\_interfaces\_t}}
+\index{mdns\_interfaces\_t@{mdns\_interfaces\_t}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_interfaces\_t}{mdns\_interfaces\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa3ebca7aab13cf91739384291247d2df} 
+typedef struct \doxymbox{\hyperlink{structmdns__interfaces}{mdns\+\_\+interfaces}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aa3ebca7aab13cf91739384291247d2df}{mdns\+\_\+interfaces\+\_\+t}}}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-enum-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_predef\_if\_t@{mdns\_predef\_if\_t}}
+\index{mdns\_predef\_if\_t@{mdns\_predef\_if\_t}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_predef\_if\_t}{mdns\_predef\_if\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225}{mdns\+\_\+predef\+\_\+if\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_IF\_STA@{MDNS\_IF\_STA}!mdns\_netif.c@{mdns\_netif.c}}
+\index{mdns\_netif.c@{mdns\_netif.c}!MDNS\_IF\_STA@{MDNS\_IF\_STA}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a0d4d221b86922e920f7fb369269dfa0c}\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a0d4d221b86922e920f7fb369269dfa0c} 
+MDNS\+\_\+\+IF\+\_\+\+STA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_IF\_AP@{MDNS\_IF\_AP}!mdns\_netif.c@{mdns\_netif.c}}
+\index{mdns\_netif.c@{mdns\_netif.c}!MDNS\_IF\_AP@{MDNS\_IF\_AP}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a109c859635bb4908ba122aebfd5f469e}\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a109c859635bb4908ba122aebfd5f469e} 
+MDNS\+\_\+\+IF\+\_\+\+AP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_IF\_ETH@{MDNS\_IF\_ETH}!mdns\_netif.c@{mdns\_netif.c}}
+\index{mdns\_netif.c@{mdns\_netif.c}!MDNS\_IF\_ETH@{MDNS\_IF\_ETH}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a87f9bb18eb6db8e01efde7d9e0323da1}\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a386a037ef5d43764a414a86e514d0225a87f9bb18eb6db8e01efde7d9e0323da1} 
+MDNS\+\_\+\+IF\+\_\+\+ETH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-func-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a73730bf2cd7988ce75bb3397d3203cfa}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_netif\_action@{mdns\_netif\_action}}
+\index{mdns\_netif\_action@{mdns\_netif\_action}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_netif\_action()}{mdns\_netif\_action()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a73730bf2cd7988ce75bb3397d3203cfa} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+netif\+\_\+action (\begin{DoxyParamCaption}\item[{esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}}]{esp\+\_\+netif}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a14279e8f2e7c65c12320222a55f09fdf}{mdns\+\_\+event\+\_\+actions\+\_\+t}}}]{event\+\_\+action}{}\end{DoxyParamCaption})}
+
+
+
+Set esp\+\_\+netif to a desired state, or perform a desired action, such as enable/\+disable this interface or send announcement packets to this netif. 
+
+
+\begin{DoxyItemize}
+\item This function is used to enable (probe, resolve conflicts and announce), announce, or disable (send bye) m\+DNS services on the specified network interface.
+\item This function must be called if users registers a specific interface using \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ae4512122be1ad7c7f87536b944c43b78}{mdns\+\_\+register\+\_\+netif()} to enable m\+DNS services on that interface.
+\item This function could be used in IP/\+connection event handlers to automatically enable/\+announce m\+DNS services when network properties change and/\+or disable them on disconnection.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em esp\+\_\+netif} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to esp-\/netif interface \\
+\hline
+{\em event\+\_\+action} & Disable/\+\+Enable/\+\+Announce on this interface over IPv4/\+\+IPv6 protocol. Actions enumerated in \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a14279e8f2e7c65c12320222a55f09fdf}{mdns\+\_\+event\+\_\+actions\+\_\+t} type. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running or this netif is not registered
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a1d5a985c25609403c22e512d73c9deba}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_get\_esp\_netif@{mdns\_priv\_get\_esp\_netif}}
+\index{mdns\_priv\_get\_esp\_netif@{mdns\_priv\_get\_esp\_netif}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_esp\_netif()}{mdns\_priv\_get\_esp\_netif()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a1d5a985c25609403c22e512d73c9deba} 
+esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+esp\+\_\+netif (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{}\end{DoxyParamCaption})}
+
+
+
+Gets the actual esp\+\_\+netif pointer from the internal network interface list. 
+
+The supplied ordinal number could
+\begin{DoxyItemize}
+\item point to a predef netif -\/\texorpdfstring{$>$}{>} "{}\+STA"{}, "{}\+AP"{}, "{}\+ETH"{}
+\begin{DoxyItemize}
+\item if no entry in the list (NULL) -\/\texorpdfstring{$>$}{>} check if the system added this netif
+\end{DoxyItemize}
+\item point to a custom netif -\/\texorpdfstring{$>$}{>} just return the entry in the list
+\begin{DoxyItemize}
+\item users is responsible for the lifetime of this netif (to be valid between mdns-\/init -\/\texorpdfstring{$>$}{>} deinit)
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em tcpip\+\_\+if} & Ordinal number of the interface \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} ot the esp\+\_\+netif object if the interface is available, NULL otherwise 
+\end{DoxyReturn}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a52083bbbeb90fdacc3d4ed93b12f085d}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_netif\_deinit@{mdns\_priv\_netif\_deinit}}
+\index{mdns\_priv\_netif\_deinit@{mdns\_priv\_netif\_deinit}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_netif\_deinit()}{mdns\_priv\_netif\_deinit()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a52083bbbeb90fdacc3d4ed93b12f085d} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+priv\+\_\+netif\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Deinitialize the m\+DNS network interfaces. 
+
+\begin{DoxyNote}{Note}
+Called from \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad323a4dfba3545c43ebda0f3f7c515e0}{mdns\+\_\+init()} in mdns.\+c 
+\end{DoxyNote}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a956b4aee671145924caf89046b3b538c}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_netif\_disable@{mdns\_priv\_netif\_disable}}
+\index{mdns\_priv\_netif\_disable@{mdns\_priv\_netif\_disable}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_netif\_disable()}{mdns\_priv\_netif\_disable()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a956b4aee671145924caf89046b3b538c} 
+void mdns\+\_\+priv\+\_\+netif\+\_\+disable (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{}\end{DoxyParamCaption})}
+
+
+
+Clean the internal netif for the particular interface. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+responder on disabling pcbs 
+\end{DoxyNote}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a895b8c0443d1948ee7d4aad34bfabc40}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_netif\_get\_other\_interface@{mdns\_priv\_netif\_get\_other\_interface}}
+\index{mdns\_priv\_netif\_get\_other\_interface@{mdns\_priv\_netif\_get\_other\_interface}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_netif\_get\_other\_interface()}{mdns\_priv\_netif\_get\_other\_interface()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a895b8c0443d1948ee7d4aad34bfabc40} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} mdns\+\_\+priv\+\_\+netif\+\_\+get\+\_\+other\+\_\+interface (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{}\end{DoxyParamCaption})}
+
+
+
+Helper to get either ETH or STA if the other is provided Used when two interfaces are on the same subnet. 
+
+Returns potentially duplicated interface.
+
+Helper to get either ETH or STA if the other is provided Used when two interfaces are on the same subnet.
+
+\begin{DoxyNote}{Note}
+Called from multiple places where Rx and Tx packets are processed 
+\end{DoxyNote}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aaf19d0a9f26c7cf74db476af063e0e65}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_netif\_init@{mdns\_priv\_netif\_init}}
+\index{mdns\_priv\_netif\_init@{mdns\_priv\_netif\_init}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_netif\_init()}{mdns\_priv\_netif\_init()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_aaf19d0a9f26c7cf74db476af063e0e65} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+priv\+\_\+netif\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the m\+DNS network interfaces. 
+
+\begin{DoxyNote}{Note}
+Called from \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad323a4dfba3545c43ebda0f3f7c515e0}{mdns\+\_\+init()} in mdns.\+c 
+\end{DoxyNote}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a0525c3a5bbc7405c925f21b05f66965c}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_priv\_netif\_unregister\_predefined\_handlers@{mdns\_priv\_netif\_unregister\_predefined\_handlers}}
+\index{mdns\_priv\_netif\_unregister\_predefined\_handlers@{mdns\_priv\_netif\_unregister\_predefined\_handlers}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_netif\_unregister\_predefined\_handlers()}{mdns\_priv\_netif\_unregister\_predefined\_handlers()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_a0525c3a5bbc7405c925f21b05f66965c} 
+void mdns\+\_\+priv\+\_\+netif\+\_\+unregister\+\_\+predefined\+\_\+handlers (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Unregister predefined (default) network interfaces. 
+
+\begin{DoxyNote}{Note}
+Called from \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a60085437d50474fff82bda1b027d9da3}{mdns\+\_\+free()} in mdns.\+c 
+\end{DoxyNote}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_ae4512122be1ad7c7f87536b944c43b78}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_register\_netif@{mdns\_register\_netif}}
+\index{mdns\_register\_netif@{mdns\_register\_netif}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_register\_netif()}{mdns\_register\_netif()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_ae4512122be1ad7c7f87536b944c43b78} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+register\+\_\+netif (\begin{DoxyParamCaption}\item[{esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}}]{esp\+\_\+netif}{}\end{DoxyParamCaption})}
+
+
+
+Register custom esp\+\_\+netif with m\+DNS functionality m\+DNS service runs by default on preconfigured interfaces (STA, AP, ETH). This API enables running the service on any customized interface, either using standard Wi\+Fi or Ethernet driver or any kind of user defined driver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em esp\+\_\+netif} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to esp-\/netif interface \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running or this netif is already registered
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM not enough memory for this in interface in the netif list (see CONFIG\+\_\+\+MDNS\+\_\+\+MAX\+\_\+\+INTERFACES) 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_af9bda443a1b8b50ed5ebbc6f5f58e62f}\index{mdns\_netif.c@{mdns\_netif.c}!mdns\_unregister\_netif@{mdns\_unregister\_netif}}
+\index{mdns\_unregister\_netif@{mdns\_unregister\_netif}!mdns\_netif.c@{mdns\_netif.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_unregister\_netif()}{mdns\_unregister\_netif()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__netif_8c_af9bda443a1b8b50ed5ebbc6f5f58e62f} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+unregister\+\_\+netif (\begin{DoxyParamCaption}\item[{esp\+\_\+netif\+\_\+t \texorpdfstring{$\ast$}{*}}]{esp\+\_\+netif}{}\end{DoxyParamCaption})}
+
+
+
+Unregister esp-\/netif already registered in m\+DNS service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em esp\+\_\+netif} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to esp-\/netif interface \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND this esp-\/netif was not registered in m\+DNS service 
+\end{DoxyItemize}
+\end{DoxyReturn}

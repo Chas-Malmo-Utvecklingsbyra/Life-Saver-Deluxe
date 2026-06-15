@@ -1,0 +1,275 @@
+\doxysection{lv\+\_\+font.\+h}
+\hypertarget{lv__font_8h_source}{}\label{lv__font_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/font/lv\_font.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/font/lv\_font.h}}
+\doxymbox{\hyperlink{lv__font_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_FONT\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_FONT\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__symbol__def_8h}{lv\_symbol\_def.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__draw__buf_8h}{../draw/lv\_draw\_buf.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__area_8h}{../misc/lv\_area.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *\ General\ types}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8feaf1382d413db24d720d02c2ae44118a66}{LV\_FONT\_GLYPH\_FORMAT\_NONE}}\ \ \ =\ 0,\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00040\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fead2b69a39826fc62fdb1a9326bcc21921}{LV\_FONT\_GLYPH\_FORMAT\_A1}}\ \ \ \ \ =\ 0x01,\ }
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea23dc1f9b682553a0a2af72a7c733cf2a}{LV\_FONT\_GLYPH\_FORMAT\_A2}}\ \ \ \ \ =\ 0x02,\ }
+\DoxyCodeLine{00042\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea315fdbd0c09727bfd77705fa8ebd92f7}{LV\_FONT\_GLYPH\_FORMAT\_A3}}\ \ \ \ \ =\ 0x03,\ }
+\DoxyCodeLine{00043\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea112899189dd339afd7a602306707d81a}{LV\_FONT\_GLYPH\_FORMAT\_A4}}\ \ \ \ \ =\ 0x04,\ }
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea880c9a0ef5c1a3e1fa5105a0cb0c00b9}{LV\_FONT\_GLYPH\_FORMAT\_A8}}\ \ \ \ \ =\ 0x08,\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea2763f3a2b28aa16d2f77ac7ee5bd6057}{LV\_FONT\_GLYPH\_FORMAT\_IMAGE}}\ \ =\ 0x19,\ }
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea871886769b4675fc95d74ec487a89b23}{LV\_FONT\_GLYPH\_FORMAT\_VECTOR}}\ =\ 0x1A,\ }
+\DoxyCodeLine{00050\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea75b9999286f606ea9ca6c67fc459c565}{LV\_FONT\_GLYPH\_FORMAT\_SVG}}\ \ \ \ =\ 0x1B,\ }
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fea92a727e035c6dd4d7960e6547dc8fcd3}{LV\_FONT\_GLYPH\_FORMAT\_CUSTOM}}\ =\ 0xFF,\ }
+\DoxyCodeLine{00052\ \}\ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe}{lv\_font\_glyph\_format\_t}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a4ea0b0ae067c6936240ed4e1834f34ee}{resolved\_font}};\ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_adc9a336a46018270435e102afc1e7649}{adv\_w}};\ }
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a6271c545fefa8506f89ac4f6586fb181}{box\_w}};\ }
+\DoxyCodeLine{00060\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_ac832294a23649059ac3fda5477655088}{box\_h}};\ }
+\DoxyCodeLine{00061\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a6d5102249586230c6341ba1020c186a4}{ofs\_x}};\ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a050c5c4c7170c1c1ba1698b9298e3a25}{ofs\_y}};\ \ }
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_ae103f7bee7b15c6ab845e3c4e50f9caa}{stride}};}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_aa94ff2cf9b39485dc799248e7fbec8fe}{lv\_font\_glyph\_format\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_ac28e636d7c1b81593942535761f14111}{format}};\ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_acf9442b1619e0048840bd292c8740c41}{is\_placeholder}}:\ 1;\ \ \ \ \ \ }
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00069\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a1cc1a6f463f7eba8c13e3f1abe4719f5}{req\_raw\_bitmap}}:\ 1;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a8fcb0a73a1f07d7a0d3a172707f50ccb}{outline\_stroke\_width}};\ \ \ }
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_aafd95f8c7a99b9189ede7cdf0871ebe8}{index}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_ab3b4066b211a3d1de8f72e90b2bca8ab}{src}};\ \ \ \ \ }
+\DoxyCodeLine{00076\ \ \ \ \ \}\ gid;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_acc3bb05738d33b35c54cff5dcfec50a5}{lv\_cache\_entry\_t}}\ *\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t_a79e46607767e062c99c00f91d5501ead}{entry}};\ }
+\DoxyCodeLine{00078\ \}\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa42ce5dd58dccaf30f3120b670d16f9ed}{LV\_FONT\_SUBPX\_NONE}},}
+\DoxyCodeLine{00083\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0e4b5e5f9dcf094cb64e26e0ce9ccee2}{LV\_FONT\_SUBPX\_HOR}},}
+\DoxyCodeLine{00084\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aae3679432bd6c0e449ac246a657b7fb39}{LV\_FONT\_SUBPX\_VER}},}
+\DoxyCodeLine{00085\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0aa0532bf697c7bdf38c2553dfbca52df0c}{LV\_FONT\_SUBPX\_BOTH}},}
+\DoxyCodeLine{00086\ \}\ \doxymbox{\hyperlink{lv__font_8h_a8fa0b3e98b6ee3d1c8d95c629e336a0a}{lv\_font\_subpx\_t}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a4dcee7f7f3dbf7b33a82883143d75812}{LV\_FONT\_KERNING\_NORMAL}},}
+\DoxyCodeLine{00091\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2a60330de27d10a1521624e3df6d7e0685}{LV\_FONT\_KERNING\_NONE}},}
+\DoxyCodeLine{00092\ \}\ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\_font\_kerning\_t}};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__lv__font__t}{\_lv\_font\_t}}\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*\doxymbox{\hyperlink{struct__lv__font__t_a009b68f85e1a4041ddaae54c3ef1d514}{get\_glyph\_dsc}})(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *,\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter\_next);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ (*get\_glyph\_bitmap)(\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\_draw\_buf\_t}}\ *);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00103\ \ \ \ \ void\ (*\doxymbox{\hyperlink{struct__lv__font__t_a1d24349b6e717437041b0f5563f2b262}{release\_glyph}})(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *,\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{/*Pointer\ to\ the\ font\ in\ a\ font\ pack\ (must\ have\ the\ same\ line\ height)*/}}
+\DoxyCodeLine{00106\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_a0d73a43bf6868cfdc261c0ffe3259766}{line\_height}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_a75c300f0bad92d7b69cdf4271f22c8a6}{base\_line}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_adae46205c690a578f90e14f8d9da4f37}{subpx}}\ \ \ :\ 2;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00109\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_a8a22c900a05d8319fb91af882ddc9f30}{kerning}}\ :\ 1;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_ad3f0714d9feed5ba341420778a17fd34}{static\_bitmap}}\ :\ 1;\ \ \ \ \ \ }
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_a76af14e3a34d01fad7aaf294b6c38e35}{underline\_position}};\ \ \ \ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}}\ \doxymbox{\hyperlink{struct__lv__font__t_a188347f1940d74dedd73a9c51da27c7d}{underline\_thickness}};\ \ \ \ \ }
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{struct__lv__font__t_a4abaa67bb8aa15a7aa95f429a6744390}{dsc}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ \doxymbox{\hyperlink{struct__lv__font__t_aebf166cf74c6aec4868d92e1e3ad09e5}{fallback}};\ \ \ \ \ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{struct__lv__font__t_a0f53d287ac7c064d1a49d4bd93ca1cb9}{user\_data}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00118\ \};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__lv__font__class__t}{\_lv\_font\_class\_t}}\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ (*create\_cb)(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\_font\_info\_t}}\ *\ info,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ src);\ }
+\DoxyCodeLine{00122\ \ \ \ \ void\ (*\doxymbox{\hyperlink{struct__lv__font__class__t_a01401e0ef499c50834c037b2e33c2166}{delete\_cb}})(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);\ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ (*dup\_src\_cb)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ src);\ }
+\DoxyCodeLine{00124\ \ \ \ \ void\ (*\doxymbox{\hyperlink{struct__lv__font__class__t_a033006dd0cb5a31c52b7187a6fb5500f}{free\_src\_cb}})(\textcolor{keywordtype}{void}\ *\ src);\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__lv__font__info__t}{\_lv\_font\_info\_t}}\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{struct__lv__font__info__t_a8f8f80d37794cde9472343e4487ba3eb}{name}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a41617a4e6527620532aa99b156e4aa4b}{lv\_font\_class\_t}}\ *\ \doxymbox{\hyperlink{struct__lv__font__info__t_a566e80dc05b9aa6ee5f878f245ab762e}{class\_p}};\ }
+\DoxyCodeLine{00130\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{struct__lv__font__info__t_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{struct__lv__font__info__t_adb024e80f492ddc6120d582e35ac72f5}{render\_mode}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00132\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{struct__lv__font__info__t_a0b52c276812d10c1da06fd3aa605d661}{style}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00133\ \ \ \ \ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\_font\_kerning\_t}}\ \doxymbox{\hyperlink{struct__lv__font__info__t_aa8408b517b520625a6553d0104117507}{kerning}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00134\ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00137\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00138\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00152\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__font_8h_a0c9610b563d9a5ec1e9f73bdd5f33f3a}{lv\_font\_get\_glyph\_bitmap}}(\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *\ g\_dsc,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\_draw\_buf\_t}}\ *\ draw\_buf);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__font_8h_ada04d411de19a4b1f0a1dab900988121}{lv\_font\_get\_glyph\_static\_bitmap}}(\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *\ g\_dsc);}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00173\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__font_8h_a6d683128f280abccca7f34c2d478838e}{lv\_font\_get\_glyph\_dsc}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font,\ \doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *\ dsc\_out,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter,}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter\_next);}
+\DoxyCodeLine{00180\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__font_8h_a7afeb46ac72bfb1c1e75d48896bc2704}{lv\_font\_glyph\_release\_draw\_data}}(\doxymbox{\hyperlink{structlv__font__glyph__dsc__t}{lv\_font\_glyph\_dsc\_t}}\ *\ g\_dsc);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00189\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{lv__font_8h_aa5d36298f9831f65e9c6dd8dc3dfd60f}{lv\_font\_get\_glyph\_width}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ letter\_next);}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00196\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{lv__font_8h_a31276b4a547162f2b902c18bb29b5c5d}{lv\_font\_get\_line\_height}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00203\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__font_8h_a03c42aab75edc74ff3be02dd9d55eb53}{lv\_font\_set\_kerning}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font,\ \doxymbox{\hyperlink{lv__font_8h_a8895b7fe9511b895cf98203c81a983b2}{lv\_font\_kerning\_t}}\ kerning);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00209\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ \doxymbox{\hyperlink{lv__font_8h_a8ea041425061f9580525e49c6ada8de1}{lv\_font\_get\_default}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00217\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__font_8h_a52d5ebfb3cf0be7eb315ddde45c44ca9}{lv\_font\_info\_is\_equal}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\_font\_info\_t}}\ *\ ft\_info\_1,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\_font\_info\_t}}\ *\ ft\_info\_2);}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00224\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__font_8h_a7fecfd59326ddb9c6e522e8053f6953d}{lv\_font\_has\_static\_bitmap}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00227\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00228\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ LV\_FONT\_DECLARE(font\_name)\ LV\_ATTRIBUTE\_EXTERN\_DATA\ extern\ const\ lv\_font\_t\ font\_name;}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_8}}
+\DoxyCodeLine{00233\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_8)}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_10}}
+\DoxyCodeLine{00237\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_10)}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_12}}
+\DoxyCodeLine{00241\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_12)}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_14}}
+\DoxyCodeLine{00245\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(\doxymbox{\hyperlink{lv__font__montserrat__14_8c_afa00efdd6d033ab1919fbfdd23fd60d9}{lv\_font\_montserrat\_14}})}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_16}}
+\DoxyCodeLine{00249\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_16)}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_18}}
+\DoxyCodeLine{00253\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_18)}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_20}}
+\DoxyCodeLine{00257\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_20)}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_22}}
+\DoxyCodeLine{00261\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_22)}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_24}}
+\DoxyCodeLine{00265\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_24)}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_26}}
+\DoxyCodeLine{00269\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_26)}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_28}}
+\DoxyCodeLine{00273\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_28)}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_30}}
+\DoxyCodeLine{00277\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_30)}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_32}}
+\DoxyCodeLine{00281\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_32)}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_34}}
+\DoxyCodeLine{00285\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_34)}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_36}}
+\DoxyCodeLine{00289\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_36)}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_38}}
+\DoxyCodeLine{00293\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_38)}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_40}}
+\DoxyCodeLine{00297\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_40)}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_42}}
+\DoxyCodeLine{00301\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_42)}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_44}}
+\DoxyCodeLine{00305\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_44)}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_46}}
+\DoxyCodeLine{00309\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_46)}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_48}}
+\DoxyCodeLine{00313\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_48)}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#if\ LV\_FONT\_MONTSERRAT\_28\_COMPRESSED}}
+\DoxyCodeLine{00317\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_montserrat\_28\_compressed)}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#if\ LV\_FONT\_DEJAVU\_16\_PERSIAN\_HEBREW}}
+\DoxyCodeLine{00321\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_dejavu\_16\_persian\_hebrew)}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#if\ LV\_FONT\_SOURCE\_HAN\_SANS\_SC\_14\_CJK}}
+\DoxyCodeLine{00325\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_source\_han\_sans\_sc\_14\_cjk)}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#if\ LV\_FONT\_SOURCE\_HAN\_SANS\_SC\_16\_CJK}}
+\DoxyCodeLine{00329\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_source\_han\_sans\_sc\_16\_cjk)}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\#if\ LV\_FONT\_UNSCII\_8}}
+\DoxyCodeLine{00333\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_unscii\_8)}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#if\ LV\_FONT\_UNSCII\_16}}
+\DoxyCodeLine{00337\ \doxymbox{\hyperlink{lv__font_8h_a7b776ba2e672a202cf82eefddd9f1cac}{LV\_FONT\_DECLARE}}(lv\_font\_unscii\_16)}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \textcolor{comment}{/*Declare\ the\ custom\ (user\ defined)\ fonts*/}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#ifdef\ LV\_FONT\_CUSTOM\_DECLARE}}
+\DoxyCodeLine{00342\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_a01312bddc4d0daed11c944c11a107277}{LV\_FONT\_CUSTOM\_DECLARE}}}
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00346\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_FONT\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

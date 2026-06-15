@@ -1,0 +1,673 @@
+\doxysection{thorvg\+\_\+capi.\+h}
+\hypertarget{thorvg__capi_8h_source}{}\label{thorvg__capi_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/thorvg\_capi.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/thorvg\_capi.h}}
+\doxymbox{\hyperlink{thorvg__capi_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ TVG\_BUILD\ 1}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#ifndef\ \_\_THORVG\_CAPI\_H\_\_}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ \_\_THORVG\_CAPI\_H\_\_}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <\doxymbox{\hyperlink{stdint_8h}{stdint.h}}>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifdef\ TVG\_API}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ \#undef\ TVG\_API}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifndef\ TVG\_STATIC}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ \_WIN32}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ TVG\_BUILD}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ TVG\_API\ \_\_declspec(dllexport)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ TVG\_API\ \_\_declspec(dllimport)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\ \ \ \ \#elif\ (defined(\_\_SUNPRO\_C)\ \ ||\ defined(\_\_SUNPRO\_CC))}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ TVG\_API\ \_\_global}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ (defined(\_\_GNUC\_\_)\ \&\&\ \_\_GNUC\_\_\ >=\ 4)\ ||\ defined(\_\_INTEL\_COMPILER)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ TVG\_API\ \_\_attribute\_\_\ ((visibility("{}default"{})))}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ TVG\_API}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_API}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#ifdef\ TVG\_DEPRECATED}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \#undef\ TVG\_DEPRECATED}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_DEPRECATED\ \_\_declspec(deprecated)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#elif\ \_\_GNUC\_\_\ >\ 3\ ||\ (\_\_GNUC\_\_\ ==\ 3\ \&\&\ \_\_GNUC\_MINOR\_\_\ >=\ 1)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_DEPRECATED\ \_\_attribute\_\_\ ((\_\_deprecated\_\_))}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_DEPRECATED}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00065\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_Tvg\_Canvas\ Tvg\_Canvas;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_Tvg\_Paint\ Tvg\_Paint;}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_Tvg\_Gradient\ Tvg\_Gradient;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_Tvg\_Saver\ Tvg\_Saver;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_Tvg\_Animation\ Tvg\_Animation;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ TVG\_ENGINE\_SW\ =\ (1\ <<\ 1),\ \ \ }
+\DoxyCodeLine{00116\ \ \ \ \ TVG\_ENGINE\_GL\ =\ (1\ <<\ 2)\ \ \ \ }
+\DoxyCodeLine{00117\ \}\ Tvg\_Engine;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ TVG\_RESULT\_SUCCESS\ =\ 0,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ TVG\_RESULT\_INVALID\_ARGUMENT,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00130\ \ \ \ \ TVG\_RESULT\_INSUFFICIENT\_CONDITION,\ }
+\DoxyCodeLine{00131\ \ \ \ \ TVG\_RESULT\_FAILED\_ALLOCATION,\ \ \ \ \ \ }
+\DoxyCodeLine{00132\ \ \ \ \ TVG\_RESULT\_MEMORY\_CORRUPTION,\ \ \ \ \ \ }
+\DoxyCodeLine{00133\ \ \ \ \ TVG\_RESULT\_NOT\_SUPPORTED,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00134\ \ \ \ \ TVG\_RESULT\_UNKNOWN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00135\ \}\ Tvg\_Result;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_NONE\ =\ 0,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00145\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_CLIP\_PATH,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00146\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_ALPHA\_MASK,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00147\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_INVERSE\_ALPHA\_MASK,\ }
+\DoxyCodeLine{00148\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_LUMA\_MASK,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00149\ \ \ \ \ TVG\_COMPOSITE\_METHOD\_INVERSE\_LUMA\_MASK\ \ \ }
+\DoxyCodeLine{00150\ \}\ Tvg\_Composite\_Method;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ TVG\_BLEND\_METHOD\_NORMAL\ =\ 0,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00161\ \ \ \ \ TVG\_BLEND\_METHOD\_MULTIPLY,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00162\ \ \ \ \ TVG\_BLEND\_METHOD\_SCREEN,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00163\ \ \ \ \ TVG\_BLEND\_METHOD\_OVERLAY,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00164\ \ \ \ \ TVG\_BLEND\_METHOD\_SRCOVER,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00165\ \ \ \ \ TVG\_BLEND\_METHOD\_DARKEN,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00166\ \ \ \ \ TVG\_BLEND\_METHOD\_LIGHTEN,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00167\ \ \ \ \ TVG\_BLEND\_METHOD\_COLORDODGE,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00168\ \ \ \ \ TVG\_BLEND\_METHOD\_COLORBURN,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00169\ \ \ \ \ TVG\_BLEND\_METHOD\_HARDLIGHT,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ TVG\_BLEND\_METHOD\_SOFTLIGHT,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00171\ \ \ \ \ TVG\_BLEND\_METHOD\_DIFFERENCE,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00172\ \ \ \ \ TVG\_BLEND\_METHOD\_EXCLUSION,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00173\ \ \ \ \ TVG\_BLEND\_METHOD\_HUE,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00174\ \ \ \ \ TVG\_BLEND\_METHOD\_SATURATION,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00175\ \ \ \ \ TVG\_BLEND\_METHOD\_COLOR,\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00176\ \ \ \ \ TVG\_BLEND\_METHOD\_LUMINOSITY,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00177\ \ \ \ \ TVG\_BLEND\_METHOD\_ADD,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00178\ \ \ \ \ TVG\_BLEND\_METHOD\_HARDMIX\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00179\ \}\ Tvg\_Blend\_Method;}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00186\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ TVG\_IDENTIFIER\_UNDEF\ =\ 0,\ \ \ }
+\DoxyCodeLine{00188\ \ \ \ \ TVG\_IDENTIFIER\_SHAPE,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00189\ \ \ \ \ TVG\_IDENTIFIER\_SCENE,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00190\ \ \ \ \ TVG\_IDENTIFIER\_PICTURE,\ \ \ \ \ }
+\DoxyCodeLine{00191\ \ \ \ \ TVG\_IDENTIFIER\_LINEAR\_GRAD,\ }
+\DoxyCodeLine{00192\ \ \ \ \ TVG\_IDENTIFIER\_RADIAL\_GRAD,\ }
+\DoxyCodeLine{00193\ \ \ \ \ TVG\_IDENTIFIER\_TEXT\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00194\ \}\ Tvg\_Identifier;}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00209\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ TVG\_TYPE\_UNDEF\ =\ 0,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00211\ \ \ \ \ TVG\_TYPE\_SHAPE,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00212\ \ \ \ \ TVG\_TYPE\_SCENE,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00213\ \ \ \ \ TVG\_TYPE\_PICTURE,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00214\ \ \ \ \ TVG\_TYPE\_TEXT,\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00215\ \ \ \ \ TVG\_TYPE\_LINEAR\_GRAD\ =\ 10,\ }
+\DoxyCodeLine{00216\ \ \ \ \ TVG\_TYPE\_RADIAL\_GRAD\ \ \ \ \ \ \ }
+\DoxyCodeLine{00217\ \}\ Tvg\_Type;}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00231\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ TVG\_PATH\_COMMAND\_CLOSE\ =\ 0,\ }
+\DoxyCodeLine{00233\ \ \ \ \ TVG\_PATH\_COMMAND\_MOVE\_TO,\ \ \ }
+\DoxyCodeLine{00234\ \ \ \ \ TVG\_PATH\_COMMAND\_LINE\_TO,\ \ \ }
+\DoxyCodeLine{00235\ \ \ \ \ TVG\_PATH\_COMMAND\_CUBIC\_TO\ \ \ }
+\DoxyCodeLine{00236\ \}\ Tvg\_Path\_Command;}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00242\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ TVG\_STROKE\_CAP\_SQUARE\ =\ 0,\ }
+\DoxyCodeLine{00244\ \ \ \ \ TVG\_STROKE\_CAP\_ROUND,\ \ \ \ \ \ }
+\DoxyCodeLine{00245\ \ \ \ \ TVG\_STROKE\_CAP\_BUTT\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00246\ \}\ Tvg\_Stroke\_Cap;}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00252\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ TVG\_STROKE\_JOIN\_BEVEL\ =\ 0,\ }
+\DoxyCodeLine{00254\ \ \ \ \ TVG\_STROKE\_JOIN\_ROUND,\ \ \ \ \ }
+\DoxyCodeLine{00255\ \ \ \ \ TVG\_STROKE\_JOIN\_MITER\ \ \ \ \ \ }
+\DoxyCodeLine{00256\ \}\ Tvg\_Stroke\_Join;}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00262\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00263\ \ \ \ \ TVG\_STROKE\_FILL\_PAD\ =\ 0,\ }
+\DoxyCodeLine{00264\ \ \ \ \ TVG\_STROKE\_FILL\_REFLECT,\ }
+\DoxyCodeLine{00265\ \ \ \ \ TVG\_STROKE\_FILL\_REPEAT\ \ \ }
+\DoxyCodeLine{00266\ \}\ Tvg\_Stroke\_Fill;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00272\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00273\ \ \ \ \ TVG\_FILL\_RULE\_WINDING\ =\ 0,\ }
+\DoxyCodeLine{00274\ \ \ \ \ TVG\_FILL\_RULE\_EVEN\_ODD\ \ \ \ \ }
+\DoxyCodeLine{00275\ \}\ Tvg\_Fill\_Rule;}
+\DoxyCodeLine{00276\ \ \ \ \textcolor{comment}{//\ end\ addtogroup\ ThorVGCapi\_Shape}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00288\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00289\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacespectrum_a7a229a4786deeddd59c6091247a8c8a6}{offset}};\ }
+\DoxyCodeLine{00291\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}};\ \ \ \ }
+\DoxyCodeLine{00292\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ g;\ \ \ \ }
+\DoxyCodeLine{00293\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};\ \ \ \ }
+\DoxyCodeLine{00294\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}};\ \ \ \ }
+\DoxyCodeLine{00295\ \}\ Tvg\_Color\_Stop;}
+\DoxyCodeLine{00296\ \ \ \ \textcolor{comment}{//\ end\ addtogroup\ ThorVGCapi\_Gradient}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00303\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00304\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y;}
+\DoxyCodeLine{00306\ \}\ Tvg\_Point;}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00316\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00317\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordtype}{float}\ e11,\ e12,\ e13;}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{float}\ e21,\ e22,\ e23;}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordtype}{float}\ e31,\ e32,\ e33;}
+\DoxyCodeLine{00321\ \}\ Tvg\_Matrix;}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00332\ \textcolor{comment}{/*\ Engine\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00333\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00359\ TVG\_API\ Tvg\_Result\ tvg\_engine\_init(Tvg\_Engine\ engine\_method,\ \textcolor{keywordtype}{unsigned}\ threads);}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00385\ TVG\_API\ Tvg\_Result\ tvg\_engine\_term(Tvg\_Engine\ engine\_method);}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00401\ TVG\_API\ Tvg\_Result\ tvg\_engine\_version(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ major,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ minor,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ micro,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}**\ version);}
+\DoxyCodeLine{00402\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Initializer}}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00428\ \textcolor{comment}{/*\ SwCanvas\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00429\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00434\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ TVG\_MEMPOOL\_POLICY\_DEFAULT\ =\ 0,\ }
+\DoxyCodeLine{00436\ \ \ \ \ TVG\_MEMPOOL\_POLICY\_SHAREABLE,\ \ \ }
+\DoxyCodeLine{00437\ \ \ \ \ TVG\_MEMPOOL\_POLICY\_INDIVIDUAL\ \ \ }
+\DoxyCodeLine{00438\ \}\ Tvg\_Mempool\_Policy;}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ }
+\DoxyCodeLine{00444\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00445\ \ \ \ \ TVG\_COLORSPACE\_ABGR8888\ =\ 0,\ }
+\DoxyCodeLine{00446\ \ \ \ \ TVG\_COLORSPACE\_ARGB8888,\ \ \ \ \ }
+\DoxyCodeLine{00447\ \ \ \ \ TVG\_COLORSPACE\_ABGR8888S,\ \ \ \ }
+\DoxyCodeLine{00448\ \ \ \ \ TVG\_COLORSPACE\_ARGB8888S\ \ \ \ \ }
+\DoxyCodeLine{00449\ \}\ Tvg\_Colorspace;}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00476\ TVG\_API\ Tvg\_Canvas*\ tvg\_swcanvas\_create(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00503\ TVG\_API\ Tvg\_Result\ tvg\_swcanvas\_set\_target(Tvg\_Canvas*\ canvas,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_aff2566f4c366b48d73479bef43ee4d2e}{buffer}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ stride,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ w,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ h,\ Tvg\_Colorspace\ cs);}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00529\ TVG\_API\ Tvg\_Result\ tvg\_swcanvas\_set\_mempool(Tvg\_Canvas*\ canvas,\ Tvg\_Mempool\_Policy\ policy);}
+\DoxyCodeLine{00530\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_SwCanvas}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00535\ \textcolor{comment}{/*\ Common\ Canvas\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00536\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00597\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_destroy(Tvg\_Canvas*\ canvas);}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00616\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_push(Tvg\_Canvas*\ canvas,\ Tvg\_Paint*\ paint);}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ }
+\DoxyCodeLine{00647\ TVG\_DEPRECATED\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_reserve(Tvg\_Canvas*\ canvas,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ n);}
+\DoxyCodeLine{00648\ }
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00663\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_clear(Tvg\_Canvas*\ canvas,\ \textcolor{keywordtype}{bool}\ free);}
+\DoxyCodeLine{00664\ }
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00721\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_update(Tvg\_Canvas*\ canvas);}
+\DoxyCodeLine{00722\ }
+\DoxyCodeLine{00723\ }
+\DoxyCodeLine{00738\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_update\_paint(Tvg\_Canvas*\ canvas,\ Tvg\_Paint*\ paint);}
+\DoxyCodeLine{00739\ }
+\DoxyCodeLine{00740\ }
+\DoxyCodeLine{00754\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_draw(Tvg\_Canvas*\ canvas);}
+\DoxyCodeLine{00755\ }
+\DoxyCodeLine{00756\ }
+\DoxyCodeLine{00770\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_sync(Tvg\_Canvas*\ canvas);}
+\DoxyCodeLine{00771\ }
+\DoxyCodeLine{00772\ }
+\DoxyCodeLine{00793\ TVG\_API\ Tvg\_Result\ tvg\_canvas\_set\_viewport(Tvg\_Canvas*\ canvas,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ w,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ h);}
+\DoxyCodeLine{00794\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Canvas}}
+\DoxyCodeLine{00796\ }
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00804\ }
+\DoxyCodeLine{00805\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00806\ \textcolor{comment}{/*\ Paint\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00807\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{00837\ TVG\_API\ Tvg\_Result\ tvg\_paint\_del(Tvg\_Paint*\ paint);}
+\DoxyCodeLine{00838\ }
+\DoxyCodeLine{00839\ }
+\DoxyCodeLine{00852\ TVG\_API\ Tvg\_Result\ tvg\_paint\_scale(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ factor);}
+\DoxyCodeLine{00853\ }
+\DoxyCodeLine{00854\ }
+\DoxyCodeLine{00870\ TVG\_API\ Tvg\_Result\ tvg\_paint\_rotate(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ degree);}
+\DoxyCodeLine{00871\ }
+\DoxyCodeLine{00872\ }
+\DoxyCodeLine{00889\ TVG\_API\ Tvg\_Result\ tvg\_paint\_translate(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00890\ }
+\DoxyCodeLine{00891\ }
+\DoxyCodeLine{00903\ TVG\_API\ Tvg\_Result\ tvg\_paint\_set\_transform(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ Tvg\_Matrix*\ m);}
+\DoxyCodeLine{00904\ }
+\DoxyCodeLine{00905\ }
+\DoxyCodeLine{00917\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_transform(Tvg\_Paint*\ paint,\ Tvg\_Matrix*\ m);}
+\DoxyCodeLine{00918\ }
+\DoxyCodeLine{00919\ }
+\DoxyCodeLine{00931\ TVG\_API\ Tvg\_Result\ tvg\_paint\_set\_opacity(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ opacity);}
+\DoxyCodeLine{00932\ }
+\DoxyCodeLine{00933\ }
+\DoxyCodeLine{00943\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_opacity(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ opacity);}
+\DoxyCodeLine{00944\ }
+\DoxyCodeLine{00945\ }
+\DoxyCodeLine{00955\ TVG\_API\ Tvg\_Paint*\ tvg\_paint\_duplicate(Tvg\_Paint*\ paint);}
+\DoxyCodeLine{00956\ }
+\DoxyCodeLine{00957\ }
+\DoxyCodeLine{00976\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_bounds(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}*\ x,\ \textcolor{keywordtype}{float}*\ y,\ \textcolor{keywordtype}{float}*\ w,\ \textcolor{keywordtype}{float}*\ h,\ \textcolor{keywordtype}{bool}\ transformed);}
+\DoxyCodeLine{00977\ }
+\DoxyCodeLine{00978\ }
+\DoxyCodeLine{00989\ TVG\_API\ Tvg\_Result\ tvg\_paint\_set\_composite\_method(Tvg\_Paint*\ paint,\ Tvg\_Paint*\ target,\ Tvg\_Composite\_Method\ method);}
+\DoxyCodeLine{00990\ }
+\DoxyCodeLine{00991\ }
+\DoxyCodeLine{01002\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_composite\_method(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ Tvg\_Paint**\ target,\ Tvg\_Composite\_Method*\ method);}
+\DoxyCodeLine{01003\ }
+\DoxyCodeLine{01004\ }
+\DoxyCodeLine{01019\ TVG\_API\ Tvg\_Result\ tvg\_paint\_set\_clip(Tvg\_Paint*\ paint,\ Tvg\_Paint*\ clipper);}
+\DoxyCodeLine{01020\ }
+\DoxyCodeLine{01021\ }
+\DoxyCodeLine{01033\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_type(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Type*\ type);}
+\DoxyCodeLine{01034\ }
+\DoxyCodeLine{01035\ }
+\DoxyCodeLine{01039\ TVG\_DEPRECATED\ TVG\_API\ Tvg\_Result\ tvg\_paint\_get\_identifier(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Identifier*\ identifier);}
+\DoxyCodeLine{01040\ }
+\DoxyCodeLine{01041\ }
+\DoxyCodeLine{01057\ TVG\_API\ Tvg\_Result\ tvg\_paint\_set\_blend\_method(Tvg\_Paint*\ paint,\ Tvg\_Blend\_Method\ method);}
+\DoxyCodeLine{01058\ }
+\DoxyCodeLine{01059\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Paint}}
+\DoxyCodeLine{01061\ }
+\DoxyCodeLine{01076\ }
+\DoxyCodeLine{01077\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01078\ \textcolor{comment}{/*\ Shape\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{01079\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01085\ TVG\_API\ Tvg\_Paint*\ tvg\_shape\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01086\ }
+\DoxyCodeLine{01087\ }
+\DoxyCodeLine{01100\ TVG\_API\ Tvg\_Result\ tvg\_shape\_reset(Tvg\_Paint*\ paint);}
+\DoxyCodeLine{01101\ }
+\DoxyCodeLine{01102\ }
+\DoxyCodeLine{01115\ TVG\_API\ Tvg\_Result\ tvg\_shape\_move\_to(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{01116\ }
+\DoxyCodeLine{01117\ }
+\DoxyCodeLine{01132\ TVG\_API\ Tvg\_Result\ tvg\_shape\_line\_to(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{01133\ }
+\DoxyCodeLine{01134\ }
+\DoxyCodeLine{01154\ TVG\_API\ Tvg\_Result\ tvg\_shape\_cubic\_to(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ cx1,\ \textcolor{keywordtype}{float}\ cy1,\ \textcolor{keywordtype}{float}\ cx2,\ \textcolor{keywordtype}{float}\ cy2,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{01155\ }
+\DoxyCodeLine{01156\ }
+\DoxyCodeLine{01169\ TVG\_API\ Tvg\_Result\ tvg\_shape\_close(Tvg\_Paint*\ paint);}
+\DoxyCodeLine{01170\ }
+\DoxyCodeLine{01171\ }
+\DoxyCodeLine{01198\ TVG\_API\ Tvg\_Result\ tvg\_shape\_append\_rect(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ w,\ \textcolor{keywordtype}{float}\ h,\ \textcolor{keywordtype}{float}\ rx,\ \textcolor{keywordtype}{float}\ ry);}
+\DoxyCodeLine{01199\ }
+\DoxyCodeLine{01200\ }
+\DoxyCodeLine{01219\ TVG\_API\ Tvg\_Result\ tvg\_shape\_append\_circle(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ cx,\ \textcolor{keywordtype}{float}\ cy,\ \textcolor{keywordtype}{float}\ rx,\ \textcolor{keywordtype}{float}\ ry);}
+\DoxyCodeLine{01220\ }
+\DoxyCodeLine{01221\ }
+\DoxyCodeLine{01241\ TVG\_API\ Tvg\_Result\ tvg\_shape\_append\_arc(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ cx,\ \textcolor{keywordtype}{float}\ cy,\ \textcolor{keywordtype}{float}\ radius,\ \textcolor{keywordtype}{float}\ startAngle,\ \textcolor{keywordtype}{float}\ sweep,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ pie);}
+\DoxyCodeLine{01242\ }
+\DoxyCodeLine{01243\ }
+\DoxyCodeLine{01260\ TVG\_API\ Tvg\_Result\ tvg\_shape\_append\_path(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ Tvg\_Path\_Command*\ cmds,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cmdCnt,\ \textcolor{keyword}{const}\ Tvg\_Point*\ pts,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ptsCnt);}
+\DoxyCodeLine{01261\ }
+\DoxyCodeLine{01262\ }
+\DoxyCodeLine{01285\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_path\_coords(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ Tvg\_Point**\ pts,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ cnt);}
+\DoxyCodeLine{01286\ }
+\DoxyCodeLine{01287\ }
+\DoxyCodeLine{01310\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_path\_commands(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ Tvg\_Path\_Command**\ cmds,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ cnt);}
+\DoxyCodeLine{01311\ }
+\DoxyCodeLine{01312\ }
+\DoxyCodeLine{01322\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_width(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ width);}
+\DoxyCodeLine{01323\ }
+\DoxyCodeLine{01324\ }
+\DoxyCodeLine{01334\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_width(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}*\ width);}
+\DoxyCodeLine{01335\ }
+\DoxyCodeLine{01336\ }
+\DoxyCodeLine{01351\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_color(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}});}
+\DoxyCodeLine{01352\ }
+\DoxyCodeLine{01353\ }
+\DoxyCodeLine{01367\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_color(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}});}
+\DoxyCodeLine{01368\ }
+\DoxyCodeLine{01369\ }
+\DoxyCodeLine{01382\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_linear\_gradient(Tvg\_Paint*\ paint,\ Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01383\ }
+\DoxyCodeLine{01384\ }
+\DoxyCodeLine{01397\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_radial\_gradient(Tvg\_Paint*\ paint,\ Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01398\ }
+\DoxyCodeLine{01399\ }
+\DoxyCodeLine{01411\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_gradient(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Gradient**\ grad);}
+\DoxyCodeLine{01412\ }
+\DoxyCodeLine{01413\ }
+\DoxyCodeLine{01426\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_dash(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}*\ dashPattern,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cnt);}
+\DoxyCodeLine{01427\ }
+\DoxyCodeLine{01428\ }
+\DoxyCodeLine{01441\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_dash(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}**\ dashPattern,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ cnt);}
+\DoxyCodeLine{01442\ }
+\DoxyCodeLine{01443\ }
+\DoxyCodeLine{01455\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_cap(Tvg\_Paint*\ paint,\ Tvg\_Stroke\_Cap\ cap);}
+\DoxyCodeLine{01456\ }
+\DoxyCodeLine{01457\ }
+\DoxyCodeLine{01467\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_cap(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Stroke\_Cap*\ cap);}
+\DoxyCodeLine{01468\ }
+\DoxyCodeLine{01469\ }
+\DoxyCodeLine{01479\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_join(Tvg\_Paint*\ paint,\ Tvg\_Stroke\_Join\ join);}
+\DoxyCodeLine{01480\ }
+\DoxyCodeLine{01481\ }
+\DoxyCodeLine{01491\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_join(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Stroke\_Join*\ join);}
+\DoxyCodeLine{01492\ }
+\DoxyCodeLine{01493\ }
+\DoxyCodeLine{01505\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_miterlimit(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ miterlimit);}
+\DoxyCodeLine{01506\ }
+\DoxyCodeLine{01507\ }
+\DoxyCodeLine{01519\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_stroke\_miterlimit(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}*\ miterlimit);}
+\DoxyCodeLine{01520\ }
+\DoxyCodeLine{01521\ }
+\DoxyCodeLine{01538\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_stroke\_trim(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ begin,\ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ \textcolor{keywordtype}{bool}\ simultaneous);}
+\DoxyCodeLine{01539\ }
+\DoxyCodeLine{01540\ }
+\DoxyCodeLine{01558\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_fill\_color(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}});}
+\DoxyCodeLine{01559\ }
+\DoxyCodeLine{01560\ }
+\DoxyCodeLine{01573\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_fill\_color(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}});}
+\DoxyCodeLine{01574\ }
+\DoxyCodeLine{01575\ }
+\DoxyCodeLine{01585\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_fill\_rule(Tvg\_Paint*\ paint,\ Tvg\_Fill\_Rule\ rule);}
+\DoxyCodeLine{01586\ }
+\DoxyCodeLine{01587\ }
+\DoxyCodeLine{01597\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_fill\_rule(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Fill\_Rule*\ rule);}
+\DoxyCodeLine{01598\ }
+\DoxyCodeLine{01599\ }
+\DoxyCodeLine{01611\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_paint\_order(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{bool}\ strokeFirst);}
+\DoxyCodeLine{01612\ }
+\DoxyCodeLine{01613\ }
+\DoxyCodeLine{01643\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_linear\_gradient(Tvg\_Paint*\ paint,\ Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01644\ }
+\DoxyCodeLine{01645\ }
+\DoxyCodeLine{01675\ TVG\_API\ Tvg\_Result\ tvg\_shape\_set\_radial\_gradient(Tvg\_Paint*\ paint,\ Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01676\ }
+\DoxyCodeLine{01677\ }
+\DoxyCodeLine{01689\ TVG\_API\ Tvg\_Result\ tvg\_shape\_get\_gradient(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ Tvg\_Gradient**\ grad);}
+\DoxyCodeLine{01690\ }
+\DoxyCodeLine{01691\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Shape}}
+\DoxyCodeLine{01693\ }
+\DoxyCodeLine{01694\ }
+\DoxyCodeLine{01705\ }
+\DoxyCodeLine{01706\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01707\ \textcolor{comment}{/*\ Gradient\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{01708\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01728\ TVG\_API\ Tvg\_Gradient*\ tvg\_linear\_gradient\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01729\ }
+\DoxyCodeLine{01730\ }
+\DoxyCodeLine{01750\ TVG\_API\ Tvg\_Gradient*\ tvg\_radial\_gradient\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01751\ }
+\DoxyCodeLine{01752\ }
+\DoxyCodeLine{01772\ TVG\_API\ Tvg\_Result\ tvg\_linear\_gradient\_set(Tvg\_Gradient*\ grad,\ \textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2);}
+\DoxyCodeLine{01773\ }
+\DoxyCodeLine{01774\ }
+\DoxyCodeLine{01791\ TVG\_API\ Tvg\_Result\ tvg\_linear\_gradient\_get(Tvg\_Gradient*\ grad,\ \textcolor{keywordtype}{float}*\ x1,\ \textcolor{keywordtype}{float}*\ y1,\ \textcolor{keywordtype}{float}*\ x2,\ \textcolor{keywordtype}{float}*\ y2);}
+\DoxyCodeLine{01792\ }
+\DoxyCodeLine{01793\ }
+\DoxyCodeLine{01810\ TVG\_API\ Tvg\_Result\ tvg\_radial\_gradient\_set(Tvg\_Gradient*\ grad,\ \textcolor{keywordtype}{float}\ cx,\ \textcolor{keywordtype}{float}\ cy,\ \textcolor{keywordtype}{float}\ radius);}
+\DoxyCodeLine{01811\ }
+\DoxyCodeLine{01812\ }
+\DoxyCodeLine{01824\ TVG\_API\ Tvg\_Result\ tvg\_radial\_gradient\_get(Tvg\_Gradient*\ grad,\ \textcolor{keywordtype}{float}*\ cx,\ \textcolor{keywordtype}{float}*\ cy,\ \textcolor{keywordtype}{float}*\ radius);}
+\DoxyCodeLine{01825\ }
+\DoxyCodeLine{01826\ }
+\DoxyCodeLine{01837\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_set\_color\_stops(Tvg\_Gradient*\ grad,\ \textcolor{keyword}{const}\ Tvg\_Color\_Stop*\ color\_stop,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cnt);}
+\DoxyCodeLine{01838\ }
+\DoxyCodeLine{01839\ }
+\DoxyCodeLine{01852\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_get\_color\_stops(\textcolor{keyword}{const}\ Tvg\_Gradient*\ grad,\ \textcolor{keyword}{const}\ Tvg\_Color\_Stop**\ color\_stop,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ cnt);}
+\DoxyCodeLine{01853\ }
+\DoxyCodeLine{01854\ }
+\DoxyCodeLine{01864\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_set\_spread(Tvg\_Gradient*\ grad,\ \textcolor{keyword}{const}\ Tvg\_Stroke\_Fill\ spread);}
+\DoxyCodeLine{01865\ }
+\DoxyCodeLine{01866\ }
+\DoxyCodeLine{01876\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_get\_spread(\textcolor{keyword}{const}\ Tvg\_Gradient*\ grad,\ Tvg\_Stroke\_Fill*\ spread);}
+\DoxyCodeLine{01877\ }
+\DoxyCodeLine{01878\ }
+\DoxyCodeLine{01890\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_set\_transform(Tvg\_Gradient*\ grad,\ \textcolor{keyword}{const}\ Tvg\_Matrix*\ m);}
+\DoxyCodeLine{01891\ }
+\DoxyCodeLine{01892\ }
+\DoxyCodeLine{01904\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_get\_transform(\textcolor{keyword}{const}\ Tvg\_Gradient*\ grad,\ Tvg\_Matrix*\ m);}
+\DoxyCodeLine{01905\ }
+\DoxyCodeLine{01917\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_get\_type(\textcolor{keyword}{const}\ Tvg\_Gradient*\ grad,\ Tvg\_Type*\ type);}
+\DoxyCodeLine{01918\ }
+\DoxyCodeLine{01919\ }
+\DoxyCodeLine{01923\ TVG\_DEPRECATED\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_get\_identifier(\textcolor{keyword}{const}\ Tvg\_Gradient*\ grad,\ Tvg\_Identifier*\ identifier);}
+\DoxyCodeLine{01924\ }
+\DoxyCodeLine{01925\ }
+\DoxyCodeLine{01935\ TVG\_API\ Tvg\_Gradient*\ tvg\_gradient\_duplicate(Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01936\ }
+\DoxyCodeLine{01937\ }
+\DoxyCodeLine{01946\ TVG\_API\ Tvg\_Result\ tvg\_gradient\_del(Tvg\_Gradient*\ grad);}
+\DoxyCodeLine{01947\ }
+\DoxyCodeLine{01948\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Gradient}}
+\DoxyCodeLine{01950\ }
+\DoxyCodeLine{01951\ }
+\DoxyCodeLine{01960\ }
+\DoxyCodeLine{01961\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01962\ \textcolor{comment}{/*\ Picture\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{01963\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{01969\ TVG\_API\ Tvg\_Paint*\ tvg\_picture\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01970\ }
+\DoxyCodeLine{01971\ }
+\DoxyCodeLine{01986\ TVG\_API\ Tvg\_Result\ tvg\_picture\_load(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path);}
+\DoxyCodeLine{01987\ }
+\DoxyCodeLine{01988\ }
+\DoxyCodeLine{02009\ TVG\_API\ Tvg\_Result\ tvg\_picture\_load\_raw(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *data,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ w,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ h,\ \textcolor{keywordtype}{bool}\ copy);}
+\DoxyCodeLine{02010\ }
+\DoxyCodeLine{02011\ }
+\DoxyCodeLine{02031\ TVG\_API\ Tvg\_Result\ tvg\_picture\_load\_data(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *data,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *mimetype,\ \textcolor{keywordtype}{bool}\ copy);}
+\DoxyCodeLine{02032\ }
+\DoxyCodeLine{02033\ }
+\DoxyCodeLine{02047\ TVG\_API\ Tvg\_Result\ tvg\_picture\_set\_size(Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}\ w,\ \textcolor{keywordtype}{float}\ h);}
+\DoxyCodeLine{02048\ }
+\DoxyCodeLine{02049\ }
+\DoxyCodeLine{02060\ TVG\_API\ Tvg\_Result\ tvg\_picture\_get\_size(\textcolor{keyword}{const}\ Tvg\_Paint*\ paint,\ \textcolor{keywordtype}{float}*\ w,\ \textcolor{keywordtype}{float}*\ h);}
+\DoxyCodeLine{02061\ }
+\DoxyCodeLine{02062\ }
+\DoxyCodeLine{02076\ TVG\_API\ \textcolor{keyword}{const}\ Tvg\_Paint*\ tvg\_picture\_get\_paint(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{02077\ }
+\DoxyCodeLine{02078\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Picture}}
+\DoxyCodeLine{02080\ }
+\DoxyCodeLine{02081\ }
+\DoxyCodeLine{02091\ }
+\DoxyCodeLine{02092\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02093\ \textcolor{comment}{/*\ Scene\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02094\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02102\ TVG\_API\ Tvg\_Paint*\ tvg\_scene\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02103\ }
+\DoxyCodeLine{02104\ }
+\DoxyCodeLine{02118\ TVG\_DEPRECATED\ TVG\_API\ Tvg\_Result\ tvg\_scene\_reserve(Tvg\_Paint*\ scene,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size);}
+\DoxyCodeLine{02119\ }
+\DoxyCodeLine{02120\ }
+\DoxyCodeLine{02136\ TVG\_API\ Tvg\_Result\ tvg\_scene\_push(Tvg\_Paint*\ scene,\ Tvg\_Paint*\ paint);}
+\DoxyCodeLine{02137\ }
+\DoxyCodeLine{02138\ }
+\DoxyCodeLine{02153\ TVG\_API\ Tvg\_Result\ tvg\_scene\_clear(Tvg\_Paint*\ scene,\ \textcolor{keywordtype}{bool}\ free);}
+\DoxyCodeLine{02154\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Scene}}
+\DoxyCodeLine{02156\ }
+\DoxyCodeLine{02157\ }
+\DoxyCodeLine{02158\ }
+\DoxyCodeLine{02167\ }
+\DoxyCodeLine{02168\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02169\ \textcolor{comment}{/*\ Text\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02170\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02178\ TVG\_API\ Tvg\_Paint*\ tvg\_text\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02179\ }
+\DoxyCodeLine{02180\ }
+\DoxyCodeLine{02198\ TVG\_API\ Tvg\_Result\ tvg\_text\_set\_font(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keywordtype}{float}\ size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ style);}
+\DoxyCodeLine{02199\ }
+\DoxyCodeLine{02200\ }
+\DoxyCodeLine{02215\ TVG\_API\ Tvg\_Result\ tvg\_text\_set\_text(Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text);}
+\DoxyCodeLine{02216\ }
+\DoxyCodeLine{02217\ }
+\DoxyCodeLine{02234\ TVG\_API\ Tvg\_Result\ tvg\_text\_set\_fill\_color(Tvg\_Paint*\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{02235\ }
+\DoxyCodeLine{02236\ }
+\DoxyCodeLine{02252\ TVG\_API\ Tvg\_Result\ tvg\_text\_set\_gradient(Tvg\_Paint*\ paint,\ Tvg\_Gradient*\ gradient);}
+\DoxyCodeLine{02253\ }
+\DoxyCodeLine{02271\ TVG\_API\ Tvg\_Result\ tvg\_font\_load(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path);}
+\DoxyCodeLine{02272\ }
+\DoxyCodeLine{02273\ }
+\DoxyCodeLine{02298\ TVG\_API\ Tvg\_Result\ tvg\_font\_load\_data(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ data,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *mimetype,\ \textcolor{keywordtype}{bool}\ copy);}
+\DoxyCodeLine{02299\ }
+\DoxyCodeLine{02300\ }
+\DoxyCodeLine{02316\ TVG\_API\ Tvg\_Result\ tvg\_font\_unload(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path);}
+\DoxyCodeLine{02317\ }
+\DoxyCodeLine{02318\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Text}}
+\DoxyCodeLine{02320\ }
+\DoxyCodeLine{02321\ }
+\DoxyCodeLine{02331\ }
+\DoxyCodeLine{02332\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02333\ \textcolor{comment}{/*\ Saver\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02334\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02340\ TVG\_API\ Tvg\_Saver*\ tvg\_saver\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02341\ }
+\DoxyCodeLine{02342\ }
+\DoxyCodeLine{02364\ TVG\_API\ Tvg\_Result\ tvg\_saver\_save(Tvg\_Saver*\ saver,\ Tvg\_Paint*\ paint,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ \textcolor{keywordtype}{bool}\ compress);}
+\DoxyCodeLine{02365\ }
+\DoxyCodeLine{02366\ }
+\DoxyCodeLine{02383\ TVG\_API\ Tvg\_Result\ tvg\_saver\_sync(Tvg\_Saver*\ saver);}
+\DoxyCodeLine{02384\ }
+\DoxyCodeLine{02385\ }
+\DoxyCodeLine{02394\ TVG\_API\ Tvg\_Result\ tvg\_saver\_del(Tvg\_Saver*\ saver);}
+\DoxyCodeLine{02395\ }
+\DoxyCodeLine{02396\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Saver}}
+\DoxyCodeLine{02398\ }
+\DoxyCodeLine{02399\ }
+\DoxyCodeLine{02408\ }
+\DoxyCodeLine{02409\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02410\ \textcolor{comment}{/*\ Animation\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02411\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02412\ }
+\DoxyCodeLine{02420\ TVG\_API\ Tvg\_Animation*\ tvg\_animation\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02421\ }
+\DoxyCodeLine{02422\ }
+\DoxyCodeLine{02441\ TVG\_API\ Tvg\_Result\ tvg\_animation\_set\_frame(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}\ no);}
+\DoxyCodeLine{02442\ }
+\DoxyCodeLine{02443\ }
+\DoxyCodeLine{02459\ TVG\_API\ Tvg\_Paint*\ tvg\_animation\_get\_picture(Tvg\_Animation*\ animation);}
+\DoxyCodeLine{02460\ }
+\DoxyCodeLine{02461\ }
+\DoxyCodeLine{02476\ TVG\_API\ Tvg\_Result\ tvg\_animation\_get\_frame(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}*\ no);}
+\DoxyCodeLine{02477\ }
+\DoxyCodeLine{02478\ }
+\DoxyCodeLine{02493\ TVG\_API\ Tvg\_Result\ tvg\_animation\_get\_total\_frame(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}*\ cnt);}
+\DoxyCodeLine{02494\ }
+\DoxyCodeLine{02495\ }
+\DoxyCodeLine{02509\ TVG\_API\ Tvg\_Result\ tvg\_animation\_get\_duration(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}*\ duration);}
+\DoxyCodeLine{02510\ }
+\DoxyCodeLine{02511\ }
+\DoxyCodeLine{02525\ TVG\_API\ Tvg\_Result\ tvg\_animation\_set\_segment(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}\ begin,\ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{02526\ }
+\DoxyCodeLine{02527\ }
+\DoxyCodeLine{02541\ TVG\_API\ Tvg\_Result\ tvg\_animation\_get\_segment(Tvg\_Animation*\ animation,\ \textcolor{keywordtype}{float}*\ begin,\ \textcolor{keywordtype}{float}*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{02542\ }
+\DoxyCodeLine{02543\ }
+\DoxyCodeLine{02554\ TVG\_API\ Tvg\_Result\ tvg\_animation\_del(Tvg\_Animation*\ animation);}
+\DoxyCodeLine{02555\ }
+\DoxyCodeLine{02556\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Animation}}
+\DoxyCodeLine{02558\ }
+\DoxyCodeLine{02559\ }
+\DoxyCodeLine{02567\ }
+\DoxyCodeLine{02568\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02569\ \textcolor{comment}{/*\ Accessor\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02570\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02571\ }
+\DoxyCodeLine{02584\ TVG\_API\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ tvg\_accessor\_generate\_id(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{02585\ }
+\DoxyCodeLine{02586\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi\_Accessor}}
+\DoxyCodeLine{02588\ }
+\DoxyCodeLine{02589\ }
+\DoxyCodeLine{02597\ }
+\DoxyCodeLine{02598\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02599\ \textcolor{comment}{/*\ LottieAnimation\ Extension\ API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{02600\ \textcolor{comment}{/************************************************************************/}}
+\DoxyCodeLine{02601\ }
+\DoxyCodeLine{02609\ TVG\_API\ Tvg\_Animation*\ tvg\_lottie\_animation\_new(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02610\ }
+\DoxyCodeLine{02611\ }
+\DoxyCodeLine{02625\ TVG\_API\ Tvg\_Result\ tvg\_lottie\_animation\_override(Tvg\_Animation*\ animation,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ slot);}
+\DoxyCodeLine{02626\ }
+\DoxyCodeLine{02627\ }
+\DoxyCodeLine{02641\ TVG\_API\ Tvg\_Result\ tvg\_lottie\_animation\_set\_marker(Tvg\_Animation*\ animation,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ marker);}
+\DoxyCodeLine{02642\ }
+\DoxyCodeLine{02643\ }
+\DoxyCodeLine{02655\ TVG\_API\ Tvg\_Result\ tvg\_lottie\_animation\_get\_markers\_cnt(Tvg\_Animation*\ animation,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ cnt);}
+\DoxyCodeLine{02656\ }
+\DoxyCodeLine{02657\ }
+\DoxyCodeLine{02670\ TVG\_API\ Tvg\_Result\ tvg\_lottie\_animation\_get\_marker(Tvg\_Animation*\ animation,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ idx,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}**\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{02671\ }
+\DoxyCodeLine{02672\ \ \ \ \textcolor{comment}{//\ end\ addtogroup\ ThorVGCapi\_LottieAnimation}}
+\DoxyCodeLine{02674\ }
+\DoxyCodeLine{02675\ \ \ \ \textcolor{comment}{//\ end\ defgroup\ ThorVGCapi}}
+\DoxyCodeLine{02677\ }
+\DoxyCodeLine{02678\ }
+\DoxyCodeLine{02679\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{02680\ \}}
+\DoxyCodeLine{02681\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{02682\ }
+\DoxyCodeLine{02683\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_THORVG\_CAPI\_H\_}}
+\DoxyCodeLine{02684\ }
+\DoxyCodeLine{02685\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{02686\ }
+
+\end{DoxyCode}

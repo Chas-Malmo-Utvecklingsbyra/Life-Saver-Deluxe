@@ -121,16 +121,35 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('i2c_8h_source.
 <a href="i2c_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef I2C_H</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define I2C_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;driver/i2c_master.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;esp_err.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><a class="code hl_typedef" href="esp__spiffs_8h.html#a8bc4f6626a2d4ebd67533c56064ccda8">esp_err_t</a> <a class="code hl_function" href="i2c_8h.html#ab6d9e2ab0d00c30ebd9bd4291a572ef7">i2c_init</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>i2c_master_bus_handle_t <a class="code hl_function" href="i2c_8h.html#ae0c76a33cd921800bcbb647437950099">i2c_get_bus</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#ifdef UNIT_TEST</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="i2c__master_8h.html">mocks/i2c_master.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="esp__err_8h.html">mocks/esp_err.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;driver/i2c_master.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="esp__err_8h.html">esp_err.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><a class="code hl_typedef" href="esp__spiffs_8h.html#a8bc4f6626a2d4ebd67533c56064ccda8">esp_err_t</a> <a class="code hl_function" href="i2c_8h.html#ab6d9e2ab0d00c30ebd9bd4291a572ef7">i2c_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><a class="code hl_typedef" href="i2c__master_8h.html#a4458f761837a9643dca337589a0d5711">i2c_master_bus_handle_t</a> <a class="code hl_function" href="i2c_8h.html#ae0c76a33cd921800bcbb647437950099">i2c_get_bus</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#ifdef UNIT_TEST</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordtype">void</span> <a class="code hl_function" href="test__i2c_8c.html#af85c47697c983de6b37a6d5d44a3001d">i2c_reset</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aesp__err_8h_html"><div class="ttname"><a href="esp__err_8h.html">esp_err.h</a></div></div>
 <div class="ttc" id="aesp__spiffs_8h_html_a8bc4f6626a2d4ebd67533c56064ccda8"><div class="ttname"><a href="esp__spiffs_8h.html#a8bc4f6626a2d4ebd67533c56064ccda8">esp_err_t</a></div><div class="ttdeci">int esp_err_t</div><div class="ttdef"><b>Definition</b> esp_spiffs.h:7</div></div>
-<div class="ttc" id="ai2c_8h_html_ab6d9e2ab0d00c30ebd9bd4291a572ef7"><div class="ttname"><a href="i2c_8h.html#ab6d9e2ab0d00c30ebd9bd4291a572ef7">i2c_init</a></div><div class="ttdeci">esp_err_t i2c_init(void)</div><div class="ttdef"><b>Definition</b> i2c.c:5</div></div>
-<div class="ttc" id="ai2c_8h_html_ae0c76a33cd921800bcbb647437950099"><div class="ttname"><a href="i2c_8h.html#ae0c76a33cd921800bcbb647437950099">i2c_get_bus</a></div><div class="ttdeci">i2c_master_bus_handle_t i2c_get_bus(void)</div><div class="ttdef"><b>Definition</b> i2c.c:23</div></div>
+<div class="ttc" id="ai2c_8h_html_ab6d9e2ab0d00c30ebd9bd4291a572ef7"><div class="ttname"><a href="i2c_8h.html#ab6d9e2ab0d00c30ebd9bd4291a572ef7">i2c_init</a></div><div class="ttdeci">esp_err_t i2c_init(void)</div><div class="ttdef"><b>Definition</b> i2c.c:16</div></div>
+<div class="ttc" id="ai2c_8h_html_ae0c76a33cd921800bcbb647437950099"><div class="ttname"><a href="i2c_8h.html#ae0c76a33cd921800bcbb647437950099">i2c_get_bus</a></div><div class="ttdeci">i2c_master_bus_handle_t i2c_get_bus(void)</div><div class="ttdef"><b>Definition</b> i2c.c:34</div></div>
+<div class="ttc" id="ai2c__master_8h_html"><div class="ttname"><a href="i2c__master_8h.html">i2c_master.h</a></div></div>
+<div class="ttc" id="ai2c__master_8h_html_a4458f761837a9643dca337589a0d5711"><div class="ttname"><a href="i2c__master_8h.html#a4458f761837a9643dca337589a0d5711">i2c_master_bus_handle_t</a></div><div class="ttdeci">void * i2c_master_bus_handle_t</div><div class="ttdef"><b>Definition</b> i2c_master.h:10</div></div>
+<div class="ttc" id="atest__i2c_8c_html_af85c47697c983de6b37a6d5d44a3001d"><div class="ttname"><a href="test__i2c_8c.html#af85c47697c983de6b37a6d5d44a3001d">i2c_reset</a></div><div class="ttdeci">void i2c_reset(void)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

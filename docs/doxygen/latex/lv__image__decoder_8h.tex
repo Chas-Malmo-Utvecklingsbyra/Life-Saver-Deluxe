@@ -1,0 +1,362 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+lv\+\_\+image\+\_\+decoder.h File Reference}
+\hypertarget{lv__image__decoder_8h}{}\label{lv__image__decoder_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/lv\_image\_decoder.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/lv\_image\_decoder.h}}
+{\ttfamily \+\#include "{}../\+lv\+\_\+conf\+\_\+internal.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+buf.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+fs.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area.\+h"{}}\newline
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a07f95f8a66abb46a0f7d2658b1b9abcd}{lv\+\_\+image\+\_\+decoder\+\_\+info\+\_\+f\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, \doxymbox{\hyperlink{structlv__image__header__t}{lv\+\_\+image\+\_\+header\+\_\+t}} \texorpdfstring{$\ast$}{*}header)
+\item 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a32cc9c90c0a191a222d3b20018e23837}{lv\+\_\+image\+\_\+decoder\+\_\+open\+\_\+f\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\item 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_af0c1649b619ba226d14872edf9567dcb}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area\+\_\+cb\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}full\+\_\+area, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}decoded\+\_\+area)
+\item 
+typedef void(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a399f61f52e2c241ddaf2f20faed2e8ea}{lv\+\_\+image\+\_\+decoder\+\_\+close\+\_\+f\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\item 
+typedef void(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a31d204d8476576ee6ae00526572649fe}{lv\+\_\+image\+\_\+decoder\+\_\+custom\+\_\+draw\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}draw\+\_\+dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}clip\+\_\+area)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18}{lv\+\_\+image\+\_\+src\+\_\+t}} \{ \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a285f3fae7a8e041d13a900c4e65d61ad}{LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+VARIABLE}}
+, \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a38422f36699d98017700d7f0d8fecac8}{LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+FILE}}
+, \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18abf13e043939776e871e60b7f3e58332c}{LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+SYMBOL}}
+, \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a779fc53fc15b76ef6ea502315c9157bf}{LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+UNKNOWN}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} \doxymbox{\hyperlink{lv__image__decoder_8h_a9d3be5153d5737fe3ae1b15998ea8bd4}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+info}} (const void \texorpdfstring{$\ast$}{*}src, \doxymbox{\hyperlink{structlv__image__header__t}{lv\+\_\+image\+\_\+header\+\_\+t}} \texorpdfstring{$\ast$}{*}header)
+\item 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} \doxymbox{\hyperlink{lv__image__decoder_8h_a0617037f49310d083faeaad013466f29}{lv\+\_\+image\+\_\+decoder\+\_\+open}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const void \texorpdfstring{$\ast$}{*}src, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa2cffabc800b4bc250317e9602fdcf12}{lv\+\_\+image\+\_\+decoder\+\_\+args\+\_\+t}} \texorpdfstring{$\ast$}{*}args)
+\item 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} \doxymbox{\hyperlink{lv__image__decoder_8h_a6853f577294e69ef79050466a6445797}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}full\+\_\+area, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}decoded\+\_\+area)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_ac75bdadd394912b204d474d13b187b00}{lv\+\_\+image\+\_\+decoder\+\_\+close}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_abaf46020fd8cb8a4ad383327737c46ff}{lv\+\_\+image\+\_\+decoder\+\_\+create}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_aa6b00dc68337ab2fb108e4057ab81e9d}{lv\+\_\+image\+\_\+decoder\+\_\+delete}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a8287dacaa131d0dffb783d378381a6a0}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+next}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_a9bcdf5fd3c55d90f626ee7395e871ca2}{lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+info\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lv__image__decoder_8h_a07f95f8a66abb46a0f7d2658b1b9abcd}{lv\+\_\+image\+\_\+decoder\+\_\+info\+\_\+f\+\_\+t}} info\+\_\+cb)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_a09add895e2c824ac045c153b584a07cf}{lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+open\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lv__image__decoder_8h_a32cc9c90c0a191a222d3b20018e23837}{lv\+\_\+image\+\_\+decoder\+\_\+open\+\_\+f\+\_\+t}} open\+\_\+cb)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_a983d026aa76699dbb1e73ea97fb02cc1}{lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+get\+\_\+area\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lv__image__decoder_8h_af0c1649b619ba226d14872edf9567dcb}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area\+\_\+cb\+\_\+t}} read\+\_\+line\+\_\+cb)
+\item 
+void \doxymbox{\hyperlink{lv__image__decoder_8h_a913793eff0a28b832a46e7ee868bed8c}{lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+close\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lv__image__decoder_8h_a399f61f52e2c241ddaf2f20faed2e8ea}{lv\+\_\+image\+\_\+decoder\+\_\+close\+\_\+f\+\_\+t}} close\+\_\+cb)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_acc3bb05738d33b35c54cff5dcfec50a5}{lv\+\_\+cache\+\_\+entry\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_a6881190822611e5a94c1f7ad824b20fd}{lv\+\_\+image\+\_\+decoder\+\_\+add\+\_\+to\+\_\+cache}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a947669f390edb235e66f88746ab7b158}{lv\+\_\+image\+\_\+cache\+\_\+data\+\_\+t}} \texorpdfstring{$\ast$}{*}search\+\_\+key, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}decoded, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__image__decoder_8h_ab35acd351773213789829a64c37e817a}{lv\+\_\+image\+\_\+decoder\+\_\+post\+\_\+process}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}decoded)
+\end{DoxyCompactItemize}
+
+
+\label{lv__image__decoder_8h_doc-typedef-members}
+\Hypertarget{lv__image__decoder_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{lv__image__decoder_8h_a399f61f52e2c241ddaf2f20faed2e8ea}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_close\_f\_t@{lv\_image\_decoder\_close\_f\_t}}
+\index{lv\_image\_decoder\_close\_f\_t@{lv\_image\_decoder\_close\_f\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_close\_f\_t}{lv\_image\_decoder\_close\_f\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a399f61f52e2c241ddaf2f20faed2e8ea} 
+typedef void(\texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+close\+\_\+f\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)}
+
+Close the pending decoding. Free resources etc. 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to the decoder the function associated with \\
+\hline
+{\em dsc} & pointer to decoder descriptor \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_a31d204d8476576ee6ae00526572649fe}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_custom\_draw\_t@{lv\_image\_decoder\_custom\_draw\_t}}
+\index{lv\_image\_decoder\_custom\_draw\_t@{lv\_image\_decoder\_custom\_draw\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_custom\_draw\_t}{lv\_image\_decoder\_custom\_draw\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a31d204d8476576ee6ae00526572649fe} 
+typedef void(\texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+custom\+\_\+draw\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}draw\+\_\+dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}clip\+\_\+area)}
+
+Custom drawing functions for special image formats. 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer \\
+\hline
+{\em dsc} & pointer to decoder descriptor \\
+\hline
+{\em coords} & the coordinates of the image \\
+\hline
+{\em draw\+\_\+dsc} & the draw image descriptor \\
+\hline
+{\em clip\+\_\+area} & the clip area of the image \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_af0c1649b619ba226d14872edf9567dcb}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_get\_area\_cb\_t@{lv\_image\_decoder\_get\_area\_cb\_t}}
+\index{lv\_image\_decoder\_get\_area\_cb\_t@{lv\_image\_decoder\_get\_area\_cb\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_get\_area\_cb\_t}{lv\_image\_decoder\_get\_area\_cb\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_af0c1649b619ba226d14872edf9567dcb} 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area\+\_\+cb\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}full\+\_\+area, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}decoded\+\_\+area)}
+
+Decode {\ttfamily full\+\_\+area} pixels incrementally by calling in a loop. Set {\ttfamily decoded\+\_\+area} values to {\ttfamily \doxylink{lv__area_8h_aac556eabce2feec93116344fb2b87b25}{LV\+\_\+\+COORD\+\_\+\+MIN}} on first call. Required only if the "{}open"{} function can\textquotesingle{}t return with the whole decoded pixel array. 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to the decoder the function associated with \\
+\hline
+{\em dsc} & pointer to decoder descriptor \\
+\hline
+{\em full\+\_\+area} & input parameter. the full area to decode after enough subsequent calls \\
+\hline
+{\em decoded\+\_\+area} & input+output parameter. set the values to {\ttfamily \doxylink{lv__area_8h_aac556eabce2feec93116344fb2b87b25}{LV\+\_\+\+COORD\+\_\+\+MIN}} for the first call and to reset decoding. the decoded area is stored here after each call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ ok; LV\+\_\+\+RESULT\+\_\+\+INVALID:\+ failed or there is nothing left to decode 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a07f95f8a66abb46a0f7d2658b1b9abcd}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_info\_f\_t@{lv\_image\_decoder\_info\_f\_t}}
+\index{lv\_image\_decoder\_info\_f\_t@{lv\_image\_decoder\_info\_f\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_info\_f\_t}{lv\_image\_decoder\_info\_f\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a07f95f8a66abb46a0f7d2658b1b9abcd} 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+info\+\_\+f\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc, \doxymbox{\hyperlink{structlv__image__header__t}{lv\+\_\+image\+\_\+header\+\_\+t}} \texorpdfstring{$\ast$}{*}\doxymbox{\hyperlink{namespaceheader}{header}})}
+
+Get info from an image and store in the {\ttfamily \doxylink{namespaceheader}{header}} 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to decoder object \\
+\hline
+{\em dsc} & pointer to decoder descriptor \\
+\hline
+{\em header} & store the info here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ info written correctly; LV\+\_\+\+RESULT\+\_\+\+INVALID:\+ failed 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a32cc9c90c0a191a222d3b20018e23837}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_open\_f\_t@{lv\_image\_decoder\_open\_f\_t}}
+\index{lv\_image\_decoder\_open\_f\_t@{lv\_image\_decoder\_open\_f\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_open\_f\_t}{lv\_image\_decoder\_open\_f\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a32cc9c90c0a191a222d3b20018e23837} 
+typedef \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}}(\texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+open\+\_\+f\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}decoder, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)}
+
+Open an image for decoding. Prepare it as it is required to read it later 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to the decoder the function associated with \\
+\hline
+{\em dsc} & pointer to decoder descriptor. {\ttfamily src}, {\ttfamily color} are already initialized in it. \\
+\hline
+\end{DoxyParams}
+
+
+\label{lv__image__decoder_8h_doc-enum-members}
+\Hypertarget{lv__image__decoder_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_src\_t@{lv\_image\_src\_t}}
+\index{lv\_image\_src\_t@{lv\_image\_src\_t}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_src\_t}{lv\_image\_src\_t}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18} 
+enum \doxymbox{\hyperlink{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18}{lv\+\_\+image\+\_\+src\+\_\+t}}}
+
+Source of image. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_IMAGE\_SRC\_VARIABLE@{LV\_IMAGE\_SRC\_VARIABLE}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!LV\_IMAGE\_SRC\_VARIABLE@{LV\_IMAGE\_SRC\_VARIABLE}}
+}\Hypertarget{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a285f3fae7a8e041d13a900c4e65d61ad}\label{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a285f3fae7a8e041d13a900c4e65d61ad} 
+LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+VARIABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_IMAGE\_SRC\_FILE@{LV\_IMAGE\_SRC\_FILE}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!LV\_IMAGE\_SRC\_FILE@{LV\_IMAGE\_SRC\_FILE}}
+}\Hypertarget{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a38422f36699d98017700d7f0d8fecac8}\label{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a38422f36699d98017700d7f0d8fecac8} 
+LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+FILE&Binary/\+C variable \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_IMAGE\_SRC\_SYMBOL@{LV\_IMAGE\_SRC\_SYMBOL}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!LV\_IMAGE\_SRC\_SYMBOL@{LV\_IMAGE\_SRC\_SYMBOL}}
+}\Hypertarget{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18abf13e043939776e871e60b7f3e58332c}\label{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18abf13e043939776e871e60b7f3e58332c} 
+LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+SYMBOL&File in filesystem \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_IMAGE\_SRC\_UNKNOWN@{LV\_IMAGE\_SRC\_UNKNOWN}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!LV\_IMAGE\_SRC\_UNKNOWN@{LV\_IMAGE\_SRC\_UNKNOWN}}
+}\Hypertarget{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a779fc53fc15b76ef6ea502315c9157bf}\label{lv__image__decoder_8h_acd24602bce640a0081d7644747d8be18a779fc53fc15b76ef6ea502315c9157bf} 
+LV\+\_\+\+IMAGE\+\_\+\+SRC\+\_\+\+UNKNOWN&Symbol (\doxylink{lv__symbol__def_8h}{lv\+\_\+symbol\+\_\+def.\+h}) \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{lv__image__decoder_8h_doc-func-members}
+\Hypertarget{lv__image__decoder_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__image__decoder_8h_a6881190822611e5a94c1f7ad824b20fd}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_add\_to\_cache@{lv\_image\_decoder\_add\_to\_cache}}
+\index{lv\_image\_decoder\_add\_to\_cache@{lv\_image\_decoder\_add\_to\_cache}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_add\_to\_cache()}{lv\_image\_decoder\_add\_to\_cache()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a6881190822611e5a94c1f7ad824b20fd} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_acc3bb05738d33b35c54cff5dcfec50a5}{lv\+\_\+cache\+\_\+entry\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+add\+\_\+to\+\_\+cache (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a947669f390edb235e66f88746ab7b158}{lv\+\_\+image\+\_\+cache\+\_\+data\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search\+\_\+key}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoded}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__image__decoder_8h_ac75bdadd394912b204d474d13b187b00}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_close@{lv\_image\_decoder\_close}}
+\index{lv\_image\_decoder\_close@{lv\_image\_decoder\_close}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_close()}{lv\_image\_decoder\_close()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_ac75bdadd394912b204d474d13b187b00} 
+void lv\+\_\+image\+\_\+decoder\+\_\+close (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{}\end{DoxyParamCaption})}
+
+Close a decoding session 
+\begin{DoxyParams}{Parameters}
+{\em dsc} & pointer to {\ttfamily \doxylink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} used in {\ttfamily \doxylink{lv__image__decoder_8h_a0617037f49310d083faeaad013466f29}{lv\+\_\+image\+\_\+decoder\+\_\+open}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_abaf46020fd8cb8a4ad383327737c46ff}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_create@{lv\_image\_decoder\_create}}
+\index{lv\_image\_decoder\_create@{lv\_image\_decoder\_create}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_create()}{lv\_image\_decoder\_create()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_abaf46020fd8cb8a4ad383327737c46ff} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+create (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Create a new image decoder \begin{DoxyReturn}{Returns}
+pointer to the new image decoder 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_aa6b00dc68337ab2fb108e4057ab81e9d}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_delete@{lv\_image\_decoder\_delete}}
+\index{lv\_image\_decoder\_delete@{lv\_image\_decoder\_delete}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_delete()}{lv\_image\_decoder\_delete()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_aa6b00dc68337ab2fb108e4057ab81e9d} 
+void lv\+\_\+image\+\_\+decoder\+\_\+delete (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{}\end{DoxyParamCaption})}
+
+Delete an image decoder 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_a6853f577294e69ef79050466a6445797}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_get\_area@{lv\_image\_decoder\_get\_area}}
+\index{lv\_image\_decoder\_get\_area@{lv\_image\_decoder\_get\_area}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_get\_area()}{lv\_image\_decoder\_get\_area()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a6853f577294e69ef79050466a6445797} 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{full\+\_\+area}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoded\+\_\+area}{}\end{DoxyParamCaption})}
+
+Decode {\ttfamily full\+\_\+area} pixels incrementally by calling in a loop. Set {\ttfamily decoded\+\_\+area} to {\ttfamily \doxylink{lv__area_8h_aac556eabce2feec93116344fb2b87b25}{LV\+\_\+\+COORD\+\_\+\+MIN}} on first call. 
+\begin{DoxyParams}{Parameters}
+{\em dsc} & image decoder descriptor \\
+\hline
+{\em full\+\_\+area} & input parameter. the full area to decode after enough subsequent calls \\
+\hline
+{\em decoded\+\_\+area} & input+output parameter. set the values to {\ttfamily \doxylink{lv__area_8h_aac556eabce2feec93116344fb2b87b25}{LV\+\_\+\+COORD\+\_\+\+MIN}} for the first call and to reset decoding. the decoded area is stored here after each call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ success; LV\+\_\+\+RESULT\+\_\+\+INVALID:\+ an error occurred or there is nothing left to decode 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a9d3be5153d5737fe3ae1b15998ea8bd4}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_get\_info@{lv\_image\_decoder\_get\_info}}
+\index{lv\_image\_decoder\_get\_info@{lv\_image\_decoder\_get\_info}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_get\_info()}{lv\_image\_decoder\_get\_info()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a9d3be5153d5737fe3ae1b15998ea8bd4} 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+info (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{src}{, }\item[{\doxymbox{\hyperlink{structlv__image__header__t}{lv\+\_\+image\+\_\+header\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{header}{}\end{DoxyParamCaption})}
+
+Get information about an image. Try the created image decoder one by one. Once one is able to get info that info will be used. 
+\begin{DoxyParams}{Parameters}
+{\em src} & the image source. Can be 1) File name:\+ E.\+g. "{}\+S:\+folder/\+img1.\+png"{} (The drivers needs to registered via {\ttfamily \doxylink{lv__fs_8c_a96578938ba2bc5d8d95cb467148745de}{lv\+\_\+fs\+\_\+drv\+\_\+register()}}) 2) Variable:\+ \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to an {\ttfamily \doxylink{structlv__image__dsc__t}{lv\+\_\+image\+\_\+dsc\+\_\+t}} variable 3) Symbol:\+ E.\+g. {\ttfamily \doxylink{lv__symbol__def_8h_abbfa485495b9c32d2c7e7294acb06827}{LV\+\_\+\+SYMBOL\+\_\+\+OK}} \\
+\hline
+{\em header} & the image info will be stored here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ success; LV\+\_\+\+RESULT\+\_\+\+INVALID:\+ wasn\textquotesingle{}t able to get info about the image 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a8287dacaa131d0dffb783d378381a6a0}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_get\_next@{lv\_image\_decoder\_get\_next}}
+\index{lv\_image\_decoder\_get\_next@{lv\_image\_decoder\_get\_next}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_get\_next()}{lv\_image\_decoder\_get\_next()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a8287dacaa131d0dffb783d378381a6a0} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+next (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{}\end{DoxyParamCaption})}
+
+Get the next image decoder in the linked list of image decoders 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder or NULL to get the first one \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the next image decoder or NULL if no more image decoder exists 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a0617037f49310d083faeaad013466f29}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_open@{lv\_image\_decoder\_open}}
+\index{lv\_image\_decoder\_open@{lv\_image\_decoder\_open}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_open()}{lv\_image\_decoder\_open()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a0617037f49310d083faeaad013466f29} 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} lv\+\_\+image\+\_\+decoder\+\_\+open (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{src}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa2cffabc800b4bc250317e9602fdcf12}{lv\+\_\+image\+\_\+decoder\+\_\+args\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{args}{}\end{DoxyParamCaption})}
+
+Open an image. Try the created image decoders one by one. Once one is able to open the image that decoder is saved in {\ttfamily dsc} 
+\begin{DoxyParams}{Parameters}
+{\em dsc} & describes a decoding session. Simply a pointer to an {\ttfamily \doxylink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} variable. \\
+\hline
+{\em src} & the image source. Can be 1) File name:\+ E.\+g. "{}\+S:\+folder/\+img1.\+png"{} (The drivers needs to registered via {\ttfamily \doxylink{lv__fs_8c_a96578938ba2bc5d8d95cb467148745de}{lv\+\_\+fs\+\_\+drv\+\_\+register()})}) 2) Variable:\+ \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to an {\ttfamily \doxylink{structlv__image__dsc__t}{lv\+\_\+image\+\_\+dsc\+\_\+t}} variable 3) Symbol:\+ E.\+g. {\ttfamily \doxylink{lv__symbol__def_8h_abbfa485495b9c32d2c7e7294acb06827}{LV\+\_\+\+SYMBOL\+\_\+\+OK}} \\
+\hline
+{\em args} & args about how the image should be opened. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ opened the image. {\ttfamily dsc-\/\texorpdfstring{$>$}{>}decoded} and {\ttfamily dsc-\/\texorpdfstring{$>$}{>}\doxylink{namespaceheader}{header}} are set. LV\+\_\+\+RESULT\+\_\+\+INVALID:\+ none of the registered image decoders were able to open the image. 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_ab35acd351773213789829a64c37e817a}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_post\_process@{lv\_image\_decoder\_post\_process}}
+\index{lv\_image\_decoder\_post\_process@{lv\_image\_decoder\_post\_process}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_post\_process()}{lv\_image\_decoder\_post\_process()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_ab35acd351773213789829a64c37e817a} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+image\+\_\+decoder\+\_\+post\+\_\+process (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aa57e2cda5824f5ba4ce5e5a0ad6da725}{lv\+\_\+image\+\_\+decoder\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aef095d20cced64810944ca64aab7ca31}{lv\+\_\+draw\+\_\+buf\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoded}{}\end{DoxyParamCaption})}
+
+Check the decoded image, make any modification if decoder {\ttfamily args} requires. \begin{DoxyNote}{Note}
+A new draw buf will be allocated if provided {\ttfamily decoded} is not modifiable or stride mismatch etc. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em dsc} & pointer to a decoder descriptor \\
+\hline
+{\em decoded} & pointer to a decoded image to post process to meet dsc-\/\texorpdfstring{$>$}{>}args requirement. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+post processed draw buffer, when it differs with {\ttfamily decoded}, it\textquotesingle{}s newly allocated. 
+\end{DoxyReturn}
+\Hypertarget{lv__image__decoder_8h_a913793eff0a28b832a46e7ee868bed8c}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_set\_close\_cb@{lv\_image\_decoder\_set\_close\_cb}}
+\index{lv\_image\_decoder\_set\_close\_cb@{lv\_image\_decoder\_set\_close\_cb}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_set\_close\_cb()}{lv\_image\_decoder\_set\_close\_cb()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a913793eff0a28b832a46e7ee868bed8c} 
+void lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+close\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{, }\item[{\doxymbox{\hyperlink{lv__image__decoder_8h_a399f61f52e2c241ddaf2f20faed2e8ea}{lv\+\_\+image\+\_\+decoder\+\_\+close\+\_\+f\+\_\+t}}}]{close\+\_\+cb}{}\end{DoxyParamCaption})}
+
+Set a callback to close a decoding session. E.\+g. close files and free other resources. 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder \\
+\hline
+{\em close\+\_\+cb} & a function to close a decoding session \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_a983d026aa76699dbb1e73ea97fb02cc1}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_set\_get\_area\_cb@{lv\_image\_decoder\_set\_get\_area\_cb}}
+\index{lv\_image\_decoder\_set\_get\_area\_cb@{lv\_image\_decoder\_set\_get\_area\_cb}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_set\_get\_area\_cb()}{lv\_image\_decoder\_set\_get\_area\_cb()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a983d026aa76699dbb1e73ea97fb02cc1} 
+void lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+get\+\_\+area\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{, }\item[{\doxymbox{\hyperlink{lv__image__decoder_8h_af0c1649b619ba226d14872edf9567dcb}{lv\+\_\+image\+\_\+decoder\+\_\+get\+\_\+area\+\_\+cb\+\_\+t}}}]{read\+\_\+line\+\_\+cb}{}\end{DoxyParamCaption})}
+
+Set a callback to a decoded line of an image 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder \\
+\hline
+{\em read\+\_\+line\+\_\+cb} & a function to read a line of an image \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_a9bcdf5fd3c55d90f626ee7395e871ca2}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_set\_info\_cb@{lv\_image\_decoder\_set\_info\_cb}}
+\index{lv\_image\_decoder\_set\_info\_cb@{lv\_image\_decoder\_set\_info\_cb}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_set\_info\_cb()}{lv\_image\_decoder\_set\_info\_cb()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a9bcdf5fd3c55d90f626ee7395e871ca2} 
+void lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+info\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{, }\item[{\doxymbox{\hyperlink{lv__image__decoder_8h_a07f95f8a66abb46a0f7d2658b1b9abcd}{lv\+\_\+image\+\_\+decoder\+\_\+info\+\_\+f\+\_\+t}}}]{info\+\_\+cb}{}\end{DoxyParamCaption})}
+
+Set a callback to get information about the image 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder \\
+\hline
+{\em info\+\_\+cb} & a function to collect info about an image (fill an {\ttfamily \doxylink{structlv__image__header__t}{lv\+\_\+image\+\_\+header\+\_\+t}} struct) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__image__decoder_8h_a09add895e2c824ac045c153b584a07cf}\index{lv\_image\_decoder.h@{lv\_image\_decoder.h}!lv\_image\_decoder\_set\_open\_cb@{lv\_image\_decoder\_set\_open\_cb}}
+\index{lv\_image\_decoder\_set\_open\_cb@{lv\_image\_decoder\_set\_open\_cb}!lv\_image\_decoder.h@{lv\_image\_decoder.h}}
+\doxysubsubsection{\texorpdfstring{lv\_image\_decoder\_set\_open\_cb()}{lv\_image\_decoder\_set\_open\_cb()}}
+{\footnotesize\ttfamily \label{lv__image__decoder_8h_a09add895e2c824ac045c153b584a07cf} 
+void lv\+\_\+image\+\_\+decoder\+\_\+set\+\_\+open\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5bac91810ff9cd902ad9a46dbaf6d2a7}{lv\+\_\+image\+\_\+decoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{decoder}{, }\item[{\doxymbox{\hyperlink{lv__image__decoder_8h_a32cc9c90c0a191a222d3b20018e23837}{lv\+\_\+image\+\_\+decoder\+\_\+open\+\_\+f\+\_\+t}}}]{open\+\_\+cb}{}\end{DoxyParamCaption})}
+
+Set a callback to open an image 
+\begin{DoxyParams}{Parameters}
+{\em decoder} & pointer to an image decoder \\
+\hline
+{\em open\+\_\+cb} & a function to open an image \\
+\hline
+\end{DoxyParams}

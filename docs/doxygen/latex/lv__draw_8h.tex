@@ -1,0 +1,554 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+lv\+\_\+draw.h File Reference}
+\hypertarget{lv__draw_8h}{}\label{lv__draw_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/lv\_draw.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/lv\_draw.h}}
+{\ttfamily \+\#include "{}../\+lv\+\_\+conf\+\_\+internal.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+style.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+text.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+profiler.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+matrix.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+event.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+image\+\_\+decoder.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+buf.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct__lv__layer__t}{\+\_\+lv\+\_\+layer\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structlv__draw__dsc__base__t}{lv\+\_\+draw\+\_\+dsc\+\_\+base\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw_8h_a367b9185bd29bd142c4e5a13d4daa9e4}{LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+NONE}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw_8h_a7c617a91edd7bca9968a5cca817cae2d}{LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+IDLE}}~-\/1
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac1620794279ea86ea9e05ed92e4ef12a}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+NONE}} = 0
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a1aabddd98e976cfa0b4abe1f658ce000}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+FILL}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a217d948fd5ac0018c3411896ff374fdf}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+BORDER}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a7b1cf93d694c3347df54fead02ccfcb7}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+BOX\+\_\+\+SHADOW}}
+, \newline
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642acfac7d98929063f116ecb3920323765f}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LETTER}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8739f8b909590e7ec949216954d73ad9}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LABEL}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac7db1e07a0e2c0a3e80249dbd13e3157}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+IMAGE}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a5577994eb1b4db6c4bda372cabefee36}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LAYER}}
+, \newline
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ae649a7e718e838c59cee472d14d0082a}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LINE}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a9fb346adfcaee36afb59b91c3a39ddac}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+ARC}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ad5fb24d59205f886eb6d970b0940456a}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+TRIANGLE}}
+, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8d35594a428553debcccffe74f9b7a4e}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+MASK\+\_\+\+RECTANGLE}}
+, \newline
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac313988a09fab193e24f911be2db4d7a}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+MASK\+\_\+\+BITMAP}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790e}{lv\+\_\+draw\+\_\+task\+\_\+state\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea18c035e3a1aa52bf480e438586d23247}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+BLOCKED}}
+, \doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790eafd8c8c4210ee2c70503aa9c406139d46}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+WAITING}}
+, \doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea97f977811dbb36ed56fbceb740ae69f6}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+QUEUED}}
+, \doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea0c0611804d134f66c4ac3e06bf518e1e}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+IN\+\_\+\+PROGRESS}}
+, \newline
+\doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea276d90622548441c3868426c35cbc81a}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+FINISHED}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_af7a40ccee4c55b76a524fb3c212235db}{lv\+\_\+draw\+\_\+init}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_abae9b3bd61497855c3a82103494725e5}{lv\+\_\+draw\+\_\+deinit}} (void)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_ab7c58b87e84d6b99117fecfc06fcdc0a}{lv\+\_\+draw\+\_\+create\+\_\+unit}} (\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} size)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_ab0a0fed723c8db50b48498546c49a138}{lv\+\_\+draw\+\_\+add\+\_\+task}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords, \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}} type)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a12c0ac3d02721b0d5f67e2909380b629}{lv\+\_\+draw\+\_\+finalize\+\_\+task\+\_\+creation}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_ade7067f07c7dd3deccb45341f1dbc73c}{lv\+\_\+draw\+\_\+dispatch}} (void)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__draw_8h_aff7f92a1652f288cdcf6a36fbdcc37b9}{lv\+\_\+draw\+\_\+dispatch\+\_\+layer}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a7658d15481d2b2cf850334cb7c21b1a4}{lv\+\_\+draw\+\_\+dispatch\+\_\+wait\+\_\+for\+\_\+request}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a5b5f81213c9e45fa5dc1da2b7d806a30}{lv\+\_\+draw\+\_\+wait\+\_\+for\+\_\+finish}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a80d5afeb89b766f10b979b8d84edef7e}{lv\+\_\+draw\+\_\+dispatch\+\_\+request}} (void)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__draw_8h_abdee089a93a2c95ef95f4fe1d1b5a17b}{lv\+\_\+draw\+\_\+get\+\_\+unit\+\_\+count}} (void)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_a98289fd41b3eee7b45a82d5de98a64f8}{lv\+\_\+draw\+\_\+get\+\_\+available\+\_\+task}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t\+\_\+prev, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} draw\+\_\+unit\+\_\+id)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758}{lv\+\_\+draw\+\_\+get\+\_\+next\+\_\+available\+\_\+task}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t\+\_\+prev, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} draw\+\_\+unit\+\_\+id)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__draw_8h_a767d50b395e78963dbcdf681ba508256}{lv\+\_\+draw\+\_\+get\+\_\+dependent\+\_\+count}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t\+\_\+check)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a494feb06a7e196f8e2f83ac6772ec84b}{lv\+\_\+draw\+\_\+unit\+\_\+send\+\_\+event}} (const char \texorpdfstring{$\ast$}{*}name, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} code, void \texorpdfstring{$\ast$}{*}param)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_ab4e4ee072b53cb1800246db23b612fd5}{lv\+\_\+layer\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_aaedb7247ea42675ad8cb5f631fc87d59}{lv\+\_\+layer\+\_\+reset}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_a3480658deee9911061b2028c2468b6a9}{lv\+\_\+draw\+\_\+layer\+\_\+create}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}parent\+\_\+layer, \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\+\_\+color\+\_\+format\+\_\+t}} color\+\_\+format, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a7ba610970e2db71ddec45aee5cdaef22}{lv\+\_\+draw\+\_\+layer\+\_\+init}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}parent\+\_\+layer, \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\+\_\+color\+\_\+format\+\_\+t}} color\+\_\+format, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_ad080a3d4c6749f0c14cb6663b4bbdab0}{lv\+\_\+draw\+\_\+layer\+\_\+alloc\+\_\+buf}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_aea1279b7e7689bc47e9a2fdadf781251}{lv\+\_\+draw\+\_\+layer\+\_\+go\+\_\+to\+\_\+xy}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}layer, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y)
+\item 
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}} \doxymbox{\hyperlink{lv__draw_8h_a582475e78238456a2b3d2fb847181a89}{lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__draw_8h_a3fba4bcbc80f7e746466e14e3e72251b}{lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+draw\+\_\+dsc}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t)
+\item 
+void \doxymbox{\hyperlink{lv__draw_8h_a3656a459a67c1661b7b961bc1fdfa811}{lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+area}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\end{DoxyCompactItemize}
+
+
+\label{lv__draw_8h_doc-define-members}
+\Hypertarget{lv__draw_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__draw_8h_a7c617a91edd7bca9968a5cca817cae2d}\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_UNIT\_IDLE@{LV\_DRAW\_UNIT\_IDLE}}
+\index{LV\_DRAW\_UNIT\_IDLE@{LV\_DRAW\_UNIT\_IDLE}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_UNIT\_IDLE}{LV\_DRAW\_UNIT\_IDLE}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a7c617a91edd7bca9968a5cca817cae2d} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+IDLE~-\/1}
+
+The draw unit is idle, new dispatching might be requested to try again \Hypertarget{lv__draw_8h_a367b9185bd29bd142c4e5a13d4daa9e4}\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_UNIT\_NONE@{LV\_DRAW\_UNIT\_NONE}}
+\index{LV\_DRAW\_UNIT\_NONE@{LV\_DRAW\_UNIT\_NONE}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_UNIT\_NONE}{LV\_DRAW\_UNIT\_NONE}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a367b9185bd29bd142c4e5a13d4daa9e4} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+NONE~0}
+
+Modified by NXP in 2024 
+
+\label{lv__draw_8h_doc-enum-members}
+\Hypertarget{lv__draw_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790e}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_task\_state\_t@{lv\_draw\_task\_state\_t}}
+\index{lv\_draw\_task\_state\_t@{lv\_draw\_task\_state\_t}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_task\_state\_t}{lv\_draw\_task\_state\_t}}
+{\footnotesize\ttfamily \label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790e} 
+enum \doxymbox{\hyperlink{lv__draw_8h_aeafaca5a968e361b38888e5433f5790e}{lv\+\_\+draw\+\_\+task\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_STATE\_BLOCKED@{LV\_DRAW\_TASK\_STATE\_BLOCKED}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_STATE\_BLOCKED@{LV\_DRAW\_TASK\_STATE\_BLOCKED}}
+}\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea18c035e3a1aa52bf480e438586d23247}\label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea18c035e3a1aa52bf480e438586d23247} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+BLOCKED&Waiting for an other task to be finished. For example in case of {\ttfamily \doxylink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a5577994eb1b4db6c4bda372cabefee36}{LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LAYER}} (used to blend a layer) is blocked until all the draw tasks of the layer is rendered. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_STATE\_WAITING@{LV\_DRAW\_TASK\_STATE\_WAITING}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_STATE\_WAITING@{LV\_DRAW\_TASK\_STATE\_WAITING}}
+}\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790eafd8c8c4210ee2c70503aa9c406139d46}\label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790eafd8c8c4210ee2c70503aa9c406139d46} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+WAITING&The draw task is added to the layers list and waits to be rendered. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_STATE\_QUEUED@{LV\_DRAW\_TASK\_STATE\_QUEUED}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_STATE\_QUEUED@{LV\_DRAW\_TASK\_STATE\_QUEUED}}
+}\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea97f977811dbb36ed56fbceb740ae69f6}\label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea97f977811dbb36ed56fbceb740ae69f6} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+QUEUED&The draw task is added to the command queue of the draw unit. As the queued task are executed in order it\textquotesingle{}s possible to queue multiple draw task (for the same draw unit) even if they are depending on each other. Therefore {\ttfamily \doxylink{lv__draw_8h_a98289fd41b3eee7b45a82d5de98a64f8}{lv\+\_\+draw\+\_\+get\+\_\+available\+\_\+task}} and {\ttfamily \doxylink{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758}{lv\+\_\+draw\+\_\+get\+\_\+next\+\_\+available\+\_\+task}} can return draw task for the same draw unit even if a dependent draw task is not finished ready yet. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_STATE\_IN\_PROGRESS@{LV\_DRAW\_TASK\_STATE\_IN\_PROGRESS}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_STATE\_IN\_PROGRESS@{LV\_DRAW\_TASK\_STATE\_IN\_PROGRESS}}
+}\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea0c0611804d134f66c4ac3e06bf518e1e}\label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea0c0611804d134f66c4ac3e06bf518e1e} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+IN\+\_\+\+PROGRESS&The draw task is being rendered. This draw task needs to be finished before {\ttfamily \doxylink{lv__draw_8h_a98289fd41b3eee7b45a82d5de98a64f8}{lv\+\_\+draw\+\_\+get\+\_\+available\+\_\+task}} and {\ttfamily \doxylink{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758}{lv\+\_\+draw\+\_\+get\+\_\+next\+\_\+available\+\_\+task}} would return any depending draw tasks. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_STATE\_FINISHED@{LV\_DRAW\_TASK\_STATE\_FINISHED}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_STATE\_FINISHED@{LV\_DRAW\_TASK\_STATE\_FINISHED}}
+}\Hypertarget{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea276d90622548441c3868426c35cbc81a}\label{lv__draw_8h_aeafaca5a968e361b38888e5433f5790ea276d90622548441c3868426c35cbc81a} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+STATE\+\_\+\+FINISHED&The draw task is rendered. It will be removed from the draw task list of the layer and freed automatically. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_task\_type\_t@{lv\_draw\_task\_type\_t}}
+\index{lv\_draw\_task\_type\_t@{lv\_draw\_task\_type\_t}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_task\_type\_t}{lv\_draw\_task\_type\_t}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642} 
+enum \doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_NONE@{LV\_DRAW\_TASK\_TYPE\_NONE}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_NONE@{LV\_DRAW\_TASK\_TYPE\_NONE}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac1620794279ea86ea9e05ed92e4ef12a}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac1620794279ea86ea9e05ed92e4ef12a} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_FILL@{LV\_DRAW\_TASK\_TYPE\_FILL}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_FILL@{LV\_DRAW\_TASK\_TYPE\_FILL}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a1aabddd98e976cfa0b4abe1f658ce000}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a1aabddd98e976cfa0b4abe1f658ce000} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+FILL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_BORDER@{LV\_DRAW\_TASK\_TYPE\_BORDER}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_BORDER@{LV\_DRAW\_TASK\_TYPE\_BORDER}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a217d948fd5ac0018c3411896ff374fdf}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a217d948fd5ac0018c3411896ff374fdf} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+BORDER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_BOX\_SHADOW@{LV\_DRAW\_TASK\_TYPE\_BOX\_SHADOW}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_BOX\_SHADOW@{LV\_DRAW\_TASK\_TYPE\_BOX\_SHADOW}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a7b1cf93d694c3347df54fead02ccfcb7}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a7b1cf93d694c3347df54fead02ccfcb7} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+BOX\+\_\+\+SHADOW&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_LETTER@{LV\_DRAW\_TASK\_TYPE\_LETTER}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_LETTER@{LV\_DRAW\_TASK\_TYPE\_LETTER}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642acfac7d98929063f116ecb3920323765f}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642acfac7d98929063f116ecb3920323765f} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LETTER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_LABEL@{LV\_DRAW\_TASK\_TYPE\_LABEL}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_LABEL@{LV\_DRAW\_TASK\_TYPE\_LABEL}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8739f8b909590e7ec949216954d73ad9}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8739f8b909590e7ec949216954d73ad9} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LABEL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_IMAGE@{LV\_DRAW\_TASK\_TYPE\_IMAGE}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_IMAGE@{LV\_DRAW\_TASK\_TYPE\_IMAGE}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac7db1e07a0e2c0a3e80249dbd13e3157}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac7db1e07a0e2c0a3e80249dbd13e3157} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+IMAGE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_LAYER@{LV\_DRAW\_TASK\_TYPE\_LAYER}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_LAYER@{LV\_DRAW\_TASK\_TYPE\_LAYER}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a5577994eb1b4db6c4bda372cabefee36}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a5577994eb1b4db6c4bda372cabefee36} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LAYER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_LINE@{LV\_DRAW\_TASK\_TYPE\_LINE}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_LINE@{LV\_DRAW\_TASK\_TYPE\_LINE}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ae649a7e718e838c59cee472d14d0082a}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ae649a7e718e838c59cee472d14d0082a} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+LINE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_ARC@{LV\_DRAW\_TASK\_TYPE\_ARC}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_ARC@{LV\_DRAW\_TASK\_TYPE\_ARC}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a9fb346adfcaee36afb59b91c3a39ddac}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a9fb346adfcaee36afb59b91c3a39ddac} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+ARC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_TRIANGLE@{LV\_DRAW\_TASK\_TYPE\_TRIANGLE}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_TRIANGLE@{LV\_DRAW\_TASK\_TYPE\_TRIANGLE}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ad5fb24d59205f886eb6d970b0940456a}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ad5fb24d59205f886eb6d970b0940456a} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+TRIANGLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_MASK\_RECTANGLE@{LV\_DRAW\_TASK\_TYPE\_MASK\_RECTANGLE}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_MASK\_RECTANGLE@{LV\_DRAW\_TASK\_TYPE\_MASK\_RECTANGLE}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8d35594a428553debcccffe74f9b7a4e}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642a8d35594a428553debcccffe74f9b7a4e} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+MASK\+\_\+\+RECTANGLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_DRAW\_TASK\_TYPE\_MASK\_BITMAP@{LV\_DRAW\_TASK\_TYPE\_MASK\_BITMAP}!lv\_draw.h@{lv\_draw.h}}
+\index{lv\_draw.h@{lv\_draw.h}!LV\_DRAW\_TASK\_TYPE\_MASK\_BITMAP@{LV\_DRAW\_TASK\_TYPE\_MASK\_BITMAP}}
+}\Hypertarget{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac313988a09fab193e24f911be2db4d7a}\label{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642ac313988a09fab193e24f911be2db4d7a} 
+LV\+\_\+\+DRAW\+\_\+\+TASK\+\_\+\+TYPE\+\_\+\+MASK\+\_\+\+BITMAP&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{lv__draw_8h_doc-func-members}
+\Hypertarget{lv__draw_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__draw_8h_ab0a0fed723c8db50b48498546c49a138}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_add\_task@{lv\_draw\_add\_task}}
+\index{lv\_draw\_add\_task@{lv\_draw\_add\_task}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_add\_task()}{lv\_draw\_add\_task()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_ab0a0fed723c8db50b48498546c49a138} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+add\+\_\+task (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{, }\item[{\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}}}]{type}{}\end{DoxyParamCaption})}
+
+Add an empty draw task to the draw task list of a layer. 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer \\
+\hline
+{\em coords} & the coordinates of the draw task \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the created draw task which needs to be further configured e.\+g. by added a draw descriptor 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_ab7c58b87e84d6b99117fecfc06fcdc0a}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_create\_unit@{lv\_draw\_create\_unit}}
+\index{lv\_draw\_create\_unit@{lv\_draw\_create\_unit}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_create\_unit()}{lv\_draw\_create\_unit()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_ab7c58b87e84d6b99117fecfc06fcdc0a} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+create\+\_\+unit (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{size}{}\end{DoxyParamCaption})}
+
+Allocate a new draw unit with the given size and appends it to the list of draw units 
+\begin{DoxyParams}{Parameters}
+{\em size} & the size to allocate. E.\+g. {\ttfamily sizeof(my\+\_\+draw\+\_\+unit\+\_\+t)}, where the first element of {\ttfamily my\+\_\+draw\+\_\+unit\+\_\+t} is {\ttfamily \doxylink{lvgl____lvgl_2src_2misc_2lv__types_8h_abef3cb242f32d3c69635d7f9347620f6}{lv\+\_\+draw\+\_\+unit\+\_\+t}}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw_8h_abae9b3bd61497855c3a82103494725e5}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_deinit@{lv\_draw\_deinit}}
+\index{lv\_draw\_deinit@{lv\_draw\_deinit}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_deinit()}{lv\_draw\_deinit()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_abae9b3bd61497855c3a82103494725e5} 
+void lv\+\_\+draw\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Deinitialize the drawing module \Hypertarget{lv__draw_8h_ade7067f07c7dd3deccb45341f1dbc73c}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_dispatch@{lv\_draw\_dispatch}}
+\index{lv\_draw\_dispatch@{lv\_draw\_dispatch}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_dispatch()}{lv\_draw\_dispatch()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_ade7067f07c7dd3deccb45341f1dbc73c} 
+void lv\+\_\+draw\+\_\+dispatch (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Try dispatching draw tasks to draw units \Hypertarget{lv__draw_8h_aff7f92a1652f288cdcf6a36fbdcc37b9}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_dispatch\_layer@{lv\_draw\_dispatch\_layer}}
+\index{lv\_draw\_dispatch\_layer@{lv\_draw\_dispatch\_layer}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_dispatch\_layer()}{lv\_draw\_dispatch\_layer()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_aff7f92a1652f288cdcf6a36fbdcc37b9} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+draw\+\_\+dispatch\+\_\+layer (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{}\end{DoxyParamCaption})}
+
+Used internally to try dispatching draw tasks of a specific layer 
+\begin{DoxyParams}{Parameters}
+{\em disp} & pointer to a display on which the dispatching was requested \\
+\hline
+{\em layer} & pointer to a layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+at least one draw task is being rendered (maybe it was taken earlier) 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a80d5afeb89b766f10b979b8d84edef7e}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_dispatch\_request@{lv\_draw\_dispatch\_request}}
+\index{lv\_draw\_dispatch\_request@{lv\_draw\_dispatch\_request}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_dispatch\_request()}{lv\_draw\_dispatch\_request()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a80d5afeb89b766f10b979b8d84edef7e} 
+void lv\+\_\+draw\+\_\+dispatch\+\_\+request (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+When a draw unit finished a draw task it needs to request dispatching to let LVGL assign a new draw task to it \Hypertarget{lv__draw_8h_a7658d15481d2b2cf850334cb7c21b1a4}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_dispatch\_wait\_for\_request@{lv\_draw\_dispatch\_wait\_for\_request}}
+\index{lv\_draw\_dispatch\_wait\_for\_request@{lv\_draw\_dispatch\_wait\_for\_request}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_dispatch\_wait\_for\_request()}{lv\_draw\_dispatch\_wait\_for\_request()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a7658d15481d2b2cf850334cb7c21b1a4} 
+void lv\+\_\+draw\+\_\+dispatch\+\_\+wait\+\_\+for\+\_\+request (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Wait for a new dispatch request. It\textquotesingle{}s blocking if {\ttfamily \doxylink{lv__conf__internal_8h_aecf72fdd3d810a073e4a75245e1e2d5a}{LV\+\_\+\+USE\+\_\+\+OS} == 0} else it yields \Hypertarget{lv__draw_8h_a12c0ac3d02721b0d5f67e2909380b629}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_finalize\_task\_creation@{lv\_draw\_finalize\_task\_creation}}
+\index{lv\_draw\_finalize\_task\_creation@{lv\_draw\_finalize\_task\_creation}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_finalize\_task\_creation()}{lv\_draw\_finalize\_task\_creation()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a12c0ac3d02721b0d5f67e2909380b629} 
+void lv\+\_\+draw\+\_\+finalize\+\_\+task\+\_\+creation (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{}\end{DoxyParamCaption})}
+
+Needs to be called when a draw task is created and configured. It will send an event about the new draw task to the widget and assign it to a draw unit. 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer \\
+\hline
+{\em t} & pointer to a draw task \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw_8h_a98289fd41b3eee7b45a82d5de98a64f8}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_get\_available\_task@{lv\_draw\_get\_available\_task}}
+\index{lv\_draw\_get\_available\_task@{lv\_draw\_get\_available\_task}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_get\_available\_task()}{lv\_draw\_get\_available\_task()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a98289fd41b3eee7b45a82d5de98a64f8} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+get\+\_\+available\+\_\+task (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t\+\_\+prev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{draw\+\_\+unit\+\_\+id}{}\end{DoxyParamCaption})}
+
+If there is only one draw unit check the first draw task if it\textquotesingle{}s available. If there are multiple draw units call {\ttfamily \doxylink{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758}{lv\+\_\+draw\+\_\+get\+\_\+next\+\_\+available\+\_\+task}} to find a task. 
+\begin{DoxyParams}{Parameters}
+{\em layer} & the draw layer to search in \\
+\hline
+{\em t\+\_\+prev} & continue searching from this task \\
+\hline
+{\em draw\+\_\+unit\+\_\+id} & check the task where {\ttfamily preferred\+\_\+draw\+\_\+unit\+\_\+id} equals this value or {\ttfamily \doxylink{lv__draw_8h_a367b9185bd29bd142c4e5a13d4daa9e4}{LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+NONE}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an available draw task or NULL if there is not any 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a767d50b395e78963dbcdf681ba508256}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_get\_dependent\_count@{lv\_draw\_get\_dependent\_count}}
+\index{lv\_draw\_get\_dependent\_count@{lv\_draw\_get\_dependent\_count}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_get\_dependent\_count()}{lv\_draw\_get\_dependent\_count()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a767d50b395e78963dbcdf681ba508256} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+draw\+\_\+get\+\_\+dependent\+\_\+count (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t\+\_\+check}{}\end{DoxyParamCaption})}
+
+Tell how many draw task are waiting to be drawn on the area of {\ttfamily t\+\_\+check}. It can be used to determine if a GPU shall combine many draw tasks into one or not. If a lot of tasks are waiting for the current ones it makes sense to draw them one-\/by-\/one to not block the dependent tasks\textquotesingle{} rendering 
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+check} & the task whose dependent tasks shall be counted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of tasks depending on {\ttfamily t\+\_\+check} 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_get\_next\_available\_task@{lv\_draw\_get\_next\_available\_task}}
+\index{lv\_draw\_get\_next\_available\_task@{lv\_draw\_get\_next\_available\_task}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_get\_next\_available\_task()}{lv\_draw\_get\_next\_available\_task()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a0017206c19b6e5638394dcb8d228d758} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+get\+\_\+next\+\_\+available\+\_\+task (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t\+\_\+prev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{draw\+\_\+unit\+\_\+id}{}\end{DoxyParamCaption})}
+
+Find and available draw task 
+\begin{DoxyParams}{Parameters}
+{\em layer} & the draw layer to search in \\
+\hline
+{\em t\+\_\+prev} & continue searching from this task \\
+\hline
+{\em draw\+\_\+unit\+\_\+id} & check the task where {\ttfamily preferred\+\_\+draw\+\_\+unit\+\_\+id} equals this value or {\ttfamily \doxylink{lv__draw_8h_a367b9185bd29bd142c4e5a13d4daa9e4}{LV\+\_\+\+DRAW\+\_\+\+UNIT\+\_\+\+NONE}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an available draw task or NULL if there is not any 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_abdee089a93a2c95ef95f4fe1d1b5a17b}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_get\_unit\_count@{lv\_draw\_get\_unit\_count}}
+\index{lv\_draw\_get\_unit\_count@{lv\_draw\_get\_unit\_count}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_get\_unit\_count()}{lv\_draw\_get\_unit\_count()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_abdee089a93a2c95ef95f4fe1d1b5a17b} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+draw\+\_\+get\+\_\+unit\+\_\+count (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Get the total number of draw units. \Hypertarget{lv__draw_8h_af7a40ccee4c55b76a524fb3c212235db}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_init@{lv\_draw\_init}}
+\index{lv\_draw\_init@{lv\_draw\_init}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_init()}{lv\_draw\_init()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_af7a40ccee4c55b76a524fb3c212235db} 
+void lv\+\_\+draw\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Used internally to initialize the drawing module \Hypertarget{lv__draw_8h_ad080a3d4c6749f0c14cb6663b4bbdab0}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_layer\_alloc\_buf@{lv\_draw\_layer\_alloc\_buf}}
+\index{lv\_draw\_layer\_alloc\_buf@{lv\_draw\_layer\_alloc\_buf}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_layer\_alloc\_buf()}{lv\_draw\_layer\_alloc\_buf()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_ad080a3d4c6749f0c14cb6663b4bbdab0} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+layer\+\_\+alloc\+\_\+buf (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{}\end{DoxyParamCaption})}
+
+Try to allocate a buffer for the layer. 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the allocated aligned buffer or NULL on failure 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a3480658deee9911061b2028c2468b6a9}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_layer\_create@{lv\_draw\_layer\_create}}
+\index{lv\_draw\_layer\_create@{lv\_draw\_layer\_create}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_layer\_create()}{lv\_draw\_layer\_create()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a3480658deee9911061b2028c2468b6a9} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+layer\+\_\+create (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{parent\+\_\+layer}{, }\item[{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\+\_\+color\+\_\+format\+\_\+t}}}]{color\+\_\+format}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Create (allocate) a new layer on a parent layer 
+\begin{DoxyParams}{Parameters}
+{\em parent\+\_\+layer} & the parent layer to which the layer will be merged when it\textquotesingle{}s rendered \\
+\hline
+{\em color\+\_\+format} & the color format of the layer \\
+\hline
+{\em area} & the areas of the layer (absolute coordinates) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new target\+\_\+layer or NULL on error 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_aea1279b7e7689bc47e9a2fdadf781251}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_layer\_go\_to\_xy@{lv\_draw\_layer\_go\_to\_xy}}
+\index{lv\_draw\_layer\_go\_to\_xy@{lv\_draw\_layer\_go\_to\_xy}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_layer\_go\_to\_xy()}{lv\_draw\_layer\_go\_to\_xy()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_aea1279b7e7689bc47e9a2fdadf781251} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+layer\+\_\+go\+\_\+to\+\_\+xy (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{}\end{DoxyParamCaption})}
+
+Got to a pixel at X and Y coordinate on a layer 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer \\
+\hline
+{\em x} & the target X coordinate \\
+\hline
+{\em y} & the target X coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily buf} offset to point to the given X and Y coordinate 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a7ba610970e2db71ddec45aee5cdaef22}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_layer\_init@{lv\_draw\_layer\_init}}
+\index{lv\_draw\_layer\_init@{lv\_draw\_layer\_init}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_layer\_init()}{lv\_draw\_layer\_init()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a7ba610970e2db71ddec45aee5cdaef22} 
+void lv\+\_\+draw\+\_\+layer\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{parent\+\_\+layer}{, }\item[{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a373bd610cd5bd39aa97244166a356932}{lv\+\_\+color\+\_\+format\+\_\+t}}}]{color\+\_\+format}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Initialize a layer which is allocated by the user 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer the layer to initialize (its lifetime needs to be managed by the user) \\
+\hline
+{\em parent\+\_\+layer} & the parent layer to which the layer will be merged when it\textquotesingle{}s rendered \\
+\hline
+{\em color\+\_\+format} & the color format of the layer \\
+\hline
+{\em area} & the areas of the layer (absolute coordinates) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new target\+\_\+layer or NULL on error 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a3656a459a67c1661b7b961bc1fdfa811}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_task\_get\_area@{lv\_draw\_task\_get\_area}}
+\index{lv\_draw\_task\_get\_area@{lv\_draw\_task\_get\_area}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_task\_get\_area()}{lv\_draw\_task\_get\_area()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a3656a459a67c1661b7b961bc1fdfa811} 
+void lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+area (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Get the draw area of a draw task 
+\begin{DoxyParams}{Parameters}
+{\em t} & the draw task to get the draw area of \\
+\hline
+{\em area} & the destination where the draw area will be stored \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw_8h_a3fba4bcbc80f7e746466e14e3e72251b}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_task\_get\_draw\_dsc@{lv\_draw\_task\_get\_draw\_dsc}}
+\index{lv\_draw\_task\_get\_draw\_dsc@{lv\_draw\_task\_get\_draw\_dsc}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_task\_get\_draw\_dsc()}{lv\_draw\_task\_get\_draw\_dsc()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a3fba4bcbc80f7e746466e14e3e72251b} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+draw\+\_\+dsc (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{}\end{DoxyParamCaption})}
+
+Get the draw descriptor of a draw task 
+\begin{DoxyParams}{Parameters}
+{\em t} & the draw task to get the draw descriptor of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a void pointer to the draw descriptor 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a582475e78238456a2b3d2fb847181a89}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_task\_get\_type@{lv\_draw\_task\_get\_type}}
+\index{lv\_draw\_task\_get\_type@{lv\_draw\_task\_get\_type}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_task\_get\_type()}{lv\_draw\_task\_get\_type()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a582475e78238456a2b3d2fb847181a89} 
+\doxymbox{\hyperlink{lv__draw_8h_a31081e44ca0ea35ec6ab292936058642}{lv\+\_\+draw\+\_\+task\+\_\+type\+\_\+t}} lv\+\_\+draw\+\_\+task\+\_\+get\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{}\end{DoxyParamCaption})}
+
+Get the type of a draw task 
+\begin{DoxyParams}{Parameters}
+{\em t} & the draw task to get the type of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the draw task type 
+\end{DoxyReturn}
+\Hypertarget{lv__draw_8h_a494feb06a7e196f8e2f83ac6772ec84b}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_unit\_send\_event@{lv\_draw\_unit\_send\_event}}
+\index{lv\_draw\_unit\_send\_event@{lv\_draw\_unit\_send\_event}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_unit\_send\_event()}{lv\_draw\_unit\_send\_event()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a494feb06a7e196f8e2f83ac6772ec84b} 
+void lv\+\_\+draw\+\_\+unit\+\_\+send\+\_\+event (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{code}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{param}{}\end{DoxyParamCaption})}
+
+Send an event to the draw units 
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the draw unit to send the event to \\
+\hline
+{\em code} & the event code \\
+\hline
+{\em param} & the event parameter \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw_8h_a5b5f81213c9e45fa5dc1da2b7d806a30}\index{lv\_draw.h@{lv\_draw.h}!lv\_draw\_wait\_for\_finish@{lv\_draw\_wait\_for\_finish}}
+\index{lv\_draw\_wait\_for\_finish@{lv\_draw\_wait\_for\_finish}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_wait\_for\_finish()}{lv\_draw\_wait\_for\_finish()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_a5b5f81213c9e45fa5dc1da2b7d806a30} 
+void lv\+\_\+draw\+\_\+wait\+\_\+for\+\_\+finish (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Wait for draw finish in case of asynchronous task execution. If {\ttfamily \doxylink{lv__conf__internal_8h_aecf72fdd3d810a073e4a75245e1e2d5a}{LV\+\_\+\+USE\+\_\+\+OS} == 0} it just return. \Hypertarget{lv__draw_8h_ab4e4ee072b53cb1800246db23b612fd5}\index{lv\_draw.h@{lv\_draw.h}!lv\_layer\_init@{lv\_layer\_init}}
+\index{lv\_layer\_init@{lv\_layer\_init}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_layer\_init()}{lv\_layer\_init()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_ab4e4ee072b53cb1800246db23b612fd5} 
+void lv\+\_\+layer\+\_\+init (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{}\end{DoxyParamCaption})}
+
+Initialize a layer 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer to initialize \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw_8h_aaedb7247ea42675ad8cb5f631fc87d59}\index{lv\_draw.h@{lv\_draw.h}!lv\_layer\_reset@{lv\_layer\_reset}}
+\index{lv\_layer\_reset@{lv\_layer\_reset}!lv\_draw.h@{lv\_draw.h}}
+\doxysubsubsection{\texorpdfstring{lv\_layer\_reset()}{lv\_layer\_reset()}}
+{\footnotesize\ttfamily \label{lv__draw_8h_aaedb7247ea42675ad8cb5f631fc87d59} 
+void lv\+\_\+layer\+\_\+reset (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a582c22621ba5b1fdf40a96325a0564e9}{lv\+\_\+layer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{layer}{}\end{DoxyParamCaption})}
+
+Reset the layer to a drawable state 
+\begin{DoxyParams}{Parameters}
+{\em layer} & pointer to a layer to reset \\
+\hline
+\end{DoxyParams}

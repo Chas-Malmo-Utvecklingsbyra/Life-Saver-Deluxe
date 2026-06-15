@@ -1,0 +1,148 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+sw/\+lv\+\_\+draw\+\_\+sw\+\_\+img.c File Reference}
+\hypertarget{lv__draw__sw__img_8c}{}\label{lv__draw__sw__img_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/lv\_draw\_sw\_img.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/lv\_draw\_sw\_img.c}}
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+area\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}blend/\+lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+lv\+\_\+image\+\_\+decoder\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+lv\+\_\+draw\+\_\+image\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+lv\+\_\+draw\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+display/\+lv\+\_\+display\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+core/\+lv\+\_\+refr\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+stdlib/\+lv\+\_\+mem.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+misc/\+lv\+\_\+color.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+stdlib/\+lv\+\_\+string.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+core/\+lv\+\_\+global.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a7244ab798f58214294b580ca0bb48552}{MAX\+\_\+\+BUF\+\_\+\+SIZE}}~(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}) (4 \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__display_8c_aac4ed55282ff7559543fc44a7f0116b9}{lv\+\_\+display\+\_\+get\+\_\+horizontal\+\_\+resolution}}(\doxymbox{\hyperlink{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}{lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing}}()) \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__color_8c_af32de6483e3a70fd6544aed8f40ec889}{lv\+\_\+color\+\_\+format\+\_\+get\+\_\+size}}(\doxymbox{\hyperlink{lv__display_8c_a7d4cd11beb6c46fe0883647bd4ab3a05}{lv\+\_\+display\+\_\+get\+\_\+color\+\_\+format}}(\doxymbox{\hyperlink{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}{lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing}}())))
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a2c2fffafaad6641fe0700db2979e3c94}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+IMAGE}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_aa4f32df19786405588bd4a3411410e97}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+RECOLOR}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a30bc9091f2e6b0da00938e98158a489a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+RECOLOR}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a00bf1114daae62de838cdaca76700805}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+RECOLOR}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a188fa9d1feee689360eb121c16253c19}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+RECOLOR}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__img_8c_a6f815efdcf93fa0550a49d03a50be4cb}{\+\_\+draw\+\_\+info}}~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$draw\+\_\+info
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__img_8c_a230e0ebfc442369f47054ded8dae0983}{lv\+\_\+draw\+\_\+sw\+\_\+layer}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}draw\+\_\+dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords)
+\item 
+void \doxymbox{\hyperlink{lv__draw__sw__img_8c_a23a6011432594c6ef32e38660b25e923}{lv\+\_\+draw\+\_\+sw\+\_\+image}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}t, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}draw\+\_\+dsc, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords)
+\end{DoxyCompactItemize}
+
+
+\label{lv__draw__sw__img_8c_doc-define-members}
+\Hypertarget{lv__draw__sw__img_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__draw__sw__img_8c_a6f815efdcf93fa0550a49d03a50be4cb}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!\_draw\_info@{\_draw\_info}}
+\index{\_draw\_info@{\_draw\_info}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{\_draw\_info}{\_draw\_info}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a6f815efdcf93fa0550a49d03a50be4cb} 
+\+\#define \+\_\+draw\+\_\+info~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$draw\+\_\+info}
+
+\Hypertarget{lv__draw__sw__img_8c_a188fa9d1feee689360eb121c16253c19}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_RECOLOR}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a188fa9d1feee689360eb121c16253c19} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+RECOLOR(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__img_8c_a2c2fffafaad6641fe0700db2979e3c94}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!LV\_DRAW\_SW\_IMAGE@{LV\_DRAW\_SW\_IMAGE}}
+\index{LV\_DRAW\_SW\_IMAGE@{LV\_DRAW\_SW\_IMAGE}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_IMAGE}{LV\_DRAW\_SW\_IMAGE}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a2c2fffafaad6641fe0700db2979e3c94} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+IMAGE(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__img_8c_aa4f32df19786405588bd4a3411410e97}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!LV\_DRAW\_SW\_RGB565\_RECOLOR@{LV\_DRAW\_SW\_RGB565\_RECOLOR}}
+\index{LV\_DRAW\_SW\_RGB565\_RECOLOR@{LV\_DRAW\_SW\_RGB565\_RECOLOR}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_RECOLOR}{LV\_DRAW\_SW\_RGB565\_RECOLOR}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_aa4f32df19786405588bd4a3411410e97} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+RECOLOR(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__img_8c_a30bc9091f2e6b0da00938e98158a489a}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR}}
+\index{LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR}{LV\_DRAW\_SW\_RGB565\_SWAPPED\_RECOLOR}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a30bc9091f2e6b0da00938e98158a489a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+RECOLOR(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__img_8c_a00bf1114daae62de838cdaca76700805}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!LV\_DRAW\_SW\_RGB888\_RECOLOR@{LV\_DRAW\_SW\_RGB888\_RECOLOR}}
+\index{LV\_DRAW\_SW\_RGB888\_RECOLOR@{LV\_DRAW\_SW\_RGB888\_RECOLOR}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_RECOLOR}{LV\_DRAW\_SW\_RGB888\_RECOLOR}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a00bf1114daae62de838cdaca76700805} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+RECOLOR(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__img_8c_a7244ab798f58214294b580ca0bb48552}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!MAX\_BUF\_SIZE@{MAX\_BUF\_SIZE}}
+\index{MAX\_BUF\_SIZE@{MAX\_BUF\_SIZE}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_BUF\_SIZE}{MAX\_BUF\_SIZE}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a7244ab798f58214294b580ca0bb48552} 
+\+\#define MAX\+\_\+\+BUF\+\_\+\+SIZE~(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}) (4 \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__display_8c_aac4ed55282ff7559543fc44a7f0116b9}{lv\+\_\+display\+\_\+get\+\_\+horizontal\+\_\+resolution}}(\doxymbox{\hyperlink{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}{lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing}}()) \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__color_8c_af32de6483e3a70fd6544aed8f40ec889}{lv\+\_\+color\+\_\+format\+\_\+get\+\_\+size}}(\doxymbox{\hyperlink{lv__display_8c_a7d4cd11beb6c46fe0883647bd4ab3a05}{lv\+\_\+display\+\_\+get\+\_\+color\+\_\+format}}(\doxymbox{\hyperlink{lv__refr_8c_a53171f00eaac3da3e400f7fcdf4897e2}{lv\+\_\+refr\+\_\+get\+\_\+disp\+\_\+refreshing}}())))}
+
+
+
+\label{lv__draw__sw__img_8c_doc-func-members}
+\Hypertarget{lv__draw__sw__img_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__draw__sw__img_8c_a23a6011432594c6ef32e38660b25e923}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!lv\_draw\_sw\_image@{lv\_draw\_sw\_image}}
+\index{lv\_draw\_sw\_image@{lv\_draw\_sw\_image}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_image()}{lv\_draw\_sw\_image()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a23a6011432594c6ef32e38660b25e923} 
+void lv\+\_\+draw\+\_\+sw\+\_\+image (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{draw\+\_\+dsc}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{}\end{DoxyParamCaption})}
+
+Draw an image with SW render. It handles image decoding, tiling, transformations, and recoloring. 
+\begin{DoxyParams}{Parameters}
+{\em t} & pointer to a draw task \\
+\hline
+{\em draw\+\_\+dsc} & the draw descriptor \\
+\hline
+{\em coords} & the coordinates of the image \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__img_8c_a230e0ebfc442369f47054ded8dae0983}\index{lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}!lv\_draw\_sw\_layer@{lv\_draw\_sw\_layer}}
+\index{lv\_draw\_sw\_layer@{lv\_draw\_sw\_layer}!lv\_draw\_sw\_img.c@{lv\_draw\_sw\_img.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_layer()}{lv\_draw\_sw\_layer()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__img_8c_a230e0ebfc442369f47054ded8dae0983} 
+void lv\+\_\+draw\+\_\+sw\+\_\+layer (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a9d358cfe063f80d7499a72b46429bf61}{lv\+\_\+draw\+\_\+task\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{t}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac28823722a4ebd410c27ae51d1b7bb24}{lv\+\_\+draw\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{draw\+\_\+dsc}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{}\end{DoxyParamCaption})}
+
+Blend a layer with SW render 
+\begin{DoxyParams}{Parameters}
+{\em t} & pointer to a draw task \\
+\hline
+{\em draw\+\_\+dsc} & the draw descriptor \\
+\hline
+{\em coords} & the coordinates of the layer \\
+\hline
+\end{DoxyParams}

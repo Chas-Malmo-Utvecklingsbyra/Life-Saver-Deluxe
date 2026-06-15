@@ -12,5 +12,6 @@ var gui__sensors_8c =
     [ "main_tabview", "gui__sensors_8c.html#a05e224ee6d2d90a1daf49b93e224f5ee", null ],
     [ "meas", "gui__sensors_8c.html#a78ae852e189a9d81c673d64a7ecb01c5", null ],
     [ "sensor_ui_count", "gui__sensors_8c.html#a3c0d34c909af874607f727f4d3607ec6", null ],
-    [ "sensor_uis", "gui__sensors_8c.html#ae8dd19de9ad2886a29af209435b47a58", null ]
+    [ "sensor_uis", "gui__sensors_8c.html#ae8dd19de9ad2886a29af209435b47a58", null ],
+    [ "ui_rebuilding", "gui__sensors_8c.html#a800a20426775e5dd71c3db9990e18a32", null ]
 ];

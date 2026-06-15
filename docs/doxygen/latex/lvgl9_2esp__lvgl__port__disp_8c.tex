@@ -1,0 +1,191 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+esp\+\_\+lvgl\+\_\+port/\+src/\+lvgl9/\+esp\+\_\+lvgl\+\_\+port\+\_\+disp.c File Reference}
+\hypertarget{lvgl9_2esp__lvgl__port__disp_8c}{}\label{lvgl9_2esp__lvgl__port__disp_8c}\index{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/src/lvgl9/esp\_lvgl\_port\_disp.c@{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/src/lvgl9/esp\_lvgl\_port\_disp.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}sdkconfig.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+check.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+heap\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+idf\+\_\+version.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+io.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+ops.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port\+\_\+priv.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structlvgl__port__display__ctx__t}{lvgl\+\_\+port\+\_\+display\+\_\+ctx\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_a1b90accd131b3859a144d667681a6de9}{LVGL\+\_\+\+PORT\+\_\+\+PPA}}~(CONFIG\+\_\+\+LVGL\+\_\+\+PORT\+\_\+\+ENABLE\+\_\+\+PPA)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_a12a2ab723e590245c6d905a6b3f76833}{LVGL\+\_\+\+PORT\+\_\+\+HANDLE\+\_\+\+FLUSH\+\_\+\+READY}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_ad65657f996fa10df43867f6b0ba4fb6c}{CONFIG\+\_\+\+LV\+\_\+\+DRAW\+\_\+\+BUF\+\_\+\+ALIGN}}~1
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_aee1afad9410e6196c39c83480137d795}{LVGL\+\_\+\+PORT\+\_\+\+IRAM}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_afd866a06be5b1a5de624e2bbc4d0a09e}{lvgl\+\_\+port\+\_\+add\+\_\+disp}} (const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}disp\+\_\+cfg)
+\begin{DoxyCompactList}\small\item\em Add I2\+C/\+\+SPI/\+\+I8080 display handling to LVGL. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_acec565fd9504c0a2acce7cda74dddaa1}{lvgl\+\_\+port\+\_\+add\+\_\+disp\+\_\+dsi}} (const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}disp\+\_\+cfg, const \doxymbox{\hyperlink{structlvgl__port__display__dsi__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+dsi\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}dsi\+\_\+cfg)
+\begin{DoxyCompactList}\small\item\em Add MIPI-\/\+DSI display handling to LVGL. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_af28aa7c6ef7c7a350ef1727853d369cb}{lvgl\+\_\+port\+\_\+add\+\_\+disp\+\_\+rgb}} (const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}disp\+\_\+cfg, const \doxymbox{\hyperlink{structlvgl__port__display__rgb__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+rgb\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}rgb\+\_\+cfg)
+\begin{DoxyCompactList}\small\item\em Add RGB display handling to LVGL. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_a68570cae8528d45124e116c589d6e22e}{lvgl\+\_\+port\+\_\+remove\+\_\+disp}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\begin{DoxyCompactList}\small\item\em Remove display handling from LVGL. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_a0eefc1fda6f79b96aee7b6c85e1f599e}{lvgl\+\_\+port\+\_\+flush\+\_\+ready}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\begin{DoxyCompactList}\small\item\em Notify LVGL, that data was flushed to LCD display. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port__disp_8c_a590fa111d4fd1e00b125892a2074122f}{lvgl\+\_\+port\+\_\+rotate\+\_\+area}} (\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\end{DoxyCompactItemize}
+
+
+\label{lvgl9_2esp__lvgl__port__disp_8c_doc-define-members}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_ad65657f996fa10df43867f6b0ba4fb6c}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!CONFIG\_LV\_DRAW\_BUF\_ALIGN@{CONFIG\_LV\_DRAW\_BUF\_ALIGN}}
+\index{CONFIG\_LV\_DRAW\_BUF\_ALIGN@{CONFIG\_LV\_DRAW\_BUF\_ALIGN}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_LV\_DRAW\_BUF\_ALIGN}{CONFIG\_LV\_DRAW\_BUF\_ALIGN}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_ad65657f996fa10df43867f6b0ba4fb6c} 
+\+\#define CONFIG\+\_\+\+LV\+\_\+\+DRAW\+\_\+\+BUF\+\_\+\+ALIGN~1}
+
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_a12a2ab723e590245c6d905a6b3f76833}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!LVGL\_PORT\_HANDLE\_FLUSH\_READY@{LVGL\_PORT\_HANDLE\_FLUSH\_READY}}
+\index{LVGL\_PORT\_HANDLE\_FLUSH\_READY@{LVGL\_PORT\_HANDLE\_FLUSH\_READY}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{LVGL\_PORT\_HANDLE\_FLUSH\_READY}{LVGL\_PORT\_HANDLE\_FLUSH\_READY}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_a12a2ab723e590245c6d905a6b3f76833} 
+\+\#define LVGL\+\_\+\+PORT\+\_\+\+HANDLE\+\_\+\+FLUSH\+\_\+\+READY~0}
+
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_aee1afad9410e6196c39c83480137d795}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!LVGL\_PORT\_IRAM@{LVGL\_PORT\_IRAM}}
+\index{LVGL\_PORT\_IRAM@{LVGL\_PORT\_IRAM}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{LVGL\_PORT\_IRAM}{LVGL\_PORT\_IRAM}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_aee1afad9410e6196c39c83480137d795} 
+\+\#define LVGL\+\_\+\+PORT\+\_\+\+IRAM}
+
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_a1b90accd131b3859a144d667681a6de9}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!LVGL\_PORT\_PPA@{LVGL\_PORT\_PPA}}
+\index{LVGL\_PORT\_PPA@{LVGL\_PORT\_PPA}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{LVGL\_PORT\_PPA}{LVGL\_PORT\_PPA}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_a1b90accd131b3859a144d667681a6de9} 
+\+\#define LVGL\+\_\+\+PORT\+\_\+\+PPA~(CONFIG\+\_\+\+LVGL\+\_\+\+PORT\+\_\+\+ENABLE\+\_\+\+PPA)}
+
+
+
+\label{lvgl9_2esp__lvgl__port__disp_8c_doc-func-members}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_afd866a06be5b1a5de624e2bbc4d0a09e}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_add\_disp@{lvgl\_port\_add\_disp}}
+\index{lvgl\_port\_add\_disp@{lvgl\_port\_add\_disp}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_add\_disp()}{lvgl\_port\_add\_disp()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_afd866a06be5b1a5de624e2bbc4d0a09e} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lvgl\+\_\+port\+\_\+add\+\_\+disp (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp\+\_\+cfg}{}\end{DoxyParamCaption})}
+
+
+
+Add I2\+C/\+\+SPI/\+\+I8080 display handling to LVGL. 
+
+\begin{DoxyNote}{Note}
+Allocated memory in this function is not free in deinit. You must call lvgl\+\_\+port\+\_\+remove\+\_\+disp for free all memory!
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em disp\+\_\+cfg} & Display configuration structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to LVGL display or NULL when error occurred 
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_acec565fd9504c0a2acce7cda74dddaa1}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_add\_disp\_dsi@{lvgl\_port\_add\_disp\_dsi}}
+\index{lvgl\_port\_add\_disp\_dsi@{lvgl\_port\_add\_disp\_dsi}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_add\_disp\_dsi()}{lvgl\_port\_add\_disp\_dsi()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_acec565fd9504c0a2acce7cda74dddaa1} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lvgl\+\_\+port\+\_\+add\+\_\+disp\+\_\+dsi (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp\+\_\+cfg}{, }\item[{const \doxymbox{\hyperlink{structlvgl__port__display__dsi__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+dsi\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsi\+\_\+cfg}{}\end{DoxyParamCaption})}
+
+
+
+Add MIPI-\/\+DSI display handling to LVGL. 
+
+\begin{DoxyNote}{Note}
+Allocated memory in this function is not free in deinit. You must call lvgl\+\_\+port\+\_\+remove\+\_\+disp for free all memory!
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em disp\+\_\+cfg} & Display configuration structure \\
+\hline
+{\em dsi\+\_\+cfg} & MIPI-\/\+DSI display specific configuration structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to LVGL display or NULL when error occurred 
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_af28aa7c6ef7c7a350ef1727853d369cb}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_add\_disp\_rgb@{lvgl\_port\_add\_disp\_rgb}}
+\index{lvgl\_port\_add\_disp\_rgb@{lvgl\_port\_add\_disp\_rgb}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_add\_disp\_rgb()}{lvgl\_port\_add\_disp\_rgb()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_af28aa7c6ef7c7a350ef1727853d369cb} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lvgl\+\_\+port\+\_\+add\+\_\+disp\+\_\+rgb (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structlvgl__port__display__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp\+\_\+cfg}{, }\item[{const \doxymbox{\hyperlink{structlvgl__port__display__rgb__cfg__t}{lvgl\+\_\+port\+\_\+display\+\_\+rgb\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{rgb\+\_\+cfg}{}\end{DoxyParamCaption})}
+
+
+
+Add RGB display handling to LVGL. 
+
+\begin{DoxyNote}{Note}
+Allocated memory in this function is not free in deinit. You must call lvgl\+\_\+port\+\_\+remove\+\_\+disp for free all memory!
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em disp\+\_\+cfg} & Display configuration structure \\
+\hline
+{\em rgb\+\_\+cfg} & RGB display specific configuration structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to LVGL display or NULL when error occurred 
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_a0eefc1fda6f79b96aee7b6c85e1f599e}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_flush\_ready@{lvgl\_port\_flush\_ready}}
+\index{lvgl\_port\_flush\_ready@{lvgl\_port\_flush\_ready}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_flush\_ready()}{lvgl\_port\_flush\_ready()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_a0eefc1fda6f79b96aee7b6c85e1f599e} 
+void lvgl\+\_\+port\+\_\+flush\+\_\+ready (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+
+
+Notify LVGL, that data was flushed to LCD display. 
+
+\begin{DoxyNote}{Note}
+It should be used only when not called inside LVGL port (more in README).
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em disp} & LVGL display handle (returned from lvgl\+\_\+port\+\_\+add\+\_\+disp) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_a68570cae8528d45124e116c589d6e22e}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_remove\_disp@{lvgl\_port\_remove\_disp}}
+\index{lvgl\_port\_remove\_disp@{lvgl\_port\_remove\_disp}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_remove\_disp()}{lvgl\_port\_remove\_disp()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_a68570cae8528d45124e116c589d6e22e} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+remove\+\_\+disp (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+
+
+Remove display handling from LVGL. 
+
+\begin{DoxyNote}{Note}
+Free all memory used for this display.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port__disp_8c_a590fa111d4fd1e00b125892a2074122f}\index{esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}!lvgl\_port\_rotate\_area@{lvgl\_port\_rotate\_area}}
+\index{lvgl\_port\_rotate\_area@{lvgl\_port\_rotate\_area}!esp\_lvgl\_port\_disp.c@{esp\_lvgl\_port\_disp.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_rotate\_area()}{lvgl\_port\_rotate\_area()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port__disp_8c_a590fa111d4fd1e00b125892a2074122f} 
+void lvgl\+\_\+port\+\_\+rotate\+\_\+area (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+

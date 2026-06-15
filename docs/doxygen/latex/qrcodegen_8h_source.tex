@@ -1,0 +1,330 @@
+\doxysection{qrcodegen.\+h}
+\hypertarget{qrcodegen_8h_source}{}\label{qrcodegen_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/qrcode/qrcodegen.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/qrcode/qrcodegen.h}}
+\doxymbox{\hyperlink{qrcodegen_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ QR\ Code\ generator\ library\ (C)}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Copyright\ (c)\ Project\ Nayuki.\ (MIT\ License)}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ https://www.nayuki.io/page/qr-\/code-\/generator-\/library}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy\ of}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal\ in}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights\ to}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell\ copies\ of}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ -\/\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ -\/\ The\ Software\ is\ provided\ "{}as\ is"{},\ without\ warranty\ of\ any\ kind,\ express\ or}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ \ \ implied,\ including\ but\ not\ limited\ to\ the\ warranties\ of\ merchantability,}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ \ \ fitness\ for\ a\ particular\ purpose\ and\ noninfringement.\ In\ no\ event\ shall\ the}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ \ \ authors\ or\ copyright\ holders\ be\ liable\ for\ any\ claim,\ damages\ or\ other}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ \ liability,\ whether\ in\ an\ action\ of\ contract,\ tort\ or\ otherwise,\ arising\ from,}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ \ \ out\ of\ or\ in\ connection\ with\ the\ Software\ or\ the\ use\ or\ other\ dealings\ in\ the}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ \ \ Software.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl_8h}{../../../lvgl.h}}"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifdef\ LV\_USE\_QRCODE}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ LV\_STDBOOL\_INCLUDE}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ LV\_STDDEF\_INCLUDE}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ LV\_STDINT\_INCLUDE}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ *\ This\ library\ creates\ QR\ Code\ symbols,\ which\ is\ a\ type\ of\ two-\/dimension\ barcode.}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ *\ Invented\ by\ Denso\ Wave\ and\ described\ in\ the\ ISO/IEC\ 18004\ standard.}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ *\ A\ QR\ Code\ structure\ is\ an\ immutable\ square\ grid\ of\ black\ and\ white\ cells.}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ *\ The\ library\ provides\ functions\ to\ create\ a\ QR\ Code\ from\ text\ or\ binary\ data.}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *\ The\ library\ covers\ the\ QR\ Code\ Model\ 2\ specification,\ supporting\ all\ versions\ (sizes)}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *\ from\ 1\ to\ 40,\ all\ 4\ error\ correction\ levels,\ and\ 4\ character\ encoding\ modes.}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ *\ Ways\ to\ create\ a\ QR\ Code\ object:}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *\ -\/\ High\ level:\ Take\ the\ payload\ data\ and\ call\ qrcodegen\_encodeText()\ or\ qrcodegen\_encodeBinary().}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *\ -\/\ Low\ level:\ Custom-\/make\ the\ list\ of\ segments\ and\ call}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ \ \ qrcodegen\_encodeSegments()\ or\ qrcodegen\_encodeSegmentsAdvanced().}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *\ (Note\ that\ all\ ways\ require\ supplying\ the\ desired\ error\ correction\ level\ and\ various\ byte\ buffers.)}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{/*-\/-\/-\/-\/\ Enum\ and\ struct\ types-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ *\ The\ error\ correction\ level\ in\ a\ QR\ Code\ symbol.}}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00060\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Must\ be\ declared\ in\ ascending\ order\ of\ error\ protection}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//\ so\ that\ an\ internal\ qrcodegen\ function\ works\ properly}}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65caa6f4e3ad3cd16ee38110410f1d14e18a}{qrcodegen\_Ecc\_LOW}}\ =\ 0,\ \ \ \textcolor{comment}{//\ The\ QR\ Code\ can\ tolerate\ about\ \ 7\%\ erroneous\ codewords}}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65ca09d959a0d2081c1f9bf679d0b2aae62a}{qrcodegen\_Ecc\_MEDIUM}},\ \ \ \ \textcolor{comment}{//\ The\ QR\ Code\ can\ tolerate\ about\ 15\%\ erroneous\ codewords}}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65ca5f04fea8990526759c2014f9b65cd6b3}{qrcodegen\_Ecc\_QUARTILE}},\ \ \textcolor{comment}{//\ The\ QR\ Code\ can\ tolerate\ about\ 25\%\ erroneous\ codewords}}
+\DoxyCodeLine{00066\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65ca0fc0cef57fd9214dc450fb3ad4762501}{qrcodegen\_Ecc\_HIGH}},\ \ \ \ \ \ \textcolor{comment}{//\ The\ QR\ Code\ can\ tolerate\ about\ 30\%\ erroneous\ codewords}}
+\DoxyCodeLine{00067\ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ *\ The\ mask\ pattern\ used\ in\ a\ QR\ Code\ symbol.}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952e}{qrcodegen\_Mask}}\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ A\ special\ value\ to\ tell\ the\ QR\ Code\ encoder\ to}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{comment}{//\ automatically\ select\ an\ appropriate\ mask\ pattern}}
+\DoxyCodeLine{00076\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952eaab7db72352dfe446a65025749b77c841}{qrcodegen\_Mask\_AUTO}}\ =\ -\/1,}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//\ The\ eight\ actual\ mask\ patterns}}
+\DoxyCodeLine{00078\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952ea432c7c933d09d790868926d1d0bca9f6}{qrcodegen\_Mask\_0}}\ =\ 0,}
+\DoxyCodeLine{00079\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952ea12f7a153833c932ae55ae43f590d68bf}{qrcodegen\_Mask\_1}},}
+\DoxyCodeLine{00080\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952ea490f43ad946e38be19b6f4d7af0412d0}{qrcodegen\_Mask\_2}},}
+\DoxyCodeLine{00081\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952ead0cf7acb420259a09a04d7ea5825736d}{qrcodegen\_Mask\_3}},}
+\DoxyCodeLine{00082\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952eac73781e3dd5f9eede287feef45445284}{qrcodegen\_Mask\_4}},}
+\DoxyCodeLine{00083\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952eace0ab4d89746779385f68bec68f7eacc}{qrcodegen\_Mask\_5}},}
+\DoxyCodeLine{00084\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952ea5c6558779e1906cd16ef4a51434fd614}{qrcodegen\_Mask\_6}},}
+\DoxyCodeLine{00085\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952eab511af9acf2dde5af0e9734bbba989ad}{qrcodegen\_Mask\_7}},}
+\DoxyCodeLine{00086\ \};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00090\ \textcolor{comment}{\ *\ Describes\ how\ a\ segment's\ data\ bits\ are\ interpreted.}}
+\DoxyCodeLine{00091\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00092\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097b}{qrcodegen\_Mode}}\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097ba309c8f7c2e85eb9f9510488e70f36fc6}{qrcodegen\_Mode\_NUMERIC}}\ \ \ \ \ \ =\ 0x1,}
+\DoxyCodeLine{00094\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097ba37a682a91826e7b640c70b85e679b9d1}{qrcodegen\_Mode\_ALPHANUMERIC}}\ =\ 0x2,}
+\DoxyCodeLine{00095\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097baa1e2b04937fdae040e1107bf3d31ea2d}{qrcodegen\_Mode\_BYTE}}\ \ \ \ \ \ \ \ \ =\ 0x4,}
+\DoxyCodeLine{00096\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097badc5fad762df1a0dff0462be08dbdb99f}{qrcodegen\_Mode\_KANJI}}\ \ \ \ \ \ \ \ =\ 0x8,}
+\DoxyCodeLine{00097\ \ \ \ \ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097baeb08ea4e31c49946cfbf032946fea4e5}{qrcodegen\_Mode\_ECI}}\ \ \ \ \ \ \ \ \ \ =\ 0x7,}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00102\ \textcolor{comment}{\ *\ A\ segment\ of\ character/binary/control\ data\ in\ a\ QR\ Code\ symbol.}}
+\DoxyCodeLine{00103\ \textcolor{comment}{\ *\ The\ mid-\/level\ way\ to\ create\ a\ segment\ is\ to\ take\ the\ payload\ data}}
+\DoxyCodeLine{00104\ \textcolor{comment}{\ *\ and\ call\ a\ factory\ function\ such\ as\ qrcodegen\_makeNumeric().}}
+\DoxyCodeLine{00105\ \textcolor{comment}{\ *\ The\ low-\/level\ way\ to\ create\ a\ segment\ is\ to\ custom-\/make\ the\ bit\ buffer}}
+\DoxyCodeLine{00106\ \textcolor{comment}{\ *\ and\ initialize\ a\ qrcodegen\_Segment\ struct\ with\ appropriate\ values.}}
+\DoxyCodeLine{00107\ \textcolor{comment}{\ *\ Even\ in\ the\ most\ favorable\ conditions,\ a\ QR\ Code\ can\ only\ hold\ 7089\ characters\ of\ data.}}
+\DoxyCodeLine{00108\ \textcolor{comment}{\ *\ Any\ segment\ longer\ than\ this\ is\ meaningless\ for\ the\ purpose\ of\ generating\ QR\ Codes.}}
+\DoxyCodeLine{00109\ \textcolor{comment}{\ *\ Moreover,\ the\ maximum\ allowed\ bit\ length\ is\ 32767\ because}}
+\DoxyCodeLine{00110\ \textcolor{comment}{\ *\ the\ largest\ QR\ Code\ (version\ 40)\ has\ 31329\ modules.}}
+\DoxyCodeLine{00111\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00112\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{comment}{//\ The\ mode\ indicator\ of\ this\ segment.}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097b}{qrcodegen\_Mode}}\ \doxymbox{\hyperlink{structqrcodegen___segment_a6f393856e5a6d32382de0e8b5fddceaa}{mode}};}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ The\ length\ of\ this\ segment's\ unencoded\ data.\ Measured\ in\ characters\ for}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ numeric/alphanumeric/kanji\ mode,\ bytes\ for\ byte\ mode,\ and\ 0\ for\ ECI\ mode.}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//\ Always\ zero\ or\ positive.\ Not\ the\ same\ as\ the\ data's\ bit\ length.}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structqrcodegen___segment_a21cf352456b9527481b93f0e581f9659}{numChars}};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{comment}{//\ The\ data\ bits\ of\ this\ segment,\ packed\ in\ bitwise\ big\ endian.}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{comment}{//\ Can\ be\ null\ if\ the\ bit\ length\ is\ zero.}}
+\DoxyCodeLine{00123\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ \doxymbox{\hyperlink{structqrcodegen___segment_abe222f6d3581e7920dcad5306cc906a8}{data}};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{comment}{//\ The\ number\ of\ valid\ data\ bits\ used\ in\ the\ buffer.\ Requires}}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//\ 0\ <=\ bitLength\ <=\ 32767,\ and\ bitLength\ <=\ (capacity\ of\ data\ array)\ *\ 8.}}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{comment}{//\ The\ character\ count\ (numChars)\ must\ agree\ with\ the\ mode\ and\ the\ bit\ buffer\ length.}}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structqrcodegen___segment_ab105d0dc7ead2c8b42843c6a7644990d}{bitLength}};}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{/*-\/-\/-\/-\/\ Macro\ constants\ and\ functions\ -\/-\/-\/-\/*/}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ qrcodegen\_VERSION\_MIN\ \ \ 1\ \ }\textcolor{comment}{//\ The\ minimum\ version\ number\ supported\ in\ the\ QR\ Code\ Model\ 2\ standard}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ qrcodegen\_VERSION\_MAX\ \ 40\ \ }\textcolor{comment}{//\ The\ maximum\ version\ number\ supported\ in\ the\ QR\ Code\ Model\ 2\ standard}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{comment}{//\ Calculates\ the\ number\ of\ bytes\ needed\ to\ store\ any\ QR\ Code\ up\ to\ and\ including\ the\ given\ version\ number,}}
+\DoxyCodeLine{00139\ \textcolor{comment}{//\ as\ a\ compile-\/time\ constant.\ For\ example,\ 'uint8\_t\ buffer[qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(25)];'}}
+\DoxyCodeLine{00140\ \textcolor{comment}{//\ can\ store\ any\ single\ QR\ Code\ from\ version\ 1\ to\ 25\ (inclusive).\ The\ result\ fits\ in\ an\ int\ (or\ int16).}}
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ Requires\ qrcodegen\_VERSION\_MIN\ <=\ n\ <=\ qrcodegen\_VERSION\_MAX.}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(n)\ \ ((((n)\ *\ 4\ +\ 17)\ *\ ((n)\ *\ 4\ +\ 17)\ +\ 7)\ /\ 8\ +\ 1)}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{comment}{//\ The\ worst-\/case\ number\ of\ bytes\ needed\ to\ store\ one\ QR\ Code,\ up\ to\ and\ including}}
+\DoxyCodeLine{00145\ \textcolor{comment}{//\ version\ 40.\ This\ value\ equals\ 3918,\ which\ is\ just\ under\ 4\ kilobytes.}}
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ Use\ this\ more\ convenient\ value\ to\ avoid\ calculating\ tighter\ memory\ bounds\ for\ buffers.}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ qrcodegen\_BUFFER\_LEN\_MAX\ \ qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(qrcodegen\_VERSION\_MAX)}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{comment}{/*-\/-\/-\/-\/\ Functions\ (high\ level)\ to\ generate\ QR\ Codes\ -\/-\/-\/-\/*/}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00154\ \textcolor{comment}{\ *\ Encodes\ the\ given\ text\ string\ to\ a\ QR\ Code,\ returning\ true\ if\ encoding\ succeeded.}}
+\DoxyCodeLine{00155\ \textcolor{comment}{\ *\ If\ the\ data\ is\ too\ long\ to\ fit\ in\ any\ version\ in\ the\ given\ range}}
+\DoxyCodeLine{00156\ \textcolor{comment}{\ *\ at\ the\ given\ ECC\ level,\ then\ false\ is\ returned.}}
+\DoxyCodeLine{00157\ \textcolor{comment}{\ *\ -\/\ The\ input\ text\ must\ be\ encoded\ in\ UTF-\/8\ and\ contain\ no\ NULs.}}
+\DoxyCodeLine{00158\ \textcolor{comment}{\ *\ -\/\ The\ variables\ ecl\ and\ mask\ must\ correspond\ to\ enum\ constant\ values.}}
+\DoxyCodeLine{00159\ \textcolor{comment}{\ *\ -\/\ Requires\ 1\ <=\ minVersion\ <=\ maxVersion\ <=\ 40.}}
+\DoxyCodeLine{00160\ \textcolor{comment}{\ *\ -\/\ The\ arrays\ tempBuffer\ and\ qrcode\ must\ each\ have\ a\ length}}
+\DoxyCodeLine{00161\ \textcolor{comment}{\ *\ \ \ of\ at\ least\ qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(maxVersion).}}
+\DoxyCodeLine{00162\ \textcolor{comment}{\ *\ -\/\ After\ the\ function\ returns,\ tempBuffer\ contains\ no\ useful\ data.}}
+\DoxyCodeLine{00163\ \textcolor{comment}{\ *\ -\/\ If\ successful,\ the\ resulting\ QR\ Code\ may\ use\ numeric,}}
+\DoxyCodeLine{00164\ \textcolor{comment}{\ *\ \ \ alphanumeric,\ or\ byte\ mode\ to\ encode\ the\ text.}}
+\DoxyCodeLine{00165\ \textcolor{comment}{\ *\ -\/\ In\ the\ most\ optimistic\ case,\ a\ QR\ Code\ at\ version\ 40\ with\ low\ ECC}}
+\DoxyCodeLine{00166\ \textcolor{comment}{\ *\ \ \ can\ hold\ any\ UTF-\/8\ string\ up\ to\ 2953\ bytes,\ or\ any\ alphanumeric\ string}}
+\DoxyCodeLine{00167\ \textcolor{comment}{\ *\ \ \ up\ to\ 4296\ characters,\ or\ any\ digit\ string\ up\ to\ 7089\ characters.}}
+\DoxyCodeLine{00168\ \textcolor{comment}{\ *\ \ \ These\ numbers\ represent\ the\ hard\ upper\ limit\ of\ the\ QR\ Code\ standard.}}
+\DoxyCodeLine{00169\ \textcolor{comment}{\ *\ -\/\ Please\ consult\ the\ QR\ Code\ specification\ for\ information\ on}}
+\DoxyCodeLine{00170\ \textcolor{comment}{\ *\ \ \ data\ capacities\ per\ version,\ ECC\ level,\ and\ text\ encoding\ mode.}}
+\DoxyCodeLine{00171\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00172\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a2eb79247b6f8bed92514c1815fe0079c}{qrcodegen\_encodeText}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ text,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ tempBuffer[],\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[],}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ ecl,\ \textcolor{keywordtype}{int}\ minVersion,\ \textcolor{keywordtype}{int}\ maxVersion,\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952e}{qrcodegen\_Mask}}\ mask,\ \textcolor{keywordtype}{bool}\ boostEcl);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00177\ \textcolor{comment}{\ *\ Encodes\ the\ given\ binary\ data\ to\ a\ QR\ Code,\ returning\ true\ if\ encoding\ succeeded.}}
+\DoxyCodeLine{00178\ \textcolor{comment}{\ *\ If\ the\ data\ is\ too\ long\ to\ fit\ in\ any\ version\ in\ the\ given\ range}}
+\DoxyCodeLine{00179\ \textcolor{comment}{\ *\ at\ the\ given\ ECC\ level,\ then\ false\ is\ returned.}}
+\DoxyCodeLine{00180\ \textcolor{comment}{\ *\ -\/\ The\ input\ array\ range\ dataAndTemp[0\ :\ dataLen]\ should\ normally\ be}}
+\DoxyCodeLine{00181\ \textcolor{comment}{\ *\ \ \ valid\ UTF-\/8\ text,\ but\ is\ not\ required\ by\ the\ QR\ Code\ standard.}}
+\DoxyCodeLine{00182\ \textcolor{comment}{\ *\ -\/\ The\ variables\ ecl\ and\ mask\ must\ correspond\ to\ enum\ constant\ values.}}
+\DoxyCodeLine{00183\ \textcolor{comment}{\ *\ -\/\ Requires\ 1\ <=\ minVersion\ <=\ maxVersion\ <=\ 40.}}
+\DoxyCodeLine{00184\ \textcolor{comment}{\ *\ -\/\ The\ arrays\ dataAndTemp\ and\ qrcode\ must\ each\ have\ a\ length}}
+\DoxyCodeLine{00185\ \textcolor{comment}{\ *\ \ \ of\ at\ least\ qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(maxVersion).}}
+\DoxyCodeLine{00186\ \textcolor{comment}{\ *\ -\/\ After\ the\ function\ returns,\ the\ contents\ of\ dataAndTemp\ may\ have\ changed,}}
+\DoxyCodeLine{00187\ \textcolor{comment}{\ *\ \ \ and\ does\ not\ represent\ useful\ data\ anymore.}}
+\DoxyCodeLine{00188\ \textcolor{comment}{\ *\ -\/\ If\ successful,\ the\ resulting\ QR\ Code\ will\ use\ byte\ mode\ to\ encode\ the\ data.}}
+\DoxyCodeLine{00189\ \textcolor{comment}{\ *\ -\/\ In\ the\ most\ optimistic\ case,\ a\ QR\ Code\ at\ version\ 40\ with\ low\ ECC\ can\ hold\ any\ byte}}
+\DoxyCodeLine{00190\ \textcolor{comment}{\ *\ \ \ sequence\ up\ to\ length\ 2953.\ This\ is\ the\ hard\ upper\ limit\ of\ the\ QR\ Code\ standard.}}
+\DoxyCodeLine{00191\ \textcolor{comment}{\ *\ -\/\ Please\ consult\ the\ QR\ Code\ specification\ for\ information\ on}}
+\DoxyCodeLine{00192\ \textcolor{comment}{\ *\ \ \ data\ capacities\ per\ version,\ ECC\ level,\ and\ text\ encoding\ mode.}}
+\DoxyCodeLine{00193\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00194\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a1cc45de66046354d5aad2ee1cc6b2581}{qrcodegen\_encodeBinary}}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ dataAndTemp[],\ \textcolor{keywordtype}{size\_t}\ dataLen,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[],}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ ecl,\ \textcolor{keywordtype}{int}\ minVersion,\ \textcolor{keywordtype}{int}\ maxVersion,\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_ab76629ca36a731ee5fdd02ab06f6952e}{qrcodegen\_Mask}}\ mask,\ \textcolor{keywordtype}{bool}\ boostEcl);}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{comment}{/*-\/-\/-\/-\/\ Functions\ (low\ level)\ to\ generate\ QR\ Codes\ -\/-\/-\/-\/*/}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00201\ \textcolor{comment}{\ *\ Renders\ a\ QR\ Code\ representing\ the\ given\ segments\ at\ the\ given\ error\ correction\ level.}}
+\DoxyCodeLine{00202\ \textcolor{comment}{\ *\ The\ smallest\ possible\ QR\ Code\ version\ is\ automatically\ chosen\ for\ the\ output.\ Returns\ true\ if}}
+\DoxyCodeLine{00203\ \textcolor{comment}{\ *\ QR\ Code\ creation\ succeeded,\ or\ false\ if\ the\ data\ is\ too\ long\ to\ fit\ in\ any\ version.\ The\ ECC\ level}}
+\DoxyCodeLine{00204\ \textcolor{comment}{\ *\ of\ the\ result\ may\ be\ higher\ than\ the\ ecl\ argument\ if\ it\ can\ be\ done\ without\ increasing\ the\ version.}}
+\DoxyCodeLine{00205\ \textcolor{comment}{\ *\ This\ function\ allows\ the\ user\ to\ create\ a\ custom\ sequence\ of\ segments\ that\ switches}}
+\DoxyCodeLine{00206\ \textcolor{comment}{\ *\ between\ modes\ (such\ as\ alphanumeric\ and\ byte)\ to\ encode\ text\ in\ less\ space.}}
+\DoxyCodeLine{00207\ \textcolor{comment}{\ *\ This\ is\ a\ low-\/level\ API;\ the\ high-\/level\ API\ is\ qrcodegen\_encodeText()\ and\ qrcodegen\_encodeBinary().}}
+\DoxyCodeLine{00208\ \textcolor{comment}{\ *\ To\ save\ memory,\ the\ segments'\ data\ buffers\ can\ alias/overlap\ tempBuffer,\ and\ will}}
+\DoxyCodeLine{00209\ \textcolor{comment}{\ *\ result\ in\ them\ being\ clobbered,\ but\ the\ QR\ Code\ output\ will\ still\ be\ correct.}}
+\DoxyCodeLine{00210\ \textcolor{comment}{\ *\ But\ the\ qrcode\ array\ must\ not\ overlap\ tempBuffer\ or\ any\ segment's\ data\ buffer.}}
+\DoxyCodeLine{00211\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00212\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a41164e2a41efb324b919395ffde14fa7}{qrcodegen\_encodeSegments}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ segs[],\ \textcolor{keywordtype}{size\_t}\ len,}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ ecl,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ tempBuffer[],\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[]);}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00217\ \textcolor{comment}{\ *\ Renders\ a\ QR\ Code\ representing\ the\ given\ segments\ with\ the\ given\ encoding\ parameters.}}
+\DoxyCodeLine{00218\ \textcolor{comment}{\ *\ Returns\ true\ if\ QR\ Code\ creation\ succeeded,\ or\ false\ if\ the\ data\ is\ too\ long\ to\ fit\ in\ the\ range\ of\ versions.}}
+\DoxyCodeLine{00219\ \textcolor{comment}{\ *\ The\ smallest\ possible\ QR\ Code\ version\ within\ the\ given\ range\ is\ automatically}}
+\DoxyCodeLine{00220\ \textcolor{comment}{\ *\ chosen\ for\ the\ output.\ Iff\ boostEcl\ is\ true,\ then\ the\ ECC\ level\ of\ the\ result}}
+\DoxyCodeLine{00221\ \textcolor{comment}{\ *\ may\ be\ higher\ than\ the\ ecl\ argument\ if\ it\ can\ be\ done\ without\ increasing\ the}}
+\DoxyCodeLine{00222\ \textcolor{comment}{\ *\ version.\ The\ mask\ number\ is\ either\ between\ 0\ to\ 7\ (inclusive)\ to\ force\ that}}
+\DoxyCodeLine{00223\ \textcolor{comment}{\ *\ mask,\ or\ -\/1\ to\ automatically\ choose\ an\ appropriate\ mask\ (which\ may\ be\ slow).}}
+\DoxyCodeLine{00224\ \textcolor{comment}{\ *\ This\ function\ allows\ the\ user\ to\ create\ a\ custom\ sequence\ of\ segments\ that\ switches}}
+\DoxyCodeLine{00225\ \textcolor{comment}{\ *\ between\ modes\ (such\ as\ alphanumeric\ and\ byte)\ to\ encode\ text\ in\ less\ space.}}
+\DoxyCodeLine{00226\ \textcolor{comment}{\ *\ This\ is\ a\ low-\/level\ API;\ the\ high-\/level\ API\ is\ qrcodegen\_encodeText()\ and\ qrcodegen\_encodeBinary().}}
+\DoxyCodeLine{00227\ \textcolor{comment}{\ *\ To\ save\ memory,\ the\ segments'\ data\ buffers\ can\ alias/overlap\ tempBuffer,\ and\ will}}
+\DoxyCodeLine{00228\ \textcolor{comment}{\ *\ result\ in\ them\ being\ clobbered,\ but\ the\ QR\ Code\ output\ will\ still\ be\ correct.}}
+\DoxyCodeLine{00229\ \textcolor{comment}{\ *\ But\ the\ qrcode\ array\ must\ not\ overlap\ tempBuffer\ or\ any\ segment's\ data\ buffer.}}
+\DoxyCodeLine{00230\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00231\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a7df325ca1714e2a5a1305b9b75436f8f}{qrcodegen\_encodeSegmentsAdvanced}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ segs[],\ \textcolor{keywordtype}{size\_t}\ len,\ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ ecl,}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minVersion,\ \textcolor{keywordtype}{int}\ maxVersion,\ \textcolor{keywordtype}{int}\ mask,\ \textcolor{keywordtype}{bool}\ boostEcl,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ tempBuffer[],\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[]);}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00236\ \textcolor{comment}{\ *\ Tests\ whether\ the\ given\ string\ can\ be\ encoded\ as\ a\ segment\ in\ alphanumeric\ mode.}}
+\DoxyCodeLine{00237\ \textcolor{comment}{\ *\ A\ string\ is\ encodable\ iff\ each\ character\ is\ in\ the\ following\ set:\ 0\ to\ 9,\ A\ to\ Z}}
+\DoxyCodeLine{00238\ \textcolor{comment}{\ *\ (uppercase\ only),\ space,\ dollar,\ percent,\ asterisk,\ plus,\ hyphen,\ period,\ slash,\ colon.}}
+\DoxyCodeLine{00239\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00240\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a25856a1d9c76851f8b83640ba3c6a3fc}{qrcodegen\_isAlphanumeric}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ text);}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00244\ \textcolor{comment}{\ *\ Tests\ whether\ the\ given\ string\ can\ be\ encoded\ as\ a\ segment\ in\ numeric\ mode.}}
+\DoxyCodeLine{00245\ \textcolor{comment}{\ *\ A\ string\ is\ encodable\ iff\ each\ character\ is\ in\ the\ range\ 0\ to\ 9.}}
+\DoxyCodeLine{00246\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00247\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_aa873e0a91056118719064ea4f2a15013}{qrcodegen\_isNumeric}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ text);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00251\ \textcolor{comment}{\ *\ Returns\ the\ number\ of\ bytes\ (uint8\_t)\ needed\ for\ the\ data\ buffer\ of\ a\ segment}}
+\DoxyCodeLine{00252\ \textcolor{comment}{\ *\ containing\ the\ given\ number\ of\ characters\ using\ the\ given\ mode.\ Notes:}}
+\DoxyCodeLine{00253\ \textcolor{comment}{\ *\ -\/\ Returns\ SIZE\_MAX\ on\ failure,\ i.e.\ numChars\ >\ INT16\_MAX\ or}}
+\DoxyCodeLine{00254\ \textcolor{comment}{\ *\ \ \ the\ number\ of\ needed\ bits\ exceeds\ INT16\_MAX\ (i.e.\ 32767).}}
+\DoxyCodeLine{00255\ \textcolor{comment}{\ *\ -\/\ Otherwise,\ all\ valid\ results\ are\ in\ the\ range\ [0,\ ceil(INT16\_MAX\ /\ 8)],\ i.e.\ at\ most\ 4096.}}
+\DoxyCodeLine{00256\ \textcolor{comment}{\ *\ -\/\ It\ is\ okay\ for\ the\ user\ to\ allocate\ more\ bytes\ for\ the\ buffer\ than\ needed.}}
+\DoxyCodeLine{00257\ \textcolor{comment}{\ *\ -\/\ For\ byte\ mode,\ numChars\ measures\ the\ number\ of\ bytes,\ not\ Unicode\ code\ points.}}
+\DoxyCodeLine{00258\ \textcolor{comment}{\ *\ -\/\ For\ ECI\ mode,\ numChars\ must\ be\ 0,\ and\ the\ worst-\/case\ number\ of\ bytes\ is\ returned.}}
+\DoxyCodeLine{00259\ \textcolor{comment}{\ *\ \ \ An\ actual\ ECI\ segment\ can\ have\ shorter\ data.\ For\ non-\/ECI\ modes,\ the\ result\ is\ exact.}}
+\DoxyCodeLine{00260\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00261\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{qrcodegen_8h_a15e9a13d5e49596089d6506558f6e506}{qrcodegen\_calcSegmentBufferSize}}(\textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_abc07959354ad4ea91d2a97be2cce097b}{qrcodegen\_Mode}}\ mode,\ \textcolor{keywordtype}{size\_t}\ numChars);}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00265\ \textcolor{comment}{\ *\ Returns\ a\ segment\ representing\ the\ given\ binary\ data\ encoded\ in}}
+\DoxyCodeLine{00266\ \textcolor{comment}{\ *\ byte\ mode.\ All\ input\ byte\ arrays\ are\ acceptable.\ Any\ text\ string}}
+\DoxyCodeLine{00267\ \textcolor{comment}{\ *\ can\ be\ converted\ to\ UTF-\/8\ bytes\ and\ encoded\ as\ a\ byte\ mode\ segment.}}
+\DoxyCodeLine{00268\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00269\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ \doxymbox{\hyperlink{qrcodegen_8h_a5b28f0f89765839d8f4c8a803edc4ad4}{qrcodegen\_makeBytes}}(const\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structqrcodegen___segment_abe222f6d3581e7920dcad5306cc906a8}{data}}[],\ \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\_t}}\ len,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ buf[]);}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00273\ \textcolor{comment}{\ *\ Returns\ a\ segment\ representing\ the\ given\ string\ of\ decimal\ digits\ encoded\ in\ numeric\ mode.}}
+\DoxyCodeLine{00274\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00275\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ \doxymbox{\hyperlink{qrcodegen_8h_aa1c8b8a85f121c8cd1be89ddab684d43}{qrcodegen\_makeNumeric}}(const\ char\ *\ digits,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ buf[]);}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00279\ \textcolor{comment}{\ *\ Returns\ a\ segment\ representing\ the\ given\ text\ string\ encoded\ in\ alphanumeric\ mode.}}
+\DoxyCodeLine{00280\ \textcolor{comment}{\ *\ The\ characters\ allowed\ are:\ 0\ to\ 9,\ A\ to\ Z\ (uppercase\ only),\ space,}}
+\DoxyCodeLine{00281\ \textcolor{comment}{\ *\ dollar,\ percent,\ asterisk,\ plus,\ hyphen,\ period,\ slash,\ colon.}}
+\DoxyCodeLine{00282\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00283\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ \doxymbox{\hyperlink{qrcodegen_8h_aaed32d45f095ce02e6718c8a48f4393d}{qrcodegen\_makeAlphanumeric}}(const\ char\ *\ text,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ buf[]);}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00287\ \textcolor{comment}{\ *\ Returns\ a\ segment\ representing\ an\ Extended\ Channel\ Interpretation}}
+\DoxyCodeLine{00288\ \textcolor{comment}{\ *\ (ECI)\ designator\ with\ the\ given\ assignment\ value.}}
+\DoxyCodeLine{00289\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00290\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structqrcodegen___segment}{qrcodegen\_Segment}}\ \doxymbox{\hyperlink{qrcodegen_8h_a27c3b3d01e91f9532689adbb01c1ff2c}{qrcodegen\_makeEci}}(long\ assignVal,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ buf[]);}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \textcolor{comment}{/*-\/-\/-\/-\/\ Functions\ to\ extract\ raw\ data\ from\ QR\ Codes\ -\/-\/-\/-\/*/}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00296\ \textcolor{comment}{\ *\ Returns\ the\ side\ length\ of\ the\ given\ QR\ Code,\ assuming\ that\ encoding\ succeeded.}}
+\DoxyCodeLine{00297\ \textcolor{comment}{\ *\ The\ result\ is\ in\ the\ range\ [21,\ 177].\ Note\ that\ the\ length\ of\ the\ array\ buffer}}
+\DoxyCodeLine{00298\ \textcolor{comment}{\ *\ is\ related\ to\ the\ side\ length\ -\/\ every\ 'uint8\_t\ qrcode[]'\ must\ have\ length\ at\ least}}
+\DoxyCodeLine{00299\ \textcolor{comment}{\ *\ qrcodegen\_BUFFER\_LEN\_FOR\_VERSION(version),\ which\ equals\ ceil(size\string^2\ /\ 8\ +\ 1).}}
+\DoxyCodeLine{00300\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00301\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{qrcodegen_8h_afe30b8ff2b6218f37a2945871e6f11b8}{qrcodegen\_getSize}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[]);}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00305\ \textcolor{comment}{\ *\ Returns\ the\ color\ of\ the\ module\ (pixel)\ at\ the\ given\ coordinates,\ which\ is\ false}}
+\DoxyCodeLine{00306\ \textcolor{comment}{\ *\ for\ white\ or\ true\ for\ black.\ The\ top\ left\ corner\ has\ the\ coordinates\ (x=0,\ y=0).}}
+\DoxyCodeLine{00307\ \textcolor{comment}{\ *\ If\ the\ given\ coordinates\ are\ out\ of\ bounds,\ then\ false\ (white)\ is\ returned.}}
+\DoxyCodeLine{00308\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00309\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{qrcodegen_8h_a495cb24d97c9b90a9c1e8a62903debf5}{qrcodegen\_getModule}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qrcode[],\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00312\ \textcolor{comment}{\ *\ Returns\ the\ qrcode\ size\ of\ the\ specified\ version.\ Returns\ -\/1\ on\ failure}}
+\DoxyCodeLine{00313\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00314\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{qrcodegen_8h_af4c81f8d440eaa1a5aebf17a4d8ab51b}{qrcodegen\_version2size}}(\textcolor{keywordtype}{int}\ version);}
+\DoxyCodeLine{00315\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00316\ \textcolor{comment}{\ *\ Returns\ the\ min\ version\ of\ the\ data\ that\ can\ be\ stored.\ Returns\ -\/1\ on\ failure}}
+\DoxyCodeLine{00317\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00318\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{qrcodegen_8h_ac90fae8dd32872553aa99a20978dc22c}{qrcodegen\_getMinFitVersion}}(\textcolor{keyword}{enum}\ \doxymbox{\hyperlink{qrcodegen_8h_a4823d2c403f1e1ae151939d14003b65c}{qrcodegen\_Ecc}}\ ecl,\ \textcolor{keywordtype}{size\_t}\ dataLen);}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00321\ \}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

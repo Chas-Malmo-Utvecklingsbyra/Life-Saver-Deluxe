@@ -1,0 +1,127 @@
+\doxysection{lv\+\_\+fastgltf.\+hpp}
+\hypertarget{lv__fastgltf_8hpp_source}{}\label{lv__fastgltf_8hpp_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/fastgltf/lv\_fastgltf.hpp@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/fastgltf/lv\_fastgltf.hpp}}
+\doxymbox{\hyperlink{lv__fastgltf_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#if\ LV\_USE\_GLTF}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <fastgltf/math.hpp>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <fastgltf/util.hpp>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }fastgltf}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ FASTGLTF\_EXPORT\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ AssetType,\ \textcolor{keyword}{typename}\ Callback>}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ FASTGLTF\_HAS\_CONCEPTS}}
+\DoxyCodeLine{00023\ \textcolor{keyword}{requires}\ std::same\_as<std::remove\_cvref\_t<AssetType>,\ Asset>\ \&\&}
+\DoxyCodeLine{00024\ \ \ \ \ std::is\_invocable\_v<Callback,\ fastgltf::Node\ \&,\ std::string\ \&,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \&,\ std::size\_t,\ std::size\_t>}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ namegen\_iterate\_scene\_nodes(AssetType\ \&\&asset,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ sceneIndex,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Callback\ callback)}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{auto}\ \&scene\ =\ asset.scenes[sceneIndex];}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ std::string\ \_id\ =\ std::string(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{00034\ \ \ \ \ std::string\ \_ip\ =\ std::string(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{if}\ (asset.scenes.size()\ >\ 1)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \_id\ =\ \textcolor{stringliteral}{"{}scene\_"{}}\ +\ std::to\_string(sceneIndex);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \_ip\ =\ std::to\_string(sceneIndex);}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{auto}\ function\ =\ [\&](std::size\_t\ nodeIndex,\ std::string\ \&parentId,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \&parentIp,\ std::size\_t\ \_\_child\_index,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&self)\ -\/>\ \textcolor{keywordtype}{void}\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ assert(asset.nodes.size()\ >\ nodeIndex);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&node\ =\ asset.nodes[nodeIndex];}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ std::string\ \_nodeId\ =}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ parentId\ +\ std::string(\textcolor{stringliteral}{"{}/"{}})\ +\ std::string(node.name);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ std::string\ \_nodeIp\ =\ parentIp\ +\ std::string(\textcolor{stringliteral}{"{}."{}})\ +}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(\_\_child\_index);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::invoke(callback,\ node,\ \_nodeId,\ \_nodeIp,\ nodeIndex,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_child\_index);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::size\_t\ \_\_\_\_child\_index\ =\ 0;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&child\ :\ node.children)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ self(child,\ \_nodeId,\ \_nodeIp,\ \_\_\_\_child\_index,\ self);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\_child\_index\ +=\ 1;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \};}
+\DoxyCodeLine{00056\ \ \ \ \ std::size\_t\ child\_index\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&sceneNode\ :\ scene.nodeIndices)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ function(sceneNode,\ \_id,\ \_ip,\ child\_index,\ function);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ child\_index\ +=\ 1;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \}}
+\DoxyCodeLine{00062\ FASTGLTF\_EXPORT\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ AssetType,\ \textcolor{keyword}{typename}\ Callback>}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#if\ FASTGLTF\_HAS\_CONCEPTS}}
+\DoxyCodeLine{00064\ \textcolor{keyword}{requires}\ std::same\_as<std::remove\_cvref\_t<AssetType>,\ Asset>\ \&\&}
+\DoxyCodeLine{00065\ \ \ \ \ std::is\_invocable\_v<Callback,\ fastgltf::Node\ \&,\ fastgltf::math::fmat4x4\ \&,\ fastgltf::math::fmat4x4\ \&>}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00068\ \ \ \ \ findlight\_iterate\_scene\_nodes(AssetType\ \&\&asset,\ std::size\_t\ sceneIndex,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ math::fmat4x4\ *initial,\ Callback\ callback)}
+\DoxyCodeLine{00070\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{auto}\ \&scene\ =\ asset.scenes[sceneIndex];}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{auto}\ function\ =\ [\&](std::size\_t\ nodeIndex,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ math::fmat4x4\ \&parentWorldMatrix,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&self)\ -\/>\ \textcolor{keywordtype}{void}\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ assert(asset.nodes.size()\ >\ nodeIndex);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&node\ =\ asset.nodes[nodeIndex];}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \_localMat\ =\ getTransformMatrix(node,\ math::fmat4x4());}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ std::invoke(callback,\ node,\ parentWorldMatrix,\ \_localMat);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&child\ :\ node.children)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ math::fmat4x4\ \_parentWorldTemp\ =}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parentWorldMatrix\ *\ \_localMat;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ self(child,\ \_parentWorldTemp,\ self);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \};}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&sceneNode\ :\ scene.nodeIndices)\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ tmat2\ =\ fastgltf::math::fmat4x4(*initial);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ function(sceneNode,\ tmat2,\ function);}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ FASTGLTF\_EXPORT\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ AssetType,\ \textcolor{keyword}{typename}\ Callback>}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#if\ FASTGLTF\_HAS\_CONCEPTS}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{requires}\ std::same\_as<std::remove\_cvref\_t<AssetType>,\ Asset>}
+\DoxyCodeLine{00093\ \ \ \ \ \&\&\ std::is\_invocable\_v<Callback,\ fastgltf::Node\ \&,\ fastgltf::math::fmat4x4\ \&,\ fastgltf::math::fmat4x4\ \&>}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00095\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ custom\_iterate\_scene\_nodes(AssetType\&\&\ asset,\ std::size\_t\ sceneIndex,\ math::fmat4x4\ *\ initial,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Callback\ callback)}
+\DoxyCodeLine{00097\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ scene\ =\ asset.scenes[sceneIndex];}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ nodes\ =\ asset.nodes;}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{auto}\ function\ =\ [\&](std::size\_t\ nodeIndex,\ math::fmat4x4\ \&\ parentWorldMatrix,\ \textcolor{keyword}{auto}\ \&\ self)\ -\/>\ \textcolor{keywordtype}{void}\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//assert(asset.nodes.size()\ >\ nodeIndex);}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ node\ =\ nodes[nodeIndex];}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \_localMat\ =\ getTransformMatrix(node,\ math::fmat4x4());}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ std::invoke(callback,\ node,\ parentWorldMatrix,\ \_localMat);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ num\_children\ =\ node.children.size();}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(num\_children\ >\ 0)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ math::fmat4x4\ \_parentWorldTemp\ =\ parentWorldMatrix\ *\ \_localMat;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(num\_children\ >\ 1)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ math::fmat4x4\ per\_child\_copy\ =\ math::fmat4x4(\_parentWorldTemp);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ \&\ child\ :\ node.children)\ self(child,\ per\_child\_copy,\ self);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self(node.children[0],\ \_parentWorldTemp,\ \ self);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \};}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ auto\ tempmat\ =\ fastgltf::math::fmat4x4(*initial);}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//for\ (auto\&\ sceneNode\ :\ scene.nodeIndices)\ function(sceneNode,\ \&tempmat,\ function);}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ \&\ sceneNode\ :\ scene.nodeIndices)\ function(sceneNode,\ *initial,\ function);}
+\DoxyCodeLine{00120\ \}}
+\DoxyCodeLine{00121\ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GLTF*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

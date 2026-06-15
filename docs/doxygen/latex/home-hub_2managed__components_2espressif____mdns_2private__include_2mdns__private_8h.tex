@@ -1,0 +1,935 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+private\+\_\+include/\+mdns\+\_\+private.h File Reference}
+\hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h}{}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h}\index{home-\/hub/managed\_components/espressif\_\_mdns/private\_include/mdns\_private.h@{home-\/hub/managed\_components/espressif\_\_mdns/private\_include/mdns\_private.h}}
+{\ttfamily \+\#include "{}sdkconfig.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+queue.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+timer.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+system.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structmdns__header__t}{mdns\+\_\+header\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__name__t}{mdns\+\_\+name\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__parsed__question__s}{mdns\+\_\+parsed\+\_\+question\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__parsed__record__s}{mdns\+\_\+parsed\+\_\+record\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__parsed__packet__t}{mdns\+\_\+parsed\+\_\+packet\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__txt__linked__item__s}{mdns\+\_\+txt\+\_\+linked\+\_\+item\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__subtype__s}{mdns\+\_\+subtype\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__service__t}{mdns\+\_\+service\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__srv__item__s}{mdns\+\_\+srv\+\_\+item\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__out__question__s}{mdns\+\_\+out\+\_\+question\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__host__item__t}{mdns\+\_\+host\+\_\+item\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__out__answer__s}{mdns\+\_\+out\+\_\+answer\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__tx__packet__s}{mdns\+\_\+tx\+\_\+packet\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__search__once__s}{mdns\+\_\+search\+\_\+once\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__browse__s}{mdns\+\_\+browse\+\_\+s}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__browse__result__sync__t}{mdns\+\_\+browse\+\_\+result\+\_\+sync\+\_\+t}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__browse__sync}{mdns\+\_\+browse\+\_\+sync}}
+\item 
+struct \doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab53f59f6d21ea213855a0e666774290a}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+STA}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2ffae75d8f327ab6599c7c4973c99219}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+AP}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a385b60c12a802f92edd8518d4ae8b0b3}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+ETH}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aea031c94bd4fa5793f44adbafec5cedf}{MDNS\+\_\+\+MAX\+\_\+\+PREDEF\+\_\+\+INTERFACES}}~(\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab53f59f6d21ea213855a0e666774290a}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+STA}} + \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2ffae75d8f327ab6599c7c4973c99219}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+AP}} + \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a385b60c12a802f92edd8518d4ae8b0b3}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+ETH}})
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acc40053e6ab1b9e15682cc776f7a2150}{NETIF\+\_\+\+IPV6\+\_\+\+MAX\+\_\+\+NUMS}}~3
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad8e3989c4df355851091ac21bc626295}{MDNS\+\_\+\+MAX\+\_\+\+INTERFACES}}~(\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a73a053a638bc32958422a9b65ef68ebb}{CONFIG\+\_\+\+MDNS\+\_\+\+MAX\+\_\+\+INTERFACES}})
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a82749ee08be21967b6daf577b9710ac6}{MDNS\+\_\+\+MAX\+\_\+\+SERVICES}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a98833d48a73628de56665ff38813b952}{CONFIG\+\_\+\+MDNS\+\_\+\+MAX\+\_\+\+SERVICES}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a868988de911bacc06876cf8aeae73606}{MDNS\+\_\+\+ANSWER\+\_\+\+PTR\+\_\+\+TTL}}~4500
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab3bd1abb516d4fc8daf73244914c73d5}{MDNS\+\_\+\+ANSWER\+\_\+\+TXT\+\_\+\+TTL}}~4500
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a02a86ed6981de5955f48032b53088424}{MDNS\+\_\+\+ANSWER\+\_\+\+SRV\+\_\+\+TTL}}~120
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa5e745ed2e121164382203aa47de549a}{MDNS\+\_\+\+ANSWER\+\_\+\+A\+\_\+\+TTL}}~120
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af029740242248769cf83aee2ffdecae4}{MDNS\+\_\+\+ANSWER\+\_\+\+AAAA\+\_\+\+TTL}}~120
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a0482559b0ee941bdcec8a97ece0552dd}{MDNS\+\_\+\+FLAGS\+\_\+\+QUERY\+\_\+\+REPSONSE}}~0x8000
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae054458875bfe5e394eb0f9b89e56f83}{MDNS\+\_\+\+FLAGS\+\_\+\+AUTHORITATIVE}}~0x0400
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a85ea0d9d7f88d406ffe86c255fd92823}{MDNS\+\_\+\+FLAGS\+\_\+\+QR\+\_\+\+AUTHORITATIVE}}~(\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a0482559b0ee941bdcec8a97ece0552dd}{MDNS\+\_\+\+FLAGS\+\_\+\+QUERY\+\_\+\+REPSONSE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae054458875bfe5e394eb0f9b89e56f83}{MDNS\+\_\+\+FLAGS\+\_\+\+AUTHORITATIVE}})
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a742f9e801d2c62c3d1ed7eb40a83f1f6}{MDNS\+\_\+\+FLAGS\+\_\+\+DISTRIBUTED}}~0x0200
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad4eb898966ab5690992dfe7c7a6f76a8}{MDNS\+\_\+\+NAME\+\_\+\+REF}}~0x\+C000
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afca8c17e932b84943dd165895bbef93d}{MDNS\+\_\+\+TYPE\+\_\+\+SDPTR}}~0x0032
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af689d01ab1ce681bf6e6115fb81ccdc0}{MDNS\+\_\+\+CLASS\+\_\+\+IN}}~0x0001
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7008c586c14df8b51bcd387dd445d7aa}{MDNS\+\_\+\+CLASS\+\_\+\+ANY}}~0x00\+FF
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af23f73000149ebedf4843a6b787f125b}{MDNS\+\_\+\+CLASS\+\_\+\+IN\+\_\+\+FLUSH\+\_\+\+CACHE}}~0x8001
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa3353981d334329cd7fa826b8a915992}{MDNS\+\_\+\+ANSWER\+\_\+\+ALL}}~0x3F
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5b902ca1328c622111e9f01b80181bad}{MDNS\+\_\+\+ANSWER\+\_\+\+PTR}}~0x08
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae2cd08c199f9bc1655c1c12e291b0914}{MDNS\+\_\+\+ANSWER\+\_\+\+TXT}}~0x04
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac1d73d4d041973814b2f8c49b7fa645}{MDNS\+\_\+\+ANSWER\+\_\+\+SRV}}~0x02
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a33a8c2fa5cf10acc91e9246404f895aa}{MDNS\+\_\+\+ANSWER\+\_\+A}}~0x01
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac83cd4c491f4a430ca03ea267d8aaff}{MDNS\+\_\+\+ANSWER\+\_\+\+AAAA}}~0x10
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af30cbbf0a1212460e59e5802fc18fda2}{MDNS\+\_\+\+ANSWER\+\_\+\+NSEC}}~0x20
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80027c41f9c2d3386127bbb59a27d590}{MDNS\+\_\+\+ANSWER\+\_\+\+SDPTR}}~0x80
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4b23c2aca54ed64f942b1399151225d0}{MDNS\+\_\+\+ANSWER\+\_\+\+AAAA\+\_\+\+SIZE}}~16
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7ad20d359031bc414d0a471b7bebedd6}{MDNS\+\_\+\+SERVICE\+\_\+\+PORT}}~5353
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad895aa1e246f383b4488ebdafc21e07f}{MDNS\+\_\+\+SERVICE\+\_\+\+ADD\+\_\+\+TIMEOUT\+\_\+\+MS}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a1aabd62b8248085bce57b9ad9b2944a4}{CONFIG\+\_\+\+MDNS\+\_\+\+SERVICE\+\_\+\+ADD\+\_\+\+TIMEOUT\+\_\+\+MS}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80115c34c01d129697d9c3456a71d9c2}{MDNS\+\_\+\+PACKET\+\_\+\+QUEUE\+\_\+\+LEN}}~16
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acf9d072d9d5b1f42882c25e88eca516a}{MDNS\+\_\+\+ACTION\+\_\+\+QUEUE\+\_\+\+LEN}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a98760d643f0dec7f7e89f1585aa76eba}{CONFIG\+\_\+\+MDNS\+\_\+\+ACTION\+\_\+\+QUEUE\+\_\+\+LEN}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af42e2c869012f5400f86391daf2691b8}{MDNS\+\_\+\+TXT\+\_\+\+MAX\+\_\+\+LEN}}~1024
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6e53432a3de96c42af5cb2f3a59f268e}{MDNS\+\_\+\+MAX\+\_\+\+PACKET\+\_\+\+SIZE}}~1460
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a86b53cb6a79ac85fc59bab24ae761a8c}{MDNS\+\_\+\+HEAD\+\_\+\+LEN}}~12
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af1c9787e41ffebf66b2bc88af2d0f94c}{MDNS\+\_\+\+HEAD\+\_\+\+ID\+\_\+\+OFFSET}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9bc35e4c365c1d35d5dc8d4789824da4}{MDNS\+\_\+\+HEAD\+\_\+\+FLAGS\+\_\+\+OFFSET}}~2
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afe576f450d65ca3d105861fafac58052}{MDNS\+\_\+\+HEAD\+\_\+\+QUESTIONS\+\_\+\+OFFSET}}~4
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a01517dfd2e06852cb43d7c7f4a8b1161}{MDNS\+\_\+\+HEAD\+\_\+\+ANSWERS\+\_\+\+OFFSET}}~6
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2eb1eb486ff6aed8983416af04dd165b}{MDNS\+\_\+\+HEAD\+\_\+\+SERVERS\+\_\+\+OFFSET}}~8
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_adcbf426d0582ab9a2dd3ae44b832f013}{MDNS\+\_\+\+HEAD\+\_\+\+ADDITIONAL\+\_\+\+OFFSET}}~10
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac601f9acf41c229749aebd7e5e46364e}{MDNS\+\_\+\+TYPE\+\_\+\+OFFSET}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aedcecc6614658cd67165dee361173a5b}{MDNS\+\_\+\+CLASS\+\_\+\+OFFSET}}~2
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80736cb83d3eb61e074266a6a1e05c37}{MDNS\+\_\+\+TTL\+\_\+\+OFFSET}}~4
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab7f4968c34bb6cfdf98d0aaa4ab08bfa}{MDNS\+\_\+\+LEN\+\_\+\+OFFSET}}~8
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a356f353e7ce946bbfe6fa8f27f324fda}{MDNS\+\_\+\+DATA\+\_\+\+OFFSET}}~10
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5bcec950173666cf6782b1b777b9b876}{MDNS\+\_\+\+SRV\+\_\+\+PRIORITY\+\_\+\+OFFSET}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a677d540dbeaa7142ad3f9345f33ab291}{MDNS\+\_\+\+SRV\+\_\+\+WEIGHT\+\_\+\+OFFSET}}~2
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a076d3776ee385654206e85c0e89f8407}{MDNS\+\_\+\+SRV\+\_\+\+PORT\+\_\+\+OFFSET}}~4
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a936cce45f31d69dd7a9aff826c9f3f4f}{MDNS\+\_\+\+SRV\+\_\+\+FQDN\+\_\+\+OFFSET}}~6
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab5b822f83ccf324d1b3e98d192a7b742}{MDNS\+\_\+\+TIMER\+\_\+\+PERIOD\+\_\+\+US}}~(\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a1146d9c1f7d73665ea49c7db7dbae9e2}{CONFIG\+\_\+\+MDNS\+\_\+\+TIMER\+\_\+\+PERIOD\+\_\+\+MS}}\texorpdfstring{$\ast$}{*}1000)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a959fd35a203d5a09453917afdcc38a7a}{queue\+To\+End}}(type,  queue,  \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}})
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6f21ab649b89ba329846cf097ab15368}{queue\+Detach}}(type,  queue,  \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}})
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aae6ea77ceea0fbe1d725a2b6744b17bd}{queue\+Free}}(type,  queue)
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a27e74d7ad948b73584bb35254c4e936e}{HOOK\+\_\+\+MALLOC\+\_\+\+FAILED}}~do \{ \doxymbox{\hyperlink{esp__log_8h_ad62761d4b255c9772c9d2d15233ff82c}{ESP\+\_\+\+LOGE}}(\doxymbox{\hyperlink{gui_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}, "{}Cannot allocate memory (\%s(\%d), free heap:\+ \%"{} PRIu32 "{} bytes)"{}, \+\_\+\+\_\+func\+\_\+\+\_\+, \+\_\+\+\_\+\+LINE\+\_\+\+\_\+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2tests_2host__unit__test_2stubs_2esp__idf_8c_a072add67f3a169b9d618af2bdd06c33c}{esp\+\_\+get\+\_\+free\+\_\+heap\+\_\+size}}()); \} while(0)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__parsed__question__s}{mdns\+\_\+parsed\+\_\+question\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad894fa14532d317ab5900f1eef1f7a8d}{mdns\+\_\+parsed\+\_\+question\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__parsed__record__s}{mdns\+\_\+parsed\+\_\+record\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae97f0836d24bfff7f1a6130b97fc3db2}{mdns\+\_\+parsed\+\_\+record\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__txt__linked__item__s}{mdns\+\_\+txt\+\_\+linked\+\_\+item\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6fbc5832bbeca3ba0742082dffaeecf8}{mdns\+\_\+txt\+\_\+linked\+\_\+item\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__subtype__s}{mdns\+\_\+subtype\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac4b0aed9dba77d6cd6a03db221e4b5fb}{mdns\+\_\+subtype\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__srv__item__s}{mdns\+\_\+srv\+\_\+item\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__out__question__s}{mdns\+\_\+out\+\_\+question\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a57f1f00667228acb5fa82012017e3686}{mdns\+\_\+out\+\_\+question\+\_\+t}}
+\item 
+typedef struct mdns\+\_\+host\+\_\+item\+\_\+t \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a95c749e793c26ef0b66312ac8dd65e2d}{mdns\+\_\+host\+\_\+item\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__out__answer__s}{mdns\+\_\+out\+\_\+answer\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a87ddd175c5f80550a2f138ce6cfc0cf8}{mdns\+\_\+out\+\_\+answer\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__tx__packet__s}{mdns\+\_\+tx\+\_\+packet\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243}{mdns\+\_\+tx\+\_\+packet\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__search__once__s}{mdns\+\_\+search\+\_\+once\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__browse__s}{mdns\+\_\+browse\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a1a372273359832ad850f986873fb4753}{mdns\+\_\+browse\+\_\+t}}
+\item 
+typedef struct mdns\+\_\+browse\+\_\+result\+\_\+sync\+\_\+t \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af3cbb6037aa50da6b0b3dfc3c9b3b1f5}{mdns\+\_\+browse\+\_\+result\+\_\+sync\+\_\+t}}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__browse__sync}{mdns\+\_\+browse\+\_\+sync}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_abb9d68018db9fce186fe1a3b5d4741c6}{mdns\+\_\+browse\+\_\+sync\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2f}{mdns\+\_\+parsed\+\_\+record\+\_\+type\+\_\+t}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fac7cae285e6c8078592e2f365bd210302}{MDNS\+\_\+\+ANSWER}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fab26addc028ba036f34c6b509b4737782}{MDNS\+\_\+\+NS}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fa772a5e25bbeb87d161f1f96781884f70}{MDNS\+\_\+\+EXTRA}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209}{mdns\+\_\+action\+\_\+type\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a44098417d86106b0f9f2d0981363ed88}{ACTION\+\_\+\+SYSTEM\+\_\+\+EVENT}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa819472759222aeee1c19181aae553fc}{ACTION\+\_\+\+HOSTNAME\+\_\+\+SET}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a58295a58f0257c6378132166e7adcb1e}{ACTION\+\_\+\+INSTANCE\+\_\+\+SET}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a020288b6af1989af1d4bb46dbff1f677}{ACTION\+\_\+\+SEARCH\+\_\+\+ADD}}
+, \newline
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a442caf556078270d601894f119c4415e}{ACTION\+\_\+\+SEARCH\+\_\+\+SEND}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a0379c6efcbcd768630d232f054b7af64}{ACTION\+\_\+\+SEARCH\+\_\+\+END}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a469f5608229b2471e92148a26ecd6946}{ACTION\+\_\+\+BROWSE\+\_\+\+ADD}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a363ee1dcafab1e28888c4e81fa06dc1e}{ACTION\+\_\+\+BROWSE\+\_\+\+SYNC}}
+, \newline
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a35f5a2571d86ae5ad4975568e5f2fed2}{ACTION\+\_\+\+BROWSE\+\_\+\+END}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa566427705e0461e286c8fe004241bff}{ACTION\+\_\+\+TX\+\_\+\+HANDLE}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a962c343592ee2590e517f633c21ab3d8}{ACTION\+\_\+\+RX\+\_\+\+HANDLE}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209ae138ae2bd7814eead7022f62169869e9}{ACTION\+\_\+\+TASK\+\_\+\+STOP}}
+, \newline
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aad6f563edaaefbfe1acaff0c4492461c}{ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+ADD}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a17c17d98762c73ca32b96be86c834d3f}{ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+REMOVE}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a2b1ff5dc7b6abe2ba6da823cec689f11}{ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+SET\+\_\+\+ADDR}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a45e0bf82637a1b26e79484dfb7f08fcf}{ACTION\+\_\+\+MAX}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfead87659f6afa7d1427659e241805b810f}{ACTION\+\_\+\+RUN}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfea6cc304a98ab1868cc297e0efebc31702}{ACTION\+\_\+\+CLEANUP}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00}{mdns\+\_\+search\+\_\+once\+\_\+state\+\_\+t}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00ad7c83d68978b75c5f7e54dca07faac36}{SEARCH\+\_\+\+OFF}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a41f071ebdf9f8666c5418d840d553ad6}{SEARCH\+\_\+\+INIT}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a298977bedfba0fe4ef3a006827d76a72}{SEARCH\+\_\+\+RUNNING}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a68883f5b51ca4ffe145b6eb9ea5e0944}{SEARCH\+\_\+\+MAX}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230}{mdns\+\_\+browse\+\_\+state\+\_\+t}} \{ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230aec3bc99ad3b444b2bff36098ec940e78}{BROWSE\+\_\+\+OFF}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a5d7a62626102036e4ab6b16e2c541e9b}{BROWSE\+\_\+\+INIT}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230afe530e730c34abcc8b1643228125721d}{BROWSE\+\_\+\+RUNNING}}
+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a4b9270e9412cd8d4ca710ae2dd278062}{BROWSE\+\_\+\+MAX}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-define-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2ffae75d8f327ab6599c7c4973c99219}\index{mdns\_private.h@{mdns\_private.h}!CONFIG\_MDNS\_PREDEF\_NETIF\_AP@{CONFIG\_MDNS\_PREDEF\_NETIF\_AP}}
+\index{CONFIG\_MDNS\_PREDEF\_NETIF\_AP@{CONFIG\_MDNS\_PREDEF\_NETIF\_AP}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_MDNS\_PREDEF\_NETIF\_AP}{CONFIG\_MDNS\_PREDEF\_NETIF\_AP}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2ffae75d8f327ab6599c7c4973c99219} 
+\+\#define CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+AP~0}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a385b60c12a802f92edd8518d4ae8b0b3}\index{mdns\_private.h@{mdns\_private.h}!CONFIG\_MDNS\_PREDEF\_NETIF\_ETH@{CONFIG\_MDNS\_PREDEF\_NETIF\_ETH}}
+\index{CONFIG\_MDNS\_PREDEF\_NETIF\_ETH@{CONFIG\_MDNS\_PREDEF\_NETIF\_ETH}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_MDNS\_PREDEF\_NETIF\_ETH}{CONFIG\_MDNS\_PREDEF\_NETIF\_ETH}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a385b60c12a802f92edd8518d4ae8b0b3} 
+\+\#define CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+ETH~0}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab53f59f6d21ea213855a0e666774290a}\index{mdns\_private.h@{mdns\_private.h}!CONFIG\_MDNS\_PREDEF\_NETIF\_STA@{CONFIG\_MDNS\_PREDEF\_NETIF\_STA}}
+\index{CONFIG\_MDNS\_PREDEF\_NETIF\_STA@{CONFIG\_MDNS\_PREDEF\_NETIF\_STA}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_MDNS\_PREDEF\_NETIF\_STA}{CONFIG\_MDNS\_PREDEF\_NETIF\_STA}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab53f59f6d21ea213855a0e666774290a} 
+\+\#define CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+STA~0}
+
+Number of predefined interfaces \Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a27e74d7ad948b73584bb35254c4e936e}\index{mdns\_private.h@{mdns\_private.h}!HOOK\_MALLOC\_FAILED@{HOOK\_MALLOC\_FAILED}}
+\index{HOOK\_MALLOC\_FAILED@{HOOK\_MALLOC\_FAILED}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{HOOK\_MALLOC\_FAILED}{HOOK\_MALLOC\_FAILED}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a27e74d7ad948b73584bb35254c4e936e} 
+\+\#define HOOK\+\_\+\+MALLOC\+\_\+\+FAILED~do \{ \doxymbox{\hyperlink{esp__log_8h_ad62761d4b255c9772c9d2d15233ff82c}{ESP\+\_\+\+LOGE}}(\doxymbox{\hyperlink{gui_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}, "{}Cannot allocate memory (\%s(\%d), free heap:\+ \%"{} PRIu32 "{} bytes)"{}, \+\_\+\+\_\+func\+\_\+\+\_\+, \+\_\+\+\_\+\+LINE\+\_\+\+\_\+, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2tests_2host__unit__test_2stubs_2esp__idf_8c_a072add67f3a169b9d618af2bdd06c33c}{esp\+\_\+get\+\_\+free\+\_\+heap\+\_\+size}}()); \} while(0)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acf9d072d9d5b1f42882c25e88eca516a}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ACTION\_QUEUE\_LEN@{MDNS\_ACTION\_QUEUE\_LEN}}
+\index{MDNS\_ACTION\_QUEUE\_LEN@{MDNS\_ACTION\_QUEUE\_LEN}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ACTION\_QUEUE\_LEN}{MDNS\_ACTION\_QUEUE\_LEN}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acf9d072d9d5b1f42882c25e88eca516a} 
+\+\#define MDNS\+\_\+\+ACTION\+\_\+\+QUEUE\+\_\+\+LEN~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a98760d643f0dec7f7e89f1585aa76eba}{CONFIG\+\_\+\+MDNS\+\_\+\+ACTION\+\_\+\+QUEUE\+\_\+\+LEN}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a33a8c2fa5cf10acc91e9246404f895aa}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_A@{MDNS\_ANSWER\_A}}
+\index{MDNS\_ANSWER\_A@{MDNS\_ANSWER\_A}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_A}{MDNS\_ANSWER\_A}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a33a8c2fa5cf10acc91e9246404f895aa} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+A~0x01}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa5e745ed2e121164382203aa47de549a}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_A\_TTL@{MDNS\_ANSWER\_A\_TTL}}
+\index{MDNS\_ANSWER\_A\_TTL@{MDNS\_ANSWER\_A\_TTL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_A\_TTL}{MDNS\_ANSWER\_A\_TTL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa5e745ed2e121164382203aa47de549a} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+A\+\_\+\+TTL~120}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac83cd4c491f4a430ca03ea267d8aaff}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_AAAA@{MDNS\_ANSWER\_AAAA}}
+\index{MDNS\_ANSWER\_AAAA@{MDNS\_ANSWER\_AAAA}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_AAAA}{MDNS\_ANSWER\_AAAA}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac83cd4c491f4a430ca03ea267d8aaff} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+AAAA~0x10}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4b23c2aca54ed64f942b1399151225d0}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_AAAA\_SIZE@{MDNS\_ANSWER\_AAAA\_SIZE}}
+\index{MDNS\_ANSWER\_AAAA\_SIZE@{MDNS\_ANSWER\_AAAA\_SIZE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_AAAA\_SIZE}{MDNS\_ANSWER\_AAAA\_SIZE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4b23c2aca54ed64f942b1399151225d0} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+AAAA\+\_\+\+SIZE~16}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af029740242248769cf83aee2ffdecae4}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_AAAA\_TTL@{MDNS\_ANSWER\_AAAA\_TTL}}
+\index{MDNS\_ANSWER\_AAAA\_TTL@{MDNS\_ANSWER\_AAAA\_TTL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_AAAA\_TTL}{MDNS\_ANSWER\_AAAA\_TTL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af029740242248769cf83aee2ffdecae4} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+AAAA\+\_\+\+TTL~120}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa3353981d334329cd7fa826b8a915992}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_ALL@{MDNS\_ANSWER\_ALL}}
+\index{MDNS\_ANSWER\_ALL@{MDNS\_ANSWER\_ALL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_ALL}{MDNS\_ANSWER\_ALL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aa3353981d334329cd7fa826b8a915992} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+ALL~0x3F}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af30cbbf0a1212460e59e5802fc18fda2}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_NSEC@{MDNS\_ANSWER\_NSEC}}
+\index{MDNS\_ANSWER\_NSEC@{MDNS\_ANSWER\_NSEC}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_NSEC}{MDNS\_ANSWER\_NSEC}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af30cbbf0a1212460e59e5802fc18fda2} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+NSEC~0x20}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5b902ca1328c622111e9f01b80181bad}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_PTR@{MDNS\_ANSWER\_PTR}}
+\index{MDNS\_ANSWER\_PTR@{MDNS\_ANSWER\_PTR}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_PTR}{MDNS\_ANSWER\_PTR}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5b902ca1328c622111e9f01b80181bad} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+PTR~0x08}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a868988de911bacc06876cf8aeae73606}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_PTR\_TTL@{MDNS\_ANSWER\_PTR\_TTL}}
+\index{MDNS\_ANSWER\_PTR\_TTL@{MDNS\_ANSWER\_PTR\_TTL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_PTR\_TTL}{MDNS\_ANSWER\_PTR\_TTL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a868988de911bacc06876cf8aeae73606} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+PTR\+\_\+\+TTL~4500}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80027c41f9c2d3386127bbb59a27d590}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_SDPTR@{MDNS\_ANSWER\_SDPTR}}
+\index{MDNS\_ANSWER\_SDPTR@{MDNS\_ANSWER\_SDPTR}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_SDPTR}{MDNS\_ANSWER\_SDPTR}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80027c41f9c2d3386127bbb59a27d590} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+SDPTR~0x80}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac1d73d4d041973814b2f8c49b7fa645}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_SRV@{MDNS\_ANSWER\_SRV}}
+\index{MDNS\_ANSWER\_SRV@{MDNS\_ANSWER\_SRV}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_SRV}{MDNS\_ANSWER\_SRV}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aac1d73d4d041973814b2f8c49b7fa645} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+SRV~0x02}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a02a86ed6981de5955f48032b53088424}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_SRV\_TTL@{MDNS\_ANSWER\_SRV\_TTL}}
+\index{MDNS\_ANSWER\_SRV\_TTL@{MDNS\_ANSWER\_SRV\_TTL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_SRV\_TTL}{MDNS\_ANSWER\_SRV\_TTL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a02a86ed6981de5955f48032b53088424} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+SRV\+\_\+\+TTL~120}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae2cd08c199f9bc1655c1c12e291b0914}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_TXT@{MDNS\_ANSWER\_TXT}}
+\index{MDNS\_ANSWER\_TXT@{MDNS\_ANSWER\_TXT}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_TXT}{MDNS\_ANSWER\_TXT}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae2cd08c199f9bc1655c1c12e291b0914} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+TXT~0x04}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab3bd1abb516d4fc8daf73244914c73d5}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER\_TXT\_TTL@{MDNS\_ANSWER\_TXT\_TTL}}
+\index{MDNS\_ANSWER\_TXT\_TTL@{MDNS\_ANSWER\_TXT\_TTL}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_ANSWER\_TXT\_TTL}{MDNS\_ANSWER\_TXT\_TTL}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab3bd1abb516d4fc8daf73244914c73d5} 
+\+\#define MDNS\+\_\+\+ANSWER\+\_\+\+TXT\+\_\+\+TTL~4500}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7008c586c14df8b51bcd387dd445d7aa}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_CLASS\_ANY@{MDNS\_CLASS\_ANY}}
+\index{MDNS\_CLASS\_ANY@{MDNS\_CLASS\_ANY}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_CLASS\_ANY}{MDNS\_CLASS\_ANY}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7008c586c14df8b51bcd387dd445d7aa} 
+\+\#define MDNS\+\_\+\+CLASS\+\_\+\+ANY~0x00\+FF}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af689d01ab1ce681bf6e6115fb81ccdc0}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_CLASS\_IN@{MDNS\_CLASS\_IN}}
+\index{MDNS\_CLASS\_IN@{MDNS\_CLASS\_IN}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_CLASS\_IN}{MDNS\_CLASS\_IN}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af689d01ab1ce681bf6e6115fb81ccdc0} 
+\+\#define MDNS\+\_\+\+CLASS\+\_\+\+IN~0x0001}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af23f73000149ebedf4843a6b787f125b}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_CLASS\_IN\_FLUSH\_CACHE@{MDNS\_CLASS\_IN\_FLUSH\_CACHE}}
+\index{MDNS\_CLASS\_IN\_FLUSH\_CACHE@{MDNS\_CLASS\_IN\_FLUSH\_CACHE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_CLASS\_IN\_FLUSH\_CACHE}{MDNS\_CLASS\_IN\_FLUSH\_CACHE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af23f73000149ebedf4843a6b787f125b} 
+\+\#define MDNS\+\_\+\+CLASS\+\_\+\+IN\+\_\+\+FLUSH\+\_\+\+CACHE~0x8001}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aedcecc6614658cd67165dee361173a5b}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_CLASS\_OFFSET@{MDNS\_CLASS\_OFFSET}}
+\index{MDNS\_CLASS\_OFFSET@{MDNS\_CLASS\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_CLASS\_OFFSET}{MDNS\_CLASS\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aedcecc6614658cd67165dee361173a5b} 
+\+\#define MDNS\+\_\+\+CLASS\+\_\+\+OFFSET~2}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a356f353e7ce946bbfe6fa8f27f324fda}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_DATA\_OFFSET@{MDNS\_DATA\_OFFSET}}
+\index{MDNS\_DATA\_OFFSET@{MDNS\_DATA\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_DATA\_OFFSET}{MDNS\_DATA\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a356f353e7ce946bbfe6fa8f27f324fda} 
+\+\#define MDNS\+\_\+\+DATA\+\_\+\+OFFSET~10}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae054458875bfe5e394eb0f9b89e56f83}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_FLAGS\_AUTHORITATIVE@{MDNS\_FLAGS\_AUTHORITATIVE}}
+\index{MDNS\_FLAGS\_AUTHORITATIVE@{MDNS\_FLAGS\_AUTHORITATIVE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_FLAGS\_AUTHORITATIVE}{MDNS\_FLAGS\_AUTHORITATIVE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae054458875bfe5e394eb0f9b89e56f83} 
+\+\#define MDNS\+\_\+\+FLAGS\+\_\+\+AUTHORITATIVE~0x0400}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a742f9e801d2c62c3d1ed7eb40a83f1f6}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_FLAGS\_DISTRIBUTED@{MDNS\_FLAGS\_DISTRIBUTED}}
+\index{MDNS\_FLAGS\_DISTRIBUTED@{MDNS\_FLAGS\_DISTRIBUTED}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_FLAGS\_DISTRIBUTED}{MDNS\_FLAGS\_DISTRIBUTED}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a742f9e801d2c62c3d1ed7eb40a83f1f6} 
+\+\#define MDNS\+\_\+\+FLAGS\+\_\+\+DISTRIBUTED~0x0200}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a85ea0d9d7f88d406ffe86c255fd92823}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_FLAGS\_QR\_AUTHORITATIVE@{MDNS\_FLAGS\_QR\_AUTHORITATIVE}}
+\index{MDNS\_FLAGS\_QR\_AUTHORITATIVE@{MDNS\_FLAGS\_QR\_AUTHORITATIVE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_FLAGS\_QR\_AUTHORITATIVE}{MDNS\_FLAGS\_QR\_AUTHORITATIVE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a85ea0d9d7f88d406ffe86c255fd92823} 
+\+\#define MDNS\+\_\+\+FLAGS\+\_\+\+QR\+\_\+\+AUTHORITATIVE~(\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a0482559b0ee941bdcec8a97ece0552dd}{MDNS\+\_\+\+FLAGS\+\_\+\+QUERY\+\_\+\+REPSONSE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae054458875bfe5e394eb0f9b89e56f83}{MDNS\+\_\+\+FLAGS\+\_\+\+AUTHORITATIVE}})}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a0482559b0ee941bdcec8a97ece0552dd}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_FLAGS\_QUERY\_REPSONSE@{MDNS\_FLAGS\_QUERY\_REPSONSE}}
+\index{MDNS\_FLAGS\_QUERY\_REPSONSE@{MDNS\_FLAGS\_QUERY\_REPSONSE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_FLAGS\_QUERY\_REPSONSE}{MDNS\_FLAGS\_QUERY\_REPSONSE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a0482559b0ee941bdcec8a97ece0552dd} 
+\+\#define MDNS\+\_\+\+FLAGS\+\_\+\+QUERY\+\_\+\+REPSONSE~0x8000}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_adcbf426d0582ab9a2dd3ae44b832f013}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_ADDITIONAL\_OFFSET@{MDNS\_HEAD\_ADDITIONAL\_OFFSET}}
+\index{MDNS\_HEAD\_ADDITIONAL\_OFFSET@{MDNS\_HEAD\_ADDITIONAL\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_ADDITIONAL\_OFFSET}{MDNS\_HEAD\_ADDITIONAL\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_adcbf426d0582ab9a2dd3ae44b832f013} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+ADDITIONAL\+\_\+\+OFFSET~10}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a01517dfd2e06852cb43d7c7f4a8b1161}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_ANSWERS\_OFFSET@{MDNS\_HEAD\_ANSWERS\_OFFSET}}
+\index{MDNS\_HEAD\_ANSWERS\_OFFSET@{MDNS\_HEAD\_ANSWERS\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_ANSWERS\_OFFSET}{MDNS\_HEAD\_ANSWERS\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a01517dfd2e06852cb43d7c7f4a8b1161} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+ANSWERS\+\_\+\+OFFSET~6}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9bc35e4c365c1d35d5dc8d4789824da4}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_FLAGS\_OFFSET@{MDNS\_HEAD\_FLAGS\_OFFSET}}
+\index{MDNS\_HEAD\_FLAGS\_OFFSET@{MDNS\_HEAD\_FLAGS\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_FLAGS\_OFFSET}{MDNS\_HEAD\_FLAGS\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9bc35e4c365c1d35d5dc8d4789824da4} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+FLAGS\+\_\+\+OFFSET~2}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af1c9787e41ffebf66b2bc88af2d0f94c}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_ID\_OFFSET@{MDNS\_HEAD\_ID\_OFFSET}}
+\index{MDNS\_HEAD\_ID\_OFFSET@{MDNS\_HEAD\_ID\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_ID\_OFFSET}{MDNS\_HEAD\_ID\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af1c9787e41ffebf66b2bc88af2d0f94c} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+ID\+\_\+\+OFFSET~0}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a86b53cb6a79ac85fc59bab24ae761a8c}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_LEN@{MDNS\_HEAD\_LEN}}
+\index{MDNS\_HEAD\_LEN@{MDNS\_HEAD\_LEN}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_LEN}{MDNS\_HEAD\_LEN}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a86b53cb6a79ac85fc59bab24ae761a8c} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+LEN~12}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afe576f450d65ca3d105861fafac58052}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_QUESTIONS\_OFFSET@{MDNS\_HEAD\_QUESTIONS\_OFFSET}}
+\index{MDNS\_HEAD\_QUESTIONS\_OFFSET@{MDNS\_HEAD\_QUESTIONS\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_QUESTIONS\_OFFSET}{MDNS\_HEAD\_QUESTIONS\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afe576f450d65ca3d105861fafac58052} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+QUESTIONS\+\_\+\+OFFSET~4}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2eb1eb486ff6aed8983416af04dd165b}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_HEAD\_SERVERS\_OFFSET@{MDNS\_HEAD\_SERVERS\_OFFSET}}
+\index{MDNS\_HEAD\_SERVERS\_OFFSET@{MDNS\_HEAD\_SERVERS\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HEAD\_SERVERS\_OFFSET}{MDNS\_HEAD\_SERVERS\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2eb1eb486ff6aed8983416af04dd165b} 
+\+\#define MDNS\+\_\+\+HEAD\+\_\+\+SERVERS\+\_\+\+OFFSET~8}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab7f4968c34bb6cfdf98d0aaa4ab08bfa}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_LEN\_OFFSET@{MDNS\_LEN\_OFFSET}}
+\index{MDNS\_LEN\_OFFSET@{MDNS\_LEN\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_LEN\_OFFSET}{MDNS\_LEN\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab7f4968c34bb6cfdf98d0aaa4ab08bfa} 
+\+\#define MDNS\+\_\+\+LEN\+\_\+\+OFFSET~8}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad8e3989c4df355851091ac21bc626295}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_MAX\_INTERFACES@{MDNS\_MAX\_INTERFACES}}
+\index{MDNS\_MAX\_INTERFACES@{MDNS\_MAX\_INTERFACES}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_MAX\_INTERFACES}{MDNS\_MAX\_INTERFACES}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad8e3989c4df355851091ac21bc626295} 
+\+\#define MDNS\+\_\+\+MAX\+\_\+\+INTERFACES~(\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a73a053a638bc32958422a9b65ef68ebb}{CONFIG\+\_\+\+MDNS\+\_\+\+MAX\+\_\+\+INTERFACES}})}
+
+Number of configured interfaces \Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6e53432a3de96c42af5cb2f3a59f268e}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_MAX\_PACKET\_SIZE@{MDNS\_MAX\_PACKET\_SIZE}}
+\index{MDNS\_MAX\_PACKET\_SIZE@{MDNS\_MAX\_PACKET\_SIZE}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_MAX\_PACKET\_SIZE}{MDNS\_MAX\_PACKET\_SIZE}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6e53432a3de96c42af5cb2f3a59f268e} 
+\+\#define MDNS\+\_\+\+MAX\+\_\+\+PACKET\+\_\+\+SIZE~1460}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aea031c94bd4fa5793f44adbafec5cedf}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_MAX\_PREDEF\_INTERFACES@{MDNS\_MAX\_PREDEF\_INTERFACES}}
+\index{MDNS\_MAX\_PREDEF\_INTERFACES@{MDNS\_MAX\_PREDEF\_INTERFACES}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_MAX\_PREDEF\_INTERFACES}{MDNS\_MAX\_PREDEF\_INTERFACES}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aea031c94bd4fa5793f44adbafec5cedf} 
+\+\#define MDNS\+\_\+\+MAX\+\_\+\+PREDEF\+\_\+\+INTERFACES~(\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab53f59f6d21ea213855a0e666774290a}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+STA}} + \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a2ffae75d8f327ab6599c7c4973c99219}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+AP}} + \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a385b60c12a802f92edd8518d4ae8b0b3}{CONFIG\+\_\+\+MDNS\+\_\+\+PREDEF\+\_\+\+NETIF\+\_\+\+ETH}})}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a82749ee08be21967b6daf577b9710ac6}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_MAX\_SERVICES@{MDNS\_MAX\_SERVICES}}
+\index{MDNS\_MAX\_SERVICES@{MDNS\_MAX\_SERVICES}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_MAX\_SERVICES}{MDNS\_MAX\_SERVICES}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a82749ee08be21967b6daf577b9710ac6} 
+\+\#define MDNS\+\_\+\+MAX\+\_\+\+SERVICES~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a98833d48a73628de56665ff38813b952}{CONFIG\+\_\+\+MDNS\+\_\+\+MAX\+\_\+\+SERVICES}}}
+
+The maximum number of services \Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad4eb898966ab5690992dfe7c7a6f76a8}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_NAME\_REF@{MDNS\_NAME\_REF}}
+\index{MDNS\_NAME\_REF@{MDNS\_NAME\_REF}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_NAME\_REF}{MDNS\_NAME\_REF}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad4eb898966ab5690992dfe7c7a6f76a8} 
+\+\#define MDNS\+\_\+\+NAME\+\_\+\+REF~0x\+C000}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80115c34c01d129697d9c3456a71d9c2}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_PACKET\_QUEUE\_LEN@{MDNS\_PACKET\_QUEUE\_LEN}}
+\index{MDNS\_PACKET\_QUEUE\_LEN@{MDNS\_PACKET\_QUEUE\_LEN}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_PACKET\_QUEUE\_LEN}{MDNS\_PACKET\_QUEUE\_LEN}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80115c34c01d129697d9c3456a71d9c2} 
+\+\#define MDNS\+\_\+\+PACKET\+\_\+\+QUEUE\+\_\+\+LEN~16}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad895aa1e246f383b4488ebdafc21e07f}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SERVICE\_ADD\_TIMEOUT\_MS@{MDNS\_SERVICE\_ADD\_TIMEOUT\_MS}}
+\index{MDNS\_SERVICE\_ADD\_TIMEOUT\_MS@{MDNS\_SERVICE\_ADD\_TIMEOUT\_MS}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_ADD\_TIMEOUT\_MS}{MDNS\_SERVICE\_ADD\_TIMEOUT\_MS}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad895aa1e246f383b4488ebdafc21e07f} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+ADD\+\_\+\+TIMEOUT\+\_\+\+MS~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a1aabd62b8248085bce57b9ad9b2944a4}{CONFIG\+\_\+\+MDNS\+\_\+\+SERVICE\+\_\+\+ADD\+\_\+\+TIMEOUT\+\_\+\+MS}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7ad20d359031bc414d0a471b7bebedd6}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SERVICE\_PORT@{MDNS\_SERVICE\_PORT}}
+\index{MDNS\_SERVICE\_PORT@{MDNS\_SERVICE\_PORT}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_PORT}{MDNS\_SERVICE\_PORT}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7ad20d359031bc414d0a471b7bebedd6} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+PORT~5353}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a936cce45f31d69dd7a9aff826c9f3f4f}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SRV\_FQDN\_OFFSET@{MDNS\_SRV\_FQDN\_OFFSET}}
+\index{MDNS\_SRV\_FQDN\_OFFSET@{MDNS\_SRV\_FQDN\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SRV\_FQDN\_OFFSET}{MDNS\_SRV\_FQDN\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a936cce45f31d69dd7a9aff826c9f3f4f} 
+\+\#define MDNS\+\_\+\+SRV\+\_\+\+FQDN\+\_\+\+OFFSET~6}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a076d3776ee385654206e85c0e89f8407}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SRV\_PORT\_OFFSET@{MDNS\_SRV\_PORT\_OFFSET}}
+\index{MDNS\_SRV\_PORT\_OFFSET@{MDNS\_SRV\_PORT\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SRV\_PORT\_OFFSET}{MDNS\_SRV\_PORT\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a076d3776ee385654206e85c0e89f8407} 
+\+\#define MDNS\+\_\+\+SRV\+\_\+\+PORT\+\_\+\+OFFSET~4}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5bcec950173666cf6782b1b777b9b876}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SRV\_PRIORITY\_OFFSET@{MDNS\_SRV\_PRIORITY\_OFFSET}}
+\index{MDNS\_SRV\_PRIORITY\_OFFSET@{MDNS\_SRV\_PRIORITY\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SRV\_PRIORITY\_OFFSET}{MDNS\_SRV\_PRIORITY\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a5bcec950173666cf6782b1b777b9b876} 
+\+\#define MDNS\+\_\+\+SRV\+\_\+\+PRIORITY\+\_\+\+OFFSET~0}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a677d540dbeaa7142ad3f9345f33ab291}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_SRV\_WEIGHT\_OFFSET@{MDNS\_SRV\_WEIGHT\_OFFSET}}
+\index{MDNS\_SRV\_WEIGHT\_OFFSET@{MDNS\_SRV\_WEIGHT\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SRV\_WEIGHT\_OFFSET}{MDNS\_SRV\_WEIGHT\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a677d540dbeaa7142ad3f9345f33ab291} 
+\+\#define MDNS\+\_\+\+SRV\+\_\+\+WEIGHT\+\_\+\+OFFSET~2}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab5b822f83ccf324d1b3e98d192a7b742}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_TIMER\_PERIOD\_US@{MDNS\_TIMER\_PERIOD\_US}}
+\index{MDNS\_TIMER\_PERIOD\_US@{MDNS\_TIMER\_PERIOD\_US}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TIMER\_PERIOD\_US}{MDNS\_TIMER\_PERIOD\_US}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab5b822f83ccf324d1b3e98d192a7b742} 
+\+\#define MDNS\+\_\+\+TIMER\+\_\+\+PERIOD\+\_\+\+US~(\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a1146d9c1f7d73665ea49c7db7dbae9e2}{CONFIG\+\_\+\+MDNS\+\_\+\+TIMER\+\_\+\+PERIOD\+\_\+\+MS}}\texorpdfstring{$\ast$}{*}1000)}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80736cb83d3eb61e074266a6a1e05c37}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_TTL\_OFFSET@{MDNS\_TTL\_OFFSET}}
+\index{MDNS\_TTL\_OFFSET@{MDNS\_TTL\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TTL\_OFFSET}{MDNS\_TTL\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a80736cb83d3eb61e074266a6a1e05c37} 
+\+\#define MDNS\+\_\+\+TTL\+\_\+\+OFFSET~4}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af42e2c869012f5400f86391daf2691b8}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_TXT\_MAX\_LEN@{MDNS\_TXT\_MAX\_LEN}}
+\index{MDNS\_TXT\_MAX\_LEN@{MDNS\_TXT\_MAX\_LEN}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TXT\_MAX\_LEN}{MDNS\_TXT\_MAX\_LEN}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af42e2c869012f5400f86391daf2691b8} 
+\+\#define MDNS\+\_\+\+TXT\+\_\+\+MAX\+\_\+\+LEN~1024}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac601f9acf41c229749aebd7e5e46364e}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_TYPE\_OFFSET@{MDNS\_TYPE\_OFFSET}}
+\index{MDNS\_TYPE\_OFFSET@{MDNS\_TYPE\_OFFSET}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TYPE\_OFFSET}{MDNS\_TYPE\_OFFSET}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac601f9acf41c229749aebd7e5e46364e} 
+\+\#define MDNS\+\_\+\+TYPE\+\_\+\+OFFSET~0}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afca8c17e932b84943dd165895bbef93d}\index{mdns\_private.h@{mdns\_private.h}!MDNS\_TYPE\_SDPTR@{MDNS\_TYPE\_SDPTR}}
+\index{MDNS\_TYPE\_SDPTR@{MDNS\_TYPE\_SDPTR}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TYPE\_SDPTR}{MDNS\_TYPE\_SDPTR}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_afca8c17e932b84943dd165895bbef93d} 
+\+\#define MDNS\+\_\+\+TYPE\+\_\+\+SDPTR~0x0032}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acc40053e6ab1b9e15682cc776f7a2150}\index{mdns\_private.h@{mdns\_private.h}!NETIF\_IPV6\_MAX\_NUMS@{NETIF\_IPV6\_MAX\_NUMS}}
+\index{NETIF\_IPV6\_MAX\_NUMS@{NETIF\_IPV6\_MAX\_NUMS}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{NETIF\_IPV6\_MAX\_NUMS}{NETIF\_IPV6\_MAX\_NUMS}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_acc40053e6ab1b9e15682cc776f7a2150} 
+\+\#define NETIF\+\_\+\+IPV6\+\_\+\+MAX\+\_\+\+NUMS~3}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6f21ab649b89ba329846cf097ab15368}\index{mdns\_private.h@{mdns\_private.h}!queueDetach@{queueDetach}}
+\index{queueDetach@{queueDetach}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{queueDetach}{queueDetach}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6f21ab649b89ba329846cf097ab15368} 
+\+\#define queue\+Detach(\begin{DoxyParamCaption}\item[{}]{type}{, }\item[{}]{queue}{, }\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (queue)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ if\ (queue\ ==\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ queue\ =\ queue-\/>next;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ type\ *\ \_q\ =\ queue;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ while\ (\_q-\/>next\ \&\&\ \_q-\/>next\ !=\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}})\ \{\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \_q\ =\ \_q-\/>next;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (\_q-\/>next\ ==\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \_q-\/>next\ =\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}}-\/>\doxymbox{\hyperlink{structc_j_s_o_n_a91a95ab3a28ac01716663d0bdd7215f9}{next}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}}-\/>\doxymbox{\hyperlink{structc_j_s_o_n_a91a95ab3a28ac01716663d0bdd7215f9}{next}}\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aae6ea77ceea0fbe1d725a2b6744b17bd}\index{mdns\_private.h@{mdns\_private.h}!queueFree@{queueFree}}
+\index{queueFree@{queueFree}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{queueFree}{queueFree}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_aae6ea77ceea0fbe1d725a2b6744b17bd} 
+\+\#define queue\+Free(\begin{DoxyParamCaption}\item[{}]{type}{, }\item[{}]{queue}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{while}\ (queue)\ \{\ type\ *\ \_q\ =\ queue;\ queue\ =\ queue-\/>next;\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__mem__caps_8c_a728ffea29fe21c69fbf0e2db37b0dba5}{mdns\_mem\_free}}(\_q);\ \}}
+
+\end{DoxyCode}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a959fd35a203d5a09453917afdcc38a7a}\index{mdns\_private.h@{mdns\_private.h}!queueToEnd@{queueToEnd}}
+\index{queueToEnd@{queueToEnd}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{queueToEnd}{queueToEnd}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a959fd35a203d5a09453917afdcc38a7a} 
+\+\#define queue\+To\+End(\begin{DoxyParamCaption}\item[{}]{type}{, }\item[{}]{queue}{, }\item[{}]{\doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}}}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (!queue)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ queue\ =\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ type\ *\ \_q\ =\ queue;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ while\ (\_q-\/>next)\ \{\ \_q\ =\ \_q-\/>next;\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \_q-\/>next\ =\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-typedef-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af3cbb6037aa50da6b0b3dfc3c9b3b1f5}\index{mdns\_private.h@{mdns\_private.h}!mdns\_browse\_result\_sync\_t@{mdns\_browse\_result\_sync\_t}}
+\index{mdns\_browse\_result\_sync\_t@{mdns\_browse\_result\_sync\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_browse\_result\_sync\_t}{mdns\_browse\_result\_sync\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_af3cbb6037aa50da6b0b3dfc3c9b3b1f5} 
+typedef struct mdns\+\_\+browse\+\_\+result\+\_\+sync\+\_\+t mdns\+\_\+browse\+\_\+result\+\_\+sync\+\_\+t}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_abb9d68018db9fce186fe1a3b5d4741c6}\index{mdns\_private.h@{mdns\_private.h}!mdns\_browse\_sync\_t@{mdns\_browse\_sync\_t}}
+\index{mdns\_browse\_sync\_t@{mdns\_browse\_sync\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_browse\_sync\_t}{mdns\_browse\_sync\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_abb9d68018db9fce186fe1a3b5d4741c6} 
+typedef struct \doxymbox{\hyperlink{structmdns__browse__sync}{mdns\+\_\+browse\+\_\+sync}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_abb9d68018db9fce186fe1a3b5d4741c6}{mdns\+\_\+browse\+\_\+sync\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a1a372273359832ad850f986873fb4753}\index{mdns\_private.h@{mdns\_private.h}!mdns\_browse\_t@{mdns\_browse\_t}}
+\index{mdns\_browse\_t@{mdns\_browse\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_browse\_t}{mdns\_browse\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a1a372273359832ad850f986873fb4753} 
+typedef struct \doxymbox{\hyperlink{structmdns__browse__s}{mdns\+\_\+browse\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a1a372273359832ad850f986873fb4753}{mdns\+\_\+browse\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a95c749e793c26ef0b66312ac8dd65e2d}\index{mdns\_private.h@{mdns\_private.h}!mdns\_host\_item\_t@{mdns\_host\_item\_t}}
+\index{mdns\_host\_item\_t@{mdns\_host\_item\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_host\_item\_t}{mdns\_host\_item\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a95c749e793c26ef0b66312ac8dd65e2d} 
+typedef struct mdns\+\_\+host\+\_\+item\+\_\+t mdns\+\_\+host\+\_\+item\+\_\+t}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}\index{mdns\_private.h@{mdns\_private.h}!mdns\_if\_t@{mdns\_if\_t}}
+\index{mdns\_if\_t@{mdns\_if\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_if\_t}{mdns\_if\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4} 
+typedef \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a87ddd175c5f80550a2f138ce6cfc0cf8}\index{mdns\_private.h@{mdns\_private.h}!mdns\_out\_answer\_t@{mdns\_out\_answer\_t}}
+\index{mdns\_out\_answer\_t@{mdns\_out\_answer\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_out\_answer\_t}{mdns\_out\_answer\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a87ddd175c5f80550a2f138ce6cfc0cf8} 
+typedef struct \doxymbox{\hyperlink{structmdns__out__answer__s}{mdns\+\_\+out\+\_\+answer\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a87ddd175c5f80550a2f138ce6cfc0cf8}{mdns\+\_\+out\+\_\+answer\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a57f1f00667228acb5fa82012017e3686}\index{mdns\_private.h@{mdns\_private.h}!mdns\_out\_question\_t@{mdns\_out\_question\_t}}
+\index{mdns\_out\_question\_t@{mdns\_out\_question\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_out\_question\_t}{mdns\_out\_question\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a57f1f00667228acb5fa82012017e3686} 
+typedef struct \doxymbox{\hyperlink{structmdns__out__question__s}{mdns\+\_\+out\+\_\+question\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a57f1f00667228acb5fa82012017e3686}{mdns\+\_\+out\+\_\+question\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad894fa14532d317ab5900f1eef1f7a8d}\index{mdns\_private.h@{mdns\_private.h}!mdns\_parsed\_question\_t@{mdns\_parsed\_question\_t}}
+\index{mdns\_parsed\_question\_t@{mdns\_parsed\_question\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_parsed\_question\_t}{mdns\_parsed\_question\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad894fa14532d317ab5900f1eef1f7a8d} 
+typedef struct \doxymbox{\hyperlink{structmdns__parsed__question__s}{mdns\+\_\+parsed\+\_\+question\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ad894fa14532d317ab5900f1eef1f7a8d}{mdns\+\_\+parsed\+\_\+question\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae97f0836d24bfff7f1a6130b97fc3db2}\index{mdns\_private.h@{mdns\_private.h}!mdns\_parsed\_record\_t@{mdns\_parsed\_record\_t}}
+\index{mdns\_parsed\_record\_t@{mdns\_parsed\_record\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_parsed\_record\_t}{mdns\_parsed\_record\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae97f0836d24bfff7f1a6130b97fc3db2} 
+typedef struct \doxymbox{\hyperlink{structmdns__parsed__record__s}{mdns\+\_\+parsed\+\_\+record\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae97f0836d24bfff7f1a6130b97fc3db2}{mdns\+\_\+parsed\+\_\+record\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a8815240672c5880e798ca6655309c589}\index{mdns\_private.h@{mdns\_private.h}!mdns\_search\_once\_t@{mdns\_search\_once\_t}}
+\index{mdns\_search\_once\_t@{mdns\_search\_once\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_search\_once\_t}{mdns\_search\_once\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a8815240672c5880e798ca6655309c589} 
+typedef struct \doxymbox{\hyperlink{structmdns__search__once__s}{mdns\+\_\+search\+\_\+once\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}\index{mdns\_private.h@{mdns\_private.h}!mdns\_srv\_item\_t@{mdns\_srv\_item\_t}}
+\index{mdns\_srv\_item\_t@{mdns\_srv\_item\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_srv\_item\_t}{mdns\_srv\_item\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26} 
+typedef struct \doxymbox{\hyperlink{structmdns__srv__item__s}{mdns\+\_\+srv\+\_\+item\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac4b0aed9dba77d6cd6a03db221e4b5fb}\index{mdns\_private.h@{mdns\_private.h}!mdns\_subtype\_t@{mdns\_subtype\_t}}
+\index{mdns\_subtype\_t@{mdns\_subtype\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_subtype\_t}{mdns\_subtype\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac4b0aed9dba77d6cd6a03db221e4b5fb} 
+typedef struct \doxymbox{\hyperlink{structmdns__subtype__s}{mdns\+\_\+subtype\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ac4b0aed9dba77d6cd6a03db221e4b5fb}{mdns\+\_\+subtype\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243}\index{mdns\_private.h@{mdns\_private.h}!mdns\_tx\_packet\_t@{mdns\_tx\_packet\_t}}
+\index{mdns\_tx\_packet\_t@{mdns\_tx\_packet\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_tx\_packet\_t}{mdns\_tx\_packet\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243} 
+typedef struct \doxymbox{\hyperlink{structmdns__tx__packet__s}{mdns\+\_\+tx\+\_\+packet\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243}{mdns\+\_\+tx\+\_\+packet\+\_\+t}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6fbc5832bbeca3ba0742082dffaeecf8}\index{mdns\_private.h@{mdns\_private.h}!mdns\_txt\_linked\_item\_t@{mdns\_txt\_linked\_item\_t}}
+\index{mdns\_txt\_linked\_item\_t@{mdns\_txt\_linked\_item\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_txt\_linked\_item\_t}{mdns\_txt\_linked\_item\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6fbc5832bbeca3ba0742082dffaeecf8} 
+typedef struct \doxymbox{\hyperlink{structmdns__txt__linked__item__s}{mdns\+\_\+txt\+\_\+linked\+\_\+item\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a6fbc5832bbeca3ba0742082dffaeecf8}{mdns\+\_\+txt\+\_\+linked\+\_\+item\+\_\+t}}}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-enum-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}\index{mdns\_private.h@{mdns\_private.h}!mdns\_action\_subtype\_t@{mdns\_action\_subtype\_t}}
+\index{mdns\_action\_subtype\_t@{mdns\_action\_subtype\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_action\_subtype\_t}{mdns\_action\_subtype\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_RUN@{ACTION\_RUN}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_RUN@{ACTION\_RUN}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfead87659f6afa7d1427659e241805b810f}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfead87659f6afa7d1427659e241805b810f} 
+ACTION\+\_\+\+RUN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_CLEANUP@{ACTION\_CLEANUP}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_CLEANUP@{ACTION\_CLEANUP}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfea6cc304a98ab1868cc297e0efebc31702}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfea6cc304a98ab1868cc297e0efebc31702} 
+ACTION\+\_\+\+CLEANUP&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209}\index{mdns\_private.h@{mdns\_private.h}!mdns\_action\_type\_t@{mdns\_action\_type\_t}}
+\index{mdns\_action\_type\_t@{mdns\_action\_type\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_action\_type\_t}{mdns\_action\_type\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209}{mdns\+\_\+action\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_SYSTEM\_EVENT@{ACTION\_SYSTEM\_EVENT}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_SYSTEM\_EVENT@{ACTION\_SYSTEM\_EVENT}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a44098417d86106b0f9f2d0981363ed88}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a44098417d86106b0f9f2d0981363ed88} 
+ACTION\+\_\+\+SYSTEM\+\_\+\+EVENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_HOSTNAME\_SET@{ACTION\_HOSTNAME\_SET}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_HOSTNAME\_SET@{ACTION\_HOSTNAME\_SET}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa819472759222aeee1c19181aae553fc}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa819472759222aeee1c19181aae553fc} 
+ACTION\+\_\+\+HOSTNAME\+\_\+\+SET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_INSTANCE\_SET@{ACTION\_INSTANCE\_SET}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_INSTANCE\_SET@{ACTION\_INSTANCE\_SET}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a58295a58f0257c6378132166e7adcb1e}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a58295a58f0257c6378132166e7adcb1e} 
+ACTION\+\_\+\+INSTANCE\+\_\+\+SET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_SEARCH\_ADD@{ACTION\_SEARCH\_ADD}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_SEARCH\_ADD@{ACTION\_SEARCH\_ADD}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a020288b6af1989af1d4bb46dbff1f677}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a020288b6af1989af1d4bb46dbff1f677} 
+ACTION\+\_\+\+SEARCH\+\_\+\+ADD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_SEARCH\_SEND@{ACTION\_SEARCH\_SEND}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_SEARCH\_SEND@{ACTION\_SEARCH\_SEND}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a442caf556078270d601894f119c4415e}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a442caf556078270d601894f119c4415e} 
+ACTION\+\_\+\+SEARCH\+\_\+\+SEND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_SEARCH\_END@{ACTION\_SEARCH\_END}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_SEARCH\_END@{ACTION\_SEARCH\_END}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a0379c6efcbcd768630d232f054b7af64}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a0379c6efcbcd768630d232f054b7af64} 
+ACTION\+\_\+\+SEARCH\+\_\+\+END&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_BROWSE\_ADD@{ACTION\_BROWSE\_ADD}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_BROWSE\_ADD@{ACTION\_BROWSE\_ADD}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a469f5608229b2471e92148a26ecd6946}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a469f5608229b2471e92148a26ecd6946} 
+ACTION\+\_\+\+BROWSE\+\_\+\+ADD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_BROWSE\_SYNC@{ACTION\_BROWSE\_SYNC}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_BROWSE\_SYNC@{ACTION\_BROWSE\_SYNC}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a363ee1dcafab1e28888c4e81fa06dc1e}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a363ee1dcafab1e28888c4e81fa06dc1e} 
+ACTION\+\_\+\+BROWSE\+\_\+\+SYNC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_BROWSE\_END@{ACTION\_BROWSE\_END}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_BROWSE\_END@{ACTION\_BROWSE\_END}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a35f5a2571d86ae5ad4975568e5f2fed2}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a35f5a2571d86ae5ad4975568e5f2fed2} 
+ACTION\+\_\+\+BROWSE\+\_\+\+END&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_TX\_HANDLE@{ACTION\_TX\_HANDLE}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_TX\_HANDLE@{ACTION\_TX\_HANDLE}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa566427705e0461e286c8fe004241bff}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aa566427705e0461e286c8fe004241bff} 
+ACTION\+\_\+\+TX\+\_\+\+HANDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_RX\_HANDLE@{ACTION\_RX\_HANDLE}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_RX\_HANDLE@{ACTION\_RX\_HANDLE}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a962c343592ee2590e517f633c21ab3d8}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a962c343592ee2590e517f633c21ab3d8} 
+ACTION\+\_\+\+RX\+\_\+\+HANDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_TASK\_STOP@{ACTION\_TASK\_STOP}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_TASK\_STOP@{ACTION\_TASK\_STOP}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209ae138ae2bd7814eead7022f62169869e9}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209ae138ae2bd7814eead7022f62169869e9} 
+ACTION\+\_\+\+TASK\+\_\+\+STOP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_DELEGATE\_HOSTNAME\_ADD@{ACTION\_DELEGATE\_HOSTNAME\_ADD}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_DELEGATE\_HOSTNAME\_ADD@{ACTION\_DELEGATE\_HOSTNAME\_ADD}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aad6f563edaaefbfe1acaff0c4492461c}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209aad6f563edaaefbfe1acaff0c4492461c} 
+ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+ADD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_DELEGATE\_HOSTNAME\_REMOVE@{ACTION\_DELEGATE\_HOSTNAME\_REMOVE}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_DELEGATE\_HOSTNAME\_REMOVE@{ACTION\_DELEGATE\_HOSTNAME\_REMOVE}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a17c17d98762c73ca32b96be86c834d3f}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a17c17d98762c73ca32b96be86c834d3f} 
+ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+REMOVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_DELEGATE\_HOSTNAME\_SET\_ADDR@{ACTION\_DELEGATE\_HOSTNAME\_SET\_ADDR}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_DELEGATE\_HOSTNAME\_SET\_ADDR@{ACTION\_DELEGATE\_HOSTNAME\_SET\_ADDR}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a2b1ff5dc7b6abe2ba6da823cec689f11}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a2b1ff5dc7b6abe2ba6da823cec689f11} 
+ACTION\+\_\+\+DELEGATE\+\_\+\+HOSTNAME\+\_\+\+SET\+\_\+\+ADDR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ACTION\_MAX@{ACTION\_MAX}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!ACTION\_MAX@{ACTION\_MAX}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a45e0bf82637a1b26e79484dfb7f08fcf}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a17e5601bfb7ae34b0b6d472d1d5f9209a45e0bf82637a1b26e79484dfb7f08fcf} 
+ACTION\+\_\+\+MAX&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230}\index{mdns\_private.h@{mdns\_private.h}!mdns\_browse\_state\_t@{mdns\_browse\_state\_t}}
+\index{mdns\_browse\_state\_t@{mdns\_browse\_state\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_browse\_state\_t}{mdns\_browse\_state\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230}{mdns\+\_\+browse\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BROWSE\_OFF@{BROWSE\_OFF}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!BROWSE\_OFF@{BROWSE\_OFF}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230aec3bc99ad3b444b2bff36098ec940e78}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230aec3bc99ad3b444b2bff36098ec940e78} 
+BROWSE\+\_\+\+OFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BROWSE\_INIT@{BROWSE\_INIT}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!BROWSE\_INIT@{BROWSE\_INIT}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a5d7a62626102036e4ab6b16e2c541e9b}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a5d7a62626102036e4ab6b16e2c541e9b} 
+BROWSE\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BROWSE\_RUNNING@{BROWSE\_RUNNING}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!BROWSE\_RUNNING@{BROWSE\_RUNNING}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230afe530e730c34abcc8b1643228125721d}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230afe530e730c34abcc8b1643228125721d} 
+BROWSE\+\_\+\+RUNNING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BROWSE\_MAX@{BROWSE\_MAX}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!BROWSE\_MAX@{BROWSE\_MAX}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a4b9270e9412cd8d4ca710ae2dd278062}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ab8b8486b14b187f9a14b61ec41939230a4b9270e9412cd8d4ca710ae2dd278062} 
+BROWSE\+\_\+\+MAX&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2f}\index{mdns\_private.h@{mdns\_private.h}!mdns\_parsed\_record\_type\_t@{mdns\_parsed\_record\_type\_t}}
+\index{mdns\_parsed\_record\_type\_t@{mdns\_parsed\_record\_type\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_parsed\_record\_type\_t}{mdns\_parsed\_record\_type\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2f} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2f}{mdns\+\_\+parsed\+\_\+record\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_ANSWER@{MDNS\_ANSWER}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!MDNS\_ANSWER@{MDNS\_ANSWER}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fac7cae285e6c8078592e2f365bd210302}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fac7cae285e6c8078592e2f365bd210302} 
+MDNS\+\_\+\+ANSWER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_NS@{MDNS\_NS}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!MDNS\_NS@{MDNS\_NS}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fab26addc028ba036f34c6b509b4737782}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fab26addc028ba036f34c6b509b4737782} 
+MDNS\+\_\+\+NS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDNS\_EXTRA@{MDNS\_EXTRA}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!MDNS\_EXTRA@{MDNS\_EXTRA}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fa772a5e25bbeb87d161f1f96781884f70}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae12d848bd9441294620722d09c708a2fa772a5e25bbeb87d161f1f96781884f70} 
+MDNS\+\_\+\+EXTRA&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00}\index{mdns\_private.h@{mdns\_private.h}!mdns\_search\_once\_state\_t@{mdns\_search\_once\_state\_t}}
+\index{mdns\_search\_once\_state\_t@{mdns\_search\_once\_state\_t}!mdns\_private.h@{mdns\_private.h}}
+\doxysubsubsection{\texorpdfstring{mdns\_search\_once\_state\_t}{mdns\_search\_once\_state\_t}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00}{mdns\+\_\+search\+\_\+once\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEARCH\_OFF@{SEARCH\_OFF}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!SEARCH\_OFF@{SEARCH\_OFF}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00ad7c83d68978b75c5f7e54dca07faac36}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00ad7c83d68978b75c5f7e54dca07faac36} 
+SEARCH\+\_\+\+OFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEARCH\_INIT@{SEARCH\_INIT}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!SEARCH\_INIT@{SEARCH\_INIT}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a41f071ebdf9f8666c5418d840d553ad6}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a41f071ebdf9f8666c5418d840d553ad6} 
+SEARCH\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEARCH\_RUNNING@{SEARCH\_RUNNING}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!SEARCH\_RUNNING@{SEARCH\_RUNNING}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a298977bedfba0fe4ef3a006827d76a72}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a298977bedfba0fe4ef3a006827d76a72} 
+SEARCH\+\_\+\+RUNNING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEARCH\_MAX@{SEARCH\_MAX}!mdns\_private.h@{mdns\_private.h}}
+\index{mdns\_private.h@{mdns\_private.h}!SEARCH\_MAX@{SEARCH\_MAX}}
+}\Hypertarget{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a68883f5b51ca4ffe145b6eb9ea5e0944}\label{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a109d64735380cda675400e2a4ca8fc00a68883f5b51ca4ffe145b6eb9ea5e0944} 
+SEARCH\+\_\+\+MAX&\\
+\hline
+
+\end{DoxyEnumFields}

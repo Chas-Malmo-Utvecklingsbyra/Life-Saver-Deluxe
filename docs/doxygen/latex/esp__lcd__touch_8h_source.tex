@@ -1,0 +1,152 @@
+\doxysection{esp\+\_\+lcd\+\_\+touch.\+h}
+\hypertarget{esp__lcd__touch_8h_source}{}\label{esp__lcd__touch_8h_source}\index{home-\/hub/managed\_components/espressif\_\_esp\_lcd\_touch/include/esp\_lcd\_touch.h@{home-\/hub/managed\_components/espressif\_\_esp\_lcd\_touch/include/esp\_lcd\_touch.h}}
+\doxymbox{\hyperlink{esp__lcd__touch_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ SPDX-\/FileCopyrightText:\ 2022-\/2025\ Espressif\ Systems\ (Shanghai)\ CO\ LTD}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ SPDX-\/License-\/Identifier:\ Apache-\/2.0}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}sdkconfig.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__err_8h}{esp\_err.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}driver/gpio.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}esp\_lcd\_panel\_io.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}freertos/FreeRTOS.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}freertos/semphr.h"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00023\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structesp__lcd__touch__s}{esp\_lcd\_touch\_s}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a19e7097d71ad79847e86233ecaa4b88f}{esp\_lcd\_touch\_t}};}
+\DoxyCodeLine{00031\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a19e7097d71ad79847e86233ecaa4b88f}{esp\_lcd\_touch\_t}}\ *\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ void\ (*\doxymbox{\hyperlink{esp__lcd__touch_8h_aed924a11f5b98e00fe8fa37b239f636d}{esp\_lcd\_touch\_interrupt\_callback\_t}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a85cc0f4334633f7f998e2d55e15aa948}{x\_max}};\ }
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a6c2ea0e2f3ad699f6b5bb36f4ada9abc}{y\_max}};\ }
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ gpio\_num\_t\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a570826ac75945278eb92a97a4020cb9f}{rst\_gpio\_num}};\ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ gpio\_num\_t\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a3ab860a5c63792f56830f72de31b6eaf}{int\_gpio\_num}};\ \ \ \ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a3b82f0fb2128128360827841a3b9cff0}{reset}}:\ 1;\ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_aefac74ac42861076297cfbe681d5095c}{interrupt}}:\ 1;}
+\DoxyCodeLine{00053\ \ \ \ \ \}\ levels;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a4e55986dce287b400aede197c97afc2b}{swap\_xy}}:\ 1;\ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a0a6978f41bece3ba6503eba7cc5db43e}{mirror\_x}}:\ 1;\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a92a49c5066dc619836e374dd366e15f1}{mirror\_y}}:\ 1;\ }
+\DoxyCodeLine{00059\ \ \ \ \ \}\ flags;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \ \ \ \ void\ (*\doxymbox{\hyperlink{structesp__lcd__touch__config__t_acc736da63b27568ab9fd8d01e065d376}{process\_coordinates}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *x,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *y,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *strength,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *point\_num,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ max\_point\_num);}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{esp__lcd__touch_8h_aed924a11f5b98e00fe8fa37b239f636d}{esp\_lcd\_touch\_interrupt\_callback\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t_a856ff736cdfa104f4951f594e4659cd9}{interrupt\_callback}};}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{structesp__lcd__touch__config__t_a0f53d287ac7c064d1a49d4bd93ca1cb9}{user\_data}};}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{structesp__lcd__touch__config__t_a4a210b06acf4842476c0308219d7ced9}{driver\_data}};}
+\DoxyCodeLine{00069\ \}\ \doxymbox{\hyperlink{structesp__lcd__touch__config__t}{esp\_lcd\_touch\_config\_t}};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t_ad46edbc9fffadbdca72080b49ea63ac8}{track\_id}};}
+\DoxyCodeLine{00073\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t_a4dde988b1b2adba65ae3efa69f65d960}{x}};\ }
+\DoxyCodeLine{00074\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t_ab0580f504a7428539be299fa71565f30}{y}};\ }
+\DoxyCodeLine{00075\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t_ae28935ce70040cb40ae6426cbd4246f4}{strength}};\ }
+\DoxyCodeLine{00076\ \}\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t}{esp\_lcd\_touch\_point\_data\_t}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00079\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__data__t_ad6c2e6685b42ad1a5a5a588a06a3b9dc}{points}};\ }
+\DoxyCodeLine{00080\ \ \ \ \ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t}{esp\_lcd\_touch\_point\_data\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__data__t_a662c5303097da116f31cf473c526c5cd}{coords}}[\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a5709ad9bfdc429991b65005de785c79e}{CONFIG\_ESP\_LCD\_TOUCH\_MAX\_POINTS}}];}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#if\ (CONFIG\_ESP\_LCD\_TOUCH\_MAX\_BUTTONS\ >\ 0)}}
+\DoxyCodeLine{00083\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ buttons;\ }
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ status;\ }
+\DoxyCodeLine{00087\ \ \ \ \ \}\ button[\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a27b822988e5bdc5c7ed483e2df7bfba7}{CONFIG\_ESP\_LCD\_TOUCH\_MAX\_BUTTONS}}];}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ portMUX\_TYPE\ \doxymbox{\hyperlink{structesp__lcd__touch__data__t_a51274c6d556cb4b16796b65674cfec0b}{lock}};\ }
+\DoxyCodeLine{00091\ \}\ \doxymbox{\hyperlink{structesp__lcd__touch__data__t}{esp\_lcd\_touch\_data\_t}};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structesp__lcd__touch__s}{esp\_lcd\_touch\_s}}\ \{}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00109\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_ac8737e850a6646a39c47888ce15dbcb1}{enter\_sleep}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00121\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a4fcf0ce2d0d92b0502bca36e9ffd6c2f}{exit\_sleep}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00133\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_abdec68be42042be93c5295b906eabfbf}{read\_data}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00148\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_ac7d453125653817f4f4669a73f7521eb}{get\_xy}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *x,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *y,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *strength,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *point\_num,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ max\_point\_num);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00160\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a5ebf1fe13338e1bfc627786413df595b}{get\_track\_id}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *track\_id,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ point\_num);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#if\ (CONFIG\_ESP\_LCD\_TOUCH\_MAX\_BUTTONS\ >\ 0)}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00174\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*get\_button\_state)(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ n,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00187\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a2021899fe830deeadb695b293666df08}{set\_swap\_xy}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ swap);}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00198\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a563a101385915b4967a8f5b92c607410}{get\_swap\_xy}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *swap);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00210\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_aff5ce93c33886c7f7936cca5bf6aa077}{set\_mirror\_x}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ mirror);}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00221\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a510364b23fb9e7e418eaeaaaaeac8cf8}{get\_mirror\_x}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *mirror);}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00233\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_aed751ece34ad33e5627049ff8c00826c}{set\_mirror\_y}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ mirror);}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00244\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a3b5c26a7b881b8b745701d334149e943}{get\_mirror\_y}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *mirror);}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00254\ \ \ \ \ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ (*\doxymbox{\hyperlink{structesp__lcd__touch__s_a57a66ed14c0bf3c880ee0ea7c1bd24a9}{del}})(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00259\ \ \ \ \ \doxymbox{\hyperlink{structesp__lcd__touch__config__t}{esp\_lcd\_touch\_config\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__s_aa848d9d74299106b383b12e1c9487f57}{config}};}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00264\ \ \ \ \ esp\_lcd\_panel\_io\_handle\_t\ \doxymbox{\hyperlink{structesp__lcd__touch__s_a7d9bd30933ef79bb82e07b52b1a10220}{io}};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00269\ \ \ \ \ \doxymbox{\hyperlink{structesp__lcd__touch__data__t}{esp\_lcd\_touch\_data\_t}}\ \doxymbox{\hyperlink{structesp__lcd__touch__s_ae4782e256e8b0637e4c17dcc607b2cc9}{data}};}
+\DoxyCodeLine{00270\ \};}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00286\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_acdce04195b09e422ce45dfc9d59cbdb4}{esp\_lcd\_touch\_read\_data}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00301\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a894e5c22d47d5a8e89b8b472a06a5a06}{esp\_lcd\_touch\_get\_data}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{structesp__lcd__touch__point__data__t}{esp\_lcd\_touch\_point\_data\_t}}\ *data,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *point\_cnt,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ max\_point\_cnt);}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00316\ [[deprecated(\textcolor{stringliteral}{"{}This\ API\ will\ be\ removed\ in\ version\ 2.0.0.\ Use\ esp\_lcd\_touch\_get\_data\ instead!"{}})]]}
+\DoxyCodeLine{00317\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a2e924cbb14601c86fc2fe5b7c8a27aef}{esp\_lcd\_touch\_get\_coordinates}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *x,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *y,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *strength,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *point\_num,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ max\_point\_num);}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \textcolor{preprocessor}{\#if\ (CONFIG\_ESP\_LCD\_TOUCH\_MAX\_BUTTONS\ >\ 0)}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00332\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ esp\_lcd\_touch\_get\_button\_state(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ n,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00344\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_ab501eb38c94e082ae9530114110978a1}{esp\_lcd\_touch\_set\_swap\_xy}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ swap);}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00355\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a3fbd9e53e4dca1022ff417f3d1d4277f}{esp\_lcd\_touch\_get\_swap\_xy}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *swap);}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00366\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a8ce613d11d9731ad0cb9747753ab505b}{esp\_lcd\_touch\_set\_mirror\_x}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ mirror);}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00377\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_aa3763afc1107b6d8a3a36619c298e08a}{esp\_lcd\_touch\_get\_mirror\_x}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *mirror);}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00388\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a178eaadaa0171d41ffe88175cf2c7736}{esp\_lcd\_touch\_set\_mirror\_y}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ mirror);}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00399\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_aa6b38657032dbfc228c007160faeffec}{esp\_lcd\_touch\_get\_mirror\_y}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \textcolor{keywordtype}{bool}\ *mirror);}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00409\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a8a8240978947c19d71e7cf545bfd5acc}{esp\_lcd\_touch\_del}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00420\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_aa19377f5479504bb0dce19a5a5c8a648}{esp\_lcd\_touch\_register\_interrupt\_callback}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{esp__lcd__touch_8h_aed924a11f5b98e00fe8fa37b239f636d}{esp\_lcd\_touch\_interrupt\_callback\_t}}\ callback);}
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00432\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_ad8d87098c087ee1ec78e4d427f2d9978}{esp\_lcd\_touch\_register\_interrupt\_callback\_with\_data}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp,\ \doxymbox{\hyperlink{esp__lcd__touch_8h_aed924a11f5b98e00fe8fa37b239f636d}{esp\_lcd\_touch\_interrupt\_callback\_t}}\ callback,\ \textcolor{keywordtype}{void}\ *user\_data);}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00443\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a618f01d5e3a25b0d852c0447d6a5db5f}{esp\_lcd\_touch\_enter\_sleep}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00454\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lcd__touch_8h_a7cc134a229739580887b5d74c441487a}{esp\_lcd\_touch\_exit\_sleep}}(\doxymbox{\hyperlink{esp__lcd__touch_8h_a49dec3d10ef4bf14720c4c59924e7654}{esp\_lcd\_touch\_handle\_t}}\ tp);}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00457\ \}}
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

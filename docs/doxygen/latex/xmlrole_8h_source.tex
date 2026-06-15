@@ -1,0 +1,154 @@
+\doxysection{xmlrole.\+h}
+\hypertarget{xmlrole_8h_source}{}\label{xmlrole_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmlrole.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmlrole.h}}
+\doxymbox{\hyperlink{xmlrole_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\ \ \_\_\ \ \ \ \ \ \ \ \ \ \ \ \_}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\(\backslash\)\ \(\backslash\)/\ /\_\ \_\_\ \ \ \_\_\ \_|\ |\_}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \_\ \(\backslash\)\(\backslash\)\ \ /|\ '\_\ \(\backslash\)\ /\ \_`\ |\ \_\_|}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \_\_//\ \ \(\backslash\)|\ |\_)\ |\ (\_|\ |\ |\_}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)\_\_\_/\_/\(\backslash\)\_\(\backslash\)\ .\_\_/\ \(\backslash\)\_\_,\_|\(\backslash\)\_\_|}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\_|\ XML\ parser}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 1997-\/2000\ Thai\ Open\ Source\ Software\ Center\ Ltd}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2000\ \ \ \ \ \ Clark\ Cooper\ <coopercc@users.sourceforge.net>}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2002\ \ \ \ \ \ Karl\ Waclawek\ <karl@waclawek.net>}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2002\ \ \ \ \ \ Fred\ L.\ Drake,\ Jr.\ <fdrake@users.sourceforge.net>}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2017-\/2024\ Sebastian\ Pipping\ <sebastian@pipping.org>}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Licensed\ under\ the\ MIT\ license:}}
+\DoxyCodeLine{00015\ \textcolor{comment}{}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ Permission\ is\ \ hereby\ granted,\ \ free\ of\ charge,\ \ to\ any\ \ person\ obtaining}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ a\ \ copy\ \ of\ \ this\ \ software\ \ \ and\ \ associated\ \ documentation\ \ files\ \ (the}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ "{}Software"{}),\ \ to\ \ deal\ in\ \ the\ \ Software\ \ without\ restriction,\ \ including}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ without\ \ limitation\ the\ \ rights\ \ to\ use,\ \ copy,\ \ modify,\ merge,\ \ publish,}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ persons\ \ to\ whom\ \ the\ Software\ \ is\ \ furnished\ to\ \ do\ so,\ \ subject\ to\ \ the}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ following\ conditions:}}
+\DoxyCodeLine{00023\ \textcolor{comment}{}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ \ \ The\ above\ copyright\ \ notice\ and\ this\ permission\ notice\ \ shall\ be\ included}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ THE\ \ SOFTWARE\ \ IS\ \ PROVIDED\ \ "{}AS\ \ IS"{},\ \ WITHOUT\ \ WARRANTY\ \ OF\ \ ANY\ \ KIND,}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ EXPRESS\ \ OR\ IMPLIED,\ \ INCLUDING\ \ BUT\ \ NOT\ LIMITED\ \ TO\ \ THE\ WARRANTIES\ \ OF}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ \ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ \ \ DAMAGES\ OR\ \ OTHER\ LIABILITY,\ WHETHER\ \ IN\ AN\ \ ACTION\ OF\ CONTRACT,\ \ TORT\ OR}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ \ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00034\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#ifndef\ XmlRole\_INCLUDED}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ XmlRole\_INCLUDED\ 1}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#ifdef\ \_\_VMS}}
+\DoxyCodeLine{00043\ \textcolor{comment}{/*\ \ \ \ \ \ 0\ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ 3\ \ \ \ \ \ 0\ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ 3}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ \ \ \ \ 1234567890123456789012345678901\ \ \ \ \ 1234567890123456789012345678901\ */}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#\ \ define\ XmlPrologStateInitExternalEntity\ XmlPrologStateInitExternalEnt}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{xmltok_8h}{xmltok.h}}"{}}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00051\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00055\ \ \ XML\_ROLE\_ERROR\ =\ -\/1,}
+\DoxyCodeLine{00056\ \ \ XML\_ROLE\_NONE\ =\ 0,}
+\DoxyCodeLine{00057\ \ \ XML\_ROLE\_XML\_DECL,}
+\DoxyCodeLine{00058\ \ \ XML\_ROLE\_INSTANCE\_START,}
+\DoxyCodeLine{00059\ \ \ XML\_ROLE\_DOCTYPE\_NONE,}
+\DoxyCodeLine{00060\ \ \ XML\_ROLE\_DOCTYPE\_NAME,}
+\DoxyCodeLine{00061\ \ \ XML\_ROLE\_DOCTYPE\_SYSTEM\_ID,}
+\DoxyCodeLine{00062\ \ \ XML\_ROLE\_DOCTYPE\_PUBLIC\_ID,}
+\DoxyCodeLine{00063\ \ \ XML\_ROLE\_DOCTYPE\_INTERNAL\_SUBSET,}
+\DoxyCodeLine{00064\ \ \ XML\_ROLE\_DOCTYPE\_CLOSE,}
+\DoxyCodeLine{00065\ \ \ XML\_ROLE\_GENERAL\_ENTITY\_NAME,}
+\DoxyCodeLine{00066\ \ \ XML\_ROLE\_PARAM\_ENTITY\_NAME,}
+\DoxyCodeLine{00067\ \ \ XML\_ROLE\_ENTITY\_NONE,}
+\DoxyCodeLine{00068\ \ \ XML\_ROLE\_ENTITY\_VALUE,}
+\DoxyCodeLine{00069\ \ \ XML\_ROLE\_ENTITY\_SYSTEM\_ID,}
+\DoxyCodeLine{00070\ \ \ XML\_ROLE\_ENTITY\_PUBLIC\_ID,}
+\DoxyCodeLine{00071\ \ \ XML\_ROLE\_ENTITY\_COMPLETE,}
+\DoxyCodeLine{00072\ \ \ XML\_ROLE\_ENTITY\_NOTATION\_NAME,}
+\DoxyCodeLine{00073\ \ \ XML\_ROLE\_NOTATION\_NONE,}
+\DoxyCodeLine{00074\ \ \ XML\_ROLE\_NOTATION\_NAME,}
+\DoxyCodeLine{00075\ \ \ XML\_ROLE\_NOTATION\_SYSTEM\_ID,}
+\DoxyCodeLine{00076\ \ \ XML\_ROLE\_NOTATION\_NO\_SYSTEM\_ID,}
+\DoxyCodeLine{00077\ \ \ XML\_ROLE\_NOTATION\_PUBLIC\_ID,}
+\DoxyCodeLine{00078\ \ \ XML\_ROLE\_ATTRIBUTE\_NAME,}
+\DoxyCodeLine{00079\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_CDATA,}
+\DoxyCodeLine{00080\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_ID,}
+\DoxyCodeLine{00081\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_IDREF,}
+\DoxyCodeLine{00082\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_IDREFS,}
+\DoxyCodeLine{00083\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_ENTITY,}
+\DoxyCodeLine{00084\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_ENTITIES,}
+\DoxyCodeLine{00085\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_NMTOKEN,}
+\DoxyCodeLine{00086\ \ \ XML\_ROLE\_ATTRIBUTE\_TYPE\_NMTOKENS,}
+\DoxyCodeLine{00087\ \ \ XML\_ROLE\_ATTRIBUTE\_ENUM\_VALUE,}
+\DoxyCodeLine{00088\ \ \ XML\_ROLE\_ATTRIBUTE\_NOTATION\_VALUE,}
+\DoxyCodeLine{00089\ \ \ XML\_ROLE\_ATTLIST\_NONE,}
+\DoxyCodeLine{00090\ \ \ XML\_ROLE\_ATTLIST\_ELEMENT\_NAME,}
+\DoxyCodeLine{00091\ \ \ XML\_ROLE\_IMPLIED\_ATTRIBUTE\_VALUE,}
+\DoxyCodeLine{00092\ \ \ XML\_ROLE\_REQUIRED\_ATTRIBUTE\_VALUE,}
+\DoxyCodeLine{00093\ \ \ XML\_ROLE\_DEFAULT\_ATTRIBUTE\_VALUE,}
+\DoxyCodeLine{00094\ \ \ XML\_ROLE\_FIXED\_ATTRIBUTE\_VALUE,}
+\DoxyCodeLine{00095\ \ \ XML\_ROLE\_ELEMENT\_NONE,}
+\DoxyCodeLine{00096\ \ \ XML\_ROLE\_ELEMENT\_NAME,}
+\DoxyCodeLine{00097\ \ \ XML\_ROLE\_CONTENT\_ANY,}
+\DoxyCodeLine{00098\ \ \ XML\_ROLE\_CONTENT\_EMPTY,}
+\DoxyCodeLine{00099\ \ \ XML\_ROLE\_CONTENT\_PCDATA,}
+\DoxyCodeLine{00100\ \ \ XML\_ROLE\_GROUP\_OPEN,}
+\DoxyCodeLine{00101\ \ \ XML\_ROLE\_GROUP\_CLOSE,}
+\DoxyCodeLine{00102\ \ \ XML\_ROLE\_GROUP\_CLOSE\_REP,}
+\DoxyCodeLine{00103\ \ \ XML\_ROLE\_GROUP\_CLOSE\_OPT,}
+\DoxyCodeLine{00104\ \ \ XML\_ROLE\_GROUP\_CLOSE\_PLUS,}
+\DoxyCodeLine{00105\ \ \ XML\_ROLE\_GROUP\_CHOICE,}
+\DoxyCodeLine{00106\ \ \ XML\_ROLE\_GROUP\_SEQUENCE,}
+\DoxyCodeLine{00107\ \ \ XML\_ROLE\_CONTENT\_ELEMENT,}
+\DoxyCodeLine{00108\ \ \ XML\_ROLE\_CONTENT\_ELEMENT\_REP,}
+\DoxyCodeLine{00109\ \ \ XML\_ROLE\_CONTENT\_ELEMENT\_OPT,}
+\DoxyCodeLine{00110\ \ \ XML\_ROLE\_CONTENT\_ELEMENT\_PLUS,}
+\DoxyCodeLine{00111\ \ \ XML\_ROLE\_PI,}
+\DoxyCodeLine{00112\ \ \ XML\_ROLE\_COMMENT,}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00114\ \ \ XML\_ROLE\_TEXT\_DECL,}
+\DoxyCodeLine{00115\ \ \ XML\_ROLE\_IGNORE\_SECT,}
+\DoxyCodeLine{00116\ \ \ XML\_ROLE\_INNER\_PARAM\_ENTITY\_REF,}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00118\ \ \ XML\_ROLE\_PARAM\_ENTITY\_REF}
+\DoxyCodeLine{00119\ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }prolog\_state\ \{}
+\DoxyCodeLine{00122\ \ \ int(PTRCALL\ *handler)(\textcolor{keyword}{struct\ }prolog\_state\ *\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}},\ \textcolor{keywordtype}{int}\ tok,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ \textcolor{keyword}{const}\ ENCODING\ *enc);}
+\DoxyCodeLine{00124\ \ \ \textcolor{keywordtype}{unsigned}\ \doxymbox{\hyperlink{namespacednsfixture_afde8e18a788ccc92fc61cab298bca7e3}{level}};}
+\DoxyCodeLine{00125\ \ \ \textcolor{keywordtype}{int}\ role\_none;}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00127\ \ \ \textcolor{keywordtype}{unsigned}\ includeLevel;}
+\DoxyCodeLine{00128\ \ \ \textcolor{keywordtype}{int}\ documentEntity;}
+\DoxyCodeLine{00129\ \ \ \textcolor{keywordtype}{int}\ inEntityValue;}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00131\ \}\ PROLOG\_STATE;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{void}\ XmlPrologStateInit(PROLOG\_STATE\ *\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00135\ \textcolor{keywordtype}{void}\ XmlPrologStateInitExternalEntity(PROLOG\_STATE\ *\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ XmlTokenRole(state,\ tok,\ ptr,\ end,\ enc)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\ \ (((state)-\/>handler)(state,\ tok,\ ptr,\ end,\ enc))}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ not\ XmlRole\_INCLUDED\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00148\ }
+
+\end{DoxyCode}

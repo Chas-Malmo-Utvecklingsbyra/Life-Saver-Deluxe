@@ -1,0 +1,130 @@
+\doxysection{vg\+\_\+lite\+\_\+hal.\+h}
+\hypertarget{vg__lite__hal_8h_source}{}\label{vg__lite__hal_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLiteKernel/vg\_lite\_hal.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLiteKernel/vg\_lite\_hal.h}}
+\doxymbox{\hyperlink{vg__lite__hal_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{00002\ \textcolor{comment}{*}}
+\DoxyCodeLine{00003\ \textcolor{comment}{*\ \ \ \ The\ MIT\ License\ (MIT)}}
+\DoxyCodeLine{00004\ \textcolor{comment}{*}}
+\DoxyCodeLine{00005\ \textcolor{comment}{*\ \ \ \ Copyright\ (c)\ 2014\ -\/\ 2022\ Vivante\ Corporation}}
+\DoxyCodeLine{00006\ \textcolor{comment}{*}}
+\DoxyCodeLine{00007\ \textcolor{comment}{*\ \ \ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a}}
+\DoxyCodeLine{00008\ \textcolor{comment}{*\ \ \ \ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),}}
+\DoxyCodeLine{00009\ \textcolor{comment}{*\ \ \ \ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation}}
+\DoxyCodeLine{00010\ \textcolor{comment}{*\ \ \ \ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{*\ \ \ \ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the}}
+\DoxyCodeLine{00012\ \textcolor{comment}{*\ \ \ \ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{*}}
+\DoxyCodeLine{00014\ \textcolor{comment}{*\ \ \ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00015\ \textcolor{comment}{*\ \ \ \ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{*}}
+\DoxyCodeLine{00017\ \textcolor{comment}{*\ \ \ \ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*\ \ \ \ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{*\ \ \ \ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{*\ \ \ \ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{*\ \ \ \ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*\ \ \ \ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER}}
+\DoxyCodeLine{00023\ \textcolor{comment}{*\ \ \ \ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{*}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*****************************************************************************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{*}}
+\DoxyCodeLine{00027\ \textcolor{comment}{*\ \ \ \ The\ GPL\ License\ (GPL)}}
+\DoxyCodeLine{00028\ \textcolor{comment}{*}}
+\DoxyCodeLine{00029\ \textcolor{comment}{*\ \ \ \ Copyright\ (C)\ 2014\ -\/\ 2022\ Vivante\ Corporation}}
+\DoxyCodeLine{00030\ \textcolor{comment}{*}}
+\DoxyCodeLine{00031\ \textcolor{comment}{*\ \ \ \ This\ program\ is\ free\ software;\ you\ can\ redistribute\ it\ and/or}}
+\DoxyCodeLine{00032\ \textcolor{comment}{*\ \ \ \ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00033\ \textcolor{comment}{*\ \ \ \ as\ published\ by\ the\ Free\ Software\ Foundation;\ either\ version\ 2}}
+\DoxyCodeLine{00034\ \textcolor{comment}{*\ \ \ \ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00035\ \textcolor{comment}{*}}
+\DoxyCodeLine{00036\ \textcolor{comment}{*\ \ \ \ This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00037\ \textcolor{comment}{*\ \ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00038\ \textcolor{comment}{*\ \ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00039\ \textcolor{comment}{*\ \ \ \ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00040\ \textcolor{comment}{*}}
+\DoxyCodeLine{00041\ \textcolor{comment}{*\ \ \ \ You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00042\ \textcolor{comment}{*\ \ \ \ along\ with\ this\ program;\ if\ not,\ write\ to\ the\ Free\ Software\ Foundation,}}
+\DoxyCodeLine{00043\ \textcolor{comment}{*\ \ \ \ Inc.,\ 51\ Franklin\ Street,\ Fifth\ Floor,\ Boston,\ MA\ 02110-\/1301,\ USA.}}
+\DoxyCodeLine{00044\ \textcolor{comment}{*}}
+\DoxyCodeLine{00045\ \textcolor{comment}{*****************************************************************************}}
+\DoxyCodeLine{00046\ \textcolor{comment}{*}}
+\DoxyCodeLine{00047\ \textcolor{comment}{*\ \ \ \ Note:\ This\ software\ is\ released\ under\ dual\ MIT\ and\ GPL\ licenses.\ A}}
+\DoxyCodeLine{00048\ \textcolor{comment}{*\ \ \ \ recipient\ may\ use\ this\ file\ under\ the\ terms\ of\ either\ the\ MIT\ license\ or}}
+\DoxyCodeLine{00049\ \textcolor{comment}{*\ \ \ \ GPL\ License.\ If\ you\ wish\ to\ use\ only\ one\ license\ not\ the\ other,\ you\ can}}
+\DoxyCodeLine{00050\ \textcolor{comment}{*\ \ \ \ indicate\ your\ decision\ by\ deleting\ one\ of\ the\ above\ license\ notices\ in\ your}}
+\DoxyCodeLine{00051\ \textcolor{comment}{*\ \ \ \ version\ of\ this\ file.}}
+\DoxyCodeLine{00052\ \textcolor{comment}{*}}
+\DoxyCodeLine{00053\ \textcolor{comment}{*****************************************************************************/}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#ifndef\ VG\_LITE\_HAL\_H}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ VG\_LITE\_HAL\_H}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#if\ LV\_USE\_VG\_LITE\_DRIVER}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ VGLITE\_MEM\_ALIGNMENT\ \ \ \ \ \ 128}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ VGLITE\_EVENT\_FRAME\_END\ \ \ \ 2}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00066\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_delay(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ milliseconds);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00091\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_initialize(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00103\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_deinitialize(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00129\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_allocate\_contiguous(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ size,\ vg\_lite\_vidmem\_pool\_t\ pool,\ \textcolor{keywordtype}{void}\ **\ logical,}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ **\ klogical,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *\ physical,\ \textcolor{keywordtype}{void}\ **\ node);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00142\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_free\_contiguous(\textcolor{keywordtype}{void}\ *\ memory\_handle);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00151\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_free\_os\_heap(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00179\ \textcolor{keywordtype}{void}\ *\ vg\_lite\_hal\_map(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ flags,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes,\ \textcolor{keywordtype}{void}\ *\ logical,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ physical,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ dma\_buf\_fd,}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *\ gpu);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00192\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_unmap(\textcolor{keywordtype}{void}\ *\ memory\_handle);}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00201\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_barrier(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00216\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ vg\_lite\_hal\_peek(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}});}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00231\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_poke(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data);}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00239\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_query\_mem(vg\_lite\_kernel\_mem\_t\ *\ mem);}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00249\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_map\_memory(vg\_lite\_kernel\_map\_memory\_t\ *\ node);}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00258\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_unmap\_memory(vg\_lite\_kernel\_unmap\_memory\_t\ *\ node);}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00281\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ vg\_lite\_hal\_wait\_interrupt(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a96858dae11fda9654027ff329c800100}{timeout}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ mask,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00287\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_operation\_cache(\textcolor{keywordtype}{void}\ *\ handle,\ vg\_lite\_cache\_op\_t\ cache\_op);}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00292\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_memory\_export(\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ *\ fd);}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00297\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_print(\textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ ...);}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00302\ \textcolor{keywordtype}{void}\ vg\_lite\_hal\_trace(\textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ ...);}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00307\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ vg\_lite\_hal\_Status2Name(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ status);}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00312\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_allocate(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size,\ \textcolor{keywordtype}{void}\ **\ memory);}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00317\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vg\_lite\_hal\_free(\textcolor{keywordtype}{void}\ *\ memory);}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00322\ \textcolor{keywordtype}{void}\ vg\_lite\_set\_gpu\_execute\_state(vg\_lite\_gpu\_execute\_state\_t\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00325\ \}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_VG\_LITE\_DRIVER\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ VG\_LITE\_HAL\_H\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ }
+
+\end{DoxyCode}

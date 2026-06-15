@@ -1,0 +1,186 @@
+\doxysection{meta.\+h}
+\hypertarget{meta_8h_source}{}\label{meta_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/internal/meta.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/internal/meta.h}}
+\doxymbox{\hyperlink{meta_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Copyright\ (C)\ 2015\ THL\ A29\ Limited,\ a\ Tencent\ company,\ and\ Milo\ Yip.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_INTERNAL\_META\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_INTERNAL\_META\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{rapidjson_8h}{../rapidjson.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00021\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00022\ RAPIDJSON\_DIAG\_OFF(effc++)}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ !defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00026\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00027\ RAPIDJSON\_DIAG\_OFF(6334)}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11\_TYPETRAITS}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{//@cond\ RAPIDJSON\_INTERNAL}}
+\DoxyCodeLine{00035\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespaceinternal}{internal}}\ \{}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ Helper\ to\ wrap/convert\ arbitrary\ types\ to\ void,\ useful\ for\ arbitrary\ type\ matching}}
+\DoxyCodeLine{00039\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }Void\ \{\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ BoolType,\ TrueType,\ FalseType}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Cond>\ \textcolor{keyword}{struct\ }BoolType\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{document_8h_a071cf97155ba72ac9a1fc4ad7e63d481}{Value}}\ =\ Cond;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{typedef}\ BoolType\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ BoolType<true>\ TrueType;}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ BoolType<false>\ FalseType;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ SelectIf,\ BoolExpr,\ NotExpr,\ AndExpr,\ OrExpr}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ C>\ \textcolor{keyword}{struct\ }SelectIfImpl\ \{\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T1,\ \textcolor{keyword}{typename}\ T2>\ \textcolor{keyword}{struct\ }Apply\ \{\ \textcolor{keyword}{typedef}\ T1\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};\ \};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }SelectIfImpl<\doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}>\ \{\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T1,\ \textcolor{keyword}{typename}\ T2>\ \textcolor{keyword}{struct\ }Apply\ \{\ \textcolor{keyword}{typedef}\ T2\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};\ \};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ C,\ \textcolor{keyword}{typename}\ T1,\ \textcolor{keyword}{typename}\ T2>\ \textcolor{keyword}{struct\ }SelectIfCond\ :\ SelectIfImpl<C>::template\ Apply<T1,T2>\ \{\};}
+\DoxyCodeLine{00059\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ C,\ \textcolor{keyword}{typename}\ T1,\ \textcolor{keyword}{typename}\ T2>\ \textcolor{keyword}{struct\ }SelectIf\ :\ SelectIfCond<C::Value,\ T1,\ T2>\ \{\};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Cond1,\ \textcolor{keywordtype}{bool}\ Cond2>\ \textcolor{keyword}{struct\ }AndExprCond\ :\ FalseType\ \{\};}
+\DoxyCodeLine{00062\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }AndExprCond<\doxymbox{\hyperlink{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}{true}},\ \doxymbox{\hyperlink{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}{true}}>\ :\ TrueType\ \{\};}
+\DoxyCodeLine{00063\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Cond1,\ \textcolor{keywordtype}{bool}\ Cond2>\ \textcolor{keyword}{struct\ }OrExprCond\ :\ TrueType\ \{\};}
+\DoxyCodeLine{00064\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }OrExprCond<\doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}},\ \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}>\ :\ FalseType\ \{\};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ C>\ \textcolor{keyword}{struct\ }BoolExpr\ :\ SelectIf<C,TrueType,FalseType>\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00067\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ C>\ \textcolor{keyword}{struct\ }NotExpr\ \ :\ SelectIf<C,FalseType,TrueType>\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00068\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ C1,\ \textcolor{keyword}{typename}\ C2>\ \textcolor{keyword}{struct\ }AndExpr\ :\ AndExprCond<C1::Value,\ C2::Value>\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00069\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ C1,\ \textcolor{keyword}{typename}\ C2>\ \textcolor{keyword}{struct\ }OrExpr\ \ :\ OrExprCond<C1::Value,\ C2::Value>\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00073\ \textcolor{comment}{//\ AddConst,\ MaybeAddConst,\ RemoveConst}}
+\DoxyCodeLine{00074\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }AddConst\ \{\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{const}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00075\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Constify,\ \textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }MaybeAddConst\ :\ SelectIfCond<Constify,\ const\ T,\ T>\ \{\};}
+\DoxyCodeLine{00076\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }RemoveConst\ \{\ \textcolor{keyword}{typedef}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00077\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }RemoveConst<const\ T>\ \{\ \textcolor{keyword}{typedef}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ IsSame,\ IsConst,\ IsMoreConst,\ IsPointer}}
+\DoxyCodeLine{00082\ \textcolor{comment}{//}}
+\DoxyCodeLine{00083\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keyword}{struct\ }IsSame\ :\ FalseType\ \{\};}
+\DoxyCodeLine{00084\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }IsSame<T,\ T>\ :\ TrueType\ \{\};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }IsConst\ :\ FalseType\ \{\};}
+\DoxyCodeLine{00087\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }IsConst<const\ T>\ :\ TrueType\ \{\};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ CT,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00090\ \textcolor{keyword}{struct\ }IsMoreConst}
+\DoxyCodeLine{00091\ \ \ \ \ :\ AndExpr<IsSame<typename\ RemoveConst<CT>::Type,\ typename\ RemoveConst<T>::Type>,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BoolType<IsConst<CT>::Value\ >=\ IsConst<T>::Value>\ >\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }IsPointer\ :\ FalseType\ \{\};}
+\DoxyCodeLine{00095\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }IsPointer<T*>\ :\ TrueType\ \{\};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ IsBaseOf}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_CXX11\_TYPETRAITS}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ B,\ \textcolor{keyword}{typename}\ D>\ \textcolor{keyword}{struct\ }IsBaseOf}
+\DoxyCodeLine{00103\ \ \ \ \ :\ BoolType<\ ::std::is\_base\_of<B,D>::value>\ \{\};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ simplified\ version\ adopted\ from\ Boost}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ B,\ \textcolor{keyword}{typename}\ D>\ \textcolor{keyword}{struct\ }IsBaseOfImpl\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(B)\ !=\ 0);}
+\DoxyCodeLine{00109\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(D)\ !=\ 0);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{typedef}\ char\ (\&Yes)[1];}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{typedef}\ char\ (\&No)\ [2];}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{static}\ Yes\ Check(\textcolor{keyword}{const}\ D*,\ T);}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{static}\ No\ \ Check(\textcolor{keyword}{const}\ B*,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{struct\ }Host\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ B*()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ D*();}
+\DoxyCodeLine{00121\ \ \ \ \ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{enum}\ \{\ \doxymbox{\hyperlink{document_8h_a071cf97155ba72ac9a1fc4ad7e63d481}{Value}}\ =\ (\textcolor{keyword}{sizeof}(Check(Host(),\ 0))\ ==\ \textcolor{keyword}{sizeof}(Yes))\ \};}
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ B,\ \textcolor{keyword}{typename}\ D>\ \textcolor{keyword}{struct\ }IsBaseOf}
+\DoxyCodeLine{00127\ \ \ \ \ :\ OrExpr<IsSame<B,\ D>,\ BoolExpr<IsBaseOfImpl<B,\ D>\ >\ >\doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{::Type}}\ \{\};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_HAS\_CXX11\_TYPETRAITS}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ EnableIf\ /\ DisableIf}}
+\DoxyCodeLine{00134\ \textcolor{comment}{//}}
+\DoxyCodeLine{00135\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Condition,\ \textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{void}>\ \textcolor{keyword}{struct\ }EnableIfCond\ \ \{\ \textcolor{keyword}{typedef}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00136\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }EnableIfCond<\doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}},\ T>\ \{\ \textcolor{comment}{/*\ empty\ */}\ \};}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Condition,\ \textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{void}>\ \textcolor{keyword}{struct\ }DisableIfCond\ \{\ \textcolor{keyword}{typedef}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00139\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }DisableIfCond<\doxymbox{\hyperlink{c_j_s_o_n_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}{true}},\ T>\ \{\ \textcolor{comment}{/*\ empty\ */}\ \};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Condition,\ \textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00142\ \textcolor{keyword}{struct\ }EnableIf\ :\ EnableIfCond<Condition::Value,\ T>\ \{\};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Condition,\ \textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00145\ \textcolor{keyword}{struct\ }DisableIf\ :\ DisableIfCond<Condition::Value,\ T>\ \{\};}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \textcolor{comment}{//\ SFINAE\ helpers}}
+\DoxyCodeLine{00148\ \textcolor{keyword}{struct\ }SfinaeTag\ \{\};}
+\DoxyCodeLine{00149\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }RemoveSfinaeTag;}
+\DoxyCodeLine{00150\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }RemoveSfinaeTag<SfinaeTag\&(*)(T)>\ \{\ \textcolor{keyword}{typedef}\ T\ \doxymbox{\hyperlink{rapidjson_8h_a1d1cfd8ffb84e947f82999c682b666a7}{Type}};\ \};}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_REMOVEFPTR\_(type)\ \(\backslash\)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ typename\ ::RAPIDJSON\_NAMESPACE::internal::RemoveSfinaeTag\ \(\backslash\)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ <\ ::RAPIDJSON\_NAMESPACE::internal::SfinaeTag\&(*)\ type>::Type}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ENABLEIF(cond)\ \(\backslash\)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\ \ \ \ typename\ ::RAPIDJSON\_NAMESPACE::internal::EnableIf\ \(\backslash\)}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ <RAPIDJSON\_REMOVEFPTR\_(cond)>::Type\ *\ =\ NULL}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_DISABLEIF(cond)\ \(\backslash\)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\ \ \ \ typename\ ::RAPIDJSON\_NAMESPACE::internal::DisableIf\ \(\backslash\)}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ <RAPIDJSON\_REMOVEFPTR\_(cond)>::Type\ *\ =\ NULL}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ENABLEIF\_RETURN(cond,returntype)\ \(\backslash\)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\ \ \ \ typename\ ::RAPIDJSON\_NAMESPACE::internal::EnableIf\ \(\backslash\)}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ <RAPIDJSON\_REMOVEFPTR\_(cond),\ \(\backslash\)}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ RAPIDJSON\_REMOVEFPTR\_(returntype)>::Type}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_DISABLEIF\_RETURN(cond,returntype)\ \(\backslash\)}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\ \ \ \ typename\ ::RAPIDJSON\_NAMESPACE::internal::DisableIf\ \(\backslash\)}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ <RAPIDJSON\_REMOVEFPTR\_(cond),\ \(\backslash\)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ RAPIDJSON\_REMOVEFPTR\_(returntype)>::Type}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \}\ \textcolor{comment}{//\ namespace\ internal}}
+\DoxyCodeLine{00175\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00176\ \textcolor{comment}{//@endcond}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ !defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00179\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00183\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_INTERNAL\_META\_H\_}}
+
+\end{DoxyCode}

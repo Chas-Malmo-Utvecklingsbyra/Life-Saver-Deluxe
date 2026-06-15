@@ -1,0 +1,149 @@
+\doxysection{lv\+\_\+indev\+\_\+gesture.\+h}
+\hypertarget{lv__indev__gesture_8h_source}{}\label{lv__indev__gesture_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev\_gesture.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev\_gesture.h}}
+\doxymbox{\hyperlink{lv__indev__gesture_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*******************************************************************}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ @file\ lv\_indev\_gesture.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2024\ EDGEMTech\ Ltd.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ Author\ EDGEMTech\ Ltd,\ (erik.tagirov@edgemtech.ch)}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ ******************************************************************/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ LV\_INDEV\_GESTURE\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ LV\_INDEV\_GESTURE\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__obj_8h}{../core/lv\_obj.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#if\ LV\_USE\_GESTURE\_RECOGNITION}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#if\ LV\_USE\_FLOAT\ ==\ 0}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#error\ "{}LV\_USE\_FLOAT\ is\ required\ for\ gesture\ detection."{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{/*\ Opaque\ types\ defined\ in\ the\ private\ header\ */}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{struct\ }lv\_indev\_gesture;}
+\DoxyCodeLine{00039\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_configuration;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_recognizer\ lv\_indev\_gesture\_recognizer\_t;}
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }lv\_indev\_touch\_data\ lv\_indev\_touch\_data\_t;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\ lv\_indev\_gesture\_t;}
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_configuration\ lv\_indev\_gesture\_configuration\_t;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ void\ (*lv\_recognizer\_func\_t)(lv\_indev\_gesture\_recognizer\_t\ *,\ lv\_indev\_touch\_data\_t\ *,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}});}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{/*\ The\ states\ of\ a\ gesture\ recognizer\ */}}
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ LV\_INDEV\_GESTURE\_STATE\_NONE\ =\ 0,\ \ \ \ \textcolor{comment}{/*\ Beginning\ \&\ end\ */}}
+\DoxyCodeLine{00052\ \ \ \ \ LV\_INDEV\_GESTURE\_STATE\_ONGOING,\ \ \ \ \ \textcolor{comment}{/*\ Set\ when\ there\ is\ a\ probability\ */}}
+\DoxyCodeLine{00053\ \ \ \ \ LV\_INDEV\_GESTURE\_STATE\_RECOGNIZED,\ \ \textcolor{comment}{/*\ Recognized,\ the\ event\ will\ contain\ touch\ info\ */}}
+\DoxyCodeLine{00054\ \ \ \ \ LV\_INDEV\_GESTURE\_STATE\_ENDED,\ \ \ \ \ \ \ \textcolor{comment}{/*\ A\ recognized\ gesture\ has\ ended\ */}}
+\DoxyCodeLine{00055\ \ \ \ \ LV\_INDEV\_GESTURE\_STATE\_CANCELED,\ \ \ \ \textcolor{comment}{/*\ Canceled\ -\/\ usually\ a\ finger\ is\ lifted\ */}}
+\DoxyCodeLine{00056\ \}\ lv\_indev\_gesture\_state\_t;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{comment}{/*\ Data\ structures\ for\ touch\ events\ -\/\ used\ to\ repsensent\ a\ libinput\ event\ */}}
+\DoxyCodeLine{00059\ \textcolor{comment}{/*\ Emitted\ by\ devices\ capable\ of\ tracking\ identifiable\ contacts\ (type\ B)\ */}}
+\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }lv\_indev\_touch\_data\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ lv\_point\_t\ point;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Coordinates\ of\ the\ touch\ */}}
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ state\ i.e\ PRESSED\ or\ RELEASED\ */}}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Identification/slot\ of\ the\ contact\ point\ */}}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ timestamp;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Timestamp\ in\ milliseconds\ */}}
+\DoxyCodeLine{00065\ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{/*\ Gesture\ recognizer\ */}}
+\DoxyCodeLine{00068\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_recognizer\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\_indev\_gesture\_type\_t}}\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};\ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ detected\ gesture\ type\ */}}
+\DoxyCodeLine{00070\ \ \ \ \ lv\_indev\_gesture\_state\_t\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};\ \ \ \ \ \textcolor{comment}{/*\ The\ gesture\ state\ ongoing,\ recognized\ */}}
+\DoxyCodeLine{00071\ \ \ \ \ lv\_indev\_gesture\_t\ *\ info;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Information\ on\ the\ motion\ of\ each\ touch\ point\ */}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{float}\ scale;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Relevant\ for\ the\ pinch\ gesture\ */}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{float}\ rotation;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Relevant\ for\ rotation\ */}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{float}\ distance;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Relevant\ for\ swipes\ */}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{float}\ speed;}
+\DoxyCodeLine{00076\ \ \ \ \ \doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\_dir\_t}}\ two\_fingers\_swipe\_dir;\ \ \ \ \ \textcolor{comment}{/*\ Relevant\ for\ swipes\ */}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ lv\_indev\_gesture\_configuration\_t\ *\ config;\ \ \textcolor{comment}{/*\ The\ recognizer\ config,\ containing\ the\ gestures}}
+\DoxyCodeLine{00079\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ thresholds\ */}}
+\DoxyCodeLine{00080\ \ \ \ \ lv\_recognizer\_func\_t\ recog\_fn;\ \ \ \ \ \ \textcolor{comment}{/*\ The\ recognizer\ function\ that\ this\ recongnizer\ must\ execute\ */}}
+\DoxyCodeLine{00081\ \};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_init(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{comment}{/*\ PINCH\ Gesture\ */}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_detect\_pinch(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,\ lv\_indev\_touch\_data\_t\ *\ touches,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ touch\_cnt);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_detect\_rotation(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,\ lv\_indev\_touch\_data\_t\ *\ touches,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ touch\_cnt);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00122\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_detect\_two\_fingers\_swipe(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lv\_indev\_touch\_data\_t\ *\ touches,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ touch\_cnt);}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00132\ \textcolor{keywordtype}{void}\ lv\_indev\_set\_pinch\_up\_threshold(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev,\ \textcolor{keywordtype}{float}\ threshold);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00140\ \textcolor{keywordtype}{void}\ lv\_indev\_set\_pinch\_down\_threshold(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev,\ \textcolor{keywordtype}{float}\ threshold);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00147\ \textcolor{keywordtype}{void}\ lv\_indev\_set\_rotation\_rad\_threshold(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev,\ \textcolor{keywordtype}{float}\ threshold);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00154\ \textcolor{keywordtype}{float}\ lv\_event\_get\_pinch\_scale(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00161\ \textcolor{keywordtype}{float}\ lv\_event\_get\_rotation(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event);}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00168\ \textcolor{keywordtype}{float}\ lv\_event\_get\_two\_fingers\_swipe\_distance(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00175\ \doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\_dir\_t}}\ lv\_event\_get\_two\_fingers\_swipe\_dir(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00183\ \textcolor{keywordtype}{void}\ lv\_indev\_set\_gesture\_data(\doxymbox{\hyperlink{structlv__indev__data__t}{lv\_indev\_data\_t}}\ *\ data,\ lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\_indev\_gesture\_type\_t}}\ type);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00191\ \textcolor{keywordtype}{void}\ lv\_indev\_get\_gesture\_center\_point(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,\ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ *\ point);}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00198\ lv\_indev\_gesture\_state\_t\ lv\_event\_get\_gesture\_state(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event,\ \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\_indev\_gesture\_type\_t}}\ type);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00205\ \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\_indev\_gesture\_type\_t}}\ lv\_event\_get\_gesture\_type(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a21b130dbe9349eab447cf0c891517272}{lv\_event\_t}}\ *\ gesture\_event);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00212\ \textcolor{keywordtype}{void}\ lv\_indev\_get\_gesture\_primary\_point(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer,\ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ *\ point);}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00219\ \textcolor{keywordtype}{bool}\ lv\_indev\_recognizer\_is\_active(lv\_indev\_gesture\_recognizer\_t\ *\ recognizer);}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00230\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_recognizers\_update(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev,\ lv\_indev\_touch\_data\_t\ *\ touches,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ touch\_cnt);}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00236\ \textcolor{keywordtype}{void}\ lv\_indev\_gesture\_recognizers\_set\_data(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev,\ \doxymbox{\hyperlink{structlv__indev__data__t}{lv\_indev\_data\_t}}\ *\ data);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00240\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00241\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ END\ LV\_USE\_RECOGNITION\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00246\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_INDEV\_GESTURE\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

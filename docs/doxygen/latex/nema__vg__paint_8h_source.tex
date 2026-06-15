@@ -1,0 +1,118 @@
+\doxysection{nema\+\_\+vg\+\_\+paint.\+h}
+\hypertarget{nema__vg__paint_8h_source}{}\label{nema__vg__paint_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_paint.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_paint.h}}
+\doxymbox{\hyperlink{nema__vg__paint_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ TSI\ 2023.xmo\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*******************************************************************************}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2023\ Think\ Silicon\ Single\ Member\ PC}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ of\ this\ header\ file\ and/or\ associated\ documentation\ files\ to\ use,\ copy,}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ Materials,\ and\ to\ permit\ persons\ to\ whom\ the\ Materials\ are\ furnished\ to\ do}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Materials.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ MODIFICATIONS\ TO\ THIS\ FILE\ MAY\ MEAN\ IT\ NO\ LONGER\ ACCURATELY\ REFLECTS}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ NEMAGFX\ API.\ THE\ UNMODIFIED,\ NORMATIVE\ VERSIONS\ OF\ THINK-\/SILICON\ NEMAGFX}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ SPECIFICATIONS\ AND\ HEADER\ INFORMATION\ ARE\ LOCATED\ AT:}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ \ \ https://think-\/silicon.com/products/software/nemagfx-\/api}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ The\ software\ is\ provided\ 'as\ is',\ without\ warranty\ of\ any\ kind,\ express\ or}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ \ implied,\ including\ but\ not\ limited\ to\ the\ warranties\ of\ merchantability,}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ \ fitness\ for\ a\ particular\ purpose\ and\ noninfringement.\ In\ no\ event\ shall}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ Think\ Silicon\ Single\ Member\ PC\ be\ liable\ for\ any\ claim,\ damages\ or\ other}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ \ liability,\ whether\ in\ an\ action\ of\ contract,\ tort\ or\ otherwise,\ arising}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ \ from,\ out\ of\ or\ in\ connection\ with\ the\ software\ or\ the\ use\ or\ other\ dealings}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ \ in\ the\ software.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ ******************************************************************************/}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifndef\ \_\_NEMA\_VG\_PAINT\_H\_\_}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ \_\_NEMA\_VG\_PAINT\_H\_\_}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__interpolators_8h}{nema\_interpolators.h}}"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__matrix3x3_8h}{nema\_matrix3x3.h}}"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__vg__context_8h}{nema\_vg\_context.h}}"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{nema__graphics_8h}{nema\_graphics.h}}"{}}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_COLOR\ \ \ \ \ \ \ \ (0x00U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_FILL\ \ \ \ \ \ \ \ \ (0x00U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_GRAD\_LINEAR\ \ (0x01U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_TEXTURE\ \ \ \ \ \ (0x02U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_GRAD\_RADIAL\ \ (0x03U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_GRAD\_CONICAL\ (0x04U)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ \ NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS\ (32)\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00061\ \doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ \doxymbox{\hyperlink{nema__vg__paint_8h_ad6bb961d27230d8fd6e17df9dda08227}{nema\_vg\_paint\_create}}();}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_a252d7c7ce2af0e71c6df03c4ec751ecc}{nema\_vg\_paint\_destroy}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_af248cecf504695708767910102654bd1}{nema\_vg\_paint\_clear}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_ad7620d0ff6c0768bc5bf21fe640aaf0d}{nema\_vg\_paint\_set\_type}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ type);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00093\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_ae4facd6ee461ab44e8cd49088ea4c168}{nema\_vg\_paint\_lock\_tran\_to\_path}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \textcolor{keywordtype}{int}\ locked);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00106\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_a0995544e18b6d0d4ed1dd166c0b9efb8}{nema\_vg\_paint\_set\_grad\_linear}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ sampling\_mode);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00118\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_ac3c00e4772d213ffadbc83f3aad40414}{nema\_vg\_paint\_set\_paint\_color}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rgba);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_a18cc4395cffb64df3c8991abf8e963dd}{nema\_vg\_paint\_set\_opacity}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \textcolor{keywordtype}{float}\ opacity);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00134\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_af9747f11ea7041bb2cae3f269059d408}{nema\_vg\_paint\_set\_stroke\_width}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \textcolor{keywordtype}{float}\ stroke\_width);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00142\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_afd52aeb3892f8dca945fff2551d340df}{nema\_vg\_paint\_set\_tex\_matrix}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\_matrix3x3\_t}}\ m);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00150\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_a0e4486b82cbc6ee025b6674b479082b5}{nema\_vg\_paint\_set\_tex}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\_img\_obj\_t}}*\ tex);}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00159\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_a9e7ad93e3b893bda47596735de7c1c40}{nema\_vg\_paint\_set\_lut\_tex}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,\ \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\_img\_obj\_t}}*\ lut\_palette,\ \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\_img\_obj\_t}}*\ lut\_indices);}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00170\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{nema__vg__paint_8h_ad4f4fbb7690a1b65d6e99bb7ee3a83e5}{nema\_vg\_paint\_set\_grad\_conical}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad,}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ cx,\ \textcolor{keywordtype}{float}\ cy,}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ sampling\_mode);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00185\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00186\ \doxymbox{\hyperlink{nema__vg__paint_8h_a2a25ddcc8e5fa1e16d5417eda1f97ac9}{nema\_vg\_paint\_set\_grad\_radial}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ r,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ sampling\_mode);}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00204\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00205\ \doxymbox{\hyperlink{nema__vg__paint_8h_ac9979dcb63e1946168fbaa001ea965a9}{nema\_vg\_paint\_set\_grad\_radial2}}(\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\_VG\_PAINT\_HANDLE}}\ paint,}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad,}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x0,\ \textcolor{keywordtype}{float}\ y0,}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ rx,\ \textcolor{keywordtype}{float}\ ry,}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\_tex\_mode\_t}}\ sampling\_mode);}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00215\ \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}}
+\DoxyCodeLine{00216\ \doxymbox{\hyperlink{nema__vg__paint_8h_aa60fb25b085e639e56d6a6ad0ccd0a27}{nema\_vg\_grad\_create}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00223\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00224\ \doxymbox{\hyperlink{nema__vg__paint_8h_aa7198e32b48e30694b02616b2f167b54}{nema\_vg\_grad\_destroy}}(\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00234\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00235\ \doxymbox{\hyperlink{nema__vg__paint_8h_ae6a9c70ae6689eb901505d7862291a67}{nema\_vg\_grad\_set}}(\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\_VG\_GRAD\_HANDLE}}\ grad,\ \textcolor{keywordtype}{int}\ stops\_count,\ \textcolor{keywordtype}{float}\ *stops,\ \doxymbox{\hyperlink{nema__interpolators_8h_a75ec08b48a762fecd52a2e1a0924a8cb}{color\_var\_t}}*\ colors);}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00238\ \}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_\_NEMA\_VG\_PAINT\_H\_\_}}
+
+\end{DoxyCode}

@@ -1,0 +1,632 @@
+\doxysection{stb\+\_\+rect\+\_\+pack.\+h}
+\hypertarget{stb__rect__pack_8h_source}{}\label{stb__rect__pack_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/tiny\_ttf/stb\_rect\_pack.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/tiny\_ttf/stb\_rect\_pack.h}}
+\doxymbox{\hyperlink{stb__rect__pack_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ stb\_rect\_pack.h\ -\/\ v1.01\ -\/\ public\ domain\ -\/\ rectangle\ packing}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Sean\ Barrett\ 2014}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Useful\ for\ e.g.\ packing\ rectangular\ textures\ into\ an\ atlas.}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Does\ not\ do\ rotation.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ Before\ \#including,}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \#define\ STB\_RECT\_PACK\_IMPLEMENTATION}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ in\ the\ file\ that\ you\ want\ to\ have\ the\ implementation.}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ Not\ necessarily\ the\ awesomest\ packing\ method,\ but\ better\ than}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ the\ totally\ naive\ one\ in\ stb\_truetype\ (which\ is\ primarily\ what}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ this\ is\ meant\ to\ replace).}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Has\ only\ had\ a\ few\ tests\ run,\ may\ have\ issues.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ More\ docs\ to\ come.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ No\ memory\ allocations;\ uses\ qsort()\ and\ assert()\ from\ stdlib.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ Can\ override\ those\ by\ defining\ STBRP\_SORT\ and\ STBRP\_ASSERT.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ This\ library\ currently\ uses\ the\ Skyline\ Bottom-\/Left\ algorithm.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ Please\ note:\ better\ rectangle\ packers\ are\ welcome!\ Please}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ implement\ them\ to\ the\ same\ API,\ but\ with\ a\ different\ init}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ function.}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ Credits}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ Library}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ \ \ Sean\ Barrett}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ Minor\ features}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ \ \ Martins\ Mozeiko}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ \ \ github:IntellectualKitty}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ Bugfixes\ /\ warning\ fixes}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ \ \ Jeremy\ Jaussaud}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ \ \ Fabian\ Giesen}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ Version\ history:}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ \ \ \ 1.01\ \ (2021-\/07-\/11)\ \ always\ use\ large\ rect\ mode,\ expose\ STBRP\_\_MAXVAL\ in\ public\ section}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ \ \ \ 1.00\ \ (2019-\/02-\/25)\ \ avoid\ small\ space\ waste;\ gracefully\ fail\ too-\/wide\ rectangles}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ \ \ \ 0.99\ \ (2019-\/02-\/07)\ \ warning\ fixes}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ \ \ \ 0.11\ \ (2017-\/03-\/03)\ \ return\ packing\ success/fail\ result}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ \ \ \ 0.10\ \ (2016-\/10-\/25)\ \ remove\ cast-\/away-\/const\ to\ avoid\ warnings}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ \ \ \ 0.09\ \ (2016-\/08-\/27)\ \ fix\ compiler\ warnings}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ \ \ \ 0.08\ \ (2015-\/09-\/13)\ \ really\ fix\ bug\ with\ empty\ rects\ (w=0\ or\ h=0)}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ \ \ \ \ 0.07\ \ (2015-\/09-\/13)\ \ fix\ bug\ with\ empty\ rects\ (w=0\ or\ h=0)}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ \ \ \ \ 0.06\ \ (2015-\/04-\/15)\ \ added\ STBRP\_SORT\ to\ allow\ replacing\ qsort}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ \ \ \ \ 0.05:\ \ added\ STBRP\_ASSERT\ to\ allow\ replacing\ assert}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \ \ \ \ 0.04:\ \ fixed\ minor\ bug\ in\ STBRP\_LARGE\_RECTS\ support}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ \ \ \ \ 0.01:\ \ initial\ release}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ LICENSE}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ \ See\ end\ of\ file\ for\ license\ information.}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{//}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ \ \ \ \ \ \ INCLUDE\ SECTION}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#ifndef\ STB\_INCLUDE\_STB\_RECT\_PACK\_H}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ STB\_INCLUDE\_STB\_RECT\_PACK\_H}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ STB\_RECT\_PACK\_VERSION\ \ 1}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#ifdef\ STBRP\_STATIC}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_DEF\ static}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_DEF\ extern}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00078\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ \doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}};}
+\DoxyCodeLine{00086\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}};}
+\DoxyCodeLine{00087\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ \ \ \ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ STBRP\_\_MAXVAL\ \ 0x7fffffff}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ Mostly\ for\ internal\ use,\ but\ this\ is\ the\ maximum\ supported\ coordinate\ value.}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)\ ||\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ push}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wunused-\/function"{}}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{stb__rect__pack_8h_af038ae1b98573f24736c9a3eed0478ba}{stbrp\_pack\_rects}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ rects,\ \textcolor{keywordtype}{int}\ num\_rects);}
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ Assign\ packed\ locations\ to\ rectangles.\ The\ rectangles\ are\ of\ type}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ 'stbrp\_rect'\ defined\ below,\ stored\ in\ the\ array\ 'rects',\ and\ there}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ are\ 'num\_rects'\ many\ of\ them.}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ Rectangles\ which\ are\ successfully\ packed\ have\ the\ 'was\_packed'\ flag}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ set\ to\ a\ non-\/zero\ value\ and\ 'x'\ and\ 'y'\ store\ the\ minimum\ location}}
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ on\ each\ axis\ (i.e.\ bottom-\/left\ in\ cartesian\ coordinates,\ top-\/left}}
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ if\ you\ imagine\ y\ increasing\ downwards).\ Rectangles\ which\ do\ not\ fit}}
+\DoxyCodeLine{00109\ \textcolor{comment}{//\ have\ the\ 'was\_packed'\ flag\ set\ to\ 0.}}
+\DoxyCodeLine{00110\ \textcolor{comment}{//}}
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ You\ should\ not\ try\ to\ access\ the\ 'rects'\ array\ from\ another\ thread}}
+\DoxyCodeLine{00112\ \textcolor{comment}{//\ while\ this\ function\ is\ running,\ as\ the\ function\ temporarily\ reorders}}
+\DoxyCodeLine{00113\ \textcolor{comment}{//\ the\ array\ while\ it\ executes.}}
+\DoxyCodeLine{00114\ \textcolor{comment}{//}}
+\DoxyCodeLine{00115\ \textcolor{comment}{//\ To\ pack\ into\ another\ rectangle,\ you\ need\ to\ call\ stbrp\_init\_target}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//\ again.\ To\ continue\ packing\ into\ the\ same\ rectangle,\ you\ can\ call}}
+\DoxyCodeLine{00117\ \textcolor{comment}{//\ this\ function\ again.\ Calling\ this\ multiple\ times\ with\ multiple\ rect}}
+\DoxyCodeLine{00118\ \textcolor{comment}{//\ arrays\ will\ probably\ produce\ worse\ packing\ results\ than\ calling\ it}}
+\DoxyCodeLine{00119\ \textcolor{comment}{//\ a\ single\ time\ with\ the\ full\ rectangle\ array,\ but\ the\ option\ is}}
+\DoxyCodeLine{00120\ \textcolor{comment}{//\ available.}}
+\DoxyCodeLine{00121\ \textcolor{comment}{//}}
+\DoxyCodeLine{00122\ \textcolor{comment}{//\ The\ function\ returns\ 1\ if\ all\ of\ the\ rectangles\ were\ successfully}}
+\DoxyCodeLine{00123\ \textcolor{comment}{//\ packed\ and\ 0\ otherwise.}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//\ reserved\ for\ your\ use:}}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structstbrp__rect_a7441ef0865bcb3db9b8064dd7375c1ea}{id}};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{comment}{//\ input:}}
+\DoxyCodeLine{00130\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}}\ \ \ \ \doxymbox{\hyperlink{structstbrp__rect_a04d218a76a324c49fa9dee21d045457f}{w}},\ \doxymbox{\hyperlink{structstbrp__rect_a0a487ae0fbeeceac286fc6c4b683db6b}{h}};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{comment}{//\ output:}}
+\DoxyCodeLine{00133\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}}\ \ \ \ \doxymbox{\hyperlink{structstbrp__rect_a6e9e177dcb57b1ff1a9c2532d36482be}{x}},\ \doxymbox{\hyperlink{structstbrp__rect_afd661cdfa7022da30af258410ecd07eb}{y}};}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}};\ \ \textcolor{comment}{//\ non-\/zero\ if\ valid\ packing}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \};\ \textcolor{comment}{//\ 16\ bytes,\ nominally}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a8b32f5ad458f614f5d419ef26cef5b3c}{stbrp\_init\_target}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ nodes,\ \textcolor{keywordtype}{int}\ num\_nodes);}
+\DoxyCodeLine{00139\ \textcolor{comment}{//\ Initialize\ a\ rectangle\ packer\ to:}}
+\DoxyCodeLine{00140\ \textcolor{comment}{//\ \ \ \ pack\ a\ rectangle\ that\ is\ 'width'\ by\ 'height'\ in\ dimensions}}
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ \ \ \ using\ temporary\ storage\ provided\ by\ the\ array\ 'nodes',\ which\ is\ 'num\_nodes'\ long}}
+\DoxyCodeLine{00142\ \textcolor{comment}{//}}
+\DoxyCodeLine{00143\ \textcolor{comment}{//\ You\ must\ call\ this\ function\ every\ time\ you\ start\ packing\ into\ a\ new\ target.}}
+\DoxyCodeLine{00144\ \textcolor{comment}{//}}
+\DoxyCodeLine{00145\ \textcolor{comment}{//\ There\ is\ no\ "{}shutdown"{}\ function.\ The\ 'nodes'\ memory\ must\ stay\ valid\ for}}
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ the\ following\ stbrp\_pack\_rects()\ call\ (or\ calls),\ but\ can\ be\ freed\ after}}
+\DoxyCodeLine{00147\ \textcolor{comment}{//\ the\ call\ (or\ calls)\ finish.}}
+\DoxyCodeLine{00148\ \textcolor{comment}{//}}
+\DoxyCodeLine{00149\ \textcolor{comment}{//\ Note:\ to\ guarantee\ best\ results,\ either:}}
+\DoxyCodeLine{00150\ \textcolor{comment}{//\ \ \ \ \ \ \ 1.\ make\ sure\ 'num\_nodes'\ >=\ 'width'}}
+\DoxyCodeLine{00151\ \textcolor{comment}{//\ \ \ or\ \ 2.\ call\ stbrp\_allow\_out\_of\_mem()\ defined\ below\ with\ 'allow\_out\_of\_mem\ =\ 1'}}
+\DoxyCodeLine{00152\ \textcolor{comment}{//}}
+\DoxyCodeLine{00153\ \textcolor{comment}{//\ If\ you\ don't\ do\ either\ of\ the\ above\ things,\ widths\ will\ be\ quantized\ to\ multiples}}
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ of\ small\ integers\ to\ guarantee\ the\ algorithm\ doesn't\ run\ out\ of\ temporary\ storage.}}
+\DoxyCodeLine{00155\ \textcolor{comment}{//}}
+\DoxyCodeLine{00156\ \textcolor{comment}{//\ If\ you\ do\ \#2,\ then\ the\ non-\/quantized\ algorithm\ will\ be\ used,\ but\ the\ algorithm}}
+\DoxyCodeLine{00157\ \textcolor{comment}{//\ may\ run\ out\ of\ temporary\ storage\ and\ be\ unable\ to\ pack\ some\ rectangles.}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a1babd70b223e571305fd9753a83a4fda}{stbrp\_setup\_allow\_out\_of\_mem}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ allow\_out\_of\_mem);}
+\DoxyCodeLine{00160\ \textcolor{comment}{//\ Optionally\ call\ this\ function\ after\ init\ but\ before\ doing\ any\ packing\ to}}
+\DoxyCodeLine{00161\ \textcolor{comment}{//\ change\ the\ handling\ of\ the\ out-\/of-\/temp-\/memory\ scenario,\ described\ above.}}
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ If\ you\ call\ init\ again,\ this\ will\ be\ reset\ to\ the\ default\ (false).}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a5a8223866c146933da3e152066bf61a1}{stbrp\_setup\_heuristic}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ heuristic);}
+\DoxyCodeLine{00165\ \textcolor{comment}{//\ Optionally\ select\ which\ packing\ heuristic\ the\ library\ should\ use.\ Different}}
+\DoxyCodeLine{00166\ \textcolor{comment}{//\ heuristics\ will\ produce\ better/worse\ results\ for\ different\ data\ sets.}}
+\DoxyCodeLine{00167\ \textcolor{comment}{//\ If\ you\ call\ init\ again,\ this\ will\ be\ reset\ to\ the\ default.}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a5e4dd0b1cbee654bbfeebc5311f03525}{STBRP\_HEURISTIC\_Skyline\_default}}\ =\ 0,}
+\DoxyCodeLine{00171\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a13530b067fb1f9707dc0f9d51f8b074a}{STBRP\_HEURISTIC\_Skyline\_BL\_sortHeight}}\ =\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a5e4dd0b1cbee654bbfeebc5311f03525}{STBRP\_HEURISTIC\_Skyline\_default}},}
+\DoxyCodeLine{00172\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a11d62749c4405a231a6fd1dd9d46615c}{STBRP\_HEURISTIC\_Skyline\_BF\_sortHeight}}}
+\DoxyCodeLine{00173\ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00176\ \textcolor{comment}{//}}
+\DoxyCodeLine{00177\ \textcolor{comment}{//\ the\ details\ of\ the\ following\ structures\ don't\ matter\ to\ you,\ but\ they\ must}}
+\DoxyCodeLine{00178\ \textcolor{comment}{//\ be\ visible\ so\ you\ can\ handle\ the\ memory\ allocations\ for\ them}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}}\ \ \doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}},\ \doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}};}
+\DoxyCodeLine{00182\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ \doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00183\ \};}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_a2474a5474cbff19523a51eb1de01cda4}{width}};}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_ad12fc34ce789bce6c8a05d8a17138534}{height}};}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}};}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_af9822ebc0fd17953c1a9c457c2a2561e}{init\_mode}};}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_a266b59afb2a9e30cb84c2b14388fb5fe}{heuristic}};}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structstbrp__context_ae29617de649b665cf0d12c07b31c31d1}{num\_nodes}};}
+\DoxyCodeLine{00192\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ \doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}};}
+\DoxyCodeLine{00193\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ \doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}};}
+\DoxyCodeLine{00194\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ \doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[2];\ \textcolor{comment}{//\ we\ allocate\ two\ extra\ nodes\ so\ optimal\ user-\/node-\/count\ is\ 'width'\ not\ 'width+2'}}
+\DoxyCodeLine{00195\ \};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00198\ \}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00204\ \textcolor{comment}{//}}
+\DoxyCodeLine{00205\ \textcolor{comment}{//\ \ \ \ \ IMPLEMENTATION\ SECTION}}
+\DoxyCodeLine{00206\ \textcolor{comment}{//}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#ifdef\ STB\_RECT\_PACK\_IMPLEMENTATION}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#ifndef\ STBRP\_SORT}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\ \ \ \ \#include\ <stdlib.h>}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_SORT\ qsort}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#ifndef\ STBRP\_ASSERT}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\ \ \ \ \#include\ <assert.h>}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_ASSERT\ assert}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_\_NOTUSED(v)\ \ (void)(v)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_\_CDECL\ \ \ \ \ \ \ \_\_cdecl}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_\_NOTUSED(v)\ \ (void)sizeof(v)}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\ \ \ \ \#define\ STBRP\_\_CDECL}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00228\ \ \ \ \ STBRP\_\_INIT\_skyline\ =\ 1}
+\DoxyCodeLine{00229\ \};}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a5a8223866c146933da3e152066bf61a1}{stbrp\_setup\_heuristic}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ heuristic)}
+\DoxyCodeLine{00232\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordflow}{switch}(context-\/>\doxymbox{\hyperlink{structstbrp__context_af9822ebc0fd17953c1a9c457c2a2561e}{init\_mode}})\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ STBRP\_\_INIT\_skyline:}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ STBRP\_ASSERT(heuristic\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a13530b067fb1f9707dc0f9d51f8b074a}{STBRP\_HEURISTIC\_Skyline\_BL\_sortHeight}}\ ||\ heuristic\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a11d62749c4405a231a6fd1dd9d46615c}{STBRP\_HEURISTIC\_Skyline\_BF\_sortHeight}});}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a266b59afb2a9e30cb84c2b14388fb5fe}{heuristic}}\ =\ heuristic;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ STBRP\_ASSERT(0);}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a1babd70b223e571305fd9753a83a4fda}{stbrp\_setup\_allow\_out\_of\_mem}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ allow\_out\_of\_mem)}
+\DoxyCodeLine{00244\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordflow}{if}(allow\_out\_of\_mem)}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ it's\ ok\ to\ run\ out\ of\ memory,\ then\ don't\ bother\ aligning\ them;}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ this\ gives\ better\ packing,\ but\ may\ fail\ due\ to\ OOM\ (even\ though}}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ rectangles\ easily\ fit).\ @TODO\ a\ smarter\ approach\ would\ be\ to\ only}}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ quantize\ once\ we've\ hit\ OOM,\ then\ we\ could\ get\ rid\ of\ this\ parameter.}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}}\ =\ 1;}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ it's\ not\ ok\ to\ run\ out\ of\ memory,\ then\ quantize\ the\ widths}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ so\ that\ num\_nodes\ is\ always\ enough\ nodes.}}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ I.e.\ num\_nodes\ *\ align\ >=\ width}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ align\ >=\ width\ /\ num\_nodes}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ align\ =\ ceil(width/num\_nodes)}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}}\ =\ (context-\/>\doxymbox{\hyperlink{structstbrp__context_a2474a5474cbff19523a51eb1de01cda4}{width}}\ +\ context-\/>\doxymbox{\hyperlink{structstbrp__context_ae29617de649b665cf0d12c07b31c31d1}{num\_nodes}}\ -\/\ 1)\ /\ context-\/>\doxymbox{\hyperlink{structstbrp__context_ae29617de649b665cf0d12c07b31c31d1}{num\_nodes}};}
+\DoxyCodeLine{00260\ \ \ \ \ \}}
+\DoxyCodeLine{00261\ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stb__rect__pack_8h_a8b32f5ad458f614f5d419ef26cef5b3c}{stbrp\_init\_target}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ nodes,\ \textcolor{keywordtype}{int}\ num\_nodes)}
+\DoxyCodeLine{00264\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ num\_nodes\ -\/\ 1;\ ++i)}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ nodes[i].next\ =\ \&nodes[i\ +\ 1];}
+\DoxyCodeLine{00269\ \ \ \ \ nodes[i].next\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00270\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_af9822ebc0fd17953c1a9c457c2a2561e}{init\_mode}}\ =\ STBRP\_\_INIT\_skyline;}
+\DoxyCodeLine{00271\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a266b59afb2a9e30cb84c2b14388fb5fe}{heuristic}}\ =\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a5e4dd0b1cbee654bbfeebc5311f03525}{STBRP\_HEURISTIC\_Skyline\_default}};}
+\DoxyCodeLine{00272\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}}\ =\ \&nodes[0];}
+\DoxyCodeLine{00273\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}}\ =\ \&context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[0];}
+\DoxyCodeLine{00274\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a2474a5474cbff19523a51eb1de01cda4}{width}}\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}};}
+\DoxyCodeLine{00275\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_ad12fc34ce789bce6c8a05d8a17138534}{height}}\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a509290c21d570ff479c1b9d9b1fe8810}{height}};}
+\DoxyCodeLine{00276\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_ae29617de649b665cf0d12c07b31c31d1}{num\_nodes}}\ =\ num\_nodes;}
+\DoxyCodeLine{00277\ \ \ \ \ \doxymbox{\hyperlink{stb__rect__pack_8h_a1babd70b223e571305fd9753a83a4fda}{stbrp\_setup\_allow\_out\_of\_mem}}(context,\ 0);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{comment}{//\ node\ 0\ is\ the\ full\ width,\ node\ 1\ is\ the\ sentinel\ (lets\ us\ not\ store\ width\ explicitly)}}
+\DoxyCodeLine{00280\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[0].\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ 0;}
+\DoxyCodeLine{00281\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[0].\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ 0;}
+\DoxyCodeLine{00282\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[0].\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ =\ \&context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[1];}
+\DoxyCodeLine{00283\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[1].\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})\ width;}
+\DoxyCodeLine{00284\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[1].\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ (1\ <<\ 30);}
+\DoxyCodeLine{00285\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a62b184433d207d5b22143b5ecef95e9e}{extra}}[1].\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00286\ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{comment}{//\ find\ minimum\ y\ position\ if\ it\ starts\ at\ x1}}
+\DoxyCodeLine{00289\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ stbrp\_\_skyline\_find\_min\_y(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ c,\ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ first,\ \textcolor{keywordtype}{int}\ x0,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ *\ pwaste)}
+\DoxyCodeLine{00290\ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ node\ =\ first;}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ x0\ +\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}};}
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keywordtype}{int}\ min\_y,\ visited\_width,\ waste\_area;}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ STBRP\_\_NOTUSED(c);}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \ \ \ \ STBRP\_ASSERT(first-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <=\ x0);}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#if\ 0}}
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{comment}{//\ skip\ in\ case\ we're\ past\ the\ node}}
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordflow}{while}(node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <=\ x0)}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ ++node;}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00304\ \ \ \ \ STBRP\_ASSERT(node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ >\ x0);\ \textcolor{comment}{//\ we\ ended\ up\ handling\ this\ in\ the\ caller\ for\ efficiency}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ STBRP\_ASSERT(node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <=\ x0);}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \ \ min\_y\ =\ 0;}
+\DoxyCodeLine{00310\ \ \ \ \ waste\_area\ =\ 0;}
+\DoxyCodeLine{00311\ \ \ \ \ visited\_width\ =\ 0;}
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{keywordflow}{while}(node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ x1)\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(node-\/>\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}}\ >\ min\_y)\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ raise\ min\_y\ higher.}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we've\ accounted\ for\ all\ waste\ up\ to\ min\_y,}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ but\ we'll\ now\ add\ more\ waste\ for\ everything\ we've\ visited}}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ waste\_area\ +=\ visited\_width\ *\ (node-\/>\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}}\ -\/\ min\_y);}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ min\_y\ =\ node-\/>\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}};}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ first\ time\ through,\ visited\_width\ might\ be\ reduced}}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ x0)}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ visited\_width\ +=\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ -\/\ x0;}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ visited\_width\ +=\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ -\/\ node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}};}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ add\ waste\ area}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ under\_width\ =\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ -\/\ node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}};}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(under\_width\ +\ visited\_width\ >\ width)}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ under\_width\ =\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ -\/\ visited\_width;}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ waste\_area\ +=\ under\_width\ *\ (min\_y\ -\/\ node-\/>\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}});}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ visited\_width\ +=\ under\_width;}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ node\ =\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00334\ \ \ \ \ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ *pwaste\ =\ waste\_area;}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordflow}{return}\ min\_y;}
+\DoxyCodeLine{00338\ \}}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ y;}
+\DoxyCodeLine{00342\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ **\ prev\_link;}
+\DoxyCodeLine{00343\ \}\ stbrp\_\_findresult;}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{keyword}{static}\ stbrp\_\_findresult\ stbrp\_\_skyline\_find\_best\_pos(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ c,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height)}
+\DoxyCodeLine{00346\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{int}\ best\_waste\ =\ (1\ <<\ 30),\ best\_x,\ best\_y\ =\ (1\ <<\ 30);}
+\DoxyCodeLine{00348\ \ \ \ \ stbrp\_\_findresult\ fr;}
+\DoxyCodeLine{00349\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ **\ prev,\ *\ node,\ *\ tail,\ **\ best\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{comment}{//\ align\ to\ multiple\ of\ c-\/>align}}
+\DoxyCodeLine{00352\ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ =\ (\doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ +\ c-\/>\doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}}\ -\/\ 1);}
+\DoxyCodeLine{00353\ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ -\/=\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ \%\ c-\/>\doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}};}
+\DoxyCodeLine{00354\ \ \ \ \ STBRP\_ASSERT(width\ \%\ c-\/>\doxymbox{\hyperlink{structstbrp__context_a16f00268fafc16710abf9d8de7300028}{align}}\ ==\ 0);}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{comment}{//\ if\ it\ can't\ possibly\ fit,\ bail\ immediately}}
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordflow}{if}(width\ >\ c-\/>\doxymbox{\hyperlink{structstbrp__context_a2474a5474cbff19523a51eb1de01cda4}{width}}\ ||\ height\ >\ c-\/>\doxymbox{\hyperlink{structstbrp__context_ad12fc34ce789bce6c8a05d8a17138534}{height}})\ \{}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ fr.prev\_link\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ fr.x\ =\ fr.y\ =\ 0;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fr;}
+\DoxyCodeLine{00361\ \ \ \ \ \}}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \ \ \ \ node\ =\ c-\/>\doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}};}
+\DoxyCodeLine{00364\ \ \ \ \ prev\ =\ \&c-\/>\doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}};}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordflow}{while}(node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ +\ width\ <=\ c-\/>width)\ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y,\ waste;}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ y\ =\ stbrp\_\_skyline\_find\_min\_y(c,\ node,\ node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}},\ width,\ \&waste);}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(c-\/>\doxymbox{\hyperlink{structstbrp__context_a266b59afb2a9e30cb84c2b14388fb5fe}{heuristic}}\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a13530b067fb1f9707dc0f9d51f8b074a}{STBRP\_HEURISTIC\_Skyline\_BL\_sortHeight}})\ \{\ \ \textcolor{comment}{//\ actually\ just\ want\ to\ test\ BL}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bottom\ left}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(y\ <\ best\_y)\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_y\ =\ y;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\ =\ prev;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ best-\/fit}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(y\ +\ height\ <=\ c-\/>height)\ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ can\ only\ use\ it\ if\ it\ first\ vertically}}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(y\ <\ best\_y\ ||\ (y\ ==\ best\_y\ \&\&\ waste\ <\ best\_waste))\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_y\ =\ y;}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_waste\ =\ waste;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\ =\ prev;}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ prev\ =\ \&node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ node\ =\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00388\ \ \ \ \ \}}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ best\_x\ =\ (best\ ==\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})\ ?\ 0\ :\ (*best)-\/>x;}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{comment}{//\ if\ doing\ best-\/fit\ (BF),\ we\ also\ have\ to\ try\ aligning\ right\ edge\ to\ each\ node\ position}}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{comment}{//\ e.g,\ if\ fitting}}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{comment}{//\ \ \ \ |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|}}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ into}}
+\DoxyCodeLine{00400\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{comment}{//\ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{comment}{//\ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\_\_\_\_\_\_\_\_\_|}}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{comment}{//\ \ \ |\_\_\_\_\_\_\_\_\_\_\_\_|}}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{comment}{//\ then\ right-\/aligned\ reduces\ waste,\ but\ bottom-\/left\ BL\ is\ always\ chooses\ left-\/aligned}}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{comment}{//\ This\ makes\ BF\ take\ about\ 2x\ the\ time}}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordflow}{if}(c-\/>\doxymbox{\hyperlink{structstbrp__context_a266b59afb2a9e30cb84c2b14388fb5fe}{heuristic}}\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_ac192e9aff4701d854ec8fef6b98dc936a11d62749c4405a231a6fd1dd9d46615c}{STBRP\_HEURISTIC\_Skyline\_BF\_sortHeight}})\ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ tail\ =\ c-\/>active\_head;}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ node\ =\ c-\/>active\_head;}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ prev\ =\ \&c-\/>active\_head;}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ find\ first\ node\ that's\ admissible}}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ while(tail-\/>x\ <\ width)}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ tail\ =\ tail-\/>next;}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ while(tail)\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ int\ xpos\ =\ tail-\/>x\ -\/\ width;}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ int\ y,\ waste;}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ STBRP\_ASSERT(xpos\ >=\ 0);}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ find\ the\ left\ position\ that\ matches\ this}}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ while(node-\/>next-\/>x\ <=\ xpos)\ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prev\ =\ \&node-\/>next;}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ node-\/>next;}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ STBRP\_ASSERT(node-\/>next-\/>x\ >\ xpos\ \&\&\ node-\/>x\ <=\ xpos);}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ stbrp\_\_skyline\_find\_min\_y(c,\ node,\ xpos,\ width,\ \&waste);}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ if(y\ +\ height\ <=\ c-\/>height)\ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if(y\ <=\ best\_y)\ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if(y\ <\ best\_y\ ||\ waste\ <\ best\_waste\ ||\ (waste\ ==\ best\_waste\ \&\&\ xpos\ <\ best\_x))\ \{}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_x\ =\ xpos;}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ STBRP\_ASSERT(y\ <=\ best\_y);}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_y\ =\ y;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_waste\ =\ waste;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\ =\ prev;}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ tail\ =\ tail-\/>next;}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00440\ \ \ \ \ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ fr.prev\_link\ =\ best;}
+\DoxyCodeLine{00443\ \ \ \ \ fr.\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ best\_x;}
+\DoxyCodeLine{00444\ \ \ \ \ fr.y\ =\ best\_y;}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{return}\ fr;}
+\DoxyCodeLine{00446\ \}}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \textcolor{keyword}{static}\ stbrp\_\_findresult\ stbrp\_\_skyline\_pack\_rectangle(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height)}
+\DoxyCodeLine{00449\ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{comment}{//\ find\ best\ position\ according\ to\ heuristic}}
+\DoxyCodeLine{00451\ \ \ \ \ stbrp\_\_findresult\ res\ =\ stbrp\_\_skyline\_find\_best\_pos(context,\ width,\ height);}
+\DoxyCodeLine{00452\ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ node,\ *\ cur;}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{comment}{//\ bail\ if:}}
+\DoxyCodeLine{00455\ \ \ \ \ \textcolor{comment}{//\ \ \ \ 1.\ it\ failed}}
+\DoxyCodeLine{00456\ \ \ \ \ \textcolor{comment}{//\ \ \ \ 2.\ the\ best\ node\ doesn't\ fit\ (we\ don't\ always\ check\ this)}}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{comment}{//\ \ \ \ 3.\ we're\ out\ of\ memory}}
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{if}(res.prev\_link\ ==\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}}\ ||\ res.y\ +\ height\ >\ context-\/>\doxymbox{\hyperlink{structstbrp__context_ad12fc34ce789bce6c8a05d8a17138534}{height}}\ ||\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}}\ ==\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})\ \{}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ res.prev\_link\ =\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00461\ \ \ \ \ \}}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{comment}{//\ on\ success,\ create\ new\ node}}
+\DoxyCodeLine{00464\ \ \ \ \ node\ =\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}};}
+\DoxyCodeLine{00465\ \ \ \ \ node-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})\ res.x;}
+\DoxyCodeLine{00466\ \ \ \ \ node-\/>\doxymbox{\hyperlink{structstbrp__node_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})(res.y\ +\ height);}
+\DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}}\ =\ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{comment}{//\ insert\ the\ new\ node\ into\ the\ right\ starting\ point,\ and}}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{comment}{//\ let\ 'cur'\ point\ to\ the\ remaining\ nodes\ needing\ to\ be}}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{comment}{//\ stitched\ back\ in}}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \ \ \ \ cur\ =\ *res.prev\_link;}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keywordflow}{if}(cur-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ res.x)\ \{}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ preserve\ the\ existing\ one,\ so\ start\ testing\ with\ the\ next\ one}}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ next\ =\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ =\ node;}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ cur\ =\ next;}
+\DoxyCodeLine{00480\ \ \ \ \ \}}
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ *res.prev\_link\ =\ node;}
+\DoxyCodeLine{00483\ \ \ \ \ \}}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ \ \ \ \ \textcolor{comment}{//\ from\ here,\ traverse\ cur\ and\ free\ the\ nodes,\ until\ we\ get\ to\ one}}
+\DoxyCodeLine{00486\ \ \ \ \ \textcolor{comment}{//\ that\ shouldn't\ be\ freed}}
+\DoxyCodeLine{00487\ \ \ \ \ \textcolor{keywordflow}{while}(cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ \&\&\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <=\ res.x\ +\ width)\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structstbrp__node}{stbrp\_node}}\ *\ next\ =\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ move\ the\ current\ node\ to\ the\ free\ list}}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ =\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}};}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}}\ =\ cur;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ cur\ =\ next;}
+\DoxyCodeLine{00493\ \ \ \ \ \}}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{comment}{//\ stitch\ the\ list\ back\ in}}
+\DoxyCodeLine{00496\ \ \ \ \ node-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ =\ cur;}
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \ \ \ \ \textcolor{keywordflow}{if}(cur-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ res.x\ +\ width)}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ cur-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})(res.x\ +\ width);}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\#ifdef\ \_DEBUG}}
+\DoxyCodeLine{00502\ \ \ \ \ cur\ =\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}};}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordflow}{while}(cur-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a2474a5474cbff19523a51eb1de01cda4}{width}})\ \{}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ STBRP\_ASSERT(cur-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ <\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}-\/>\doxymbox{\hyperlink{structstbrp__node_a6e9e177dcb57b1ff1a9c2532d36482be}{x}});}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ cur\ =\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00506\ \ \ \ \ \}}
+\DoxyCodeLine{00507\ \ \ \ \ STBRP\_ASSERT(cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}}\ ==\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \ \ \ \ \{}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}}\ =\ 0;}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ cur\ =\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a0aa5dffda2de901a17f8f7f9fea1a76d}{active\_head}};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(cur)\ \{}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ cur\ =\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ ++\doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}};}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ cur\ =\ context-\/>\doxymbox{\hyperlink{structstbrp__context_a1f186729663df06aa8cd29b36b9555dc}{free\_head}};}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(cur)\ \{}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ cur\ =\ cur-\/>\doxymbox{\hyperlink{structstbrp__node_ad83654461c957f47ab2dce0598340785}{next}};}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ ++\doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}};}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ STBRP\_ASSERT(\doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}}\ ==\ context-\/>\doxymbox{\hyperlink{structstbrp__context_ae29617de649b665cf0d12c07b31c31d1}{num\_nodes}}\ +\ 2);}
+\DoxyCodeLine{00522\ \ \ \ \ \}}
+\DoxyCodeLine{00523\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00526\ \}}
+\DoxyCodeLine{00527\ }
+\DoxyCodeLine{00528\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ STBRP\_\_CDECL\ rect\_height\_compare(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00529\ \{}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ p\ =\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *)\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}};}
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ q\ =\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *)\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};}
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keywordflow}{if}(p-\/>\doxymbox{\hyperlink{structstbrp__rect_a0a487ae0fbeeceac286fc6c4b683db6b}{h}}\ >\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a0a487ae0fbeeceac286fc6c4b683db6b}{h}})}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordflow}{if}(p-\/>\doxymbox{\hyperlink{structstbrp__rect_a0a487ae0fbeeceac286fc6c4b683db6b}{h}}\ <\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a0a487ae0fbeeceac286fc6c4b683db6b}{h}})}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \ 1;}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{return}\ (p-\/>\doxymbox{\hyperlink{structstbrp__rect_a04d218a76a324c49fa9dee21d045457f}{w}}\ >\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a04d218a76a324c49fa9dee21d045457f}{w}})\ ?\ -\/1\ :\ (p-\/>\doxymbox{\hyperlink{structstbrp__rect_a04d218a76a324c49fa9dee21d045457f}{w}}\ <\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a04d218a76a324c49fa9dee21d045457f}{w}});}
+\DoxyCodeLine{00537\ \}}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ STBRP\_\_CDECL\ rect\_original\_order(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00540\ \{}
+\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ p\ =\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *)\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}};}
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ q\ =\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *)\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};}
+\DoxyCodeLine{00543\ \ \ \ \ \textcolor{keywordflow}{return}\ (p-\/>\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}}\ <\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}})\ ?\ -\/1\ :\ (p-\/>\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}}\ >\ q-\/>\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}});}
+\DoxyCodeLine{00544\ \}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \doxymbox{\hyperlink{stb__rect__pack_8h_a0b73f2d2521fb81afc056a823e3ca753}{STBRP\_DEF}}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{stb__rect__pack_8h_af038ae1b98573f24736c9a3eed0478ba}{stbrp\_pack\_rects}}(\doxymbox{\hyperlink{structstbrp__context}{stbrp\_context}}\ *\ context,\ \doxymbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\ *\ rects,\ \textcolor{keywordtype}{int}\ num\_rects)}
+\DoxyCodeLine{00547\ \{}
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keywordtype}{int}\ i,\ all\_rects\_packed\ =\ 1;}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00550\ \ \ \ \ \textcolor{comment}{//\ we\ use\ the\ 'was\_packed'\ field\ internally\ to\ allow\ sorting/unsorting}}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ num\_rects;\ ++i)\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}}\ =\ i;}
+\DoxyCodeLine{00553\ \ \ \ \ \}}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \ \ \ \ \textcolor{comment}{//\ sort\ according\ to\ heuristic}}
+\DoxyCodeLine{00556\ \ \ \ \ STBRP\_SORT(rects,\ num\_rects,\ \textcolor{keyword}{sizeof}(rects[0]),\ rect\_height\_compare);}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ num\_rects;\ ++i)\ \{}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(rects[i].w\ ==\ 0\ ||\ rects[i].h\ ==\ 0)\ \{}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ rects[i].\doxymbox{\hyperlink{structstbrp__rect_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ 0;\ \ \textcolor{comment}{//\ empty\ rect\ needs\ no\ space}}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ stbrp\_\_findresult\ fr\ =\ stbrp\_\_skyline\_pack\_rectangle(context,\ rects[i].w,\ rects[i].h);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(fr.prev\_link)\ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})\ fr.x;}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ (\doxymbox{\hyperlink{stb__rect__pack_8h_a4a396a45893c12de32e2d598abd6b302}{stbrp\_coord}})\ fr.y;}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ =\ rects[i].\doxymbox{\hyperlink{structstbrp__rect_afd661cdfa7022da30af258410ecd07eb}{y}}\ =\ \doxymbox{\hyperlink{stb__rect__pack_8h_a114ed17dfa71ac93774494ab6d14bfbc}{STBRP\_\_MAXVAL}};}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00572\ \ \ \ \ \}}
+\DoxyCodeLine{00573\ }
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{comment}{//\ unsort}}
+\DoxyCodeLine{00575\ \ \ \ \ STBRP\_SORT(rects,\ num\_rects,\ \textcolor{keyword}{sizeof}(rects[0]),\ rect\_original\_order);}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \ \ \textcolor{comment}{//\ set\ was\_packed\ flags\ and\ all\_rects\_packed\ status}}
+\DoxyCodeLine{00578\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ num\_rects;\ ++i)\ \{}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ rects[i].\doxymbox{\hyperlink{structstbrp__rect_a84154021c8bbff41c3def85f83277709}{was\_packed}}\ =\ !(rects[i].\doxymbox{\hyperlink{structstbrp__rect_a6e9e177dcb57b1ff1a9c2532d36482be}{x}}\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_a114ed17dfa71ac93774494ab6d14bfbc}{STBRP\_\_MAXVAL}}\ \&\&\ rects[i].\doxymbox{\hyperlink{structstbrp__rect_afd661cdfa7022da30af258410ecd07eb}{y}}\ ==\ \doxymbox{\hyperlink{stb__rect__pack_8h_a114ed17dfa71ac93774494ab6d14bfbc}{STBRP\_\_MAXVAL}});}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!rects[i].was\_packed)}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ all\_rects\_packed\ =\ 0;}
+\DoxyCodeLine{00582\ \ \ \ \ \}}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \textcolor{comment}{//\ return\ the\ all\_rects\_packed\ status}}
+\DoxyCodeLine{00585\ \ \ \ \ \textcolor{keywordflow}{return}\ all\_rects\_packed;}
+\DoxyCodeLine{00586\ \}}
+\DoxyCodeLine{00587\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)\ ||\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00590\ \textcolor{preprocessor}{\ \ \ \ \#pragma\ GCC\ diagnostic\ pop}}
+\DoxyCodeLine{00591\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00594\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00595\ \textcolor{comment}{This\ software\ is\ available\ under\ 2\ licenses\ -\/-\/\ choose\ whichever\ you\ prefer.}}
+\DoxyCodeLine{00596\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00597\ \textcolor{comment}{ALTERNATIVE\ A\ -\/\ MIT\ License}}
+\DoxyCodeLine{00598\ \textcolor{comment}{Copyright\ (c)\ 2017\ Sean\ Barrett}}
+\DoxyCodeLine{00599\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy\ of}}
+\DoxyCodeLine{00600\ \textcolor{comment}{this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal\ in}}
+\DoxyCodeLine{00601\ \textcolor{comment}{the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights\ to}}
+\DoxyCodeLine{00602\ \textcolor{comment}{use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell\ copies}}
+\DoxyCodeLine{00603\ \textcolor{comment}{of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do}}
+\DoxyCodeLine{00604\ \textcolor{comment}{so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00605\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00606\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00607\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00608\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00609\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00610\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00611\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00612\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00613\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00614\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00615\ \textcolor{comment}{ALTERNATIVE\ B\ -\/\ Public\ Domain\ (www.unlicense.org)}}
+\DoxyCodeLine{00616\ \textcolor{comment}{This\ is\ free\ and\ unencumbered\ software\ released\ into\ the\ public\ domain.}}
+\DoxyCodeLine{00617\ \textcolor{comment}{Anyone\ is\ free\ to\ copy,\ modify,\ publish,\ use,\ compile,\ sell,\ or\ distribute\ this}}
+\DoxyCodeLine{00618\ \textcolor{comment}{software,\ either\ in\ source\ code\ form\ or\ as\ a\ compiled\ binary,\ for\ any\ purpose,}}
+\DoxyCodeLine{00619\ \textcolor{comment}{commercial\ or\ non-\/commercial,\ and\ by\ any\ means.}}
+\DoxyCodeLine{00620\ \textcolor{comment}{In\ jurisdictions\ that\ recognize\ copyright\ laws,\ the\ author\ or\ authors\ of\ this}}
+\DoxyCodeLine{00621\ \textcolor{comment}{software\ dedicate\ any\ and\ all\ copyright\ interest\ in\ the\ software\ to\ the\ public}}
+\DoxyCodeLine{00622\ \textcolor{comment}{domain.\ We\ make\ this\ dedication\ for\ the\ benefit\ of\ the\ public\ at\ large\ and\ to}}
+\DoxyCodeLine{00623\ \textcolor{comment}{the\ detriment\ of\ our\ heirs\ and\ successors.\ We\ intend\ this\ dedication\ to\ be\ an}}
+\DoxyCodeLine{00624\ \textcolor{comment}{overt\ act\ of\ relinquishment\ in\ perpetuity\ of\ all\ present\ and\ future\ rights\ to}}
+\DoxyCodeLine{00625\ \textcolor{comment}{this\ software\ under\ copyright\ law.}}
+\DoxyCodeLine{00626\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00627\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00628\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00629\ \textcolor{comment}{AUTHORS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN}}
+\DoxyCodeLine{00630\ \textcolor{comment}{ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION}}
+\DoxyCodeLine{00631\ \textcolor{comment}{WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00632\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00633\ \textcolor{comment}{*/}}
+
+\end{DoxyCode}

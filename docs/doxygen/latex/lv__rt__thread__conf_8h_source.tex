@@ -1,0 +1,88 @@
+\doxysection{lv\+\_\+rt\+\_\+thread\+\_\+conf.\+h}
+\hypertarget{lv__rt__thread__conf_8h_source}{}\label{lv__rt__thread__conf_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/env\_support/rt-\/thread/lv\_rt\_thread\_conf.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/env\_support/rt-\/thread/lv\_rt\_thread\_conf.h}}
+\doxymbox{\hyperlink{lv__rt__thread__conf_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2006-\/2021,\ RT-\/Thread\ Development\ Team}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ SPDX-\/License-\/Identifier:\ MIT}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ Change\ Logs:}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ Date\ \ \ \ \ \ \ \ \ \ \ Author\ \ \ \ \ \ \ Notes}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ 2021-\/10-\/15\ \ \ \ \ Meco\ Man\ \ \ \ \ The\ first\ version}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ LV\_RT\_THREAD\_CONF\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ LV\_RT\_THREAD\_CONF\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_RTTHREAD\_\_}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ LV\_RTTHREAD\_INCLUDE\ <rtthread.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ LV\_RTTHREAD\_INCLUDE}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{/*=========================}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ STDLIB\ WRAPPER\ SETTINGS}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *=========================*/}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifdef\ RT\_USING\_HEAP}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_USE\_STDLIB\_MALLOC\ \ \ \ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_STRING\ \ \ \ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#if\ LV\_USE\_FLOAT\ ==\ 0}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_USE\_STDLIB\_SPRINTF\ \ \ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*=========================}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ CPU\ usage}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *=========================*/}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifdef\ PKG\_USING\_CPU\_USAGE}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_SYSMON\_GET\_IDLE\ \ \ lv\_timer\_os\_get\_idle}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ PKG\_USING\_CPU\_USAGE\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{comment}{/*=================}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ *\ OPERATING\ SYSTEM}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ *=================*/}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ LV\_USE\_OS\ \ \ LV\_OS\_RTTHREAD}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *\ Asserts}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ LV\_ASSERT\_HANDLER\_INCLUDE\ LV\_RTTHREAD\_INCLUDE}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ LV\_ASSERT\_HANDLER\ RT\_ASSERT(0);}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *\ \ COMPILER\ SETTINGS}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#ifdef\ ARCH\_CPU\_BIG\_ENDIAN}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_BIG\_ENDIAN\_SYSTEM\ 1}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_BIG\_ENDIAN\_SYSTEM\ 0}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#ifdef\ rt\_align\ }\textcolor{comment}{/*\ >=\ RT-\/Thread\ v5.0.0\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_ATTRIBUTE\_MEM\_ALIGN\ rt\_align(RT\_ALIGN\_SIZE)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_ATTRIBUTE\_MEM\_ALIGN\ ALIGN(RT\_ALIGN\_SIZE)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{comment}{/*==================}}
+\DoxyCodeLine{00071\ \textcolor{comment}{*\ EXAMPLES}}
+\DoxyCodeLine{00072\ \textcolor{comment}{*==================*/}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#ifdef\ PKG\_LVGL\_USING\_EXAMPLES}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \#define\ LV\_BUILD\_EXAMPLES\ 1}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{comment}{/*-\/-\/END\ OF\ LV\_RT\_THREAD\_CONF\_H-\/-\/*/}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\_\_RTTHREAD\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_CONF\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

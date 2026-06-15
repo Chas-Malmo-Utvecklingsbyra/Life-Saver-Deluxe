@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['on_5fui_5fpoll_5ftimer_0',['on_ui_poll_timer',['../gui__sensors_8c.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c'],['../gui__sensors_8h.html#adee96262dcc0318ed9a06afad9d36987',1,'on_ui_poll_timer(lv_timer_t *timer):&#160;gui_sensors.c']]],
-  ['open_5frename_5foverlay_1',['open_rename_overlay',['../gui__rename_8c.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c'],['../gui__rename_8h.html#af08c27e9751973905b3a7bc33475f970',1,'open_rename_overlay(SensorUi *ui):&#160;gui_rename.c']]]
+  ['nvs_5fflash_5ferase_0',['nvs_flash_erase',['../internet_2mocks_2mock__deps_8c.html#ac9e4c719ccdb0d92ba974012868435cf',1,'nvs_flash_erase(void):&#160;mock_deps.c'],['../nvs__flash_8h.html#ac9e4c719ccdb0d92ba974012868435cf',1,'nvs_flash_erase(void):&#160;mock_deps.c']]],
+  ['nvs_5fflash_5finit_1',['nvs_flash_init',['../internet_2mocks_2mock__deps_8c.html#a0c37702eca98ffe39ff4d8a47a0e093f',1,'nvs_flash_init(void):&#160;mock_deps.c'],['../nvs__flash_8h.html#a0c37702eca98ffe39ff4d8a47a0e093f',1,'nvs_flash_init(void):&#160;mock_deps.c']]]
 ];

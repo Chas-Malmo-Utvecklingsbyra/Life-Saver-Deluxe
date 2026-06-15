@@ -1,0 +1,81 @@
+\doxysection{lv\+\_\+pxp\+\_\+cfg.\+h}
+\hypertarget{lv__pxp__cfg_8h_source}{}\label{lv__pxp__cfg_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/nxp/pxp/lv\_pxp\_cfg.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/nxp/pxp/lv\_pxp\_cfg.h}}
+\doxymbox{\hyperlink{lv__pxp__cfg_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ LV\_PXP\_CFG\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ LV\_PXP\_CFG\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#if\ LV\_USE\_PXP}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#if\ LV\_USE\_DRAW\_PXP\ ||\ LV\_USE\_ROTATE\_PXP}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ "{}fsl\_cache.h"{}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}fsl\_pxp.h"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#if\ ((LV\_DRAW\_BUF\_ALIGN\ \%\ 32)\ !=\ 0)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#error\ "{}If\ PXP\ is\ enabled\ the\ draw\ buffers\ should\ be\ aligned\ to\ 32-\/byte\ boundary,\ please\ set\ LV\_DRAW\_BUF\_ALIGN\ to\ a\ multiple\ of\ 32\ in\ lv\_conf.h"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__log_8h}{../../../misc/lv\_log.h}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ PXP\_ID\ PXP}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ PXP\_IRQ\_ID\ PXP\_IRQn}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00055\ \ \ \ \ void\ (*pxp\_interrupt\_init)(void);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \ \ void\ (*pxp\_interrupt\_deinit)(void);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \ \ \ \ void\ (*pxp\_run)(void);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00064\ \ \ \ \ void\ (*pxp\_wait)(void);}
+\DoxyCodeLine{00065\ \}\ pxp\_cfg\_t;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ lv\_pxp\_init(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ lv\_pxp\_deinit(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{void}\ lv\_pxp\_reset(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{void}\ lv\_pxp\_run(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00095\ \textcolor{keywordtype}{void}\ lv\_pxp\_wait(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00098\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00099\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_DRAW\_PXP\ ||\ LV\_USE\_ROTATE\_PXP*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_PXP*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00105\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_PXP\_CFG\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

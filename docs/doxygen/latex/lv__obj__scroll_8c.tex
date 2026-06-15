@@ -1,0 +1,542 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+core/\+lv\+\_\+obj\+\_\+scroll.c File Reference}
+\hypertarget{lv__obj__scroll_8c}{}\label{lv__obj__scroll_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_scroll.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_scroll.c}}
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+scroll\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+anim\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev\+\_\+scroll.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__scroll_8c_a9be806f23ad96997f1d62c1a6dfabe05}{MY\+\_\+\+CLASS}}~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__scroll_8c_a7471e2f9dd517cd5a7b7cf97861f25df}{SCROLL\+\_\+\+ANIM\+\_\+\+TIME\+\_\+\+MIN}}~200    /\+\texorpdfstring{$\ast$}{*}ms\texorpdfstring{$\ast$}{*}/\+
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__scroll_8c_a0de9cb80d464ae2b210d75d6f641b828}{SCROLL\+\_\+\+ANIM\+\_\+\+TIME\+\_\+\+MAX}}~400    /\+\texorpdfstring{$\ast$}{*}ms\texorpdfstring{$\ast$}{*}/\+
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__scroll_8c_a86bcff802c8ef9b3344db2d18bf87bb0}{SCROLLBAR\+\_\+\+MIN\+\_\+\+SIZE}}~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(10))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_ac3e8deb630e51ac28adbb49fbfd5a131}{lv\+\_\+obj\+\_\+set\+\_\+scrollbar\+\_\+mode}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__scroll_8h_a7af6dc1133ba56f7b92553614562985b}{lv\+\_\+scrollbar\+\_\+mode\+\_\+t}} mode)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_afbeaa2556147e27514da6021179d38ef}{lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+dir}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} dir)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_aa897a1cccd24ebb287135d6a5bf3af39}{lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+snap\+\_\+x}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} align)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_a0163965d49e256d03a9cb42035198755}{lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+snap\+\_\+y}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} align)
+\item 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a7af6dc1133ba56f7b92553614562985b}{lv\+\_\+scrollbar\+\_\+mode\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_aa9df628be5d9b564dd723f4ed5441866}{lv\+\_\+obj\+\_\+get\+\_\+scrollbar\+\_\+mode}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_ab1b3ab584b622d54c3e09fda3c3df252}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+dir}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_af14c9caf0840252bb5f5195327fdce01}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+snap\+\_\+x}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_a17e37b846ec4eb5a5369e3c26133ec79}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+snap\+\_\+y}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_adb9064e8d2995faf37a6a5f3726104f7}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+x}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_a5af94115933fd918a990e65fb6f46fd5}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+y}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_a71e198a2185c4346c5084aa7ce0b4a76}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+top}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_a2dacead4c468be464adcee0ca4ef5429}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+bottom}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_ab749b583cf0e18a23330431d71214220}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+left}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_ab3461dc9317d5ccecde8039ad8d07a53}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+right}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_aa9afb13e22b948523c8bcc181d16d318}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+end}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}end)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_ac436678b7e62ed307f8f490eb2a93b5d}{lv\+\_\+obj\+\_\+scroll\+\_\+by\+\_\+bounded}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} dx, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} dy, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_a75587310033a434d516379e94761a0c4}{lv\+\_\+obj\+\_\+scroll\+\_\+by}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} dx, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} dy, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_adeac278e06f6ccd6736917427b7b3f71}{lv\+\_\+obj\+\_\+scroll\+\_\+to}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_ab2feb343a1fd2276c8b61c2d56ba9041}{lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+x}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_a86a449e1d9a02789fabbee86814bc085}{lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+y}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_a083453d4ebccc0fd0bff84ccc6ece4c1}{lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+view}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_a64a2af6a35719eeb48770e78e0a7b585}{lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+view\+\_\+recursive}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} \doxymbox{\hyperlink{lv__obj__scroll_8c_ab3781241f089438af08af20c6227bd77}{lv\+\_\+obj\+\_\+scroll\+\_\+by\+\_\+raw}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__scroll_8c_adb2c7aeb307c3f304d3a761a0dbd23ae}{lv\+\_\+obj\+\_\+is\+\_\+scrolling}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_ab3a20b2b12ab545bcfb128bef5184f4f}{lv\+\_\+obj\+\_\+stop\+\_\+scroll\+\_\+anim}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_aa14afade952d8ae7887b56a3f42e69cb}{lv\+\_\+obj\+\_\+update\+\_\+snap}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_ade3f7501b9b9383b8bdf23610de66233}{lv\+\_\+obj\+\_\+get\+\_\+scrollbar\+\_\+area}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}hor\+\_\+area, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}ver\+\_\+area)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_af65cc55c73a3e90235a23739c90cb3ea}{lv\+\_\+obj\+\_\+scrollbar\+\_\+invalidate}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__scroll_8c_aec14a72f3320041eac7aa0dd168ca079}{lv\+\_\+obj\+\_\+readjust\+\_\+scroll}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}} anim\+\_\+en)
+\end{DoxyCompactItemize}
+
+
+\label{lv__obj__scroll_8c_doc-define-members}
+\Hypertarget{lv__obj__scroll_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__obj__scroll_8c_a9be806f23ad96997f1d62c1a6dfabe05}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!MY\_CLASS@{MY\_CLASS}}
+\index{MY\_CLASS@{MY\_CLASS}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{MY\_CLASS}{MY\_CLASS}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a9be806f23ad96997f1d62c1a6dfabe05} 
+\+\#define MY\+\_\+\+CLASS~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})}
+
+\Hypertarget{lv__obj__scroll_8c_a0de9cb80d464ae2b210d75d6f641b828}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!SCROLL\_ANIM\_TIME\_MAX@{SCROLL\_ANIM\_TIME\_MAX}}
+\index{SCROLL\_ANIM\_TIME\_MAX@{SCROLL\_ANIM\_TIME\_MAX}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{SCROLL\_ANIM\_TIME\_MAX}{SCROLL\_ANIM\_TIME\_MAX}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a0de9cb80d464ae2b210d75d6f641b828} 
+\+\#define SCROLL\+\_\+\+ANIM\+\_\+\+TIME\+\_\+\+MAX~400    /\+\texorpdfstring{$\ast$}{*}ms\texorpdfstring{$\ast$}{*}/\+}
+
+\Hypertarget{lv__obj__scroll_8c_a7471e2f9dd517cd5a7b7cf97861f25df}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!SCROLL\_ANIM\_TIME\_MIN@{SCROLL\_ANIM\_TIME\_MIN}}
+\index{SCROLL\_ANIM\_TIME\_MIN@{SCROLL\_ANIM\_TIME\_MIN}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{SCROLL\_ANIM\_TIME\_MIN}{SCROLL\_ANIM\_TIME\_MIN}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a7471e2f9dd517cd5a7b7cf97861f25df} 
+\+\#define SCROLL\+\_\+\+ANIM\+\_\+\+TIME\+\_\+\+MIN~200    /\+\texorpdfstring{$\ast$}{*}ms\texorpdfstring{$\ast$}{*}/\+}
+
+\Hypertarget{lv__obj__scroll_8c_a86bcff802c8ef9b3344db2d18bf87bb0}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!SCROLLBAR\_MIN\_SIZE@{SCROLLBAR\_MIN\_SIZE}}
+\index{SCROLLBAR\_MIN\_SIZE@{SCROLLBAR\_MIN\_SIZE}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{SCROLLBAR\_MIN\_SIZE}{SCROLLBAR\_MIN\_SIZE}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a86bcff802c8ef9b3344db2d18bf87bb0} 
+\+\#define SCROLLBAR\+\_\+\+MIN\+\_\+\+SIZE~(\doxymbox{\hyperlink{lv__display_8h_af899ca4d4ba17880b64111f602ba36e1}{LV\+\_\+\+DPX}}(10))}
+
+
+
+\label{lv__obj__scroll_8c_doc-func-members}
+\Hypertarget{lv__obj__scroll_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__obj__scroll_8c_a2dacead4c468be464adcee0ca4ef5429}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_bottom@{lv\_obj\_get\_scroll\_bottom}}
+\index{lv\_obj\_get\_scroll\_bottom@{lv\_obj\_get\_scroll\_bottom}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_bottom()}{lv\_obj\_get\_scroll\_bottom()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a2dacead4c468be464adcee0ca4ef5429} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+bottom (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Number of pixels a scrollable container Widget can be scrolled up before its bottom edge appears. When LV\+\_\+\+OBJ\+\_\+\+FLAG\+\_\+\+SCROLL\+\_\+\+ELASTIC flag is set in Widget, this value can go negative while Widget is being dragged above its normal bottom-\/edge boundary. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pixels Widget can be scrolled up before its bottom edge appears 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_ab1b3ab584b622d54c3e09fda3c3df252}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_dir@{lv\_obj\_get\_scroll\_dir}}
+\index{lv\_obj\_get\_scroll\_dir@{lv\_obj\_get\_scroll\_dir}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_dir()}{lv\_obj\_get\_scroll\_dir()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab1b3ab584b622d54c3e09fda3c3df252} 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+dir (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get directions Widget can be scrolled (set with {\ttfamily \doxylink{lv__obj__scroll_8h_afbeaa2556147e27514da6021179d38ef}{lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+dir()}}) 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current scroll direction bit(s) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_aa9afb13e22b948523c8bcc181d16d318}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_end@{lv\_obj\_get\_scroll\_end}}
+\index{lv\_obj\_get\_scroll\_end@{lv\_obj\_get\_scroll\_end}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_end()}{lv\_obj\_get\_scroll\_end()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_aa9afb13e22b948523c8bcc181d16d318} 
+void lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+end (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{end}{}\end{DoxyParamCaption})}
+
+Get the X and Y coordinates where the scrolling will end for Widget if a scrolling animation is in progress. If no scrolling animation, give the current {\ttfamily x} or {\ttfamily y} scroll position. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget \\
+\hline
+{\em end} & pointer to {\ttfamily \doxylink{structlv__point__t}{lv\+\_\+point\+\_\+t}} object in which to store result \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_ab749b583cf0e18a23330431d71214220}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_left@{lv\_obj\_get\_scroll\_left}}
+\index{lv\_obj\_get\_scroll\_left@{lv\_obj\_get\_scroll\_left}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_left()}{lv\_obj\_get\_scroll\_left()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab749b583cf0e18a23330431d71214220} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+left (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Number of pixels a scrollable container Widget can be scrolled right before its left edge appears. When LV\+\_\+\+OBJ\+\_\+\+FLAG\+\_\+\+SCROLL\+\_\+\+ELASTIC flag is set in Widget, this value can go negative while Widget is being dragged farther right than its normal left-\/edge boundary. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pixels Widget can be scrolled right before its left edge appears 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_ab3461dc9317d5ccecde8039ad8d07a53}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_right@{lv\_obj\_get\_scroll\_right}}
+\index{lv\_obj\_get\_scroll\_right@{lv\_obj\_get\_scroll\_right}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_right()}{lv\_obj\_get\_scroll\_right()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab3461dc9317d5ccecde8039ad8d07a53} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+right (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Number of pixels a scrollable container Widget can be scrolled left before its right edge appears. When LV\+\_\+\+OBJ\+\_\+\+FLAG\+\_\+\+SCROLL\+\_\+\+ELASTIC flag is set in Widget, this value can go negative while Widget is being dragged farther left than its normal right-\/edge boundary. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pixels Widget can be scrolled left before its right edge appears 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_af14c9caf0840252bb5f5195327fdce01}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_snap\_x@{lv\_obj\_get\_scroll\_snap\_x}}
+\index{lv\_obj\_get\_scroll\_snap\_x@{lv\_obj\_get\_scroll\_snap\_x}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_snap\_x()}{lv\_obj\_get\_scroll\_snap\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_af14c9caf0840252bb5f5195327fdce01} 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+snap\+\_\+x (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get where to snap child Widgets when horizontal scrolling ends. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current snap value from {\ttfamily \doxylink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_a17e37b846ec4eb5a5369e3c26133ec79}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_snap\_y@{lv\_obj\_get\_scroll\_snap\_y}}
+\index{lv\_obj\_get\_scroll\_snap\_y@{lv\_obj\_get\_scroll\_snap\_y}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_snap\_y()}{lv\_obj\_get\_scroll\_snap\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a17e37b846ec4eb5a5369e3c26133ec79} 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+snap\+\_\+y (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get where to snap child Widgets when vertical scrolling ends. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current snap value from {\ttfamily \doxylink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_a71e198a2185c4346c5084aa7ce0b4a76}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_top@{lv\_obj\_get\_scroll\_top}}
+\index{lv\_obj\_get\_scroll\_top@{lv\_obj\_get\_scroll\_top}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_top()}{lv\_obj\_get\_scroll\_top()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a71e198a2185c4346c5084aa7ce0b4a76} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+top (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Number of pixels a scrollable container Widget can be scrolled down before its top edge appears. When LV\+\_\+\+OBJ\+\_\+\+FLAG\+\_\+\+SCROLL\+\_\+\+ELASTIC flag is set in Widget, this value can go negative while Widget is being dragged below its normal top-\/edge boundary. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pixels Widget can be scrolled down before its top edge appears 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_adb9064e8d2995faf37a6a5f3726104f7}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_x@{lv\_obj\_get\_scroll\_x}}
+\index{lv\_obj\_get\_scroll\_x@{lv\_obj\_get\_scroll\_x}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_x()}{lv\_obj\_get\_scroll\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_adb9064e8d2995faf37a6a5f3726104f7} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+x (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get current X scroll position. Identical to {\ttfamily \doxylink{lv__obj__scroll_8h_ab749b583cf0e18a23330431d71214220}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+left()}}. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current scroll position from left edge
+\begin{DoxyItemize}
+\item If Widget is not scrolled return 0.
+\item If scrolled return \texorpdfstring{$>$}{>} 0.
+\item If scrolled inside (elastic scroll) return \texorpdfstring{$<$}{<} 0. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_a5af94115933fd918a990e65fb6f46fd5}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scroll\_y@{lv\_obj\_get\_scroll\_y}}
+\index{lv\_obj\_get\_scroll\_y@{lv\_obj\_get\_scroll\_y}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scroll\_y()}{lv\_obj\_get\_scroll\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a5af94115933fd918a990e65fb6f46fd5} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+y (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get current Y scroll position. Identical to {\ttfamily \doxylink{lv__obj__scroll_8h_a71e198a2185c4346c5084aa7ce0b4a76}{lv\+\_\+obj\+\_\+get\+\_\+scroll\+\_\+top()}}. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable container Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current scroll position from top edge
+\begin{DoxyItemize}
+\item If Widget is not scrolled return 0.
+\item If scrolled return \texorpdfstring{$>$}{>} 0.
+\item If scrolled inside (elastic scroll) return \texorpdfstring{$<$}{<} 0. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_ade3f7501b9b9383b8bdf23610de66233}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scrollbar\_area@{lv\_obj\_get\_scrollbar\_area}}
+\index{lv\_obj\_get\_scrollbar\_area@{lv\_obj\_get\_scrollbar\_area}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scrollbar\_area()}{lv\_obj\_get\_scrollbar\_area()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ade3f7501b9b9383b8bdf23610de66233} 
+void lv\+\_\+obj\+\_\+get\+\_\+scrollbar\+\_\+area (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{hor}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ver}{}\end{DoxyParamCaption})}
+
+Get the area of the scrollbars 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em hor} & pointer to store the area of the horizontal scrollbar \\
+\hline
+{\em ver} & pointer to store the area of the vertical scrollbar \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_aa9df628be5d9b564dd723f4ed5441866}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_get\_scrollbar\_mode@{lv\_obj\_get\_scrollbar\_mode}}
+\index{lv\_obj\_get\_scrollbar\_mode@{lv\_obj\_get\_scrollbar\_mode}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_scrollbar\_mode()}{lv\_obj\_get\_scrollbar\_mode()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_aa9df628be5d9b564dd723f4ed5441866} 
+\doxymbox{\hyperlink{lv__obj__scroll_8h_a7af6dc1133ba56f7b92553614562985b}{lv\+\_\+scrollbar\+\_\+mode\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+scrollbar\+\_\+mode (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the current scroll mode (when to hide the scrollbars) 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the current scroll mode from {\ttfamily \doxylink{lv__obj__scroll_8h_a7af6dc1133ba56f7b92553614562985b}{lv\+\_\+scrollbar\+\_\+mode\+\_\+t}} 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_adb2c7aeb307c3f304d3a761a0dbd23ae}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_is\_scrolling@{lv\_obj\_is\_scrolling}}
+\index{lv\_obj\_is\_scrolling@{lv\_obj\_is\_scrolling}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_is\_scrolling()}{lv\_obj\_is\_scrolling()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_adb2c7aeb307c3f304d3a761a0dbd23ae} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+is\+\_\+scrolling (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Tell whether Widget is being scrolled or not at this moment 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ {\ttfamily obj} is being scrolled 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_aec14a72f3320041eac7aa0dd168ca079}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_readjust\_scroll@{lv\_obj\_readjust\_scroll}}
+\index{lv\_obj\_readjust\_scroll@{lv\_obj\_readjust\_scroll}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_readjust\_scroll()}{lv\_obj\_readjust\_scroll()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_aec14a72f3320041eac7aa0dd168ca079} 
+void lv\+\_\+obj\+\_\+readjust\+\_\+scroll (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Checks if the content is scrolled "{}in"{} and adjusts it to a normal position. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON/\+\+OFF \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_a75587310033a434d516379e94761a0c4}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_by@{lv\_obj\_scroll\_by}}
+\index{lv\_obj\_scroll\_by@{lv\_obj\_scroll\_by}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_by()}{lv\_obj\_scroll\_by()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a75587310033a434d516379e94761a0c4} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+by (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{dx}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{dy}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll by given amount of pixels. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget to scroll \\
+\hline
+{\em dx} & pixels to scroll horizontally \\
+\hline
+{\em dy} & pixels to scroll vertically \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+\texorpdfstring{$>$}{>} 0 value means scroll right/\+bottom (show the more content on the right/\+bottom) 
+
+e.\+g. dy = -\/20 means scroll down 20 px 
+\end{DoxyNote}
+\Hypertarget{lv__obj__scroll_8c_ac436678b7e62ed307f8f490eb2a93b5d}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_by\_bounded@{lv\_obj\_scroll\_by\_bounded}}
+\index{lv\_obj\_scroll\_by\_bounded@{lv\_obj\_scroll\_by\_bounded}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_by\_bounded()}{lv\_obj\_scroll\_by\_bounded()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ac436678b7e62ed307f8f490eb2a93b5d} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+by\+\_\+bounded (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{dx}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{dy}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll by given amount of pixels. {\ttfamily dx} and {\ttfamily dy} will be limited internally to allow scrolling only on the content area. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget to scroll \\
+\hline
+{\em dx} & pixels to scroll horizontally \\
+\hline
+{\em dy} & pixels to scroll vertically \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+e.\+g. dy = -\/20 means scroll down 20 px 
+\end{DoxyNote}
+\Hypertarget{lv__obj__scroll_8c_ab3781241f089438af08af20c6227bd77}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_by\_raw@{lv\_obj\_scroll\_by\_raw}}
+\index{lv\_obj\_scroll\_by\_raw@{lv\_obj\_scroll\_by\_raw}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_by\_raw()}{lv\_obj\_scroll\_by\_raw()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab3781241f089438af08af20c6227bd77} 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} lv\+\_\+obj\+\_\+scroll\+\_\+by\+\_\+raw (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{}\end{DoxyParamCaption})}
+
+Low level function to scroll by given x and y coordinates. {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a8600dea9ed7183562c086929c3e2d74a}{LV\+\_\+\+EVENT\+\_\+\+SCROLL}} is sent. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to scroll \\
+\hline
+{\em x} & pixels to scroll horizontally \\
+\hline
+{\em y} & pixels to scroll vertically \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily \doxylink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\+\_\+\+RESULT\+\_\+\+INVALID}}:\+ to object was deleted in {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a8600dea9ed7183562c086929c3e2d74a}{LV\+\_\+\+EVENT\+\_\+\+SCROLL}}; {\ttfamily \doxylink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275ad0068efa01b913c8dae4647195610fa6}{LV\+\_\+\+RESULT\+\_\+\+OK}}:\+ if the object is still valid 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__scroll_8c_adeac278e06f6ccd6736917427b7b3f71}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_to@{lv\_obj\_scroll\_to}}
+\index{lv\_obj\_scroll\_to@{lv\_obj\_scroll\_to}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_to()}{lv\_obj\_scroll\_to()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_adeac278e06f6ccd6736917427b7b3f71} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+to (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll to given coordinate on Widget. {\ttfamily x} and {\ttfamily y} will be limited internally to allow scrolling only on the content area. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget to scroll \\
+\hline
+{\em x} & pixels to scroll horizontally \\
+\hline
+{\em y} & pixels to scroll vertically \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_a083453d4ebccc0fd0bff84ccc6ece4c1}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_to\_view@{lv\_obj\_scroll\_to\_view}}
+\index{lv\_obj\_scroll\_to\_view@{lv\_obj\_scroll\_to\_view}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_to\_view()}{lv\_obj\_scroll\_to\_view()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a083453d4ebccc0fd0bff84ccc6ece4c1} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+view (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll {\ttfamily obj}\textquotesingle{}s parent Widget until {\ttfamily obj} becomes visible. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget to scroll into view \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_a64a2af6a35719eeb48770e78e0a7b585}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_to\_view\_recursive@{lv\_obj\_scroll\_to\_view\_recursive}}
+\index{lv\_obj\_scroll\_to\_view\_recursive@{lv\_obj\_scroll\_to\_view\_recursive}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_to\_view\_recursive()}{lv\_obj\_scroll\_to\_view\_recursive()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a64a2af6a35719eeb48770e78e0a7b585} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+view\+\_\+recursive (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll {\ttfamily obj}\textquotesingle{}s parent Widgets recursively until {\ttfamily obj} becomes visible. Widget will be scrolled into view even it has nested scrollable parents. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget to scroll into view \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_ab2feb343a1fd2276c8b61c2d56ba9041}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_to\_x@{lv\_obj\_scroll\_to\_x}}
+\index{lv\_obj\_scroll\_to\_x@{lv\_obj\_scroll\_to\_x}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_to\_x()}{lv\_obj\_scroll\_to\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab2feb343a1fd2276c8b61c2d56ba9041} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+x (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll to X coordinate on Widget. {\ttfamily x} will be limited internally to allow scrolling only on the content area. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget to scroll \\
+\hline
+{\em x} & pixels to scroll horizontally \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_a86a449e1d9a02789fabbee86814bc085}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scroll\_to\_y@{lv\_obj\_scroll\_to\_y}}
+\index{lv\_obj\_scroll\_to\_y@{lv\_obj\_scroll\_to\_y}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scroll\_to\_y()}{lv\_obj\_scroll\_to\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a86a449e1d9a02789fabbee86814bc085} 
+void lv\+\_\+obj\+\_\+scroll\+\_\+to\+\_\+y (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Scroll to Y coordinate on Widget. {\ttfamily y} will be limited internally to allow scrolling only on the content area. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to scrollable Widget to scroll \\
+\hline
+{\em y} & pixels to scroll vertically \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON:\+ scroll with animation; LV\+\_\+\+ANIM\+\_\+\+OFF:\+ scroll immediately \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_af65cc55c73a3e90235a23739c90cb3ea}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_scrollbar\_invalidate@{lv\_obj\_scrollbar\_invalidate}}
+\index{lv\_obj\_scrollbar\_invalidate@{lv\_obj\_scrollbar\_invalidate}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_scrollbar\_invalidate()}{lv\_obj\_scrollbar\_invalidate()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_af65cc55c73a3e90235a23739c90cb3ea} 
+void lv\+\_\+obj\+\_\+scrollbar\+\_\+invalidate (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Invalidate the area of the scrollbars 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_afbeaa2556147e27514da6021179d38ef}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_set\_scroll\_dir@{lv\_obj\_set\_scroll\_dir}}
+\index{lv\_obj\_set\_scroll\_dir@{lv\_obj\_set\_scroll\_dir}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_scroll\_dir()}{lv\_obj\_set\_scroll\_dir()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_afbeaa2556147e27514da6021179d38ef} 
+void lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+dir (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}}}]{dir}{}\end{DoxyParamCaption})}
+
+Set direction Widget can be scrolled 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em dir} & one or more bit-\/wise OR-\/ed values of {\ttfamily \doxylink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} enumeration \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_aa897a1cccd24ebb287135d6a5bf3af39}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_set\_scroll\_snap\_x@{lv\_obj\_set\_scroll\_snap\_x}}
+\index{lv\_obj\_set\_scroll\_snap\_x@{lv\_obj\_set\_scroll\_snap\_x}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_scroll\_snap\_x()}{lv\_obj\_set\_scroll\_snap\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_aa897a1cccd24ebb287135d6a5bf3af39} 
+void lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+snap\+\_\+x (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}}}]{align}{}\end{DoxyParamCaption})}
+
+Set where to snap the children when scrolling ends horizontally 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em align} & value from {\ttfamily \doxylink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} enumeration \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_a0163965d49e256d03a9cb42035198755}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_set\_scroll\_snap\_y@{lv\_obj\_set\_scroll\_snap\_y}}
+\index{lv\_obj\_set\_scroll\_snap\_y@{lv\_obj\_set\_scroll\_snap\_y}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_scroll\_snap\_y()}{lv\_obj\_set\_scroll\_snap\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_a0163965d49e256d03a9cb42035198755} 
+void lv\+\_\+obj\+\_\+set\+\_\+scroll\+\_\+snap\+\_\+y (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}}}]{align}{}\end{DoxyParamCaption})}
+
+Set where to snap the children when scrolling ends vertically 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em align} & value from {\ttfamily \doxylink{lv__obj__scroll_8h_a959b6d7de193b1e45f00546126b3df8e}{lv\+\_\+scroll\+\_\+snap\+\_\+t}} enumeration \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_ac3e8deb630e51ac28adbb49fbfd5a131}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_set\_scrollbar\_mode@{lv\_obj\_set\_scrollbar\_mode}}
+\index{lv\_obj\_set\_scrollbar\_mode@{lv\_obj\_set\_scrollbar\_mode}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_scrollbar\_mode()}{lv\_obj\_set\_scrollbar\_mode()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ac3e8deb630e51ac28adbb49fbfd5a131} 
+void lv\+\_\+obj\+\_\+set\+\_\+scrollbar\+\_\+mode (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__scroll_8h_a7af6dc1133ba56f7b92553614562985b}{lv\+\_\+scrollbar\+\_\+mode\+\_\+t}}}]{mode}{}\end{DoxyParamCaption})}
+
+Set how the scrollbars should behave. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to Widget \\
+\hline
+{\em mode} & LV\+\_\+\+SCROLL\+\_\+\+MODE\+\_\+\+ON/\+\+OFF/\+\+AUTO/\+\+ACTIVE \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_ab3a20b2b12ab545bcfb128bef5184f4f}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_stop\_scroll\_anim@{lv\_obj\_stop\_scroll\_anim}}
+\index{lv\_obj\_stop\_scroll\_anim@{lv\_obj\_stop\_scroll\_anim}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_stop\_scroll\_anim()}{lv\_obj\_stop\_scroll\_anim()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_ab3a20b2b12ab545bcfb128bef5184f4f} 
+void lv\+\_\+obj\+\_\+stop\+\_\+scroll\+\_\+anim (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Stop scrolling the current object
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object being scrolled \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__scroll_8c_aa14afade952d8ae7887b56a3f42e69cb}\index{lv\_obj\_scroll.c@{lv\_obj\_scroll.c}!lv\_obj\_update\_snap@{lv\_obj\_update\_snap}}
+\index{lv\_obj\_update\_snap@{lv\_obj\_update\_snap}!lv\_obj\_scroll.c@{lv\_obj\_scroll.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_update\_snap()}{lv\_obj\_update\_snap()}}
+{\footnotesize\ttfamily \label{lv__obj__scroll_8c_aa14afade952d8ae7887b56a3f42e69cb} 
+void lv\+\_\+obj\+\_\+update\+\_\+snap (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__anim_8h_a2ccc5e2a177bd1e1f0dca6456b034153}{lv\+\_\+anim\+\_\+enable\+\_\+t}}}]{anim\+\_\+en}{}\end{DoxyParamCaption})}
+
+Check children of {\ttfamily obj} and scroll {\ttfamily obj} to fulfill scroll\+\_\+snap settings. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & Widget whose children need to be checked and snapped \\
+\hline
+{\em anim\+\_\+en} & LV\+\_\+\+ANIM\+\_\+\+ON/\+\+OFF \\
+\hline
+\end{DoxyParams}

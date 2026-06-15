@@ -150,7 +150,7 @@ Architecture</h1>
 <div class="line">|   ESP32-C3 #3  |-----&gt;| Magnetic Sensor|</div>
 <div class="line">+----------------+      +----------------+</div>
 <div class="line"> </div>
-<div class="line">Experimental:</div>
+<div class="line">Experimental (Not yet fully integrated):</div>
 <div class="line"> </div>
 <div class="line">+----------------+      +----------------+</div>
 <div class="line">|   ESP32-CAM    |-----&gt;| Motion         |</div>
@@ -160,12 +160,12 @@ Architecture</h1>
 Hardware Components</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 1. ESP32-S3</h2>
-<p>The system's central unit is responsible for:</p>
+<p>The Home Hub is responsible for:</p>
 <ul>
 <li>GUI (LVGL)</li>
 <li>Communication with sensor nodes</li>
-<li>Handling sensor placement</li>
-<li>Collecting data from the BME280 sensor</li>
+<li>Managing sensor placement and configuration</li>
+<li>Acquiring environmental data from the BME280 sensor</li>
 </ul>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Technical Data</h3>
@@ -183,15 +183,31 @@ Technical Data</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Voltage  </td><td class="markdownTableBodyNone">3.3 V  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Display</h3>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Parameter  </th><th class="markdownTableHeadNone">Value  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Resolution  </td><td class="markdownTableBodyNone">1024 x 600  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Interface  </td><td class="markdownTableBodyNone">RGB565  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Touch Controller  </td><td class="markdownTableBodyNone">GT911  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Touch Interface  </td><td class="markdownTableBodyNone">I2C  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Touch Address  </td><td class="markdownTableBodyNone">0x5D  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 2. ESP32-C3 Sensor Nodes</h2>
 <p>Each ESP32-C3 operates as an independent sensor node connected to a single magnetic door or window sensor.</p>
 <p>Responsibilities:</p>
 <ul>
-<li>Reading sensor data</li>
+<li>Monitoring magnetic sensor state</li>
 <li>Sending status updates to the ESP32-S3</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Connections</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -201,10 +217,10 @@ Connections</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">GND  </td><td class="markdownTableBodyNone">Ground  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 3. Magnetic Sensors</h2>
 <p>Detect whether a door or window is open or closed.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Signals</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -214,27 +230,27 @@ Signals</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Open  </td><td class="markdownTableBodyNone">HIGH  </td></tr>
 </table>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Example</h3>
 <div class="fragment"><div class="line">Door Closed:</div>
 <div class="line">[ Magnet ] [ Sensor ]</div>
 <div class="line"> </div>
 <div class="line">Door Open:</div>
 <div class="line">[ Magnet ]         [ Sensor ]</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 4. ESP32-CAM</h2>
 <p>Provides:</p>
 <ul>
 <li>Motion detection</li>
 <li>Object recognition (experimental)</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Communication</h3>
 <ul>
 <li>HTTP</li>
 <li>Wi-Fi</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 5. BME280 Sensor</h2>
 <p>Measures:</p>
 <ul>
@@ -242,15 +258,15 @@ Communication</h3>
 <li>Pressure</li>
 <li>Humidity</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Communication</h3>
 <ul>
 <li>I2C</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Address</h3>
-<div class="fragment"><div class="line">0x77</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<p>Configured I2C address: <span class="tt">0x77</span></p>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Connections</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -260,26 +276,61 @@ Connections</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">GND  </td><td class="markdownTableBodyNone">GND  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SDA  </td><td class="markdownTableBodyNone">SDA  </td></tr>
+<td class="markdownTableBodyNone">SDA  </td><td class="markdownTableBodyNone">GPIO8  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SCL  </td><td class="markdownTableBodyNone">SCL  </td></tr>
+<td class="markdownTableBodyNone">SCL  </td><td class="markdownTableBodyNone">GPIO9  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Communication Architecture</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Wi-Fi Network</h2>
 <div class="fragment"><div class="line">ESP32-C3 ----\</div>
 <div class="line">              \</div>
 <div class="line">ESP32-C3 ------&gt; ESP32-S3</div>
 <div class="line">              /</div>
 <div class="line">ESP32-C3 ----/</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 Protocols</h3>
 <ul>
 <li>TCP sockets are used between sensor nodes and the Home Hub.</li>
 <li>HTTP is used for communication with the ESP32-CAM module.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+Signal Flow</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+Door/Window Sensor Event</h3>
+<div class="fragment"><div class="line">Magnetic Sensor</div>
+<div class="line">      |</div>
+<div class="line">      v</div>
+<div class="line">  ESP32-C3</div>
+<div class="line">      |    Wi-Fi/TCP</div>
+<div class="line">      v</div>
+<div class="line">  ESP32-S3</div>
+<div class="line">      |</div>
+<div class="line">      v</div>
+<div class="line">  GUI Update</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+Environmental Sensor Event (BME280)</h3>
+<div class="fragment"><div class="line">  BME280</div>
+<div class="line">    |    I2C</div>
+<div class="line">    v</div>
+<div class="line">ESP32-S3</div>
+<div class="line">    | </div>
+<div class="line">    v</div>
+<div class="line">GUI Update</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+Camera Monitoring</h3>
+<blockquote class="doxtable">
+<p><b>Note:</b> The ESP32-CAM Subsystem is currently being worked into the program and this is just an example of how it could work </p>
+</blockquote>
+<div class="fragment"><div class="line">ESP32-CAM</div>
+<div class="line">    |    HTTP</div>
+<div class="line">    v</div>
+<div class="line">ESP32-S3</div>
+<div class="line">    | </div>
+<div class="line">    v</div>
+<div class="line">   GUI</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Power Supply</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -289,24 +340,57 @@ Power Supply</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Operating Voltage  </td><td class="markdownTableBodyNone">3.3 V  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Pin Configuration</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+Application GPIO Usage</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Device  </th><th class="markdownTableHeadNone">GPIO  </th><th class="markdownTableHeadNone">Function  </th></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ESP32-S3  </td><td class="markdownTableBodyNone">GPIO4  </td><td class="markdownTableBodyNone">GT911 Interrupt  </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">ESP32-S3  </td><td class="markdownTableBodyNone">GPIO8  </td><td class="markdownTableBodyNone">I2C SDA  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">ESP32-S3  </td><td class="markdownTableBodyNone">GPIO9  </td><td class="markdownTableBodyNone">I2C SCL  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">ESP32-C3 #1  </td><td class="markdownTableBodyNone">GPIO2  </td><td class="markdownTableBodyNone">Door <a class="el" href="struct_sensor.html">Sensor</a> #1  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">ESP32-C3 #2  </td><td class="markdownTableBodyNone">GPIO2  </td><td class="markdownTableBodyNone">Window <a class="el" href="struct_sensor.html">Sensor</a>  </td></tr>
+<td class="markdownTableBodyNone">ESP32-C3 #1  </td><td class="markdownTableBodyNone">GPIO2  </td><td class="markdownTableBodyNone">Door <a class="el" href="struct_sensor.html">Sensor</a> #1  </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ESP32-C3 #2  </td><td class="markdownTableBodyNone">GPIO2  </td><td class="markdownTableBodyNone">Window <a class="el" href="struct_sensor.html">Sensor</a>  </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">ESP32-C3 #3  </td><td class="markdownTableBodyNone">GPIO2  </td><td class="markdownTableBodyNone">Door <a class="el" href="struct_sensor.html">Sensor</a> #2  </td></tr>
 </table>
-<p>For further information regarding pin-configuration: <a href="https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description">https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description</a></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+Display Interface GPIOs</h2>
+<p>The following GPIOs are reserved by the Waveshare LCD subsystem:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">GPIO  </th><th class="markdownTableHeadNone">Function  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">GPIO3  </td><td class="markdownTableBodyNone">VSYNC  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">GPIO5  </td><td class="markdownTableBodyNone">Display Enable  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">GPIO7  </td><td class="markdownTableBodyNone">Pixel Clock  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+Additional Reserved Display GPIOs</h2>
+<p>The RGB display subsystem reserves additional GPIOs for data transfer:</p>
+<ul>
+<li>GPIO0</li>
+<li>GPIO1</li>
+<li>GPIO2</li>
+<li>GPIO10</li>
+<li>GPIO14</li>
+<li>GPIO17</li>
+<li>GPIO18</li>
+<li>GPIO21</li>
+<li>GPIO38</li>
+<li>GPIO39</li>
+<li>GPIO40 through GPIO48</li>
+</ul>
+<p>For further information regarding the WaveShares ESP32-S3 display module, see the official documentation: <a href="https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description">https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B#interface-description</a></p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 System Limitations</h1>
 <ul>
 <li>ESP32-CAM integration is still experimental.</li>

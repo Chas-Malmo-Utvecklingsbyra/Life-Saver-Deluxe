@@ -1,0 +1,122 @@
+\doxysection{lv\+\_\+gstreamer.\+h}
+\hypertarget{lv__gstreamer_8h_source}{}\label{lv__gstreamer_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gstreamer/lv\_gstreamer.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gstreamer/lv\_gstreamer.h}}
+\doxymbox{\hyperlink{lv__gstreamer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_GSTREAMER\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ LV\_USE\_GSTREAMER}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__obj_8h}{../../core/lv\_obj.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_a52a21700fe5946c140157ebf74459a46}{LV\_ATTRIBUTE\_EXTERN\_DATA}}\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\_obj\_class\_t}}\ lv\_gstreamer\_class;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*\ Using\ the\ \`{}URI`\ "{}factory"{},\ we\ can\ specify\ various\ URI\ schemes\ as\ media\ sources\ including}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ -\/\ local\ files\ (file://)}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ -\/\ web\ streams\ (http://,\ https://)}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *\ -\/\ RTSP\ streams\ (rtsp://)}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *\ -\/\ UDP\ streams\ (udp://)}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *\ and\ many\ others.}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *\ GStreamer's\ uridecodebin\ automatically\ selects\ the\ appropriate}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *\ source\ element\ and\ decoder\ based\ on\ the\ URI\ scheme\ and\ media\ format.\ */}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_URI\_DECODE\ \ \ \ \ \ "{}uridecodebin"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_URI\_DECODE\ \ \ \ \ \ "{}uri"{}}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_FILE\ \ \ \ \ \ \ \ \ \ \ \ "{}filesrc"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_FILE\ \ \ \ \ \ \ \ \ \ \ \ "{}location"{}}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifdef\ LV\_GSTREAMER\_ENABLE\_UNTESTED\_SOURCES}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_HTTP\ \ \ \ \ \ \ \ \ \ \ \ "{}souphttpsrc"{}}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_HTTP\ \ \ \ \ \ \ \ \ \ \ \ "{}location"{}}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_HTTPS\ \ \ \ \ \ \ \ \ \ \ "{}souphttpsrc"{}}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_HTTPS\ \ \ \ \ \ \ \ \ \ \ "{}location"{}}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_V4L2\_CAMERA\ \ \ \ \ "{}v4l2src"{}}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_V4L2\_CAMERA\ \ \ \ \ "{}device"{}}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_ALSA\_AUDIO\ \ \ \ \ \ "{}alsasrc"{}}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_ALSA\_AUDIO\ \ \ \ \ \ "{}device"{}}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_PULSE\_AUDIO\ \ \ \ \ "{}pulsesrc"{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_PULSE\_AUDIO\ \ \ \ \ "{}device"{}}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_TEST\_AUDIO\ \ \ \ \ \ "{}audiotestsrc"{}}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_TEST\_AUDIO\ \ \ \ \ \ NULL}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_TEST\_VIDEO\ \ \ \ \ \ "{}videotestsrc"{}}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_TEST\_VIDEO\ \ \ \ \ \ NULL}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_FACTORY\_APP\ \ \ \ \ \ \ \ \ \ \ \ \ "{}appsrc"{}}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_PROPERTY\_APP\ \ \ \ \ \ \ \ \ \ \ \ \ NULL}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ LV\_GSTREAMER\_STATE\_NULL,}
+\DoxyCodeLine{00075\ \ \ \ \ LV\_GSTREAMER\_STATE\_READY,}
+\DoxyCodeLine{00076\ \ \ \ \ LV\_GSTREAMER\_STATE\_PAUSED,}
+\DoxyCodeLine{00077\ \ \ \ \ LV\_GSTREAMER\_STATE\_PLAYING}
+\DoxyCodeLine{00078\ \}\ lv\_gstreamer\_state\_t;}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00081\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00082\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00089\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ lv\_gstreamer\_create(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ parent);}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00103\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_gstreamer\_set\_src(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ factory\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ property,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{pointer_8h_adb82dfe18535e9a30aa97d275f82bd55}{source}});}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00110\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_play(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00116\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_pause(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00122\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_stop(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00129\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_set\_position(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ position);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00136\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_gstreamer\_get\_duration(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00143\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_gstreamer\_get\_position(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00149\ lv\_gstreamer\_state\_t\ lv\_gstreamer\_get\_state(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00156\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_set\_volume(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ volume);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00163\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ lv\_gstreamer\_get\_volume(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00175\ \textcolor{keywordtype}{void}\ lv\_gstreamer\_set\_rate(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ gstreamer,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ rate);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00179\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00180\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GSTREAMER*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00185\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_GSTREAMER\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

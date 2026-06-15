@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['optional_0',['Optional',['../md__r_e_a_d_m_e.html#autotoc_md42',1,'']]],
-  ['overview_1',['Overview',['../md__r_e_a_d_m_e.html#autotoc_md25',1,'Overview'],['../md_docs_2_h_w__documentation.html',1,'System Overview']]]
+  ['learnings_0',['Key Learnings',['../md__r_e_a_d_m_e.html#autotoc_md69',1,'']]],
+  ['life_20saver_20deluxe_1',['Life-Saver-Deluxe',['../md__r_e_a_d_m_e.html',1,'']]],
+  ['limitations_2',['System Limitations',['../md_docs_2_h_w__documentation.html#autotoc_md30',1,'']]]
 ];

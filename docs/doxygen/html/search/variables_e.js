@@ -11,10 +11,11 @@ var searchData=
   ['p8_8',['P8',['../structbme280__calib__t.html#a5106a0431562a07fb434cd3ee242195a',1,'bme280_calib_t']]],
   ['p9_9',['P9',['../structbme280__calib__t.html#a2cb77e740af60ffbe2dc03099a012fe4',1,'bme280_calib_t']]],
   ['partition_5flabel_10',['partition_label',['../structesp__vfs__spiffs__conf__t.html#a6088318a4b5a57ebb56dd4162964748b',1,'esp_vfs_spiffs_conf_t']]],
-  ['path_11',['path',['../struct_file___system.html#a3b02c6de5c049804444a246f7fdf46b4',1,'File_System']]],
-  ['placement_12',['placement',['../struct_sensor.html#af59d6bab84fe79a0a70ea0b7de2b2b70',1,'Sensor']]],
-  ['position_13',['position',['../structerror.html#a7a04afe5347934be732ec70a70bd0a28',1,'error']]],
-  ['prebuffer_14',['prebuffer',['../c_j_s_o_n_8h.html#a039dc262c2ae63f95cfe193245f8ee7e',1,'cJSON.h']]],
-  ['prev_15',['prev',['../structc_j_s_o_n.html#afb239ebe62815dd62d272600c24d1e1a',1,'cJSON']]],
-  ['prev_5fframe_16',['prev_frame',['../camera_8c.html#aae3c3489ca26df4ffaaf0133a5529239',1,'camera.c']]]
+  ['password_11',['password',['../structwifi__sta__config__t.html#ae3a23efe266762659e03567d6afc26dd',1,'wifi_sta_config_t']]],
+  ['path_12',['path',['../struct_file___system.html#a3b02c6de5c049804444a246f7fdf46b4',1,'File_System']]],
+  ['placement_13',['placement',['../struct_sensor.html#af59d6bab84fe79a0a70ea0b7de2b2b70',1,'Sensor']]],
+  ['position_14',['position',['../structerror.html#a7a04afe5347934be732ec70a70bd0a28',1,'error']]],
+  ['prebuffer_15',['prebuffer',['../c_j_s_o_n_8h.html#a039dc262c2ae63f95cfe193245f8ee7e',1,'cJSON.h']]],
+  ['prev_16',['prev',['../structc_j_s_o_n.html#afb239ebe62815dd62d272600c24d1e1a',1,'cJSON']]],
+  ['prev_5fframe_17',['prev_frame',['../camera_8c.html#aae3c3489ca26df4ffaaf0133a5529239',1,'camera.c']]]
 ];

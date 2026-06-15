@@ -1,0 +1,171 @@
+\doxysection{lv\+\_\+chart.\+h}
+\hypertarget{lv__chart_8h_source}{}\label{lv__chart_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/widgets/chart/lv\_chart.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/widgets/chart/lv\_chart.h}}
+\doxymbox{\hyperlink{lv__chart_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_CHART\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_CHART\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__obj_8h}{../../core/lv\_obj.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ LV\_USE\_CHART\ !=\ 0}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ LV\_CHART\_POINT\_NONE\ \ \ \ \ (INT32\_MAX)}}
+\DoxyCodeLine{00027\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_ad9dbfeb90679a5db213a80f3e8d61b28}{LV\_EXPORT\_CONST\_INT}}(\doxymbox{\hyperlink{lv__chart_8h_afd3bdba7b573c5413c7cd7a3d621c18b}{LV\_CHART\_POINT\_NONE}});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6a3781231f7433084a6882833b90b2b287}{LV\_CHART\_TYPE\_NONE}},\ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6abff0662492b645adf865b30f5b0d2b89}{LV\_CHART\_TYPE\_LINE}},\ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6a1c1977e71f2de8d1857ae0b0306b0080}{LV\_CHART\_TYPE\_BAR}},\ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6a977fb62d226606afea3b8267dd173ad3}{LV\_CHART\_TYPE\_STACKED}},\ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6aac2fdf46d72a93a8fb6a92309e7ac643}{LV\_CHART\_TYPE\_SCATTER}},\ \ }
+\DoxyCodeLine{00042\ \}\ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6}{lv\_chart\_type\_t}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4494fe7996df897cc57b12c631e38917a9a0b47047328265061fc1ea51dc08f46}{LV\_CHART\_UPDATE\_MODE\_SHIFT}},\ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a4494fe7996df897cc57b12c631e38917a515b1f581d44fc656b1dc7a3b560b6f6}{LV\_CHART\_UPDATE\_MODE\_CIRCULAR}},\ \ }
+\DoxyCodeLine{00050\ \}\ \doxymbox{\hyperlink{lv__chart_8h_a4494fe7996df897cc57b12c631e38917}{lv\_chart\_update\_mode\_t}};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185ab4d56111d313fae7564ace970f5030de}{LV\_CHART\_AXIS\_PRIMARY\_Y}}\ \ \ \ \ =\ 0x00,}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185af7adb009e843a6b0688afb27b3cb3fe2}{LV\_CHART\_AXIS\_SECONDARY\_Y}}\ \ \ =\ 0x01,}
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185adbe8d91826e765e7311711dc50248c9b}{LV\_CHART\_AXIS\_PRIMARY\_X}}\ \ \ \ \ =\ 0x02,}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185ac12b08c4a60cb602ee68eee2c632f8db}{LV\_CHART\_AXIS\_SECONDARY\_X}}\ \ \ =\ 0x04,}
+\DoxyCodeLine{00060\ \ \ \ \ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185aa9d537f694f7038def130f08bef8be89}{LV\_CHART\_AXIS\_LAST}}}
+\DoxyCodeLine{00061\ \}\ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185}{lv\_chart\_axis\_t}};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_a52a21700fe5946c140157ebf74459a46}{LV\_ATTRIBUTE\_EXTERN\_DATA}}\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\_obj\_class\_t}}\ \doxymbox{\hyperlink{lv__chart_8c_ae7d2ac58b6dc4028517083b684995355}{lv\_chart\_class}};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00074\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__chart_8h_a6529af6120c2648b70556ea12b141f7b}{lv\_chart\_create}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ parent);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ab564480b52da2510727a9eb470045f39}{lv\_chart\_set\_type}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6}{lv\_chart\_type\_t}}\ type);}
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a0faf0064ef3831a512ac7740dfb06b13}{lv\_chart\_set\_point\_count}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cnt);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_aa3509d858c7072cb48d52cc3610ddba5}{lv\_chart\_set\_axis\_range}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185}{lv\_chart\_axis\_t}}\ axis,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ min,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ max);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a51e51cc77c869b56158c9c3387649ecf}{lv\_chart\_set\_axis\_min\_value}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185}{lv\_chart\_axis\_t}}\ axis,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ min);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_aaf15fb2006fb28b4a35c7867a485178d}{lv\_chart\_set\_axis\_max\_value}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185}{lv\_chart\_axis\_t}}\ axis,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ max);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00120\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a93ad4bb5e42fb4d789f162110d9a9142}{lv\_chart\_set\_update\_mode}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__chart_8h_a4494fe7996df897cc57b12c631e38917}{lv\_chart\_update\_mode\_t}}\ update\_mode);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00128\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a99a7c47bbb13183d0b8d7f3de7582107}{lv\_chart\_set\_div\_line\_count}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ hdiv,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ vdiv);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00135\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a92c8db7aa77c975c9fb1e5d5d9fd68ae}{lv\_chart\_set\_hor\_div\_line\_count}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cnt);}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00142\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a9724ead6b7e4e3816e104b18580f475b}{lv\_chart\_set\_ver\_div\_line\_count}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ cnt);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00149\ \doxymbox{\hyperlink{lv__chart_8h_a4278d5a201518e2fc34bc771c7ea70f6}{lv\_chart\_type\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a13500555e10ee92cbd723db16a2d959c}{lv\_chart\_get\_type}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00156\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a947e3dd674dd4d892aead983d722c4f5}{lv\_chart\_get\_point\_count}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00164\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a083d5a0277fca40031c0b45141953b0b}{lv\_chart\_get\_x\_start\_point}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser);}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00173\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ac5f8c7f0c4a3df2ab8c91f275d62e684}{lv\_chart\_get\_point\_pos\_by\_id}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keywordtype}{id},\ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ *\ p\_out);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00179\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a63b3c0e87e5f6286318c2973c95f1a08}{lv\_chart\_refresh}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{comment}{/*======================}}
+\DoxyCodeLine{00182\ \textcolor{comment}{\ *\ Series}}
+\DoxyCodeLine{00183\ \textcolor{comment}{\ *=====================*/}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00192\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ \doxymbox{\hyperlink{lv__chart_8h_a94528ab74309379615ce3f52fa9e2ca6}{lv\_chart\_add\_series}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ color,\ \doxymbox{\hyperlink{lv__chart_8h_a76db46ad7b9f3168e8ad45dfebd22185}{lv\_chart\_axis\_t}}\ axis);}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00199\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ae487fb2863bf944effb41e943d18ac18}{lv\_chart\_remove\_series}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ series);}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00207\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a5e5d862b392e536043c1a0c7f69ef7ce}{lv\_chart\_hide\_series}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ series,\ \textcolor{keywordtype}{bool}\ hide);}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00215\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_adba2ced7eec01909e9eb70f5fe192ce5}{lv\_chart\_set\_series\_color}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ series,\ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ color);}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00223\ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a51397470e8f87764d83689e4c68ec75c}{lv\_chart\_get\_series\_color}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ series);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00232\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a078f42fd6c732ff862401f3dc96be627}{lv\_chart\_set\_x\_start\_point}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00240\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ \doxymbox{\hyperlink{lv__chart_8h_a9d8089063eebc179e0d4d0f820f64b09}{lv\_chart\_get\_series\_next}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser);}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00243\ \textcolor{comment}{\ *\ Cursor}}
+\DoxyCodeLine{00244\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00253\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ \ *\ \doxymbox{\hyperlink{lv__chart_8h_a1c3603fc7d2b9c48451d47f5edf9dd4c}{lv\_chart\_add\_cursor}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{structlv__color__t}{lv\_color\_t}}\ color,\ \doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\_dir\_t}}\ dir);}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00260\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_aba8a2bf6827c2330634856a0cc6fbaee}{lv\_chart\_remove\_cursor}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00268\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a24fcab0e1c494936ba03fa5a8ed276ae}{lv\_chart\_set\_cursor\_pos}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor,\ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ *\ pos);}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00276\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a431be688f76868f17e266e3a5de67329}{lv\_chart\_set\_cursor\_pos\_x}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x);}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00284\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ab56ab7de20aef47ed6259ce031d095ae}{lv\_chart\_set\_cursor\_pos\_y}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y);}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00293\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a78ee1cb2bfbf2a681d74cf12b62cc21b}{lv\_chart\_set\_cursor\_point}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ point\_id);}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00302\ \doxymbox{\hyperlink{structlv__point__t}{lv\_point\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a605ecf3aa1f3d9a03228d74818945794}{lv\_chart\_get\_cursor\_point}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeebe20098200cb0796a6a0b671839abf}{chart}},\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a44faef4fba25f91acf644db5c09ad508}{lv\_chart\_cursor\_t}}\ *\ cursor);}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00305\ \textcolor{comment}{\ *\ Set/Get\ value(s)}}
+\DoxyCodeLine{00306\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00314\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a51ba30bec64a52066ff0e863cab09772}{lv\_chart\_set\_all\_values}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00322\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ad6bd83c596bc8e585940b2edc4dd59a4}{lv\_chart\_set\_next\_value}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00331\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_adc483855e0971969933c51cfea418a42}{lv\_chart\_set\_next\_value2}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x\_value,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y\_value);}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00340\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a55471500967d886754ff1ab0df8b89de}{lv\_chart\_set\_series\_values}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ values[],\ \textcolor{keywordtype}{size\_t}\ values\_cnt);}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00350\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a7c74f532c9096275c3eaef16f6f35414}{lv\_chart\_set\_series\_values2}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x\_values[],}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y\_values[],\ \textcolor{keywordtype}{size\_t}\ values\_cnt);}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00360\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a660f066fd1403775185984f1eeade1aa}{lv\_chart\_set\_series\_value\_by\_id}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keywordtype}{id},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00371\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a16ed15eaf5cd603f91b0f600875617d9}{lv\_chart\_set\_series\_value\_by\_id2}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \textcolor{keywordtype}{id},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x\_value,}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ y\_value);}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00381\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_a80c8f29942f6145b1c701a52531aa8ad}{lv\_chart\_set\_series\_ext\_y\_array}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ array[]);}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00390\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__chart_8h_ae24eefe6db4b7cad2c516464493d9720}{lv\_chart\_set\_series\_ext\_x\_array}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ array[]);}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00398\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ *\ \doxymbox{\hyperlink{lv__chart_8h_a3ccb52602c063dafd9f84e5199d931d3}{lv\_chart\_get\_series\_y\_array}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser);}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00406\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ *\ \doxymbox{\hyperlink{lv__chart_8h_ab792cd5ee46390b79ee3929365a828a4}{lv\_chart\_get\_series\_x\_array}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aeacc3499b961eb483973761383b9f2ff}{lv\_chart\_series\_t}}\ *\ ser);}
+\DoxyCodeLine{00407\ }
+\DoxyCodeLine{00413\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a3df0e2ef309d5106bfa84950d005ec0f}{lv\_chart\_get\_pressed\_point}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00421\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \doxymbox{\hyperlink{lv__chart_8h_a2e4dddc6405fd81de0055c3ab9807327}{lv\_chart\_get\_first\_point\_center\_offset}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00424\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00425\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_CHART*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00430\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00431\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_CHART\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

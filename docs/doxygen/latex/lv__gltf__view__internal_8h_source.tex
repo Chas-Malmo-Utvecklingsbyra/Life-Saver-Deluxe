@@ -1,0 +1,141 @@
+\doxysection{lv\+\_\+gltf\+\_\+view\+\_\+internal.\+h}
+\hypertarget{lv__gltf__view__internal_8h_source}{}\label{lv__gltf__view__internal_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_view/lv\_gltf\_view\_internal.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_view/lv\_gltf\_view\_internal.h}}
+\doxymbox{\hyperlink{lv__gltf__view__internal_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_GLTF\_VIEW\_INTERNAL\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_GLTF\_VIEW\_INTERNAL\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#if\ LV\_USE\_GLTF}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gltf_8h}{lv\_gltf.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengl__shader__internal_8h}{../../../drivers/opengles/opengl\_shader/lv\_opengl\_shader\_internal.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__3dtexture__private_8h}{../../../widgets/3dtexture/lv\_3dtexture\_private.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gltf__data__internal_8h}{../gltf\_data/lv\_gltf\_data\_internal.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}\textcolor{comment}{/*\ \_\_cplusplus*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00039\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ texture;}
+\DoxyCodeLine{00040\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ renderbuffer;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ framebuffer;}
+\DoxyCodeLine{00042\ \}\ lv\_gltf\_renwin\_state\_t;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ \ }\{}
+\DoxyCodeLine{00045\ \ \ \ \ lv\_gltf\_renwin\_state\_t\ render\_state;}
+\DoxyCodeLine{00046\ \ \ \ \ lv\_gltf\_renwin\_state\_t\ opaque\_render\_state;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ opaque\_frame\_buffer\_width;}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ opaque\_frame\_buffer\_height;}
+\DoxyCodeLine{00050\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ material\_variant;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ render\_state\_ready;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ render\_opaque\_buffer;}
+\DoxyCodeLine{00053\ \}\ lv\_gltf\_view\_state\_t;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{float}\ pitch;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{float}\ yaw;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{float}\ distance;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{float}\ fov;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ vertical\ FOV,\ in\ degrees.\ \ If\ this\ is\ zero,\ the\ view\ will\ be\ orthographic\ (non-\/perspective)}}
+\DoxyCodeLine{00060\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ render\_width;\ \ \ \ \ \ \ \textcolor{comment}{//\ If\ anti-\/aliasing\ is\ not\ applied\ this\ frame,\ these\ are\ the\ same\ as\ width/height,\ if\ antialiasing}}
+\DoxyCodeLine{00061\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ render\_height;\ \ \ \ \ \ \textcolor{comment}{//\ is\ enabled,\ these\ are\ width/height\ *\ antialias\ upscale\ power\ (currently\ 2.0)}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{float}\ focal\_x;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{float}\ focal\_y;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{float}\ focal\_z;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{bool}\ frame\_was\_antialiased;}
+\DoxyCodeLine{00066\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ animation\_speed\_ratio;}
+\DoxyCodeLine{00067\ \ \ \ \ lv\_gltf\_aa\_mode\_t\ aa\_mode;}
+\DoxyCodeLine{00068\ \ \ \ \ lv\_gltf\_bg\_mode\_t\ bg\_mode;}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{float}\ blur\_bg;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{float}\ env\_pow;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{float}\ exposure;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \}\ lv\_gltf\_view\_desc\_t;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00075\ \ \ \ \ GLboolean\ blend\_enabled;}
+\DoxyCodeLine{00076\ \ \ \ \ GLint\ blend\_src;}
+\DoxyCodeLine{00077\ \ \ \ \ GLint\ blend\_dst;}
+\DoxyCodeLine{00078\ \ \ \ \ GLint\ blend\_equation;}
+\DoxyCodeLine{00079\ \ \ \ \ GLfloat\ clear\_depth;}
+\DoxyCodeLine{00080\ \ \ \ \ GLfloat\ clear\_color[4];}
+\DoxyCodeLine{00081\ \}\ lv\_opengl\_state\_t;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00084\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ diffuse;}
+\DoxyCodeLine{00085\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ specular;}
+\DoxyCodeLine{00086\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ sheen;}
+\DoxyCodeLine{00087\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ggxLut;}
+\DoxyCodeLine{00088\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ charlie\_lut;}
+\DoxyCodeLine{00089\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ mip\_count;}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{float}\ ibl\_intensity\_scale;}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{float}\ angle;}
+\DoxyCodeLine{00092\ \}\ lv\_gltf\_view\_env\_textures\_t;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00095\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#include\ <fastgltf/math.hpp>}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#include\ <fastgltf/types.hpp>}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{struct\ }\_lv\_gltf\_t\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a2db8a3c08ce6dfc9e7b083f3aa02a0ac}{lv\_3dtexture\_t}}\ texture;}
+\DoxyCodeLine{00104\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a63b3a8fae8333693999b3f131ed1e398}{lv\_array\_t}}\ models;}
+\DoxyCodeLine{00105\ \ \ \ \ lv\_gltf\_view\_state\_t\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00106\ \ \ \ \ lv\_gltf\_view\_desc\_t\ desc;}
+\DoxyCodeLine{00107\ \ \ \ \ lv\_gltf\_view\_desc\_t\ last\_desc;}
+\DoxyCodeLine{00108\ \ \ \ \ lv\_opengl\_shader\_manager\_t\ shader\_manager;}
+\DoxyCodeLine{00109\ \ \ \ \ lv\_gltf\_view\_env\_textures\_t\ env\_textures;}
+\DoxyCodeLine{00110\ \ \ \ \ fastgltf::math::fmat4x4\ view\_matrix;}
+\DoxyCodeLine{00111\ \ \ \ \ fastgltf::math::fmat4x4\ projection\_matrix;}
+\DoxyCodeLine{00112\ \ \ \ \ fastgltf::math::fmat4x4\ view\_projection\_matrix;}
+\DoxyCodeLine{00113\ \ \ \ \ fastgltf::math::fvec3\ camera\_pos;}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ std::map<int32\_t,\ std::map<fastgltf::Node\ *,\ fastgltf::math::fmat4x4>>\ ibm\_by\_skin\_then\_node;}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00120\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00121\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ GLuint\ lv\_gltf\_view\_render(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a4b940c7bae978b9be1a1e1f0610ecebf}{lv\_gltf\_t}}\ *\ viewer);}
+\DoxyCodeLine{00124\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_gltf\_view\_shader\_injest\_discover\_defines(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a63b3a8fae8333693999b3f131ed1e398}{lv\_array\_t}}\ *\ result,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\ data,}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fastgltf::Node\ *\ node,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fastgltf::Primitive\ *\ prim);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ lv\_gltf\_shaderset\_t\ lv\_gltf\_view\_shader\_compile\_program(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a4b940c7bae978b9be1a1e1f0610ecebf}{lv\_gltf\_t}}\ *\ view,\ \textcolor{keyword}{const}\ lv\_opengl\_shader\_define\_t\ *\ defines,}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00132\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00133\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#endif}\textcolor{comment}{/*\ \_\_cplusplus*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GLTF*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_GLTF\_VIEW\_INTERNAL\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

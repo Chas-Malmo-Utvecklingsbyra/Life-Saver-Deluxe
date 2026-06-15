@@ -1,0 +1,544 @@
+\doxysection{magnetic-\/sensor/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+querier.c File Reference}
+\hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c}{}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c}\index{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_querier.c@{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_querier.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}sdkconfig.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+querier.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+send.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+pcb.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+netif.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+responder.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+service.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6f4749a76f5a736a3444b631a6bff091}{mdns\+\_\+priv\+\_\+query\+\_\+results\+\_\+free}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}results)
+\begin{DoxyCompactList}\small\item\em Free search results. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a30776fc438bf4f3945ab051b4d719f13}{search\+\_\+add}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search)
+\begin{DoxyCompactList}\small\item\em Add new search to the search chain. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6b238d77f16d93790b9988fd1e9ed671}{mdns\+\_\+priv\+\_\+query\+\_\+action}} (\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}action, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}} type)
+\begin{DoxyCompactList}\small\item\em Perform action from mdns service queue. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a09290d89b136558cdd6ba1cf2628f772}{mdns\+\_\+priv\+\_\+query\+\_\+start\+\_\+stop}} (void)
+\begin{DoxyCompactList}\small\item\em Called from timer task to run active searches. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9213f857ca86a9d60b0d4c0642df6c8d}{mdns\+\_\+priv\+\_\+query\+\_\+free}} (void)
+\begin{DoxyCompactList}\small\item\em Free search item queue. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a81445d66b7b6f0acadd6d0df2bdc8338}{mdns\+\_\+priv\+\_\+query\+\_\+done}} (void)
+\begin{DoxyCompactList}\small\item\em Called from parser to finish any searches that have reached maximum results. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a5a1204672d5eb68aa203e78549ca20cb}{mdns\+\_\+priv\+\_\+query\+\_\+find\+\_\+from}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}s, \doxymbox{\hyperlink{structmdns__name__t}{mdns\+\_\+name\+\_\+t}} \texorpdfstring{$\ast$}{*}name, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} type, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Called from packet parser to find matching running search. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab5ad916beda14217ac21bdffaa729e99}{mdns\+\_\+priv\+\_\+query\+\_\+find}} (\doxymbox{\hyperlink{structmdns__name__t}{mdns\+\_\+name\+\_\+t}} \texorpdfstring{$\ast$}{*}name, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} type, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Looks for the name/\+type in active search items. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4f3129db9a2bd307487fd5413c54fa44}{mdns\+\_\+priv\+\_\+query\+\_\+send}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Send search packet to particular interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a73d4c4079ca18135a0c89a6f9db5afef}{mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+txt}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, \doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}txt, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}txt\+\_\+value\+\_\+len, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} txt\+\_\+count, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} ttl)
+\begin{DoxyCompactList}\small\item\em Called from parser to add TXT data to search result. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab2a6b5f40f54b64c47289c44b29a9393}{mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+ip}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, const char \texorpdfstring{$\ast$}{*}hostname, esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}ip, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} ttl)
+\begin{DoxyCompactList}\small\item\em Called from parser to add A/\+\+AAAA data to search result. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a50cbf4e0ff4b625c169e1706a59316b7}{mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+srv}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, const char \texorpdfstring{$\ast$}{*}hostname, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} ttl)
+\begin{DoxyCompactList}\small\item\em Called from parser to add SRV data to search result. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9ec9222eb35c6cab3d241f802d47728e}{mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+ptr}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} ttl)
+\begin{DoxyCompactList}\small\item\em Called from parser to add PTR data to search result. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a350be1eb36105a12b5a5a558cbb4e8a0}{mdns\+\_\+priv\+\_\+result\+\_\+addr\+\_\+create\+\_\+ip}} (esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}ip)
+\begin{DoxyCompactList}\small\item\em Create linked IP (copy) from parsed one. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ad7a11c09688e313da1d3eccd03cfd99e}{mdns\+\_\+query\+\_\+results\+\_\+free}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}results)
+\begin{DoxyCompactList}\small\item\em MDNS\+\_\+\+PUBLIC\+\_\+\+API. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_af6d064e86da56a713e38c51b0c86d2b6}{mdns\+\_\+query\+\_\+async\+\_\+delete}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search)
+\begin{DoxyCompactList}\small\item\em Deletes the finished query. Call this only after the search has ended! \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4951d52996e21620767a272cd851e678}{mdns\+\_\+query\+\_\+async\+\_\+get\+\_\+results}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}search, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}results, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}num\+\_\+results)
+\begin{DoxyCompactList}\small\item\em Get results from search pointer. Results available as a pointer to the output parameter. \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to search object has to be deleted via {\ttfamily \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_af6d064e86da56a713e38c51b0c86d2b6}{mdns\+\_\+query\+\_\+async\+\_\+delete}} once the query has finished. The results although have to be freed manually. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aacb3eb216f66d7badaac7771ddd95ed7}{mdns\+\_\+query\+\_\+async\+\_\+new}} (const char \texorpdfstring{$\ast$}{*}name, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} type, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a94c9a720637875a50eef6e0436d9116d}{mdns\+\_\+query\+\_\+notify\+\_\+t}} notifier)
+\begin{DoxyCompactList}\small\item\em Query m\+DNS for host or service asynchronousely. Search has to be tested for progress and deleted manually! \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aaf6fd403b13119f1c64c77c59d3f00f5}{mdns\+\_\+query\+\_\+generic}} (const char \texorpdfstring{$\ast$}{*}name, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} type, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ac98ee14100356cdc89391b419d160475}{mdns\+\_\+query\+\_\+transmission\+\_\+type\+\_\+t}} transmission\+\_\+type, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}results)
+\begin{DoxyCompactList}\small\item\em Generic m\+DNS query All following query methods are derived from this one. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a75ef739fd2cf27f0f01616cf058ba1d5}{mdns\+\_\+query}} (const char \texorpdfstring{$\ast$}{*}name, const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} type, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}results)
+\begin{DoxyCompactList}\small\item\em Query m\+DNS for host or service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aa5d97950f9cd96767498a323ae9f1e95}{mdns\+\_\+query\+\_\+ptr}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}results)
+\begin{DoxyCompactList}\small\item\em Query m\+DNS for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab224847e1e7f836598fc6d61790fceb0}{mdns\+\_\+query\+\_\+srv}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}result)
+\begin{DoxyCompactList}\small\item\em Query m\+DNS for SRV record. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab6f8378734460668e28c11dc5355bda8}{mdns\+\_\+query\+\_\+txt}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}result)
+\begin{DoxyCompactList}\small\item\em Query m\+DNS for TXT record. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_doc-func-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6b238d77f16d93790b9988fd1e9ed671}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_action@{mdns\_priv\_query\_action}}
+\index{mdns\_priv\_query\_action@{mdns\_priv\_query\_action}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_action()}{mdns\_priv\_query\_action()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6b238d77f16d93790b9988fd1e9ed671} 
+void mdns\+\_\+priv\+\_\+query\+\_\+action (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{action}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}}}]{type}{}\end{DoxyParamCaption})}
+
+
+
+Perform action from mdns service queue. 
+
+\begin{DoxyNote}{Note}
+Called from the \+\_\+mdns\+\_\+service\+\_\+task() in mdns.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a81445d66b7b6f0acadd6d0df2bdc8338}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_done@{mdns\_priv\_query\_done}}
+\index{mdns\_priv\_query\_done@{mdns\_priv\_query\_done}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_done()}{mdns\_priv\_query\_done()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a81445d66b7b6f0acadd6d0df2bdc8338} 
+void mdns\+\_\+priv\+\_\+query\+\_\+done (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Called from parser to finish any searches that have reached maximum results. 
+
+Complete the query if max results reached.
+
+Called from parser to finish any searches that have reached maximum results.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser
+\end{DoxyNote}
+Complete the query if max results reached. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab5ad916beda14217ac21bdffaa729e99}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_find@{mdns\_priv\_query\_find}}
+\index{mdns\_priv\_query\_find@{mdns\_priv\_query\_find}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_find()}{mdns\_priv\_query\_find()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab5ad916beda14217ac21bdffaa729e99} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+query\+\_\+find (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__name__t}{mdns\+\_\+name\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{type}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Looks for the name/\+type in active search items. 
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+search results 
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a5a1204672d5eb68aa203e78549ca20cb}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_find\_from@{mdns\_priv\_query\_find\_from}}
+\index{mdns\_priv\_query\_find\_from@{mdns\_priv\_query\_find\_from}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_find\_from()}{mdns\_priv\_query\_find\_from()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a5a1204672d5eb68aa203e78549ca20cb} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+query\+\_\+find\+\_\+from (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{s}{, }\item[{\doxymbox{\hyperlink{structmdns__name__t}{mdns\+\_\+name\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{type}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Called from packet parser to find matching running search. 
+
+Looks for the name/\+type in the search items.
+
+Called from packet parser to find matching running search.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+Looks for the name/\+type in the search items. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9213f857ca86a9d60b0d4c0642df6c8d}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_free@{mdns\_priv\_query\_free}}
+\index{mdns\_priv\_query\_free@{mdns\_priv\_query\_free}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_free()}{mdns\_priv\_query\_free()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9213f857ca86a9d60b0d4c0642df6c8d} 
+void mdns\+\_\+priv\+\_\+query\+\_\+free (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Free search item queue. 
+
+\begin{DoxyNote}{Note}
+Called from \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a60085437d50474fff82bda1b027d9da3}{mdns\+\_\+free()} 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab2a6b5f40f54b64c47289c44b29a9393}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_result\_add\_ip@{mdns\_priv\_query\_result\_add\_ip}}
+\index{mdns\_priv\_query\_result\_add\_ip@{mdns\_priv\_query\_result\_add\_ip}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_result\_add\_ip()}{mdns\_priv\_query\_result\_add\_ip()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab2a6b5f40f54b64c47289c44b29a9393} 
+void mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+ip (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}}]{ip}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{ttl}{}\end{DoxyParamCaption})}
+
+
+
+Called from parser to add A/\+\+AAAA data to search result. 
+
+Add IP (A/\+\+AAAA records) to the search results.
+
+Called from parser to add A/\+\+AAAA data to search result.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+Add IP (A/\+\+AAAA records) to the search results. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9ec9222eb35c6cab3d241f802d47728e}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_result\_add\_ptr@{mdns\_priv\_query\_result\_add\_ptr}}
+\index{mdns\_priv\_query\_result\_add\_ptr@{mdns\_priv\_query\_result\_add\_ptr}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_result\_add\_ptr()}{mdns\_priv\_query\_result\_add\_ptr()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a9ec9222eb35c6cab3d241f802d47728e} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+ptr (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{ttl}{}\end{DoxyParamCaption})}
+
+
+
+Called from parser to add PTR data to search result. 
+
+Add PTR record to the search results.
+
+Called from parser to add PTR data to search result.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+Add PTR record to the search results. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a50cbf4e0ff4b625c169e1706a59316b7}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_result\_add\_srv@{mdns\_priv\_query\_result\_add\_srv}}
+\index{mdns\_priv\_query\_result\_add\_srv@{mdns\_priv\_query\_result\_add\_srv}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_result\_add\_srv()}{mdns\_priv\_query\_result\_add\_srv()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a50cbf4e0ff4b625c169e1706a59316b7} 
+void mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+srv (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{ttl}{}\end{DoxyParamCaption})}
+
+
+
+Called from parser to add SRV data to search result. 
+
+Add SRV record to the search results.
+
+Called from parser to add SRV data to search result.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+Add SRV record to the search results. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a73d4c4079ca18135a0c89a6f9db5afef}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_result\_add\_txt@{mdns\_priv\_query\_result\_add\_txt}}
+\index{mdns\_priv\_query\_result\_add\_txt@{mdns\_priv\_query\_result\_add\_txt}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_result\_add\_txt()}{mdns\_priv\_query\_result\_add\_txt()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a73d4c4079ca18135a0c89a6f9db5afef} 
+void mdns\+\_\+priv\+\_\+query\+\_\+result\+\_\+add\+\_\+txt (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{\doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{txt}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{txt\+\_\+value\+\_\+len}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{txt\+\_\+count}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{ttl}{}\end{DoxyParamCaption})}
+
+
+
+Called from parser to add TXT data to search result. 
+
+Add TXT item to the search results.
+
+Called from parser to add TXT data to search result.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser (mdns\+\_\+receive.\+c)
+\end{DoxyNote}
+Add TXT item to the search results. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6f4749a76f5a736a3444b631a6bff091}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_results\_free@{mdns\_priv\_query\_results\_free}}
+\index{mdns\_priv\_query\_results\_free@{mdns\_priv\_query\_results\_free}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_results\_free()}{mdns\_priv\_query\_results\_free()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a6f4749a76f5a736a3444b631a6bff091} 
+void mdns\+\_\+priv\+\_\+query\+\_\+results\+\_\+free (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{results}{}\end{DoxyParamCaption})}
+
+
+
+Free search results. 
+
+\begin{DoxyNote}{Note}
+Called from multiple modules (browser, querier, core) 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4f3129db9a2bd307487fd5413c54fa44}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_send@{mdns\_priv\_query\_send}}
+\index{mdns\_priv\_query\_send@{mdns\_priv\_query\_send}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_send()}{mdns\_priv\_query\_send()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4f3129db9a2bd307487fd5413c54fa44} 
+void mdns\+\_\+priv\+\_\+query\+\_\+send (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Send search packet to particular interface. 
+
+Send a search query packet on the specified interface and protocol.
+
+Send search packet to particular interface.
+
+Send a search query packet on the specified interface and protocol. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a09290d89b136558cdd6ba1cf2628f772}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_query\_start\_stop@{mdns\_priv\_query\_start\_stop}}
+\index{mdns\_priv\_query\_start\_stop@{mdns\_priv\_query\_start\_stop}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_query\_start\_stop()}{mdns\_priv\_query\_start\_stop()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a09290d89b136558cdd6ba1cf2628f772} 
+void mdns\+\_\+priv\+\_\+query\+\_\+start\+\_\+stop (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Called from timer task to run active searches. 
+
+Start or stop requested queries.
+
+Called from timer task to run active searches.
+
+\begin{DoxyNote}{Note}
+Called periodically from timer task in mdns.\+c
+\end{DoxyNote}
+Start or stop requested queries. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a350be1eb36105a12b5a5a558cbb4e8a0}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_priv\_result\_addr\_create\_ip@{mdns\_priv\_result\_addr\_create\_ip}}
+\index{mdns\_priv\_result\_addr\_create\_ip@{mdns\_priv\_result\_addr\_create\_ip}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_result\_addr\_create\_ip()}{mdns\_priv\_result\_addr\_create\_ip()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a350be1eb36105a12b5a5a558cbb4e8a0} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+result\+\_\+addr\+\_\+create\+\_\+ip (\begin{DoxyParamCaption}\item[{esp\+\_\+ip\+\_\+addr\+\_\+t \texorpdfstring{$\ast$}{*}}]{ip}{}\end{DoxyParamCaption})}
+
+
+
+Create linked IP (copy) from parsed one. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a75ef739fd2cf27f0f01616cf058ba1d5}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query@{mdns\_query}}
+\index{mdns\_query@{mdns\_query}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query()}{mdns\_query()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a75ef739fd2cf27f0f01616cf058ba1d5} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{type}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{results}{}\end{DoxyParamCaption})}
+
+
+
+Query m\+DNS for host or service. 
+
+Note that querying PTR types sends Multicast query, all other types send Unicast queries
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & service instance or host name (NULL for PTR queries) \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) (NULL for host queries) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) (NULL for host queries) \\
+\hline
+{\em type} & type of query (MDNS\+\_\+\+TYPE\+\_\+\texorpdfstring{$\ast$}{*}) \\
+\hline
+{\em timeout} & time in milliseconds to wait for answers. \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em results} & pointer to the results of the query results must be freed using mdns\+\_\+query\+\_\+results\+\_\+free below\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG timeout was not given 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_af6d064e86da56a713e38c51b0c86d2b6}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_async\_delete@{mdns\_query\_async\_delete}}
+\index{mdns\_query\_async\_delete@{mdns\_query\_async\_delete}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_async\_delete()}{mdns\_query\_async\_delete()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_af6d064e86da56a713e38c51b0c86d2b6} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query\+\_\+async\+\_\+delete (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{}\end{DoxyParamCaption})}
+
+
+
+Deletes the finished query. Call this only after the search has ended! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em search} & pointer to search object\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE search has not finished
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG pointer to search object is NULL 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4951d52996e21620767a272cd851e678}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_async\_get\_results@{mdns\_query\_async\_get\_results}}
+\index{mdns\_query\_async\_get\_results@{mdns\_query\_async\_get\_results}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_async\_get\_results()}{mdns\_query\_async\_get\_results()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a4951d52996e21620767a272cd851e678} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+query\+\_\+async\+\_\+get\+\_\+results (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{results}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{num\+\_\+results}{}\end{DoxyParamCaption})}
+
+
+
+Get results from search pointer. Results available as a pointer to the output parameter. \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to search object has to be deleted via {\ttfamily \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_af6d064e86da56a713e38c51b0c86d2b6}{mdns\+\_\+query\+\_\+async\+\_\+delete}} once the query has finished. The results although have to be freed manually. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em search} & pointer to search object \\
+\hline
+{\em timeout} & time in milliseconds to wait for answers \\
+\hline
+{\em results} & pointer to the results of the query \\
+\hline
+{\em num\+\_\+results} & pointer to the number of the actual result items (set to NULL to ignore this return value)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if search has finished before or at timeout False if search timeout is over 
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aacb3eb216f66d7badaac7771ddd95ed7}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_async\_new@{mdns\_query\_async\_new}}
+\index{mdns\_query\_async\_new@{mdns\_query\_async\_new}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_async\_new()}{mdns\_query\_async\_new()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aacb3eb216f66d7badaac7771ddd95ed7} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+query\+\_\+async\+\_\+new (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{type}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a94c9a720637875a50eef6e0436d9116d}{mdns\+\_\+query\+\_\+notify\+\_\+t}}}]{notifier}{}\end{DoxyParamCaption})}
+
+
+
+Query m\+DNS for host or service asynchronousely. Search has to be tested for progress and deleted manually! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & service instance or host name (NULL for PTR queries) \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) (NULL for host queries) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) (NULL for host queries) \\
+\hline
+{\em type} & type of query (MDNS\+\_\+\+TYPE\+\_\+\texorpdfstring{$\ast$}{*}) \\
+\hline
+{\em timeout} & time in milliseconds during which m\+DNS query is active \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em notifier} & Notification function to be called when the result is ready, can be NULL\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{structmdns__search__once__s}{mdns\+\_\+search\+\_\+once\+\_\+s} pointer to new search object if query initiated successfully. NULL otherwise. 
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aaf6fd403b13119f1c64c77c59d3f00f5}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_generic@{mdns\_query\_generic}}
+\index{mdns\_query\_generic@{mdns\_query\_generic}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_generic()}{mdns\_query\_generic()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aaf6fd403b13119f1c64c77c59d3f00f5} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query\+\_\+generic (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{type}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ac98ee14100356cdc89391b419d160475}{mdns\+\_\+query\+\_\+transmission\+\_\+type\+\_\+t}}}]{transmission\+\_\+type}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{results}{}\end{DoxyParamCaption})}
+
+
+
+Generic m\+DNS query All following query methods are derived from this one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & service instance or host name (NULL for PTR queries) \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) (NULL for host queries) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) (NULL for host queries) \\
+\hline
+{\em type} & type of query (MDNS\+\_\+\+TYPE\+\_\+\texorpdfstring{$\ast$}{*}) \\
+\hline
+{\em transmission\+\_\+type} & either Unicast query, or Multicast query \\
+\hline
+{\em timeout} & time in milliseconds to wait for answers. \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em results} & pointer to the results of the query results must be freed using mdns\+\_\+query\+\_\+results\+\_\+free below\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG timeout was not given 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aa5d97950f9cd96767498a323ae9f1e95}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_ptr@{mdns\_query\_ptr}}
+\index{mdns\_query\_ptr@{mdns\_query\_ptr}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_ptr()}{mdns\_query\_ptr()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_aa5d97950f9cd96767498a323ae9f1e95} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query\+\_\+ptr (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{results}{}\end{DoxyParamCaption})}
+
+
+
+Query m\+DNS for service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) \\
+\hline
+{\em timeout} & time in milliseconds to wait for answer. \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em results} & pointer to the results of the query\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ad7a11c09688e313da1d3eccd03cfd99e}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_results\_free@{mdns\_query\_results\_free}}
+\index{mdns\_query\_results\_free@{mdns\_query\_results\_free}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_results\_free()}{mdns\_query\_results\_free()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ad7a11c09688e313da1d3eccd03cfd99e} 
+void mdns\+\_\+query\+\_\+results\+\_\+free (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{results}{}\end{DoxyParamCaption})}
+
+
+
+MDNS\+\_\+\+PUBLIC\+\_\+\+API. 
+
+Free query results.
+
+MDNS\+\_\+\+PUBLIC\+\_\+\+API.
+
+
+\begin{DoxyParams}{Parameters}
+{\em results} & linked list of results to be freed\\
+\hline
+\end{DoxyParams}
+Free query results. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab224847e1e7f836598fc6d61790fceb0}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_srv@{mdns\_query\_srv}}
+\index{mdns\_query\_srv@{mdns\_query\_srv}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_srv()}{mdns\_query\_srv()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab224847e1e7f836598fc6d61790fceb0} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query\+\_\+srv (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{result}{}\end{DoxyParamCaption})}
+
+
+
+Query m\+DNS for SRV record. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & service instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) \\
+\hline
+{\em timeout} & time in milliseconds to wait for answer. \\
+\hline
+{\em result} & pointer to the result of the query\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab6f8378734460668e28c11dc5355bda8}\index{mdns\_querier.c@{mdns\_querier.c}!mdns\_query\_txt@{mdns\_query\_txt}}
+\index{mdns\_query\_txt@{mdns\_query\_txt}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_query\_txt()}{mdns\_query\_txt()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_ab6f8378734460668e28c11dc5355bda8} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+query\+\_\+txt (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{result}{}\end{DoxyParamCaption})}
+
+
+
+Query m\+DNS for TXT record. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & service instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+arduino, \+\_\+ftp etc.) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp, etc.) \\
+\hline
+{\em timeout} & time in milliseconds to wait for answer. \\
+\hline
+{\em result} & pointer to the result of the query\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a30776fc438bf4f3945ab051b4d719f13}\index{mdns\_querier.c@{mdns\_querier.c}!search\_add@{search\_add}}
+\index{search\_add@{search\_add}!mdns\_querier.c@{mdns\_querier.c}}
+\doxysubsubsection{\texorpdfstring{search\_add()}{search\_add()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__querier_8c_a30776fc438bf4f3945ab051b4d719f13} 
+void search\+\_\+add (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a8815240672c5880e798ca6655309c589}{mdns\+\_\+search\+\_\+once\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{search}{}\end{DoxyParamCaption})}
+
+
+
+Add new search to the search chain. 
+

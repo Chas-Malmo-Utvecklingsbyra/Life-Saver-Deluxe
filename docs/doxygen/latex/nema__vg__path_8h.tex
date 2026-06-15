@@ -1,0 +1,430 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+libs/\+nema\+\_\+gfx/\+include/\+nema\+\_\+vg\+\_\+path.h File Reference}
+\hypertarget{nema__vg__path_8h}{}\label{nema__vg__path_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_path.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_path.h}}
+
+
+Path operation related fuctions.  
+
+
+{\ttfamily \+\#include "{}nema\+\_\+interpolators.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+matrix3x3.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+sys\+\_\+defs.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+vg\+\_\+context.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ae5929cb90acc832e4c0c25e4be6c352f}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+CLOSE}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a57ee1439e5850e9ac89d72cdd77fc098}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a316b9f06155845f33e6dd74277ae95ac}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a117575af4827dcbb586b7288779b3e85}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE}}~(0x03U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a547ba2ebba2a8e13b38b92a22f1b18b1}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE}}~(0x04U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a0d044741e227dcd37381441ef1223e33}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD}}~(0x05U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ac636a3cbf11a91997552b1a6c7185237}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC}}~(0x06U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a5778d3bfec1e3c87797bea93ff724d9d}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD}}~(0x07U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ae1af51499537fbd899bb49cf7cf61a42}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC}}~(0x08U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}~(0x09U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a1cde001148957f7c40a08881b6370e8b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON}}~(0x0\+AU)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a4c5c02cc23df3e70e2c717d63a716295}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE}}~(0x0\+BU)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a613efd391b28ab270801f29dc747b788}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MASK}}~(0x0\+FU)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}}~(0x10U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE}}~(0x20U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW}}~(0x40U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a3add05d75a854aba804962d20ac7507b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   )
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a78535c1dae138dc146ce28ae02e76cdf}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW}} )
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a1f3961ee0c0e53515b3ded6be6524b52}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ae26694fc16dbd6fbec25fd8eefbe740e}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW}} \texorpdfstring{$\vert$}{|}\doxymbox{\hyperlink{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a7a6ad8cd8b42c1881362c370f015ce17}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a57ee1439e5850e9ac89d72cdd77fc098}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a284288e4b9ed298831b190751e89f0f2}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a316b9f06155845f33e6dd74277ae95ac}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a7e0d0fbe32564628d9416fd85e8c773e}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a117575af4827dcbb586b7288779b3e85}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a7caaead56f7bef8699c54b051d8f539a}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a547ba2ebba2a8e13b38b92a22f1b18b1}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a666cc7b4d4b3acec5f523e4bf5fe8e72}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a0d044741e227dcd37381441ef1223e33}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a8617e179780d6d1e8cf0f18ac00344f1}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_ac636a3cbf11a91997552b1a6c7185237}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_aef1577f20b90ee5e7efe626e800ed71f}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a5778d3bfec1e3c87797bea93ff724d9d}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_ac48cf51daa0c38df7bf3532ce6ccaee2}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_ae1af51499537fbd899bb49cf7cf61a42}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a6c5c1b85d968008a3f0102ec39a2ad69}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a3add05d75a854aba804962d20ac7507b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a6ddb6311c20180a6c9ff5a9f380f798b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a78535c1dae138dc146ce28ae02e76cdf}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a8b8598f13a059df81e4991ede0dc0963}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a1f3961ee0c0e53515b3ded6be6524b52}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a971396a998f9f6c2fd0e61bfcb85fa49}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_ae26694fc16dbd6fbec25fd8eefbe740e}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a755a76a77627dd10c7beaa3279c6ad16}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a1cde001148957f7c40a08881b6370e8b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__path_8h_a4360eae3e08817a14cafa53023114439}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE\+\_\+\+REL}}~(\doxymbox{\hyperlink{nema__vg__path_8h_a4c5c02cc23df3e70e2c717d63a716295}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} \doxymbox{\hyperlink{nema__vg__path_8h_a4cd96a80b9d3e3720fcc3c4f5ab48f8a}{nema\+\_\+vg\+\_\+path\+\_\+create}} ()
+\begin{DoxyCompactList}\small\item\em Create path. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__path_8h_a24406eea32e54c11162502add67bfdee}{nema\+\_\+vg\+\_\+path\+\_\+destroy}} (\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} path)
+\begin{DoxyCompactList}\small\item\em Destroy path. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__path_8h_a465c83bf3341dd015da8f7308257ede2}{nema\+\_\+vg\+\_\+path\+\_\+clear}} (\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} path)
+\begin{DoxyCompactList}\small\item\em Clear path. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__path_8h_a60a2ba6746342c23cf5e1be4558b9c8b}{nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape}} (\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} path, const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} seg\+\_\+size, const \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}seg, const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} data\+\_\+size, const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Set path shape (vertex buffer). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__path_8h_a7658060636256b05e773175d06b8d500}{nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape\+\_\+and\+\_\+bbox}} (\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} path, const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} seg\+\_\+size, const \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}seg, const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} data\+\_\+size, const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}data, const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}bbox)
+\begin{DoxyCompactList}\small\item\em Set path shape (vertex buffer) and bounding box. Same functionality as \doxylink{nema__vg__path_8h_a60a2ba6746342c23cf5e1be4558b9c8b}{nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape()} but bbox is given by user (reduces CPU utilization). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__path_8h_a3180f5580fbaa0ce795bfd697135273e}{nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+matrix}} (\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} path, \doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}} m)
+\begin{DoxyCompactList}\small\item\em Set affine transformation matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Path operation related fuctions. 
+
+
+
+\label{nema__vg__path_8h_doc-define-members}
+\Hypertarget{nema__vg__path_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_ARC\_CW@{NEMA\_VG\_ARC\_CW}}
+\index{NEMA\_VG\_ARC\_CW@{NEMA\_VG\_ARC\_CW}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ARC\_CW}{NEMA\_VG\_ARC\_CW}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW~(0x40U)}
+
+Clockwise arc segment \Hypertarget{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_ARC\_LARGE@{NEMA\_VG\_ARC\_LARGE}}
+\index{NEMA\_VG\_ARC\_LARGE@{NEMA\_VG\_ARC\_LARGE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ARC\_LARGE}{NEMA\_VG\_ARC\_LARGE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE~(0x20U)}
+
+Large arc segment \Hypertarget{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_ARC@{NEMA\_VG\_PRIM\_ARC}}
+\index{NEMA\_VG\_PRIM\_ARC@{NEMA\_VG\_PRIM\_ARC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_ARC}{NEMA\_VG\_PRIM\_ARC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC~(0x09U)}
+
+Arc segment \Hypertarget{nema__vg__path_8h_ac636a3cbf11a91997552b1a6c7185237}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_CUBIC@{NEMA\_VG\_PRIM\_BEZIER\_CUBIC}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_CUBIC@{NEMA\_VG\_PRIM\_BEZIER\_CUBIC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_CUBIC}{NEMA\_VG\_PRIM\_BEZIER\_CUBIC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ac636a3cbf11a91997552b1a6c7185237} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC~(0x06U)}
+
+Cubic bezier segment \Hypertarget{nema__vg__path_8h_a8617e179780d6d1e8cf0f18ac00344f1}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL@{NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL@{NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL}{NEMA\_VG\_PRIM\_BEZIER\_CUBIC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a8617e179780d6d1e8cf0f18ac00344f1} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_ac636a3cbf11a91997552b1a6c7185237}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+CUBIC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative cubic bezier segment \Hypertarget{nema__vg__path_8h_a0d044741e227dcd37381441ef1223e33}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_QUAD@{NEMA\_VG\_PRIM\_BEZIER\_QUAD}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_QUAD@{NEMA\_VG\_PRIM\_BEZIER\_QUAD}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_QUAD}{NEMA\_VG\_PRIM\_BEZIER\_QUAD}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a0d044741e227dcd37381441ef1223e33} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD~(0x05U)}
+
+Quadratic bezier segment \Hypertarget{nema__vg__path_8h_a666cc7b4d4b3acec5f523e4bf5fe8e72}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL@{NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL@{NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL}{NEMA\_VG\_PRIM\_BEZIER\_QUAD\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a666cc7b4d4b3acec5f523e4bf5fe8e72} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a0d044741e227dcd37381441ef1223e33}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+QUAD}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative quadratic bezier segment \Hypertarget{nema__vg__path_8h_ae1af51499537fbd899bb49cf7cf61a42}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_SCUBIC@{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC@{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC}{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ae1af51499537fbd899bb49cf7cf61a42} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC~(0x08U)}
+
+Smooth cubic bezier segment \Hypertarget{nema__vg__path_8h_ac48cf51daa0c38df7bf3532ce6ccaee2}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL@{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL@{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL}{NEMA\_VG\_PRIM\_BEZIER\_SCUBIC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ac48cf51daa0c38df7bf3532ce6ccaee2} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_ae1af51499537fbd899bb49cf7cf61a42}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SCUBIC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative smooth cubic bezier segment \Hypertarget{nema__vg__path_8h_a5778d3bfec1e3c87797bea93ff724d9d}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_SQUAD@{NEMA\_VG\_PRIM\_BEZIER\_SQUAD}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_SQUAD@{NEMA\_VG\_PRIM\_BEZIER\_SQUAD}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_SQUAD}{NEMA\_VG\_PRIM\_BEZIER\_SQUAD}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a5778d3bfec1e3c87797bea93ff724d9d} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD~(0x07U)}
+
+Smooth quadratic bezier segment \Hypertarget{nema__vg__path_8h_aef1577f20b90ee5e7efe626e800ed71f}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL@{NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL}}
+\index{NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL@{NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL}{NEMA\_VG\_PRIM\_BEZIER\_SQUAD\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_aef1577f20b90ee5e7efe626e800ed71f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a5778d3bfec1e3c87797bea93ff724d9d}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+BEZIER\+\_\+\+SQUAD}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative smooth quadratic bezier segment \Hypertarget{nema__vg__path_8h_ae5929cb90acc832e4c0c25e4be6c352f}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_CLOSE@{NEMA\_VG\_PRIM\_CLOSE}}
+\index{NEMA\_VG\_PRIM\_CLOSE@{NEMA\_VG\_PRIM\_CLOSE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_CLOSE}{NEMA\_VG\_PRIM\_CLOSE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ae5929cb90acc832e4c0c25e4be6c352f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+CLOSE~(0x00U)}
+
+Close segment \Hypertarget{nema__vg__path_8h_a117575af4827dcbb586b7288779b3e85}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_HLINE@{NEMA\_VG\_PRIM\_HLINE}}
+\index{NEMA\_VG\_PRIM\_HLINE@{NEMA\_VG\_PRIM\_HLINE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_HLINE}{NEMA\_VG\_PRIM\_HLINE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a117575af4827dcbb586b7288779b3e85} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE~(0x03U)}
+
+Horizontal line segment \Hypertarget{nema__vg__path_8h_a7e0d0fbe32564628d9416fd85e8c773e}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_HLINE\_REL@{NEMA\_VG\_PRIM\_HLINE\_REL}}
+\index{NEMA\_VG\_PRIM\_HLINE\_REL@{NEMA\_VG\_PRIM\_HLINE\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_HLINE\_REL}{NEMA\_VG\_PRIM\_HLINE\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a7e0d0fbe32564628d9416fd85e8c773e} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a117575af4827dcbb586b7288779b3e85}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+HLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative horizontal line segment \Hypertarget{nema__vg__path_8h_a1f3961ee0c0e53515b3ded6be6524b52}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LCCWARC@{NEMA\_VG\_PRIM\_LCCWARC}}
+\index{NEMA\_VG\_PRIM\_LCCWARC@{NEMA\_VG\_PRIM\_LCCWARC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LCCWARC}{NEMA\_VG\_PRIM\_LCCWARC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a1f3961ee0c0e53515b3ded6be6524b52} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE}})}
+
+Large counterclockwise arc segment \Hypertarget{nema__vg__path_8h_a8b8598f13a059df81e4991ede0dc0963}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LCCWARC\_REL@{NEMA\_VG\_PRIM\_LCCWARC\_REL}}
+\index{NEMA\_VG\_PRIM\_LCCWARC\_REL@{NEMA\_VG\_PRIM\_LCCWARC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LCCWARC\_REL}{NEMA\_VG\_PRIM\_LCCWARC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a8b8598f13a059df81e4991ede0dc0963} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a1f3961ee0c0e53515b3ded6be6524b52}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCCWARC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative lareg counterclockwise arc segment \Hypertarget{nema__vg__path_8h_ae26694fc16dbd6fbec25fd8eefbe740e}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LCWARC@{NEMA\_VG\_PRIM\_LCWARC}}
+\index{NEMA\_VG\_PRIM\_LCWARC@{NEMA\_VG\_PRIM\_LCWARC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LCWARC}{NEMA\_VG\_PRIM\_LCWARC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ae26694fc16dbd6fbec25fd8eefbe740e} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW}} \texorpdfstring{$\vert$}{|}\doxymbox{\hyperlink{nema__vg__path_8h_a475653cb7aeee75a2be95c769afc2683}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+LARGE}})}
+
+Large clockwise arc segment \Hypertarget{nema__vg__path_8h_a971396a998f9f6c2fd0e61bfcb85fa49}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LCWARC\_REL@{NEMA\_VG\_PRIM\_LCWARC\_REL}}
+\index{NEMA\_VG\_PRIM\_LCWARC\_REL@{NEMA\_VG\_PRIM\_LCWARC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LCWARC\_REL}{NEMA\_VG\_PRIM\_LCWARC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a971396a998f9f6c2fd0e61bfcb85fa49} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_ae26694fc16dbd6fbec25fd8eefbe740e}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LCWARC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative lareg rclockwise arc segment \Hypertarget{nema__vg__path_8h_a316b9f06155845f33e6dd74277ae95ac}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LINE@{NEMA\_VG\_PRIM\_LINE}}
+\index{NEMA\_VG\_PRIM\_LINE@{NEMA\_VG\_PRIM\_LINE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LINE}{NEMA\_VG\_PRIM\_LINE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a316b9f06155845f33e6dd74277ae95ac} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE~(0x02U)}
+
+Line segment \Hypertarget{nema__vg__path_8h_a284288e4b9ed298831b190751e89f0f2}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_LINE\_REL@{NEMA\_VG\_PRIM\_LINE\_REL}}
+\index{NEMA\_VG\_PRIM\_LINE\_REL@{NEMA\_VG\_PRIM\_LINE\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_LINE\_REL}{NEMA\_VG\_PRIM\_LINE\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a284288e4b9ed298831b190751e89f0f2} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a316b9f06155845f33e6dd74277ae95ac}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+LINE}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative line segment \Hypertarget{nema__vg__path_8h_a613efd391b28ab270801f29dc747b788}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_MASK@{NEMA\_VG\_PRIM\_MASK}}
+\index{NEMA\_VG\_PRIM\_MASK@{NEMA\_VG\_PRIM\_MASK}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_MASK}{NEMA\_VG\_PRIM\_MASK}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a613efd391b28ab270801f29dc747b788} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MASK~(0x0\+FU)}
+
+Mask for all segments \Hypertarget{nema__vg__path_8h_a57ee1439e5850e9ac89d72cdd77fc098}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_MOVE@{NEMA\_VG\_PRIM\_MOVE}}
+\index{NEMA\_VG\_PRIM\_MOVE@{NEMA\_VG\_PRIM\_MOVE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_MOVE}{NEMA\_VG\_PRIM\_MOVE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a57ee1439e5850e9ac89d72cdd77fc098} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE~(0x01U)}
+
+Move segment \Hypertarget{nema__vg__path_8h_a7a6ad8cd8b42c1881362c370f015ce17}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_MOVE\_REL@{NEMA\_VG\_PRIM\_MOVE\_REL}}
+\index{NEMA\_VG\_PRIM\_MOVE\_REL@{NEMA\_VG\_PRIM\_MOVE\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_MOVE\_REL}{NEMA\_VG\_PRIM\_MOVE\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a7a6ad8cd8b42c1881362c370f015ce17} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a57ee1439e5850e9ac89d72cdd77fc098}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+MOVE}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative move segment \Hypertarget{nema__vg__path_8h_a1cde001148957f7c40a08881b6370e8b}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_POLYGON@{NEMA\_VG\_PRIM\_POLYGON}}
+\index{NEMA\_VG\_PRIM\_POLYGON@{NEMA\_VG\_PRIM\_POLYGON}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_POLYGON}{NEMA\_VG\_PRIM\_POLYGON}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a1cde001148957f7c40a08881b6370e8b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON~(0x0\+AU)}
+
+Polygon segment \Hypertarget{nema__vg__path_8h_a755a76a77627dd10c7beaa3279c6ad16}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_POLYGON\_REL@{NEMA\_VG\_PRIM\_POLYGON\_REL}}
+\index{NEMA\_VG\_PRIM\_POLYGON\_REL@{NEMA\_VG\_PRIM\_POLYGON\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_POLYGON\_REL}{NEMA\_VG\_PRIM\_POLYGON\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a755a76a77627dd10c7beaa3279c6ad16} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a1cde001148957f7c40a08881b6370e8b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYGON}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative polygon segment \Hypertarget{nema__vg__path_8h_a4c5c02cc23df3e70e2c717d63a716295}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_POLYLINE@{NEMA\_VG\_PRIM\_POLYLINE}}
+\index{NEMA\_VG\_PRIM\_POLYLINE@{NEMA\_VG\_PRIM\_POLYLINE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_POLYLINE}{NEMA\_VG\_PRIM\_POLYLINE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a4c5c02cc23df3e70e2c717d63a716295} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE~(0x0\+BU)}
+
+Polyline segment \Hypertarget{nema__vg__path_8h_a4360eae3e08817a14cafa53023114439}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_POLYLINE\_REL@{NEMA\_VG\_PRIM\_POLYLINE\_REL}}
+\index{NEMA\_VG\_PRIM\_POLYLINE\_REL@{NEMA\_VG\_PRIM\_POLYLINE\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_POLYLINE\_REL}{NEMA\_VG\_PRIM\_POLYLINE\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a4360eae3e08817a14cafa53023114439} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a4c5c02cc23df3e70e2c717d63a716295}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+POLYLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative polyline segment \Hypertarget{nema__vg__path_8h_a3add05d75a854aba804962d20ac7507b}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_SCCWARC@{NEMA\_VG\_PRIM\_SCCWARC}}
+\index{NEMA\_VG\_PRIM\_SCCWARC@{NEMA\_VG\_PRIM\_SCCWARC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_SCCWARC}{NEMA\_VG\_PRIM\_SCCWARC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a3add05d75a854aba804962d20ac7507b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   )}
+
+Small counterclockwise arc segment \Hypertarget{nema__vg__path_8h_a6c5c1b85d968008a3f0102ec39a2ad69}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_SCCWARC\_REL@{NEMA\_VG\_PRIM\_SCCWARC\_REL}}
+\index{NEMA\_VG\_PRIM\_SCCWARC\_REL@{NEMA\_VG\_PRIM\_SCCWARC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_SCCWARC\_REL}{NEMA\_VG\_PRIM\_SCCWARC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a6c5c1b85d968008a3f0102ec39a2ad69} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a3add05d75a854aba804962d20ac7507b}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCCWARC}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative small counterclockwise arc segment \Hypertarget{nema__vg__path_8h_a78535c1dae138dc146ce28ae02e76cdf}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_SCWARC@{NEMA\_VG\_PRIM\_SCWARC}}
+\index{NEMA\_VG\_PRIM\_SCWARC@{NEMA\_VG\_PRIM\_SCWARC}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_SCWARC}{NEMA\_VG\_PRIM\_SCWARC}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a78535c1dae138dc146ce28ae02e76cdf} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC~(\doxymbox{\hyperlink{nema__vg__path_8h_a7bb9c0a9adc30d6273aac455dc24de44}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+ARC}}   \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac0e35860664c6b2173a2cb8f52567cd6}{NEMA\+\_\+\+VG\+\_\+\+ARC\+\_\+\+CW}} )}
+
+Small clockwise arc segment \Hypertarget{nema__vg__path_8h_a6ddb6311c20180a6c9ff5a9f380f798b}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_SCWARC\_REL@{NEMA\_VG\_PRIM\_SCWARC\_REL}}
+\index{NEMA\_VG\_PRIM\_SCWARC\_REL@{NEMA\_VG\_PRIM\_SCWARC\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_SCWARC\_REL}{NEMA\_VG\_PRIM\_SCWARC\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a6ddb6311c20180a6c9ff5a9f380f798b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a78535c1dae138dc146ce28ae02e76cdf}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+SCWARC}}  \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative small clockwise arc segment \Hypertarget{nema__vg__path_8h_a547ba2ebba2a8e13b38b92a22f1b18b1}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_VLINE@{NEMA\_VG\_PRIM\_VLINE}}
+\index{NEMA\_VG\_PRIM\_VLINE@{NEMA\_VG\_PRIM\_VLINE}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_VLINE}{NEMA\_VG\_PRIM\_VLINE}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a547ba2ebba2a8e13b38b92a22f1b18b1} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE~(0x04U)}
+
+Vertical line segment \Hypertarget{nema__vg__path_8h_a7caaead56f7bef8699c54b051d8f539a}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_PRIM\_VLINE\_REL@{NEMA\_VG\_PRIM\_VLINE\_REL}}
+\index{NEMA\_VG\_PRIM\_VLINE\_REL@{NEMA\_VG\_PRIM\_VLINE\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PRIM\_VLINE\_REL}{NEMA\_VG\_PRIM\_VLINE\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a7caaead56f7bef8699c54b051d8f539a} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE\+\_\+\+REL~(\doxymbox{\hyperlink{nema__vg__path_8h_a547ba2ebba2a8e13b38b92a22f1b18b1}{NEMA\+\_\+\+VG\+\_\+\+PRIM\+\_\+\+VLINE}} \texorpdfstring{$\vert$}{|} \doxymbox{\hyperlink{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}{NEMA\+\_\+\+VG\+\_\+\+REL}})}
+
+Relative vertical line segment \Hypertarget{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!NEMA\_VG\_REL@{NEMA\_VG\_REL}}
+\index{NEMA\_VG\_REL@{NEMA\_VG\_REL}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_REL}{NEMA\_VG\_REL}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_ac5dd6e4b828a52d07525a0682bac5e2a} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+REL~(0x10U)}
+
+Rel segment 
+
+\label{nema__vg__path_8h_doc-func-members}
+\Hypertarget{nema__vg__path_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{nema__vg__path_8h_a465c83bf3341dd015da8f7308257ede2}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_clear@{nema\_vg\_path\_clear}}
+\index{nema\_vg\_path\_clear@{nema\_vg\_path\_clear}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_clear()}{nema\_vg\_path\_clear()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a465c83bf3341dd015da8f7308257ede2} 
+void nema\+\_\+vg\+\_\+path\+\_\+clear (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Clear path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to Path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__path_8h_a4cd96a80b9d3e3720fcc3c4f5ab48f8a}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_create@{nema\_vg\_path\_create}}
+\index{nema\_vg\_path\_create@{nema\_vg\_path\_create}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_create()}{nema\_vg\_path\_create()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a4cd96a80b9d3e3720fcc3c4f5ab48f8a} 
+\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}} nema\+\_\+vg\+\_\+path\+\_\+create (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Create path. 
+
+\begin{DoxyReturn}{Returns}
+Created path 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__path_8h_a24406eea32e54c11162502add67bfdee}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_destroy@{nema\_vg\_path\_destroy}}
+\index{nema\_vg\_path\_destroy@{nema\_vg\_path\_destroy}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_destroy()}{nema\_vg\_path\_destroy()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a24406eea32e54c11162502add67bfdee} 
+void nema\+\_\+vg\+\_\+path\+\_\+destroy (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Destroy path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to Path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__path_8h_a3180f5580fbaa0ce795bfd697135273e}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_set\_matrix@{nema\_vg\_path\_set\_matrix}}
+\index{nema\_vg\_path\_set\_matrix@{nema\_vg\_path\_set\_matrix}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_set\_matrix()}{nema\_vg\_path\_set\_matrix()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a3180f5580fbaa0ce795bfd697135273e} 
+void nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+matrix (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}}]{path}{, }\item[{\doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}}}]{m}{}\end{DoxyParamCaption})}
+
+
+
+Set affine transformation matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to path \\
+\hline
+{\em m} & 3x3 affine transformation matrix \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__path_8h_a60a2ba6746342c23cf5e1be4558b9c8b}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_set\_shape@{nema\_vg\_path\_set\_shape}}
+\index{nema\_vg\_path\_set\_shape@{nema\_vg\_path\_set\_shape}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_set\_shape()}{nema\_vg\_path\_set\_shape()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a60a2ba6746342c23cf5e1be4558b9c8b} 
+void nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}}]{path}{, }\item[{const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{seg\+\_\+size}{, }\item[{const \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{seg}{, }\item[{const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{data\+\_\+size}{, }\item[{const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Set path shape (vertex buffer). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to path \\
+\hline
+{\em seg\+\_\+size} & Number of segments to be added \\
+\hline
+{\em seg} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to segments \\
+\hline
+{\em data\+\_\+size} & Number of data to be added \\
+\hline
+{\em data} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to coordinates \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__path_8h_a7658060636256b05e773175d06b8d500}\index{nema\_vg\_path.h@{nema\_vg\_path.h}!nema\_vg\_path\_set\_shape\_and\_bbox@{nema\_vg\_path\_set\_shape\_and\_bbox}}
+\index{nema\_vg\_path\_set\_shape\_and\_bbox@{nema\_vg\_path\_set\_shape\_and\_bbox}!nema\_vg\_path.h@{nema\_vg\_path.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_path\_set\_shape\_and\_bbox()}{nema\_vg\_path\_set\_shape\_and\_bbox()}}
+{\footnotesize\ttfamily \label{nema__vg__path_8h_a7658060636256b05e773175d06b8d500} 
+void nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape\+\_\+and\+\_\+bbox (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}}]{path}{, }\item[{const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{seg\+\_\+size}{, }\item[{const \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{seg}{, }\item[{const \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{data\+\_\+size}{, }\item[{const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{const \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{bbox}{}\end{DoxyParamCaption})}
+
+
+
+Set path shape (vertex buffer) and bounding box. Same functionality as \doxylink{nema__vg__path_8h_a60a2ba6746342c23cf5e1be4558b9c8b}{nema\+\_\+vg\+\_\+path\+\_\+set\+\_\+shape()} but bbox is given by user (reduces CPU utilization). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to path \\
+\hline
+{\em seg\+\_\+size} & Number of segments to be added \\
+\hline
+{\em seg} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to segments \\
+\hline
+{\em data\+\_\+size} & Number of data to be added \\
+\hline
+{\em data} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to coordinates \\
+\hline
+{\em bbox} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to shape bound box coordinates \{min\+\_\+x, min\+\_\+y, max\+\_\+x, max\+\_\+y\} \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,930 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+core/\+lv\+\_\+obj\+\_\+pos.c File Reference}
+\hypertarget{lv__obj__pos_8c}{}\label{lv__obj__pos_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_pos.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_pos.c}}
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+layouts/\+lv\+\_\+layout\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+event\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+draw\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+style\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+refr\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+core/\+lv\+\_\+global.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__pos_8c_a9be806f23ad96997f1d62c1a6dfabe05}{MY\+\_\+\+CLASS}}~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__pos_8c_aa4ef5d93f3ffff5c0c6db4fc99f1e5cf}{update\+\_\+layout\+\_\+mutex}}~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$layout\+\_\+update\+\_\+mutex
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_aa50eae89f0d1c7c00ed54277d26bd6bc}{lv\+\_\+obj\+\_\+set\+\_\+pos}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ae4d2e864c07d109fefa800fff8a7af43}{lv\+\_\+obj\+\_\+set\+\_\+x}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a6e4882237bf9055fa73776d0a73190e4}{lv\+\_\+obj\+\_\+set\+\_\+y}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_ad5602b51d87e98b71317c051883e5607}{lv\+\_\+obj\+\_\+refr\+\_\+size}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_acf9074095fa19743516426d51c1197a6}{lv\+\_\+obj\+\_\+set\+\_\+size}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} w, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} h)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_af98cbbed1160a07573c0935017a8be8b}{lv\+\_\+obj\+\_\+set\+\_\+width}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} w)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a51ac235f71230d4a26ac7f4a39de6241}{lv\+\_\+obj\+\_\+set\+\_\+height}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} h)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ac7573727dc3015b053ce94638e3da46f}{lv\+\_\+obj\+\_\+set\+\_\+content\+\_\+width}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} w)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ad79b45d6365c7051f6af49693f320ffe}{lv\+\_\+obj\+\_\+set\+\_\+content\+\_\+height}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} h)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a052fe29bc53773a4b290460d5dbf073c}{lv\+\_\+obj\+\_\+set\+\_\+layout}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} layout)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_af71b05975a91f3dfddaf28fbe96fe4eb}{lv\+\_\+obj\+\_\+is\+\_\+layout\+\_\+positioned}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_aa5cb16ea6fdd8ff7ae6838a4e3b6f826}{lv\+\_\+obj\+\_\+mark\+\_\+layout\+\_\+as\+\_\+dirty}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_aff54da7280d2ddf3a84db3d08c3bce83}{lv\+\_\+obj\+\_\+update\+\_\+layout}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a192cd7c57b803c251691556178a111d8}{lv\+\_\+obj\+\_\+set\+\_\+align}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}} align)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_acbda1c47d058b7179babd9893ef9ab7b}{lv\+\_\+obj\+\_\+align}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}} align, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x\+\_\+ofs, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y\+\_\+ofs)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a380d98e1590f70e60a6a85aa86d62490}{lv\+\_\+obj\+\_\+align\+\_\+to}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}base, \doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}} align, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x\+\_\+ofs, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y\+\_\+ofs)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ac6ad8c741536203b984fc628dbb4f9f8}{lv\+\_\+obj\+\_\+get\+\_\+coords}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}coords)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_af79135c550341030fdbb3b96c1f1131b}{lv\+\_\+obj\+\_\+get\+\_\+x}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a4f8010c7fe0b4bcca5846208dbbed338}{lv\+\_\+obj\+\_\+get\+\_\+x2}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a61ff8337022deb193d515f826b8a4ac4}{lv\+\_\+obj\+\_\+get\+\_\+y}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a6bbbfc1062434addc6e8e4a0c2230f55}{lv\+\_\+obj\+\_\+get\+\_\+y2}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a387b53a8821bb9280541cca867271a2e}{lv\+\_\+obj\+\_\+get\+\_\+x\+\_\+aligned}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_ac8ae381368a64689f5070d47e7f9b574}{lv\+\_\+obj\+\_\+get\+\_\+y\+\_\+aligned}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a9913a0b002f05268ab8f0c17eb7822b9}{lv\+\_\+obj\+\_\+get\+\_\+width}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a5c918c21d1b871be645c9068fa5c9da2}{lv\+\_\+obj\+\_\+get\+\_\+height}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a0d6054e42539e675b8c696a4403bc755}{lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+width}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_af2c0032e9588811c403442e7d4153614}{lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+height}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ab9db89a5ff6607c14ba1fe59f6bb7c12}{lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+coords}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_af14f9b87dfb64ce2f8f0c5a3edee84d7}{lv\+\_\+obj\+\_\+get\+\_\+self\+\_\+width}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_ad74282f19ca9cbff54d4726feee5fb75}{lv\+\_\+obj\+\_\+get\+\_\+self\+\_\+height}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_aa751e6933cd6346061dc027dc4db7c1f}{lv\+\_\+obj\+\_\+refresh\+\_\+self\+\_\+size}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a7addb60cc2046e2402f3415ea475628f}{lv\+\_\+obj\+\_\+refr\+\_\+pos}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a5a0a061a771e21d8958c19d5d12f04fa}{lv\+\_\+obj\+\_\+move\+\_\+to}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_abdb9464b27a6acb9c044e764e7025dcc}{lv\+\_\+obj\+\_\+move\+\_\+children\+\_\+by}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} x\+\_\+diff, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} y\+\_\+diff, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} ignore\+\_\+floating)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a95c468ddd5d78f0b32a637ef6c0aba5f}{lv\+\_\+obj\+\_\+transform\+\_\+point}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}p, \doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} flags)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_aaea07e3e1ddd18b35643eb1d69d61486}{lv\+\_\+obj\+\_\+transform\+\_\+point\+\_\+array}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} points\+[$\,$]\+, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} count, \doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} flags)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_ab7a46f0d1aa045e964f273ae138455a0}{lv\+\_\+obj\+\_\+get\+\_\+transformed\+\_\+area}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area, \doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} flags)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a33a0a3c2c2861391f3b0e58cfe39914a}{lv\+\_\+obj\+\_\+invalidate\+\_\+area}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_aad66ca3c74dbc0c194bd5135fa18d033}{lv\+\_\+obj\+\_\+invalidate}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_a27761185063c6244fddaada1f2c25df8}{lv\+\_\+obj\+\_\+area\+\_\+is\+\_\+visible}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_ad819f34bbb76a7ddba5c75e24ebfb687}{lv\+\_\+obj\+\_\+is\+\_\+visible}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a58df8aa0991a9c85b9683d575da0d83d}{lv\+\_\+obj\+\_\+set\+\_\+ext\+\_\+click\+\_\+area}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} size)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a7dc3ca5a9fe3639efd16af4035dd96b1}{lv\+\_\+obj\+\_\+get\+\_\+click\+\_\+area}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}area)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__obj__pos_8c_a253539963e6740ee924d843e37fde7a5}{lv\+\_\+obj\+\_\+hit\+\_\+test}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}point)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_ac926a7f45d8234aa9a3cf97c772f434f}{lv\+\_\+clamp\+\_\+width}} (\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} width, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} min\+\_\+width, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} max\+\_\+width, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} ref\+\_\+width)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__pos_8c_a373b3643a04f145a16f16a7de334c98e}{lv\+\_\+clamp\+\_\+height}} (\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} height, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} min\+\_\+height, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} max\+\_\+height, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} ref\+\_\+height)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a21d7569df12139c33619786d4ff63dcf}{lv\+\_\+obj\+\_\+center}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a3ffa3fec5daa922d31df8f086de0541b}{lv\+\_\+obj\+\_\+set\+\_\+transform}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aecc04bfa364c7b83d110a05b4fb24495}{lv\+\_\+matrix\+\_\+t}} \texorpdfstring{$\ast$}{*}matrix)
+\item 
+void \doxymbox{\hyperlink{lv__obj__pos_8c_a4ebb4e4142d3d71eab181ef26c37de45}{lv\+\_\+obj\+\_\+reset\+\_\+transform}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aecc04bfa364c7b83d110a05b4fb24495}{lv\+\_\+matrix\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__pos_8c_a999cc01b79acd5598bf398c047170f25}{lv\+\_\+obj\+\_\+get\+\_\+transform}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\end{DoxyCompactItemize}
+
+
+\label{lv__obj__pos_8c_doc-define-members}
+\Hypertarget{lv__obj__pos_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__obj__pos_8c_a9be806f23ad96997f1d62c1a6dfabe05}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!MY\_CLASS@{MY\_CLASS}}
+\index{MY\_CLASS@{MY\_CLASS}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{MY\_CLASS}{MY\_CLASS}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a9be806f23ad96997f1d62c1a6dfabe05} 
+\+\#define MY\+\_\+\+CLASS~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})}
+
+\Hypertarget{lv__obj__pos_8c_aa4ef5d93f3ffff5c0c6db4fc99f1e5cf}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!update\_layout\_mutex@{update\_layout\_mutex}}
+\index{update\_layout\_mutex@{update\_layout\_mutex}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{update\_layout\_mutex}{update\_layout\_mutex}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aa4ef5d93f3ffff5c0c6db4fc99f1e5cf} 
+\+\#define update\+\_\+layout\+\_\+mutex~\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$layout\+\_\+update\+\_\+mutex}
+
+
+
+\label{lv__obj__pos_8c_doc-func-members}
+\Hypertarget{lv__obj__pos_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__obj__pos_8c_a373b3643a04f145a16f16a7de334c98e}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_clamp\_height@{lv\_clamp\_height}}
+\index{lv\_clamp\_height@{lv\_clamp\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_clamp\_height()}{lv\_clamp\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a373b3643a04f145a16f16a7de334c98e} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+clamp\+\_\+height (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{height}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{min\+\_\+height}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{max\+\_\+height}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{ref\+\_\+height}{}\end{DoxyParamCaption})}
+
+Clamp a height between min and max height. If the min/\+max height is in percentage value use the ref\+\_\+height 
+\begin{DoxyParams}{Parameters}
+{\em height} & height to clamp \\
+\hline
+{\em min\+\_\+height} & the minimal height \\
+\hline
+{\em max\+\_\+height} & the maximal height \\
+\hline
+{\em ref\+\_\+height} & the reference height used when min/\+max height is in percentage \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the clamped height 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_ac926a7f45d8234aa9a3cf97c772f434f}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_clamp\_width@{lv\_clamp\_width}}
+\index{lv\_clamp\_width@{lv\_clamp\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_clamp\_width()}{lv\_clamp\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ac926a7f45d8234aa9a3cf97c772f434f} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+clamp\+\_\+width (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{width}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{min\+\_\+width}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{max\+\_\+width}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{ref\+\_\+width}{}\end{DoxyParamCaption})}
+
+Clamp a width between min and max width. If the min/\+max width is in percentage value use the ref\+\_\+width 
+\begin{DoxyParams}{Parameters}
+{\em width} & width to clamp \\
+\hline
+{\em min\+\_\+width} & the minimal width \\
+\hline
+{\em max\+\_\+width} & the maximal width \\
+\hline
+{\em ref\+\_\+width} & the reference width used when min/\+max width is in percentage \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the clamped width 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_acbda1c47d058b7179babd9893ef9ab7b}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_align@{lv\_obj\_align}}
+\index{lv\_obj\_align@{lv\_obj\_align}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_align()}{lv\_obj\_align()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_acbda1c47d058b7179babd9893ef9ab7b} 
+void lv\+\_\+obj\+\_\+align (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}}}]{align}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x\+\_\+ofs}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y\+\_\+ofs}{}\end{DoxyParamCaption})}
+
+Change the alignment of an object and set new coordinates. Equivalent to:\+ lv\+\_\+obj\+\_\+set\+\_\+align(obj, align); lv\+\_\+obj\+\_\+set\+\_\+pos(obj, x\+\_\+ofs, y\+\_\+ofs); 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to align \\
+\hline
+{\em align} & type of alignment (see \textquotesingle{}\doxylink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}\textquotesingle{} enum) {\ttfamily LV\+\_\+\+ALIGN\+\_\+\+OUT\+\_\+...} can\textquotesingle{}t be used. \\
+\hline
+{\em x\+\_\+ofs} & x coordinate offset after alignment \\
+\hline
+{\em y\+\_\+ofs} & y coordinate offset after alignment \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a380d98e1590f70e60a6a85aa86d62490}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_align\_to@{lv\_obj\_align\_to}}
+\index{lv\_obj\_align\_to@{lv\_obj\_align\_to}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_align\_to()}{lv\_obj\_align\_to()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a380d98e1590f70e60a6a85aa86d62490} 
+void lv\+\_\+obj\+\_\+align\+\_\+to (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{base}{, }\item[{\doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}}}]{align}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x\+\_\+ofs}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y\+\_\+ofs}{}\end{DoxyParamCaption})}
+
+Align an object to another object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to align \\
+\hline
+{\em base} & pointer to another object (if NULL {\ttfamily obj}s parent is used). \textquotesingle{}obj\textquotesingle{} will be aligned to it. \\
+\hline
+{\em align} & type of alignment (see \textquotesingle{}\doxylink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}\textquotesingle{} enum) \\
+\hline
+{\em x\+\_\+ofs} & x coordinate offset after alignment \\
+\hline
+{\em y\+\_\+ofs} & y coordinate offset after alignment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+if the position or size of {\ttfamily base} changes {\ttfamily obj} needs to be aligned manually again 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a27761185063c6244fddaada1f2c25df8}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_area\_is\_visible@{lv\_obj\_area\_is\_visible}}
+\index{lv\_obj\_area\_is\_visible@{lv\_obj\_area\_is\_visible}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_area\_is\_visible()}{lv\_obj\_area\_is\_visible()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a27761185063c6244fddaada1f2c25df8} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+area\+\_\+is\+\_\+visible (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Tell whether an area of an object is visible (even partially) now or not 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em area} & the are to check. The visible part of the area will be written back here. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true visible; false not visible (hidden, out of parent, on other screen, etc) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_a21d7569df12139c33619786d4ff63dcf}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_center@{lv\_obj\_center}}
+\index{lv\_obj\_center@{lv\_obj\_center}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_center()}{lv\_obj\_center()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a21d7569df12139c33619786d4ff63dcf} 
+void lv\+\_\+obj\+\_\+center (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Align an object to the center on its parent. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to align \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+if the parent size changes {\ttfamily obj} needs to be aligned manually again 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a7dc3ca5a9fe3639efd16af4035dd96b1}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_click\_area@{lv\_obj\_get\_click\_area}}
+\index{lv\_obj\_get\_click\_area@{lv\_obj\_get\_click\_area}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_click\_area()}{lv\_obj\_get\_click\_area()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a7dc3ca5a9fe3639efd16af4035dd96b1} 
+void lv\+\_\+obj\+\_\+get\+\_\+click\+\_\+area (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Get the an area where to object can be clicked. It\textquotesingle{}s the object\textquotesingle{}s normal area plus the extended click area. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em area} & store the result area here \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_ab9db89a5ff6607c14ba1fe59f6bb7c12}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_content\_coords@{lv\_obj\_get\_content\_coords}}
+\index{lv\_obj\_get\_content\_coords@{lv\_obj\_get\_content\_coords}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_content\_coords()}{lv\_obj\_get\_content\_coords()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ab9db89a5ff6607c14ba1fe59f6bb7c12} 
+void lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+coords (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Get the area reduced by the paddings and the border width. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em area} & the area which still fits into the parent without causing overflow (making the parent scrollable) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_af2c0032e9588811c403442e7d4153614}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_content\_height@{lv\_obj\_get\_content\_height}}
+\index{lv\_obj\_get\_content\_height@{lv\_obj\_get\_content\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_content\_height()}{lv\_obj\_get\_content\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_af2c0032e9588811c403442e7d4153614} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+height (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the height reduced by the top and bottom padding and the border width. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+the height which still fits into the parent without causing overflow (making the parent scrollable) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_a0d6054e42539e675b8c696a4403bc755}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_content\_width@{lv\_obj\_get\_content\_width}}
+\index{lv\_obj\_get\_content\_width@{lv\_obj\_get\_content\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_content\_width()}{lv\_obj\_get\_content\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a0d6054e42539e675b8c696a4403bc755} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+content\+\_\+width (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the width reduced by the left and right padding and the border width. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+the width which still fits into its parent without causing overflow (making the parent scrollable) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_ac6ad8c741536203b984fc628dbb4f9f8}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_coords@{lv\_obj\_get\_coords}}
+\index{lv\_obj\_get\_coords@{lv\_obj\_get\_coords}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_coords()}{lv\_obj\_get\_coords()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ac6ad8c741536203b984fc628dbb4f9f8} 
+void lv\+\_\+obj\+\_\+get\+\_\+coords (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{coords}{}\end{DoxyParamCaption})}
+
+Copy the coordinates of an object to an area 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em coords} & pointer to an area to store the coordinates \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a5c918c21d1b871be645c9068fa5c9da2}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_height@{lv\_obj\_get\_height}}
+\index{lv\_obj\_get\_height@{lv\_obj\_get\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_height()}{lv\_obj\_get\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a5c918c21d1b871be645c9068fa5c9da2} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+height (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the height of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+the height in pixels 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_ad74282f19ca9cbff54d4726feee5fb75}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_self\_height@{lv\_obj\_get\_self\_height}}
+\index{lv\_obj\_get\_self\_height@{lv\_obj\_get\_self\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_self\_height()}{lv\_obj\_get\_self\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ad74282f19ca9cbff54d4726feee5fb75} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+self\+\_\+height (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the height occupied by the "{}parts"{} of the widget. E.\+g. the height of all rows of a table. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an objects \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the width of the virtually drawn content 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This size independent from the real size of the widget. It just tells how large the internal ("{}virtual"{}) content is. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_af14f9b87dfb64ce2f8f0c5a3edee84d7}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_self\_width@{lv\_obj\_get\_self\_width}}
+\index{lv\_obj\_get\_self\_width@{lv\_obj\_get\_self\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_self\_width()}{lv\_obj\_get\_self\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_af14f9b87dfb64ce2f8f0c5a3edee84d7} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+self\+\_\+width (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the width occupied by the "{}parts"{} of the widget. E.\+g. the width of all columns of a table. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an objects \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the width of the virtually drawn content 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This size independent from the real size of the widget. It just tells how large the internal ("{}virtual"{}) content is. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a999cc01b79acd5598bf398c047170f25}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_transform@{lv\_obj\_get\_transform}}
+\index{lv\_obj\_get\_transform@{lv\_obj\_get\_transform}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_transform()}{lv\_obj\_get\_transform()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a999cc01b79acd5598bf398c047170f25} 
+const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aecc04bfa364c7b83d110a05b4fb24495}{lv\+\_\+matrix\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+transform (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the transform matrix of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the transform matrix or NULL if not set 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_ab7a46f0d1aa045e964f273ae138455a0}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_transformed\_area@{lv\_obj\_get\_transformed\_area}}
+\index{lv\_obj\_get\_transformed\_area@{lv\_obj\_get\_transformed\_area}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_transformed\_area()}{lv\_obj\_get\_transformed\_area()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ab7a46f0d1aa045e964f273ae138455a0} 
+void lv\+\_\+obj\+\_\+get\+\_\+transformed\+\_\+area (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{, }\item[{\doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}}}]{flags}{}\end{DoxyParamCaption})}
+
+Transform an area using the angle and zoom style properties of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose style properties should be used \\
+\hline
+{\em area} & an area to transform, the result will be written back here too \\
+\hline
+{\em flags} & OR-\/ed valued of :\+cpp:\+enum:\+{\ttfamily \doxylink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a9913a0b002f05268ab8f0c17eb7822b9}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_width@{lv\_obj\_get\_width}}
+\index{lv\_obj\_get\_width@{lv\_obj\_get\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_width()}{lv\_obj\_get\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a9913a0b002f05268ab8f0c17eb7822b9} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+width (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the width of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+the width in pixels 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_af79135c550341030fdbb3b96c1f1131b}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_x@{lv\_obj\_get\_x}}
+\index{lv\_obj\_get\_x@{lv\_obj\_get\_x}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_x()}{lv\_obj\_get\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_af79135c550341030fdbb3b96c1f1131b} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+x (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the x coordinate of object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+distance of {\ttfamily obj} from the left side of its parent plus the parent\textquotesingle{}s left padding 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+
+Zero return value means the object is on the left padding of the parent, and not on the left edge. 
+
+Scrolling of the parent doesn\textquotesingle{}t change the returned value. 
+
+The returned value is always the distance from the parent even if {\ttfamily obj} is positioned by a layout. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a4f8010c7fe0b4bcca5846208dbbed338}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_x2@{lv\_obj\_get\_x2}}
+\index{lv\_obj\_get\_x2@{lv\_obj\_get\_x2}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_x2()}{lv\_obj\_get\_x2()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a4f8010c7fe0b4bcca5846208dbbed338} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+x2 (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the x2 coordinate of object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+distance of {\ttfamily obj} from the right side of its parent plus the parent\textquotesingle{}s right padding 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+
+Zero return value means the object is on the right padding of the parent, and not on the right edge. 
+
+Scrolling of the parent doesn\textquotesingle{}t change the returned value. 
+
+The returned value is always the distance from the parent even if {\ttfamily obj} is positioned by a layout. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a387b53a8821bb9280541cca867271a2e}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_x\_aligned@{lv\_obj\_get\_x\_aligned}}
+\index{lv\_obj\_get\_x\_aligned@{lv\_obj\_get\_x\_aligned}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_x\_aligned()}{lv\_obj\_get\_x\_aligned()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a387b53a8821bb9280541cca867271a2e} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+x\+\_\+aligned (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the actually set x coordinate of object, i.\+e. the offset from the set alignment 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set x coordinate 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_a61ff8337022deb193d515f826b8a4ac4}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_y@{lv\_obj\_get\_y}}
+\index{lv\_obj\_get\_y@{lv\_obj\_get\_y}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_y()}{lv\_obj\_get\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a61ff8337022deb193d515f826b8a4ac4} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+y (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the y coordinate of object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+distance of {\ttfamily obj} from the top side of its parent plus the parent\textquotesingle{}s top padding 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+
+Zero return value means the object is on the top padding of the parent, and not on the top edge. 
+
+Scrolling of the parent doesn\textquotesingle{}t change the returned value. 
+
+The returned value is always the distance from the parent even if {\ttfamily obj} is positioned by a layout. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a6bbbfc1062434addc6e8e4a0c2230f55}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_y2@{lv\_obj\_get\_y2}}
+\index{lv\_obj\_get\_y2@{lv\_obj\_get\_y2}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_y2()}{lv\_obj\_get\_y2()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a6bbbfc1062434addc6e8e4a0c2230f55} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+y2 (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the y2 coordinate of object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+distance of {\ttfamily obj} from the bottom side of its parent plus the parent\textquotesingle{}s bottom padding 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+The position of the object is recalculated only on the next redraw. To force coordinate recalculation call {\ttfamily lv\+\_\+obj\+\_\+update\+\_\+layout(obj)}. 
+
+Zero return value means the object is on the bottom padding of the parent, and not on the bottom edge. 
+
+Scrolling of the parent doesn\textquotesingle{}t change the returned value. 
+
+The returned value is always the distance from the parent even if {\ttfamily obj} is positioned by a layout. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_ac8ae381368a64689f5070d47e7f9b574}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_get\_y\_aligned@{lv\_obj\_get\_y\_aligned}}
+\index{lv\_obj\_get\_y\_aligned@{lv\_obj\_get\_y\_aligned}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_y\_aligned()}{lv\_obj\_get\_y\_aligned()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ac8ae381368a64689f5070d47e7f9b574} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+y\+\_\+aligned (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the actually set y coordinate of object, i.\+e. the offset from the set alignment 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set y coordinate 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_a253539963e6740ee924d843e37fde7a5}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_hit\_test@{lv\_obj\_hit\_test}}
+\index{lv\_obj\_hit\_test@{lv\_obj\_hit\_test}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_hit\_test()}{lv\_obj\_hit\_test()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a253539963e6740ee924d843e37fde7a5} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+hit\+\_\+test (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{point}{}\end{DoxyParamCaption})}
+
+Hit-\/test an object given a particular point in screen space. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & object to hit-\/test \\
+\hline
+{\em point} & screen-\/space point (absolute coordinate) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ if the object is considered under the point 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_aad66ca3c74dbc0c194bd5135fa18d033}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_invalidate@{lv\_obj\_invalidate}}
+\index{lv\_obj\_invalidate@{lv\_obj\_invalidate}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_invalidate()}{lv\_obj\_invalidate()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aad66ca3c74dbc0c194bd5135fa18d033} 
+void lv\+\_\+obj\+\_\+invalidate (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Mark the object as invalid to redrawn its area 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a33a0a3c2c2861391f3b0e58cfe39914a}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_invalidate\_area@{lv\_obj\_invalidate\_area}}
+\index{lv\_obj\_invalidate\_area@{lv\_obj\_invalidate\_area}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_invalidate\_area()}{lv\_obj\_invalidate\_area()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a33a0a3c2c2861391f3b0e58cfe39914a} 
+void lv\+\_\+obj\+\_\+invalidate\+\_\+area (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{structlv__area__t}{lv\+\_\+area\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{area}{}\end{DoxyParamCaption})}
+
+Mark an area of an object as invalid. The area will be truncated to the object\textquotesingle{}s area and marked for redraw. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em area} & the area to redraw \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_af71b05975a91f3dfddaf28fbe96fe4eb}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_is\_layout\_positioned@{lv\_obj\_is\_layout\_positioned}}
+\index{lv\_obj\_is\_layout\_positioned@{lv\_obj\_is\_layout\_positioned}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_is\_layout\_positioned()}{lv\_obj\_is\_layout\_positioned()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_af71b05975a91f3dfddaf28fbe96fe4eb} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+is\+\_\+layout\+\_\+positioned (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Test whether the and object is positioned by a layout or not 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to test \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ positioned by a layout; false:\+ not positioned by a layout 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_ad819f34bbb76a7ddba5c75e24ebfb687}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_is\_visible@{lv\_obj\_is\_visible}}
+\index{lv\_obj\_is\_visible@{lv\_obj\_is\_visible}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_is\_visible()}{lv\_obj\_is\_visible()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ad819f34bbb76a7ddba5c75e24ebfb687} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+is\+\_\+visible (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Tell whether an object is visible (even partially) now or not 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ visible; false not visible (hidden, out of parent, on other screen, etc) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_aa5cb16ea6fdd8ff7ae6838a4e3b6f826}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_mark\_layout\_as\_dirty@{lv\_obj\_mark\_layout\_as\_dirty}}
+\index{lv\_obj\_mark\_layout\_as\_dirty@{lv\_obj\_mark\_layout\_as\_dirty}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_mark\_layout\_as\_dirty()}{lv\_obj\_mark\_layout\_as\_dirty()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aa5cb16ea6fdd8ff7ae6838a4e3b6f826} 
+void lv\+\_\+obj\+\_\+mark\+\_\+layout\+\_\+as\+\_\+dirty (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Mark the object for layout update. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose children need to be updated \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_abdb9464b27a6acb9c044e764e7025dcc}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_move\_children\_by@{lv\_obj\_move\_children\_by}}
+\index{lv\_obj\_move\_children\_by@{lv\_obj\_move\_children\_by}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_move\_children\_by()}{lv\_obj\_move\_children\_by()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_abdb9464b27a6acb9c044e764e7025dcc} 
+void lv\+\_\+obj\+\_\+move\+\_\+children\+\_\+by (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x\+\_\+diff}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y\+\_\+diff}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{ignore\+\_\+floating}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__obj__pos_8c_a5a0a061a771e21d8958c19d5d12f04fa}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_move\_to@{lv\_obj\_move\_to}}
+\index{lv\_obj\_move\_to@{lv\_obj\_move\_to}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_move\_to()}{lv\_obj\_move\_to()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a5a0a061a771e21d8958c19d5d12f04fa} 
+void lv\+\_\+obj\+\_\+move\+\_\+to (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__obj__pos_8c_a7addb60cc2046e2402f3415ea475628f}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_refr\_pos@{lv\_obj\_refr\_pos}}
+\index{lv\_obj\_refr\_pos@{lv\_obj\_refr\_pos}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_refr\_pos()}{lv\_obj\_refr\_pos()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a7addb60cc2046e2402f3415ea475628f} 
+void lv\+\_\+obj\+\_\+refr\+\_\+pos (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+\Hypertarget{lv__obj__pos_8c_ad5602b51d87e98b71317c051883e5607}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_refr\_size@{lv\_obj\_refr\_size}}
+\index{lv\_obj\_refr\_size@{lv\_obj\_refr\_size}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_refr\_size()}{lv\_obj\_refr\_size()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ad5602b51d87e98b71317c051883e5607} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+refr\+\_\+size (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Recalculate the size of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ the size has been changed 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_aa751e6933cd6346061dc027dc4db7c1f}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_refresh\_self\_size@{lv\_obj\_refresh\_self\_size}}
+\index{lv\_obj\_refresh\_self\_size@{lv\_obj\_refresh\_self\_size}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_refresh\_self\_size()}{lv\_obj\_refresh\_self\_size()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aa751e6933cd6346061dc027dc4db7c1f} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+obj\+\_\+refresh\+\_\+self\+\_\+size (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Handle if the size of the internal ("{}virtual"{}) content of an object has changed. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+false:\+ nothing happened; true:\+ refresh happened 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__pos_8c_a4ebb4e4142d3d71eab181ef26c37de45}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_reset\_transform@{lv\_obj\_reset\_transform}}
+\index{lv\_obj\_reset\_transform@{lv\_obj\_reset\_transform}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_reset\_transform()}{lv\_obj\_reset\_transform()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a4ebb4e4142d3d71eab181ef26c37de45} 
+void lv\+\_\+obj\+\_\+reset\+\_\+transform (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Reset the transform matrix of an object to identity matrix 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+{\ttfamily \doxylink{lv__conf__cmsis_8h_a9da533281688948e346f5afa9c6dd2b6}{LV\+\_\+\+DRAW\+\_\+\+TRANSFORM\+\_\+\+USE\+\_\+\+MATRIX}} needs to be enabled. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a192cd7c57b803c251691556178a111d8}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_align@{lv\_obj\_set\_align}}
+\index{lv\_obj\_set\_align@{lv\_obj\_set\_align}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_align()}{lv\_obj\_set\_align()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a192cd7c57b803c251691556178a111d8} 
+void lv\+\_\+obj\+\_\+set\+\_\+align (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}}}]{align}{}\end{DoxyParamCaption})}
+
+Change the alignment of an object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object to align \\
+\hline
+{\em align} & type of alignment (see \textquotesingle{}\doxylink{lv__area_8h_aa173dc77a59bb62d7c83f68e6abae95a}{lv\+\_\+align\+\_\+t}\textquotesingle{} enum) {\ttfamily LV\+\_\+\+ALIGN\+\_\+\+OUT\+\_\+...} can\textquotesingle{}t be used. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_ad79b45d6365c7051f6af49693f320ffe}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_content\_height@{lv\_obj\_set\_content\_height}}
+\index{lv\_obj\_set\_content\_height@{lv\_obj\_set\_content\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_content\_height()}{lv\_obj\_set\_content\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ad79b45d6365c7051f6af49693f320ffe} 
+void lv\+\_\+obj\+\_\+set\+\_\+content\+\_\+height (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{h}{}\end{DoxyParamCaption})}
+
+Set the height reduced by the top and bottom padding and the border width. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em h} & the height without paddings in pixels \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_ac7573727dc3015b053ce94638e3da46f}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_content\_width@{lv\_obj\_set\_content\_width}}
+\index{lv\_obj\_set\_content\_width@{lv\_obj\_set\_content\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_content\_width()}{lv\_obj\_set\_content\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ac7573727dc3015b053ce94638e3da46f} 
+void lv\+\_\+obj\+\_\+set\+\_\+content\+\_\+width (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{w}{}\end{DoxyParamCaption})}
+
+Set the width reduced by the left and right padding and the border width. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em w} & the width without paddings in pixels \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a58df8aa0991a9c85b9683d575da0d83d}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_ext\_click\_area@{lv\_obj\_set\_ext\_click\_area}}
+\index{lv\_obj\_set\_ext\_click\_area@{lv\_obj\_set\_ext\_click\_area}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_ext\_click\_area()}{lv\_obj\_set\_ext\_click\_area()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a58df8aa0991a9c85b9683d575da0d83d} 
+void lv\+\_\+obj\+\_\+set\+\_\+ext\+\_\+click\+\_\+area (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{size}{}\end{DoxyParamCaption})}
+
+Set the size of an extended clickable area 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em size} & extended clickable area in all 4 directions \+[px]\+ \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_a51ac235f71230d4a26ac7f4a39de6241}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_height@{lv\_obj\_set\_height}}
+\index{lv\_obj\_set\_height@{lv\_obj\_set\_height}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_height()}{lv\_obj\_set\_height()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a51ac235f71230d4a26ac7f4a39de6241} 
+void lv\+\_\+obj\+\_\+set\+\_\+height (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{h}{}\end{DoxyParamCaption})}
+
+Set the height of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em h} & the new height \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+possible values are:\+ pixel simple set the size accordingly LV\+\_\+\+SIZE\+\_\+\+CONTENT set the size to involve all children in the given direction lv\+\_\+pct(x) to set size in percentage of the parent\textquotesingle{}s content area size (the size without paddings). x should be in \+[0..1000]\+\% range 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a052fe29bc53773a4b290460d5dbf073c}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_layout@{lv\_obj\_set\_layout}}
+\index{lv\_obj\_set\_layout@{lv\_obj\_set\_layout}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_layout()}{lv\_obj\_set\_layout()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a052fe29bc53773a4b290460d5dbf073c} 
+void lv\+\_\+obj\+\_\+set\+\_\+layout (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{layout}{}\end{DoxyParamCaption})}
+
+Set a layout for an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em layout} & pointer to a layout descriptor to set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_aa50eae89f0d1c7c00ed54277d26bd6bc}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_pos@{lv\_obj\_set\_pos}}
+\index{lv\_obj\_set\_pos@{lv\_obj\_set\_pos}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_pos()}{lv\_obj\_set\_pos()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aa50eae89f0d1c7c00ed54277d26bd6bc} 
+void lv\+\_\+obj\+\_\+set\+\_\+pos (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{}\end{DoxyParamCaption})}
+
+Set the position of an object relative to the set alignment. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em x} & new x coordinate \\
+\hline
+{\em y} & new y coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+With default alignment it\textquotesingle{}s the distance from the top left corner 
+
+E.\+g. LV\+\_\+\+ALIGN\+\_\+\+CENTER alignment it\textquotesingle{}s the offset from the center of the parent 
+
+The position is interpreted on the content area of the parent 
+
+The values can be set in pixel or in percentage of parent size with {\ttfamily lv\+\_\+pct(v)} 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_acf9074095fa19743516426d51c1197a6}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_size@{lv\_obj\_set\_size}}
+\index{lv\_obj\_set\_size@{lv\_obj\_set\_size}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_size()}{lv\_obj\_set\_size()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_acf9074095fa19743516426d51c1197a6} 
+void lv\+\_\+obj\+\_\+set\+\_\+size (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{w}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{h}{}\end{DoxyParamCaption})}
+
+Set the size of an object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em w} & the new width \\
+\hline
+{\em h} & the new height \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+possible values are:\+ pixel simple set the size accordingly LV\+\_\+\+SIZE\+\_\+\+CONTENT set the size to involve all children in the given direction lv\+\_\+pct(x) to set size in percentage of the parent\textquotesingle{}s content area size (the size without paddings). x should be in \+[0..1000]\+\% range 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a3ffa3fec5daa922d31df8f086de0541b}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_transform@{lv\_obj\_set\_transform}}
+\index{lv\_obj\_set\_transform@{lv\_obj\_set\_transform}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_transform()}{lv\_obj\_set\_transform()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a3ffa3fec5daa922d31df8f086de0541b} 
+void lv\+\_\+obj\+\_\+set\+\_\+transform (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aecc04bfa364c7b83d110a05b4fb24495}{lv\+\_\+matrix\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{matrix}{}\end{DoxyParamCaption})}
+
+Set the transform matrix of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em matrix} & pointer to a matrix to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+{\ttfamily \doxylink{lv__conf__cmsis_8h_a9da533281688948e346f5afa9c6dd2b6}{LV\+\_\+\+DRAW\+\_\+\+TRANSFORM\+\_\+\+USE\+\_\+\+MATRIX}} needs to be enabled. 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_af98cbbed1160a07573c0935017a8be8b}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_width@{lv\_obj\_set\_width}}
+\index{lv\_obj\_set\_width@{lv\_obj\_set\_width}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_width()}{lv\_obj\_set\_width()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_af98cbbed1160a07573c0935017a8be8b} 
+void lv\+\_\+obj\+\_\+set\+\_\+width (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{w}{}\end{DoxyParamCaption})}
+
+Set the width of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em w} & the new width \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+possible values are:\+ pixel simple set the size accordingly LV\+\_\+\+SIZE\+\_\+\+CONTENT set the size to involve all children in the given direction lv\+\_\+pct(x) to set size in percentage of the parent\textquotesingle{}s content area size (the size without paddings). x should be in \+[0..1000]\+\% range 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_ae4d2e864c07d109fefa800fff8a7af43}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_x@{lv\_obj\_set\_x}}
+\index{lv\_obj\_set\_x@{lv\_obj\_set\_x}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_x()}{lv\_obj\_set\_x()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_ae4d2e864c07d109fefa800fff8a7af43} 
+void lv\+\_\+obj\+\_\+set\+\_\+x (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{x}{}\end{DoxyParamCaption})}
+
+Set the x coordinate of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em x} & new x coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+With default alignment it\textquotesingle{}s the distance from the top left corner 
+
+E.\+g. LV\+\_\+\+ALIGN\+\_\+\+CENTER alignment it\textquotesingle{}s the offset from the center of the parent 
+
+The position is interpreted on the content area of the parent 
+
+The values can be set in pixel or in percentage of parent size with {\ttfamily lv\+\_\+pct(v)} 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a6e4882237bf9055fa73776d0a73190e4}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_set\_y@{lv\_obj\_set\_y}}
+\index{lv\_obj\_set\_y@{lv\_obj\_set\_y}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_y()}{lv\_obj\_set\_y()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a6e4882237bf9055fa73776d0a73190e4} 
+void lv\+\_\+obj\+\_\+set\+\_\+y (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{y}{}\end{DoxyParamCaption})}
+
+Set the y coordinate of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em y} & new y coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+With default alignment it\textquotesingle{}s the distance from the top left corner 
+
+E.\+g. LV\+\_\+\+ALIGN\+\_\+\+CENTER alignment it\textquotesingle{}s the offset from the center of the parent 
+
+The position is interpreted on the content area of the parent 
+
+The values can be set in pixel or in percentage of parent size with {\ttfamily lv\+\_\+pct(v)} 
+\end{DoxyNote}
+\Hypertarget{lv__obj__pos_8c_a95c468ddd5d78f0b32a637ef6c0aba5f}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_transform\_point@{lv\_obj\_transform\_point}}
+\index{lv\_obj\_transform\_point@{lv\_obj\_transform\_point}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_transform\_point()}{lv\_obj\_transform\_point()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_a95c468ddd5d78f0b32a637ef6c0aba5f} 
+void lv\+\_\+obj\+\_\+transform\+\_\+point (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{p}{, }\item[{\doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}}}]{flags}{}\end{DoxyParamCaption})}
+
+Transform a point using the angle and zoom style properties of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose style properties should be used \\
+\hline
+{\em p} & a point to transform, the result will be written back here too \\
+\hline
+{\em flags} & OR-\/ed valued of :\+cpp:\+enum:\+{\ttfamily \doxylink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_aaea07e3e1ddd18b35643eb1d69d61486}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_transform\_point\_array@{lv\_obj\_transform\_point\_array}}
+\index{lv\_obj\_transform\_point\_array@{lv\_obj\_transform\_point\_array}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_transform\_point\_array()}{lv\_obj\_transform\_point\_array()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aaea07e3e1ddd18b35643eb1d69d61486} 
+void lv\+\_\+obj\+\_\+transform\+\_\+point\+\_\+array (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}}}]{points}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{count}{, }\item[{\doxymbox{\hyperlink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}}}]{flags}{}\end{DoxyParamCaption})}
+
+Transform an array of points using the angle and zoom style properties of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose style properties should be used \\
+\hline
+{\em points} & the array of points to transform, the result will be written back here too \\
+\hline
+{\em count} & number of points in the array \\
+\hline
+{\em flags} & OR-\/ed valued of :\+cpp:\+enum:\+{\ttfamily \doxylink{lv__obj__pos_8h_a48a9748fcd9af2e71a053d1f76e42306}{lv\+\_\+obj\+\_\+point\+\_\+transform\+\_\+flag\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__pos_8c_aff54da7280d2ddf3a84db3d08c3bce83}\index{lv\_obj\_pos.c@{lv\_obj\_pos.c}!lv\_obj\_update\_layout@{lv\_obj\_update\_layout}}
+\index{lv\_obj\_update\_layout@{lv\_obj\_update\_layout}!lv\_obj\_pos.c@{lv\_obj\_pos.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_update\_layout()}{lv\_obj\_update\_layout()}}
+{\footnotesize\ttfamily \label{lv__obj__pos_8c_aff54da7280d2ddf3a84db3d08c3bce83} 
+void lv\+\_\+obj\+\_\+update\+\_\+layout (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Update the layout of an object. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose position and size needs to be updated \\
+\hline
+\end{DoxyParams}

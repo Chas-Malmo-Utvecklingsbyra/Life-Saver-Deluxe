@@ -1,0 +1,521 @@
+\doxysection{embedded-\/core/\+unity/\+unity.c File Reference}
+\hypertarget{embedded-core_2unity_2unity_8c}{}\label{embedded-core_2unity_2unity_8c}\index{embedded-\/core/unity/unity.c@{embedded-\/core/unity/unity.c}}
+{\ttfamily \+\#include "{}unity.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}}
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aed0078c0e6e904f5d0071cacef3d519d}{UNITY\+\_\+\+FAIL\+\_\+\+AND\+\_\+\+BAIL}}~do \{ Unity.\+Current\+Test\+Failed  = 1; \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a458886b9a590fda474d4467fa40a2367}{UNITY\+\_\+\+OUTPUT\+\_\+\+FLUSH}}(); \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} while (0)
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8e7615065c9272a62eede0f1e725a774}{UNITY\+\_\+\+IGNORE\+\_\+\+AND\+\_\+\+BAIL}}~do \{ Unity.\+Current\+Test\+Ignored = 1; \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a458886b9a590fda474d4467fa40a2367}{UNITY\+\_\+\+OUTPUT\+\_\+\+FLUSH}}(); \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} while (0)
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_abf9f99b384602e58874744dda3492aaa}{RETURN\+\_\+\+IF\+\_\+\+FAIL\+\_\+\+OR\+\_\+\+IGNORE}}~do \{ if (Unity.\+Current\+Test\+Failed \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} Unity.\+Current\+Test\+Ignored) \{ \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} \} while (0)
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a3ace6280351b3aa4aa6cfca244ac5193}{Unity\+Print\+Pointless\+And\+Bail}}()
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a02810feed4a9aca0b2f997854b94a01c}{UNITY\+\_\+\+FLOAT\+\_\+\+OR\+\_\+\+DOUBLE\+\_\+\+WITHIN}}(delta,  expected,  actual,  diff)
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8943c89baca5ddc88a0f88a389ef13c7}{UNITY\+\_\+\+NAN\+\_\+\+CHECK}}~\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a4c26d919846f75af016753276d309c5a}{UNITY\+\_\+\+IS\+\_\+\+NAN}}(expected) \&\& \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a4c26d919846f75af016753276d309c5a}{UNITY\+\_\+\+IS\+\_\+\+NAN}}(actual)
+\item 
+\+\#define \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8432f7429c7fcc0952eeae3658707be9}{UNITY\+\_\+\+PRINT\+\_\+\+EXPECTED\+\_\+\+AND\+\_\+\+ACTUAL\+\_\+\+FLOAT}}(expected,  actual)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_accff2eb4cfd0273e8ad62c37639d3e3c}{Unity\+Print}} (const char \texorpdfstring{$\ast$}{*}string)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a780817a15f2437360bd593c8fa7a1481}{Unity\+Print\+Len}} (const char \texorpdfstring{$\ast$}{*}string, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} length)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ab531d17d52d935c2722230e87f346542}{Unity\+Print\+Int\+Number\+By\+Style}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a281125e55622a58d1287acb767f18f42}{Unity\+Print\+Uint\+Number\+By\+Style}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a644211a214ab000dcabd5582c52e0313}{Unity\+Print\+Number}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} number\+\_\+to\+\_\+print)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a3ef388786e9a8e769d13af2601b592dc}{Unity\+Print\+Number\+Unsigned}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ab5636c2c3e2d5ff0d89461e2323aa469}{Unity\+Print\+Number\+Hex}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} number, const char nibbles\+\_\+to\+\_\+print)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a207d5b3e2bfe8042b0505066ccd07c9b}{Unity\+Print\+Mask}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} mask, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ac3d39bc0740a28949a2ba689588491c2}{Unity\+Print\+Float}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac3bdb18f38e23a4343af34a7f4e0d4a0}{UNITY\+\_\+\+DOUBLE}} input\+\_\+number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a44f03f0124e59f6996da61946cc2a58e}{Unity\+Conclude\+Test}} (void)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8d96fe471e0c327cbf5fd4682ee24d9f}{Unity\+Assert\+Bits}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} mask, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8ebc83fcbbc2f3c055988c3b384868c8}{Unity\+Assert\+Equal\+Int\+Number}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_adbbc6fb7d29ec6d4a2996962d7fd848a}{Unity\+Assert\+Equal\+Uint\+Number}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a9140e102a6a8328cd87a2f9c1506849a}{Unity\+Assert\+Int\+Greater\+Or\+Less\+Or\+Equal\+Number}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} threshold, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}} compare, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_abcb6bf81a7cb06c1001f064ca7ac065f}{Unity\+Assert\+Uint\+Greater\+Or\+Less\+Or\+Equal\+Number}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} threshold, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}} compare, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a5d36ae0ba6becafccda94364caf61adf}{Unity\+Assert\+Equal\+Int\+Array}} (\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} expected, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} num\+\_\+elements, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}} flags)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aab0a2af1eacf97dee327b0567625c1e2}{Unity\+Assert\+Within\+Float\+Array}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} delta, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a825b752e1c62ede9bee4bf22fb258a7d}{UNITY\+\_\+\+PTR\+\_\+\+ATTRIBUTE}} const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} \texorpdfstring{$\ast$}{*}expected, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a825b752e1c62ede9bee4bf22fb258a7d}{UNITY\+\_\+\+PTR\+\_\+\+ATTRIBUTE}} const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} \texorpdfstring{$\ast$}{*}actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} num\+\_\+elements, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}} flags)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_adc1934cb22540eed0b2b86e1f6aeb697}{Unity\+Assert\+Floats\+Within}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} delta, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aae953f848f48242784faaf0e7063e956}{Unity\+Assert\+Floats\+Not\+Within}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} delta, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ad350648282b9a9df70f87ecc448e449c}{Unity\+Assert\+Greater\+Or\+Less\+Float}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} threshold, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}} compare, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aa7909741e6f90c6af19e07b91c88ad4c}{Unity\+Assert\+Float\+Special}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a1b89a0178ea753186faf9f3dc271e2ba}{UNITY\+\_\+\+FLOAT\+\_\+\+TRAIT\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ad3de56bd59faad4907fe36c537bc35c6}{Unity\+Assert\+Int\+Numbers\+Within}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} delta, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a9c02d10734c77f743c5db1ca37fb065b}{Unity\+Assert\+Uint\+Numbers\+Within}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} delta, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} expected, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a7125230f609e287bbe574be8ea46d1e3}{Unity\+Assert\+Numbers\+Array\+Within}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}} delta, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} expected, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} num\+\_\+elements, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}} style, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}} flags)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aea8fd35ccdacbbac33ca4395c6b9562b}{Unity\+Assert\+Equal\+String}} (const char \texorpdfstring{$\ast$}{*}expected, const char \texorpdfstring{$\ast$}{*}actual, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aafaf01a6294c0dc2fbe6fd0baab58f0b}{Unity\+Assert\+Equal\+String\+Len}} (const char \texorpdfstring{$\ast$}{*}expected, const char \texorpdfstring{$\ast$}{*}actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} length, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a38bca7a2b1d2b1d89f9e93e34e99df1f}{Unity\+Assert\+Equal\+String\+Array}} (\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} expected, const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} num\+\_\+elements, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}} flags)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a18b674bf204871eb5ab27f86405983f3}{Unity\+Assert\+Equal\+Memory}} (\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} expected, \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} actual, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} length, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}} num\+\_\+elements, const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line\+Number, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}} flags)
+\item 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aed32d6a240e25d9493f6492882f7d3d5}{Unity\+Num\+To\+Ptr}} (const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}} num, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ae9c38948acf740d92635783d49f7437c}{UNITY\+\_\+\+UINT8}} size)
+\item 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a01b1539781210d836d875fa9c6957982}{Unity\+Float\+To\+Ptr}} (const float num)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a0daba95a4950d8a5a06b6b2c843742b8}{Unity\+Fail}} (const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a017e8c6a617d00312fd6688b73483284}{Unity\+Ignore}} (const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_abc9ecca68af9f93f07fb907de67d5db3}{Unity\+Message}} (const char \texorpdfstring{$\ast$}{*}msg, const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}} line)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ae3c8272eef0f0b6228ca47b9dd1aa2af}{Unity\+Default\+Test\+Run}} (\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a750c0436a18789b916e55d70aae12985}{Unity\+Test\+Function}} Func, const char \texorpdfstring{$\ast$}{*}Func\+Name, const int Func\+Line\+Num)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_afefd1b90b9854b428fef009e12489282}{Unity\+Set\+Test\+File}} (const char \texorpdfstring{$\ast$}{*}filename)
+\item 
+void \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aed50601fbdaea8fc0fef0c61cf877809}{Unity\+Begin}} (const char \texorpdfstring{$\ast$}{*}filename)
+\item 
+int \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a4820ba04ff5e9a474fe38ab6633d30a0}{Unity\+End}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_u_n_i_t_y___s_t_o_r_a_g_e___t}{UNITY\+\_\+\+STORAGE\+\_\+T}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aad738f665f16eb2336b8bc33f432d0da}{Unity}}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a14f8a3d589baec0ad27e338bd2001600}{Unity\+Str\+Ok}} \+[$\,$]\+ = "{}OK"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a96ccb9c12b5e14bbf2dcfc16b889efe2}{Unity\+Str\+Pass}} \+[$\,$]\+ = "{}PASS"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ac316f86bcebda9760575680522744d96}{Unity\+Str\+Fail}} \+[$\,$]\+ = "{}FAIL"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ad6ebb22be1abfa01578ec3567c51f9e9}{Unity\+Str\+Ignore}} \+[$\,$]\+ = "{}IGNORE"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ac99e9c46e8d8b76d042559a4bb2a7137}{Unity\+Str\+Err\+Shorthand}} \+[$\,$]\+ = "{}Unity Shorthand Support Disabled"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_ab72fe58f6f99c198dd56962527249f97}{Unity\+Str\+Err\+Float}} \+[$\,$]\+ = "{}Unity Floating Point Disabled"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a5ff53dbf9dd9ebac1832d2166baaad1d}{Unity\+Str\+Err\+Double}} \+[$\,$]\+ = "{}Unity Double Precision Disabled"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a2cb379d054a17260a027ebe2cd0d1caf}{Unity\+Str\+Err64}} \+[$\,$]\+ = "{}Unity 64-\/bit Support Disabled"{}
+\item 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8d7a43fee86d7e6db988e062a7be4ebf}{Unity\+Str\+Err\+Detail\+Stack}} \+[$\,$]\+ = "{}Unity Detail Stack Support Disabled"{}
+\end{DoxyCompactItemize}
+
+
+\label{embedded-core_2unity_2unity_8c_doc-define-members}
+\Hypertarget{embedded-core_2unity_2unity_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{embedded-core_2unity_2unity_8c_abf9f99b384602e58874744dda3492aaa}\index{unity.c@{unity.c}!RETURN\_IF\_FAIL\_OR\_IGNORE@{RETURN\_IF\_FAIL\_OR\_IGNORE}}
+\index{RETURN\_IF\_FAIL\_OR\_IGNORE@{RETURN\_IF\_FAIL\_OR\_IGNORE}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{RETURN\_IF\_FAIL\_OR\_IGNORE}{RETURN\_IF\_FAIL\_OR\_IGNORE}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_abf9f99b384602e58874744dda3492aaa} 
+\+\#define RETURN\+\_\+\+IF\+\_\+\+FAIL\+\_\+\+OR\+\_\+\+IGNORE~do \{ if (Unity.\+Current\+Test\+Failed \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} Unity.\+Current\+Test\+Ignored) \{ \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} \} while (0)}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aed0078c0e6e904f5d0071cacef3d519d}\index{unity.c@{unity.c}!UNITY\_FAIL\_AND\_BAIL@{UNITY\_FAIL\_AND\_BAIL}}
+\index{UNITY\_FAIL\_AND\_BAIL@{UNITY\_FAIL\_AND\_BAIL}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_FAIL\_AND\_BAIL}{UNITY\_FAIL\_AND\_BAIL}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aed0078c0e6e904f5d0071cacef3d519d} 
+\+\#define UNITY\+\_\+\+FAIL\+\_\+\+AND\+\_\+\+BAIL~do \{ Unity.\+Current\+Test\+Failed  = 1; \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a458886b9a590fda474d4467fa40a2367}{UNITY\+\_\+\+OUTPUT\+\_\+\+FLUSH}}(); \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} while (0)}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a02810feed4a9aca0b2f997854b94a01c}\index{unity.c@{unity.c}!UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN@{UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN}}
+\index{UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN@{UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN}{UNITY\_FLOAT\_OR\_DOUBLE\_WITHIN}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a02810feed4a9aca0b2f997854b94a01c} 
+\+\#define UNITY\+\_\+\+FLOAT\+\_\+\+OR\+\_\+\+DOUBLE\+\_\+\+WITHIN(\begin{DoxyParamCaption}\item[{}]{delta}{, }\item[{}]{expected}{, }\item[{}]{actual}{, }\item[{}]{diff}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a6519020d852e2008b9af2114b38eae3e}{UNITY\_IS\_INF}}(expected)\ \&\&\ \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a6519020d852e2008b9af2114b38eae3e}{UNITY\_IS\_INF}}(actual)\ \&\&\ (((expected)\ <\ 0)\ ==\ ((actual)\ <\ 0)))\ \textcolor{keywordflow}{return}\ 1;\ \ \ \(\backslash\)}
+\DoxyCodeLine{if\ (\doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_a8943c89baca5ddc88a0f88a389ef13c7}{UNITY\_NAN\_CHECK}})\ \textcolor{keywordflow}{return}\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{(diff)\ =\ (actual)\ -\/\ (expected);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{if\ ((diff)\ <\ 0)\ (diff)\ =\ -\/(diff);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{if\ ((delta)\ <\ 0)\ (delta)\ =\ -\/(delta);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\textcolor{keywordflow}{return}\ !(\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a4c26d919846f75af016753276d309c5a}{UNITY\_IS\_NAN}}(diff)\ ||\ \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a6519020d852e2008b9af2114b38eae3e}{UNITY\_IS\_INF}}(diff)\ ||\ ((diff)\ >\ (delta)))}
+
+\end{DoxyCode}
+\Hypertarget{embedded-core_2unity_2unity_8c_a8e7615065c9272a62eede0f1e725a774}\index{unity.c@{unity.c}!UNITY\_IGNORE\_AND\_BAIL@{UNITY\_IGNORE\_AND\_BAIL}}
+\index{UNITY\_IGNORE\_AND\_BAIL@{UNITY\_IGNORE\_AND\_BAIL}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_IGNORE\_AND\_BAIL}{UNITY\_IGNORE\_AND\_BAIL}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8e7615065c9272a62eede0f1e725a774} 
+\+\#define UNITY\+\_\+\+IGNORE\+\_\+\+AND\+\_\+\+BAIL~do \{ Unity.\+Current\+Test\+Ignored = 1; \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a458886b9a590fda474d4467fa40a2367}{UNITY\+\_\+\+OUTPUT\+\_\+\+FLUSH}}(); \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a35ff53d9ad3c4ec9d611fdf04319a23b}{TEST\+\_\+\+ABORT}}(); \} while (0)}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a8943c89baca5ddc88a0f88a389ef13c7}\index{unity.c@{unity.c}!UNITY\_NAN\_CHECK@{UNITY\_NAN\_CHECK}}
+\index{UNITY\_NAN\_CHECK@{UNITY\_NAN\_CHECK}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_NAN\_CHECK}{UNITY\_NAN\_CHECK}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8943c89baca5ddc88a0f88a389ef13c7} 
+\+\#define UNITY\+\_\+\+NAN\+\_\+\+CHECK~\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a4c26d919846f75af016753276d309c5a}{UNITY\+\_\+\+IS\+\_\+\+NAN}}(expected) \&\& \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a4c26d919846f75af016753276d309c5a}{UNITY\+\_\+\+IS\+\_\+\+NAN}}(actual)}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a8432f7429c7fcc0952eeae3658707be9}\index{unity.c@{unity.c}!UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT@{UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT}}
+\index{UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT@{UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT}{UNITY\_PRINT\_EXPECTED\_AND\_ACTUAL\_FLOAT}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8432f7429c7fcc0952eeae3658707be9} 
+\+\#define UNITY\+\_\+\+PRINT\+\_\+\+EXPECTED\+\_\+\+AND\+\_\+\+ACTUAL\+\_\+\+FLOAT(\begin{DoxyParamCaption}\item[{}]{expected}{, }\item[{}]{actual}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{do}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ UnityPrint(UnityStrExpected);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ UnityPrintFloat(expected);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ UnityPrint(UnityStrWas);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ UnityPrintFloat(actual);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{while}\ (0)}
+
+\end{DoxyCode}
+\Hypertarget{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}\index{unity.c@{unity.c}!UNITY\_PROGMEM@{UNITY\_PROGMEM}}
+\index{UNITY\_PROGMEM@{UNITY\_PROGMEM}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UNITY\_PROGMEM}{UNITY\_PROGMEM}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5} 
+\+\#define UNITY\+\_\+\+PROGMEM}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a3ace6280351b3aa4aa6cfca244ac5193}\index{unity.c@{unity.c}!UnityPrintPointlessAndBail@{UnityPrintPointlessAndBail}}
+\index{UnityPrintPointlessAndBail@{UnityPrintPointlessAndBail}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintPointlessAndBail}{UnityPrintPointlessAndBail}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a3ace6280351b3aa4aa6cfca244ac5193} 
+\+\#define Unity\+Print\+Pointless\+And\+Bail(\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{do}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ UnityTestResultsFailBegin(lineNumber);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ UnityPrint(UnityStrPointless);\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ UnityAddMsgIfSpecified(msg);\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_aed0078c0e6e904f5d0071cacef3d519d}{UNITY\_FAIL\_AND\_BAIL}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{while}\ (0)}
+
+\end{DoxyCode}
+
+
+\label{embedded-core_2unity_2unity_8c_doc-func-members}
+\Hypertarget{embedded-core_2unity_2unity_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{embedded-core_2unity_2unity_8c_a8d96fe471e0c327cbf5fd4682ee24d9f}\index{unity.c@{unity.c}!UnityAssertBits@{UnityAssertBits}}
+\index{UnityAssertBits@{UnityAssertBits}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertBits()}{UnityAssertBits()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8d96fe471e0c327cbf5fd4682ee24d9f} 
+void Unity\+Assert\+Bits (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{mask}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a5d36ae0ba6becafccda94364caf61adf}\index{unity.c@{unity.c}!UnityAssertEqualIntArray@{UnityAssertEqualIntArray}}
+\index{UnityAssertEqualIntArray@{UnityAssertEqualIntArray}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualIntArray()}{UnityAssertEqualIntArray()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a5d36ae0ba6becafccda94364caf61adf} 
+void Unity\+Assert\+Equal\+Int\+Array (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{expected}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{num\+\_\+elements}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}}}]{flags}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a8ebc83fcbbc2f3c055988c3b384868c8}\index{unity.c@{unity.c}!UnityAssertEqualIntNumber@{UnityAssertEqualIntNumber}}
+\index{UnityAssertEqualIntNumber@{UnityAssertEqualIntNumber}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualIntNumber()}{UnityAssertEqualIntNumber()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8ebc83fcbbc2f3c055988c3b384868c8} 
+void Unity\+Assert\+Equal\+Int\+Number (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a18b674bf204871eb5ab27f86405983f3}\index{unity.c@{unity.c}!UnityAssertEqualMemory@{UnityAssertEqualMemory}}
+\index{UnityAssertEqualMemory@{UnityAssertEqualMemory}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualMemory()}{UnityAssertEqualMemory()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a18b674bf204871eb5ab27f86405983f3} 
+void Unity\+Assert\+Equal\+Memory (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{expected}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{length}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{num\+\_\+elements}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}}}]{flags}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aea8fd35ccdacbbac33ca4395c6b9562b}\index{unity.c@{unity.c}!UnityAssertEqualString@{UnityAssertEqualString}}
+\index{UnityAssertEqualString@{UnityAssertEqualString}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualString()}{UnityAssertEqualString()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aea8fd35ccdacbbac33ca4395c6b9562b} 
+void Unity\+Assert\+Equal\+String (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{expected}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a38bca7a2b1d2b1d89f9e93e34e99df1f}\index{unity.c@{unity.c}!UnityAssertEqualStringArray@{UnityAssertEqualStringArray}}
+\index{UnityAssertEqualStringArray@{UnityAssertEqualStringArray}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualStringArray()}{UnityAssertEqualStringArray()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a38bca7a2b1d2b1d89f9e93e34e99df1f} 
+void Unity\+Assert\+Equal\+String\+Array (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{expected}{, }\item[{const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{num\+\_\+elements}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}}}]{flags}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aafaf01a6294c0dc2fbe6fd0baab58f0b}\index{unity.c@{unity.c}!UnityAssertEqualStringLen@{UnityAssertEqualStringLen}}
+\index{UnityAssertEqualStringLen@{UnityAssertEqualStringLen}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualStringLen()}{UnityAssertEqualStringLen()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aafaf01a6294c0dc2fbe6fd0baab58f0b} 
+void Unity\+Assert\+Equal\+String\+Len (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{expected}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{length}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_adbbc6fb7d29ec6d4a2996962d7fd848a}\index{unity.c@{unity.c}!UnityAssertEqualUintNumber@{UnityAssertEqualUintNumber}}
+\index{UnityAssertEqualUintNumber@{UnityAssertEqualUintNumber}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertEqualUintNumber()}{UnityAssertEqualUintNumber()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_adbbc6fb7d29ec6d4a2996962d7fd848a} 
+void Unity\+Assert\+Equal\+Uint\+Number (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aae953f848f48242784faaf0e7063e956}\index{unity.c@{unity.c}!UnityAssertFloatsNotWithin@{UnityAssertFloatsNotWithin}}
+\index{UnityAssertFloatsNotWithin@{UnityAssertFloatsNotWithin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertFloatsNotWithin()}{UnityAssertFloatsNotWithin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aae953f848f48242784faaf0e7063e956} 
+void Unity\+Assert\+Floats\+Not\+Within (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{delta}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aa7909741e6f90c6af19e07b91c88ad4c}\index{unity.c@{unity.c}!UnityAssertFloatSpecial@{UnityAssertFloatSpecial}}
+\index{UnityAssertFloatSpecial@{UnityAssertFloatSpecial}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertFloatSpecial()}{UnityAssertFloatSpecial()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aa7909741e6f90c6af19e07b91c88ad4c} 
+void Unity\+Assert\+Float\+Special (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a1b89a0178ea753186faf9f3dc271e2ba}{UNITY\+\_\+\+FLOAT\+\_\+\+TRAIT\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_adc1934cb22540eed0b2b86e1f6aeb697}\index{unity.c@{unity.c}!UnityAssertFloatsWithin@{UnityAssertFloatsWithin}}
+\index{UnityAssertFloatsWithin@{UnityAssertFloatsWithin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertFloatsWithin()}{UnityAssertFloatsWithin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_adc1934cb22540eed0b2b86e1f6aeb697} 
+void Unity\+Assert\+Floats\+Within (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{delta}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ad350648282b9a9df70f87ecc448e449c}\index{unity.c@{unity.c}!UnityAssertGreaterOrLessFloat@{UnityAssertGreaterOrLessFloat}}
+\index{UnityAssertGreaterOrLessFloat@{UnityAssertGreaterOrLessFloat}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertGreaterOrLessFloat()}{UnityAssertGreaterOrLessFloat()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ad350648282b9a9df70f87ecc448e449c} 
+void Unity\+Assert\+Greater\+Or\+Less\+Float (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{threshold}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}}}]{compare}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a9140e102a6a8328cd87a2f9c1506849a}\index{unity.c@{unity.c}!UnityAssertIntGreaterOrLessOrEqualNumber@{UnityAssertIntGreaterOrLessOrEqualNumber}}
+\index{UnityAssertIntGreaterOrLessOrEqualNumber@{UnityAssertIntGreaterOrLessOrEqualNumber}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertIntGreaterOrLessOrEqualNumber()}{UnityAssertIntGreaterOrLessOrEqualNumber()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a9140e102a6a8328cd87a2f9c1506849a} 
+void Unity\+Assert\+Int\+Greater\+Or\+Less\+Or\+Equal\+Number (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{threshold}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}}}]{compare}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ad3de56bd59faad4907fe36c537bc35c6}\index{unity.c@{unity.c}!UnityAssertIntNumbersWithin@{UnityAssertIntNumbersWithin}}
+\index{UnityAssertIntNumbersWithin@{UnityAssertIntNumbersWithin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertIntNumbersWithin()}{UnityAssertIntNumbersWithin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ad3de56bd59faad4907fe36c537bc35c6} 
+void Unity\+Assert\+Int\+Numbers\+Within (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{delta}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a7125230f609e287bbe574be8ea46d1e3}\index{unity.c@{unity.c}!UnityAssertNumbersArrayWithin@{UnityAssertNumbersArrayWithin}}
+\index{UnityAssertNumbersArrayWithin@{UnityAssertNumbersArrayWithin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertNumbersArrayWithin()}{UnityAssertNumbersArrayWithin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a7125230f609e287bbe574be8ea46d1e3} 
+void Unity\+Assert\+Numbers\+Array\+Within (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{delta}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{expected}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{num\+\_\+elements}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}}}]{flags}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_abcb6bf81a7cb06c1001f064ca7ac065f}\index{unity.c@{unity.c}!UnityAssertUintGreaterOrLessOrEqualNumber@{UnityAssertUintGreaterOrLessOrEqualNumber}}
+\index{UnityAssertUintGreaterOrLessOrEqualNumber@{UnityAssertUintGreaterOrLessOrEqualNumber}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertUintGreaterOrLessOrEqualNumber()}{UnityAssertUintGreaterOrLessOrEqualNumber()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_abcb6bf81a7cb06c1001f064ca7ac065f} 
+void Unity\+Assert\+Uint\+Greater\+Or\+Less\+Or\+Equal\+Number (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{threshold}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af032691a9e32795aa06770185ac14a48}{UNITY\+\_\+\+COMPARISON\+\_\+T}}}]{compare}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a9c02d10734c77f743c5db1ca37fb065b}\index{unity.c@{unity.c}!UnityAssertUintNumbersWithin@{UnityAssertUintNumbersWithin}}
+\index{UnityAssertUintNumbersWithin@{UnityAssertUintNumbersWithin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertUintNumbersWithin()}{UnityAssertUintNumbersWithin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a9c02d10734c77f743c5db1ca37fb065b} 
+void Unity\+Assert\+Uint\+Numbers\+Within (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{delta}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{expected}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{actual}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aab0a2af1eacf97dee327b0567625c1e2}\index{unity.c@{unity.c}!UnityAssertWithinFloatArray@{UnityAssertWithinFloatArray}}
+\index{UnityAssertWithinFloatArray@{UnityAssertWithinFloatArray}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityAssertWithinFloatArray()}{UnityAssertWithinFloatArray()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aab0a2af1eacf97dee327b0567625c1e2} 
+void Unity\+Assert\+Within\+Float\+Array (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}}}]{delta}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a825b752e1c62ede9bee4bf22fb258a7d}{UNITY\+\_\+\+PTR\+\_\+\+ATTRIBUTE}} const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} \texorpdfstring{$\ast$}{*}}]{expected}{, }\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a825b752e1c62ede9bee4bf22fb258a7d}{UNITY\+\_\+\+PTR\+\_\+\+ATTRIBUTE}} const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac4a36d11e8a7b250f2413ebb22e3092c}{UNITY\+\_\+\+FLOAT}} \texorpdfstring{$\ast$}{*}}]{actual}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{num\+\_\+elements}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line\+Number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a229eb7ffd452e7c158f1fe19005a817c}{UNITY\+\_\+\+FLAGS\+\_\+T}}}]{flags}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aed50601fbdaea8fc0fef0c61cf877809}\index{unity.c@{unity.c}!UnityBegin@{UnityBegin}}
+\index{UnityBegin@{UnityBegin}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityBegin()}{UnityBegin()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aed50601fbdaea8fc0fef0c61cf877809} 
+void Unity\+Begin (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a44f03f0124e59f6996da61946cc2a58e}\index{unity.c@{unity.c}!UnityConcludeTest@{UnityConcludeTest}}
+\index{UnityConcludeTest@{UnityConcludeTest}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityConcludeTest()}{UnityConcludeTest()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a44f03f0124e59f6996da61946cc2a58e} 
+void Unity\+Conclude\+Test (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ae3c8272eef0f0b6228ca47b9dd1aa2af}\index{unity.c@{unity.c}!UnityDefaultTestRun@{UnityDefaultTestRun}}
+\index{UnityDefaultTestRun@{UnityDefaultTestRun}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityDefaultTestRun()}{UnityDefaultTestRun()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ae3c8272eef0f0b6228ca47b9dd1aa2af} 
+void Unity\+Default\+Test\+Run (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a750c0436a18789b916e55d70aae12985}{Unity\+Test\+Function}}}]{Func}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{Func\+Name}{, }\item[{const int}]{Func\+Line\+Num}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a4820ba04ff5e9a474fe38ab6633d30a0}\index{unity.c@{unity.c}!UnityEnd@{UnityEnd}}
+\index{UnityEnd@{UnityEnd}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityEnd()}{UnityEnd()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a4820ba04ff5e9a474fe38ab6633d30a0} 
+int Unity\+End (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a0daba95a4950d8a5a06b6b2c843742b8}\index{unity.c@{unity.c}!UnityFail@{UnityFail}}
+\index{UnityFail@{UnityFail}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityFail()}{UnityFail()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a0daba95a4950d8a5a06b6b2c843742b8} 
+void Unity\+Fail (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a01b1539781210d836d875fa9c6957982}\index{unity.c@{unity.c}!UnityFloatToPtr@{UnityFloatToPtr}}
+\index{UnityFloatToPtr@{UnityFloatToPtr}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityFloatToPtr()}{UnityFloatToPtr()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a01b1539781210d836d875fa9c6957982} 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} Unity\+Float\+To\+Ptr (\begin{DoxyParamCaption}\item[{const float}]{num}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a017e8c6a617d00312fd6688b73483284}\index{unity.c@{unity.c}!UnityIgnore@{UnityIgnore}}
+\index{UnityIgnore@{UnityIgnore}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityIgnore()}{UnityIgnore()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a017e8c6a617d00312fd6688b73483284} 
+void Unity\+Ignore (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_abc9ecca68af9f93f07fb907de67d5db3}\index{unity.c@{unity.c}!UnityMessage@{UnityMessage}}
+\index{UnityMessage@{UnityMessage}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityMessage()}{UnityMessage()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_abc9ecca68af9f93f07fb907de67d5db3} 
+void Unity\+Message (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{msg}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5c76dbcaafb6db2a52336cf5d4835290}{UNITY\+\_\+\+LINE\+\_\+\+TYPE}}}]{line}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aed32d6a240e25d9493f6492882f7d3d5}\index{unity.c@{unity.c}!UnityNumToPtr@{UnityNumToPtr}}
+\index{UnityNumToPtr@{UnityNumToPtr}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityNumToPtr()}{UnityNumToPtr()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aed32d6a240e25d9493f6492882f7d3d5} 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a5db8f91b73d20fd7b6f1d9bfd28a2dc0}{UNITY\+\_\+\+INTERNAL\+\_\+\+PTR}} Unity\+Num\+To\+Ptr (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{num}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ae9c38948acf740d92635783d49f7437c}{UNITY\+\_\+\+UINT8}}}]{size}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_accff2eb4cfd0273e8ad62c37639d3e3c}\index{unity.c@{unity.c}!UnityPrint@{UnityPrint}}
+\index{UnityPrint@{UnityPrint}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrint()}{UnityPrint()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_accff2eb4cfd0273e8ad62c37639d3e3c} 
+void Unity\+Print (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{string}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ac3d39bc0740a28949a2ba689588491c2}\index{unity.c@{unity.c}!UnityPrintFloat@{UnityPrintFloat}}
+\index{UnityPrintFloat@{UnityPrintFloat}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintFloat()}{UnityPrintFloat()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ac3d39bc0740a28949a2ba689588491c2} 
+void Unity\+Print\+Float (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ac3bdb18f38e23a4343af34a7f4e0d4a0}{UNITY\+\_\+\+DOUBLE}}}]{input\+\_\+number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ab531d17d52d935c2722230e87f346542}\index{unity.c@{unity.c}!UnityPrintIntNumberByStyle@{UnityPrintIntNumberByStyle}}
+\index{UnityPrintIntNumberByStyle@{UnityPrintIntNumberByStyle}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintIntNumberByStyle()}{UnityPrintIntNumberByStyle()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ab531d17d52d935c2722230e87f346542} 
+void Unity\+Print\+Int\+Number\+By\+Style (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a780817a15f2437360bd593c8fa7a1481}\index{unity.c@{unity.c}!UnityPrintLen@{UnityPrintLen}}
+\index{UnityPrintLen@{UnityPrintLen}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintLen()}{UnityPrintLen()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a780817a15f2437360bd593c8fa7a1481} 
+void Unity\+Print\+Len (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{string}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a711b62bcec9cafcd46479a4832adfa55}{UNITY\+\_\+\+UINT32}}}]{length}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a207d5b3e2bfe8042b0505066ccd07c9b}\index{unity.c@{unity.c}!UnityPrintMask@{UnityPrintMask}}
+\index{UnityPrintMask@{UnityPrintMask}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintMask()}{UnityPrintMask()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a207d5b3e2bfe8042b0505066ccd07c9b} 
+void Unity\+Print\+Mask (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{mask}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a644211a214ab000dcabd5582c52e0313}\index{unity.c@{unity.c}!UnityPrintNumber@{UnityPrintNumber}}
+\index{UnityPrintNumber@{UnityPrintNumber}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintNumber()}{UnityPrintNumber()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a644211a214ab000dcabd5582c52e0313} 
+void Unity\+Print\+Number (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ab304e341ff16e7076e9d06cc9c64c2a7}{UNITY\+\_\+\+INT}}}]{number\+\_\+to\+\_\+print}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ab5636c2c3e2d5ff0d89461e2323aa469}\index{unity.c@{unity.c}!UnityPrintNumberHex@{UnityPrintNumberHex}}
+\index{UnityPrintNumberHex@{UnityPrintNumberHex}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintNumberHex()}{UnityPrintNumberHex()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ab5636c2c3e2d5ff0d89461e2323aa469} 
+void Unity\+Print\+Number\+Hex (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{number}{, }\item[{const char}]{nibbles\+\_\+to\+\_\+print}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a3ef388786e9a8e769d13af2601b592dc}\index{unity.c@{unity.c}!UnityPrintNumberUnsigned@{UnityPrintNumberUnsigned}}
+\index{UnityPrintNumberUnsigned@{UnityPrintNumberUnsigned}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintNumberUnsigned()}{UnityPrintNumberUnsigned()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a3ef388786e9a8e769d13af2601b592dc} 
+void Unity\+Print\+Number\+Unsigned (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{number}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a281125e55622a58d1287acb767f18f42}\index{unity.c@{unity.c}!UnityPrintUintNumberByStyle@{UnityPrintUintNumberByStyle}}
+\index{UnityPrintUintNumberByStyle@{UnityPrintUintNumberByStyle}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityPrintUintNumberByStyle()}{UnityPrintUintNumberByStyle()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a281125e55622a58d1287acb767f18f42} 
+void Unity\+Print\+Uint\+Number\+By\+Style (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_abb5d2d06855829696244db2ff89290bd}{UNITY\+\_\+\+UINT}}}]{number}{, }\item[{const \doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a828517387e75bc0b3ee6a99d2e0722a4}{UNITY\+\_\+\+DISPLAY\+\_\+\+STYLE\+\_\+T}}}]{style}{}\end{DoxyParamCaption})}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_afefd1b90b9854b428fef009e12489282}\index{unity.c@{unity.c}!UnitySetTestFile@{UnitySetTestFile}}
+\index{UnitySetTestFile@{UnitySetTestFile}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnitySetTestFile()}{UnitySetTestFile()}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_afefd1b90b9854b428fef009e12489282} 
+void Unity\+Set\+Test\+File (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename}{}\end{DoxyParamCaption})}
+
+
+
+\label{embedded-core_2unity_2unity_8c_doc-var-members}
+\Hypertarget{embedded-core_2unity_2unity_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}\index{unity.c@{unity.c}!f@{f}}
+\index{f@{f}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1} 
+float f}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a3ff3d9c5010aa22165fa26f8e301131e}\index{unity.c@{unity.c}!i16@{i16}}
+\index{i16@{i16}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{i16}{i16}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a3ff3d9c5010aa22165fa26f8e301131e} 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_af18ca161e8d679a2d3b75928112c1707}{UNITY\+\_\+\+INT16}} i16}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ae9d133be8ac33cfb99b5b9646d7a5a87}\index{unity.c@{unity.c}!i32@{i32}}
+\index{i32@{i32}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{i32}{i32}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ae9d133be8ac33cfb99b5b9646d7a5a87} 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_a05b69a453107cea541ee62916ff349f9}{UNITY\+\_\+\+INT32}} i32}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ad20eed15082bd5f03fa33cf3014e9a99}\index{unity.c@{unity.c}!i8@{i8}}
+\index{i8@{i8}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{i8}{i8}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ad20eed15082bd5f03fa33cf3014e9a99} 
+\doxymbox{\hyperlink{embedded-core_2unity_2unity__internals_8h_ad0279e5d512a86af7ff1cfda67b9f64e}{UNITY\+\_\+\+INT8}} i8}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_aad738f665f16eb2336b8bc33f432d0da}\index{unity.c@{unity.c}!Unity@{Unity}}
+\index{Unity@{Unity}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{Unity}{Unity}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_aad738f665f16eb2336b8bc33f432d0da} 
+struct \doxymbox{\hyperlink{struct_u_n_i_t_y___s_t_o_r_a_g_e___t}{UNITY\+\_\+\+STORAGE\+\_\+T}} Unity}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a2cb379d054a17260a027ebe2cd0d1caf}\index{unity.c@{unity.c}!UnityStrErr64@{UnityStrErr64}}
+\index{UnityStrErr64@{UnityStrErr64}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrErr64}{UnityStrErr64}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a2cb379d054a17260a027ebe2cd0d1caf} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Err64\+[$\,$]\+ = "{}Unity 64-\/bit Support Disabled"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a8d7a43fee86d7e6db988e062a7be4ebf}\index{unity.c@{unity.c}!UnityStrErrDetailStack@{UnityStrErrDetailStack}}
+\index{UnityStrErrDetailStack@{UnityStrErrDetailStack}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrErrDetailStack}{UnityStrErrDetailStack}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a8d7a43fee86d7e6db988e062a7be4ebf} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Err\+Detail\+Stack\+[$\,$]\+ = "{}Unity Detail Stack Support Disabled"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a5ff53dbf9dd9ebac1832d2166baaad1d}\index{unity.c@{unity.c}!UnityStrErrDouble@{UnityStrErrDouble}}
+\index{UnityStrErrDouble@{UnityStrErrDouble}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrErrDouble}{UnityStrErrDouble}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a5ff53dbf9dd9ebac1832d2166baaad1d} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Err\+Double\+[$\,$]\+ = "{}Unity Double Precision Disabled"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ab72fe58f6f99c198dd56962527249f97}\index{unity.c@{unity.c}!UnityStrErrFloat@{UnityStrErrFloat}}
+\index{UnityStrErrFloat@{UnityStrErrFloat}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrErrFloat}{UnityStrErrFloat}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ab72fe58f6f99c198dd56962527249f97} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Err\+Float\+[$\,$]\+ = "{}Unity Floating Point Disabled"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ac99e9c46e8d8b76d042559a4bb2a7137}\index{unity.c@{unity.c}!UnityStrErrShorthand@{UnityStrErrShorthand}}
+\index{UnityStrErrShorthand@{UnityStrErrShorthand}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrErrShorthand}{UnityStrErrShorthand}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ac99e9c46e8d8b76d042559a4bb2a7137} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Err\+Shorthand\+[$\,$]\+ = "{}Unity Shorthand Support Disabled"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ac316f86bcebda9760575680522744d96}\index{unity.c@{unity.c}!UnityStrFail@{UnityStrFail}}
+\index{UnityStrFail@{UnityStrFail}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrFail}{UnityStrFail}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ac316f86bcebda9760575680522744d96} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Fail\+[$\,$]\+ = "{}FAIL"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_ad6ebb22be1abfa01578ec3567c51f9e9}\index{unity.c@{unity.c}!UnityStrIgnore@{UnityStrIgnore}}
+\index{UnityStrIgnore@{UnityStrIgnore}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrIgnore}{UnityStrIgnore}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_ad6ebb22be1abfa01578ec3567c51f9e9} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Ignore\+[$\,$]\+ = "{}IGNORE"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a14f8a3d589baec0ad27e338bd2001600}\index{unity.c@{unity.c}!UnityStrOk@{UnityStrOk}}
+\index{UnityStrOk@{UnityStrOk}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrOk}{UnityStrOk}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a14f8a3d589baec0ad27e338bd2001600} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Ok\+[$\,$]\+ = "{}OK"{}}
+
+\Hypertarget{embedded-core_2unity_2unity_8c_a96ccb9c12b5e14bbf2dcfc16b889efe2}\index{unity.c@{unity.c}!UnityStrPass@{UnityStrPass}}
+\index{UnityStrPass@{UnityStrPass}!unity.c@{unity.c}}
+\doxysubsubsection{\texorpdfstring{UnityStrPass}{UnityStrPass}}
+{\footnotesize\ttfamily \label{embedded-core_2unity_2unity_8c_a96ccb9c12b5e14bbf2dcfc16b889efe2} 
+const char \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af297050091d384f1b8cdebb753d593f5}{UNITY\+\_\+\+PROGMEM}} Unity\+Str\+Pass\+[$\,$]\+ = "{}PASS"{}}
+

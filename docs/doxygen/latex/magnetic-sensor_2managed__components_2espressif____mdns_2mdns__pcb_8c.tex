@@ -1,0 +1,424 @@
+\doxysection{magnetic-\/sensor/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+pcb.c File Reference}
+\hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c}{}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c}\index{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_pcb.c@{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_pcb.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+networking.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+pcb.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+netif.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+send.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+random.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+responder.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structmdns__pcb__t}{mdns\+\_\+pcb\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0036518671a01acca0881459ec21736f}{PCB\+\_\+\+STATE\+\_\+\+IS\+\_\+\+PROBING}}(s)
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab014a5399f865f7b3de04ad949b5e157}{PCB\+\_\+\+STATE\+\_\+\+IS\+\_\+\+ANNOUNCING}}(s)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0a}{mdns\+\_\+pcb\+\_\+state\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aac4da618b9c8c8cf18e409d1747c78d98}{PCB\+\_\+\+OFF}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa1a96b380795a8245b8843b9d22bd1a04}{PCB\+\_\+\+DUP}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8793cfda367c43411889b694a229595c}{PCB\+\_\+\+INIT}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6928254cf5d8437da9e7eebe06991e32}{PCB\+\_\+\+PROBE\+\_\+1}}
+, \newline
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aaf1bcf1f1c2ff836bedc4d5722f62e471}{PCB\+\_\+\+PROBE\+\_\+2}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa4e4b8c27ce6240e5bda3aae6716762f4}{PCB\+\_\+\+PROBE\+\_\+3}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa065a6c7427906fa7405003defa986965}{PCB\+\_\+\+ANNOUNCE\+\_\+1}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6a5f66d1ec9d8b01f63de9aebe6b4365}{PCB\+\_\+\+ANNOUNCE\+\_\+2}}
+, \newline
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa0617df68546cc8c7347d34cb70db9d38}{PCB\+\_\+\+ANNOUNCE\+\_\+3}}
+, \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8c384b35927ed4beb4f52f9c3b7f457a}{PCB\+\_\+\+RUNNING}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0a1b4cd3402c41c635758f2d3c316ee7}{mdns\+\_\+priv\+\_\+pcb\+\_\+announce}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}services, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} len, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} include\+\_\+ip)
+\begin{DoxyCompactList}\small\item\em Send announcement on particular PCB. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac8233e81f867f09bc2d37938403ecbb3}{mdns\+\_\+priv\+\_\+pcb\+\_\+check\+\_\+for\+\_\+duplicates}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if)
+\begin{DoxyCompactList}\small\item\em Check if interface is duplicate (two interfaces on the same subnet). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_af62e17db990dd67121d807e85f28f5c0}{mdns\+\_\+priv\+\_\+pcb\+\_\+disable}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Disable m\+DNS interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a86886fdfe60aae20f99c6d08c55518fa}{mdns\+\_\+priv\+\_\+pcb\+\_\+enable}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Enable m\+DNS interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a21b4eb6f50891dad33ff5454cd01719c}{mdns\+\_\+priv\+\_\+pcb\+\_\+set\+\_\+duplicate}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if)
+\begin{DoxyCompactList}\small\item\em Set interface as duplicate if another is found on the same subnet. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae92b61db5f0748d10071f62ab703d3ca}{mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+off}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Checks if the PCB is OFF. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a397a840cfa0f53a67d0488ccd853b4e8}{mdns\+\_\+priv\+\_\+pcb\+\_\+schedule\+\_\+tx\+\_\+packet}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243}{mdns\+\_\+tx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Schedules TX packets for various PCB states of probing and announcing. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a410c1cc81ad7feb6dbf8855da4ed972e}{mdns\+\_\+priv\+\_\+pcb\+\_\+check\+\_\+probing\+\_\+services}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{structmdns__service__t}{mdns\+\_\+service\+\_\+t}} \texorpdfstring{$\ast$}{*}service, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} removed\+\_\+answers, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \texorpdfstring{$\ast$}{*}should\+\_\+remove\+\_\+questions)
+\begin{DoxyCompactList}\small\item\em Update probing services on certain service removal. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ace65917318abb3d2207a079efb9b3222}{mdns\+\_\+priv\+\_\+pcb\+\_\+deinit}} (void)
+\begin{DoxyCompactList}\small\item\em Deinit pcbs. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae93e504638bde792099db461151fa641}{mdsn\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+inited}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Checks if the netif and PCB is initialized. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac68e04c993da53c5187c9634311c820d}{mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+duplicate}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol)
+\begin{DoxyCompactList}\small\item\em Checks if PCB is duplicated. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab745ca7e028c31df78ff3fa627bc5806}{mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+probing}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Checks if PCB is probing. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a27d46ff906e19854e6e847a57861c0ce}{mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+after\+\_\+probing}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Checks if PCB completed probing. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a738892637296e9985f092035d8ddd9cc}{mdns\+\_\+priv\+\_\+pcb\+\_\+set\+\_\+probe\+\_\+failed}} (\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Set probe failed to PCB. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a4fbecb1a54e737e459c10cb312f4eee1}{mdns\+\_\+priv\+\_\+init\+\_\+pcb\+\_\+probe}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}} tcpip\+\_\+if, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}} ip\+\_\+protocol, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}services, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} len, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} probe\+\_\+ip)
+\begin{DoxyCompactList}\small\item\em Send probe for particular services on particular PCB. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a749b51fac847296a19f7c328a201ae6c}{mdns\+\_\+priv\+\_\+pcb\+\_\+send\+\_\+bye\+\_\+service}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}services, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} len, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} include\+\_\+ip)
+\begin{DoxyCompactList}\small\item\em Send by for particular services. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a61fb4b26ce43b202cb917a909f37342e}{mdns\+\_\+priv\+\_\+probe\+\_\+all\+\_\+pcbs}} (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}services, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} len, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} probe\+\_\+ip, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} clear\+\_\+old\+\_\+probe)
+\begin{DoxyCompactList}\small\item\em Send probe on all active PCBs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-define-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab014a5399f865f7b3de04ad949b5e157}\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_STATE\_IS\_ANNOUNCING@{PCB\_STATE\_IS\_ANNOUNCING}}
+\index{PCB\_STATE\_IS\_ANNOUNCING@{PCB\_STATE\_IS\_ANNOUNCING}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{PCB\_STATE\_IS\_ANNOUNCING}{PCB\_STATE\_IS\_ANNOUNCING}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab014a5399f865f7b3de04ad949b5e157} 
+\+\#define PCB\+\_\+\+STATE\+\_\+\+IS\+\_\+\+ANNOUNCING(\begin{DoxyParamCaption}\item[{}]{s}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(s-\/>state\ >\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa4e4b8c27ce6240e5bda3aae6716762f4}{PCB\_PROBE\_3}}\ \&\&\ s-\/>state\ <\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8c384b35927ed4beb4f52f9c3b7f457a}{PCB\_RUNNING}})}
+
+\end{DoxyCode}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0036518671a01acca0881459ec21736f}\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_STATE\_IS\_PROBING@{PCB\_STATE\_IS\_PROBING}}
+\index{PCB\_STATE\_IS\_PROBING@{PCB\_STATE\_IS\_PROBING}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{PCB\_STATE\_IS\_PROBING}{PCB\_STATE\_IS\_PROBING}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0036518671a01acca0881459ec21736f} 
+\+\#define PCB\+\_\+\+STATE\+\_\+\+IS\+\_\+\+PROBING(\begin{DoxyParamCaption}\item[{}]{s}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(s-\/>state\ >\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aac4da618b9c8c8cf18e409d1747c78d98}{PCB\_OFF}}\ \&\&\ s-\/>state\ <\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa065a6c7427906fa7405003defa986965}{PCB\_ANNOUNCE\_1}})}
+
+\end{DoxyCode}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-enum-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0a}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_pcb\_state\_t@{mdns\_pcb\_state\_t}}
+\index{mdns\_pcb\_state\_t@{mdns\_pcb\_state\_t}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_pcb\_state\_t}{mdns\_pcb\_state\_t}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0a} 
+enum \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0a}{mdns\+\_\+pcb\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_OFF@{PCB\_OFF}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_OFF@{PCB\_OFF}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aac4da618b9c8c8cf18e409d1747c78d98}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aac4da618b9c8c8cf18e409d1747c78d98} 
+PCB\+\_\+\+OFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_DUP@{PCB\_DUP}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_DUP@{PCB\_DUP}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa1a96b380795a8245b8843b9d22bd1a04}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa1a96b380795a8245b8843b9d22bd1a04} 
+PCB\+\_\+\+DUP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_INIT@{PCB\_INIT}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_INIT@{PCB\_INIT}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8793cfda367c43411889b694a229595c}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8793cfda367c43411889b694a229595c} 
+PCB\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_PROBE\_1@{PCB\_PROBE\_1}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_PROBE\_1@{PCB\_PROBE\_1}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6928254cf5d8437da9e7eebe06991e32}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6928254cf5d8437da9e7eebe06991e32} 
+PCB\+\_\+\+PROBE\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_PROBE\_2@{PCB\_PROBE\_2}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_PROBE\_2@{PCB\_PROBE\_2}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aaf1bcf1f1c2ff836bedc4d5722f62e471}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aaf1bcf1f1c2ff836bedc4d5722f62e471} 
+PCB\+\_\+\+PROBE\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_PROBE\_3@{PCB\_PROBE\_3}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_PROBE\_3@{PCB\_PROBE\_3}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa4e4b8c27ce6240e5bda3aae6716762f4}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa4e4b8c27ce6240e5bda3aae6716762f4} 
+PCB\+\_\+\+PROBE\+\_\+3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_ANNOUNCE\_1@{PCB\_ANNOUNCE\_1}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_ANNOUNCE\_1@{PCB\_ANNOUNCE\_1}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa065a6c7427906fa7405003defa986965}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa065a6c7427906fa7405003defa986965} 
+PCB\+\_\+\+ANNOUNCE\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_ANNOUNCE\_2@{PCB\_ANNOUNCE\_2}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_ANNOUNCE\_2@{PCB\_ANNOUNCE\_2}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6a5f66d1ec9d8b01f63de9aebe6b4365}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa6a5f66d1ec9d8b01f63de9aebe6b4365} 
+PCB\+\_\+\+ANNOUNCE\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_ANNOUNCE\_3@{PCB\_ANNOUNCE\_3}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_ANNOUNCE\_3@{PCB\_ANNOUNCE\_3}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa0617df68546cc8c7347d34cb70db9d38}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa0617df68546cc8c7347d34cb70db9d38} 
+PCB\+\_\+\+ANNOUNCE\+\_\+3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCB\_RUNNING@{PCB\_RUNNING}!mdns\_pcb.c@{mdns\_pcb.c}}
+\index{mdns\_pcb.c@{mdns\_pcb.c}!PCB\_RUNNING@{PCB\_RUNNING}}
+}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8c384b35927ed4beb4f52f9c3b7f457a}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a507d4acafda16802ef6689a0c35d2b0aa8c384b35927ed4beb4f52f9c3b7f457a} 
+PCB\+\_\+\+RUNNING&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-func-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a4fbecb1a54e737e459c10cb312f4eee1}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_init\_pcb\_probe@{mdns\_priv\_init\_pcb\_probe}}
+\index{mdns\_priv\_init\_pcb\_probe@{mdns\_priv\_init\_pcb\_probe}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_init\_pcb\_probe()}{mdns\_priv\_init\_pcb\_probe()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a4fbecb1a54e737e459c10cb312f4eee1} 
+void mdns\+\_\+priv\+\_\+init\+\_\+pcb\+\_\+probe (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{services}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{len}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{probe\+\_\+ip}{}\end{DoxyParamCaption})}
+
+
+
+Send probe for particular services on particular PCB. 
+
+Tests possible duplication on probing service structure and probes only for new entries.
+\begin{DoxyItemize}
+\item If pcb probing then add only non-\/probing services and restarts probing
+\item If pcb not probing, run probing for all specified services 
+\end{DoxyItemize}\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0a1b4cd3402c41c635758f2d3c316ee7}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_announce@{mdns\_priv\_pcb\_announce}}
+\index{mdns\_priv\_pcb\_announce@{mdns\_priv\_pcb\_announce}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_announce()}{mdns\_priv\_pcb\_announce()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a0a1b4cd3402c41c635758f2d3c316ee7} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+announce (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{services}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{len}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{include\+\_\+ip}{}\end{DoxyParamCaption})}
+
+
+
+Send announcement on particular PCB. 
+
+\begin{DoxyNote}{Note}
+Called mainly from mdns.\+c to send announcements on all interfaces 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac8233e81f867f09bc2d37938403ecbb3}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_check\_for\_duplicates@{mdns\_priv\_pcb\_check\_for\_duplicates}}
+\index{mdns\_priv\_pcb\_check\_for\_duplicates@{mdns\_priv\_pcb\_check\_for\_duplicates}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_check\_for\_duplicates()}{mdns\_priv\_pcb\_check\_for\_duplicates()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac8233e81f867f09bc2d37938403ecbb3} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+pcb\+\_\+check\+\_\+for\+\_\+duplicates (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{}\end{DoxyParamCaption})}
+
+
+
+Check if interface is duplicate (two interfaces on the same subnet). 
+
+Checks if the selected interface has a duplicate.
+
+Check if interface is duplicate (two interfaces on the same subnet).
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c
+\end{DoxyNote}
+Checks if the selected interface has a duplicate. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a410c1cc81ad7feb6dbf8855da4ed972e}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_check\_probing\_services@{mdns\_priv\_pcb\_check\_probing\_services}}
+\index{mdns\_priv\_pcb\_check\_probing\_services@{mdns\_priv\_pcb\_check\_probing\_services}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_check\_probing\_services()}{mdns\_priv\_pcb\_check\_probing\_services()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a410c1cc81ad7feb6dbf8855da4ed972e} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+check\+\_\+probing\+\_\+services (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{, }\item[{\doxymbox{\hyperlink{structmdns__service__t}{mdns\+\_\+service\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{service}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{removed\+\_\+answers}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \texorpdfstring{$\ast$}{*}}]{should\+\_\+remove\+\_\+questions}{}\end{DoxyParamCaption})}
+
+
+
+Update probing services on certain service removal. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c upon removing scheduled packets for a service 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ace65917318abb3d2207a079efb9b3222}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_deinit@{mdns\_priv\_pcb\_deinit}}
+\index{mdns\_priv\_pcb\_deinit@{mdns\_priv\_pcb\_deinit}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_deinit()}{mdns\_priv\_pcb\_deinit()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ace65917318abb3d2207a079efb9b3222} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Deinit pcbs. 
+
+\begin{DoxyNote}{Note}
+Called from \doxylink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a60085437d50474fff82bda1b027d9da3}{mdns\+\_\+free()} 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_af62e17db990dd67121d807e85f28f5c0}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_disable@{mdns\_priv\_pcb\_disable}}
+\index{mdns\_priv\_pcb\_disable@{mdns\_priv\_pcb\_disable}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_disable()}{mdns\_priv\_pcb\_disable()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_af62e17db990dd67121d807e85f28f5c0} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+disable (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Disable m\+DNS interface. 
+
+Disable the PCB for the selected interface and protocol.
+
+Disable m\+DNS interface.
+
+\begin{DoxyNote}{Note}
+Called from the main module (deinit and event handler)
+\end{DoxyNote}
+Disable the PCB for the selected interface and protocol. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a86886fdfe60aae20f99c6d08c55518fa}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_enable@{mdns\_priv\_pcb\_enable}}
+\index{mdns\_priv\_pcb\_enable@{mdns\_priv\_pcb\_enable}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_enable()}{mdns\_priv\_pcb\_enable()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a86886fdfe60aae20f99c6d08c55518fa} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+enable (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Enable m\+DNS interface. 
+
+Enable the PCB for the selected interface and protocol.
+
+Enable m\+DNS interface.
+
+\begin{DoxyNote}{Note}
+Called from the main module (deinit and event handler)
+\end{DoxyNote}
+Enable the PCB for the selected interface and protocol. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a27d46ff906e19854e6e847a57861c0ce}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_is\_after\_probing@{mdns\_priv\_pcb\_is\_after\_probing}}
+\index{mdns\_priv\_pcb\_is\_after\_probing@{mdns\_priv\_pcb\_is\_after\_probing}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_is\_after\_probing()}{mdns\_priv\_pcb\_is\_after\_probing()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a27d46ff906e19854e6e847a57861c0ce} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+after\+\_\+probing (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Checks if PCB completed probing. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+receive.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac68e04c993da53c5187c9634311c820d}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_is\_duplicate@{mdns\_priv\_pcb\_is\_duplicate}}
+\index{mdns\_priv\_pcb\_is\_duplicate@{mdns\_priv\_pcb\_is\_duplicate}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_is\_duplicate()}{mdns\_priv\_pcb\_is\_duplicate()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ac68e04c993da53c5187c9634311c820d} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+duplicate (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Checks if PCB is duplicated. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae92b61db5f0748d10071f62ab703d3ca}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_is\_off@{mdns\_priv\_pcb\_is\_off}}
+\index{mdns\_priv\_pcb\_is\_off@{mdns\_priv\_pcb\_is\_off}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_is\_off()}{mdns\_priv\_pcb\_is\_off()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae92b61db5f0748d10071f62ab703d3ca} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+off (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Checks if the PCB is OFF. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab745ca7e028c31df78ff3fa627bc5806}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_is\_probing@{mdns\_priv\_pcb\_is\_probing}}
+\index{mdns\_priv\_pcb\_is\_probing@{mdns\_priv\_pcb\_is\_probing}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_is\_probing()}{mdns\_priv\_pcb\_is\_probing()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ab745ca7e028c31df78ff3fa627bc5806} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+probing (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Checks if PCB is probing. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+receive.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a397a840cfa0f53a67d0488ccd853b4e8}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_schedule\_tx\_packet@{mdns\_priv\_pcb\_schedule\_tx\_packet}}
+\index{mdns\_priv\_pcb\_schedule\_tx\_packet@{mdns\_priv\_pcb\_schedule\_tx\_packet}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_schedule\_tx\_packet()}{mdns\_priv\_pcb\_schedule\_tx\_packet()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a397a840cfa0f53a67d0488ccd853b4e8} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+schedule\+\_\+tx\+\_\+packet (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_ae19ecd5e2aa45888c4fee139de363243}{mdns\+\_\+tx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Schedules TX packets for various PCB states of probing and announcing. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a749b51fac847296a19f7c328a201ae6c}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_send\_bye\_service@{mdns\_priv\_pcb\_send\_bye\_service}}
+\index{mdns\_priv\_pcb\_send\_bye\_service@{mdns\_priv\_pcb\_send\_bye\_service}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_send\_bye\_service()}{mdns\_priv\_pcb\_send\_bye\_service()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a749b51fac847296a19f7c328a201ae6c} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+send\+\_\+bye\+\_\+service (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{services}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{len}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{include\+\_\+ip}{}\end{DoxyParamCaption})}
+
+
+
+Send by for particular services. 
+
+Sends bye for particular services on particular PCB.
+
+Send by for particular services.
+
+\begin{DoxyNote}{Note}
+Called from mdns.\+c
+\end{DoxyNote}
+Sends bye for particular services on particular PCB. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a21b4eb6f50891dad33ff5454cd01719c}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_set\_duplicate@{mdns\_priv\_pcb\_set\_duplicate}}
+\index{mdns\_priv\_pcb\_set\_duplicate@{mdns\_priv\_pcb\_set\_duplicate}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_set\_duplicate()}{mdns\_priv\_pcb\_set\_duplicate()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a21b4eb6f50891dad33ff5454cd01719c} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+set\+\_\+duplicate (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{}\end{DoxyParamCaption})}
+
+
+
+Set interface as duplicate if another is found on the same subnet. 
+
+Set the interface as duplicate.
+
+Set interface as duplicate if another is found on the same subnet.
+
+\begin{DoxyNote}{Note}
+Called from the packet parser when checking for collisions
+\end{DoxyNote}
+Set the interface as duplicate. \Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a738892637296e9985f092035d8ddd9cc}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_pcb\_set\_probe\_failed@{mdns\_priv\_pcb\_set\_probe\_failed}}
+\index{mdns\_priv\_pcb\_set\_probe\_failed@{mdns\_priv\_pcb\_set\_probe\_failed}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_pcb\_set\_probe\_failed()}{mdns\_priv\_pcb\_set\_probe\_failed()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a738892637296e9985f092035d8ddd9cc} 
+void mdns\+\_\+priv\+\_\+pcb\+\_\+set\+\_\+probe\+\_\+failed (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__rx__packet__t}{mdns\+\_\+rx\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Set probe failed to PCB. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+receive.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a61fb4b26ce43b202cb917a909f37342e}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdns\_priv\_probe\_all\_pcbs@{mdns\_priv\_probe\_all\_pcbs}}
+\index{mdns\_priv\_probe\_all\_pcbs@{mdns\_priv\_probe\_all\_pcbs}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_probe\_all\_pcbs()}{mdns\_priv\_probe\_all\_pcbs()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_a61fb4b26ce43b202cb917a909f37342e} 
+void mdns\+\_\+priv\+\_\+probe\+\_\+all\+\_\+pcbs (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{services}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{len}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{probe\+\_\+ip}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{clear\+\_\+old\+\_\+probe}{}\end{DoxyParamCaption})}
+
+
+
+Send probe on all active PCBs. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae93e504638bde792099db461151fa641}\index{mdns\_pcb.c@{mdns\_pcb.c}!mdsn\_priv\_pcb\_is\_inited@{mdsn\_priv\_pcb\_is\_inited}}
+\index{mdsn\_priv\_pcb\_is\_inited@{mdsn\_priv\_pcb\_is\_inited}!mdns\_pcb.c@{mdns\_pcb.c}}
+\doxysubsubsection{\texorpdfstring{mdsn\_priv\_pcb\_is\_inited()}{mdsn\_priv\_pcb\_is\_inited()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__pcb_8c_ae93e504638bde792099db461151fa641} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdsn\+\_\+priv\+\_\+pcb\+\_\+is\+\_\+inited (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a9195636f6b930838eed83e3498b97ae4}{mdns\+\_\+if\+\_\+t}}}]{tcpip\+\_\+if}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a13f9e348f77ff335c56cc23978ce6598}{mdns\+\_\+ip\+\_\+protocol\+\_\+t}}}]{ip\+\_\+protocol}{}\end{DoxyParamCaption})}
+
+
+
+Checks if the netif and PCB is initialized. 
+
+\begin{DoxyNote}{Note}
+Called from mdns\+\_\+send.\+c 
+\end{DoxyNote}

@@ -31,60 +31,76 @@ var NAVTREE =
       [ "Architecture", "md_docs_2_h_w__documentation.html#autotoc_md2", null ],
       [ "Hardware Components", "md_docs_2_h_w__documentation.html#autotoc_md3", [
         [ "1. ESP32-S3", "md_docs_2_h_w__documentation.html#autotoc_md4", [
-          [ "Technical Data", "md_docs_2_h_w__documentation.html#autotoc_md5", null ]
+          [ "Technical Data", "md_docs_2_h_w__documentation.html#autotoc_md5", null ],
+          [ "Display", "md_docs_2_h_w__documentation.html#autotoc_md6", null ]
         ] ],
-        [ "2. ESP32-C3 Sensor Nodes", "md_docs_2_h_w__documentation.html#autotoc_md6", [
-          [ "Connections", "md_docs_2_h_w__documentation.html#autotoc_md7", null ]
+        [ "2. ESP32-C3 Sensor Nodes", "md_docs_2_h_w__documentation.html#autotoc_md7", [
+          [ "Connections", "md_docs_2_h_w__documentation.html#autotoc_md8", null ]
         ] ],
-        [ "3. Magnetic Sensors", "md_docs_2_h_w__documentation.html#autotoc_md8", [
-          [ "Signals", "md_docs_2_h_w__documentation.html#autotoc_md9", null ],
-          [ "Example", "md_docs_2_h_w__documentation.html#autotoc_md10", null ]
+        [ "3. Magnetic Sensors", "md_docs_2_h_w__documentation.html#autotoc_md9", [
+          [ "Signals", "md_docs_2_h_w__documentation.html#autotoc_md10", null ],
+          [ "Example", "md_docs_2_h_w__documentation.html#autotoc_md11", null ]
         ] ],
-        [ "4. ESP32-CAM", "md_docs_2_h_w__documentation.html#autotoc_md11", [
-          [ "Communication", "md_docs_2_h_w__documentation.html#autotoc_md12", null ]
+        [ "4. ESP32-CAM", "md_docs_2_h_w__documentation.html#autotoc_md12", [
+          [ "Communication", "md_docs_2_h_w__documentation.html#autotoc_md13", null ]
         ] ],
-        [ "5. BME280 Sensor", "md_docs_2_h_w__documentation.html#autotoc_md13", [
-          [ "Communication", "md_docs_2_h_w__documentation.html#autotoc_md14", null ],
-          [ "Address", "md_docs_2_h_w__documentation.html#autotoc_md15", null ],
-          [ "Connections", "md_docs_2_h_w__documentation.html#autotoc_md16", null ]
+        [ "5. BME280 Sensor", "md_docs_2_h_w__documentation.html#autotoc_md14", [
+          [ "Communication", "md_docs_2_h_w__documentation.html#autotoc_md15", null ],
+          [ "Address", "md_docs_2_h_w__documentation.html#autotoc_md16", null ],
+          [ "Connections", "md_docs_2_h_w__documentation.html#autotoc_md17", null ]
         ] ]
       ] ],
-      [ "Communication Architecture", "md_docs_2_h_w__documentation.html#autotoc_md17", [
-        [ "Wi-Fi Network", "md_docs_2_h_w__documentation.html#autotoc_md18", [
-          [ "Protocols", "md_docs_2_h_w__documentation.html#autotoc_md19", null ]
+      [ "Communication Architecture", "md_docs_2_h_w__documentation.html#autotoc_md18", [
+        [ "Wi-Fi Network", "md_docs_2_h_w__documentation.html#autotoc_md19", [
+          [ "Protocols", "md_docs_2_h_w__documentation.html#autotoc_md20", null ]
+        ] ],
+        [ "Signal Flow", "md_docs_2_h_w__documentation.html#autotoc_md21", [
+          [ "Door/Window Sensor Event", "md_docs_2_h_w__documentation.html#autotoc_md22", null ],
+          [ "Environmental Sensor Event (BME280)", "md_docs_2_h_w__documentation.html#autotoc_md23", null ],
+          [ "Camera Monitoring", "md_docs_2_h_w__documentation.html#autotoc_md24", null ]
         ] ]
       ] ],
-      [ "Power Supply", "md_docs_2_h_w__documentation.html#autotoc_md20", null ],
-      [ "Pin Configuration", "md_docs_2_h_w__documentation.html#autotoc_md21", null ],
-      [ "System Limitations", "md_docs_2_h_w__documentation.html#autotoc_md22", null ]
+      [ "Power Supply", "md_docs_2_h_w__documentation.html#autotoc_md25", null ],
+      [ "Pin Configuration", "md_docs_2_h_w__documentation.html#autotoc_md26", [
+        [ "Application GPIO Usage", "md_docs_2_h_w__documentation.html#autotoc_md27", null ],
+        [ "Display Interface GPIOs", "md_docs_2_h_w__documentation.html#autotoc_md28", null ],
+        [ "Additional Reserved Display GPIOs", "md_docs_2_h_w__documentation.html#autotoc_md29", null ]
+      ] ],
+      [ "System Limitations", "md_docs_2_h_w__documentation.html#autotoc_md30", null ]
     ] ],
     [ "uml", "md_docs_2uml.html", null ],
     [ "Life-Saver-Deluxe", "md__r_e_a_d_m_e.html", [
-      [ "Overview", "md__r_e_a_d_m_e.html#autotoc_md25", null ],
-      [ "Features", "md__r_e_a_d_m_e.html#autotoc_md27", [
-        [ "Home Hub (ESP32-S3)", "md__r_e_a_d_m_e.html#autotoc_md28", null ],
-        [ "Sensor Nodes (ESP32-C3)", "md__r_e_a_d_m_e.html#autotoc_md29", null ],
-        [ "Environmental Monitoring", "md__r_e_a_d_m_e.html#autotoc_md30", null ],
-        [ "Camera Module (Experimental)", "md__r_e_a_d_m_e.html#autotoc_md31", null ]
+      [ "Demo", "md__r_e_a_d_m_e.html#autotoc_md33", [
+        [ "Home-Hub", "md__r_e_a_d_m_e.html#autotoc_md34", null ],
+        [ "Cam-module:", "md__r_e_a_d_m_e.html#autotoc_md35", null ]
       ] ],
-      [ "System Architecture", "md__r_e_a_d_m_e.html#autotoc_md33", null ],
-      [ "Technology Stack", "md__r_e_a_d_m_e.html#autotoc_md35", null ],
-      [ "Repository Structure", "md__r_e_a_d_m_e.html#autotoc_md37", null ],
-      [ "Hardware Requirements", "md__r_e_a_d_m_e.html#autotoc_md39", [
-        [ "Home Hub", "md__r_e_a_d_m_e.html#autotoc_md40", null ],
-        [ "Sensor Node", "md__r_e_a_d_m_e.html#autotoc_md41", null ],
-        [ "Optional", "md__r_e_a_d_m_e.html#autotoc_md42", null ]
+      [ "Overview", "md__r_e_a_d_m_e.html#autotoc_md37", null ],
+      [ "Features", "md__r_e_a_d_m_e.html#autotoc_md39", [
+        [ "Home Hub (ESP32-S3)", "md__r_e_a_d_m_e.html#autotoc_md40", null ],
+        [ "Sensor Nodes (ESP32-C3)", "md__r_e_a_d_m_e.html#autotoc_md41", null ],
+        [ "Environmental Monitoring", "md__r_e_a_d_m_e.html#autotoc_md42", null ],
+        [ "Camera Module (Experimental)", "md__r_e_a_d_m_e.html#autotoc_md43", null ]
       ] ],
-      [ "Building the Project", "md__r_e_a_d_m_e.html#autotoc_md44", [
-        [ "Prerequisites", "md__r_e_a_d_m_e.html#autotoc_md45", null ],
-        [ "Clone Repository", "md__r_e_a_d_m_e.html#autotoc_md46", null ],
-        [ "Build", "md__r_e_a_d_m_e.html#autotoc_md47", null ],
-        [ "Flash", "md__r_e_a_d_m_e.html#autotoc_md48", null ],
-        [ "Monitor", "md__r_e_a_d_m_e.html#autotoc_md49", null ]
+      [ "System Architecture", "md__r_e_a_d_m_e.html#autotoc_md45", null ],
+      [ "Technology Stack", "md__r_e_a_d_m_e.html#autotoc_md47", null ],
+      [ "Repository Structure", "md__r_e_a_d_m_e.html#autotoc_md49", null ],
+      [ "Hardware Requirements", "md__r_e_a_d_m_e.html#autotoc_md51", [
+        [ "Home Hub", "md__r_e_a_d_m_e.html#autotoc_md52", null ],
+        [ "Sensor Node", "md__r_e_a_d_m_e.html#autotoc_md53", null ],
+        [ "Optional", "md__r_e_a_d_m_e.html#autotoc_md54", null ]
       ] ],
-      [ "Documentation", "md__r_e_a_d_m_e.html#autotoc_md51", null ],
-      [ "Development Process", "md__r_e_a_d_m_e.html#autotoc_md53", null ],
-      [ "Team Members", "md__r_e_a_d_m_e.html#autotoc_md55", null ]
+      [ "Building the Project", "md__r_e_a_d_m_e.html#autotoc_md56", [
+        [ "Prerequisites", "md__r_e_a_d_m_e.html#autotoc_md57", null ],
+        [ "Clone Repository", "md__r_e_a_d_m_e.html#autotoc_md58", null ],
+        [ "Build", "md__r_e_a_d_m_e.html#autotoc_md59", null ],
+        [ "Flash", "md__r_e_a_d_m_e.html#autotoc_md60", null ],
+        [ "Monitor", "md__r_e_a_d_m_e.html#autotoc_md61", null ]
+      ] ],
+      [ "Documentation", "md__r_e_a_d_m_e.html#autotoc_md63", null ],
+      [ "Sequence diagram", "md__r_e_a_d_m_e.html#autotoc_md65", null ],
+      [ "Development Process", "md__r_e_a_d_m_e.html#autotoc_md67", null ],
+      [ "Key Learnings", "md__r_e_a_d_m_e.html#autotoc_md69", null ],
+      [ "Team Members", "md__r_e_a_d_m_e.html#autotoc_md71", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -112,14 +128,15 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html",
-"file__system_8h.html#a1bedfa5234a0637b135dd1dac659b302",
-"magnetic-sensor_8c.html#ab0972946d5dbb0157f154108f596f6be",
-"structc_j_s_o_n.html#aed1cfb225a5fb77461e7972691e68a72",
-"unity_8h.html#a22220af860e373e154173c7ab1ee209b",
-"unity_8h.html#aad2e3bd630e9c3be44e901b745865226",
-"unity__internals_8h.html#a5141441a76b31a3e774ccc0b54ef96f7",
-"unity__internals_8h.html#af7359fe8e73173944cbe9d9814a32479"
+"allocator_2mocks_2mock__deps_8h.html",
+"dir_b21cc758e9e74f54942422dc62014ccb.html",
+"gui__sensors_8c.html#acd80ba98a259303b153aeff66c29361a",
+"md_docs_2_h_w__documentation.html#autotoc_md4",
+"structtheme__t.html#a8f8f80d37794cde9472343e4487ba3eb",
+"unity_8h.html#a1c4f73570e4cad0f343902c8426963ec",
+"unity_8h.html#aa73f8c4f920f89e565fa19ee10b93356",
+"unity__internals_8h.html#a44a50f4cb297bc3524d05b80000aa3a2",
+"unity__internals_8h.html#af209be736676b8891766939bb78e8f3a"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

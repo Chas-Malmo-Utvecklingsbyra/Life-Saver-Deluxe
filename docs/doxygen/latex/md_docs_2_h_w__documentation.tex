@@ -35,7 +35,7 @@ The system includes:\+
 \DoxyCodeLine{|\ \ \ ESP32-\/C3\ \#3\ \ |-\/-\/-\/-\/-\/>|\ Magnetic\ Sensor|}
 \DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
 \DoxyCodeLine{}
-\DoxyCodeLine{Experimental:}
+\DoxyCodeLine{Experimental\ (Not\ yet\ fully\ integrated):}
 \DoxyCodeLine{}
 \DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
 \DoxyCodeLine{|\ \ \ ESP32-\/CAM\ \ \ \ |-\/-\/-\/-\/-\/>|\ Motion\ \ \ \ \ \ \ \ \ |}
@@ -45,14 +45,14 @@ The system includes:\+
 \end{DoxyCode}
 \hypertarget{md_docs_2_h_w__documentation_autotoc_md3}{}\doxysection{\texorpdfstring{Hardware Components}{Hardware Components}}\label{md_docs_2_h_w__documentation_autotoc_md3}
 \hypertarget{md_docs_2_h_w__documentation_autotoc_md4}{}\doxysubsection{\texorpdfstring{1. ESP32-\/\+S3}{1. ESP32-\/\+S3}}\label{md_docs_2_h_w__documentation_autotoc_md4}
-The system\textquotesingle{}s central unit is responsible for:\+
+The Home Hub is responsible for:\+
 
 
 \begin{DoxyItemize}
 \item GUI (LVGL)
 \item Communication with sensor nodes
-\item Handling sensor placement
-\item Collecting data from the BME280 sensor
+\item Managing sensor placement and configuration
+\item Acquiring environmental data from the BME280 sensor
 \end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{Technical Data}{Technical Data}}\label{md_docs_2_h_w__documentation_autotoc_md5}
 
 \begin{DoxyTable}{2}{}{}{1}
@@ -63,31 +63,41 @@ RAM  &512 KB  \\
 Communication  &Wi-\/\+Fi, Bluetooth  \\
 Voltage  &3.\+3 V  \\
 \end{DoxyTable}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md6}{}\doxysubsection{\texorpdfstring{2. ESP32-\/\+C3 Sensor Nodes}{2. ESP32-\/\+C3 Sensor Nodes}}\label{md_docs_2_h_w__documentation_autotoc_md6}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{Display}{Display}}\label{md_docs_2_h_w__documentation_autotoc_md6}
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Parameter  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Value  \\
+Resolution  &1024 x 600  \\
+Interface  &RGB565  \\
+Touch Controller  &GT911  \\
+Touch Interface  &I2C  \\
+Touch Address  &0x5D  \\
+\end{DoxyTable}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md7}{}\doxysubsection{\texorpdfstring{2. ESP32-\/\+C3 Sensor Nodes}{2. ESP32-\/\+C3 Sensor Nodes}}\label{md_docs_2_h_w__documentation_autotoc_md7}
 Each ESP32-\/\+C3 operates as an independent sensor node connected to a single magnetic door or window sensor.
 
 Responsibilities:\+
 
 
 \begin{DoxyItemize}
-\item Reading sensor data
+\item Monitoring magnetic sensor state
 \item Sending status updates to the ESP32-\/\+S3
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{Connections}{Connections}}\label{md_docs_2_h_w__documentation_autotoc_md7}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Connections}{Connections}}\label{md_docs_2_h_w__documentation_autotoc_md8}
 
 \begin{DoxyTable}{2}{}{}{1}
 \SetCell{c,bg=\tableheadbgcolor,font=\bfseries}GPIO  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Function  \\
 GPIO2  &Magnetic \doxylink{struct_sensor}{Sensor}  \\
 GND  &Ground  \\
 \end{DoxyTable}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md8}{}\doxysubsection{\texorpdfstring{3. Magnetic Sensors}{3. Magnetic Sensors}}\label{md_docs_2_h_w__documentation_autotoc_md8}
-Detect whether a door or window is open or closed.\hypertarget{md_docs_2_h_w__documentation_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{Signals}{Signals}}\label{md_docs_2_h_w__documentation_autotoc_md9}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md9}{}\doxysubsection{\texorpdfstring{3. Magnetic Sensors}{3. Magnetic Sensors}}\label{md_docs_2_h_w__documentation_autotoc_md9}
+Detect whether a door or window is open or closed.\hypertarget{md_docs_2_h_w__documentation_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{Signals}{Signals}}\label{md_docs_2_h_w__documentation_autotoc_md10}
 
 \begin{DoxyTable}{2}{}{}{1}
 \SetCell{c,bg=\tableheadbgcolor,font=\bfseries}State  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Signal  \\
 Closed  &LOW  \\
 Open  &HIGH  \\
 \end{DoxyTable}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{Example}{Example}}\label{md_docs_2_h_w__documentation_autotoc_md10}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md11}{}\doxysubsubsection{\texorpdfstring{Example}{Example}}\label{md_docs_2_h_w__documentation_autotoc_md11}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Door\ Closed:}
@@ -97,19 +107,19 @@ Open  &HIGH  \\
 \DoxyCodeLine{[\ Magnet\ ]\ \ \ \ \ \ \ \ \ [\ Sensor\ ]}
 
 \end{DoxyCode}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md11}{}\doxysubsection{\texorpdfstring{4. ESP32-\/\+CAM}{4. ESP32-\/\+CAM}}\label{md_docs_2_h_w__documentation_autotoc_md11}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md12}{}\doxysubsection{\texorpdfstring{4. ESP32-\/\+CAM}{4. ESP32-\/\+CAM}}\label{md_docs_2_h_w__documentation_autotoc_md12}
 Provides:\+
 
 
 \begin{DoxyItemize}
 \item Motion detection
 \item Object recognition (experimental)
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{Communication}{Communication}}\label{md_docs_2_h_w__documentation_autotoc_md12}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md13}{}\doxysubsubsection{\texorpdfstring{Communication}{Communication}}\label{md_docs_2_h_w__documentation_autotoc_md13}
 
 \begin{DoxyItemize}
 \item HTTP
 \item Wi-\/\+Fi
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md13}{}\doxysubsection{\texorpdfstring{5. BME280 Sensor}{5. BME280 Sensor}}\label{md_docs_2_h_w__documentation_autotoc_md13}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md14}{}\doxysubsection{\texorpdfstring{5. BME280 Sensor}{5. BME280 Sensor}}\label{md_docs_2_h_w__documentation_autotoc_md14}
 Measures:\+
 
 
@@ -117,27 +127,22 @@ Measures:\+
 \item Temperature
 \item Pressure
 \item Humidity
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md14}{}\doxysubsubsection{\texorpdfstring{Communication}{Communication}}\label{md_docs_2_h_w__documentation_autotoc_md14}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md15}{}\doxysubsubsection{\texorpdfstring{Communication}{Communication}}\label{md_docs_2_h_w__documentation_autotoc_md15}
 
 \begin{DoxyItemize}
 \item I2C
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md15}{}\doxysubsubsection{\texorpdfstring{Address}{Address}}\label{md_docs_2_h_w__documentation_autotoc_md15}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{0x77}
-
-\end{DoxyCode}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{Connections}{Connections}}\label{md_docs_2_h_w__documentation_autotoc_md16}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{Address}{Address}}\label{md_docs_2_h_w__documentation_autotoc_md16}
+Configured I2C address:\+ {\ttfamily 0x77}\hypertarget{md_docs_2_h_w__documentation_autotoc_md17}{}\doxysubsubsection{\texorpdfstring{Connections}{Connections}}\label{md_docs_2_h_w__documentation_autotoc_md17}
 
 \begin{DoxyTable}{2}{}{}{1}
 \SetCell{c,bg=\tableheadbgcolor,font=\bfseries}BME280  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}ESP32-\/\+S3  \\
 VCC  &3.\+3V  \\
 GND  &GND  \\
-SDA  &SDA  \\
-SCL  &SCL  \\
+SDA  &GPIO8  \\
+SCL  &GPIO9  \\
 \end{DoxyTable}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md17}{}\doxysection{\texorpdfstring{Communication Architecture}{Communication Architecture}}\label{md_docs_2_h_w__documentation_autotoc_md17}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md18}{}\doxysubsection{\texorpdfstring{Wi-\/\+Fi Network}{Wi-\/\+Fi Network}}\label{md_docs_2_h_w__documentation_autotoc_md18}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md18}{}\doxysection{\texorpdfstring{Communication Architecture}{Communication Architecture}}\label{md_docs_2_h_w__documentation_autotoc_md18}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md19}{}\doxysubsection{\texorpdfstring{Wi-\/\+Fi Network}{Wi-\/\+Fi Network}}\label{md_docs_2_h_w__documentation_autotoc_md19}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{ESP32-\/C3\ -\/-\/-\/-\/\(\backslash\)}
@@ -147,31 +152,103 @@ SCL  &SCL  \\
 \DoxyCodeLine{ESP32-\/C3\ -\/-\/-\/-\//}
 
 \end{DoxyCode}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md19}{}\doxysubsubsection{\texorpdfstring{Protocols}{Protocols}}\label{md_docs_2_h_w__documentation_autotoc_md19}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md20}{}\doxysubsubsection{\texorpdfstring{Protocols}{Protocols}}\label{md_docs_2_h_w__documentation_autotoc_md20}
 
 \begin{DoxyItemize}
 \item TCP sockets are used between sensor nodes and the Home Hub.
 \item HTTP is used for communication with the ESP32-\/\+CAM module.
-\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md20}{}\doxysection{\texorpdfstring{Power Supply}{Power Supply}}\label{md_docs_2_h_w__documentation_autotoc_md20}
+\end{DoxyItemize}\hypertarget{md_docs_2_h_w__documentation_autotoc_md21}{}\doxysubsection{\texorpdfstring{Signal Flow}{Signal Flow}}\label{md_docs_2_h_w__documentation_autotoc_md21}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md22}{}\doxysubsubsection{\texorpdfstring{Door/\+\+Window Sensor Event}{Door/\+\+Window Sensor Event}}\label{md_docs_2_h_w__documentation_autotoc_md22}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Magnetic\ Sensor}
+\DoxyCodeLine{\ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ v}
+\DoxyCodeLine{\ \ ESP32-\/C3}
+\DoxyCodeLine{\ \ \ \ \ \ |\ \ \ \ Wi-\/Fi/TCP}
+\DoxyCodeLine{\ \ \ \ \ \ v}
+\DoxyCodeLine{\ \ ESP32-\/S3}
+\DoxyCodeLine{\ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ v}
+\DoxyCodeLine{\ \ GUI\ Update}
+
+\end{DoxyCode}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md23}{}\doxysubsubsection{\texorpdfstring{Environmental Sensor Event (BME280)}{Environmental Sensor Event (BME280)}}\label{md_docs_2_h_w__documentation_autotoc_md23}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ BME280}
+\DoxyCodeLine{\ \ \ \ |\ \ \ \ I2C}
+\DoxyCodeLine{\ \ \ \ v}
+\DoxyCodeLine{ESP32-\/S3}
+\DoxyCodeLine{\ \ \ \ |\ }
+\DoxyCodeLine{\ \ \ \ v}
+\DoxyCodeLine{GUI\ Update}
+
+\end{DoxyCode}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md24}{}\doxysubsubsection{\texorpdfstring{Camera Monitoring}{Camera Monitoring}}\label{md_docs_2_h_w__documentation_autotoc_md24}
+\begin{quote}
+{\bfseries{Note:\+}} The ESP32-\/\+CAM Subsystem is currently being worked into the program and this is just an example of how it could work \end{quote}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ESP32-\/CAM}
+\DoxyCodeLine{\ \ \ \ |\ \ \ \ HTTP}
+\DoxyCodeLine{\ \ \ \ v}
+\DoxyCodeLine{ESP32-\/S3}
+\DoxyCodeLine{\ \ \ \ |\ }
+\DoxyCodeLine{\ \ \ \ v}
+\DoxyCodeLine{\ \ \ GUI}
+
+\end{DoxyCode}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md25}{}\doxysection{\texorpdfstring{Power Supply}{Power Supply}}\label{md_docs_2_h_w__documentation_autotoc_md25}
 
 \begin{DoxyTable}{2}{}{}{1}
 \SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Parameter  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Value  \\
 Input Voltage  &5 V DC  \\
 Operating Voltage  &3.\+3 V  \\
 \end{DoxyTable}
-\hypertarget{md_docs_2_h_w__documentation_autotoc_md21}{}\doxysection{\texorpdfstring{Pin Configuration}{Pin Configuration}}\label{md_docs_2_h_w__documentation_autotoc_md21}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md26}{}\doxysection{\texorpdfstring{Pin Configuration}{Pin Configuration}}\label{md_docs_2_h_w__documentation_autotoc_md26}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md27}{}\doxysubsection{\texorpdfstring{Application GPIO Usage}{Application GPIO Usage}}\label{md_docs_2_h_w__documentation_autotoc_md27}
 
 \begin{DoxyTable}{3}{}{}{1}
 \SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Device  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}GPIO  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Function  \\
+ESP32-\/\+S3  &GPIO4  &GT911 Interrupt  \\
 ESP32-\/\+S3  &GPIO8  &I2C SDA  \\
 ESP32-\/\+S3  &GPIO9  &I2C SCL  \\
 ESP32-\/\+C3 \#1  &GPIO2  &Door \doxylink{struct_sensor}{Sensor} \#1  \\
 ESP32-\/\+C3 \#2  &GPIO2  &Window \doxylink{struct_sensor}{Sensor}  \\
 ESP32-\/\+C3 \#3  &GPIO2  &Door \doxylink{struct_sensor}{Sensor} \#2  \\
 \end{DoxyTable}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md28}{}\doxysubsection{\texorpdfstring{Display Interface GPIOs}{Display Interface GPIOs}}\label{md_docs_2_h_w__documentation_autotoc_md28}
+The following GPIOs are reserved by the Waveshare LCD subsystem:\+
 
 
-For further information regarding pin-\/configuration:\+ \href{https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B\#interface-description}{\texttt{https:\+/\+/\+docs.\+waveshare.\+com/\+\+ESP32-\/\+S3-\/\+Touch-\/\+LCD-\/7\+B\+\#interface-\/description}}\hypertarget{md_docs_2_h_w__documentation_autotoc_md22}{}\doxysection{\texorpdfstring{System Limitations}{System Limitations}}\label{md_docs_2_h_w__documentation_autotoc_md22}
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}GPIO  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Function  \\
+GPIO3  &VSYNC  \\
+GPIO5  &Display Enable  \\
+GPIO7  &Pixel Clock  \\
+\end{DoxyTable}
+\hypertarget{md_docs_2_h_w__documentation_autotoc_md29}{}\doxysubsection{\texorpdfstring{Additional Reserved Display GPIOs}{Additional Reserved Display GPIOs}}\label{md_docs_2_h_w__documentation_autotoc_md29}
+The RGB display subsystem reserves additional GPIOs for data transfer:\+
+
+
+\begin{DoxyItemize}
+\item GPIO0
+\item GPIO1
+\item GPIO2
+\item GPIO10
+\item GPIO14
+\item GPIO17
+\item GPIO18
+\item GPIO21
+\item GPIO38
+\item GPIO39
+\item GPIO40 through GPIO48
+\end{DoxyItemize}
+
+For further information regarding the Wave\+Shares ESP32-\/\+S3 display module, see the official documentation:\+ \href{https://docs.waveshare.com/ESP32-S3-Touch-LCD-7B\#interface-description}{\texttt{https:\+/\+/\+docs.\+waveshare.\+com/\+\+ESP32-\/\+S3-\/\+Touch-\/\+LCD-\/7\+B\+\#interface-\/description}}\hypertarget{md_docs_2_h_w__documentation_autotoc_md30}{}\doxysection{\texorpdfstring{System Limitations}{System Limitations}}\label{md_docs_2_h_w__documentation_autotoc_md30}
 
 \begin{DoxyItemize}
 \item ESP32-\/\+CAM integration is still experimental.

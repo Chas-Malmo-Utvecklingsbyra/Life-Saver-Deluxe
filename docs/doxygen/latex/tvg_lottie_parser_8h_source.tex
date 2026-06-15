@@ -1,0 +1,137 @@
+\doxysection{tvg\+Lottie\+Parser.\+h}
+\hypertarget{tvg_lottie_parser_8h_source}{}\label{tvg_lottie_parser_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgLottieParser.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgLottieParser.h}}
+\doxymbox{\hyperlink{tvg_lottie_parser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2023\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_LOTTIE\_PARSER\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_LOTTIE\_PARSER\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_common_8h}{tvgCommon.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_lottie_parser_handler_8h}{tvgLottieParserHandler.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_lottie_property_8h}{tvgLottieProperty.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }LottieParser\ :\ LookaheadParserHandler}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00036\ \ \ \ \ LottieParser(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dirName)\ :\ LookaheadParserHandler(str)}
+\DoxyCodeLine{00037\ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ this-\/>dirName\ =\ dirName;}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ parse();}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ apply(LottieSlot*\ slot);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ sid(\textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ LottieComposition*\ comp\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dirName\ =\ \textcolor{keyword}{nullptr};\ \ \ \ \ \ \ \textcolor{comment}{//base\ resource\ directory}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00049\ \ \ \ \ RGB24\ getColor(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00050\ \ \ \ \ CompositeMethod\ getMatteType();}
+\DoxyCodeLine{00051\ \ \ \ \ FillRule\ getFillRule();}
+\DoxyCodeLine{00052\ \ \ \ \ StrokeCap\ getStrokeCap();}
+\DoxyCodeLine{00053\ \ \ \ \ StrokeJoin\ getStrokeJoin();}
+\DoxyCodeLine{00054\ \ \ \ \ CompositeMethod\ getMaskMethod(\textcolor{keywordtype}{bool}\ inversed);}
+\DoxyCodeLine{00055\ \ \ \ \ LottieInterpolator*\ getInterpolator(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key,\ Point\&\ in,\ Point\&\ out);}
+\DoxyCodeLine{00056\ \ \ \ \ LottieEffect*\ getEffect(\textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ getInterpolatorPoint(Point\&\ pt);}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ getPathSet(LottiePathSet\&\ path);}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ getLayerSize(\textcolor{keywordtype}{float}\&\ val);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(TextDocument\&\ doc);}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(PathSet\&\ path);}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(Array<Point>\&\ pts);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(ColorStop\&\ color);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(\textcolor{keywordtype}{float}\&\ val);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\&\ val);}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(\doxymbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}}\&\ val);}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ getValue(RGB24\&\ color);}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ getValue(Point\&\ pt);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{bool}\ parseTangent(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *key,\ LottieVectorFrame<T>\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{bool}\ parseTangent(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *key,\ LottieScalarFrame<T>\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{void}\ parseKeyFrame(T\&\ prop);}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{void}\ parsePropertyInternal(T\&\ prop);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{template}<LottieProperty::Type\ type\ =\ LottieProperty::Type::Inval\textcolor{keywordtype}{id},\ \textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{void}\ parseProperty(T\&\ prop,\ LottieObject*\ obj\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{template}<LottieProperty::Type\ type\ =\ LottieProperty::Type::Inval\textcolor{keywordtype}{id},\ \textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{void}\ parseSlotProperty(T\&\ prop);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ LottieObject*\ parseObject();}
+\DoxyCodeLine{00079\ \ \ \ \ LottieObject*\ parseAsset();}
+\DoxyCodeLine{00080\ \ \ \ \ LottieImage*\ parseImage(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ subPath,\ \textcolor{keywordtype}{bool}\ embedded,\ \textcolor{keywordtype}{float}\ width,\ \textcolor{keywordtype}{float}\ height);}
+\DoxyCodeLine{00081\ \ \ \ \ LottieLayer*\ parseLayer(LottieLayer*\ precomp);}
+\DoxyCodeLine{00082\ \ \ \ \ LottieObject*\ parseGroup();}
+\DoxyCodeLine{00083\ \ \ \ \ LottieRect*\ parseRect();}
+\DoxyCodeLine{00084\ \ \ \ \ LottieEllipse*\ parseEllipse();}
+\DoxyCodeLine{00085\ \ \ \ \ LottieSolidFill*\ parseSolidFill();}
+\DoxyCodeLine{00086\ \ \ \ \ LottieTransform*\ parseTransform(\textcolor{keywordtype}{bool}\ ddd\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00087\ \ \ \ \ LottieSolidStroke*\ parseSolidStroke();}
+\DoxyCodeLine{00088\ \ \ \ \ LottieGradientStroke*\ parseGradientStroke();}
+\DoxyCodeLine{00089\ \ \ \ \ LottiePath*\ parsePath();}
+\DoxyCodeLine{00090\ \ \ \ \ LottiePolyStar*\ parsePolyStar();}
+\DoxyCodeLine{00091\ \ \ \ \ LottieRoundedCorner*\ parseRoundedCorner();}
+\DoxyCodeLine{00092\ \ \ \ \ LottieGradientFill*\ parseGradientFill();}
+\DoxyCodeLine{00093\ \ \ \ \ LottieLayer*\ parseLayers(LottieLayer*\ root);}
+\DoxyCodeLine{00094\ \ \ \ \ LottieMask*\ parseMask();}
+\DoxyCodeLine{00095\ \ \ \ \ LottieTrimpath*\ parseTrimpath();}
+\DoxyCodeLine{00096\ \ \ \ \ LottieRepeater*\ parseRepeater();}
+\DoxyCodeLine{00097\ \ \ \ \ LottieOffsetPath*\ parseOffsetPath();}
+\DoxyCodeLine{00098\ \ \ \ \ LottieFont*\ parseFont();}
+\DoxyCodeLine{00099\ \ \ \ \ LottieMarker*\ parseMarker();}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ parseGaussianBlur(LottieGaussianBlur*\ effect);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ parseDirection(LottieShape*\ shape,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{bool}\ parseCommon(LottieObject*\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key);}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{void}\ parseObject(Array<LottieObject*>\&\ parent);}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ parseShapes(Array<LottieObject*>\&\ parent);}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ parseText(Array<LottieObject*>\&\ parent);}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ parseMasks(LottieLayer*\ layer);}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ parseEffects(LottieLayer*\ layer);}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ parseTimeRemap(LottieLayer*\ layer);}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{void}\ parseStrokeDash(LottieStroke*\ stroke);}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ parseGradient(LottieGradient*\ gradient,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key);}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ parseTextRange(LottieText*\ text);}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ parseAssets();}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ parseFonts();}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ parseChars(Array<LottieGlyph*>\&\ glyphs);}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ parseMarkers();}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ parseEffect(LottieEffect*\ effect);}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{void}\ postProcess(Array<LottieGlyph*>\&\ glyphs);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{comment}{//Current\ parsing\ context}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{struct\ }Context\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ LottieLayer*\ layer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ LottieObject*\ parent\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00125\ \ \ \ \ \}\ context;}
+\DoxyCodeLine{00126\ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_LOTTIE\_PARSER\_H\_}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00131\ }
+
+\end{DoxyCode}

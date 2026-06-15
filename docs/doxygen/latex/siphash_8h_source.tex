@@ -1,0 +1,404 @@
+\doxysection{siphash.\+h}
+\hypertarget{siphash_8h_source}{}\label{siphash_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/siphash.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/siphash.h}}
+\doxymbox{\hyperlink{siphash_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ ==========================================================================}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ siphash.h\ -\/\ SipHash-\/2-\/4\ in\ a\ single\ header\ file}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Derived\ by\ William\ Ahern\ from\ the\ reference\ implementation[1]\ published[2]}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ by\ Jean-\/Philippe\ Aumasson\ and\ Daniel\ J.\ Berstein.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ Minimal\ changes\ by\ Sebastian\ Pipping\ and\ Victor\ Stinner\ on\ top,\ see\ below.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ Licensed\ under\ the\ CC0\ Public\ Domain\ Dedication\ license.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ 1.\ https://www.131002.net/siphash/siphash24.c}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ 2.\ https://www.131002.net/siphash/}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ HISTORY:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ 2020-\/10-\/03\ \ (Sebastian\ Pipping)}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ \ \ -\/\ Drop\ support\ for\ Visual\ Studio\ 9.0/2008\ and\ earlier}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ 2019-\/08-\/03\ \ (Sebastian\ Pipping)}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ \ \ -\/\ Mark\ part\ of\ sip24\_valid\ as\ to\ be\ excluded\ from\ clang-\/format}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ \ \ -\/\ Re-\/format\ code\ using\ clang-\/format\ 9}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ 2018-\/07-\/08\ \ (Anton\ Maklakov)}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ \ -\/\ Add\ "{}fall\ through"{}\ markers\ for\ GCC's\ -\/Wimplicit-\/fallthrough}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ 2017-\/11-\/03\ \ (Sebastian\ Pipping)}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ \ \ -\/\ Hide\ sip\_tobin\ and\ sip\_binof\ unless\ SIPHASH\_TOBIN\ macro\ is\ defined}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *\ 2017-\/07-\/25\ \ (Vadim\ Zeitlin)}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *\ \ \ -\/\ Fix\ use\ of\ SIPHASH\_MAIN\ macro}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ 2017-\/07-\/05\ \ (Sebastian\ Pipping)}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *\ \ \ -\/\ Use\ \_SIP\_ULL\ macro\ to\ not\ require\ a\ C++11\ compiler\ if\ compiled\ as\ C++}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *\ \ \ -\/\ Add\ const\ qualifiers\ at\ two\ places}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *\ \ \ -\/\ Ensure\ <=80\ characters\ line\ length\ (assuming\ tab\ width\ 4)}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *\ 2017-\/06-\/23\ \ (Victor\ Stinner)}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ *\ \ \ -\/\ Address\ Win64\ compile\ warnings}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ *\ 2017-\/06-\/18\ \ (Sebastian\ Pipping)}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ *\ \ \ -\/\ Clarify\ license\ note\ in\ the\ header}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ *\ \ \ -\/\ Address\ C89\ issues:}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ *\ \ \ \ \ -\/\ Stop\ using\ inline\ keyword\ (and\ let\ compiler\ decide)}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ *\ \ \ \ \ -\/\ Replace\ \_Bool\ by\ int}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ *\ \ \ \ \ -\/\ Turn\ macro\ siphash24\ into\ a\ function}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *\ \ \ \ \ -\/\ Address\ invalid\ conversion\ (void\ pointer)\ by\ explicit\ cast}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *\ \ \ -\/\ Address\ lack\ of\ stdint.h\ for\ Visual\ Studio\ 2003\ to\ 2008}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ *\ \ \ -\/\ Always\ expose\ sip24\_valid\ (for\ self-\/tests)}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *\ 2012-\/11-\/04\ -\/\ Born.\ \ (William\ Ahern)}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ USAGE:}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ *\ SipHash-\/2-\/4\ takes\ as\ input\ two\ 64-\/bit\ words\ as\ the\ key,\ some\ number\ of}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ *\ message\ bytes,\ and\ outputs\ a\ 64-\/bit\ word\ as\ the\ message\ digest.\ This}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ *\ implementation\ employs\ two\ data\ structures:\ a\ struct\ sipkey\ for}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *\ representing\ the\ key,\ and\ a\ struct\ siphash\ for\ representing\ the\ hash}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *\ state.}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ *\ For\ converting\ a\ 16-\/byte\ unsigned\ char\ array\ to\ a\ key,\ use\ either\ the}}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ *\ macro\ sip\_keyof\ or\ the\ routine\ sip\_tokey.\ The\ former\ instantiates\ a}}
+\DoxyCodeLine{00060\ \textcolor{comment}{\ *\ compound\ literal\ key,\ while\ the\ latter\ requires\ a\ key\ object\ as\ a}}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ *\ parameter.}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ *\ \ unsigned\ char\ secret[16];}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ *\ \ arc4random\_buf(secret,\ sizeof\ secret);}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ *\ \ struct\ sipkey\ *key\ =\ sip\_keyof(secret);}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ *\ For\ hashing\ a\ message,\ use\ either\ the\ convenience\ macro\ siphash24\ or\ the}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ *\ routines\ sip24\_init,\ sip24\_update,\ and\ sip24\_final.}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ *\ \ struct\ siphash\ state;}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ *\ \ void\ *msg;}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ *\ \ size\_t\ len;}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ *\ \ uint64\_t\ hash;}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00075\ \textcolor{comment}{\ *\ \ sip24\_init(\&state,\ key);}}
+\DoxyCodeLine{00076\ \textcolor{comment}{\ *\ \ sip24\_update(\&state,\ msg,\ len);}}
+\DoxyCodeLine{00077\ \textcolor{comment}{\ *\ \ hash\ =\ sip24\_final(\&state);}}
+\DoxyCodeLine{00078\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00079\ \textcolor{comment}{\ *\ or}}
+\DoxyCodeLine{00080\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00081\ \textcolor{comment}{\ *\ \ hash\ =\ siphash24(msg,\ len,\ key);}}
+\DoxyCodeLine{00082\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00083\ \textcolor{comment}{\ *\ To\ convert\ the\ 64-\/bit\ hash\ value\ to\ a\ canonical\ 8-\/byte\ little-\/endian}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ *\ binary\ representation,\ use\ either\ the\ macro\ sip\_binof\ or\ the\ routine}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ *\ sip\_tobin.\ The\ former\ instantiates\ and\ returns\ a\ compound\ literal\ array,}}
+\DoxyCodeLine{00086\ \textcolor{comment}{\ *\ while\ the\ latter\ requires\ an\ array\ object\ as\ a\ parameter.}}
+\DoxyCodeLine{00087\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ *\ NOTES:}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00090\ \textcolor{comment}{\ *\ o\ Neither\ sip\_keyof,\ sip\_binof,\ nor\ siphash24\ will\ work\ with\ compilers}}
+\DoxyCodeLine{00091\ \textcolor{comment}{\ *\ \ \ lacking\ compound\ literal\ support.\ Instead,\ you\ must\ use\ the\ lower-\/level}}
+\DoxyCodeLine{00092\ \textcolor{comment}{\ *\ \ \ interfaces\ which\ take\ as\ parameters\ the\ temporary\ state\ objects.}}
+\DoxyCodeLine{00093\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00094\ \textcolor{comment}{\ *\ o\ Uppercase\ macros\ may\ evaluate\ parameters\ more\ than\ once.\ Lowercase}}
+\DoxyCodeLine{00095\ \textcolor{comment}{\ *\ \ \ macros\ should\ not\ exhibit\ any\ such\ side\ effects.}}
+\DoxyCodeLine{00096\ \textcolor{comment}{\ *\ ==========================================================================}}
+\DoxyCodeLine{00097\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#ifndef\ SIPHASH\_H}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ SIPHASH\_H}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#include\ <stddef.h>}\ \textcolor{comment}{/*\ size\_t\ */}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#include\ <\doxymbox{\hyperlink{stdint_8h}{stdint.h}}>}\ \textcolor{comment}{/*\ uint64\_t\ uint32\_t\ uint8\_t\ */}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00108\ \textcolor{comment}{\ *\ Workaround\ to\ not\ require\ a\ C++11\ compiler\ for\ using\ ULL\ suffix}}
+\DoxyCodeLine{00109\ \textcolor{comment}{\ *\ if\ this\ code\ is\ included\ and\ compiled\ as\ C++;\ related\ GCC\ warning\ is:}}
+\DoxyCodeLine{00110\ \textcolor{comment}{\ *\ warning:\ use\ of\ C++11\ long\ long\ integer\ constant\ [-\/Wlong-\/long]}}
+\DoxyCodeLine{00111\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ SIP\_ULL(high,\ low)\ ((((uint64\_t)high)\ <<\ 32)\ |\ (low))}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ SIP\_ROTL(x,\ b)\ (uint64\_t)(((x)\ <<\ (b))\ |\ ((x)\ >>\ (64\ -\/\ (b))))}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ SIP\_U32TO8\_LE(p,\ v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\ \ (p)[0]\ =\ (uint8\_t)((v)\ >>\ 0);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\ \ (p)[1]\ =\ (uint8\_t)((v)\ >>\ 8);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\ \ (p)[2]\ =\ (uint8\_t)((v)\ >>\ 16);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \ (p)[3]\ =\ (uint8\_t)((v)\ >>\ 24);}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ SIP\_U64TO8\_LE(p,\ v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ SIP\_U32TO8\_LE((p)\ +\ 0,\ (uint32\_t)((v)\ >>\ 0));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ SIP\_U32TO8\_LE((p)\ +\ 4,\ (uint32\_t)((v)\ >>\ 32));}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ SIP\_U8TO64\_LE(p)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\ \ (((uint64\_t)((p)[0])\ <<\ 0)\ |\ ((uint64\_t)((p)[1])\ <<\ 8)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ |\ ((uint64\_t)((p)[2])\ <<\ 16)\ |\ ((uint64\_t)((p)[3])\ <<\ 24)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\ \ \ |\ ((uint64\_t)((p)[4])\ <<\ 32)\ |\ ((uint64\_t)((p)[5])\ <<\ 40)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ |\ ((uint64\_t)((p)[6])\ <<\ 48)\ |\ ((uint64\_t)((p)[7])\ <<\ 56))}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ SIPHASH\_INITIALIZER\ \{0,\ 0,\ 0,\ 0,\ \{0\},\ 0,\ 0\}}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{struct\ }siphash\ \{}
+\DoxyCodeLine{00135\ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ v0,\ v1,\ v2,\ v3;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \doxymbox{\hyperlink{namespacemicropy__test_1_1micropy_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}}[8],\ *p;}
+\DoxyCodeLine{00138\ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ c;}
+\DoxyCodeLine{00139\ \};\ \textcolor{comment}{/*\ struct\ siphash\ */}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ SIP\_KEYLEN\ 16}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{struct\ }sipkey\ \{}
+\DoxyCodeLine{00144\ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ k[2];}
+\DoxyCodeLine{00145\ \};\ \textcolor{comment}{/*\ struct\ sipkey\ */}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ sip\_keyof(k)\ sip\_tokey(\&(struct\ sipkey)\{\{0\}\},\ (k))}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{keyword}{static}\ \textcolor{keyword}{struct\ }sipkey\ *}
+\DoxyCodeLine{00150\ sip\_tokey(\textcolor{keyword}{struct}\ sipkey\ *key,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *src)\ \{}
+\DoxyCodeLine{00151\ \ \ key-\/>k[0]\ =\ SIP\_U8TO64\_LE((\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)src);}
+\DoxyCodeLine{00152\ \ \ key-\/>k[1]\ =\ SIP\_U8TO64\_LE((\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)src\ +\ 8);}
+\DoxyCodeLine{00153\ \ \ \textcolor{keywordflow}{return}\ key;}
+\DoxyCodeLine{00154\ \}\ \textcolor{comment}{/*\ sip\_tokey()\ */}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#ifdef\ SIPHASH\_TOBIN}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#\ \ define\ sip\_binof(v)\ sip\_tobin((unsigned\ char[8])\{0\},\ (v))}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ *}
+\DoxyCodeLine{00161\ sip\_tobin(\textcolor{keywordtype}{void}\ *dst,\ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ u64)\ \{}
+\DoxyCodeLine{00162\ \ \ SIP\_U64TO8\_LE((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)dst,\ u64);}
+\DoxyCodeLine{00163\ \ \ \textcolor{keywordflow}{return}\ dst;}
+\DoxyCodeLine{00164\ \}\ \textcolor{comment}{/*\ sip\_tobin()\ */}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SIPHASH\_TOBIN\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00169\ sip\_round(\textcolor{keyword}{struct}\ siphash\ *H,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ rounds)\ \{}
+\DoxyCodeLine{00170\ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ rounds;\ i++)\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ H-\/>v0\ +=\ H-\/>v1;}
+\DoxyCodeLine{00174\ \ \ \ \ H-\/>v1\ =\ SIP\_ROTL(H-\/>v1,\ 13);}
+\DoxyCodeLine{00175\ \ \ \ \ H-\/>v1\ \string^=\ H-\/>v0;}
+\DoxyCodeLine{00176\ \ \ \ \ H-\/>v0\ =\ SIP\_ROTL(H-\/>v0,\ 32);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ H-\/>v2\ +=\ H-\/>v3;}
+\DoxyCodeLine{00179\ \ \ \ \ H-\/>v3\ =\ SIP\_ROTL(H-\/>v3,\ 16);}
+\DoxyCodeLine{00180\ \ \ \ \ H-\/>v3\ \string^=\ H-\/>v2;}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ H-\/>v0\ +=\ H-\/>v3;}
+\DoxyCodeLine{00183\ \ \ \ \ H-\/>v3\ =\ SIP\_ROTL(H-\/>v3,\ 21);}
+\DoxyCodeLine{00184\ \ \ \ \ H-\/>v3\ \string^=\ H-\/>v0;}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ H-\/>v2\ +=\ H-\/>v1;}
+\DoxyCodeLine{00187\ \ \ \ \ H-\/>v1\ =\ SIP\_ROTL(H-\/>v1,\ 17);}
+\DoxyCodeLine{00188\ \ \ \ \ H-\/>v1\ \string^=\ H-\/>v2;}
+\DoxyCodeLine{00189\ \ \ \ \ H-\/>v2\ =\ SIP\_ROTL(H-\/>v2,\ 32);}
+\DoxyCodeLine{00190\ \ \ \}}
+\DoxyCodeLine{00191\ \}\ \textcolor{comment}{/*\ sip\_round()\ */}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \textcolor{keyword}{static}\ \textcolor{keyword}{struct\ }siphash\ *}
+\DoxyCodeLine{00194\ sip24\_init(\textcolor{keyword}{struct}\ siphash\ *H,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ sipkey\ *key)\ \{}
+\DoxyCodeLine{00195\ \ \ H-\/>v0\ =\ SIP\_ULL(0x736f6d65U,\ 0x70736575U)\ \string^\ key-\/>k[0];}
+\DoxyCodeLine{00196\ \ \ H-\/>v1\ =\ SIP\_ULL(0x646f7261U,\ 0x6e646f6dU)\ \string^\ key-\/>k[1];}
+\DoxyCodeLine{00197\ \ \ H-\/>v2\ =\ SIP\_ULL(0x6c796765U,\ 0x6e657261U)\ \string^\ key-\/>k[0];}
+\DoxyCodeLine{00198\ \ \ H-\/>v3\ =\ SIP\_ULL(0x74656462U,\ 0x79746573U)\ \string^\ key-\/>k[1];}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ H-\/>p\ =\ H-\/>buf;}
+\DoxyCodeLine{00201\ \ \ H-\/>c\ =\ 0;}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \textcolor{keywordflow}{return}\ H;}
+\DoxyCodeLine{00204\ \}\ \textcolor{comment}{/*\ sip24\_init()\ */}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ sip\_endof(a)\ (\&(a)[sizeof(a)\ /\ sizeof\ *(a)])}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{keyword}{static}\ \textcolor{keyword}{struct\ }siphash\ *}
+\DoxyCodeLine{00209\ sip24\_update(\textcolor{keyword}{struct}\ siphash\ *H,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *src,\ \textcolor{keywordtype}{size\_t}\ len)\ \{}
+\DoxyCodeLine{00210\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *p\ =\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)src,\ *pe\ =\ p\ +\ len;}
+\DoxyCodeLine{00211\ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ \doxymbox{\hyperlink{namespacelv__templ__check_ab3cd915d758008bd19d0f2428fbb354a}{m}};}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \textcolor{keywordflow}{do}\ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{while}\ (p\ <\ pe\ \&\&\ H-\/>p\ <\ sip\_endof(H-\/>buf))}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ *H-\/>p++\ =\ *p++;}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{if}\ (H-\/>p\ <\ sip\_endof(H-\/>buf))}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \doxymbox{\hyperlink{namespacelv__templ__check_ab3cd915d758008bd19d0f2428fbb354a}{m}}\ =\ SIP\_U8TO64\_LE(H-\/>buf);}
+\DoxyCodeLine{00221\ \ \ \ \ H-\/>v3\ \string^=\ \doxymbox{\hyperlink{namespacelv__templ__check_ab3cd915d758008bd19d0f2428fbb354a}{m}};}
+\DoxyCodeLine{00222\ \ \ \ \ sip\_round(H,\ 2);}
+\DoxyCodeLine{00223\ \ \ \ \ H-\/>v0\ \string^=\ \doxymbox{\hyperlink{namespacelv__templ__check_ab3cd915d758008bd19d0f2428fbb354a}{m}};}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ H-\/>p\ =\ H-\/>buf;}
+\DoxyCodeLine{00226\ \ \ \ \ H-\/>c\ +=\ 8;}
+\DoxyCodeLine{00227\ \ \ \}\ \textcolor{keywordflow}{while}\ (p\ <\ pe);}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \textcolor{keywordflow}{return}\ H;}
+\DoxyCodeLine{00230\ \}\ \textcolor{comment}{/*\ sip24\_update()\ */}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}}
+\DoxyCodeLine{00233\ sip24\_final(\textcolor{keyword}{struct}\ siphash\ *H)\ \{}
+\DoxyCodeLine{00234\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ left\ =\ (char)(H-\/>p\ -\/\ H-\/>buf);}
+\DoxyCodeLine{00235\ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ =\ (H-\/>c\ +\ left)\ <<\ 56;}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \textcolor{keywordflow}{switch}\ (left)\ \{}
+\DoxyCodeLine{00238\ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00239\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[6]\ <<\ 48;}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00241\ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00242\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[5]\ <<\ 40;}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00244\ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00245\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[4]\ <<\ 32;}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00247\ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00248\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[3]\ <<\ 24;}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00250\ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00251\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[2]\ <<\ 16;}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00253\ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00254\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[1]\ <<\ 8;}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00256\ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00257\ \ \ \ \ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ |=\ (\doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}})H-\/>buf[0]\ <<\ 0;}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{comment}{/*\ fall\ through\ */}}
+\DoxyCodeLine{00259\ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00261\ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ H-\/>v3\ \string^=\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};}
+\DoxyCodeLine{00264\ \ \ sip\_round(H,\ 2);}
+\DoxyCodeLine{00265\ \ \ H-\/>v0\ \string^=\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};}
+\DoxyCodeLine{00266\ \ \ H-\/>v2\ \string^=\ 0xff;}
+\DoxyCodeLine{00267\ \ \ sip\_round(H,\ 4);}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \textcolor{keywordflow}{return}\ H-\/>v0\ \string^\ H-\/>v1\ \string^\ H-\/>v2\ \string^\ H-\/>v3;}
+\DoxyCodeLine{00270\ \}\ \textcolor{comment}{/*\ sip24\_final()\ */}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}}
+\DoxyCodeLine{00273\ siphash24(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *src,\ \textcolor{keywordtype}{size\_t}\ len,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ sipkey\ *key)\ \{}
+\DoxyCodeLine{00274\ \ \ \textcolor{keyword}{struct\ }siphash\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}}\ =\ SIPHASH\_INITIALIZER;}
+\DoxyCodeLine{00275\ \ \ \textcolor{keywordflow}{return}\ sip24\_final(sip24\_update(sip24\_init(\&\doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}},\ key),\ src,\ len));}
+\DoxyCodeLine{00276\ \}\ \textcolor{comment}{/*\ siphash24()\ */}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00279\ \textcolor{comment}{\ *\ SipHash-\/2-\/4\ output\ with}}
+\DoxyCodeLine{00280\ \textcolor{comment}{\ *\ k\ =\ 00\ 01\ 02\ ...}}
+\DoxyCodeLine{00281\ \textcolor{comment}{\ *\ and}}
+\DoxyCodeLine{00282\ \textcolor{comment}{\ *\ in\ =\ (empty\ string)}}
+\DoxyCodeLine{00283\ \textcolor{comment}{\ *\ in\ =\ 00\ (1\ byte)}}
+\DoxyCodeLine{00284\ \textcolor{comment}{\ *\ in\ =\ 00\ 01\ (2\ bytes)}}
+\DoxyCodeLine{00285\ \textcolor{comment}{\ *\ in\ =\ 00\ 01\ 02\ (3\ bytes)}}
+\DoxyCodeLine{00286\ \textcolor{comment}{\ *\ ...}}
+\DoxyCodeLine{00287\ \textcolor{comment}{\ *\ in\ =\ 00\ 01\ 02\ ...\ 3e\ (63\ bytes)}}
+\DoxyCodeLine{00288\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00289\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}}
+\DoxyCodeLine{00290\ sip24\_valid(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00291\ \ \ \textcolor{comment}{/*\ clang-\/format\ off\ */}}
+\DoxyCodeLine{00292\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ vectors[64][8]\ =\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \{\ 0x31,\ 0x0e,\ 0x0e,\ 0xdd,\ 0x47,\ 0xdb,\ 0x6f,\ 0x72,\ \},}
+\DoxyCodeLine{00294\ \ \ \ \ \{\ 0xfd,\ 0x67,\ 0xdc,\ 0x93,\ 0xc5,\ 0x39,\ 0xf8,\ 0x74,\ \},}
+\DoxyCodeLine{00295\ \ \ \ \ \{\ 0x5a,\ 0x4f,\ 0xa9,\ 0xd9,\ 0x09,\ 0x80,\ 0x6c,\ 0x0d,\ \},}
+\DoxyCodeLine{00296\ \ \ \ \ \{\ 0x2d,\ 0x7e,\ 0xfb,\ 0xd7,\ 0x96,\ 0x66,\ 0x67,\ 0x85,\ \},}
+\DoxyCodeLine{00297\ \ \ \ \ \{\ 0xb7,\ 0x87,\ 0x71,\ 0x27,\ 0xe0,\ 0x94,\ 0x27,\ 0xcf,\ \},}
+\DoxyCodeLine{00298\ \ \ \ \ \{\ 0x8d,\ 0xa6,\ 0x99,\ 0xcd,\ 0x64,\ 0x55,\ 0x76,\ 0x18,\ \},}
+\DoxyCodeLine{00299\ \ \ \ \ \{\ 0xce,\ 0xe3,\ 0xfe,\ 0x58,\ 0x6e,\ 0x46,\ 0xc9,\ 0xcb,\ \},}
+\DoxyCodeLine{00300\ \ \ \ \ \{\ 0x37,\ 0xd1,\ 0x01,\ 0x8b,\ 0xf5,\ 0x00,\ 0x02,\ 0xab,\ \},}
+\DoxyCodeLine{00301\ \ \ \ \ \{\ 0x62,\ 0x24,\ 0x93,\ 0x9a,\ 0x79,\ 0xf5,\ 0xf5,\ 0x93,\ \},}
+\DoxyCodeLine{00302\ \ \ \ \ \{\ 0xb0,\ 0xe4,\ 0xa9,\ 0x0b,\ 0xdf,\ 0x82,\ 0x00,\ 0x9e,\ \},}
+\DoxyCodeLine{00303\ \ \ \ \ \{\ 0xf3,\ 0xb9,\ 0xdd,\ 0x94,\ 0xc5,\ 0xbb,\ 0x5d,\ 0x7a,\ \},}
+\DoxyCodeLine{00304\ \ \ \ \ \{\ 0xa7,\ 0xad,\ 0x6b,\ 0x22,\ 0x46,\ 0x2f,\ 0xb3,\ 0xf4,\ \},}
+\DoxyCodeLine{00305\ \ \ \ \ \{\ 0xfb,\ 0xe5,\ 0x0e,\ 0x86,\ 0xbc,\ 0x8f,\ 0x1e,\ 0x75,\ \},}
+\DoxyCodeLine{00306\ \ \ \ \ \{\ 0x90,\ 0x3d,\ 0x84,\ 0xc0,\ 0x27,\ 0x56,\ 0xea,\ 0x14,\ \},}
+\DoxyCodeLine{00307\ \ \ \ \ \{\ 0xee,\ 0xf2,\ 0x7a,\ 0x8e,\ 0x90,\ 0xca,\ 0x23,\ 0xf7,\ \},}
+\DoxyCodeLine{00308\ \ \ \ \ \{\ 0xe5,\ 0x45,\ 0xbe,\ 0x49,\ 0x61,\ 0xca,\ 0x29,\ 0xa1,\ \},}
+\DoxyCodeLine{00309\ \ \ \ \ \{\ 0xdb,\ 0x9b,\ 0xc2,\ 0x57,\ 0x7f,\ 0xcc,\ 0x2a,\ 0x3f,\ \},}
+\DoxyCodeLine{00310\ \ \ \ \ \{\ 0x94,\ 0x47,\ 0xbe,\ 0x2c,\ 0xf5,\ 0xe9,\ 0x9a,\ 0x69,\ \},}
+\DoxyCodeLine{00311\ \ \ \ \ \{\ 0x9c,\ 0xd3,\ 0x8d,\ 0x96,\ 0xf0,\ 0xb3,\ 0xc1,\ 0x4b,\ \},}
+\DoxyCodeLine{00312\ \ \ \ \ \{\ 0xbd,\ 0x61,\ 0x79,\ 0xa7,\ 0x1d,\ 0xc9,\ 0x6d,\ 0xbb,\ \},}
+\DoxyCodeLine{00313\ \ \ \ \ \{\ 0x98,\ 0xee,\ 0xa2,\ 0x1a,\ 0xf2,\ 0x5c,\ 0xd6,\ 0xbe,\ \},}
+\DoxyCodeLine{00314\ \ \ \ \ \{\ 0xc7,\ 0x67,\ 0x3b,\ 0x2e,\ 0xb0,\ 0xcb,\ 0xf2,\ 0xd0,\ \},}
+\DoxyCodeLine{00315\ \ \ \ \ \{\ 0x88,\ 0x3e,\ 0xa3,\ 0xe3,\ 0x95,\ 0x67,\ 0x53,\ 0x93,\ \},}
+\DoxyCodeLine{00316\ \ \ \ \ \{\ 0xc8,\ 0xce,\ 0x5c,\ 0xcd,\ 0x8c,\ 0x03,\ 0x0c,\ 0xa8,\ \},}
+\DoxyCodeLine{00317\ \ \ \ \ \{\ 0x94,\ 0xaf,\ 0x49,\ 0xf6,\ 0xc6,\ 0x50,\ 0xad,\ 0xb8,\ \},}
+\DoxyCodeLine{00318\ \ \ \ \ \{\ 0xea,\ 0xb8,\ 0x85,\ 0x8a,\ 0xde,\ 0x92,\ 0xe1,\ 0xbc,\ \},}
+\DoxyCodeLine{00319\ \ \ \ \ \{\ 0xf3,\ 0x15,\ 0xbb,\ 0x5b,\ 0xb8,\ 0x35,\ 0xd8,\ 0x17,\ \},}
+\DoxyCodeLine{00320\ \ \ \ \ \{\ 0xad,\ 0xcf,\ 0x6b,\ 0x07,\ 0x63,\ 0x61,\ 0x2e,\ 0x2f,\ \},}
+\DoxyCodeLine{00321\ \ \ \ \ \{\ 0xa5,\ 0xc9,\ 0x1d,\ 0xa7,\ 0xac,\ 0xaa,\ 0x4d,\ 0xde,\ \},}
+\DoxyCodeLine{00322\ \ \ \ \ \{\ 0x71,\ 0x65,\ 0x95,\ 0x87,\ 0x66,\ 0x50,\ 0xa2,\ 0xa6,\ \},}
+\DoxyCodeLine{00323\ \ \ \ \ \{\ 0x28,\ 0xef,\ 0x49,\ 0x5c,\ 0x53,\ 0xa3,\ 0x87,\ 0xad,\ \},}
+\DoxyCodeLine{00324\ \ \ \ \ \{\ 0x42,\ 0xc3,\ 0x41,\ 0xd8,\ 0xfa,\ 0x92,\ 0xd8,\ 0x32,\ \},}
+\DoxyCodeLine{00325\ \ \ \ \ \{\ 0xce,\ 0x7c,\ 0xf2,\ 0x72,\ 0x2f,\ 0x51,\ 0x27,\ 0x71,\ \},}
+\DoxyCodeLine{00326\ \ \ \ \ \{\ 0xe3,\ 0x78,\ 0x59,\ 0xf9,\ 0x46,\ 0x23,\ 0xf3,\ 0xa7,\ \},}
+\DoxyCodeLine{00327\ \ \ \ \ \{\ 0x38,\ 0x12,\ 0x05,\ 0xbb,\ 0x1a,\ 0xb0,\ 0xe0,\ 0x12,\ \},}
+\DoxyCodeLine{00328\ \ \ \ \ \{\ 0xae,\ 0x97,\ 0xa1,\ 0x0f,\ 0xd4,\ 0x34,\ 0xe0,\ 0x15,\ \},}
+\DoxyCodeLine{00329\ \ \ \ \ \{\ 0xb4,\ 0xa3,\ 0x15,\ 0x08,\ 0xbe,\ 0xff,\ 0x4d,\ 0x31,\ \},}
+\DoxyCodeLine{00330\ \ \ \ \ \{\ 0x81,\ 0x39,\ 0x62,\ 0x29,\ 0xf0,\ 0x90,\ 0x79,\ 0x02,\ \},}
+\DoxyCodeLine{00331\ \ \ \ \ \{\ 0x4d,\ 0x0c,\ 0xf4,\ 0x9e,\ 0xe5,\ 0xd4,\ 0xdc,\ 0xca,\ \},}
+\DoxyCodeLine{00332\ \ \ \ \ \{\ 0x5c,\ 0x73,\ 0x33,\ 0x6a,\ 0x76,\ 0xd8,\ 0xbf,\ 0x9a,\ \},}
+\DoxyCodeLine{00333\ \ \ \ \ \{\ 0xd0,\ 0xa7,\ 0x04,\ 0x53,\ 0x6b,\ 0xa9,\ 0x3e,\ 0x0e,\ \},}
+\DoxyCodeLine{00334\ \ \ \ \ \{\ 0x92,\ 0x59,\ 0x58,\ 0xfc,\ 0xd6,\ 0x42,\ 0x0c,\ 0xad,\ \},}
+\DoxyCodeLine{00335\ \ \ \ \ \{\ 0xa9,\ 0x15,\ 0xc2,\ 0x9b,\ 0xc8,\ 0x06,\ 0x73,\ 0x18,\ \},}
+\DoxyCodeLine{00336\ \ \ \ \ \{\ 0x95,\ 0x2b,\ 0x79,\ 0xf3,\ 0xbc,\ 0x0a,\ 0xa6,\ 0xd4,\ \},}
+\DoxyCodeLine{00337\ \ \ \ \ \{\ 0xf2,\ 0x1d,\ 0xf2,\ 0xe4,\ 0x1d,\ 0x45,\ 0x35,\ 0xf9,\ \},}
+\DoxyCodeLine{00338\ \ \ \ \ \{\ 0x87,\ 0x57,\ 0x75,\ 0x19,\ 0x04,\ 0x8f,\ 0x53,\ 0xa9,\ \},}
+\DoxyCodeLine{00339\ \ \ \ \ \{\ 0x10,\ 0xa5,\ 0x6c,\ 0xf5,\ 0xdf,\ 0xcd,\ 0x9a,\ 0xdb,\ \},}
+\DoxyCodeLine{00340\ \ \ \ \ \{\ 0xeb,\ 0x75,\ 0x09,\ 0x5c,\ 0xcd,\ 0x98,\ 0x6c,\ 0xd0,\ \},}
+\DoxyCodeLine{00341\ \ \ \ \ \{\ 0x51,\ 0xa9,\ 0xcb,\ 0x9e,\ 0xcb,\ 0xa3,\ 0x12,\ 0xe6,\ \},}
+\DoxyCodeLine{00342\ \ \ \ \ \{\ 0x96,\ 0xaf,\ 0xad,\ 0xfc,\ 0x2c,\ 0xe6,\ 0x66,\ 0xc7,\ \},}
+\DoxyCodeLine{00343\ \ \ \ \ \{\ 0x72,\ 0xfe,\ 0x52,\ 0x97,\ 0x5a,\ 0x43,\ 0x64,\ 0xee,\ \},}
+\DoxyCodeLine{00344\ \ \ \ \ \{\ 0x5a,\ 0x16,\ 0x45,\ 0xb2,\ 0x76,\ 0xd5,\ 0x92,\ 0xa1,\ \},}
+\DoxyCodeLine{00345\ \ \ \ \ \{\ 0xb2,\ 0x74,\ 0xcb,\ 0x8e,\ 0xbf,\ 0x87,\ 0x87,\ 0x0a,\ \},}
+\DoxyCodeLine{00346\ \ \ \ \ \{\ 0x6f,\ 0x9b,\ 0xb4,\ 0x20,\ 0x3d,\ 0xe7,\ 0xb3,\ 0x81,\ \},}
+\DoxyCodeLine{00347\ \ \ \ \ \{\ 0xea,\ 0xec,\ 0xb2,\ 0xa3,\ 0x0b,\ 0x22,\ 0xa8,\ 0x7f,\ \},}
+\DoxyCodeLine{00348\ \ \ \ \ \{\ 0x99,\ 0x24,\ 0xa4,\ 0x3c,\ 0xc1,\ 0x31,\ 0x57,\ 0x24,\ \},}
+\DoxyCodeLine{00349\ \ \ \ \ \{\ 0xbd,\ 0x83,\ 0x8d,\ 0x3a,\ 0xaf,\ 0xbf,\ 0x8d,\ 0xb7,\ \},}
+\DoxyCodeLine{00350\ \ \ \ \ \{\ 0x0b,\ 0x1a,\ 0x2a,\ 0x32,\ 0x65,\ 0xd5,\ 0x1a,\ 0xea,\ \},}
+\DoxyCodeLine{00351\ \ \ \ \ \{\ 0x13,\ 0x50,\ 0x79,\ 0xa3,\ 0x23,\ 0x1c,\ 0xe6,\ 0x60,\ \},}
+\DoxyCodeLine{00352\ \ \ \ \ \{\ 0x93,\ 0x2b,\ 0x28,\ 0x46,\ 0xe4,\ 0xd7,\ 0x06,\ 0x66,\ \},}
+\DoxyCodeLine{00353\ \ \ \ \ \{\ 0xe1,\ 0x91,\ 0x5f,\ 0x5c,\ 0xb1,\ 0xec,\ 0xa4,\ 0x6c,\ \},}
+\DoxyCodeLine{00354\ \ \ \ \ \{\ 0xf3,\ 0x25,\ 0x96,\ 0x5c,\ 0xa1,\ 0x6d,\ 0x62,\ 0x9f,\ \},}
+\DoxyCodeLine{00355\ \ \ \ \ \{\ 0x57,\ 0x5f,\ 0xf2,\ 0x8e,\ 0x60,\ 0x38,\ 0x1b,\ 0xe5,\ \},}
+\DoxyCodeLine{00356\ \ \ \ \ \{\ 0x72,\ 0x45,\ 0x06,\ 0xeb,\ 0x4c,\ 0x32,\ 0x8a,\ 0x95,\ \}}
+\DoxyCodeLine{00357\ \ \ \};}
+\DoxyCodeLine{00358\ \ \ \textcolor{comment}{/*\ clang-\/format\ on\ */}}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ in[64];}
+\DoxyCodeLine{00361\ \ \ \textcolor{keyword}{struct\ }sipkey\ k;}
+\DoxyCodeLine{00362\ \ \ \textcolor{keywordtype}{size\_t}\ i;}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ sip\_tokey(\&k,\ \textcolor{stringliteral}{"{}\(\backslash\)000\(\backslash\)001\(\backslash\)002\(\backslash\)003\(\backslash\)004\(\backslash\)005\(\backslash\)006\(\backslash\)007\(\backslash\)010\(\backslash\)011"{}}}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)012\(\backslash\)013\(\backslash\)014\(\backslash\)015\(\backslash\)016\(\backslash\)017"{}});}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}\ in;\ ++i)\ \{}
+\DoxyCodeLine{00368\ \ \ \ \ in[i]\ =\ (\textcolor{keywordtype}{unsigned}\ char)i;}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{keywordflow}{if}\ (siphash24(in,\ i,\ \&k)\ !=\ SIP\_U8TO64\_LE(vectors[i]))}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00372\ \ \ \}}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00375\ \}\ \textcolor{comment}{/*\ sip24\_valid()\ */}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\#ifdef\ SIPHASH\_MAIN}}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \textcolor{preprocessor}{\#\ \ include\ <stdio.h>}}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \textcolor{keywordtype}{int}}
+\DoxyCodeLine{00382\ \doxymbox{\hyperlink{namespacemain}{main}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00383\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{namespacelv__templ__check_a1d67bd6634a9002df97231d8c8dbc66c}{ok}}\ =\ sip24\_valid();}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \textcolor{keywordflow}{if}\ (ok)}
+\DoxyCodeLine{00386\ \ \ \ \ puts(\textcolor{stringliteral}{"{}OK"{}});}
+\DoxyCodeLine{00387\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00388\ \ \ \ \ puts(\textcolor{stringliteral}{"{}FAIL"{}});}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \textcolor{keywordflow}{return}\ !\ \doxymbox{\hyperlink{namespacelv__templ__check_a1d67bd6634a9002df97231d8c8dbc66c}{ok}};}
+\DoxyCodeLine{00391\ \}\ \textcolor{comment}{/*\ main()\ */}}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SIPHASH\_MAIN\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SIPHASH\_H\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00398\ }
+
+\end{DoxyCode}

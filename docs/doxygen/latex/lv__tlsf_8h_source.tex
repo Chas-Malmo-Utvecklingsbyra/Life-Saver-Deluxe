@@ -1,0 +1,102 @@
+\doxysection{lv\+\_\+tlsf.\+h}
+\hypertarget{lv__tlsf_8h_source}{}\label{lv__tlsf_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/stdlib/builtin/lv\_tlsf.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/stdlib/builtin/lv\_tlsf.h}}
+\doxymbox{\hyperlink{lv__tlsf_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#if\ LV\_USE\_STDLIB\_MALLOC\ ==\ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifndef\ LV\_TLSF\_H}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ LV\_TLSF\_H}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00008\ \textcolor{comment}{**\ Two\ Level\ Segregated\ Fit\ memory\ allocator,\ version\ 3.1.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{**\ Written\ by\ Matthew\ Conte}}
+\DoxyCodeLine{00010\ \textcolor{comment}{**\ \ http://tlsf.baisoku.org}}
+\DoxyCodeLine{00011\ \textcolor{comment}{**}}
+\DoxyCodeLine{00012\ \textcolor{comment}{**\ Based\ on\ the\ original\ documentation\ by\ Miguel\ Masmano:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{**\ \ http://www.gii.upv.es/tlsf/main/docs}}
+\DoxyCodeLine{00014\ \textcolor{comment}{**}}
+\DoxyCodeLine{00015\ \textcolor{comment}{**\ This\ implementation\ was\ written\ to\ the\ specification}}
+\DoxyCodeLine{00016\ \textcolor{comment}{**\ of\ the\ document,\ therefore\ no\ GPL\ restrictions\ apply.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{**}}
+\DoxyCodeLine{00018\ \textcolor{comment}{**\ Copyright\ (c)\ 2006-\/2016,\ Matthew\ Conte}}
+\DoxyCodeLine{00019\ \textcolor{comment}{**\ All\ rights\ reserved.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{**}}
+\DoxyCodeLine{00021\ \textcolor{comment}{**\ Redistribution\ and\ use\ in\ source\ and\ binary\ forms,\ with\ or\ without}}
+\DoxyCodeLine{00022\ \textcolor{comment}{**\ modification,\ are\ permitted\ provided\ that\ the\ following\ conditions\ are\ met:}}
+\DoxyCodeLine{00023\ \textcolor{comment}{**\ \ \ \ \ *\ Redistributions\ of\ source\ code\ must\ retain\ the\ above\ copyright}}
+\DoxyCodeLine{00024\ \textcolor{comment}{**\ \ \ \ \ \ \ notice,\ this\ list\ of\ conditions\ and\ the\ following\ disclaimer.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{**\ \ \ \ \ *\ Redistributions\ in\ binary\ form\ must\ reproduce\ the\ above\ copyright}}
+\DoxyCodeLine{00026\ \textcolor{comment}{**\ \ \ \ \ \ \ notice,\ this\ list\ of\ conditions\ and\ the\ following\ disclaimer\ in\ the}}
+\DoxyCodeLine{00027\ \textcolor{comment}{**\ \ \ \ \ \ \ documentation\ and/or\ other\ materials\ provided\ with\ the\ distribution.}}
+\DoxyCodeLine{00028\ \textcolor{comment}{**\ \ \ \ \ *\ Neither\ the\ name\ of\ the\ copyright\ holder\ nor\ the}}
+\DoxyCodeLine{00029\ \textcolor{comment}{**\ \ \ \ \ \ \ names\ of\ its\ contributors\ may\ be\ used\ to\ endorse\ or\ promote\ products}}
+\DoxyCodeLine{00030\ \textcolor{comment}{**\ \ \ \ \ \ \ derived\ from\ this\ software\ without\ specific\ prior\ written\ permission.}}
+\DoxyCodeLine{00031\ \textcolor{comment}{**}}
+\DoxyCodeLine{00032\ \textcolor{comment}{**\ THIS\ SOFTWARE\ IS\ PROVIDED\ BY\ THE\ COPYRIGHT\ HOLDERS\ AND\ CONTRIBUTORS\ "{}AS\ IS"{}\ AND}}
+\DoxyCodeLine{00033\ \textcolor{comment}{**\ ANY\ EXPRESS\ OR\ IMPLIED\ WARRANTIES,\ INCLUDING,\ BUT\ NOT\ LIMITED\ TO,\ THE\ IMPLIED}}
+\DoxyCodeLine{00034\ \textcolor{comment}{**\ WARRANTIES\ OF\ MERCHANTABILITY\ AND\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ ARE}}
+\DoxyCodeLine{00035\ \textcolor{comment}{**\ DISCLAIMED.\ IN\ NO\ EVENT\ SHALL\ MATTHEW\ CONTE\ BE\ LIABLE\ FOR\ ANY}}
+\DoxyCodeLine{00036\ \textcolor{comment}{**\ DIRECT,\ INDIRECT,\ INCIDENTAL,\ SPECIAL,\ EXEMPLARY,\ OR\ CONSEQUENTIAL\ DAMAGES}}
+\DoxyCodeLine{00037\ \textcolor{comment}{**\ (INCLUDING,\ BUT\ NOT\ LIMITED\ TO,\ PROCUREMENT\ OF\ SUBSTITUTE\ GOODS\ OR\ SERVICES;}}
+\DoxyCodeLine{00038\ \textcolor{comment}{**\ LOSS\ OF\ USE,\ DATA,\ OR\ PROFITS;\ OR\ BUSINESS\ INTERRUPTION)\ HOWEVER\ CAUSED\ AND}}
+\DoxyCodeLine{00039\ \textcolor{comment}{**\ ON\ ANY\ THEORY\ OF\ LIABILITY,\ WHETHER\ IN\ CONTRACT,\ STRICT\ LIABILITY,\ OR\ TORT}}
+\DoxyCodeLine{00040\ \textcolor{comment}{**\ (INCLUDING\ NEGLIGENCE\ OR\ OTHERWISE)\ ARISING\ IN\ ANY\ WAY\ OUT\ OF\ THE\ USE\ OF\ THIS}}
+\DoxyCodeLine{00041\ \textcolor{comment}{**\ SOFTWARE,\ EVEN\ IF\ ADVISED\ OF\ THE\ POSSIBILITY\ OF\ SUCH\ DAMAGE.}}
+\DoxyCodeLine{00042\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__ll_8h}{../../misc/lv\_ll.h}}"{}}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#if\ defined(\_\_cplusplus)}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{comment}{/*\ lv\_tlsf\_t:\ a\ TLSF\ structure.\ Can\ contain\ 1\ to\ N\ pools.\ */}}
+\DoxyCodeLine{00052\ \textcolor{comment}{/*\ lv\_pool\_t:\ a\ block\ of\ memory\ that\ TLSF\ can\ manage.\ */}}
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}};}
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{/*\ Create/destroy\ a\ memory\ pool.\ */}}
+\DoxyCodeLine{00057\ \doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ \doxymbox{\hyperlink{lv__tlsf_8h_a8af1c7149f4b29c5e40f06b6d4201c95}{lv\_tlsf\_create}}(\textcolor{keywordtype}{void}\ *\ mem);}
+\DoxyCodeLine{00058\ \doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ \doxymbox{\hyperlink{lv__tlsf_8h_a579b8edc90721c7775c2b57f48a44256}{lv\_tlsf\_create\_with\_pool}}(\textcolor{keywordtype}{void}\ *\ mem,\ \textcolor{keywordtype}{size\_t}\ bytes);}
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__tlsf_8h_a90b11e797f0e69b89430dc34f8e85c92}{lv\_tlsf\_destroy}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf);}
+\DoxyCodeLine{00060\ \doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}}\ \doxymbox{\hyperlink{lv__tlsf_8h_a5a72dca124d3ec9d249398fac7f2382a}{lv\_tlsf\_get\_pool}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{/*\ Add/remove\ memory\ pools.\ */}}
+\DoxyCodeLine{00063\ \doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}}\ \doxymbox{\hyperlink{lv__tlsf_8h_abbcc78edd608b40f20ea03b202d8ea2d}{lv\_tlsf\_add\_pool}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \textcolor{keywordtype}{void}\ *\ mem,\ \textcolor{keywordtype}{size\_t}\ bytes);}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__tlsf_8h_afd20124c527ae343792e40ea6112deb4}{lv\_tlsf\_remove\_pool}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}}\ pool);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{comment}{/*\ malloc/memalign/realloc/free\ replacements.\ */}}
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__tlsf_8h_a6a8ae4928c2dd0ceda1289e36902c780}{lv\_tlsf\_malloc}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \textcolor{keywordtype}{size\_t}\ bytes);}
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__tlsf_8h_a65b9b282e3710ab88d651f816e578da5}{lv\_tlsf\_memalign}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \textcolor{keywordtype}{size\_t}\ align,\ \textcolor{keywordtype}{size\_t}\ bytes);}
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__tlsf_8h_a37b821f2fe23d955104a04f46170b594}{lv\_tlsf\_realloc}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \textcolor{keywordtype}{void}\ *\ ptr,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_ae8b7ef17ce0e4756acb4753360f3be1d}{lv\_tlsf\_free}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ ptr);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{/*\ Returns\ internal\ block\ size,\ not\ original\ request\ size\ */}}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_a2fcee770b002bc1ce92ab402655b9da7}{lv\_tlsf\_block\_size}}(\textcolor{keywordtype}{void}\ *\ ptr);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{comment}{/*\ Overheads/limits\ of\ internal\ structures.\ */}}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_a589d14e130a340caec0739d5b8907f27}{lv\_tlsf\_size}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_ad9d645dd4a1b31826b5a65c7dd033f31}{lv\_tlsf\_align\_size}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_ae05c40f2297b026edf3b61f309a9d5f3}{lv\_tlsf\_block\_size\_min}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_ac0e9ab02e886426d1ebf6ee7301a9293}{lv\_tlsf\_block\_size\_max}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_a25c6ae0de460d768758484d94ce933f7}{lv\_tlsf\_pool\_overhead}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{lv__tlsf_8h_a96c42df38057849822c46b423e082dfc}{lv\_tlsf\_alloc\_overhead}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{comment}{/*\ Debugging.\ */}}
+\DoxyCodeLine{00084\ \textcolor{keyword}{typedef}\ void\ (*\doxymbox{\hyperlink{lv__tlsf_8h_ae167e9569d420d5292770e154c456f45}{lv\_tlsf\_walker}})(\textcolor{keywordtype}{void}\ *\ ptr,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{int}\ used,\ \textcolor{keywordtype}{void}\ *\ user);}
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__tlsf_8h_ae5e1fe0c1498144a8cdc94cb2ffbad75}{lv\_tlsf\_walk\_pool}}(\doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}}\ pool,\ \doxymbox{\hyperlink{lv__tlsf_8h_ae167e9569d420d5292770e154c456f45}{lv\_tlsf\_walker}}\ walker,\ \textcolor{keywordtype}{void}\ *\ user);}
+\DoxyCodeLine{00086\ \textcolor{comment}{/*\ Returns\ nonzero\ if\ any\ internal\ consistency\ check\ fails.\ */}}
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{lv__tlsf_8h_a2dc4818c3599924f3576c91b2cf71da3}{lv\_tlsf\_check}}(\doxymbox{\hyperlink{lv__tlsf_8h_ae27e2bb64b1f220647757a58490f5146}{lv\_tlsf\_t}}\ tlsf);}
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{lv__tlsf_8h_a24e0062af2d1b58a1ab46fb6a443f18e}{lv\_tlsf\_check\_pool}}(\doxymbox{\hyperlink{lv__tlsf_8h_a2a64754faad7be1464a3717ef87717b8}{lv\_pool\_t}}\ pool);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#if\ defined(\_\_cplusplus)}}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_TLSF\_H*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_STDLIB\_BUILTIN*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

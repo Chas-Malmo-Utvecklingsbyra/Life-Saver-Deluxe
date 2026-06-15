@@ -1,0 +1,279 @@
+\doxysection{encodedstream.\+h}
+\hypertarget{encodedstream_8h_source}{}\label{encodedstream_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/encodedstream.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/encodedstream.h}}
+\doxymbox{\hyperlink{encodedstream_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Copyright\ (C)\ 2015\ THL\ A29\ Limited,\ a\ Tencent\ company,\ and\ Milo\ Yip.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_ENCODEDSTREAM\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ENCODEDSTREAM\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{stream_8h}{stream.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{memorystream_8h}{memorystream.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00022\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00023\ RAPIDJSON\_DIAG\_OFF(effc++)}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00027\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00028\ RAPIDJSON\_DIAG\_OFF(padded)}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Encoding,\ \textcolor{keyword}{typename}\ InputByteStream>}
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_encoded_input_stream_a15d7c0c2edf7e11adbb2232c0449028e}{EncodedInputStream}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(\textcolor{keyword}{typename}\ InputByteStream::Ch)\ ==\ 1);}
+\DoxyCodeLine{00041\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ Encoding::Ch\ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a15d7c0c2edf7e11adbb2232c0449028e}{EncodedInputStream}}(InputByteStream\&\ is)\ :\ is\_(is)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ current\_\ =\ Encoding::TakeBOM(is\_);}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ \doxymbox{\hyperlink{class_encoded_input_stream_af6bb0127bbccb78c66052870fde2f63f}{Peek}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ current\_;\ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ \doxymbox{\hyperlink{class_encoded_input_stream_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{\ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ c\ =\ current\_;\ current\_\ =\ Encoding::Take(is\_);\ \textcolor{keywordflow}{return}\ c;\ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_input_stream_a4942c1b9fd2b773ed5dddd92a17336ee}{Tell}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ is\_.Tell();\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ Not\ implemented}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_input_stream_a5a649bcaa76443356183a2d25bd935e2}{Put}}(\doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}})\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_input_stream_a0e2644b2df3c228e8d71a55b60723f31}{Flush}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}*\ \doxymbox{\hyperlink{class_encoded_input_stream_a01824479a6abbbb31044a66d0ef7ca95}{PutBegin}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_input_stream_a0ead1ca407bf1c60b6197d2c39bd39ba}{PutEnd}}(\doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}*)\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a15d7c0c2edf7e11adbb2232c0449028e}{EncodedInputStream}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_input_stream}{EncodedInputStream}}\&);}
+\DoxyCodeLine{00060\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream}{EncodedInputStream}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_input_stream}{EncodedInputStream}}\&);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ InputByteStream\&\ is\_;}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ current\_;}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00068\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a8a108471bad528297aa31f863b03ead3}{EncodedInputStream}}<\doxymbox{\hyperlink{struct_u_t_f8}{UTF8}}<>,\ \doxymbox{\hyperlink{struct_memory_stream}{MemoryStream}}>\ \{}
+\DoxyCodeLine{00069\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{struct_u_t_f8_a1819fa651a7deca2b933431389c91cb0}{UTF8<>::Ch}}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a8a108471bad528297aa31f863b03ead3}{EncodedInputStream}}(\doxymbox{\hyperlink{struct_memory_stream}{MemoryStream}}\&\ is)\ :\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}(is)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\textcolor{keyword}{>}(\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Peek())\ ==\ 0xEFu)\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Take();}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ if\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\textcolor{keyword}{>}(\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Peek())\ ==\ 0xBBu)\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Take();}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ if\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\textcolor{keyword}{>}(\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Peek())\ ==\ 0xBFu)\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Take();}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_af6bb0127bbccb78c66052870fde2f63f}{Peek}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Peek();\ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Take();\ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a4942c1b9fd2b773ed5dddd92a17336ee}{Tell}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}}.Tell();\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//\ Not\ implemented}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a5a649bcaa76443356183a2d25bd935e2}{Put}}(\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}})\ \{\}}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a0e2644b2df3c228e8d71a55b60723f31}{Flush}}()\ \{\}}
+\DoxyCodeLine{00084\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}}*\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a01824479a6abbbb31044a66d0ef7ca95}{PutBegin}}()\ \{\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a0ead1ca407bf1c60b6197d2c39bd39ba}{PutEnd}}(\doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a532e3f0878a6fc451275be9c4baa4fbb}{Ch}}*)\ \{\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \doxymbox{\hyperlink{struct_memory_stream}{MemoryStream}}\&\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a7b62111778b2bed55c52e4121d4d223b}{is\_}};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00090\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_a15d7c0c2edf7e11adbb2232c0449028e}{EncodedInputStream}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a8a108471bad528297aa31f863b03ead3}{EncodedInputStream}}\&);}
+\DoxyCodeLine{00091\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a8a108471bad528297aa31f863b03ead3}{EncodedInputStream}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_input_stream_3_01_u_t_f8_3_4_00_01_memory_stream_01_4_a8a108471bad528297aa31f863b03ead3}{EncodedInputStream}}\&);}
+\DoxyCodeLine{00092\ \};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Encoding,\ \textcolor{keyword}{typename}\ OutputByteStream>}
+\DoxyCodeLine{00100\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_encoded_output_stream_a2a4bb1ec0c50592d68c2e4abac4b3a74}{EncodedOutputStream}}\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(\textcolor{keyword}{typename}\ OutputByteStream::Ch)\ ==\ 1);}
+\DoxyCodeLine{00102\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ Encoding::Ch\ \doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream_a2a4bb1ec0c50592d68c2e4abac4b3a74}{EncodedOutputStream}}(OutputByteStream\&\ os,\ \textcolor{keywordtype}{bool}\ putBOM\ =\ \textcolor{keyword}{true})\ :\ os\_(os)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (putBOM)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ Encoding::PutBOM(os\_);}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_output_stream_a230f51b66319f012d057948dbf195231}{Put}}(\doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ c)\ \{\ Encoding::Put(os\_,\ c);\ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_encoded_output_stream_a0e2644b2df3c228e8d71a55b60723f31}{Flush}}()\ \{\ os\_.Flush();\ \}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{comment}{//\ Not\ implemented}}
+\DoxyCodeLine{00114\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ \doxymbox{\hyperlink{class_encoded_output_stream_af6bb0127bbccb78c66052870fde2f63f}{Peek}}()\textcolor{keyword}{\ const\ }\{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\}}
+\DoxyCodeLine{00115\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ \doxymbox{\hyperlink{class_encoded_output_stream_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_output_stream_a4942c1b9fd2b773ed5dddd92a17336ee}{Tell}}()\textcolor{keyword}{\ const\ }\{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}*\ \doxymbox{\hyperlink{class_encoded_output_stream_a01824479a6abbbb31044a66d0ef7ca95}{PutBegin}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_encoded_output_stream_a0ead1ca407bf1c60b6197d2c39bd39ba}{PutEnd}}(\doxymbox{\hyperlink{class_encoded_output_stream_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}*)\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00121\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream_a2a4bb1ec0c50592d68c2e4abac4b3a74}{EncodedOutputStream}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_output_stream}{EncodedOutputStream}}\&);}
+\DoxyCodeLine{00122\ \ \ \ \ \doxymbox{\hyperlink{class_encoded_output_stream}{EncodedOutputStream}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_encoded_output_stream}{EncodedOutputStream}}\&);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ OutputByteStream\&\ os\_;}
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_ENCODINGS\_FUNC(x)\ UTF8<Ch>::x,\ UTF16LE<Ch>::x,\ UTF16BE<Ch>::x,\ UTF32LE<Ch>::x,\ UTF32BE<Ch>::x}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ CharType,\ \textcolor{keyword}{typename}\ InputByteStream>}
+\DoxyCodeLine{00135\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_ac58c26f645908105df26c6c613f0a2fa}{AutoUTFInputStream}}\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(\textcolor{keyword}{typename}\ InputByteStream::Ch)\ ==\ 1);}
+\DoxyCodeLine{00137\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keyword}{typedef}\ CharType\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00145\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_ac58c26f645908105df26c6c613f0a2fa}{AutoUTFInputStream}}(InputByteStream\&\ is,\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ type\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a7fd9945f1c494a4a4ee9446017e790f1}{kUTF8}})\ :\ is\_(\&is),\ type\_(type),\ hasBOM\_(\doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}})\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(type\ >=\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a7fd9945f1c494a4a4ee9446017e790f1}{kUTF8}}\ \&\&\ type\ <=\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}});}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ DetectType();}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ TakeFunc\ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[]\ =\ \{\ \doxymbox{\hyperlink{encodedstream_8h_a6530c8834a049a0ff230b56072df6c24}{RAPIDJSON\_ENCODINGS\_FUNC}}(\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a443b9845a6e3d58438abe9de6c2003db}{Take}})\ \};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ takeFunc\_\ =\ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[type\_];}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ current\_\ =\ takeFunc\_(*is\_);}
+\DoxyCodeLine{00151\ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a5aa239b5680c04c714c34053b6c96cd8}{GetType}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ type\_;\ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a5fa427b55b7fd562933c6449a0bb8ce1}{HasBOM}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ hasBOM\_;\ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_af6bb0127bbccb78c66052870fde2f63f}{Peek}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ current\_;\ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ c\ =\ current\_;\ current\_\ =\ takeFunc\_(*is\_);\ \textcolor{keywordflow}{return}\ c;\ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a4942c1b9fd2b773ed5dddd92a17336ee}{Tell}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ is\_-\/>Tell();\ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{comment}{//\ Not\ implemented}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a5a649bcaa76443356183a2d25bd935e2}{Put}}(\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}})\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a0e2644b2df3c228e8d71a55b60723f31}{Flush}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}*\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a01824479a6abbbb31044a66d0ef7ca95}{PutBegin}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a0ead1ca407bf1c60b6197d2c39bd39ba}{PutEnd}}(\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}*)\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00167\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_ac58c26f645908105df26c6c613f0a2fa}{AutoUTFInputStream}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream}{AutoUTFInputStream}}\&);}
+\DoxyCodeLine{00168\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream}{AutoUTFInputStream}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream}{AutoUTFInputStream}}\&);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{comment}{//\ Detect\ encoding\ type\ with\ BOM\ or\ RFC\ 4627}}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ DetectType()\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ BOM\ (Byte\ Order\ Mark):}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 00\ 00\ FE\ FF\ \ UTF-\/32BE}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FF\ FE\ 00\ 00\ \ UTF-\/32LE}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FE\ FF\ \ \ \ \ \ \ \ UTF-\/16BE}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FF\ FE\ \ \ \ \ \ \ \ UTF-\/16LE}}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ EF\ BB\ BF\ \ \ \ \ UTF-\/8}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ c\ =\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{>}(is\_-\/>Peek4());}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!c)}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ bom\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(c[0]\ |\ (c[1]\ <<\ 8)\ |\ (c[2]\ <<\ 16)\ |\ (c[3]\ <<\ 24));}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ hasBOM\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bom\ ==\ 0xFFFE0000)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}};\ hasBOM\_\ =\ \textcolor{keyword}{true};\ is\_-\/>Take();\ is\_-\/>Take();\ is\_-\/>Take();\ is\_-\/>Take();\ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (bom\ ==\ 0x0000FEFF)\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a885dec757d256c427be6759296d482e0}{kUTF32LE}};\ hasBOM\_\ =\ \textcolor{keyword}{true};\ is\_-\/>Take();\ is\_-\/>Take();\ is\_-\/>Take();\ is\_-\/>Take();\ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((bom\ \&\ 0xFFFF)\ ==\ 0xFFFE)\ \ \ \ \ \ \{\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a1a455c6e8be641e715de9aa8ffa6cea0}{kUTF16BE}};\ hasBOM\_\ =\ \textcolor{keyword}{true};\ is\_-\/>Take();\ is\_-\/>Take();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((bom\ \&\ 0xFFFF)\ ==\ 0xFEFF)\ \ \ \ \ \ \{\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58ab72f5865db6af4e33757ee52ddad9fda}{kUTF16LE}};\ hasBOM\_\ =\ \textcolor{keyword}{true};\ is\_-\/>Take();\ is\_-\/>Take();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((bom\ \&\ 0xFFFFFF)\ ==\ 0xBFBBEF)\ \ \{\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a7fd9945f1c494a4a4ee9446017e790f1}{kUTF8}};\ \ \ \ hasBOM\_\ =\ \textcolor{keyword}{true};\ is\_-\/>Take();\ is\_-\/>Take();\ is\_-\/>Take();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RFC\ 4627:\ Section\ 3}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ "{}Since\ the\ first\ two\ characters\ of\ a\ JSON\ text\ will\ always\ be\ ASCII}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ characters\ [RFC0020],\ it\ is\ possible\ to\ determine\ whether\ an\ octet}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ stream\ is\ UTF-\/8,\ UTF-\/16\ (BE\ or\ LE),\ or\ UTF-\/32\ (BE\ or\ LE)\ by\ looking}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ at\ the\ pattern\ of\ nulls\ in\ the\ first\ four\ octets."{}}}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 00\ 00\ 00\ xx\ \ UTF-\/32BE}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 00\ xx\ 00\ xx\ \ UTF-\/16BE}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ xx\ 00\ 00\ 00\ \ UTF-\/32LE}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ xx\ 00\ xx\ 00\ \ UTF-\/16LE}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ xx\ xx\ xx\ xx\ \ UTF-\/8}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!hasBOM\_)\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{namespacetrace__filter_a7eb778c471c5522fe3f4b7ebdc4c0760}{pattern}}\ =\ (c[0]\ ?\ 1\ :\ 0)\ |\ (c[1]\ ?\ 2\ :\ 0)\ |\ (c[2]\ ?\ 4\ :\ 0)\ |\ (c[3]\ ?\ 8\ :\ 0);}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (pattern)\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x08:\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x0A:\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a1a455c6e8be641e715de9aa8ffa6cea0}{kUTF16BE}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x01:\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a885dec757d256c427be6759296d482e0}{kUTF32LE}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x05:\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58ab72f5865db6af4e33757ee52ddad9fda}{kUTF16LE}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x0F:\ type\_\ =\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a7fd9945f1c494a4a4ee9446017e790f1}{kUTF8}};\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ Use\ type\ defined\ by\ user.}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Runtime\ check\ whether\ the\ size\ of\ character\ type\ is\ sufficient.\ It\ only\ perform\ checks\ with\ assertion.}}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58ab72f5865db6af4e33757ee52ddad9fda}{kUTF16LE}}\ ||\ type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a1a455c6e8be641e715de9aa8ffa6cea0}{kUTF16BE}})\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}})\ >=\ 2);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a885dec757d256c427be6759296d482e0}{kUTF32LE}}\ ||\ type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}})\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}})\ >=\ 4);}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ (*TakeFunc)(InputByteStream\&\ is);}
+\DoxyCodeLine{00220\ \ \ \ \ InputByteStream*\ is\_;}
+\DoxyCodeLine{00221\ \ \ \ \ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ type\_;}
+\DoxyCodeLine{00222\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_input_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ current\_;}
+\DoxyCodeLine{00223\ \ \ \ \ TakeFunc\ takeFunc\_;}
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasBOM\_;}
+\DoxyCodeLine{00225\ \};}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00232\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ CharType,\ \textcolor{keyword}{typename}\ OutputByteStream>}
+\DoxyCodeLine{00233\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a2413b0110d04835346cc2af8bfc4edc7}{AutoUTFOutputStream}}\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_af95188da1d8eb6d4b148fe9ce71cd7c4}{RAPIDJSON\_STATIC\_ASSERT}}(\textcolor{keyword}{sizeof}(\textcolor{keyword}{typename}\ OutputByteStream::Ch)\ ==\ 1);}
+\DoxyCodeLine{00235\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keyword}{typedef}\ CharType\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}};}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00244\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a2413b0110d04835346cc2af8bfc4edc7}{AutoUTFOutputStream}}(OutputByteStream\&\ os,\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ type,\ \textcolor{keywordtype}{bool}\ putBOM)\ :\ os\_(\&os),\ type\_(type)\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(type\ >=\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a7fd9945f1c494a4a4ee9446017e790f1}{kUTF8}}\ \&\&\ type\ <=\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}});}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Runtime\ check\ whether\ the\ size\ of\ character\ type\ is\ sufficient.\ It\ only\ perform\ checks\ with\ assertion.}}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58ab72f5865db6af4e33757ee52ddad9fda}{kUTF16LE}}\ ||\ type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a1a455c6e8be641e715de9aa8ffa6cea0}{kUTF16BE}})\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}})\ >=\ 2);}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a885dec757d256c427be6759296d482e0}{kUTF32LE}}\ ||\ type\_\ ==\ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58a14da8da33c9f9aa904bf0d1aac3fa76e}{kUTF32BE}})\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}})\ >=\ 4);}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ PutFunc\ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[]\ =\ \{\ \doxymbox{\hyperlink{encodedstream_8h_a6530c8834a049a0ff230b56072df6c24}{RAPIDJSON\_ENCODINGS\_FUNC}}(\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a230f51b66319f012d057948dbf195231}{Put}})\ \};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ putFunc\_\ =\ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[type\_];}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (putBOM)}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ PutBOM();}
+\DoxyCodeLine{00256\ \ \ \ \ \}}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a5aa239b5680c04c714c34053b6c96cd8}{GetType}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ type\_;\ \}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a230f51b66319f012d057948dbf195231}{Put}}(\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ c)\ \{\ putFunc\_(*os\_,\ c);\ \}}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a0e2644b2df3c228e8d71a55b60723f31}{Flush}}()\ \{\ os\_-\/>Flush();\ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{comment}{//\ Not\ implemented}}
+\DoxyCodeLine{00264\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_af6bb0127bbccb78c66052870fde2f63f}{Peek}}()\textcolor{keyword}{\ const\ }\{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\}}
+\DoxyCodeLine{00265\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\}}
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a4942c1b9fd2b773ed5dddd92a17336ee}{Tell}}()\textcolor{keyword}{\ const\ }\{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00267\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}*\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a01824479a6abbbb31044a66d0ef7ca95}{PutBegin}}()\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a0ead1ca407bf1c60b6197d2c39bd39ba}{PutEnd}}(\doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}}*)\ \{\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(\textcolor{keyword}{false});\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00271\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a2413b0110d04835346cc2af8bfc4edc7}{AutoUTFOutputStream}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream}{AutoUTFOutputStream}}\&);}
+\DoxyCodeLine{00272\ \ \ \ \ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream}{AutoUTFOutputStream}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream}{AutoUTFOutputStream}}\&);}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordtype}{void}\ PutBOM()\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ void\ (*PutBOMFunc)(OutputByteStream\&);}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ PutBOMFunc\ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[]\ =\ \{\ \doxymbox{\hyperlink{encodedstream_8h_a6530c8834a049a0ff230b56072df6c24}{RAPIDJSON\_ENCODINGS\_FUNC}}(PutBOM)\ \};}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{embedded-core_2unity_2unity_8c_af900396d7b72ff2a7002e8befe8cf8f1}{f}}[type\_](*os\_);}
+\DoxyCodeLine{00278\ \ \ \ \ \}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{typedef}\ void\ (*PutFunc)(OutputByteStream\&,\ \doxymbox{\hyperlink{class_auto_u_t_f_output_stream_a1819fa651a7deca2b933431389c91cb0}{Ch}});}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ OutputByteStream*\ os\_;}
+\DoxyCodeLine{00283\ \ \ \ \ \doxymbox{\hyperlink{encodings_8h_ac9448aedf514a5bb509bae73a9ce4e58}{UTFType}}\ type\_;}
+\DoxyCodeLine{00284\ \ \ \ \ PutFunc\ putFunc\_;}
+\DoxyCodeLine{00285\ \};}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#undef\ RAPIDJSON\_ENCODINGS\_FUNC}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00292\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00296\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_FILESTREAM\_H\_}}
+
+\end{DoxyCode}

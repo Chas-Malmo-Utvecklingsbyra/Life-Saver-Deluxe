@@ -41,11 +41,11 @@
 \begin{DoxyCompactItemize}
 \item 
 void \doxymbox{\hyperlink{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8}{ui\+\_\+rebuild\+\_\+all}} (void)
-\item 
-void \doxymbox{\hyperlink{gui_8c_a6b4f2fc589a1178e9694af03e25e06df}{gui\+\_\+update\+\_\+network\+\_\+status}} (void \texorpdfstring{$\ast$}{*}arg)
-\item 
+\begin{DoxyCompactList}\small\item\em Rebuilds the complete user interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{gui_8c_a76a93b59985275c2c57d52153324e7a4}{on\+\_\+wifi\+\_\+status\+\_\+update}} (void)
+\begin{DoxyCompactList}\small\item\em Updates the Wi-\/\+Fi status label. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{gui_8c_a4cf713b8207ef50beef99a9d71693e7f}{lvgl\+\_\+task}} (void \texorpdfstring{$\ast$}{*}arg)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Main LVGL task. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -54,6 +54,8 @@ lv\+\_\+display\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui_8c_a7
 lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui_8c_a05e224ee6d2d90a1daf49b93e224f5ee}{main\+\_\+tabview}} = NULL
 \item 
 uint8\+\_\+t \doxymbox{\hyperlink{gui_8c_a97db531d21911db60f31c5446ad6edd5}{current\+\_\+theme}} = 0
+\item 
+bool \doxymbox{\hyperlink{gui_8c_a800a20426775e5dd71c3db9990e18a32}{ui\+\_\+rebuilding}} = \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}
 \end{DoxyCompactItemize}
 
 
@@ -83,25 +85,44 @@ uint8\+\_\+t \doxymbox{\hyperlink{gui_8c_a97db531d21911db60f31c5446ad6edd5}{curr
 \label{gui_8c_doc-func-members}
 \Hypertarget{gui_8c_doc-func-members}
 \doxysubsection{Function Documentation}
-\Hypertarget{gui_8c_a6b4f2fc589a1178e9694af03e25e06df}\index{gui.c@{gui.c}!gui\_update\_network\_status@{gui\_update\_network\_status}}
-\index{gui\_update\_network\_status@{gui\_update\_network\_status}!gui.c@{gui.c}}
-\doxysubsubsection{\texorpdfstring{gui\_update\_network\_status()}{gui\_update\_network\_status()}}
-{\footnotesize\ttfamily \label{gui_8c_a6b4f2fc589a1178e9694af03e25e06df} 
-void gui\+\_\+update\+\_\+network\+\_\+status (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
-
 \Hypertarget{gui_8c_a4cf713b8207ef50beef99a9d71693e7f}\index{gui.c@{gui.c}!lvgl\_task@{lvgl\_task}}
 \index{lvgl\_task@{lvgl\_task}!gui.c@{gui.c}}
 \doxysubsubsection{\texorpdfstring{lvgl\_task()}{lvgl\_task()}}
 {\footnotesize\ttfamily \label{gui_8c_a4cf713b8207ef50beef99a9d71693e7f} 
 void lvgl\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
 
-\Hypertarget{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8}\index{gui.c@{gui.c}!ui\_rebuild\_all@{ui\_rebuild\_all}}
+
+
+Main LVGL task. 
+
+Initializes the display, touch controller, LVGL, screens, timers, and enters the main UI loop.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Free\+RTOS task argument. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{gui_8c_a76a93b59985275c2c57d52153324e7a4}\index{gui.c@{gui.c}!on\_wifi\_status\_update@{on\_wifi\_status\_update}}
+\index{on\_wifi\_status\_update@{on\_wifi\_status\_update}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{on\_wifi\_status\_update()}{on\_wifi\_status\_update()}}
+{\footnotesize\ttfamily \label{gui_8c_a76a93b59985275c2c57d52153324e7a4} 
+void on\+\_\+wifi\+\_\+status\+\_\+update (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Updates the Wi-\/\+Fi status label. 
+
+Synchronizes the displayed network status with the current connectivity state. \Hypertarget{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8}\index{gui.c@{gui.c}!ui\_rebuild\_all@{ui\_rebuild\_all}}
 \index{ui\_rebuild\_all@{ui\_rebuild\_all}!gui.c@{gui.c}}
 \doxysubsubsection{\texorpdfstring{ui\_rebuild\_all()}{ui\_rebuild\_all()}}
 {\footnotesize\ttfamily \label{gui_8c_aa6c72a55cdb801e163c1fecaca1ed4a8} 
 void ui\+\_\+rebuild\+\_\+all (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
 
 
+
+Rebuilds the complete user interface. 
+
+Destroys existing screens and recreates all visual components using the currently selected theme and application state. 
 
 \label{gui_8c_doc-var-members}
 \Hypertarget{gui_8c_doc-var-members}
@@ -123,4 +144,10 @@ lv\+\_\+display\+\_\+t\texorpdfstring{$\ast$}{*} lvgl\+\_\+disp = NULL}
 \doxysubsubsection{\texorpdfstring{main\_tabview}{main\_tabview}}
 {\footnotesize\ttfamily \label{gui_8c_a05e224ee6d2d90a1daf49b93e224f5ee} 
 lv\+\_\+obj\+\_\+t\texorpdfstring{$\ast$}{*} main\+\_\+tabview = NULL}
+
+\Hypertarget{gui_8c_a800a20426775e5dd71c3db9990e18a32}\index{gui.c@{gui.c}!ui\_rebuilding@{ui\_rebuilding}}
+\index{ui\_rebuilding@{ui\_rebuilding}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{ui\_rebuilding}{ui\_rebuilding}}
+{\footnotesize\ttfamily \label{gui_8c_a800a20426775e5dd71c3db9990e18a32} 
+bool ui\+\_\+rebuilding = \doxymbox{\hyperlink{c_j_s_o_n_8c_a65e9886d74aaee76545e83dd09011727}{false}}}
 

@@ -1,0 +1,114 @@
+\doxysection{tjpgd.\+h}
+\hypertarget{tjpgd_8h_source}{}\label{tjpgd_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/tjpgd/tjpgd.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/tjpgd/tjpgd.h}}
+\doxymbox{\hyperlink{tjpgd_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/\ TJpgDec\ -\/\ Tiny\ JPEG\ Decompressor\ R0.03\ include\ file\ \ \ \ \ \ \ \ \ (C)ChaN,\ 2021}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifndef\ DEF\_TJPGDEC}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ DEF\_TJPGDEC}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tjpgdcnf_8h}{tjpgdcnf.h}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#if\ LV\_USE\_TJPGD}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <\doxymbox{\hyperlink{stdint_8h}{stdint.h}}>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ JD\_FASTDECODE\ >=\ 1}}
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ jd\_yuv\_t;}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ jd\_yuv\_t;}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ Error\ code\ */}}
+\DoxyCodeLine{00027\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ JDR\_OK\ =\ 0,\ \textcolor{comment}{/*\ 0:\ Succeeded\ */}}
+\DoxyCodeLine{00029\ \ \ \ \ JDR\_INTR,\ \ \ \textcolor{comment}{/*\ 1:\ Interrupted\ by\ output\ function\ */}}
+\DoxyCodeLine{00030\ \ \ \ \ JDR\_INP,\ \ \ \ \textcolor{comment}{/*\ 2:\ Device\ error\ or\ wrong\ termination\ of\ input\ stream\ */}}
+\DoxyCodeLine{00031\ \ \ \ \ JDR\_MEM1,\ \ \ \textcolor{comment}{/*\ 3:\ Insufficient\ memory\ pool\ for\ the\ image\ */}}
+\DoxyCodeLine{00032\ \ \ \ \ JDR\_MEM2,\ \ \ \textcolor{comment}{/*\ 4:\ Insufficient\ stream\ input\ buffer\ */}}
+\DoxyCodeLine{00033\ \ \ \ \ JDR\_PAR,\ \ \ \ \textcolor{comment}{/*\ 5:\ Parameter\ error\ */}}
+\DoxyCodeLine{00034\ \ \ \ \ JDR\_FMT1,\ \ \ \textcolor{comment}{/*\ 6:\ Data\ format\ error\ (may\ be\ broken\ data)\ */}}
+\DoxyCodeLine{00035\ \ \ \ \ JDR\_FMT2,\ \ \ \textcolor{comment}{/*\ 7:\ Right\ format\ but\ not\ supported\ */}}
+\DoxyCodeLine{00036\ \ \ \ \ JDR\_FMT3\ \ \ \ \textcolor{comment}{/*\ 8:\ Not\ supported\ JPEG\ standard\ */}}
+\DoxyCodeLine{00037\ \}\ JRESULT;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{comment}{/*\ Rectangular\ region\ in\ the\ output\ image\ */}}
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00043\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ left;\ \ \ \ \ \ \textcolor{comment}{/*\ Left\ end\ */}}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ right;\ \ \ \ \ \textcolor{comment}{/*\ Right\ end\ */}}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ top;\ \ \ \ \ \ \ \textcolor{comment}{/*\ Top\ end\ */}}
+\DoxyCodeLine{00046\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ bottom;\ \ \ \ \textcolor{comment}{/*\ Bottom\ end\ */}}
+\DoxyCodeLine{00047\ \}\ JRECT;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{comment}{/*\ Decompressor\ object\ structure\ */}}
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }JDEC\ JDEC;}
+\DoxyCodeLine{00053\ \textcolor{keyword}{struct\ }JDEC\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ dctr;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bytes\ available\ in\ the\ input\ buffer\ */}}
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ dptr;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Current\ data\ read\ ptr\ */}}
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ inbuf;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Bit\ stream\ input\ buffer\ */}}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ dbit;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ bits\ available\ in\ wreg\ or\ reading\ bit\ mask\ */}}
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ scale;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Output\ scaling\ ratio\ */}}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ msx,\ msy;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ MCU\ size\ in\ unit\ of\ block\ (width,\ height)\ */}}
+\DoxyCodeLine{00060\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ qtid[3];\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Quantization\ table\ ID\ of\ each\ component,\ Y,\ Cb,\ Cr\ */}}
+\DoxyCodeLine{00061\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ ncomp;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Number\ of\ color\ components\ 1:grayscale,\ 3:color\ */}}
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ dcv[3];\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Previous\ DC\ element\ of\ each\ component\ */}}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ nrst;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Restart\ interval\ */}}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ rst;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Restart\ count*/}}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ rsc;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Expected\ restart\ sequence\ ID*/}}
+\DoxyCodeLine{00066\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}},\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a509290c21d570ff479c1b9d9b1fe8810}{height}};\ \ \ \ \ \textcolor{comment}{/*\ Size\ of\ the\ input\ image\ (pixel)\ */}}
+\DoxyCodeLine{00067\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ huffbits[2][2];\ \ \ \textcolor{comment}{/*\ Huffman\ bit\ distribution\ tables\ [id][dcac]\ */}}
+\DoxyCodeLine{00068\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *\ huffcode[2][2];\ \ \textcolor{comment}{/*\ Huffman\ code\ word\ tables\ [id][dcac]\ */}}
+\DoxyCodeLine{00069\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ huffdata[2][2];\ \ \ \textcolor{comment}{/*\ Huffman\ decoded\ data\ tables\ [id][dcac]\ */}}
+\DoxyCodeLine{00070\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ *\ qttbl[4];\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Dequantizer\ tables\ [id]\ */}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#if\ JD\_FASTDECODE\ >=\ 1}}
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ wreg;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Working\ shift\ register\ */}}
+\DoxyCodeLine{00073\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ marker;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Detected\ marker\ (0:None)\ */}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#if\ JD\_FASTDECODE\ ==\ 2}}
+\DoxyCodeLine{00075\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ longofs[2][2];\ \ \ \ \ \ \textcolor{comment}{/*\ Table\ offset\ of\ long\ code\ [id][dcac]\ */}}
+\DoxyCodeLine{00076\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ *\ hufflut\_ac[2];\ \ \ \textcolor{comment}{/*\ Fast\ huffman\ decode\ tables\ for\ AC\ short\ code\ [id]\ */}}
+\DoxyCodeLine{00077\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ hufflut\_dc[2];\ \ \ \ \textcolor{comment}{/*\ Fast\ huffman\ decode\ tables\ for\ DC\ short\ code\ [id]\ */}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ workbuf;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Working\ buffer\ for\ IDCT\ and\ RGB\ output\ */}}
+\DoxyCodeLine{00081\ \ \ \ \ jd\_yuv\_t\ *\ mcubuf;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Working\ buffer\ for\ the\ MCU\ */}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ pool;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Pointer\ to\ available\ memory\ pool\ */}}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ pool\_original;\ \ \ \ \ \ \ \textcolor{comment}{/*\ Pointer\ to\ original\ pool\ */}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ sz\_pool;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Size\ of\ memory\ pool\ (bytes\ available)\ */}}
+\DoxyCodeLine{00085\ \ \ \ \ \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\_t}}\ (*infunc)(JDEC\ *,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *,\ \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\_t}});\ \textcolor{comment}{/*\ Pointer\ to\ jpeg\ stream\ input\ function\ */}}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ device;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Pointer\ to\ I/O\ device\ identifier\ for\ the\ session\ */}}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{/*\ TJpgDec\ API\ functions\ */}}
+\DoxyCodeLine{00092\ JRESULT\ jd\_prepare(JDEC\ *\ jd,\ \textcolor{keywordtype}{size\_t}\ (*infunc)(JDEC\ *,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *,\ \textcolor{keywordtype}{size\_t}),\ \textcolor{keywordtype}{void}\ *\ pool,\ \textcolor{keywordtype}{size\_t}\ sz\_pool,\ \textcolor{keywordtype}{void}\ *\ dev);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ JRESULT\ jd\_decomp(JDEC\ *\ jd,\ \textcolor{keywordtype}{int}\ (*outfunc)(JDEC\ *,\ \textcolor{keywordtype}{void}\ *,\ JRECT\ *),\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ scale);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ JRESULT\ jd\_mcu\_load(JDEC\ *\ jd);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ JRESULT\ jd\_mcu\_output(JDEC\ *\ jd,\ \textcolor{keywordtype}{int}\ (*outfunc)(JDEC\ *,\ \textcolor{keywordtype}{void}\ *,\ JRECT\ *),\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ JRESULT\ jd\_restart(JDEC\ *\ jd,\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ rstn);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00105\ \}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_TJPGDEC\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,600 @@
+\doxysection{tvg\+Svg\+Loader\+Common.\+h}
+\hypertarget{tvg_svg_loader_common_8h_source}{}\label{tvg_svg_loader_common_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgSvgLoaderCommon.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgSvgLoaderCommon.h}}
+\doxymbox{\hyperlink{tvg_svg_loader_common_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2020\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_SVG\_LOADER\_COMMON\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_SVG\_LOADER\_COMMON\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_common_8h}{tvgCommon.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_array_8h}{tvgArray.h}}"{}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{struct\ }SvgNode;}
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }SvgStyleGradient;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//NOTE:\ Please\ update\ simpleXmlNodeTypeToString()\ as\ well.}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{enum\ class}\ SvgNodeType}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ Doc,}
+\DoxyCodeLine{00039\ \ \ \ \ G,}
+\DoxyCodeLine{00040\ \ \ \ \ Defs,}
+\DoxyCodeLine{00041\ \ \ \ \ Animation,}
+\DoxyCodeLine{00042\ \ \ \ \ Arc,}
+\DoxyCodeLine{00043\ \ \ \ \ Circle,}
+\DoxyCodeLine{00044\ \ \ \ \ Ellipse,}
+\DoxyCodeLine{00045\ \ \ \ \ Image,}
+\DoxyCodeLine{00046\ \ \ \ \ Line,}
+\DoxyCodeLine{00047\ \ \ \ \ Path,}
+\DoxyCodeLine{00048\ \ \ \ \ Polygon,}
+\DoxyCodeLine{00049\ \ \ \ \ Polyline,}
+\DoxyCodeLine{00050\ \ \ \ \ Rect,}
+\DoxyCodeLine{00051\ \ \ \ \ Text,}
+\DoxyCodeLine{00052\ \ \ \ \ TextArea,}
+\DoxyCodeLine{00053\ \ \ \ \ Tspan,}
+\DoxyCodeLine{00054\ \ \ \ \ Use,}
+\DoxyCodeLine{00055\ \ \ \ \ Video,}
+\DoxyCodeLine{00056\ \ \ \ \ ClipPath,}
+\DoxyCodeLine{00057\ \ \ \ \ Mask,}
+\DoxyCodeLine{00058\ \ \ \ \ CssStyle,}
+\DoxyCodeLine{00059\ \ \ \ \ Symbol,}
+\DoxyCodeLine{00060\ \ \ \ \ Unknown}
+\DoxyCodeLine{00061\ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ TODO\ -\/\ remove?}}
+\DoxyCodeLine{00065\ \textcolor{comment}{enum\ class\ SvgLengthType}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\{}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ \ Percent,}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ \ \ \ Px,}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ \ \ \ Pc,}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ \ \ \ Pt,}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ \ \ \ Mm,}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ \ \ \ Cm,}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ \ \ \ In,}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\};}}
+\DoxyCodeLine{00075\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{enum\ class}\ SvgFillFlags}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ Paint\ =\ 0x01,}
+\DoxyCodeLine{00080\ \ \ \ \ Opacity\ =\ 0x02,}
+\DoxyCodeLine{00081\ \ \ \ \ Gradient\ =\ 0x04,}
+\DoxyCodeLine{00082\ \ \ \ \ FillRule\ =\ 0x08,}
+\DoxyCodeLine{00083\ \ \ \ \ ClipPath\ =\ 0x16}
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgFillFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgFillFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{return}\ int(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ int(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{constexpr}\ SvgFillFlags\ operator\ |(SvgFillFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgFillFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgFillFlags(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00094\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{enum\ class}\ SvgStrokeFlags}
+\DoxyCodeLine{00097\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ Paint\ =\ 0x1,}
+\DoxyCodeLine{00099\ \ \ \ \ Opacity\ =\ 0x2,}
+\DoxyCodeLine{00100\ \ \ \ \ Gradient\ =\ 0x4,}
+\DoxyCodeLine{00101\ \ \ \ \ Scale\ =\ 0x8,}
+\DoxyCodeLine{00102\ \ \ \ \ Width\ =\ 0x10,}
+\DoxyCodeLine{00103\ \ \ \ \ Cap\ =\ 0x20,}
+\DoxyCodeLine{00104\ \ \ \ \ Join\ =\ 0x40,}
+\DoxyCodeLine{00105\ \ \ \ \ Dash\ =\ 0x80,}
+\DoxyCodeLine{00106\ \ \ \ \ Miterlimit\ =\ 0x100,}
+\DoxyCodeLine{00107\ \ \ \ \ DashOffset\ =\ 0x200}
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgStrokeFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStrokeFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00111\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{return}\ int(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ int(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00113\ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{keyword}{constexpr}\ SvgStrokeFlags\ operator\ |(SvgStrokeFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStrokeFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00116\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgStrokeFlags(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00118\ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{enum\ class}\ SvgGradientType}
+\DoxyCodeLine{00122\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ Linear,}
+\DoxyCodeLine{00124\ \ \ \ \ Radial}
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{enum\ class}\ SvgStyleFlags}
+\DoxyCodeLine{00128\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ Color\ =\ 0x01,}
+\DoxyCodeLine{00130\ \ \ \ \ Fill\ =\ 0x02,}
+\DoxyCodeLine{00131\ \ \ \ \ FillRule\ =\ 0x04,}
+\DoxyCodeLine{00132\ \ \ \ \ FillOpacity\ =\ 0x08,}
+\DoxyCodeLine{00133\ \ \ \ \ Opacity\ =\ 0x010,}
+\DoxyCodeLine{00134\ \ \ \ \ Stroke\ =\ 0x20,}
+\DoxyCodeLine{00135\ \ \ \ \ StrokeWidth\ =\ 0x40,}
+\DoxyCodeLine{00136\ \ \ \ \ StrokeLineJoin\ =\ 0x80,}
+\DoxyCodeLine{00137\ \ \ \ \ StrokeLineCap\ =\ 0x100,}
+\DoxyCodeLine{00138\ \ \ \ \ StrokeOpacity\ =\ 0x200,}
+\DoxyCodeLine{00139\ \ \ \ \ StrokeDashArray\ =\ 0x400,}
+\DoxyCodeLine{00140\ \ \ \ \ Transform\ =\ 0x800,}
+\DoxyCodeLine{00141\ \ \ \ \ ClipPath\ =\ 0x1000,}
+\DoxyCodeLine{00142\ \ \ \ \ Mask\ =\ 0x2000,}
+\DoxyCodeLine{00143\ \ \ \ \ MaskType\ =\ 0x4000,}
+\DoxyCodeLine{00144\ \ \ \ \ Display\ =\ 0x8000,}
+\DoxyCodeLine{00145\ \ \ \ \ PaintOrder\ =\ 0x10000,}
+\DoxyCodeLine{00146\ \ \ \ \ StrokeMiterlimit\ =\ 0x20000,}
+\DoxyCodeLine{00147\ \ \ \ \ StrokeDashOffset\ =\ 0x40000,}
+\DoxyCodeLine{00148\ \};}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgStyleFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStyleFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00151\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{return}\ int(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ int(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00153\ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{constexpr}\ SvgStyleFlags\ operator\ |(SvgStyleFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStyleFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00156\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgStyleFlags(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00158\ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{keyword}{enum\ class}\ SvgStopStyleFlags}
+\DoxyCodeLine{00161\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ StopDefault\ =\ 0x0,}
+\DoxyCodeLine{00163\ \ \ \ \ StopOpacity\ =\ 0x01,}
+\DoxyCodeLine{00164\ \ \ \ \ StopColor\ =\ 0x02}
+\DoxyCodeLine{00165\ \};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgStopStyleFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStopStyleFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00168\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{return}\ int(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ int(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00170\ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{keyword}{constexpr}\ SvgStopStyleFlags\ operator\ |(SvgStopStyleFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgStopStyleFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00173\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgStopStyleFlags(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00175\ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \textcolor{keyword}{enum\ class}\ SvgGradientFlags}
+\DoxyCodeLine{00178\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ None\ =\ 0x0,}
+\DoxyCodeLine{00180\ \ \ \ \ GradientUnits\ =\ 0x1,}
+\DoxyCodeLine{00181\ \ \ \ \ SpreadMethod\ =\ 0x2,}
+\DoxyCodeLine{00182\ \ \ \ \ X1\ =\ 0x4,}
+\DoxyCodeLine{00183\ \ \ \ \ X2\ =\ 0x8,}
+\DoxyCodeLine{00184\ \ \ \ \ Y1\ =\ 0x10,}
+\DoxyCodeLine{00185\ \ \ \ \ Y2\ =\ 0x20,}
+\DoxyCodeLine{00186\ \ \ \ \ Cx\ =\ 0x40,}
+\DoxyCodeLine{00187\ \ \ \ \ Cy\ =\ 0x80,}
+\DoxyCodeLine{00188\ \ \ \ \ R\ =\ 0x100,}
+\DoxyCodeLine{00189\ \ \ \ \ Fx\ =\ 0x200,}
+\DoxyCodeLine{00190\ \ \ \ \ Fy\ =\ 0x400,}
+\DoxyCodeLine{00191\ \ \ \ \ Fr\ =\ 0x800}
+\DoxyCodeLine{00192\ \};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgGradientFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgGradientFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00195\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{return}\ int(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ int(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00197\ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{keyword}{constexpr}\ SvgGradientFlags\ operator\ |(SvgGradientFlags\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgGradientFlags\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00200\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgGradientFlags(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{keyword}{enum\ class}\ SvgFillRule}
+\DoxyCodeLine{00205\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ Winding\ =\ 0,}
+\DoxyCodeLine{00207\ \ \ \ \ OddEven\ =\ 1}
+\DoxyCodeLine{00208\ \};}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \textcolor{keyword}{enum\ class}\ SvgMaskType}
+\DoxyCodeLine{00211\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ Luminance\ =\ 0,}
+\DoxyCodeLine{00213\ \ \ \ \ Alpha}
+\DoxyCodeLine{00214\ \};}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{comment}{//Length\ type\ to\ recalculate\ \%,\ pt,\ pc,\ mm,\ cm\ etc}}
+\DoxyCodeLine{00217\ \textcolor{keyword}{enum\ class}\ SvgParserLengthType}
+\DoxyCodeLine{00218\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ Vertical,}
+\DoxyCodeLine{00220\ \ \ \ \ Horizontal,}
+\DoxyCodeLine{00221\ \ \ \ \ Diagonal,}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{comment}{//In\ case\ of,\ for\ example,\ radius\ of\ radial\ gradient}}
+\DoxyCodeLine{00223\ \ \ \ \ Other}
+\DoxyCodeLine{00224\ \};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{keyword}{enum\ class}\ SvgViewFlag}
+\DoxyCodeLine{00227\ \{}
+\DoxyCodeLine{00228\ \ \ \ \ None\ =\ 0x0,}
+\DoxyCodeLine{00229\ \ \ \ \ Width\ =\ 0x01,\ \ \ \textcolor{comment}{//viewPort\ width}}
+\DoxyCodeLine{00230\ \ \ \ \ Height\ =\ 0x02,\ \ \textcolor{comment}{//viewPort\ height}}
+\DoxyCodeLine{00231\ \ \ \ \ Viewbox\ =\ 0x04,\ \ \textcolor{comment}{//viewBox\ x,y,w,h\ -\/\ used\ only\ if\ all\ 4\ are\ correctly\ set}}
+\DoxyCodeLine{00232\ \ \ \ \ WidthInPercent\ =\ 0x08,}
+\DoxyCodeLine{00233\ \ \ \ \ HeightInPercent\ =\ 0x10}
+\DoxyCodeLine{00234\ \};}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator\ \&(SvgViewFlag\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgViewFlag\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00237\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \&\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00239\ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \textcolor{keyword}{constexpr}\ SvgViewFlag\ operator\ |(SvgViewFlag\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgViewFlag\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00242\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgViewFlag(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ |\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00244\ \}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \textcolor{keyword}{constexpr}\ SvgViewFlag\ operator\ \string^(SvgViewFlag\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}},\ SvgViewFlag\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})}
+\DoxyCodeLine{00247\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordflow}{return}\ SvgViewFlag(\textcolor{keywordtype}{int}(\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ \string^\ \textcolor{keywordtype}{int}(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00249\ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \textcolor{keyword}{enum\ class}\ AspectRatioAlign}
+\DoxyCodeLine{00252\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ None,}
+\DoxyCodeLine{00254\ \ \ \ \ XMinYMin,}
+\DoxyCodeLine{00255\ \ \ \ \ XMidYMin,}
+\DoxyCodeLine{00256\ \ \ \ \ XMaxYMin,}
+\DoxyCodeLine{00257\ \ \ \ \ XMinYMid,}
+\DoxyCodeLine{00258\ \ \ \ \ XMidYMid,}
+\DoxyCodeLine{00259\ \ \ \ \ XMaxYMid,}
+\DoxyCodeLine{00260\ \ \ \ \ XMinYMax,}
+\DoxyCodeLine{00261\ \ \ \ \ XMidYMax,}
+\DoxyCodeLine{00262\ \ \ \ \ XMaxYMax}
+\DoxyCodeLine{00263\ \};}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \textcolor{keyword}{enum\ class}\ AspectRatioMeetOrSlice}
+\DoxyCodeLine{00266\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ Meet,}
+\DoxyCodeLine{00268\ \ \ \ \ Slice}
+\DoxyCodeLine{00269\ \};}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \textcolor{keyword}{struct\ }SvgDocNode}
+\DoxyCodeLine{00272\ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordtype}{float}\ w;\ \ \ \ \ \ \ \textcolor{comment}{//unit:\ point\ or\ in\ percentage\ see:\ SvgViewFlag}}
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordtype}{float}\ h;\ \ \ \ \ \ \ \textcolor{comment}{//unit:\ point\ or\ in\ percentage\ see:\ SvgViewFlag}}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{float}\ vx;}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{keywordtype}{float}\ vy;}
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordtype}{float}\ vw;}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordtype}{float}\ vh;}
+\DoxyCodeLine{00279\ \ \ \ \ SvgViewFlag\ viewFlag;}
+\DoxyCodeLine{00280\ \ \ \ \ SvgNode*\ defs;}
+\DoxyCodeLine{00281\ \ \ \ \ SvgNode*\ style;}
+\DoxyCodeLine{00282\ \ \ \ \ AspectRatioAlign\ align;}
+\DoxyCodeLine{00283\ \ \ \ \ AspectRatioMeetOrSlice\ meetOrSlice;}
+\DoxyCodeLine{00284\ \};}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{keyword}{struct\ }SvgGNode}
+\DoxyCodeLine{00287\ \{}
+\DoxyCodeLine{00288\ \};}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{keyword}{struct\ }SvgDefsNode}
+\DoxyCodeLine{00291\ \{}
+\DoxyCodeLine{00292\ \ \ \ \ Array<SvgStyleGradient*>\ gradients;}
+\DoxyCodeLine{00293\ \};}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{keyword}{struct\ }SvgSymbolNode}
+\DoxyCodeLine{00296\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordtype}{float}\ w,\ h;}
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordtype}{float}\ vx,\ vy,\ vw,\ vh;}
+\DoxyCodeLine{00299\ \ \ \ \ AspectRatioAlign\ align;}
+\DoxyCodeLine{00300\ \ \ \ \ AspectRatioMeetOrSlice\ meetOrSlice;}
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordtype}{bool}\ overflowVisible;}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasViewBox;}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasWidth;}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasHeight;}
+\DoxyCodeLine{00305\ \};}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \textcolor{keyword}{struct\ }SvgUseNode}
+\DoxyCodeLine{00308\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ w,\ h;}
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordtype}{bool}\ isWidthSet;}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordtype}{bool}\ isHeightSet;}
+\DoxyCodeLine{00312\ \ \ \ \ SvgNode*\ symbol;}
+\DoxyCodeLine{00313\ \};}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \textcolor{keyword}{struct\ }SvgEllipseNode}
+\DoxyCodeLine{00316\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordtype}{float}\ cx;}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordtype}{float}\ cy;}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{float}\ rx;}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordtype}{float}\ ry;}
+\DoxyCodeLine{00321\ \};}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \textcolor{keyword}{struct\ }SvgCircleNode}
+\DoxyCodeLine{00324\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordtype}{float}\ cx;}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordtype}{float}\ cy;}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00328\ \};}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \textcolor{keyword}{struct\ }SvgRectNode}
+\DoxyCodeLine{00331\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordtype}{float}\ x;}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordtype}{float}\ y;}
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{float}\ w;}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{float}\ h;}
+\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keywordtype}{float}\ rx;}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{float}\ ry;}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasRx;}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasRy;}
+\DoxyCodeLine{00340\ \};}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \textcolor{keyword}{struct\ }SvgLineNode}
+\DoxyCodeLine{00343\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordtype}{float}\ x1;}
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{float}\ y1;}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordtype}{float}\ x2;}
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{float}\ y2;}
+\DoxyCodeLine{00348\ \};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \textcolor{keyword}{struct\ }SvgImageNode}
+\DoxyCodeLine{00351\ \{}
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ w,\ h;}
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordtype}{char}*\ href;}
+\DoxyCodeLine{00354\ \};}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \textcolor{keyword}{struct\ }SvgPathNode}
+\DoxyCodeLine{00357\ \{}
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordtype}{char}*\ \doxymbox{\hyperlink{namespacelv__templ__check_aa28dc103258589d9cb421197fe2de90b}{path}};}
+\DoxyCodeLine{00359\ \};}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \textcolor{keyword}{struct\ }SvgPolygonNode}
+\DoxyCodeLine{00362\ \{}
+\DoxyCodeLine{00363\ \ \ \ \ Array<float>\ pts;}
+\DoxyCodeLine{00364\ \};}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \textcolor{keyword}{struct\ }SvgClipNode}
+\DoxyCodeLine{00367\ \{}
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordtype}{bool}\ userSpace;}
+\DoxyCodeLine{00369\ \};}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \textcolor{keyword}{struct\ }SvgMaskNode}
+\DoxyCodeLine{00372\ \{}
+\DoxyCodeLine{00373\ \ \ \ \ SvgMaskType\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordtype}{bool}\ userSpace;}
+\DoxyCodeLine{00375\ \};}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \textcolor{keyword}{struct\ }SvgCssStyleNode}
+\DoxyCodeLine{00378\ \{}
+\DoxyCodeLine{00379\ \};}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \textcolor{keyword}{struct\ }SvgTextNode}
+\DoxyCodeLine{00382\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{char}*\ text;}
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keywordtype}{char}*\ fontFamily;}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y;}
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{keywordtype}{float}\ fontSize;}
+\DoxyCodeLine{00387\ \};}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \textcolor{keyword}{struct\ }SvgLinearGradient}
+\DoxyCodeLine{00390\ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{float}\ x1;}
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keywordtype}{float}\ y1;}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordtype}{float}\ x2;}
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordtype}{float}\ y2;}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordtype}{bool}\ isX1Percentage;}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keywordtype}{bool}\ isY1Percentage;}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordtype}{bool}\ isX2Percentage;}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordtype}{bool}\ isY2Percentage;}
+\DoxyCodeLine{00399\ \};}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \textcolor{keyword}{struct\ }SvgRadialGradient}
+\DoxyCodeLine{00402\ \{}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{float}\ cx;}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordtype}{float}\ cy;}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordtype}{float}\ fx;}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{keywordtype}{float}\ fy;}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{keywordtype}{float}\ fr;}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordtype}{bool}\ isCxPercentage;}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{keywordtype}{bool}\ isCyPercentage;}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordtype}{bool}\ isFxPercentage;}
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordtype}{bool}\ isFyPercentage;}
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{bool}\ isRPercentage;}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordtype}{bool}\ isFrPercentage;}
+\DoxyCodeLine{00415\ \};}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \textcolor{keyword}{struct\ }SvgComposite}
+\DoxyCodeLine{00418\ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordtype}{char}\ *url;}
+\DoxyCodeLine{00420\ \ \ \ \ SvgNode*\ node;}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordtype}{bool}\ applying;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//flag\ for\ checking\ circular\ dependency.}}
+\DoxyCodeLine{00422\ \};}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00424\ \textcolor{keyword}{struct\ }SvgColor}
+\DoxyCodeLine{00425\ \{}
+\DoxyCodeLine{00426\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00427\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ g;}
+\DoxyCodeLine{00428\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}};}
+\DoxyCodeLine{00429\ \};}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \textcolor{keyword}{struct\ }SvgPaint}
+\DoxyCodeLine{00432\ \{}
+\DoxyCodeLine{00433\ \ \ \ \ SvgStyleGradient*\ gradient;}
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keywordtype}{char}\ *url;}
+\DoxyCodeLine{00435\ \ \ \ \ SvgColor\ color;}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordtype}{bool}\ none;}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{bool}\ curColor;}
+\DoxyCodeLine{00438\ \};}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \textcolor{keyword}{struct\ }SvgDash}
+\DoxyCodeLine{00441\ \{}
+\DoxyCodeLine{00442\ \ \ \ \ Array<float>\ array;}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacespectrum_a7a229a4786deeddd59c6091247a8c8a6}{offset}};}
+\DoxyCodeLine{00444\ \};}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \textcolor{keyword}{struct\ }SvgStyleGradient}
+\DoxyCodeLine{00447\ \{}
+\DoxyCodeLine{00448\ \ \ \ \ SvgGradientType\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordtype}{char}*\ id;}
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{keywordtype}{char}*\ ref;}
+\DoxyCodeLine{00451\ \ \ \ \ FillSpread\ spread;}
+\DoxyCodeLine{00452\ \ \ \ \ SvgRadialGradient*\ radial;}
+\DoxyCodeLine{00453\ \ \ \ \ SvgLinearGradient*\ linear;}
+\DoxyCodeLine{00454\ \ \ \ \ Matrix*\ transform;}
+\DoxyCodeLine{00455\ \ \ \ \ Array<Fill::ColorStop>\ stops;}
+\DoxyCodeLine{00456\ \ \ \ \ SvgGradientFlags\ flags;}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordtype}{bool}\ userSpace;}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordtype}{void}\ clear()}
+\DoxyCodeLine{00460\ \ \ \ \ \{}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ stops.reset();}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(transform);}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(radial);}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(linear);}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(ref);}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00467\ \ \ \ \ \}}
+\DoxyCodeLine{00468\ \};}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \textcolor{keyword}{struct\ }SvgStyleFill}
+\DoxyCodeLine{00471\ \{}
+\DoxyCodeLine{00472\ \ \ \ \ SvgFillFlags\ flags;}
+\DoxyCodeLine{00473\ \ \ \ \ SvgPaint\ paint;}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keywordtype}{int}\ opacity;}
+\DoxyCodeLine{00475\ \ \ \ \ FillRule\ fillRule;}
+\DoxyCodeLine{00476\ \};}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \textcolor{keyword}{struct\ }SvgStyleStroke}
+\DoxyCodeLine{00479\ \{}
+\DoxyCodeLine{00480\ \ \ \ \ SvgStrokeFlags\ flags;}
+\DoxyCodeLine{00481\ \ \ \ \ SvgPaint\ paint;}
+\DoxyCodeLine{00482\ \ \ \ \ \textcolor{keywordtype}{int}\ opacity;}
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordtype}{float}\ scale;}
+\DoxyCodeLine{00484\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}};}
+\DoxyCodeLine{00485\ \ \ \ \ \textcolor{keywordtype}{float}\ centered;}
+\DoxyCodeLine{00486\ \ \ \ \ StrokeCap\ cap;}
+\DoxyCodeLine{00487\ \ \ \ \ StrokeJoin\ join;}
+\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keywordtype}{float}\ miterlimit;}
+\DoxyCodeLine{00489\ \ \ \ \ SvgDash\ dash;}
+\DoxyCodeLine{00490\ \};}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \textcolor{keyword}{struct\ }SvgStyleProperty}
+\DoxyCodeLine{00493\ \{}
+\DoxyCodeLine{00494\ \ \ \ \ SvgStyleFill\ fill;}
+\DoxyCodeLine{00495\ \ \ \ \ SvgStyleStroke\ stroke;}
+\DoxyCodeLine{00496\ \ \ \ \ SvgComposite\ clipPath;}
+\DoxyCodeLine{00497\ \ \ \ \ SvgComposite\ mask;}
+\DoxyCodeLine{00498\ \ \ \ \ \textcolor{keywordtype}{int}\ opacity;}
+\DoxyCodeLine{00499\ \ \ \ \ SvgColor\ color;}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keywordtype}{char}*\ cssClass;}
+\DoxyCodeLine{00501\ \ \ \ \ SvgStyleFlags\ flags;}
+\DoxyCodeLine{00502\ \ \ \ \ SvgStyleFlags\ flagsImportance;\ \textcolor{comment}{//indicates\ the\ importance\ of\ the\ flag\ -\/\ if\ set,\ higher\ priority\ is\ applied\ (https://drafts.csswg.org/css-\/cascade-\/4/\#importance)}}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordtype}{bool}\ curColorSet;}
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordtype}{bool}\ paintOrder;\ \textcolor{comment}{//true\ if\ default\ (fill,\ stroke),\ false\ otherwise}}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordtype}{bool}\ display;}
+\DoxyCodeLine{00506\ \};}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \textcolor{keyword}{struct\ }SvgNode}
+\DoxyCodeLine{00509\ \{}
+\DoxyCodeLine{00510\ \ \ \ \ SvgNodeType\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};}
+\DoxyCodeLine{00511\ \ \ \ \ SvgNode*\ parent;}
+\DoxyCodeLine{00512\ \ \ \ \ Array<SvgNode*>\ child;}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordtype}{char}\ *id;}
+\DoxyCodeLine{00514\ \ \ \ \ SvgStyleProperty\ *style;}
+\DoxyCodeLine{00515\ \ \ \ \ Matrix*\ transform;}
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ SvgGNode\ g;}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ SvgDocNode\ doc;}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ SvgDefsNode\ defs;}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ SvgUseNode\ use;}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ SvgCircleNode\ circle;}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ SvgEllipseNode\ ellipse;}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ SvgPolygonNode\ polygon;}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ SvgPolygonNode\ polyline;}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ SvgRectNode\ rect;}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ SvgPathNode\ \doxymbox{\hyperlink{namespacelv__templ__check_aa28dc103258589d9cb421197fe2de90b}{path}};}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ SvgLineNode\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a4fa05b1f00fcde100685cc887554b93b}{line}};}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ SvgImageNode\ \doxymbox{\hyperlink{namespaceimage__viewer_a42cb5f5737262947250c709931232c69}{image}};}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ SvgMaskNode\ mask;}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ SvgClipNode\ clip;}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ SvgCssStyleNode\ cssStyle;}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ SvgSymbolNode\ symbol;}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ SvgTextNode\ text;}
+\DoxyCodeLine{00534\ \ \ \ \ \}\ node;}
+\DoxyCodeLine{00535\ \ \ \ \ \string~SvgNode();}
+\DoxyCodeLine{00536\ \};}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ \textcolor{keyword}{struct\ }SvgParser}
+\DoxyCodeLine{00539\ \{}
+\DoxyCodeLine{00540\ \ \ \ \ SvgNode*\ node;}
+\DoxyCodeLine{00541\ \ \ \ \ SvgStyleGradient*\ styleGrad;}
+\DoxyCodeLine{00542\ \ \ \ \ Fill::ColorStop\ gradStop;}
+\DoxyCodeLine{00543\ \ \ \ \ SvgStopStyleFlags\ flags;}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00545\ \ \ \ \ \{}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ w,\ h;}
+\DoxyCodeLine{00547\ \ \ \ \ \}\ global;}
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00549\ \ \ \ \ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parsedFx;}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parsedFy;}
+\DoxyCodeLine{00552\ \ \ \ \ \}\ gradient;}
+\DoxyCodeLine{00553\ \};}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \textcolor{keyword}{struct\ }SvgNodeIdPair}
+\DoxyCodeLine{00556\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ SvgNode*\ node;}
+\DoxyCodeLine{00558\ \ \ \ \ \textcolor{keywordtype}{char}\ *id;}
+\DoxyCodeLine{00559\ \};}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \textcolor{keyword}{enum\ class}\ OpenedTagType\ :\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}}
+\DoxyCodeLine{00562\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ Other\ =\ 0,}
+\DoxyCodeLine{00564\ \ \ \ \ Style,}
+\DoxyCodeLine{00565\ \ \ \ \ Text}
+\DoxyCodeLine{00566\ \};}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00568\ \textcolor{keyword}{struct\ }SvgLoaderData}
+\DoxyCodeLine{00569\ \{}
+\DoxyCodeLine{00570\ \ \ \ \ Array<SvgNode*>\ stack;}
+\DoxyCodeLine{00571\ \ \ \ \ SvgNode*\ doc\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00572\ \ \ \ \ SvgNode*\ def\ =\ \textcolor{keyword}{nullptr};\ \textcolor{comment}{//also\ used\ to\ store\ nested\ graphic\ nodes}}
+\DoxyCodeLine{00573\ \ \ \ \ SvgNode*\ cssStyle\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00574\ \ \ \ \ Array<SvgStyleGradient*>\ gradients;}
+\DoxyCodeLine{00575\ \ \ \ \ SvgStyleGradient*\ latestGradient\ =\ \textcolor{keyword}{nullptr};\ \textcolor{comment}{//For\ stops}}
+\DoxyCodeLine{00576\ \ \ \ \ SvgParser*\ svgParse\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00577\ \ \ \ \ Array<SvgNodeIdPair>\ cloneNodes;}
+\DoxyCodeLine{00578\ \ \ \ \ Array<SvgNodeIdPair>\ nodesToStyle;}
+\DoxyCodeLine{00579\ \ \ \ \ Array<char*>\ images;\ \ \ \ \ \ \ \ \textcolor{comment}{//embedded\ images}}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{namespacednsfixture_afde8e18a788ccc92fc61cab298bca7e3}{level}}\ =\ 0;}
+\DoxyCodeLine{00581\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00582\ \ \ \ \ OpenedTagType\ openedTag\ =\ OpenedTagType::Other;}
+\DoxyCodeLine{00583\ \ \ \ \ SvgNode*\ currentGraphicsNode\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00584\ \};}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \textcolor{keyword}{struct\ }Box}
+\DoxyCodeLine{00587\ \{}
+\DoxyCodeLine{00588\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ w,\ h;}
+\DoxyCodeLine{00589\ \};}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00594\ }
+
+\end{DoxyCode}

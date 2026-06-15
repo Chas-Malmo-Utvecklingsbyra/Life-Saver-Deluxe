@@ -1,0 +1,1087 @@
+\doxysection{expat.\+h}
+\hypertarget{expat_8h_source}{}\label{expat_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/expat.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/expat.h}}
+\doxymbox{\hyperlink{expat_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\ \ \_\_\ \ \ \ \ \ \ \ \ \ \ \ \_}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\(\backslash\)\ \(\backslash\)/\ /\_\ \_\_\ \ \ \_\_\ \_|\ |\_}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \_\ \(\backslash\)\(\backslash\)\ \ /|\ '\_\ \(\backslash\)\ /\ \_`\ |\ \_\_|}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \_\_//\ \ \(\backslash\)|\ |\_)\ |\ (\_|\ |\ |\_}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)\_\_\_/\_/\(\backslash\)\_\(\backslash\)\ .\_\_/\ \(\backslash\)\_\_,\_|\(\backslash\)\_\_|}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\_|\ XML\ parser}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 1997-\/2000\ Thai\ Open\ Source\ Software\ Center\ Ltd}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2000\ \ \ \ \ \ Clark\ Cooper\ <coopercc@users.sourceforge.net>}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2000-\/2005\ Fred\ L.\ Drake,\ Jr.\ <fdrake@users.sourceforge.net>}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2001-\/2002\ Greg\ Stein\ <gstein@users.sourceforge.net>}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2002-\/2016\ Karl\ Waclawek\ <karl@waclawek.net>}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2016-\/2024\ Sebastian\ Pipping\ <sebastian@pipping.org>}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2016\ \ \ \ \ \ Cristian\ Rodríguez\ <crrodriguez@opensuse.org>}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2016\ \ \ \ \ \ Thomas\ Beutlich\ <tc@tbeu.de>}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2017\ \ \ \ \ \ Rhodri\ James\ <rhodri@wildebeest.org.uk>}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2022\ \ \ \ \ \ Thijs\ Schreijer\ <thijs@thijsschreijer.nl>}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2023\ \ \ \ \ \ Hanno\ Böck\ <hanno@gentoo.org>}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2023\ \ \ \ \ \ Sony\ Corporation\ /\ Snild\ Dolkow\ <snild@sony.com>}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2024\ \ \ \ \ \ Taichi\ Haradaguchi\ <20001722@ymail.ne.jp>}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ Licensed\ under\ the\ MIT\ license:}}
+\DoxyCodeLine{00023\ \textcolor{comment}{}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ \ \ Permission\ is\ \ hereby\ granted,\ \ free\ of\ charge,\ \ to\ any\ \ person\ obtaining}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ a\ \ copy\ \ of\ \ this\ \ software\ \ \ and\ \ associated\ \ documentation\ \ files\ \ (the}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ "{}Software"{}),\ \ to\ \ deal\ in\ \ the\ \ Software\ \ without\ restriction,\ \ including}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ without\ \ limitation\ the\ \ rights\ \ to\ use,\ \ copy,\ \ modify,\ merge,\ \ publish,}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ persons\ \ to\ whom\ \ the\ Software\ \ is\ \ furnished\ to\ \ do\ so,\ \ subject\ to\ \ the}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ following\ conditions:}}
+\DoxyCodeLine{00031\ \textcolor{comment}{}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ \ The\ above\ copyright\ \ notice\ and\ this\ permission\ notice\ \ shall\ be\ included}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00034\ \textcolor{comment}{}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ THE\ \ SOFTWARE\ \ IS\ \ PROVIDED\ \ "{}AS\ \ IS"{},\ \ WITHOUT\ \ WARRANTY\ \ OF\ \ ANY\ \ KIND,}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ \ EXPRESS\ \ OR\ IMPLIED,\ \ INCLUDING\ \ BUT\ \ NOT\ LIMITED\ \ TO\ \ THE\ WARRANTIES\ \ OF}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ \ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ \ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ \ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ DAMAGES\ OR\ \ OTHER\ LIABILITY,\ WHETHER\ \ IN\ AN\ \ ACTION\ OF\ CONTRACT,\ \ TORT\ OR}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ \ \ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ \ \ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00042\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#ifndef\ Expat\_INCLUDED}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ Expat\_INCLUDED\ 1}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{expat__external_8h}{expat\_external.h}}"{}}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00054\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{struct\ }XML\_ParserStruct;}
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }XML\_ParserStruct\ *XML\_Parser;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ XML\_Bool;}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ XML\_TRUE\ ((XML\_Bool)1)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ XML\_FALSE\ ((XML\_Bool)0)}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/*\ The\ XML\_Status\ enum\ gives\ the\ possible\ return\ values\ for\ several}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ \ \ API\ functions.\ \ The\ preprocessor\ \#defines\ are\ included\ so\ this}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ \ \ stanza\ can\ be\ added\ to\ code\ that\ still\ needs\ to\ support\ older}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ versions\ of\ Expat\ 1.95.x:}}
+\DoxyCodeLine{00068\ \textcolor{comment}{}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ \ \ \#ifndef\ XML\_STATUS\_OK}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ \ \ \#define\ XML\_STATUS\_OK\ \ \ \ 1}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ \ \ \#define\ XML\_STATUS\_ERROR\ 0}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ \ \ \#endif}}
+\DoxyCodeLine{00073\ \textcolor{comment}{}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ \ \ Otherwise,\ the\ \#define\ hackery\ is\ quite\ ugly\ and\ would\ have\ been}}
+\DoxyCodeLine{00075\ \textcolor{comment}{\ \ \ dropped.}}
+\DoxyCodeLine{00076\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00077\ \textcolor{keyword}{enum}\ XML\_Status\ \{}
+\DoxyCodeLine{00078\ \ \ XML\_STATUS\_ERROR\ =\ 0,}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ XML\_STATUS\_ERROR\ XML\_STATUS\_ERROR}}
+\DoxyCodeLine{00080\ \ \ XML\_STATUS\_OK\ =\ 1,}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ XML\_STATUS\_OK\ XML\_STATUS\_OK}}
+\DoxyCodeLine{00082\ \ \ XML\_STATUS\_SUSPENDED\ =\ 2}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ XML\_STATUS\_SUSPENDED\ XML\_STATUS\_SUSPENDED}}
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{enum}\ XML\_Error\ \{}
+\DoxyCodeLine{00087\ \ \ XML\_ERROR\_NONE,}
+\DoxyCodeLine{00088\ \ \ XML\_ERROR\_NO\_MEMORY,}
+\DoxyCodeLine{00089\ \ \ XML\_ERROR\_SYNTAX,}
+\DoxyCodeLine{00090\ \ \ XML\_ERROR\_NO\_ELEMENTS,}
+\DoxyCodeLine{00091\ \ \ XML\_ERROR\_INVALID\_TOKEN,}
+\DoxyCodeLine{00092\ \ \ XML\_ERROR\_UNCLOSED\_TOKEN,}
+\DoxyCodeLine{00093\ \ \ XML\_ERROR\_PARTIAL\_CHAR,}
+\DoxyCodeLine{00094\ \ \ XML\_ERROR\_TAG\_MISMATCH,}
+\DoxyCodeLine{00095\ \ \ XML\_ERROR\_DUPLICATE\_ATTRIBUTE,}
+\DoxyCodeLine{00096\ \ \ XML\_ERROR\_JUNK\_AFTER\_DOC\_ELEMENT,}
+\DoxyCodeLine{00097\ \ \ XML\_ERROR\_PARAM\_ENTITY\_REF,}
+\DoxyCodeLine{00098\ \ \ XML\_ERROR\_UNDEFINED\_ENTITY,}
+\DoxyCodeLine{00099\ \ \ XML\_ERROR\_RECURSIVE\_ENTITY\_REF,}
+\DoxyCodeLine{00100\ \ \ XML\_ERROR\_ASYNC\_ENTITY,}
+\DoxyCodeLine{00101\ \ \ XML\_ERROR\_BAD\_CHAR\_REF,}
+\DoxyCodeLine{00102\ \ \ XML\_ERROR\_BINARY\_ENTITY\_REF,}
+\DoxyCodeLine{00103\ \ \ XML\_ERROR\_ATTRIBUTE\_EXTERNAL\_ENTITY\_REF,}
+\DoxyCodeLine{00104\ \ \ XML\_ERROR\_MISPLACED\_XML\_PI,}
+\DoxyCodeLine{00105\ \ \ XML\_ERROR\_UNKNOWN\_ENCODING,}
+\DoxyCodeLine{00106\ \ \ XML\_ERROR\_INCORRECT\_ENCODING,}
+\DoxyCodeLine{00107\ \ \ XML\_ERROR\_UNCLOSED\_CDATA\_SECTION,}
+\DoxyCodeLine{00108\ \ \ XML\_ERROR\_EXTERNAL\_ENTITY\_HANDLING,}
+\DoxyCodeLine{00109\ \ \ XML\_ERROR\_NOT\_STANDALONE,}
+\DoxyCodeLine{00110\ \ \ XML\_ERROR\_UNEXPECTED\_STATE,}
+\DoxyCodeLine{00111\ \ \ XML\_ERROR\_ENTITY\_DECLARED\_IN\_PE,}
+\DoxyCodeLine{00112\ \ \ XML\_ERROR\_FEATURE\_REQUIRES\_XML\_DTD,}
+\DoxyCodeLine{00113\ \ \ XML\_ERROR\_CANT\_CHANGE\_FEATURE\_ONCE\_PARSING,}
+\DoxyCodeLine{00114\ \ \ \textcolor{comment}{/*\ Added\ in\ 1.95.7.\ */}}
+\DoxyCodeLine{00115\ \ \ XML\_ERROR\_UNBOUND\_PREFIX,}
+\DoxyCodeLine{00116\ \ \ \textcolor{comment}{/*\ Added\ in\ 1.95.8.\ */}}
+\DoxyCodeLine{00117\ \ \ XML\_ERROR\_UNDECLARING\_PREFIX,}
+\DoxyCodeLine{00118\ \ \ XML\_ERROR\_INCOMPLETE\_PE,}
+\DoxyCodeLine{00119\ \ \ XML\_ERROR\_XML\_DECL,}
+\DoxyCodeLine{00120\ \ \ XML\_ERROR\_TEXT\_DECL,}
+\DoxyCodeLine{00121\ \ \ XML\_ERROR\_PUBLICID,}
+\DoxyCodeLine{00122\ \ \ XML\_ERROR\_SUSPENDED,}
+\DoxyCodeLine{00123\ \ \ XML\_ERROR\_NOT\_SUSPENDED,}
+\DoxyCodeLine{00124\ \ \ XML\_ERROR\_ABORTED,}
+\DoxyCodeLine{00125\ \ \ XML\_ERROR\_FINISHED,}
+\DoxyCodeLine{00126\ \ \ XML\_ERROR\_SUSPEND\_PE,}
+\DoxyCodeLine{00127\ \ \ \textcolor{comment}{/*\ Added\ in\ 2.0.\ */}}
+\DoxyCodeLine{00128\ \ \ XML\_ERROR\_RESERVED\_PREFIX\_XML,}
+\DoxyCodeLine{00129\ \ \ XML\_ERROR\_RESERVED\_PREFIX\_XMLNS,}
+\DoxyCodeLine{00130\ \ \ XML\_ERROR\_RESERVED\_NAMESPACE\_URI,}
+\DoxyCodeLine{00131\ \ \ \textcolor{comment}{/*\ Added\ in\ 2.2.1.\ */}}
+\DoxyCodeLine{00132\ \ \ XML\_ERROR\_INVALID\_ARGUMENT,}
+\DoxyCodeLine{00133\ \ \ \textcolor{comment}{/*\ Added\ in\ 2.3.0.\ */}}
+\DoxyCodeLine{00134\ \ \ XML\_ERROR\_NO\_BUFFER,}
+\DoxyCodeLine{00135\ \ \ \textcolor{comment}{/*\ Added\ in\ 2.4.0.\ */}}
+\DoxyCodeLine{00136\ \ \ XML\_ERROR\_AMPLIFICATION\_LIMIT\_BREACH}
+\DoxyCodeLine{00137\ \};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{keyword}{enum}\ XML\_Content\_Type\ \{}
+\DoxyCodeLine{00140\ \ \ XML\_CTYPE\_EMPTY\ =\ 1,}
+\DoxyCodeLine{00141\ \ \ XML\_CTYPE\_ANY,}
+\DoxyCodeLine{00142\ \ \ XML\_CTYPE\_MIXED,}
+\DoxyCodeLine{00143\ \ \ XML\_CTYPE\_NAME,}
+\DoxyCodeLine{00144\ \ \ XML\_CTYPE\_CHOICE,}
+\DoxyCodeLine{00145\ \ \ XML\_CTYPE\_SEQ}
+\DoxyCodeLine{00146\ \};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{keyword}{enum}\ XML\_Content\_Quant\ \{}
+\DoxyCodeLine{00149\ \ \ XML\_CQUANT\_NONE,}
+\DoxyCodeLine{00150\ \ \ XML\_CQUANT\_OPT,}
+\DoxyCodeLine{00151\ \ \ XML\_CQUANT\_REP,}
+\DoxyCodeLine{00152\ \ \ XML\_CQUANT\_PLUS}
+\DoxyCodeLine{00153\ \};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{comment}{/*\ If\ type\ ==\ XML\_CTYPE\_EMPTY\ or\ XML\_CTYPE\_ANY,\ then\ quant\ will\ be}}
+\DoxyCodeLine{00156\ \textcolor{comment}{\ \ \ XML\_CQUANT\_NONE,\ and\ the\ other\ fields\ will\ be\ zero\ or\ NULL.}}
+\DoxyCodeLine{00157\ \textcolor{comment}{\ \ \ If\ type\ ==\ XML\_CTYPE\_MIXED,\ then\ quant\ will\ be\ NONE\ or\ REP\ and}}
+\DoxyCodeLine{00158\ \textcolor{comment}{\ \ \ numchildren\ will\ contain\ number\ of\ elements\ that\ may\ be\ mixed\ in}}
+\DoxyCodeLine{00159\ \textcolor{comment}{\ \ \ and\ children\ point\ to\ an\ array\ of\ XML\_Content\ cells\ that\ will\ be}}
+\DoxyCodeLine{00160\ \textcolor{comment}{\ \ \ all\ of\ XML\_CTYPE\_NAME\ type\ with\ no\ quantification.}}
+\DoxyCodeLine{00161\ \textcolor{comment}{}}
+\DoxyCodeLine{00162\ \textcolor{comment}{\ \ \ If\ type\ ==\ XML\_CTYPE\_NAME,\ then\ the\ name\ points\ to\ the\ name,\ and}}
+\DoxyCodeLine{00163\ \textcolor{comment}{\ \ \ the\ numchildren\ field\ will\ be\ zero\ and\ children\ will\ be\ NULL.\ The}}
+\DoxyCodeLine{00164\ \textcolor{comment}{\ \ \ quant\ fields\ indicates\ any\ quantifiers\ placed\ on\ the\ name.}}
+\DoxyCodeLine{00165\ \textcolor{comment}{}}
+\DoxyCodeLine{00166\ \textcolor{comment}{\ \ \ CHOICE\ and\ SEQ\ will\ have\ name\ NULL,\ the\ number\ of\ children\ in}}
+\DoxyCodeLine{00167\ \textcolor{comment}{\ \ \ numchildren\ and\ children\ will\ point,\ recursively,\ to\ an\ array}}
+\DoxyCodeLine{00168\ \textcolor{comment}{\ \ \ of\ XML\_Content\ cells.}}
+\DoxyCodeLine{00169\ \textcolor{comment}{}}
+\DoxyCodeLine{00170\ \textcolor{comment}{\ \ \ The\ EMPTY,\ ANY,\ and\ MIXED\ types\ will\ only\ occur\ at\ top\ level.}}
+\DoxyCodeLine{00171\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }XML\_cp\ XML\_Content;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{keyword}{struct\ }XML\_cp\ \{}
+\DoxyCodeLine{00176\ \ \ \textcolor{keyword}{enum}\ XML\_Content\_Type\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};}
+\DoxyCodeLine{00177\ \ \ \textcolor{keyword}{enum}\ XML\_Content\_Quant\ quant;}
+\DoxyCodeLine{00178\ \ \ XML\_Char\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}};}
+\DoxyCodeLine{00179\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ numchildren;}
+\DoxyCodeLine{00180\ \ \ XML\_Content\ *children;}
+\DoxyCodeLine{00181\ \};}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \textcolor{comment}{/*\ This\ is\ called\ for\ an\ element\ declaration.\ See\ above\ for}}
+\DoxyCodeLine{00184\ \textcolor{comment}{\ \ \ description\ of\ the\ model\ argument.\ It's\ the\ user\ code's\ responsibility}}
+\DoxyCodeLine{00185\ \textcolor{comment}{\ \ \ to\ free\ model\ when\ finished\ with\ it.\ See\ XML\_FreeContentModel.}}
+\DoxyCodeLine{00186\ \textcolor{comment}{\ \ \ There\ is\ no\ need\ to\ free\ the\ model\ from\ the\ handler,\ it\ can\ be\ kept}}
+\DoxyCodeLine{00187\ \textcolor{comment}{\ \ \ around\ and\ freed\ at\ a\ later\ stage.}}
+\DoxyCodeLine{00188\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00189\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_ElementDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_Content\ *model);}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00194\ XML\_SetElementDeclHandler(XML\_Parser\ parser,\ XML\_ElementDeclHandler\ eldecl);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \textcolor{comment}{/*\ The\ Attlist\ declaration\ handler\ is\ called\ for\ *each*\ attribute.\ So}}
+\DoxyCodeLine{00197\ \textcolor{comment}{\ \ \ a\ single\ Attlist\ declaration\ with\ multiple\ attributes\ declared\ will}}
+\DoxyCodeLine{00198\ \textcolor{comment}{\ \ \ generate\ multiple\ calls\ to\ this\ handler.\ The\ "{}default"{}\ parameter}}
+\DoxyCodeLine{00199\ \textcolor{comment}{\ \ \ may\ be\ NULL\ in\ the\ case\ of\ the\ "{}\#IMPLIED"{}\ or\ "{}\#REQUIRED"{}}}
+\DoxyCodeLine{00200\ \textcolor{comment}{\ \ \ keyword.\ The\ "{}isrequired"{}\ parameter\ will\ be\ true\ and\ the\ default}}
+\DoxyCodeLine{00201\ \textcolor{comment}{\ \ \ value\ will\ be\ NULL\ in\ the\ case\ of\ "{}\#REQUIRED"{}.\ If\ "{}isrequired"{}\ is}}
+\DoxyCodeLine{00202\ \textcolor{comment}{\ \ \ true\ and\ default\ is\ non-\/NULL,\ then\ this\ is\ a\ "{}\#FIXED"{}\ default.}}
+\DoxyCodeLine{00203\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00204\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_AttlistDeclHandler)(}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ XML\_Char\ *elname,\ \textcolor{keyword}{const}\ XML\_Char\ *attname,}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *att\_type,\ \textcolor{keyword}{const}\ XML\_Char\ *dflt,\ \textcolor{keywordtype}{int}\ isrequired);}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00209\ XML\_SetAttlistDeclHandler(XML\_Parser\ parser,\ XML\_AttlistDeclHandler\ attdecl);}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \textcolor{comment}{/*\ The\ XML\ declaration\ handler\ is\ called\ for\ *both*\ XML\ declarations}}
+\DoxyCodeLine{00212\ \textcolor{comment}{\ \ \ and\ text\ declarations.\ The\ way\ to\ distinguish\ is\ that\ the\ version}}
+\DoxyCodeLine{00213\ \textcolor{comment}{\ \ \ parameter\ will\ be\ NULL\ for\ text\ declarations.\ The\ encoding}}
+\DoxyCodeLine{00214\ \textcolor{comment}{\ \ \ parameter\ may\ be\ NULL\ for\ XML\ declarations.\ The\ standalone}}
+\DoxyCodeLine{00215\ \textcolor{comment}{\ \ \ parameter\ will\ be\ -\/1,\ 0,\ or\ 1\ indicating\ respectively\ that\ there}}
+\DoxyCodeLine{00216\ \textcolor{comment}{\ \ \ was\ no\ standalone\ parameter\ in\ the\ declaration,\ that\ it\ was\ given}}
+\DoxyCodeLine{00217\ \textcolor{comment}{\ \ \ as\ no,\ or\ that\ it\ was\ given\ as\ yes.}}
+\DoxyCodeLine{00218\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00219\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_XmlDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{namespaceconf_acb17d40bdb0d56177810719a1cf00082}{version}},}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *encoding,}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ standalone);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00225\ XML\_SetXmlDeclHandler(XML\_Parser\ parser,\ XML\_XmlDeclHandler\ xmldecl);}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00228\ \ \ \textcolor{keywordtype}{void}\ *(*malloc\_fcn)(\textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00229\ \ \ \textcolor{keywordtype}{void}\ *(*realloc\_fcn)(\textcolor{keywordtype}{void}\ *ptr,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00230\ \ \ void\ (*free\_fcn)(\textcolor{keywordtype}{void}\ *ptr);}
+\DoxyCodeLine{00231\ \}\ XML\_Memory\_Handling\_Suite;}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{comment}{/*\ Constructs\ a\ new\ parser;\ encoding\ is\ the\ encoding\ specified\ by\ the}}
+\DoxyCodeLine{00234\ \textcolor{comment}{\ \ \ external\ protocol\ or\ NULL\ if\ there\ is\ none\ specified.}}
+\DoxyCodeLine{00235\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00236\ XMLPARSEAPI(XML\_Parser)}
+\DoxyCodeLine{00237\ XML\_ParserCreate(\textcolor{keyword}{const}\ XML\_Char\ *encoding);}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \textcolor{comment}{/*\ Constructs\ a\ new\ parser\ and\ namespace\ processor.\ \ Element\ type}}
+\DoxyCodeLine{00240\ \textcolor{comment}{\ \ \ names\ and\ attribute\ names\ that\ belong\ to\ a\ namespace\ will\ be}}
+\DoxyCodeLine{00241\ \textcolor{comment}{\ \ \ expanded;\ unprefixed\ attribute\ names\ are\ never\ expanded;\ unprefixed}}
+\DoxyCodeLine{00242\ \textcolor{comment}{\ \ \ element\ type\ names\ are\ expanded\ only\ if\ there\ is\ a\ default}}
+\DoxyCodeLine{00243\ \textcolor{comment}{\ \ \ namespace.\ The\ expanded\ name\ is\ the\ concatenation\ of\ the\ namespace}}
+\DoxyCodeLine{00244\ \textcolor{comment}{\ \ \ URI,\ the\ namespace\ separator\ character,\ and\ the\ local\ part\ of\ the}}
+\DoxyCodeLine{00245\ \textcolor{comment}{\ \ \ name.\ \ If\ the\ namespace\ separator\ is\ '\(\backslash\)0'\ then\ the\ namespace\ URI}}
+\DoxyCodeLine{00246\ \textcolor{comment}{\ \ \ and\ the\ local\ part\ will\ be\ concatenated\ without\ any\ separator.}}
+\DoxyCodeLine{00247\ \textcolor{comment}{\ \ \ It\ is\ a\ programming\ error\ to\ use\ the\ separator\ '\(\backslash\)0'\ with\ namespace}}
+\DoxyCodeLine{00248\ \textcolor{comment}{\ \ \ triplets\ (see\ XML\_SetReturnNSTriplet).}}
+\DoxyCodeLine{00249\ \textcolor{comment}{\ \ \ If\ a\ namespace\ separator\ is\ chosen\ that\ can\ be\ part\ of\ a\ URI\ or}}
+\DoxyCodeLine{00250\ \textcolor{comment}{\ \ \ part\ of\ an\ XML\ name,\ splitting\ an\ expanded\ name\ back\ into\ its}}
+\DoxyCodeLine{00251\ \textcolor{comment}{\ \ \ 1,\ 2\ or\ 3\ original\ parts\ on\ application\ level\ in\ the\ element\ handler}}
+\DoxyCodeLine{00252\ \textcolor{comment}{\ \ \ may\ end\ up\ vulnerable,\ so\ these\ are\ advised\ against;\ \ sane\ choices\ for}}
+\DoxyCodeLine{00253\ \textcolor{comment}{\ \ \ a\ namespace\ separator\ are\ e.g.\ '\(\backslash\)n'\ (line\ feed)\ and\ '|'\ (pipe).}}
+\DoxyCodeLine{00254\ \textcolor{comment}{}}
+\DoxyCodeLine{00255\ \textcolor{comment}{\ \ \ Note\ that\ Expat\ does\ not\ validate\ namespace\ URIs\ (beyond\ encoding)}}
+\DoxyCodeLine{00256\ \textcolor{comment}{\ \ \ against\ RFC\ 3986\ today\ (and\ is\ not\ required\ to\ do\ so\ with\ regard\ to}}
+\DoxyCodeLine{00257\ \textcolor{comment}{\ \ \ the\ XML\ 1.0\ namespaces\ specification)\ but\ it\ may\ start\ doing\ that}}
+\DoxyCodeLine{00258\ \textcolor{comment}{\ \ \ in\ future\ releases.\ \ Before\ that,\ an\ application\ using\ Expat\ must}}
+\DoxyCodeLine{00259\ \textcolor{comment}{\ \ \ be\ ready\ to\ receive\ namespace\ URIs\ containing\ non-\/URI\ characters.}}
+\DoxyCodeLine{00260\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00261\ XMLPARSEAPI(XML\_Parser)}
+\DoxyCodeLine{00262\ XML\_ParserCreateNS(\textcolor{keyword}{const}\ XML\_Char\ *encoding,\ XML\_Char\ namespaceSeparator);}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{comment}{/*\ Constructs\ a\ new\ parser\ using\ the\ memory\ management\ suite\ referred\ to}}
+\DoxyCodeLine{00265\ \textcolor{comment}{\ \ \ by\ memsuite.\ If\ memsuite\ is\ NULL,\ then\ use\ the\ standard\ library\ memory}}
+\DoxyCodeLine{00266\ \textcolor{comment}{\ \ \ suite.\ If\ namespaceSeparator\ is\ non-\/NULL\ it\ creates\ a\ parser\ with}}
+\DoxyCodeLine{00267\ \textcolor{comment}{\ \ \ namespace\ processing\ as\ described\ above.\ The\ character\ pointed\ at}}
+\DoxyCodeLine{00268\ \textcolor{comment}{\ \ \ will\ serve\ as\ the\ namespace\ separator.}}
+\DoxyCodeLine{00269\ \textcolor{comment}{}}
+\DoxyCodeLine{00270\ \textcolor{comment}{\ \ \ All\ further\ memory\ operations\ used\ for\ the\ created\ parser\ will\ come\ from}}
+\DoxyCodeLine{00271\ \textcolor{comment}{\ \ \ the\ given\ suite.}}
+\DoxyCodeLine{00272\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00273\ XMLPARSEAPI(XML\_Parser)}
+\DoxyCodeLine{00274\ XML\_ParserCreate\_MM(\textcolor{keyword}{const}\ XML\_Char\ *encoding,}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Memory\_Handling\_Suite\ *memsuite,}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *namespaceSeparator);}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{comment}{/*\ Prepare\ a\ parser\ object\ to\ be\ reused.\ \ This\ is\ particularly}}
+\DoxyCodeLine{00279\ \textcolor{comment}{\ \ \ valuable\ when\ memory\ allocation\ overhead\ is\ disproportionately\ high,}}
+\DoxyCodeLine{00280\ \textcolor{comment}{\ \ \ such\ as\ when\ a\ large\ number\ of\ small\ documnents\ need\ to\ be\ parsed.}}
+\DoxyCodeLine{00281\ \textcolor{comment}{\ \ \ All\ handlers\ are\ cleared\ from\ the\ parser,\ except\ for\ the}}
+\DoxyCodeLine{00282\ \textcolor{comment}{\ \ \ unknownEncodingHandler.\ The\ parser's\ external\ state\ is\ re-\/initialized}}
+\DoxyCodeLine{00283\ \textcolor{comment}{\ \ \ except\ for\ the\ values\ of\ ns\ and\ ns\_triplets.}}
+\DoxyCodeLine{00284\ \textcolor{comment}{}}
+\DoxyCodeLine{00285\ \textcolor{comment}{\ \ \ Added\ in\ Expat\ 1.95.3.}}
+\DoxyCodeLine{00286\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00287\ XMLPARSEAPI(XML\_Bool)}
+\DoxyCodeLine{00288\ XML\_ParserReset(XML\_Parser\ parser,\ \textcolor{keyword}{const}\ XML\_Char\ *encoding);}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{comment}{/*\ atts\ is\ array\ of\ name/value\ pairs,\ terminated\ by\ 0;}}
+\DoxyCodeLine{00291\ \textcolor{comment}{\ \ \ names\ and\ values\ are\ 0\ terminated.}}
+\DoxyCodeLine{00292\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00293\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_StartElementHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ **atts);}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_EndElementHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \textcolor{comment}{/*\ s\ is\ not\ 0\ terminated.\ */}}
+\DoxyCodeLine{00301\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_CharacterDataHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{namespacefiletohex_a3691308f2a4c2f6983f2880d32e29c84}{s}},\ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{comment}{/*\ target\ and\ data\ are\ 0\ terminated\ */}}
+\DoxyCodeLine{00305\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_ProcessingInstructionHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *target,}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}});}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \textcolor{comment}{/*\ data\ is\ 0\ terminated\ */}}
+\DoxyCodeLine{00310\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_CommentHandler)(\textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}});}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_StartCdataSectionHandler)(\textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00313\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_EndCdataSectionHandler)(\textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \textcolor{comment}{/*\ This\ is\ called\ for\ any\ characters\ in\ the\ XML\ document\ for\ which}}
+\DoxyCodeLine{00316\ \textcolor{comment}{\ \ \ there\ is\ no\ applicable\ handler.\ \ This\ includes\ both\ characters\ that}}
+\DoxyCodeLine{00317\ \textcolor{comment}{\ \ \ are\ part\ of\ markup\ which\ is\ of\ a\ kind\ that\ is\ not\ reported}}
+\DoxyCodeLine{00318\ \textcolor{comment}{\ \ \ (comments,\ markup\ declarations),\ or\ characters\ that\ are\ part\ of\ a}}
+\DoxyCodeLine{00319\ \textcolor{comment}{\ \ \ construct\ which\ could\ be\ reported\ but\ for\ which\ no\ handler\ has\ been}}
+\DoxyCodeLine{00320\ \textcolor{comment}{\ \ \ supplied.\ The\ characters\ are\ passed\ exactly\ as\ they\ were\ in\ the\ XML}}
+\DoxyCodeLine{00321\ \textcolor{comment}{\ \ \ document\ except\ that\ they\ will\ be\ encoded\ in\ UTF-\/8\ or\ UTF-\/16.}}
+\DoxyCodeLine{00322\ \textcolor{comment}{\ \ \ Line\ boundaries\ are\ not\ normalized.\ Note\ that\ a\ byte\ order\ mark}}
+\DoxyCodeLine{00323\ \textcolor{comment}{\ \ \ character\ is\ not\ passed\ to\ the\ default\ handler.\ There\ are\ no}}
+\DoxyCodeLine{00324\ \textcolor{comment}{\ \ \ guarantees\ about\ how\ characters\ are\ divided\ between\ calls\ to\ the}}
+\DoxyCodeLine{00325\ \textcolor{comment}{\ \ \ default\ handler:\ for\ example,\ a\ comment\ might\ be\ split\ between}}
+\DoxyCodeLine{00326\ \textcolor{comment}{\ \ \ multiple\ calls.}}
+\DoxyCodeLine{00327\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00328\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_DefaultHandler)(\textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{namespacefiletohex_a3691308f2a4c2f6983f2880d32e29c84}{s}},}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \textcolor{comment}{/*\ This\ is\ called\ for\ the\ start\ of\ the\ DOCTYPE\ declaration,\ before}}
+\DoxyCodeLine{00332\ \textcolor{comment}{\ \ \ any\ DTD\ or\ internal\ subset\ is\ parsed.}}
+\DoxyCodeLine{00333\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00334\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_StartDoctypeDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *doctypeName,}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *sysid,}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *pubid,}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ has\_internal\_subset);}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \textcolor{comment}{/*\ This\ is\ called\ for\ the\ end\ of\ the\ DOCTYPE\ declaration\ when\ the}}
+\DoxyCodeLine{00341\ \textcolor{comment}{\ \ \ closing\ >\ is\ encountered,\ but\ after\ processing\ any\ external}}
+\DoxyCodeLine{00342\ \textcolor{comment}{\ \ \ subset.}}
+\DoxyCodeLine{00343\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00344\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_EndDoctypeDeclHandler)(\textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \textcolor{comment}{/*\ This\ is\ called\ for\ entity\ declarations.\ The\ is\_parameter\_entity}}
+\DoxyCodeLine{00347\ \textcolor{comment}{\ \ \ argument\ will\ be\ non-\/zero\ if\ the\ entity\ is\ a\ parameter\ entity,\ zero}}
+\DoxyCodeLine{00348\ \textcolor{comment}{\ \ \ otherwise.}}
+\DoxyCodeLine{00349\ \textcolor{comment}{}}
+\DoxyCodeLine{00350\ \textcolor{comment}{\ \ \ For\ internal\ entities\ (<!ENTITY\ foo\ "{}bar"{}>),\ value\ will}}
+\DoxyCodeLine{00351\ \textcolor{comment}{\ \ \ be\ non-\/NULL\ and\ systemId,\ publicID,\ and\ notationName\ will\ be\ NULL.}}
+\DoxyCodeLine{00352\ \textcolor{comment}{\ \ \ The\ value\ string\ is\ NOT\ null-\/terminated;\ the\ length\ is\ provided\ in}}
+\DoxyCodeLine{00353\ \textcolor{comment}{\ \ \ the\ value\_length\ argument.\ Since\ it\ is\ legal\ to\ have\ zero-\/length}}
+\DoxyCodeLine{00354\ \textcolor{comment}{\ \ \ values,\ do\ not\ use\ this\ argument\ to\ test\ for\ internal\ entities.}}
+\DoxyCodeLine{00355\ \textcolor{comment}{}}
+\DoxyCodeLine{00356\ \textcolor{comment}{\ \ \ For\ external\ entities,\ value\ will\ be\ NULL\ and\ systemId\ will\ be}}
+\DoxyCodeLine{00357\ \textcolor{comment}{\ \ \ non-\/NULL.\ The\ publicId\ argument\ will\ be\ NULL\ unless\ a\ public}}
+\DoxyCodeLine{00358\ \textcolor{comment}{\ \ \ identifier\ was\ provided.\ The\ notationName\ argument\ will\ have\ a}}
+\DoxyCodeLine{00359\ \textcolor{comment}{\ \ \ non-\/NULL\ value\ only\ for\ unparsed\ entity\ declarations.}}
+\DoxyCodeLine{00360\ \textcolor{comment}{}}
+\DoxyCodeLine{00361\ \textcolor{comment}{\ \ \ Note\ that\ is\_parameter\_entity\ can't\ be\ changed\ to\ XML\_Bool,\ since}}
+\DoxyCodeLine{00362\ \textcolor{comment}{\ \ \ that\ would\ break\ binary\ compatibility.}}
+\DoxyCodeLine{00363\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00364\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_EntityDeclHandler)(}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ XML\_Char\ *entityName,\ \textcolor{keywordtype}{int}\ is\_parameter\_entity,}
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}},\ \textcolor{keywordtype}{int}\ value\_length,\ \textcolor{keyword}{const}\ XML\_Char\ *base,}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *systemId,\ \textcolor{keyword}{const}\ XML\_Char\ *publicId,}
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *notationName);}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00371\ XML\_SetEntityDeclHandler(XML\_Parser\ parser,\ XML\_EntityDeclHandler\ handler);}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \textcolor{comment}{/*\ OBSOLETE\ -\/-\/\ OBSOLETE\ -\/-\/\ OBSOLETE}}
+\DoxyCodeLine{00374\ \textcolor{comment}{\ \ \ This\ handler\ has\ been\ superseded\ by\ the\ EntityDeclHandler\ above.}}
+\DoxyCodeLine{00375\ \textcolor{comment}{\ \ \ It\ is\ provided\ here\ for\ backward\ compatibility.}}
+\DoxyCodeLine{00376\ \textcolor{comment}{}}
+\DoxyCodeLine{00377\ \textcolor{comment}{\ \ \ This\ is\ called\ for\ a\ declaration\ of\ an\ unparsed\ (NDATA)\ entity.}}
+\DoxyCodeLine{00378\ \textcolor{comment}{\ \ \ The\ base\ argument\ is\ whatever\ was\ set\ by\ XML\_SetBase.\ The}}
+\DoxyCodeLine{00379\ \textcolor{comment}{\ \ \ entityName,\ systemId\ and\ notationName\ arguments\ will\ never\ be}}
+\DoxyCodeLine{00380\ \textcolor{comment}{\ \ \ NULL.\ The\ other\ arguments\ may\ be.}}
+\DoxyCodeLine{00381\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00382\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_UnparsedEntityDeclHandler)(}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ XML\_Char\ *entityName,\ \textcolor{keyword}{const}\ XML\_Char\ *base,}
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *systemId,\ \textcolor{keyword}{const}\ XML\_Char\ *publicId,}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *notationName);}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \textcolor{comment}{/*\ This\ is\ called\ for\ a\ declaration\ of\ notation.\ \ The\ base\ argument\ is}}
+\DoxyCodeLine{00388\ \textcolor{comment}{\ \ \ whatever\ was\ set\ by\ XML\_SetBase.\ The\ notationName\ will\ never\ be}}
+\DoxyCodeLine{00389\ \textcolor{comment}{\ \ \ NULL.\ \ The\ other\ arguments\ can\ be.}}
+\DoxyCodeLine{00390\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00391\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_NotationDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *notationName,}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *base,}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *systemId,}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *publicId);}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \textcolor{comment}{/*\ When\ namespace\ processing\ is\ enabled,\ these\ are\ called\ once\ for}}
+\DoxyCodeLine{00398\ \textcolor{comment}{\ \ \ each\ namespace\ declaration.\ The\ call\ to\ the\ start\ and\ end\ element}}
+\DoxyCodeLine{00399\ \textcolor{comment}{\ \ \ handlers\ occur\ between\ the\ calls\ to\ the\ start\ and\ end\ namespace}}
+\DoxyCodeLine{00400\ \textcolor{comment}{\ \ \ declaration\ handlers.\ For\ an\ xmlns\ attribute,\ prefix\ will\ be}}
+\DoxyCodeLine{00401\ \textcolor{comment}{\ \ \ NULL.\ \ For\ an\ xmlns="{}"{}\ attribute,\ uri\ will\ be\ NULL.}}
+\DoxyCodeLine{00402\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00403\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_StartNamespaceDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *prefix,}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *uri);}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_EndNamespaceDeclHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *prefix);}
+\DoxyCodeLine{00409\ }
+\DoxyCodeLine{00410\ \textcolor{comment}{/*\ This\ is\ called\ if\ the\ document\ is\ not\ standalone,\ that\ is,\ it\ has\ an}}
+\DoxyCodeLine{00411\ \textcolor{comment}{\ \ \ external\ subset\ or\ a\ reference\ to\ a\ parameter\ entity,\ but\ does\ not}}
+\DoxyCodeLine{00412\ \textcolor{comment}{\ \ \ have\ standalone="{}yes"{}.\ If\ this\ handler\ returns\ XML\_STATUS\_ERROR,}}
+\DoxyCodeLine{00413\ \textcolor{comment}{\ \ \ then\ processing\ will\ not\ continue,\ and\ the\ parser\ will\ return\ a}}
+\DoxyCodeLine{00414\ \textcolor{comment}{\ \ \ XML\_ERROR\_NOT\_STANDALONE\ error.}}
+\DoxyCodeLine{00415\ \textcolor{comment}{\ \ \ If\ parameter\ entity\ parsing\ is\ enabled,\ then\ in\ addition\ to\ the}}
+\DoxyCodeLine{00416\ \textcolor{comment}{\ \ \ conditions\ above\ this\ handler\ will\ only\ be\ called\ if\ the\ referenced}}
+\DoxyCodeLine{00417\ \textcolor{comment}{\ \ \ entity\ was\ actually\ read.}}
+\DoxyCodeLine{00418\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00419\ \textcolor{keyword}{typedef}\ int(XMLCALL\ *XML\_NotStandaloneHandler)(\textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \textcolor{comment}{/*\ This\ is\ called\ for\ a\ reference\ to\ an\ external\ parsed\ general}}
+\DoxyCodeLine{00422\ \textcolor{comment}{\ \ \ entity.\ \ The\ referenced\ entity\ is\ not\ automatically\ parsed.\ \ The}}
+\DoxyCodeLine{00423\ \textcolor{comment}{\ \ \ application\ can\ parse\ it\ immediately\ or\ later\ using}}
+\DoxyCodeLine{00424\ \textcolor{comment}{\ \ \ XML\_ExternalEntityParserCreate.}}
+\DoxyCodeLine{00425\ \textcolor{comment}{}}
+\DoxyCodeLine{00426\ \textcolor{comment}{\ \ \ The\ parser\ argument\ is\ the\ parser\ parsing\ the\ entity\ containing\ the}}
+\DoxyCodeLine{00427\ \textcolor{comment}{\ \ \ reference;\ it\ can\ be\ passed\ as\ the\ parser\ argument\ to}}
+\DoxyCodeLine{00428\ \textcolor{comment}{\ \ \ XML\_ExternalEntityParserCreate.\ \ The\ systemId\ argument\ is\ the}}
+\DoxyCodeLine{00429\ \textcolor{comment}{\ \ \ system\ identifier\ as\ specified\ in\ the\ entity\ declaration;\ it\ will}}
+\DoxyCodeLine{00430\ \textcolor{comment}{\ \ \ not\ be\ NULL.}}
+\DoxyCodeLine{00431\ \textcolor{comment}{}}
+\DoxyCodeLine{00432\ \textcolor{comment}{\ \ \ The\ base\ argument\ is\ the\ system\ identifier\ that\ should\ be\ used\ as}}
+\DoxyCodeLine{00433\ \textcolor{comment}{\ \ \ the\ base\ for\ resolving\ systemId\ if\ systemId\ was\ relative;\ this\ is}}
+\DoxyCodeLine{00434\ \textcolor{comment}{\ \ \ set\ by\ XML\_SetBase;\ it\ may\ be\ NULL.}}
+\DoxyCodeLine{00435\ \textcolor{comment}{}}
+\DoxyCodeLine{00436\ \textcolor{comment}{\ \ \ The\ publicId\ argument\ is\ the\ public\ identifier\ as\ specified\ in\ the}}
+\DoxyCodeLine{00437\ \textcolor{comment}{\ \ \ entity\ declaration,\ or\ NULL\ if\ none\ was\ specified;\ the\ whitespace}}
+\DoxyCodeLine{00438\ \textcolor{comment}{\ \ \ in\ the\ public\ identifier\ will\ have\ been\ normalized\ as\ required\ by}}
+\DoxyCodeLine{00439\ \textcolor{comment}{\ \ \ the\ XML\ spec.}}
+\DoxyCodeLine{00440\ \textcolor{comment}{}}
+\DoxyCodeLine{00441\ \textcolor{comment}{\ \ \ The\ context\ argument\ specifies\ the\ parsing\ context\ in\ the\ format}}
+\DoxyCodeLine{00442\ \textcolor{comment}{\ \ \ expected\ by\ the\ context\ argument\ to\ XML\_ExternalEntityParserCreate;}}
+\DoxyCodeLine{00443\ \textcolor{comment}{\ \ \ context\ is\ valid\ only\ until\ the\ handler\ returns,\ so\ if\ the}}
+\DoxyCodeLine{00444\ \textcolor{comment}{\ \ \ referenced\ entity\ is\ to\ be\ parsed\ later,\ it\ must\ be\ copied.}}
+\DoxyCodeLine{00445\ \textcolor{comment}{\ \ \ context\ is\ NULL\ only\ when\ the\ entity\ is\ a\ parameter\ entity.}}
+\DoxyCodeLine{00446\ \textcolor{comment}{}}
+\DoxyCodeLine{00447\ \textcolor{comment}{\ \ \ The\ handler\ should\ return\ XML\_STATUS\_ERROR\ if\ processing\ should\ not}}
+\DoxyCodeLine{00448\ \textcolor{comment}{\ \ \ continue\ because\ of\ a\ fatal\ error\ in\ the\ handling\ of\ the\ external}}
+\DoxyCodeLine{00449\ \textcolor{comment}{\ \ \ entity.\ \ In\ this\ case\ the\ calling\ parser\ will\ return\ an}}
+\DoxyCodeLine{00450\ \textcolor{comment}{\ \ \ XML\_ERROR\_EXTERNAL\_ENTITY\_HANDLING\ error.}}
+\DoxyCodeLine{00451\ \textcolor{comment}{}}
+\DoxyCodeLine{00452\ \textcolor{comment}{\ \ \ Note\ that\ unlike\ other\ handlers\ the\ first\ argument\ is\ the\ parser,}}
+\DoxyCodeLine{00453\ \textcolor{comment}{\ \ \ not\ userData.}}
+\DoxyCodeLine{00454\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00455\ \textcolor{keyword}{typedef}\ int(XMLCALL\ *XML\_ExternalEntityRefHandler)(XML\_Parser\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a90eee7a4677ca8b1ed116364a24367f9}{parser}},}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *context,}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *base,}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *systemId,}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *publicId);}
+\DoxyCodeLine{00460\ }
+\DoxyCodeLine{00461\ \textcolor{comment}{/*\ This\ is\ called\ in\ two\ situations:}}
+\DoxyCodeLine{00462\ \textcolor{comment}{\ \ \ 1)\ An\ entity\ reference\ is\ encountered\ for\ which\ no\ declaration}}
+\DoxyCodeLine{00463\ \textcolor{comment}{\ \ \ \ \ \ has\ been\ read\ *and*\ this\ is\ not\ an\ error.}}
+\DoxyCodeLine{00464\ \textcolor{comment}{\ \ \ 2)\ An\ internal\ entity\ reference\ is\ read,\ but\ not\ expanded,\ because}}
+\DoxyCodeLine{00465\ \textcolor{comment}{\ \ \ \ \ \ XML\_SetDefaultHandler\ has\ been\ called.}}
+\DoxyCodeLine{00466\ \textcolor{comment}{\ \ \ Note:\ skipped\ parameter\ entities\ in\ declarations\ and\ skipped\ general}}
+\DoxyCodeLine{00467\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ entities\ in\ attribute\ values\ cannot\ be\ reported,\ because}}
+\DoxyCodeLine{00468\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ the\ event\ would\ be\ out\ of\ sync\ with\ the\ reporting\ of\ the}}
+\DoxyCodeLine{00469\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ declarations\ or\ attribute\ values}}
+\DoxyCodeLine{00470\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00471\ \textcolor{keyword}{typedef}\ void(XMLCALL\ *XML\_SkippedEntityHandler)(\textcolor{keywordtype}{void}\ *userData,}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *entityName,}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ is\_parameter\_entity);}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \textcolor{comment}{/*\ This\ structure\ is\ filled\ in\ by\ the\ XML\_UnknownEncodingHandler\ to}}
+\DoxyCodeLine{00476\ \textcolor{comment}{\ \ \ provide\ information\ to\ the\ parser\ about\ encodings\ that\ are\ unknown}}
+\DoxyCodeLine{00477\ \textcolor{comment}{\ \ \ to\ the\ parser.}}
+\DoxyCodeLine{00478\ \textcolor{comment}{}}
+\DoxyCodeLine{00479\ \textcolor{comment}{\ \ \ The\ map[b]\ member\ gives\ information\ about\ byte\ sequences\ whose}}
+\DoxyCodeLine{00480\ \textcolor{comment}{\ \ \ first\ byte\ is\ b.}}
+\DoxyCodeLine{00481\ \textcolor{comment}{}}
+\DoxyCodeLine{00482\ \textcolor{comment}{\ \ \ If\ map[b]\ is\ c\ where\ c\ is\ >=\ 0,\ then\ b\ by\ itself\ encodes\ the}}
+\DoxyCodeLine{00483\ \textcolor{comment}{\ \ \ Unicode\ scalar\ value\ c.}}
+\DoxyCodeLine{00484\ \textcolor{comment}{}}
+\DoxyCodeLine{00485\ \textcolor{comment}{\ \ \ If\ map[b]\ is\ -\/1,\ then\ the\ byte\ sequence\ is\ malformed.}}
+\DoxyCodeLine{00486\ \textcolor{comment}{}}
+\DoxyCodeLine{00487\ \textcolor{comment}{\ \ \ If\ map[b]\ is\ -\/n,\ where\ n\ >=\ 2,\ then\ b\ is\ the\ first\ byte\ of\ an}}
+\DoxyCodeLine{00488\ \textcolor{comment}{\ \ \ n-\/byte\ sequence\ that\ encodes\ a\ single\ Unicode\ scalar\ value.}}
+\DoxyCodeLine{00489\ \textcolor{comment}{}}
+\DoxyCodeLine{00490\ \textcolor{comment}{\ \ \ The\ data\ member\ will\ be\ passed\ as\ the\ first\ argument\ to\ the\ convert}}
+\DoxyCodeLine{00491\ \textcolor{comment}{\ \ \ function.}}
+\DoxyCodeLine{00492\ \textcolor{comment}{}}
+\DoxyCodeLine{00493\ \textcolor{comment}{\ \ \ The\ convert\ function\ is\ used\ to\ convert\ multibyte\ sequences;\ s\ will}}
+\DoxyCodeLine{00494\ \textcolor{comment}{\ \ \ point\ to\ a\ n-\/byte\ sequence\ where\ map[(unsigned\ char)*s]\ ==\ -\/n.\ \ The}}
+\DoxyCodeLine{00495\ \textcolor{comment}{\ \ \ convert\ function\ must\ return\ the\ Unicode\ scalar\ value\ represented}}
+\DoxyCodeLine{00496\ \textcolor{comment}{\ \ \ by\ this\ byte\ sequence\ or\ -\/1\ if\ the\ byte\ sequence\ is\ malformed.}}
+\DoxyCodeLine{00497\ \textcolor{comment}{}}
+\DoxyCodeLine{00498\ \textcolor{comment}{\ \ \ The\ convert\ function\ may\ be\ NULL\ if\ the\ encoding\ is\ a\ single-\/byte}}
+\DoxyCodeLine{00499\ \textcolor{comment}{\ \ \ encoding,\ that\ is\ if\ map[b]\ >=\ -\/1\ for\ all\ bytes\ b.}}
+\DoxyCodeLine{00500\ \textcolor{comment}{}}
+\DoxyCodeLine{00501\ \textcolor{comment}{\ \ \ When\ the\ parser\ is\ finished\ with\ the\ encoding,\ then\ if\ release\ is}}
+\DoxyCodeLine{00502\ \textcolor{comment}{\ \ \ not\ NULL,\ it\ will\ call\ release\ passing\ it\ the\ data\ member;\ once}}
+\DoxyCodeLine{00503\ \textcolor{comment}{\ \ \ release\ has\ been\ called,\ the\ convert\ function\ will\ not\ be\ called}}
+\DoxyCodeLine{00504\ \textcolor{comment}{\ \ \ again.}}
+\DoxyCodeLine{00505\ \textcolor{comment}{}}
+\DoxyCodeLine{00506\ \textcolor{comment}{\ \ \ Expat\ places\ certain\ restrictions\ on\ the\ encodings\ that\ are\ supported}}
+\DoxyCodeLine{00507\ \textcolor{comment}{\ \ \ using\ this\ mechanism.}}
+\DoxyCodeLine{00508\ \textcolor{comment}{}}
+\DoxyCodeLine{00509\ \textcolor{comment}{\ \ \ 1.\ Every\ ASCII\ character\ that\ can\ appear\ in\ a\ well-\/formed\ XML\ document,}}
+\DoxyCodeLine{00510\ \textcolor{comment}{\ \ \ \ \ \ other\ than\ the\ characters}}
+\DoxyCodeLine{00511\ \textcolor{comment}{}}
+\DoxyCodeLine{00512\ \textcolor{comment}{\ \ \ \ \ \ \$@\(\backslash\)\string^\`{}\{\}\string~}}
+\DoxyCodeLine{00513\ \textcolor{comment}{}}
+\DoxyCodeLine{00514\ \textcolor{comment}{\ \ \ \ \ \ must\ be\ represented\ by\ a\ single\ byte,\ and\ that\ byte\ must\ be\ the}}
+\DoxyCodeLine{00515\ \textcolor{comment}{\ \ \ \ \ \ same\ byte\ that\ represents\ that\ character\ in\ ASCII.}}
+\DoxyCodeLine{00516\ \textcolor{comment}{}}
+\DoxyCodeLine{00517\ \textcolor{comment}{\ \ \ 2.\ No\ character\ may\ require\ more\ than\ 4\ bytes\ to\ encode.}}
+\DoxyCodeLine{00518\ \textcolor{comment}{}}
+\DoxyCodeLine{00519\ \textcolor{comment}{\ \ \ 3.\ All\ characters\ encoded\ must\ have\ Unicode\ scalar\ values\ <=}}
+\DoxyCodeLine{00520\ \textcolor{comment}{\ \ \ \ \ \ 0xFFFF,\ (i.e.,\ characters\ that\ would\ be\ encoded\ by\ surrogates\ in}}
+\DoxyCodeLine{00521\ \textcolor{comment}{\ \ \ \ \ \ UTF-\/16\ are\ \ not\ allowed).\ \ Note\ that\ this\ restriction\ doesn't}}
+\DoxyCodeLine{00522\ \textcolor{comment}{\ \ \ \ \ \ apply\ to\ the\ built-\/in\ support\ for\ UTF-\/8\ and\ UTF-\/16.}}
+\DoxyCodeLine{00523\ \textcolor{comment}{}}
+\DoxyCodeLine{00524\ \textcolor{comment}{\ \ \ 4.\ No\ Unicode\ character\ may\ be\ encoded\ by\ more\ than\ one\ distinct}}
+\DoxyCodeLine{00525\ \textcolor{comment}{\ \ \ \ \ \ sequence\ of\ bytes.}}
+\DoxyCodeLine{00526\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00527\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00528\ \ \ \textcolor{keywordtype}{int}\ map[256];}
+\DoxyCodeLine{00529\ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}};}
+\DoxyCodeLine{00530\ \ \ int(XMLCALL\ *convert)(\textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{namespacefiletohex_a3691308f2a4c2f6983f2880d32e29c84}{s}});}
+\DoxyCodeLine{00531\ \ \ void(XMLCALL\ *release)(\textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}});}
+\DoxyCodeLine{00532\ \}\ XML\_Encoding;}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \textcolor{comment}{/*\ This\ is\ called\ for\ an\ encoding\ that\ is\ unknown\ to\ the\ parser.}}
+\DoxyCodeLine{00535\ \textcolor{comment}{}}
+\DoxyCodeLine{00536\ \textcolor{comment}{\ \ \ The\ encodingHandlerData\ argument\ is\ that\ which\ was\ passed\ as\ the}}
+\DoxyCodeLine{00537\ \textcolor{comment}{\ \ \ second\ argument\ to\ XML\_SetUnknownEncodingHandler.}}
+\DoxyCodeLine{00538\ \textcolor{comment}{}}
+\DoxyCodeLine{00539\ \textcolor{comment}{\ \ \ The\ name\ argument\ gives\ the\ name\ of\ the\ encoding\ as\ specified\ in}}
+\DoxyCodeLine{00540\ \textcolor{comment}{\ \ \ the\ encoding\ declaration.}}
+\DoxyCodeLine{00541\ \textcolor{comment}{}}
+\DoxyCodeLine{00542\ \textcolor{comment}{\ \ \ If\ the\ callback\ can\ provide\ information\ about\ the\ encoding,\ it\ must}}
+\DoxyCodeLine{00543\ \textcolor{comment}{\ \ \ fill\ in\ the\ XML\_Encoding\ structure,\ and\ return\ XML\_STATUS\_OK.}}
+\DoxyCodeLine{00544\ \textcolor{comment}{\ \ \ Otherwise\ it\ must\ return\ XML\_STATUS\_ERROR.}}
+\DoxyCodeLine{00545\ \textcolor{comment}{}}
+\DoxyCodeLine{00546\ \textcolor{comment}{\ \ \ If\ info\ does\ not\ describe\ a\ suitable\ encoding,\ then\ the\ parser\ will}}
+\DoxyCodeLine{00547\ \textcolor{comment}{\ \ \ return\ an\ XML\_ERROR\_UNKNOWN\_ENCODING\ error.}}
+\DoxyCodeLine{00548\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00549\ \textcolor{keyword}{typedef}\ int(XMLCALL\ *XML\_UnknownEncodingHandler)(\textcolor{keywordtype}{void}\ *encodingHandlerData,}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}},}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_Encoding\ *info);}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00553\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00554\ XML\_SetElementHandler(XML\_Parser\ parser,\ XML\_StartElementHandler\ start,}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndElementHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00558\ XML\_SetStartElementHandler(XML\_Parser\ parser,\ XML\_StartElementHandler\ handler);}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00561\ XML\_SetEndElementHandler(XML\_Parser\ parser,\ XML\_EndElementHandler\ handler);}
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00564\ XML\_SetCharacterDataHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_CharacterDataHandler\ handler);}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00568\ XML\_SetProcessingInstructionHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_ProcessingInstructionHandler\ handler);}
+\DoxyCodeLine{00570\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00571\ XML\_SetCommentHandler(XML\_Parser\ parser,\ XML\_CommentHandler\ handler);}
+\DoxyCodeLine{00572\ }
+\DoxyCodeLine{00573\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00574\ XML\_SetCdataSectionHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_StartCdataSectionHandler\ start,}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndCdataSectionHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00577\ }
+\DoxyCodeLine{00578\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00579\ XML\_SetStartCdataSectionHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_StartCdataSectionHandler\ start);}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00583\ XML\_SetEndCdataSectionHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndCdataSectionHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \textcolor{comment}{/*\ This\ sets\ the\ default\ handler\ and\ also\ inhibits\ expansion\ of}}
+\DoxyCodeLine{00587\ \textcolor{comment}{\ \ \ internal\ entities.\ These\ entity\ references\ will\ be\ passed\ to\ the}}
+\DoxyCodeLine{00588\ \textcolor{comment}{\ \ \ default\ handler,\ or\ to\ the\ skipped\ entity\ handler,\ if\ one\ is\ set.}}
+\DoxyCodeLine{00589\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00590\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00591\ XML\_SetDefaultHandler(XML\_Parser\ parser,\ XML\_DefaultHandler\ handler);}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \textcolor{comment}{/*\ This\ sets\ the\ default\ handler\ but\ does\ not\ inhibit\ expansion\ of}}
+\DoxyCodeLine{00594\ \textcolor{comment}{\ \ \ internal\ entities.\ \ The\ entity\ reference\ will\ not\ be\ passed\ to\ the}}
+\DoxyCodeLine{00595\ \textcolor{comment}{\ \ \ default\ handler.}}
+\DoxyCodeLine{00596\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00597\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00598\ XML\_SetDefaultHandlerExpand(XML\_Parser\ parser,\ XML\_DefaultHandler\ handler);}
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00601\ XML\_SetDoctypeDeclHandler(XML\_Parser\ parser,\ XML\_StartDoctypeDeclHandler\ start,}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndDoctypeDeclHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00603\ }
+\DoxyCodeLine{00604\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00605\ XML\_SetStartDoctypeDeclHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_StartDoctypeDeclHandler\ start);}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00608\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00609\ XML\_SetEndDoctypeDeclHandler(XML\_Parser\ parser,\ XML\_EndDoctypeDeclHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00610\ }
+\DoxyCodeLine{00611\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00612\ XML\_SetUnparsedEntityDeclHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_UnparsedEntityDeclHandler\ handler);}
+\DoxyCodeLine{00614\ }
+\DoxyCodeLine{00615\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00616\ XML\_SetNotationDeclHandler(XML\_Parser\ parser,\ XML\_NotationDeclHandler\ handler);}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00619\ XML\_SetNamespaceDeclHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_StartNamespaceDeclHandler\ start,}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndNamespaceDeclHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00624\ XML\_SetStartNamespaceDeclHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_StartNamespaceDeclHandler\ start);}
+\DoxyCodeLine{00626\ }
+\DoxyCodeLine{00627\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00628\ XML\_SetEndNamespaceDeclHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_EndNamespaceDeclHandler\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00630\ }
+\DoxyCodeLine{00631\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00632\ XML\_SetNotStandaloneHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_NotStandaloneHandler\ handler);}
+\DoxyCodeLine{00634\ }
+\DoxyCodeLine{00635\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00636\ XML\_SetExternalEntityRefHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_ExternalEntityRefHandler\ handler);}
+\DoxyCodeLine{00638\ }
+\DoxyCodeLine{00639\ \textcolor{comment}{/*\ If\ a\ non-\/NULL\ value\ for\ arg\ is\ specified\ here,\ then\ it\ will\ be}}
+\DoxyCodeLine{00640\ \textcolor{comment}{\ \ \ passed\ as\ the\ first\ argument\ to\ the\ external\ entity\ ref\ handler}}
+\DoxyCodeLine{00641\ \textcolor{comment}{\ \ \ instead\ of\ the\ parser\ object.}}
+\DoxyCodeLine{00642\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00643\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00644\ XML\_SetExternalEntityRefHandlerArg(XML\_Parser\ parser,\ \textcolor{keywordtype}{void}\ *arg);}
+\DoxyCodeLine{00645\ }
+\DoxyCodeLine{00646\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00647\ XML\_SetSkippedEntityHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_SkippedEntityHandler\ handler);}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00651\ XML\_SetUnknownEncodingHandler(XML\_Parser\ parser,}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XML\_UnknownEncodingHandler\ handler,}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *encodingHandlerData);}
+\DoxyCodeLine{00654\ }
+\DoxyCodeLine{00655\ \textcolor{comment}{/*\ This\ can\ be\ called\ within\ a\ handler\ for\ a\ start\ element,\ end}}
+\DoxyCodeLine{00656\ \textcolor{comment}{\ \ \ element,\ processing\ instruction\ or\ character\ data.\ \ It\ causes\ the}}
+\DoxyCodeLine{00657\ \textcolor{comment}{\ \ \ corresponding\ markup\ to\ be\ passed\ to\ the\ default\ handler.}}
+\DoxyCodeLine{00658\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00659\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00660\ XML\_DefaultCurrent(XML\_Parser\ parser);}
+\DoxyCodeLine{00661\ }
+\DoxyCodeLine{00662\ \textcolor{comment}{/*\ If\ do\_nst\ is\ non-\/zero,\ and\ namespace\ processing\ is\ in\ effect,\ and}}
+\DoxyCodeLine{00663\ \textcolor{comment}{\ \ \ a\ name\ has\ a\ prefix\ (i.e.\ an\ explicit\ namespace\ qualifier)\ then}}
+\DoxyCodeLine{00664\ \textcolor{comment}{\ \ \ that\ name\ is\ returned\ as\ a\ triplet\ in\ a\ single\ string\ separated\ by}}
+\DoxyCodeLine{00665\ \textcolor{comment}{\ \ \ the\ separator\ character\ specified\ when\ the\ parser\ was\ created:\ URI}}
+\DoxyCodeLine{00666\ \textcolor{comment}{\ \ \ +\ sep\ +\ local\_name\ +\ sep\ +\ prefix.}}
+\DoxyCodeLine{00667\ \textcolor{comment}{}}
+\DoxyCodeLine{00668\ \textcolor{comment}{\ \ \ If\ do\_nst\ is\ zero,\ then\ namespace\ information\ is\ returned\ in\ the}}
+\DoxyCodeLine{00669\ \textcolor{comment}{\ \ \ default\ manner\ (URI\ +\ sep\ +\ local\_name)\ whether\ or\ not\ the\ name}}
+\DoxyCodeLine{00670\ \textcolor{comment}{\ \ \ has\ a\ prefix.}}
+\DoxyCodeLine{00671\ \textcolor{comment}{}}
+\DoxyCodeLine{00672\ \textcolor{comment}{\ \ \ Note:\ Calling\ XML\_SetReturnNSTriplet\ after\ XML\_Parse\ or}}
+\DoxyCodeLine{00673\ \textcolor{comment}{\ \ \ \ \ XML\_ParseBuffer\ has\ no\ effect.}}
+\DoxyCodeLine{00674\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00675\ }
+\DoxyCodeLine{00676\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00677\ XML\_SetReturnNSTriplet(XML\_Parser\ parser,\ \textcolor{keywordtype}{int}\ do\_nst);}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \textcolor{comment}{/*\ This\ value\ is\ passed\ as\ the\ userData\ argument\ to\ callbacks.\ */}}
+\DoxyCodeLine{00680\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00681\ XML\_SetUserData(XML\_Parser\ parser,\ \textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00682\ }
+\DoxyCodeLine{00683\ \textcolor{comment}{/*\ Returns\ the\ last\ value\ set\ by\ XML\_SetUserData\ or\ NULL.\ */}}
+\DoxyCodeLine{00684\ \textcolor{preprocessor}{\#define\ XML\_GetUserData(parser)\ (*(void\ **)(parser))}}
+\DoxyCodeLine{00685\ }
+\DoxyCodeLine{00686\ \textcolor{comment}{/*\ This\ is\ equivalent\ to\ supplying\ an\ encoding\ argument\ to}}
+\DoxyCodeLine{00687\ \textcolor{comment}{\ \ \ XML\_ParserCreate.\ On\ success\ XML\_SetEncoding\ returns\ non-\/zero,}}
+\DoxyCodeLine{00688\ \textcolor{comment}{\ \ \ zero\ otherwise.}}
+\DoxyCodeLine{00689\ \textcolor{comment}{\ \ \ Note:\ Calling\ XML\_SetEncoding\ after\ XML\_Parse\ or\ XML\_ParseBuffer}}
+\DoxyCodeLine{00690\ \textcolor{comment}{\ \ \ \ \ has\ no\ effect\ and\ returns\ XML\_STATUS\_ERROR.}}
+\DoxyCodeLine{00691\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00692\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00693\ XML\_SetEncoding(XML\_Parser\ parser,\ \textcolor{keyword}{const}\ XML\_Char\ *encoding);}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00695\ \textcolor{comment}{/*\ If\ this\ function\ is\ called,\ then\ the\ parser\ will\ be\ passed\ as\ the}}
+\DoxyCodeLine{00696\ \textcolor{comment}{\ \ \ first\ argument\ to\ callbacks\ instead\ of\ userData.\ \ The\ userData\ will}}
+\DoxyCodeLine{00697\ \textcolor{comment}{\ \ \ still\ be\ accessible\ using\ XML\_GetUserData.}}
+\DoxyCodeLine{00698\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00699\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00700\ XML\_UseParserAsHandlerArg(XML\_Parser\ parser);}
+\DoxyCodeLine{00701\ }
+\DoxyCodeLine{00702\ \textcolor{comment}{/*\ If\ useDTD\ ==\ XML\_TRUE\ is\ passed\ to\ this\ function,\ then\ the\ parser}}
+\DoxyCodeLine{00703\ \textcolor{comment}{\ \ \ will\ assume\ that\ there\ is\ an\ external\ subset,\ even\ if\ none\ is}}
+\DoxyCodeLine{00704\ \textcolor{comment}{\ \ \ specified\ in\ the\ document.\ In\ such\ a\ case\ the\ parser\ will\ call\ the}}
+\DoxyCodeLine{00705\ \textcolor{comment}{\ \ \ externalEntityRefHandler\ with\ a\ value\ of\ NULL\ for\ the\ systemId}}
+\DoxyCodeLine{00706\ \textcolor{comment}{\ \ \ argument\ (the\ publicId\ and\ context\ arguments\ will\ be\ NULL\ as\ well).}}
+\DoxyCodeLine{00707\ \textcolor{comment}{\ \ \ Note:\ For\ the\ purpose\ of\ checking\ WFC:\ Entity\ Declared,\ passing}}
+\DoxyCodeLine{00708\ \textcolor{comment}{\ \ \ \ \ useDTD\ ==\ XML\_TRUE\ will\ make\ the\ parser\ behave\ as\ if\ the\ document}}
+\DoxyCodeLine{00709\ \textcolor{comment}{\ \ \ \ \ had\ a\ DTD\ with\ an\ external\ subset.}}
+\DoxyCodeLine{00710\ \textcolor{comment}{\ \ \ Note:\ If\ this\ function\ is\ called,\ then\ this\ must\ be\ done\ before}}
+\DoxyCodeLine{00711\ \textcolor{comment}{\ \ \ \ \ the\ first\ call\ to\ XML\_Parse\ or\ XML\_ParseBuffer,\ since\ it\ will}}
+\DoxyCodeLine{00712\ \textcolor{comment}{\ \ \ \ \ have\ no\ effect\ after\ that.\ \ Returns}}
+\DoxyCodeLine{00713\ \textcolor{comment}{\ \ \ \ \ XML\_ERROR\_CANT\_CHANGE\_FEATURE\_ONCE\_PARSING.}}
+\DoxyCodeLine{00714\ \textcolor{comment}{\ \ \ Note:\ If\ the\ document\ does\ not\ have\ a\ DOCTYPE\ declaration\ at\ all,}}
+\DoxyCodeLine{00715\ \textcolor{comment}{\ \ \ \ \ then\ startDoctypeDeclHandler\ and\ endDoctypeDeclHandler\ will\ not}}
+\DoxyCodeLine{00716\ \textcolor{comment}{\ \ \ \ \ be\ called,\ despite\ an\ external\ subset\ being\ parsed.}}
+\DoxyCodeLine{00717\ \textcolor{comment}{\ \ \ Note:\ If\ XML\_DTD\ is\ not\ defined\ when\ Expat\ is\ compiled,\ returns}}
+\DoxyCodeLine{00718\ \textcolor{comment}{\ \ \ \ \ XML\_ERROR\_FEATURE\_REQUIRES\_XML\_DTD.}}
+\DoxyCodeLine{00719\ \textcolor{comment}{\ \ \ Note:\ If\ parser\ ==\ NULL,\ returns\ XML\_ERROR\_INVALID\_ARGUMENT.}}
+\DoxyCodeLine{00720\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00721\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Error)}
+\DoxyCodeLine{00722\ XML\_UseForeignDTD(XML\_Parser\ parser,\ XML\_Bool\ useDTD);}
+\DoxyCodeLine{00723\ }
+\DoxyCodeLine{00724\ \textcolor{comment}{/*\ Sets\ the\ base\ to\ be\ used\ for\ resolving\ relative\ URIs\ in\ system}}
+\DoxyCodeLine{00725\ \textcolor{comment}{\ \ \ identifiers\ in\ declarations.\ \ Resolving\ relative\ identifiers\ is}}
+\DoxyCodeLine{00726\ \textcolor{comment}{\ \ \ left\ to\ the\ application:\ this\ value\ will\ be\ passed\ through\ as\ the}}
+\DoxyCodeLine{00727\ \textcolor{comment}{\ \ \ base\ argument\ to\ the\ XML\_ExternalEntityRefHandler,}}
+\DoxyCodeLine{00728\ \textcolor{comment}{\ \ \ XML\_NotationDeclHandler\ and\ XML\_UnparsedEntityDeclHandler.\ The\ base}}
+\DoxyCodeLine{00729\ \textcolor{comment}{\ \ \ argument\ will\ be\ copied.\ \ Returns\ XML\_STATUS\_ERROR\ if\ out\ of\ memory,}}
+\DoxyCodeLine{00730\ \textcolor{comment}{\ \ \ XML\_STATUS\_OK\ otherwise.}}
+\DoxyCodeLine{00731\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00732\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00733\ XML\_SetBase(XML\_Parser\ parser,\ \textcolor{keyword}{const}\ XML\_Char\ *base);}
+\DoxyCodeLine{00734\ }
+\DoxyCodeLine{00735\ XMLPARSEAPI(\textcolor{keyword}{const}\ XML\_Char\ *)}
+\DoxyCodeLine{00736\ XML\_GetBase(XML\_Parser\ parser);}
+\DoxyCodeLine{00737\ }
+\DoxyCodeLine{00738\ \textcolor{comment}{/*\ Returns\ the\ number\ of\ the\ attribute/value\ pairs\ passed\ in\ last\ call}}
+\DoxyCodeLine{00739\ \textcolor{comment}{\ \ \ to\ the\ XML\_StartElementHandler\ that\ were\ specified\ in\ the\ start-\/tag}}
+\DoxyCodeLine{00740\ \textcolor{comment}{\ \ \ rather\ than\ defaulted.\ Each\ attribute/value\ pair\ counts\ as\ 2;\ thus}}
+\DoxyCodeLine{00741\ \textcolor{comment}{\ \ \ this\ corresponds\ to\ an\ index\ into\ the\ atts\ array\ passed\ to\ the}}
+\DoxyCodeLine{00742\ \textcolor{comment}{\ \ \ XML\_StartElementHandler.\ \ Returns\ -\/1\ if\ parser\ ==\ NULL.}}
+\DoxyCodeLine{00743\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00744\ XMLPARSEAPI(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00745\ XML\_GetSpecifiedAttributeCount(XML\_Parser\ parser);}
+\DoxyCodeLine{00746\ }
+\DoxyCodeLine{00747\ \textcolor{comment}{/*\ Returns\ the\ index\ of\ the\ ID\ attribute\ passed\ in\ the\ last\ call\ to}}
+\DoxyCodeLine{00748\ \textcolor{comment}{\ \ \ XML\_StartElementHandler,\ or\ -\/1\ if\ there\ is\ no\ ID\ attribute\ or}}
+\DoxyCodeLine{00749\ \textcolor{comment}{\ \ \ parser\ ==\ NULL.\ \ Each\ attribute/value\ pair\ counts\ as\ 2;\ thus\ this}}
+\DoxyCodeLine{00750\ \textcolor{comment}{\ \ \ corresponds\ to\ an\ index\ into\ the\ atts\ array\ passed\ to\ the}}
+\DoxyCodeLine{00751\ \textcolor{comment}{\ \ \ XML\_StartElementHandler.}}
+\DoxyCodeLine{00752\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00753\ XMLPARSEAPI(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00754\ XML\_GetIdAttributeIndex(XML\_Parser\ parser);}
+\DoxyCodeLine{00755\ }
+\DoxyCodeLine{00756\ \textcolor{preprocessor}{\#ifdef\ XML\_ATTR\_INFO}}
+\DoxyCodeLine{00757\ \textcolor{comment}{/*\ Source\ file\ byte\ offsets\ for\ the\ start\ and\ end\ of\ attribute\ names\ and\ values.}}
+\DoxyCodeLine{00758\ \textcolor{comment}{\ \ \ The\ value\ indices\ are\ exclusive\ of\ surrounding\ quotes;\ thus\ in\ a\ UTF-\/8\ source}}
+\DoxyCodeLine{00759\ \textcolor{comment}{\ \ \ file\ an\ attribute\ value\ of\ "{}blah"{}\ will\ yield:}}
+\DoxyCodeLine{00760\ \textcolor{comment}{\ \ \ info-\/>valueEnd\ -\/\ info-\/>valueStart\ =\ 4\ bytes.}}
+\DoxyCodeLine{00761\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00762\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00763\ \ \ XML\_Index\ nameStart;\ \ \textcolor{comment}{/*\ Offset\ to\ beginning\ of\ the\ attribute\ name.\ */}}
+\DoxyCodeLine{00764\ \ \ XML\_Index\ nameEnd;\ \ \ \ \textcolor{comment}{/*\ Offset\ after\ the\ attribute\ name's\ last\ byte.\ */}}
+\DoxyCodeLine{00765\ \ \ XML\_Index\ valueStart;\ \textcolor{comment}{/*\ Offset\ to\ beginning\ of\ the\ attribute\ value.\ */}}
+\DoxyCodeLine{00766\ \ \ XML\_Index\ valueEnd;\ \ \ \textcolor{comment}{/*\ Offset\ after\ the\ attribute\ value's\ last\ byte.\ */}}
+\DoxyCodeLine{00767\ \}\ XML\_AttrInfo;}
+\DoxyCodeLine{00768\ }
+\DoxyCodeLine{00769\ \textcolor{comment}{/*\ Returns\ an\ array\ of\ XML\_AttrInfo\ structures\ for\ the\ attribute/value\ pairs}}
+\DoxyCodeLine{00770\ \textcolor{comment}{\ \ \ passed\ in\ last\ call\ to\ the\ XML\_StartElementHandler\ that\ were\ specified}}
+\DoxyCodeLine{00771\ \textcolor{comment}{\ \ \ in\ the\ start-\/tag\ rather\ than\ defaulted.\ Each\ attribute/value\ pair\ counts}}
+\DoxyCodeLine{00772\ \textcolor{comment}{\ \ \ as\ 1;\ thus\ the\ number\ of\ entries\ in\ the\ array\ is}}
+\DoxyCodeLine{00773\ \textcolor{comment}{\ \ \ XML\_GetSpecifiedAttributeCount(parser)\ /\ 2.}}
+\DoxyCodeLine{00774\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00775\ XMLPARSEAPI(\textcolor{keyword}{const}\ XML\_AttrInfo\ *)}
+\DoxyCodeLine{00776\ XML\_GetAttributeInfo(XML\_Parser\ parser);}
+\DoxyCodeLine{00777\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00778\ }
+\DoxyCodeLine{00779\ \textcolor{comment}{/*\ Parses\ some\ input.\ Returns\ XML\_STATUS\_ERROR\ if\ a\ fatal\ error\ is}}
+\DoxyCodeLine{00780\ \textcolor{comment}{\ \ \ detected.\ \ The\ last\ call\ to\ XML\_Parse\ must\ have\ isFinal\ true;\ len}}
+\DoxyCodeLine{00781\ \textcolor{comment}{\ \ \ may\ be\ zero\ for\ this\ call\ (or\ any\ other).}}
+\DoxyCodeLine{00782\ \textcolor{comment}{}}
+\DoxyCodeLine{00783\ \textcolor{comment}{\ \ \ Though\ the\ return\ values\ for\ these\ functions\ has\ always\ been}}
+\DoxyCodeLine{00784\ \textcolor{comment}{\ \ \ described\ as\ a\ Boolean\ value,\ the\ implementation,\ at\ least\ for\ the}}
+\DoxyCodeLine{00785\ \textcolor{comment}{\ \ \ 1.95.x\ series,\ has\ always\ returned\ exactly\ one\ of\ the\ XML\_Status}}
+\DoxyCodeLine{00786\ \textcolor{comment}{\ \ \ values.}}
+\DoxyCodeLine{00787\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00788\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00789\ XML\_Parse(XML\_Parser\ parser,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ isFinal);}
+\DoxyCodeLine{00790\ }
+\DoxyCodeLine{00791\ XMLPARSEAPI(\textcolor{keywordtype}{void}\ *)}
+\DoxyCodeLine{00792\ XML\_GetBuffer(XML\_Parser\ parser,\ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00793\ }
+\DoxyCodeLine{00794\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00795\ XML\_ParseBuffer(XML\_Parser\ parser,\ \textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ isFinal);}
+\DoxyCodeLine{00796\ }
+\DoxyCodeLine{00797\ \textcolor{comment}{/*\ Stops\ parsing,\ causing\ XML\_Parse()\ or\ XML\_ParseBuffer()\ to\ return.}}
+\DoxyCodeLine{00798\ \textcolor{comment}{\ \ \ Must\ be\ called\ from\ within\ a\ call-\/back\ handler,\ except\ when\ aborting}}
+\DoxyCodeLine{00799\ \textcolor{comment}{\ \ \ (resumable\ =\ 0)\ an\ already\ suspended\ parser.\ Some\ call-\/backs\ may}}
+\DoxyCodeLine{00800\ \textcolor{comment}{\ \ \ still\ follow\ because\ they\ would\ otherwise\ get\ lost.\ Examples:}}
+\DoxyCodeLine{00801\ \textcolor{comment}{\ \ \ -\/\ endElementHandler()\ for\ empty\ elements\ when\ stopped\ in}}
+\DoxyCodeLine{00802\ \textcolor{comment}{\ \ \ \ \ startElementHandler(),}}
+\DoxyCodeLine{00803\ \textcolor{comment}{\ \ \ -\/\ endNameSpaceDeclHandler()\ when\ stopped\ in\ endElementHandler(),}}
+\DoxyCodeLine{00804\ \textcolor{comment}{\ \ \ and\ possibly\ others.}}
+\DoxyCodeLine{00805\ \textcolor{comment}{}}
+\DoxyCodeLine{00806\ \textcolor{comment}{\ \ \ Can\ be\ called\ from\ most\ handlers,\ including\ DTD\ related\ call-\/backs,}}
+\DoxyCodeLine{00807\ \textcolor{comment}{\ \ \ except\ when\ parsing\ an\ external\ parameter\ entity\ and\ resumable\ !=\ 0.}}
+\DoxyCodeLine{00808\ \textcolor{comment}{\ \ \ Returns\ XML\_STATUS\_OK\ when\ successful,\ XML\_STATUS\_ERROR\ otherwise.}}
+\DoxyCodeLine{00809\ \textcolor{comment}{\ \ \ Possible\ error\ codes:}}
+\DoxyCodeLine{00810\ \textcolor{comment}{\ \ \ -\/\ XML\_ERROR\_SUSPENDED:\ when\ suspending\ an\ already\ suspended\ parser.}}
+\DoxyCodeLine{00811\ \textcolor{comment}{\ \ \ -\/\ XML\_ERROR\_FINISHED:\ when\ the\ parser\ has\ already\ finished.}}
+\DoxyCodeLine{00812\ \textcolor{comment}{\ \ \ -\/\ XML\_ERROR\_SUSPEND\_PE:\ when\ suspending\ while\ parsing\ an\ external\ PE.}}
+\DoxyCodeLine{00813\ \textcolor{comment}{}}
+\DoxyCodeLine{00814\ \textcolor{comment}{\ \ \ When\ resumable\ !=\ 0\ (true)\ then\ parsing\ is\ suspended,\ that\ is,}}
+\DoxyCodeLine{00815\ \textcolor{comment}{\ \ \ XML\_Parse()\ and\ XML\_ParseBuffer()\ return\ XML\_STATUS\_SUSPENDED.}}
+\DoxyCodeLine{00816\ \textcolor{comment}{\ \ \ Otherwise,\ parsing\ is\ aborted,\ that\ is,\ XML\_Parse()\ and\ XML\_ParseBuffer()}}
+\DoxyCodeLine{00817\ \textcolor{comment}{\ \ \ return\ XML\_STATUS\_ERROR\ with\ error\ code\ XML\_ERROR\_ABORTED.}}
+\DoxyCodeLine{00818\ \textcolor{comment}{}}
+\DoxyCodeLine{00819\ \textcolor{comment}{\ \ \ *Note*:}}
+\DoxyCodeLine{00820\ \textcolor{comment}{\ \ \ This\ will\ be\ applied\ to\ the\ current\ parser\ instance\ only,\ that\ is,\ if}}
+\DoxyCodeLine{00821\ \textcolor{comment}{\ \ \ there\ is\ a\ parent\ parser\ then\ it\ will\ continue\ parsing\ when\ the}}
+\DoxyCodeLine{00822\ \textcolor{comment}{\ \ \ externalEntityRefHandler()\ returns.\ It\ is\ up\ to\ the\ implementation\ of}}
+\DoxyCodeLine{00823\ \textcolor{comment}{\ \ \ the\ externalEntityRefHandler()\ to\ call\ XML\_StopParser()\ on\ the\ parent}}
+\DoxyCodeLine{00824\ \textcolor{comment}{\ \ \ parser\ (recursively),\ if\ one\ wants\ to\ stop\ parsing\ altogether.}}
+\DoxyCodeLine{00825\ \textcolor{comment}{}}
+\DoxyCodeLine{00826\ \textcolor{comment}{\ \ \ When\ suspended,\ parsing\ can\ be\ resumed\ by\ calling\ XML\_ResumeParser().}}
+\DoxyCodeLine{00827\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00828\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00829\ XML\_StopParser(XML\_Parser\ parser,\ XML\_Bool\ resumable);}
+\DoxyCodeLine{00830\ }
+\DoxyCodeLine{00831\ \textcolor{comment}{/*\ Resumes\ parsing\ after\ it\ has\ been\ suspended\ with\ XML\_StopParser().}}
+\DoxyCodeLine{00832\ \textcolor{comment}{\ \ \ Must\ not\ be\ called\ from\ within\ a\ handler\ call-\/back.\ Returns\ same}}
+\DoxyCodeLine{00833\ \textcolor{comment}{\ \ \ status\ codes\ as\ XML\_Parse()\ or\ XML\_ParseBuffer().}}
+\DoxyCodeLine{00834\ \textcolor{comment}{\ \ \ Additional\ error\ code\ XML\_ERROR\_NOT\_SUSPENDED\ possible.}}
+\DoxyCodeLine{00835\ \textcolor{comment}{}}
+\DoxyCodeLine{00836\ \textcolor{comment}{\ \ \ *Note*:}}
+\DoxyCodeLine{00837\ \textcolor{comment}{\ \ \ This\ must\ be\ called\ on\ the\ most\ deeply\ nested\ child\ parser\ instance}}
+\DoxyCodeLine{00838\ \textcolor{comment}{\ \ \ first,\ and\ on\ its\ parent\ parser\ only\ after\ the\ child\ parser\ has\ finished,}}
+\DoxyCodeLine{00839\ \textcolor{comment}{\ \ \ to\ be\ applied\ recursively\ until\ the\ document\ entity's\ parser\ is\ restarted.}}
+\DoxyCodeLine{00840\ \textcolor{comment}{\ \ \ That\ is,\ the\ parent\ parser\ will\ not\ resume\ by\ itself\ and\ it\ is\ up\ to\ the}}
+\DoxyCodeLine{00841\ \textcolor{comment}{\ \ \ application\ to\ call\ XML\_ResumeParser()\ on\ it\ at\ the\ appropriate\ moment.}}
+\DoxyCodeLine{00842\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00843\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Status)}
+\DoxyCodeLine{00844\ XML\_ResumeParser(XML\_Parser\ parser);}
+\DoxyCodeLine{00845\ }
+\DoxyCodeLine{00846\ \textcolor{keyword}{enum}\ XML\_Parsing\ \{\ XML\_INITIALIZED,\ XML\_PARSING,\ XML\_FINISHED,\ XML\_SUSPENDED\ \};}
+\DoxyCodeLine{00847\ }
+\DoxyCodeLine{00848\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00849\ \ \ \textcolor{keyword}{enum}\ XML\_Parsing\ parsing;}
+\DoxyCodeLine{00850\ \ \ XML\_Bool\ finalBuffer;}
+\DoxyCodeLine{00851\ \}\ XML\_ParsingStatus;}
+\DoxyCodeLine{00852\ }
+\DoxyCodeLine{00853\ \textcolor{comment}{/*\ Returns\ status\ of\ parser\ with\ respect\ to\ being\ initialized,\ parsing,}}
+\DoxyCodeLine{00854\ \textcolor{comment}{\ \ \ finished,\ or\ suspended\ and\ processing\ the\ final\ buffer.}}
+\DoxyCodeLine{00855\ \textcolor{comment}{\ \ \ XXX\ XML\_Parse()\ and\ XML\_ParseBuffer()\ should\ return\ XML\_ParsingStatus,}}
+\DoxyCodeLine{00856\ \textcolor{comment}{\ \ \ XXX\ with\ XML\_FINISHED\_OK\ or\ XML\_FINISHED\_ERROR\ replacing\ XML\_FINISHED}}
+\DoxyCodeLine{00857\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00858\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00859\ XML\_GetParsingStatus(XML\_Parser\ parser,\ XML\_ParsingStatus\ *status);}
+\DoxyCodeLine{00860\ }
+\DoxyCodeLine{00861\ \textcolor{comment}{/*\ Creates\ an\ XML\_Parser\ object\ that\ can\ parse\ an\ external\ general}}
+\DoxyCodeLine{00862\ \textcolor{comment}{\ \ \ entity;\ context\ is\ a\ '\(\backslash\)0'-\/terminated\ string\ specifying\ the\ parse}}
+\DoxyCodeLine{00863\ \textcolor{comment}{\ \ \ context;\ encoding\ is\ a\ '\(\backslash\)0'-\/terminated\ string\ giving\ the\ name\ of}}
+\DoxyCodeLine{00864\ \textcolor{comment}{\ \ \ the\ externally\ specified\ encoding,\ or\ NULL\ if\ there\ is\ no}}
+\DoxyCodeLine{00865\ \textcolor{comment}{\ \ \ externally\ specified\ encoding.\ \ The\ context\ string\ consists\ of\ a}}
+\DoxyCodeLine{00866\ \textcolor{comment}{\ \ \ sequence\ of\ tokens\ separated\ by\ formfeeds\ (\(\backslash\)f);\ a\ token\ consisting}}
+\DoxyCodeLine{00867\ \textcolor{comment}{\ \ \ of\ a\ name\ specifies\ that\ the\ general\ entity\ of\ the\ name\ is\ open;\ a}}
+\DoxyCodeLine{00868\ \textcolor{comment}{\ \ \ token\ of\ the\ form\ prefix=uri\ specifies\ the\ namespace\ for\ a}}
+\DoxyCodeLine{00869\ \textcolor{comment}{\ \ \ particular\ prefix;\ a\ token\ of\ the\ form\ =uri\ specifies\ the\ default}}
+\DoxyCodeLine{00870\ \textcolor{comment}{\ \ \ namespace.\ \ This\ can\ be\ called\ at\ any\ point\ after\ the\ first\ call\ to}}
+\DoxyCodeLine{00871\ \textcolor{comment}{\ \ \ an\ ExternalEntityRefHandler\ so\ longer\ as\ the\ parser\ has\ not\ yet}}
+\DoxyCodeLine{00872\ \textcolor{comment}{\ \ \ been\ freed.\ \ The\ new\ parser\ is\ completely\ independent\ and\ may}}
+\DoxyCodeLine{00873\ \textcolor{comment}{\ \ \ safely\ be\ used\ in\ a\ separate\ thread.\ \ The\ handlers\ and\ userData\ are}}
+\DoxyCodeLine{00874\ \textcolor{comment}{\ \ \ initialized\ from\ the\ parser\ argument.\ \ Returns\ NULL\ if\ out\ of\ memory.}}
+\DoxyCodeLine{00875\ \textcolor{comment}{\ \ \ Otherwise\ returns\ a\ new\ XML\_Parser\ object.}}
+\DoxyCodeLine{00876\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00877\ XMLPARSEAPI(XML\_Parser)}
+\DoxyCodeLine{00878\ XML\_ExternalEntityParserCreate(XML\_Parser\ parser,\ \textcolor{keyword}{const}\ XML\_Char\ *context,}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ XML\_Char\ *encoding);}
+\DoxyCodeLine{00880\ }
+\DoxyCodeLine{00881\ \textcolor{keyword}{enum}\ XML\_ParamEntityParsing\ \{}
+\DoxyCodeLine{00882\ \ \ XML\_PARAM\_ENTITY\_PARSING\_NEVER,}
+\DoxyCodeLine{00883\ \ \ XML\_PARAM\_ENTITY\_PARSING\_UNLESS\_STANDALONE,}
+\DoxyCodeLine{00884\ \ \ XML\_PARAM\_ENTITY\_PARSING\_ALWAYS}
+\DoxyCodeLine{00885\ \};}
+\DoxyCodeLine{00886\ }
+\DoxyCodeLine{00887\ \textcolor{comment}{/*\ Controls\ parsing\ of\ parameter\ entities\ (including\ the\ external\ DTD}}
+\DoxyCodeLine{00888\ \textcolor{comment}{\ \ \ subset).\ If\ parsing\ of\ parameter\ entities\ is\ enabled,\ then}}
+\DoxyCodeLine{00889\ \textcolor{comment}{\ \ \ references\ to\ external\ parameter\ entities\ (including\ the\ external}}
+\DoxyCodeLine{00890\ \textcolor{comment}{\ \ \ DTD\ subset)\ will\ be\ passed\ to\ the\ handler\ set\ with}}
+\DoxyCodeLine{00891\ \textcolor{comment}{\ \ \ XML\_SetExternalEntityRefHandler.\ \ The\ context\ passed\ will\ be\ 0.}}
+\DoxyCodeLine{00892\ \textcolor{comment}{}}
+\DoxyCodeLine{00893\ \textcolor{comment}{\ \ \ Unlike\ external\ general\ entities,\ external\ parameter\ entities\ can}}
+\DoxyCodeLine{00894\ \textcolor{comment}{\ \ \ only\ be\ parsed\ synchronously.\ \ If\ the\ external\ parameter\ entity\ is}}
+\DoxyCodeLine{00895\ \textcolor{comment}{\ \ \ to\ be\ parsed,\ it\ must\ be\ parsed\ during\ the\ call\ to\ the\ external}}
+\DoxyCodeLine{00896\ \textcolor{comment}{\ \ \ entity\ ref\ handler:\ the\ complete\ sequence\ of}}
+\DoxyCodeLine{00897\ \textcolor{comment}{\ \ \ XML\_ExternalEntityParserCreate,\ XML\_Parse/XML\_ParseBuffer\ and}}
+\DoxyCodeLine{00898\ \textcolor{comment}{\ \ \ XML\_ParserFree\ calls\ must\ be\ made\ during\ this\ call.\ \ After}}
+\DoxyCodeLine{00899\ \textcolor{comment}{\ \ \ XML\_ExternalEntityParserCreate\ has\ been\ called\ to\ create\ the\ parser}}
+\DoxyCodeLine{00900\ \textcolor{comment}{\ \ \ for\ the\ external\ parameter\ entity\ (context\ must\ be\ 0\ for\ this}}
+\DoxyCodeLine{00901\ \textcolor{comment}{\ \ \ call),\ it\ is\ illegal\ to\ make\ any\ calls\ on\ the\ old\ parser\ until}}
+\DoxyCodeLine{00902\ \textcolor{comment}{\ \ \ XML\_ParserFree\ has\ been\ called\ on\ the\ newly\ created\ parser.}}
+\DoxyCodeLine{00903\ \textcolor{comment}{\ \ \ If\ the\ library\ has\ been\ compiled\ without\ support\ for\ parameter}}
+\DoxyCodeLine{00904\ \textcolor{comment}{\ \ \ entity\ parsing\ (ie\ without\ XML\_DTD\ being\ defined),\ then}}
+\DoxyCodeLine{00905\ \textcolor{comment}{\ \ \ XML\_SetParamEntityParsing\ will\ return\ 0\ if\ parsing\ of\ parameter}}
+\DoxyCodeLine{00906\ \textcolor{comment}{\ \ \ entities\ is\ requested;\ otherwise\ it\ will\ return\ non-\/zero.}}
+\DoxyCodeLine{00907\ \textcolor{comment}{\ \ \ Note:\ If\ XML\_SetParamEntityParsing\ is\ called\ after\ XML\_Parse\ or}}
+\DoxyCodeLine{00908\ \textcolor{comment}{\ \ \ \ \ \ XML\_ParseBuffer,\ then\ it\ has\ no\ effect\ and\ will\ always\ return\ 0.}}
+\DoxyCodeLine{00909\ \textcolor{comment}{\ \ \ Note:\ If\ parser\ ==\ NULL,\ the\ function\ will\ do\ nothing\ and\ return\ 0.}}
+\DoxyCodeLine{00910\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00911\ XMLPARSEAPI(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00912\ XML\_SetParamEntityParsing(XML\_Parser\ parser,}
+\DoxyCodeLine{00913\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ XML\_ParamEntityParsing\ parsing);}
+\DoxyCodeLine{00914\ }
+\DoxyCodeLine{00915\ \textcolor{comment}{/*\ Sets\ the\ hash\ salt\ to\ use\ for\ internal\ hash\ calculations.}}
+\DoxyCodeLine{00916\ \textcolor{comment}{\ \ \ Helps\ in\ preventing\ DoS\ attacks\ based\ on\ predicting\ hash}}
+\DoxyCodeLine{00917\ \textcolor{comment}{\ \ \ function\ behavior.\ This\ must\ be\ called\ before\ parsing\ is\ started.}}
+\DoxyCodeLine{00918\ \textcolor{comment}{\ \ \ Returns\ 1\ if\ successful,\ 0\ when\ called\ after\ parsing\ has\ started.}}
+\DoxyCodeLine{00919\ \textcolor{comment}{\ \ \ Note:\ If\ parser\ ==\ NULL,\ the\ function\ will\ do\ nothing\ and\ return\ 0.}}
+\DoxyCodeLine{00920\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00921\ XMLPARSEAPI(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00922\ XML\_SetHashSalt(XML\_Parser\ parser,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ hash\_salt);}
+\DoxyCodeLine{00923\ }
+\DoxyCodeLine{00924\ \textcolor{comment}{/*\ If\ XML\_Parse\ or\ XML\_ParseBuffer\ have\ returned\ XML\_STATUS\_ERROR,\ then}}
+\DoxyCodeLine{00925\ \textcolor{comment}{\ \ \ XML\_GetErrorCode\ returns\ information\ about\ the\ error.}}
+\DoxyCodeLine{00926\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00927\ XMLPARSEAPI(\textcolor{keyword}{enum}\ XML\_Error)}
+\DoxyCodeLine{00928\ XML\_GetErrorCode(XML\_Parser\ parser);}
+\DoxyCodeLine{00929\ }
+\DoxyCodeLine{00930\ \textcolor{comment}{/*\ These\ functions\ return\ information\ about\ the\ current\ parse}}
+\DoxyCodeLine{00931\ \textcolor{comment}{\ \ \ location.\ \ They\ may\ be\ called\ from\ any\ callback\ called\ to\ report}}
+\DoxyCodeLine{00932\ \textcolor{comment}{\ \ \ some\ parse\ event;\ in\ this\ case\ the\ location\ is\ the\ location\ of\ the}}
+\DoxyCodeLine{00933\ \textcolor{comment}{\ \ \ first\ of\ the\ sequence\ of\ characters\ that\ generated\ the\ event.\ \ When}}
+\DoxyCodeLine{00934\ \textcolor{comment}{\ \ \ called\ from\ callbacks\ generated\ by\ declarations\ in\ the\ document}}
+\DoxyCodeLine{00935\ \textcolor{comment}{\ \ \ prologue,\ the\ location\ identified\ isn't\ as\ neatly\ defined,\ but\ will}}
+\DoxyCodeLine{00936\ \textcolor{comment}{\ \ \ be\ within\ the\ relevant\ markup.\ \ When\ called\ outside\ of\ the\ callback}}
+\DoxyCodeLine{00937\ \textcolor{comment}{\ \ \ functions,\ the\ position\ indicated\ will\ be\ just\ past\ the\ last\ parse}}
+\DoxyCodeLine{00938\ \textcolor{comment}{\ \ \ event\ (regardless\ of\ whether\ there\ was\ an\ associated\ callback).}}
+\DoxyCodeLine{00939\ \textcolor{comment}{}}
+\DoxyCodeLine{00940\ \textcolor{comment}{\ \ \ They\ may\ also\ be\ called\ after\ returning\ from\ a\ call\ to\ XML\_Parse}}
+\DoxyCodeLine{00941\ \textcolor{comment}{\ \ \ or\ XML\_ParseBuffer.\ \ If\ the\ return\ value\ is\ XML\_STATUS\_ERROR\ then}}
+\DoxyCodeLine{00942\ \textcolor{comment}{\ \ \ the\ location\ is\ the\ location\ of\ the\ character\ at\ which\ the\ error}}
+\DoxyCodeLine{00943\ \textcolor{comment}{\ \ \ was\ detected;\ otherwise\ the\ location\ is\ the\ location\ of\ the\ last}}
+\DoxyCodeLine{00944\ \textcolor{comment}{\ \ \ parse\ event,\ as\ described\ above.}}
+\DoxyCodeLine{00945\ \textcolor{comment}{}}
+\DoxyCodeLine{00946\ \textcolor{comment}{\ \ \ Note:\ XML\_GetCurrentLineNumber\ and\ XML\_GetCurrentColumnNumber}}
+\DoxyCodeLine{00947\ \textcolor{comment}{\ \ \ return\ 0\ to\ indicate\ an\ error.}}
+\DoxyCodeLine{00948\ \textcolor{comment}{\ \ \ Note:\ XML\_GetCurrentByteIndex\ returns\ -\/1\ to\ indicate\ an\ error.}}
+\DoxyCodeLine{00949\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00950\ XMLPARSEAPI(XML\_Size)\ XML\_GetCurrentLineNumber(XML\_Parser\ parser);}
+\DoxyCodeLine{00951\ XMLPARSEAPI(XML\_Size)\ XML\_GetCurrentColumnNumber(XML\_Parser\ parser);}
+\DoxyCodeLine{00952\ XMLPARSEAPI(XML\_Index)\ XML\_GetCurrentByteIndex(XML\_Parser\ parser);}
+\DoxyCodeLine{00953\ }
+\DoxyCodeLine{00954\ \textcolor{comment}{/*\ Return\ the\ number\ of\ bytes\ in\ the\ current\ event.}}
+\DoxyCodeLine{00955\ \textcolor{comment}{\ \ \ Returns\ 0\ if\ the\ event\ is\ in\ an\ internal\ entity.}}
+\DoxyCodeLine{00956\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00957\ XMLPARSEAPI(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00958\ XML\_GetCurrentByteCount(XML\_Parser\ parser);}
+\DoxyCodeLine{00959\ }
+\DoxyCodeLine{00960\ \textcolor{comment}{/*\ If\ XML\_CONTEXT\_BYTES\ is\ >=1,\ returns\ the\ input\ buffer,\ sets}}
+\DoxyCodeLine{00961\ \textcolor{comment}{\ \ \ the\ integer\ pointed\ to\ by\ offset\ to\ the\ offset\ within\ this\ buffer}}
+\DoxyCodeLine{00962\ \textcolor{comment}{\ \ \ of\ the\ current\ parse\ position,\ and\ sets\ the\ integer\ pointed\ to\ by\ size}}
+\DoxyCodeLine{00963\ \textcolor{comment}{\ \ \ to\ the\ size\ of\ this\ buffer\ (the\ number\ of\ input\ bytes).\ Otherwise}}
+\DoxyCodeLine{00964\ \textcolor{comment}{\ \ \ returns\ a\ NULL\ pointer.\ Also\ returns\ a\ NULL\ pointer\ if\ a\ parse\ isn't}}
+\DoxyCodeLine{00965\ \textcolor{comment}{\ \ \ active.}}
+\DoxyCodeLine{00966\ \textcolor{comment}{}}
+\DoxyCodeLine{00967\ \textcolor{comment}{\ \ \ NOTE:\ The\ character\ pointer\ returned\ should\ not\ be\ used\ outside}}
+\DoxyCodeLine{00968\ \textcolor{comment}{\ \ \ the\ handler\ that\ makes\ the\ call.}}
+\DoxyCodeLine{00969\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00970\ XMLPARSEAPI(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *)}
+\DoxyCodeLine{00971\ XML\_GetInputContext(XML\_Parser\ parser,\ \textcolor{keywordtype}{int}\ *offset,\ \textcolor{keywordtype}{int}\ *size);}
+\DoxyCodeLine{00972\ }
+\DoxyCodeLine{00973\ \textcolor{comment}{/*\ For\ backwards\ compatibility\ with\ previous\ versions.\ */}}
+\DoxyCodeLine{00974\ \textcolor{preprocessor}{\#define\ XML\_GetErrorLineNumber\ XML\_GetCurrentLineNumber}}
+\DoxyCodeLine{00975\ \textcolor{preprocessor}{\#define\ XML\_GetErrorColumnNumber\ XML\_GetCurrentColumnNumber}}
+\DoxyCodeLine{00976\ \textcolor{preprocessor}{\#define\ XML\_GetErrorByteIndex\ XML\_GetCurrentByteIndex}}
+\DoxyCodeLine{00977\ }
+\DoxyCodeLine{00978\ \textcolor{comment}{/*\ Frees\ the\ content\ model\ passed\ to\ the\ element\ declaration\ handler\ */}}
+\DoxyCodeLine{00979\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00980\ XML\_FreeContentModel(XML\_Parser\ parser,\ XML\_Content\ *model);}
+\DoxyCodeLine{00981\ }
+\DoxyCodeLine{00982\ \textcolor{comment}{/*\ Exposing\ the\ memory\ handling\ functions\ used\ in\ Expat\ */}}
+\DoxyCodeLine{00983\ XMLPARSEAPI(\textcolor{keywordtype}{void}\ *)}
+\DoxyCodeLine{00984\ XML\_ATTR\_MALLOC}
+\DoxyCodeLine{00985\ XML\_ATTR\_ALLOC\_SIZE(2)}
+\DoxyCodeLine{00986\ XML\_MemMalloc(XML\_Parser\ parser,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00987\ }
+\DoxyCodeLine{00988\ XMLPARSEAPI(\textcolor{keywordtype}{void}\ *)}
+\DoxyCodeLine{00989\ XML\_ATTR\_ALLOC\_SIZE(3)}
+\DoxyCodeLine{00990\ XML\_MemRealloc(XML\_Parser\ parser,\ \textcolor{keywordtype}{void}\ *ptr,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00991\ }
+\DoxyCodeLine{00992\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00993\ XML\_MemFree(XML\_Parser\ parser,\ \textcolor{keywordtype}{void}\ *ptr);}
+\DoxyCodeLine{00994\ }
+\DoxyCodeLine{00995\ \textcolor{comment}{/*\ Frees\ memory\ used\ by\ the\ parser.\ */}}
+\DoxyCodeLine{00996\ XMLPARSEAPI(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00997\ XML\_ParserFree(XML\_Parser\ parser);}
+\DoxyCodeLine{00998\ }
+\DoxyCodeLine{00999\ \textcolor{comment}{/*\ Returns\ a\ string\ describing\ the\ error.\ */}}
+\DoxyCodeLine{01000\ XMLPARSEAPI(const\ XML\_LChar\ *)}
+\DoxyCodeLine{01001\ XML\_ErrorString(enum\ XML\_Error\ code);}
+\DoxyCodeLine{01002\ }
+\DoxyCodeLine{01003\ \textcolor{comment}{/*\ Return\ a\ string\ containing\ the\ version\ number\ of\ this\ expat\ */}}
+\DoxyCodeLine{01004\ XMLPARSEAPI(const\ XML\_LChar\ *)}
+\DoxyCodeLine{01005\ XML\_ExpatVersion(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01006\ }
+\DoxyCodeLine{01007\ typedef\ struct\ \{}
+\DoxyCodeLine{01008\ \ \ \textcolor{keywordtype}{int}\ major;}
+\DoxyCodeLine{01009\ \ \ \textcolor{keywordtype}{int}\ minor;}
+\DoxyCodeLine{01010\ \ \ \textcolor{keywordtype}{int}\ micro;}
+\DoxyCodeLine{01011\ \}\ XML\_Expat\_Version;}
+\DoxyCodeLine{01012\ }
+\DoxyCodeLine{01013\ \textcolor{comment}{/*\ Return\ an\ XML\_Expat\_Version\ structure\ containing\ numeric\ version}}
+\DoxyCodeLine{01014\ \textcolor{comment}{\ \ \ number\ information\ for\ this\ version\ of\ expat.}}
+\DoxyCodeLine{01015\ \textcolor{comment}{*/}}
+\DoxyCodeLine{01016\ XMLPARSEAPI(XML\_Expat\_Version)}
+\DoxyCodeLine{01017\ XML\_ExpatVersionInfo(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01018\ }
+\DoxyCodeLine{01019\ \textcolor{comment}{/*\ Added\ in\ Expat\ 1.95.5.\ */}}
+\DoxyCodeLine{01020\ \textcolor{keyword}{enum}\ XML\_FeatureEnum\ \{}
+\DoxyCodeLine{01021\ \ \ XML\_FEATURE\_END\ =\ 0,}
+\DoxyCodeLine{01022\ \ \ XML\_FEATURE\_UNICODE,}
+\DoxyCodeLine{01023\ \ \ XML\_FEATURE\_UNICODE\_WCHAR\_T,}
+\DoxyCodeLine{01024\ \ \ XML\_FEATURE\_DTD,}
+\DoxyCodeLine{01025\ \ \ XML\_FEATURE\_CONTEXT\_BYTES,}
+\DoxyCodeLine{01026\ \ \ XML\_FEATURE\_MIN\_SIZE,}
+\DoxyCodeLine{01027\ \ \ XML\_FEATURE\_SIZEOF\_XML\_CHAR,}
+\DoxyCodeLine{01028\ \ \ XML\_FEATURE\_SIZEOF\_XML\_LCHAR,}
+\DoxyCodeLine{01029\ \ \ XML\_FEATURE\_NS,}
+\DoxyCodeLine{01030\ \ \ XML\_FEATURE\_LARGE\_SIZE,}
+\DoxyCodeLine{01031\ \ \ XML\_FEATURE\_ATTR\_INFO,}
+\DoxyCodeLine{01032\ \ \ \textcolor{comment}{/*\ Added\ in\ Expat\ 2.4.0.\ */}}
+\DoxyCodeLine{01033\ \ \ XML\_FEATURE\_BILLION\_LAUGHS\_ATTACK\_PROTECTION\_MAXIMUM\_AMPLIFICATION\_DEFAULT,}
+\DoxyCodeLine{01034\ \ \ XML\_FEATURE\_BILLION\_LAUGHS\_ATTACK\_PROTECTION\_ACTIVATION\_THRESHOLD\_DEFAULT,}
+\DoxyCodeLine{01035\ \ \ \textcolor{comment}{/*\ Added\ in\ Expat\ 2.6.0.\ */}}
+\DoxyCodeLine{01036\ \ \ XML\_FEATURE\_GE}
+\DoxyCodeLine{01037\ \ \ \textcolor{comment}{/*\ Additional\ features\ must\ be\ added\ to\ the\ end\ of\ this\ enum.\ */}}
+\DoxyCodeLine{01038\ \};}
+\DoxyCodeLine{01039\ }
+\DoxyCodeLine{01040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{01041\ \ \ \textcolor{keyword}{enum}\ XML\_FeatureEnum\ feature;}
+\DoxyCodeLine{01042\ \ \ \textcolor{keyword}{const}\ XML\_LChar\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}};}
+\DoxyCodeLine{01043\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}};}
+\DoxyCodeLine{01044\ \}\ XML\_Feature;}
+\DoxyCodeLine{01045\ }
+\DoxyCodeLine{01046\ XMLPARSEAPI(\textcolor{keyword}{const}\ XML\_Feature\ *)}
+\DoxyCodeLine{01047\ XML\_GetFeatureList(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01048\ }
+\DoxyCodeLine{01049\ \textcolor{preprocessor}{\#if\ defined(XML\_DTD)\ ||\ (defined(XML\_GE)\ \&\&\ XML\_GE\ ==\ 1)}}
+\DoxyCodeLine{01050\ \textcolor{comment}{/*\ Added\ in\ Expat\ 2.4.0\ for\ XML\_DTD\ defined\ and}}
+\DoxyCodeLine{01051\ \textcolor{comment}{\ *\ added\ in\ Expat\ 2.6.0\ for\ XML\_GE\ ==\ 1.\ */}}
+\DoxyCodeLine{01052\ XMLPARSEAPI(XML\_Bool)}
+\DoxyCodeLine{01053\ XML\_SetBillionLaughsAttackProtectionMaximumAmplification(}
+\DoxyCodeLine{01054\ \ \ \ \ XML\_Parser\ parser,\ \textcolor{keywordtype}{float}\ maximumAmplificationFactor);}
+\DoxyCodeLine{01055\ }
+\DoxyCodeLine{01056\ \textcolor{comment}{/*\ Added\ in\ Expat\ 2.4.0\ for\ XML\_DTD\ defined\ and}}
+\DoxyCodeLine{01057\ \textcolor{comment}{\ *\ added\ in\ Expat\ 2.6.0\ for\ XML\_GE\ ==\ 1.\ */}}
+\DoxyCodeLine{01058\ XMLPARSEAPI(XML\_Bool)}
+\DoxyCodeLine{01059\ XML\_SetBillionLaughsAttackProtectionActivationThreshold(}
+\DoxyCodeLine{01060\ \ \ \ \ XML\_Parser\ parser,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ activationThresholdBytes);}
+\DoxyCodeLine{01061\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01062\ }
+\DoxyCodeLine{01063\ \textcolor{comment}{/*\ Added\ in\ Expat\ 2.6.0.\ */}}
+\DoxyCodeLine{01064\ XMLPARSEAPI(XML\_Bool)}
+\DoxyCodeLine{01065\ XML\_SetReparseDeferralEnabled(XML\_Parser\ parser,\ XML\_Bool\ enabled);}
+\DoxyCodeLine{01066\ }
+\DoxyCodeLine{01067\ \textcolor{comment}{/*\ Expat\ follows\ the\ semantic\ versioning\ convention.}}
+\DoxyCodeLine{01068\ \textcolor{comment}{\ \ \ See\ https://semver.org}}
+\DoxyCodeLine{01069\ \textcolor{comment}{*/}}
+\DoxyCodeLine{01070\ \textcolor{preprocessor}{\#define\ XML\_MAJOR\_VERSION\ 2}}
+\DoxyCodeLine{01071\ \textcolor{preprocessor}{\#define\ XML\_MINOR\_VERSION\ 6}}
+\DoxyCodeLine{01072\ \textcolor{preprocessor}{\#define\ XML\_MICRO\_VERSION\ 3}}
+\DoxyCodeLine{01073\ }
+\DoxyCodeLine{01074\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{01075\ \}}
+\DoxyCodeLine{01076\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01077\ }
+\DoxyCodeLine{01078\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ not\ Expat\_INCLUDED\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01079\ }
+\DoxyCodeLine{01080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01081\ }
+
+\end{DoxyCode}

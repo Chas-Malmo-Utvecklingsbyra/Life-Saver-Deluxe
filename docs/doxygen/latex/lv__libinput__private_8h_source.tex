@@ -1,0 +1,86 @@
+\doxysection{lv\+\_\+libinput\+\_\+private.\+h}
+\hypertarget{lv__libinput__private_8h_source}{}\label{lv__libinput__private_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/libinput/lv\_libinput\_private.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/libinput/lv\_libinput\_private.h}}
+\doxymbox{\hyperlink{lv__libinput__private_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_LIBINPUT\_PRIVATE\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_LIBINPUT\_PRIVATE\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__libinput_8h}{lv\_libinput.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ LV\_USE\_LIBINPUT}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#if\ LV\_LIBINPUT\_XKB}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__xkb__private_8h}{lv\_xkb\_private.h}}"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }\_lv\_libinput\_event\_t\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ pressed;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ key\_val;}
+\DoxyCodeLine{00036\ \ \ \ \ lv\_point\_t\ point;}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{struct\ }\_lv\_libinput\_t\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ fd;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{struct\ }pollfd\ fds[1];}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{/*\ The\ points\ array\ is\ implemented\ as\ a\ circular\ LIFO\ queue\ */}}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5ea5ddd8f18776f472f6b487f2bd79e5}{lv\_libinput\_event\_t}}\ points[LV\_LIBINPUT\_MAX\_EVENTS];\ \textcolor{comment}{/*\ Event\ buffer\ */}}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5ea5ddd8f18776f472f6b487f2bd79e5}{lv\_libinput\_event\_t}}\ slots[2];\ \textcolor{comment}{/*\ Realtime\ state\ of\ up\ to\ 2\ fingers\ to\ handle\ multitouch\ */}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{/*\ Pointer\ devices\ work\ a\ bit\ differently\ in\ libinput\ which\ requires\ us\ to\ store\ their\ last\ known\ state\ */}}
+\DoxyCodeLine{00048\ \ \ \ \ lv\_point\_t\ pointer\_position;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ pointer\_button\_down;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ start;\ \textcolor{comment}{/*\ Index\ of\ start\ of\ event\ queue\ */}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}};\ \textcolor{comment}{/*\ Index\ of\ end\ of\ queue*/}}
+\DoxyCodeLine{00053\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a5ea5ddd8f18776f472f6b487f2bd79e5}{lv\_libinput\_event\_t}}\ last\_event;\ \textcolor{comment}{/*\ Report\ when\ no\ new\ events}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ to\ keep\ indev\ state\ consistent}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ deinit;\ \textcolor{comment}{/*\ Tell\ worker\ thread\ to\ quit\ */}}
+\DoxyCodeLine{00057\ \ \ \ \ pthread\_mutex\_t\ event\_lock;}
+\DoxyCodeLine{00058\ \ \ \ \ pthread\_t\ worker\_thread;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{struct\ }libinput\ *\ libinput\_context;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{struct\ }libinput\_device\ *\ libinput\_device;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#if\ LV\_LIBINPUT\_XKB}}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0845069b9cbebb4666f1133d682b45b6}{lv\_xkb\_t}}\ xkb;}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_LIBINPUT\_XKB\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00075\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_LIBINPUT\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00080\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_LIBINPUT\_PRIVATE\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,1255 @@
+\doxysection{magnetic-\/sensor/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+responder.c File Reference}
+\hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c}{}\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c}\index{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_responder.c@{magnetic-\/sensor/managed\_components/espressif\_\_mdns/mdns\_responder.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+check.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+send.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+querier.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+pcb.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+service.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structmdns__server__s}{mdns\+\_\+server\+\_\+s}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \doxymbox{\hyperlink{structmdns__server__s}{mdns\+\_\+server\+\_\+s}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a8596fe700fd9660584311a44e4b04e38}{mdns\+\_\+server\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a40834b967fb31e939c4b5088ff448bd9}{mdns\+\_\+priv\+\_\+responder\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes responder storage. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a05355b37037c21fa3a85e8e5d171262c}{mdns\+\_\+priv\+\_\+responder\+\_\+free}} (void)
+\begin{DoxyCompactList}\small\item\em Frees responder storage. \end{DoxyCompactList}\item 
+const char \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a6e188bbd394a1d4948a35c10edab4b6f}{mdns\+\_\+priv\+\_\+get\+\_\+global\+\_\+hostname}} (void)
+\begin{DoxyCompactList}\small\item\em get global (mdns\+\_\+server-\/\texorpdfstring{$>$}{>}hostname) hostname \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abc4cf55db10ee063a8328af77c8edbc0}{mdns\+\_\+priv\+\_\+get\+\_\+services}} (void)
+\begin{DoxyCompactList}\small\item\em get service list \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{structmdns__host__item__t}{mdns\+\_\+host\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a316e8ba68750e2abaa92cf4087d09b80}{mdns\+\_\+priv\+\_\+get\+\_\+hosts}} (void)
+\begin{DoxyCompactList}\small\item\em get host list \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{structmdns__host__item__t}{mdns\+\_\+host\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a0eb70a1a4abf3c3522839daeb65b9da0}{mdns\+\_\+priv\+\_\+get\+\_\+self\+\_\+host}} (void)
+\begin{DoxyCompactList}\small\item\em get self host \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad6f8e33c41d50e262a17bb6ff30937d3}{mdns\+\_\+priv\+\_\+set\+\_\+global\+\_\+hostname}} (const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em set global hostname \end{DoxyCompactList}\item 
+const char \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a37239ecd98e638b3487e5abc229c7b30}{mdns\+\_\+priv\+\_\+get\+\_\+instance}} (void)
+\begin{DoxyCompactList}\small\item\em get mdns\+\_\+server-\/\texorpdfstring{$>$}{>}instance \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a03e8dd7bf9dfd0613b444ae8133bcb52}{mdns\+\_\+priv\+\_\+set\+\_\+instance}} (const char \texorpdfstring{$\ast$}{*}instance)
+\begin{DoxyCompactList}\small\item\em set mdns\+\_\+server-\/\texorpdfstring{$>$}{>}instance \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9bfb0a88cdf80a2dc7fc10ad89076250}{mdns\+\_\+priv\+\_\+is\+\_\+server\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Returns true if the mdns server is initialized. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e59c8eef2dd68cb1c4e3732e1560efa}{mdns\+\_\+priv\+\_\+restart\+\_\+all\+\_\+pcbs\+\_\+no\+\_\+instance}} (void)
+\begin{DoxyCompactList}\small\item\em Restart the responder on all services without instance. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae2e49fbc507b7b2a2b377235d6a94adf}{mdns\+\_\+priv\+\_\+restart\+\_\+all\+\_\+pcbs}} (void)
+\begin{DoxyCompactList}\small\item\em Restart the responder on all active PCBs. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a89cdc699a3bd26cd617ad55078142c0d}{mdns\+\_\+priv\+\_\+delegate\+\_\+hostname\+\_\+add}} (const char \texorpdfstring{$\ast$}{*}hostname, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}address\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Adds a delegated hostname to the linked list. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a204dc552155beec5d967336def68ef6c}{mdns\+\_\+priv\+\_\+remap\+\_\+self\+\_\+service\+\_\+hostname}} (const char \texorpdfstring{$\ast$}{*}old\+\_\+hostname, const char \texorpdfstring{$\ast$}{*}new\+\_\+hostname)
+\begin{DoxyCompactList}\small\item\em Remaps hostname of self service. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7151fec931a4747f26344099e736e981}{mdns\+\_\+priv\+\_\+responder\+\_\+action}} (\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}action, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}} type)
+\begin{DoxyCompactList}\small\item\em Perform action from mdns responder. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ac64252305d70be97d202f2edd5f44ccc}{mdns\+\_\+hostname\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Set the hostname for m\+DNS server required if you want to advertise services. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a002bafc5e0b3ee2f8ff8d726440c2294}{mdns\+\_\+hostname\+\_\+get}} (char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Get the hostname for m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aa569e098f34ab80e34ac76fbdca9aea7}{mdns\+\_\+delegate\+\_\+hostname\+\_\+add}} (const char \texorpdfstring{$\ast$}{*}hostname, const \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}address\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Adds a hostname and address to be delegated A/\+\+AAAA queries will be replied for the hostname and services can be added to this host. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aef8ff565fff40e32ebce1257592eb5e6}{mdns\+\_\+delegate\+\_\+hostname\+\_\+remove}} (const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Remove a delegated hostname All the services added to this host will also be removed. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a24320a4318b0d79f1e7a736e719dc0ae}{mdns\+\_\+delegate\+\_\+hostname\+\_\+set\+\_\+address}} (const char \texorpdfstring{$\ast$}{*}hostname, const \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}address\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Set the address to a delegated hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad4c1b990b7435f889b64f1d5ba29bbc8}{mdns\+\_\+hostname\+\_\+exists}} (const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Query whether a hostname has been added. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a5ebdb24c7e8b5bd86be515f5fa209dbb}{mdns\+\_\+instance\+\_\+name\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}instance)
+\begin{DoxyCompactList}\small\item\em Set the default instance name for m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e0ee2540b0ad834a74f1be19dc98e1f}{mdns\+\_\+service\+\_\+add\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port, \doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} txt\+[$\,$]\+, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Add service to m\+DNS server with a delegated hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad8af1985e423baccbe1395ec41a4fd61}{mdns\+\_\+service\+\_\+add}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port, \doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} txt\+[$\,$]\+, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Add service to m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae8a4d63061c513329cfe10b60aedef79}{mdns\+\_\+service\+\_\+exists}} (const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Check whether a service has been added. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1cab004cfd4250c5019fa29a66b0ebd4}{mdns\+\_\+service\+\_\+exists\+\_\+with\+\_\+instance}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname)
+\begin{DoxyCompactList}\small\item\em Check whether a service has been added. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aedc91b46e380105f2eb2f257419ef571}{mdns\+\_\+service\+\_\+port\+\_\+set\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port)
+\begin{DoxyCompactList}\small\item\em Set service port with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae34ee7d08131e72172cdc849abf45646}{mdns\+\_\+service\+\_\+port\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} port)
+\begin{DoxyCompactList}\small\item\em Set service port. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_adc8685916ed631dd149bdffeb9fe1d84}{mdns\+\_\+service\+\_\+txt\+\_\+set\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, \doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} txt\+\_\+items\+[$\,$]\+, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Replace all TXT items for service with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a3e1821d17cf89d597fa4173301a580b5}{mdns\+\_\+service\+\_\+txt\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}} txt\+[$\,$]\+, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Replace all TXT items for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abe769d47e583ea1a071b4fd7b969cd1a}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+for\+\_\+host\+\_\+with\+\_\+explicit\+\_\+value\+\_\+len}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}value\+\_\+arg, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} value\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Set/\+\+Add TXT item for service TXT record with hostname and txt value length. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abcb11aa416d1774621887643304777f4}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname, const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}value)
+\begin{DoxyCompactList}\small\item\em Set/\+\+Add TXT item for service TXT record with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4aef66d9d5bb6bbc20d6c0453ad6043b}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}value)
+\begin{DoxyCompactList}\small\item\em Set/\+\+Add TXT item for service TXT record. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af53100c6526df7473cf262dd2377cdc1}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+with\+\_\+explicit\+\_\+value\+\_\+len}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}value, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} value\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Set/\+\+Add TXT item for service TXT record. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a58997e663b8c7ce5488f843a19849ade}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+remove\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, const char \texorpdfstring{$\ast$}{*}key)
+\begin{DoxyCompactList}\small\item\em Remove TXT item for service TXT record with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4ca86030fcf2e7c287b50719b1cef50d}{mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+remove}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}key)
+\begin{DoxyCompactList}\small\item\em Remove TXT item for service TXT record. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad9bf841f8ec81111020c254cfdce1bbc}{mdns\+\_\+service\+\_\+subtype\+\_\+remove\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance\+\_\+name, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname, const char \texorpdfstring{$\ast$}{*}subtype)
+\begin{DoxyCompactList}\small\item\em Remove a subtype for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9d1f0af97acc4444f687ddeb57ebf4cd}{mdns\+\_\+service\+\_\+subtype\+\_\+add\+\_\+multiple\+\_\+items\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance\+\_\+name, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname, \doxymbox{\hyperlink{structmdns__subtype__item__t}{mdns\+\_\+subtype\+\_\+item\+\_\+t}} subtype\+[$\,$]\+, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Add multiple subtypes for service at once. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1bc06bea17cf6beabd45649bc1cef73c}{mdns\+\_\+service\+\_\+subtype\+\_\+add\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance\+\_\+name, const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname, const char \texorpdfstring{$\ast$}{*}subtype)
+\begin{DoxyCompactList}\small\item\em Add a subtype for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7ea3d286ad6b108cd3efa150a601efed}{mdns\+\_\+service\+\_\+subtype\+\_\+update\+\_\+multiple\+\_\+items\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance\+\_\+name, const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}hostname, \doxymbox{\hyperlink{structmdns__subtype__item__t}{mdns\+\_\+subtype\+\_\+item\+\_\+t}} subtype\+[$\,$]\+, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} num\+\_\+items)
+\begin{DoxyCompactList}\small\item\em Update subtype for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7a08b3e0dfb19900c06b1f5fc1980eb0}{mdns\+\_\+service\+\_\+instance\+\_\+name\+\_\+set\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance\+\_\+old, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host, const char \texorpdfstring{$\ast$}{*}instance)
+\begin{DoxyCompactList}\small\item\em Set instance name for service with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a188b306f013631e6eeecbf709e6d305d}{mdns\+\_\+service\+\_\+instance\+\_\+name\+\_\+set}} (const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}instance)
+\begin{DoxyCompactList}\small\item\em Set instance name for service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4c89c8d420375e0a0422eadaf7bc4e91}{mdns\+\_\+service\+\_\+remove\+\_\+for\+\_\+host}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, const char \texorpdfstring{$\ast$}{*}host)
+\begin{DoxyCompactList}\small\item\em Remove service from m\+DNS server with hostname. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7f8ebdf3f99864b614f0a745965f7261}{mdns\+\_\+service\+\_\+remove}} (const char \texorpdfstring{$\ast$}{*}service\+\_\+type, const char \texorpdfstring{$\ast$}{*}proto)
+\begin{DoxyCompactList}\small\item\em Remove service from m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a16908d4bdd7a28d063bcaabffde74cec}{mdns\+\_\+service\+\_\+remove\+\_\+all}} (void)
+\begin{DoxyCompactList}\small\item\em Remove and free all services from m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af9a519a7abab2b74976ad4d9b3836015}{mdns\+\_\+lookup\+\_\+delegated\+\_\+service}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}result)
+\begin{DoxyCompactList}\small\item\em Look up delegated services. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ab386ec8f2a5fde0b7cba1d0a74ced1fb}{mdns\+\_\+lookup\+\_\+selfhosted\+\_\+service}} (const char \texorpdfstring{$\ast$}{*}instance, const char \texorpdfstring{$\ast$}{*}service, const char \texorpdfstring{$\ast$}{*}proto, \doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}} max\+\_\+results, \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}result)
+\begin{DoxyCompactList}\small\item\em Look up self hosted services. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_doc-typedef-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a8596fe700fd9660584311a44e4b04e38}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_server\_t@{mdns\_server\_t}}
+\index{mdns\_server\_t@{mdns\_server\_t}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_server\_t}{mdns\_server\_t}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a8596fe700fd9660584311a44e4b04e38} 
+typedef struct \doxymbox{\hyperlink{structmdns__server__s}{mdns\+\_\+server\+\_\+s}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__responder_8c_a8596fe700fd9660584311a44e4b04e38}{mdns\+\_\+server\+\_\+t}}}
+
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_doc-func-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aa569e098f34ab80e34ac76fbdca9aea7}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_delegate\_hostname\_add@{mdns\_delegate\_hostname\_add}}
+\index{mdns\_delegate\_hostname\_add@{mdns\_delegate\_hostname\_add}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_delegate\_hostname\_add()}{mdns\_delegate\_hostname\_add()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aa569e098f34ab80e34ac76fbdca9aea7} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+delegate\+\_\+hostname\+\_\+add (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{address\+\_\+list}{}\end{DoxyParamCaption})}
+
+
+
+Adds a hostname and address to be delegated A/\+\+AAAA queries will be replied for the hostname and services can be added to this host. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Hostname to add \\
+\hline
+{\em address\+\_\+list} & The IP address list of the host\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aef8ff565fff40e32ebce1257592eb5e6}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_delegate\_hostname\_remove@{mdns\_delegate\_hostname\_remove}}
+\index{mdns\_delegate\_hostname\_remove@{mdns\_delegate\_hostname\_remove}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_delegate\_hostname\_remove()}{mdns\_delegate\_hostname\_remove()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aef8ff565fff40e32ebce1257592eb5e6} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+delegate\+\_\+hostname\+\_\+remove (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Remove a delegated hostname All the services added to this host will also be removed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Hostname to remove\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a24320a4318b0d79f1e7a736e719dc0ae}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_delegate\_hostname\_set\_address@{mdns\_delegate\_hostname\_set\_address}}
+\index{mdns\_delegate\_hostname\_set\_address@{mdns\_delegate\_hostname\_set\_address}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_delegate\_hostname\_set\_address()}{mdns\_delegate\_hostname\_set\_address()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a24320a4318b0d79f1e7a736e719dc0ae} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+delegate\+\_\+hostname\+\_\+set\+\_\+address (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{address\+\_\+list}{}\end{DoxyParamCaption})}
+
+
+
+Set the address to a delegated hostname. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Hostname to set \\
+\hline
+{\em address\+\_\+list} & The IP address list of the host\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad4c1b990b7435f889b64f1d5ba29bbc8}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_hostname\_exists@{mdns\_hostname\_exists}}
+\index{mdns\_hostname\_exists@{mdns\_hostname\_exists}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_hostname\_exists()}{mdns\_hostname\_exists()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad4c1b990b7435f889b64f1d5ba29bbc8} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+hostname\+\_\+exists (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Query whether a hostname has been added. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Hostname to query\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item true The hostname has been added.
+\item false The hostname has not been added. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a002bafc5e0b3ee2f8ff8d726440c2294}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_hostname\_get@{mdns\_hostname\_get}}
+\index{mdns\_hostname\_get@{mdns\_hostname\_get}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_hostname\_get()}{mdns\_hostname\_get()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a002bafc5e0b3ee2f8ff8d726440c2294} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+hostname\+\_\+get (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Get the hostname for m\+DNS server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & pointer to the hostname, it should be allocated and hold at least MDNS\+\_\+\+NAME\+\_\+\+BUF\+\_\+\+LEN chars\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE when mdns is not initialized 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ac64252305d70be97d202f2edd5f44ccc}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_hostname\_set@{mdns\_hostname\_set}}
+\index{mdns\_hostname\_set@{mdns\_hostname\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_hostname\_set()}{mdns\_hostname\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ac64252305d70be97d202f2edd5f44ccc} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+hostname\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Set the hostname for m\+DNS server required if you want to advertise services. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Hostname to set\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a5ebdb24c7e8b5bd86be515f5fa209dbb}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_instance\_name\_set@{mdns\_instance\_name\_set}}
+\index{mdns\_instance\_name\_set@{mdns\_instance\_name\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_instance\_name\_set()}{mdns\_instance\_name\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a5ebdb24c7e8b5bd86be515f5fa209dbb} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+instance\+\_\+name\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{}\end{DoxyParamCaption})}
+
+
+
+Set the default instance name for m\+DNS server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & Instance name to set\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af9a519a7abab2b74976ad4d9b3836015}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_lookup\_delegated\_service@{mdns\_lookup\_delegated\_service}}
+\index{mdns\_lookup\_delegated\_service@{mdns\_lookup\_delegated\_service}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_lookup\_delegated\_service()}{mdns\_lookup\_delegated\_service()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af9a519a7abab2b74976ad4d9b3836015} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+lookup\+\_\+delegated\+\_\+service (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{result}{}\end{DoxyParamCaption})}
+
+
+
+Look up delegated services. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name (NULL for uncertain instance) \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em result} & pointer to the result of the search\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ab386ec8f2a5fde0b7cba1d0a74ced1fb}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_lookup\_selfhosted\_service@{mdns\_lookup\_selfhosted\_service}}
+\index{mdns\_lookup\_selfhosted\_service@{mdns\_lookup\_selfhosted\_service}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_lookup\_selfhosted\_service()}{mdns\_lookup\_selfhosted\_service()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ab386ec8f2a5fde0b7cba1d0a74ced1fb} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+lookup\+\_\+selfhosted\+\_\+service (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{max\+\_\+results}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_a117010e231eeb226e391046f9eb7d2b5}{mdns\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{result}{}\end{DoxyParamCaption})}
+
+
+
+Look up self hosted services. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name (NULL for uncertain instance) \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em max\+\_\+results} & maximum results to be collected \\
+\hline
+{\em result} & pointer to the result of the search\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE m\+DNS is not running
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a89cdc699a3bd26cd617ad55078142c0d}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_delegate\_hostname\_add@{mdns\_priv\_delegate\_hostname\_add}}
+\index{mdns\_priv\_delegate\_hostname\_add@{mdns\_priv\_delegate\_hostname\_add}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_delegate\_hostname\_add()}{mdns\_priv\_delegate\_hostname\_add()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a89cdc699a3bd26cd617ad55078142c0d} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+delegate\+\_\+hostname\+\_\+add (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2include_2mdns_8h_ad47a3252d28bfa29bad2c27475042670}{mdns\+\_\+ip\+\_\+addr\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{address\+\_\+list}{}\end{DoxyParamCaption})}
+
+
+
+Adds a delegated hostname to the linked list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & Host name pointer \\
+\hline
+{\em address\+\_\+list} & Address list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success false if the host wasn\textquotesingle{}t attached (this is our hostname, or alloc failure) so we have to free the structs 
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a6e188bbd394a1d4948a35c10edab4b6f}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_get\_global\_hostname@{mdns\_priv\_get\_global\_hostname}}
+\index{mdns\_priv\_get\_global\_hostname@{mdns\_priv\_get\_global\_hostname}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_global\_hostname()}{mdns\_priv\_get\_global\_hostname()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a6e188bbd394a1d4948a35c10edab4b6f} 
+const char \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+global\+\_\+hostname (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+get global (mdns\+\_\+server-\/\texorpdfstring{$>$}{>}hostname) hostname 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a316e8ba68750e2abaa92cf4087d09b80}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_get\_hosts@{mdns\_priv\_get\_hosts}}
+\index{mdns\_priv\_get\_hosts@{mdns\_priv\_get\_hosts}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_hosts()}{mdns\_priv\_get\_hosts()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a316e8ba68750e2abaa92cf4087d09b80} 
+\doxymbox{\hyperlink{structmdns__host__item__t}{mdns\+\_\+host\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+hosts (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+get host list 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a37239ecd98e638b3487e5abc229c7b30}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_get\_instance@{mdns\_priv\_get\_instance}}
+\index{mdns\_priv\_get\_instance@{mdns\_priv\_get\_instance}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_instance()}{mdns\_priv\_get\_instance()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a37239ecd98e638b3487e5abc229c7b30} 
+const char \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+instance (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+get mdns\+\_\+server-\/\texorpdfstring{$>$}{>}instance 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a0eb70a1a4abf3c3522839daeb65b9da0}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_get\_self\_host@{mdns\_priv\_get\_self\_host}}
+\index{mdns\_priv\_get\_self\_host@{mdns\_priv\_get\_self\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_self\_host()}{mdns\_priv\_get\_self\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a0eb70a1a4abf3c3522839daeb65b9da0} 
+\doxymbox{\hyperlink{structmdns__host__item__t}{mdns\+\_\+host\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+self\+\_\+host (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+get self host 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abc4cf55db10ee063a8328af77c8edbc0}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_get\_services@{mdns\_priv\_get\_services}}
+\index{mdns\_priv\_get\_services@{mdns\_priv\_get\_services}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_get\_services()}{mdns\_priv\_get\_services()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abc4cf55db10ee063a8328af77c8edbc0} 
+\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a4d2efb1493ce6c8d57186db52999bd26}{mdns\+\_\+srv\+\_\+item\+\_\+t}} \texorpdfstring{$\ast$}{*} mdns\+\_\+priv\+\_\+get\+\_\+services (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+get service list 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9bfb0a88cdf80a2dc7fc10ad89076250}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_is\_server\_init@{mdns\_priv\_is\_server\_init}}
+\index{mdns\_priv\_is\_server\_init@{mdns\_priv\_is\_server\_init}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_is\_server\_init()}{mdns\_priv\_is\_server\_init()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9bfb0a88cdf80a2dc7fc10ad89076250} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+is\+\_\+server\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Returns true if the mdns server is initialized. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a204dc552155beec5d967336def68ef6c}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_remap\_self\_service\_hostname@{mdns\_priv\_remap\_self\_service\_hostname}}
+\index{mdns\_priv\_remap\_self\_service\_hostname@{mdns\_priv\_remap\_self\_service\_hostname}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_remap\_self\_service\_hostname()}{mdns\_priv\_remap\_self\_service\_hostname()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a204dc552155beec5d967336def68ef6c} 
+void mdns\+\_\+priv\+\_\+remap\+\_\+self\+\_\+service\+\_\+hostname (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{old\+\_\+hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{new\+\_\+hostname}{}\end{DoxyParamCaption})}
+
+
+
+Remaps hostname of self service. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7151fec931a4747f26344099e736e981}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_responder\_action@{mdns\_priv\_responder\_action}}
+\index{mdns\_priv\_responder\_action@{mdns\_priv\_responder\_action}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_responder\_action()}{mdns\_priv\_responder\_action()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7151fec931a4747f26344099e736e981} 
+void mdns\+\_\+priv\+\_\+responder\+\_\+action (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{action}{, }\item[{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2private__include_2mdns__private_8h_a7f8e853607c5972201b6695e4add0cfe}{mdns\+\_\+action\+\_\+subtype\+\_\+t}}}]{type}{}\end{DoxyParamCaption})}
+
+
+
+Perform action from mdns responder. 
+
+\begin{DoxyNote}{Note}
+Called from the \+\_\+mdns\+\_\+service\+\_\+task() in mdns.\+c 
+\end{DoxyNote}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a05355b37037c21fa3a85e8e5d171262c}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_responder\_free@{mdns\_priv\_responder\_free}}
+\index{mdns\_priv\_responder\_free@{mdns\_priv\_responder\_free}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_responder\_free()}{mdns\_priv\_responder\_free()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a05355b37037c21fa3a85e8e5d171262c} 
+void mdns\+\_\+priv\+\_\+responder\+\_\+free (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Frees responder storage. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a40834b967fb31e939c4b5088ff448bd9}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_responder\_init@{mdns\_priv\_responder\_init}}
+\index{mdns\_priv\_responder\_init@{mdns\_priv\_responder\_init}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_responder\_init()}{mdns\_priv\_responder\_init()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a40834b967fb31e939c4b5088ff448bd9} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+priv\+\_\+responder\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes responder storage. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae2e49fbc507b7b2a2b377235d6a94adf}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_restart\_all\_pcbs@{mdns\_priv\_restart\_all\_pcbs}}
+\index{mdns\_priv\_restart\_all\_pcbs@{mdns\_priv\_restart\_all\_pcbs}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_restart\_all\_pcbs()}{mdns\_priv\_restart\_all\_pcbs()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae2e49fbc507b7b2a2b377235d6a94adf} 
+void mdns\+\_\+priv\+\_\+restart\+\_\+all\+\_\+pcbs (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Restart the responder on all active PCBs. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e59c8eef2dd68cb1c4e3732e1560efa}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_restart\_all\_pcbs\_no\_instance@{mdns\_priv\_restart\_all\_pcbs\_no\_instance}}
+\index{mdns\_priv\_restart\_all\_pcbs\_no\_instance@{mdns\_priv\_restart\_all\_pcbs\_no\_instance}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_restart\_all\_pcbs\_no\_instance()}{mdns\_priv\_restart\_all\_pcbs\_no\_instance()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e59c8eef2dd68cb1c4e3732e1560efa} 
+void mdns\+\_\+priv\+\_\+restart\+\_\+all\+\_\+pcbs\+\_\+no\+\_\+instance (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Restart the responder on all services without instance. 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad6f8e33c41d50e262a17bb6ff30937d3}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_set\_global\_hostname@{mdns\_priv\_set\_global\_hostname}}
+\index{mdns\_priv\_set\_global\_hostname@{mdns\_priv\_set\_global\_hostname}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_set\_global\_hostname()}{mdns\_priv\_set\_global\_hostname()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad6f8e33c41d50e262a17bb6ff30937d3} 
+void mdns\+\_\+priv\+\_\+set\+\_\+global\+\_\+hostname (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+set global hostname 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a03e8dd7bf9dfd0613b444ae8133bcb52}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_priv\_set\_instance@{mdns\_priv\_set\_instance}}
+\index{mdns\_priv\_set\_instance@{mdns\_priv\_set\_instance}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_set\_instance()}{mdns\_priv\_set\_instance()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a03e8dd7bf9dfd0613b444ae8133bcb52} 
+void mdns\+\_\+priv\+\_\+set\+\_\+instance (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{}\end{DoxyParamCaption})}
+
+
+
+set mdns\+\_\+server-\/\texorpdfstring{$>$}{>}instance 
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad8af1985e423baccbe1395ec41a4fd61}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_add@{mdns\_service\_add}}
+\index{mdns\_service\_add@{mdns\_service\_add}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_add()}{mdns\_service\_add()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad8af1985e423baccbe1395ec41a4fd61} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+add (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{, }\item[{\doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}}}]{txt}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Add service to m\+DNS server. 
+
+\begin{DoxyNote}{Note}
+The value length of txt items will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name to set. If NULL, global instance name or hostname will be used. Note that MDNS\+\_\+\+MULTIPLE\+\_\+\+INSTANCE config option needs to be enabled for adding multiple instances with the same instance type. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em port} & service port \\
+\hline
+{\em txt} & string array of TXT data (eg. \{\{"{}var"{},"{}val"{}\},\{"{}other"{},"{}2"{}\}\}) \\
+\hline
+{\em num\+\_\+items} & number of items in TXT data\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+FAIL failed to add service 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e0ee2540b0ad834a74f1be19dc98e1f}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_add\_for\_host@{mdns\_service\_add\_for\_host}}
+\index{mdns\_service\_add\_for\_host@{mdns\_service\_add\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_add\_for\_host()}{mdns\_service\_add\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7e0ee2540b0ad834a74f1be19dc98e1f} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+add\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{, }\item[{\doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}}}]{txt}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{efi_8h_a8fd92ccc0b4f7dd4cd3d9a2a6b600ed2}{size\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Add service to m\+DNS server with a delegated hostname. 
+
+\begin{DoxyNote}{Note}
+The value length of txt items will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name to set. If NULL, global instance name or hostname will be used Note that MDNS\+\_\+\+MULTIPLE\+\_\+\+INSTANCE config option needs to be enabled for adding multiple instances with the same instance type. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em port} & service port \\
+\hline
+{\em txt} & string array of TXT data (eg. \{\{"{}var"{},"{}val"{}\},\{"{}other"{},"{}2"{}\}\}) \\
+\hline
+{\em num\+\_\+items} & number of items in TXT data\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error
+\item ESP\+\_\+\+FAIL failed to add service 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae8a4d63061c513329cfe10b60aedef79}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_exists@{mdns\_service\_exists}}
+\index{mdns\_service\_exists@{mdns\_service\_exists}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_exists()}{mdns\_service\_exists()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae8a4d63061c513329cfe10b60aedef79} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+service\+\_\+exists (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Check whether a service has been added. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, checks for the local hostname.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item true Correspondding service has been added.
+\item false Service not found. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1cab004cfd4250c5019fa29a66b0ebd4}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_exists\_with\_instance@{mdns\_service\_exists\_with\_instance}}
+\index{mdns\_service\_exists\_with\_instance@{mdns\_service\_exists\_with\_instance}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_exists\_with\_instance()}{mdns\_service\_exists\_with\_instance()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1cab004cfd4250c5019fa29a66b0ebd4} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+service\+\_\+exists\+\_\+with\+\_\+instance (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Check whether a service has been added. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, checks for the local hostname.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item true Correspondding service has been added.
+\item false Service not found. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a188b306f013631e6eeecbf709e6d305d}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_instance\_name\_set@{mdns\_service\_instance\_name\_set}}
+\index{mdns\_service\_instance\_name\_set@{mdns\_service\_instance\_name\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_instance\_name\_set()}{mdns\_service\_instance\_name\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a188b306f013631e6eeecbf709e6d305d} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+instance\+\_\+name\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{}\end{DoxyParamCaption})}
+
+
+
+Set instance name for service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em instance\+\_\+name} & instance name to set\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7a08b3e0dfb19900c06b1f5fc1980eb0}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_instance\_name\_set\_for\_host@{mdns\_service\_instance\_name\_set\_for\_host}}
+\index{mdns\_service\_instance\_name\_set\_for\_host@{mdns\_service\_instance\_name\_set\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_instance\_name\_set\_for\_host()}{mdns\_service\_instance\_name\_set\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7a08b3e0dfb19900c06b1f5fc1980eb0} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+instance\+\_\+name\+\_\+set\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+old}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{}\end{DoxyParamCaption})}
+
+
+
+Set instance name for service with hostname. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+old} & original instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em instance\+\_\+name} & instance name to set\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae34ee7d08131e72172cdc849abf45646}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_port\_set@{mdns\_service\_port\_set}}
+\index{mdns\_service\_port\_set@{mdns\_service\_port\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_port\_set()}{mdns\_service\_port\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ae34ee7d08131e72172cdc849abf45646} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+port\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{}\end{DoxyParamCaption})}
+
+
+
+Set service port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em port} & service port\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aedc91b46e380105f2eb2f257419ef571}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_port\_set\_for\_host@{mdns\_service\_port\_set\_for\_host}}
+\index{mdns\_service\_port\_set\_for\_host@{mdns\_service\_port\_set\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_port\_set\_for\_host()}{mdns\_service\_port\_set\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_aedc91b46e380105f2eb2f257419ef571} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+port\+\_\+set\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{port}{}\end{DoxyParamCaption})}
+
+
+
+Set service port with hostname. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em port} & service port\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7f8ebdf3f99864b614f0a745965f7261}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_remove@{mdns\_service\_remove}}
+\index{mdns\_service\_remove@{mdns\_service\_remove}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_remove()}{mdns\_service\_remove()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7f8ebdf3f99864b614f0a745965f7261} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+remove (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{}\end{DoxyParamCaption})}
+
+
+
+Remove service from m\+DNS server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a16908d4bdd7a28d063bcaabffde74cec}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_remove\_all@{mdns\_service\_remove\_all}}
+\index{mdns\_service\_remove\_all@{mdns\_service\_remove\_all}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_remove\_all()}{mdns\_service\_remove\_all()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a16908d4bdd7a28d063bcaabffde74cec} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+remove\+\_\+all (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Remove and free all services from m\+DNS server. 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4c89c8d420375e0a0422eadaf7bc4e91}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_remove\_for\_host@{mdns\_service\_remove\_for\_host}}
+\index{mdns\_service\_remove\_for\_host@{mdns\_service\_remove\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_remove\_for\_host()}{mdns\_service\_remove\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4c89c8d420375e0a0422eadaf7bc4e91} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+remove\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{}\end{DoxyParamCaption})}
+
+
+
+Remove service from m\+DNS server with hostname. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1bc06bea17cf6beabd45649bc1cef73c}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_subtype\_add\_for\_host@{mdns\_service\_subtype\_add\_for\_host}}
+\index{mdns\_service\_subtype\_add\_for\_host@{mdns\_service\_subtype\_add\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_subtype\_add\_for\_host()}{mdns\_service\_subtype\_add\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a1bc06bea17cf6beabd45649bc1cef73c} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+subtype\+\_\+add\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{subtype}{}\end{DoxyParamCaption})}
+
+
+
+Add a subtype for service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name. If NULL, will find the first service with the same service type and protocol. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em subtype} & The subtype to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9d1f0af97acc4444f687ddeb57ebf4cd}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_subtype\_add\_multiple\_items\_for\_host@{mdns\_service\_subtype\_add\_multiple\_items\_for\_host}}
+\index{mdns\_service\_subtype\_add\_multiple\_items\_for\_host@{mdns\_service\_subtype\_add\_multiple\_items\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_subtype\_add\_multiple\_items\_for\_host()}{mdns\_service\_subtype\_add\_multiple\_items\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a9d1f0af97acc4444f687ddeb57ebf4cd} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+subtype\+\_\+add\+\_\+multiple\+\_\+items\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{structmdns__subtype__item__t}{mdns\+\_\+subtype\+\_\+item\+\_\+t}}}]{subtype}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Add multiple subtypes for service at once. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name. If NULL, will find the first service with the same service type and protocol. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em subtype} & the pointer of subtype array to add. \\
+\hline
+{\em num\+\_\+items} & number of items in subtype array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad9bf841f8ec81111020c254cfdce1bbc}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_subtype\_remove\_for\_host@{mdns\_service\_subtype\_remove\_for\_host}}
+\index{mdns\_service\_subtype\_remove\_for\_host@{mdns\_service\_subtype\_remove\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_subtype\_remove\_for\_host()}{mdns\_service\_subtype\_remove\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_ad9bf841f8ec81111020c254cfdce1bbc} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+subtype\+\_\+remove\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{subtype}{}\end{DoxyParamCaption})}
+
+
+
+Remove a subtype for service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name. If NULL, will find the first service with the same service type and protocol. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em subtype} & The subtype to remove.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7ea3d286ad6b108cd3efa150a601efed}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_subtype\_update\_multiple\_items\_for\_host@{mdns\_service\_subtype\_update\_multiple\_items\_for\_host}}
+\index{mdns\_service\_subtype\_update\_multiple\_items\_for\_host@{mdns\_service\_subtype\_update\_multiple\_items\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_subtype\_update\_multiple\_items\_for\_host()}{mdns\_service\_subtype\_update\_multiple\_items\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a7ea3d286ad6b108cd3efa150a601efed} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+subtype\+\_\+update\+\_\+multiple\+\_\+items\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance\+\_\+name}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{structmdns__subtype__item__t}{mdns\+\_\+subtype\+\_\+item\+\_\+t}}}]{subtype}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Update subtype for service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance\+\_\+name} & instance name. If NULL, will find the first service with the same service type and protocol. \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em subtype} & the pointer of subtype array to add. \\
+\hline
+{\em num\+\_\+items} & number of items in subtype array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If {\ttfamily num\+\_\+items} is 0, then remove all subtypes.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4ca86030fcf2e7c287b50719b1cef50d}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_remove@{mdns\_service\_txt\_item\_remove}}
+\index{mdns\_service\_txt\_item\_remove@{mdns\_service\_txt\_item\_remove}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_remove()}{mdns\_service\_txt\_item\_remove()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4ca86030fcf2e7c287b50719b1cef50d} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+remove (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{}\end{DoxyParamCaption})}
+
+
+
+Remove TXT item for service TXT record. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em key} & the key that you want to remove\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a58997e663b8c7ce5488f843a19849ade}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_remove\_for\_host@{mdns\_service\_txt\_item\_remove\_for\_host}}
+\index{mdns\_service\_txt\_item\_remove\_for\_host@{mdns\_service\_txt\_item\_remove\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_remove\_for\_host()}{mdns\_service\_txt\_item\_remove\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a58997e663b8c7ce5488f843a19849ade} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+remove\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{}\end{DoxyParamCaption})}
+
+
+
+Remove TXT item for service TXT record with hostname. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em key} & the key that you want to remove\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4aef66d9d5bb6bbc20d6c0453ad6043b}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_set@{mdns\_service\_txt\_item\_set}}
+\index{mdns\_service\_txt\_item\_set@{mdns\_service\_txt\_item\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_set()}{mdns\_service\_txt\_item\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a4aef66d9d5bb6bbc20d6c0453ad6043b} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Set/\+\+Add TXT item for service TXT record. 
+
+\begin{DoxyNote}{Note}
+The value length will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em key} & the key that you want to add/\+update \\
+\hline
+{\em value} & the new value of the key\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abcb11aa416d1774621887643304777f4}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_set\_for\_host@{mdns\_service\_txt\_item\_set\_for\_host}}
+\index{mdns\_service\_txt\_item\_set\_for\_host@{mdns\_service\_txt\_item\_set\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_set\_for\_host()}{mdns\_service\_txt\_item\_set\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abcb11aa416d1774621887643304777f4} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Set/\+\+Add TXT item for service TXT record with hostname. 
+
+\begin{DoxyNote}{Note}
+The value length will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em key} & the key that you want to add/\+update \\
+\hline
+{\em value} & the new value of the key\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abe769d47e583ea1a071b4fd7b969cd1a}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len@{mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len}}
+\index{mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len@{mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len()}{mdns\_service\_txt\_item\_set\_for\_host\_with\_explicit\_value\_len()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_abe769d47e583ea1a071b4fd7b969cd1a} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+for\+\_\+host\+\_\+with\+\_\+explicit\+\_\+value\+\_\+len (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{value}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{value\+\_\+len}{}\end{DoxyParamCaption})}
+
+
+
+Set/\+\+Add TXT item for service TXT record with hostname and txt value length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em key} & the key that you want to add/\+update \\
+\hline
+{\em value} & the new value of the key \\
+\hline
+{\em value\+\_\+len} & the length of the value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af53100c6526df7473cf262dd2377cdc1}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len@{mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len}}
+\index{mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len@{mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len()}{mdns\_service\_txt\_item\_set\_with\_explicit\_value\_len()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_af53100c6526df7473cf262dd2377cdc1} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+item\+\_\+set\+\_\+with\+\_\+explicit\+\_\+value\+\_\+len (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{value}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{value\+\_\+len}{}\end{DoxyParamCaption})}
+
+
+
+Set/\+\+Add TXT item for service TXT record. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em key} & the key that you want to add/\+update \\
+\hline
+{\em value} & the new value of the key \\
+\hline
+{\em value\+\_\+len} & the length of the value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a3e1821d17cf89d597fa4173301a580b5}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_set@{mdns\_service\_txt\_set}}
+\index{mdns\_service\_txt\_set@{mdns\_service\_txt\_set}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_set()}{mdns\_service\_txt\_set()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_a3e1821d17cf89d597fa4173301a580b5} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+set (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{\doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}}}]{txt}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Replace all TXT items for service. 
+
+\begin{DoxyNote}{Note}
+The value length of txt items will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em txt} & array of TXT data (eg. \{\{"{}var"{},"{}val"{}\},\{"{}other"{},"{}2"{}\}\}) \\
+\hline
+{\em num\+\_\+items} & number of items in TXT data\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_adc8685916ed631dd149bdffeb9fe1d84}\index{mdns\_responder.c@{mdns\_responder.c}!mdns\_service\_txt\_set\_for\_host@{mdns\_service\_txt\_set\_for\_host}}
+\index{mdns\_service\_txt\_set\_for\_host@{mdns\_service\_txt\_set\_for\_host}!mdns\_responder.c@{mdns\_responder.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_service\_txt\_set\_for\_host()}{mdns\_service\_txt\_set\_for\_host()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2mdns__responder_8c_adc8685916ed631dd149bdffeb9fe1d84} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+service\+\_\+txt\+\_\+set\+\_\+for\+\_\+host (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{instance}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{service\+\_\+type}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{proto}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{hostname}{, }\item[{\doxymbox{\hyperlink{structmdns__txt__item__t}{mdns\+\_\+txt\+\_\+item\+\_\+t}}}]{txt}{\+[$\,$]\+, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{num\+\_\+items}{}\end{DoxyParamCaption})}
+
+
+
+Replace all TXT items for service with hostname. 
+
+\begin{DoxyNote}{Note}
+The value length of txt items will be automatically decided by strlen
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & instance name \\
+\hline
+{\em service\+\_\+type} & service type (\+\_\+http, \+\_\+ftp, etc) \\
+\hline
+{\em proto} & service protocol (\+\_\+tcp, \+\_\+udp) \\
+\hline
+{\em hostname} & service hostname. If NULL, local hostname will be used. \\
+\hline
+{\em txt} & array of TXT data (eg. \{\{"{}var"{},"{}val"{}\},\{"{}other"{},"{}2"{}\}\}) \\
+\hline
+{\em num\+\_\+items} & number of items in TXT data\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG Parameter error
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+FOUND Service not found
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM memory error 
+\end{DoxyItemize}
+\end{DoxyReturn}

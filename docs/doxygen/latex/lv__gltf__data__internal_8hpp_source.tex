@@ -1,0 +1,211 @@
+\doxysection{lv\+\_\+gltf\+\_\+data\+\_\+internal.\+hpp}
+\hypertarget{lv__gltf__data__internal_8hpp_source}{}\label{lv__gltf__data__internal_8hpp_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_data/lv\_gltf\_data\_internal.hpp@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gltf/gltf\_data/lv\_gltf\_data\_internal.hpp}}
+\doxymbox{\hyperlink{lv__gltf__data__internal_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LV\_GLTFDATA\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LV\_GLTFDATA\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#if\ LV\_USE\_GLTF}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fastgltf/math.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gltf__data__internal_8h}{lv\_gltf\_data\_internal.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gltf__bind_8h}{lv\_gltf\_bind.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__array_8h}{../../../misc/lv\_array.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengles__private_8h}{../../../drivers/opengles/lv\_opengles\_private.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <fastgltf/types.hpp>}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ Vector\ of\ int32\_t's}}
+\DoxyCodeLine{00023\ \textcolor{keyword}{using\ }UintVector\ =\ std::vector<uint32\_t>;}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ Vector\ of\ int32\_t's}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{using\ }IntVector\ =\ std::vector<int32\_t>;}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ Vector\ of\ int64\_t's}}
+\DoxyCodeLine{00027\ \textcolor{keyword}{using\ }LongVector\ =\ std::vector<int64\_t>;}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Pointer\ to\ fastgltf::Node}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{using\ }NodePtr\ =\ fastgltf::Node\ *;}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ A\ standard\ 4x4\ transform\ matrix}}
+\DoxyCodeLine{00031\ \textcolor{keyword}{using\ }Transform\ =\ fastgltf::math::fmat4x4;}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ Pair\ of\ Node\ pointer\ and\ int32\_t}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{using\ }NodeIndexPair\ =\ std::pair<NodePtr,\ size\_t>;}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ Pair\ of\ float\ and\ Node/Index\ pair}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{using\ }NodeIndexDistancePair\ =\ std::pair<float,\ NodeIndexPair>;}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Vector\ of\ NodeIndexPair}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{using\ }NodePairVector\ =\ std::vector<NodeIndexPair>;}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ Vector\ of\ NodeIndexDistancePair}}
+\DoxyCodeLine{00039\ \textcolor{keyword}{using\ }NodeDistanceVector\ =\ std::vector<NodeIndexDistancePair>;}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Map\ of\ uint32\_t\ to\ NodePairVector}}
+\DoxyCodeLine{00041\ \textcolor{keyword}{using\ }MaterialIndexMap\ =\ std::map<uint32\_t,\ NodePairVector>;}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ Map\ of\ Node\ Pointers\ to\ Transforms}}
+\DoxyCodeLine{00043\ \textcolor{keyword}{using\ }NodeTransformMap\ =\ std::map<NodePtr,\ Transform>;}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ Map\ of\ Nodes\ by\ string\ (name)}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{using\ }StringNodeMap\ =\ std::map<std::string,\ NodePtr>;}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ Map\ of\ Nodes\ by\ string\ (name)}}
+\DoxyCodeLine{00047\ \textcolor{keyword}{using\ }NodeIntMap\ =\ std::map<NodePtr,\ uint32\_t>;}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ Map\ of\ Nodes\ by\ string\ (name)}}
+\DoxyCodeLine{00049\ \textcolor{keyword}{using\ }NodeVector\ =\ std::vector<NodePtr>;}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Map\ of\ Node\ Index\ to\ Map\ of\ Prim\ Index\ to\ CenterXYZ+RadiusW\ Vec4}}
+\DoxyCodeLine{00051\ \textcolor{keyword}{using\ }NodePrimCenterMap\ =\ std::map<uint32\_t,\ std::map<uint32\_t,\ fastgltf::math::fvec4>\ >;}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ Map\ of\ Overrides\ by\ Node}}
+\DoxyCodeLine{00053\ \textcolor{keyword}{using\ }NodeOverrideMap\ =\ std::map<fastgltf::Node\ *,\ lv\_gltf\_bind\_t\ *>;}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ Map\ of\ Overrides\ by\ Node}}
+\DoxyCodeLine{00055\ \textcolor{keyword}{using\ }OverrideVector\ =\ std::vector<lv\_gltf\_bind\_t>;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00058\ \ \ \ \ GLuint\ drawsBuffer;}
+\DoxyCodeLine{00059\ \ \ \ \ std::vector<lv\_gltf\_primitive\_t>\ primitives;}
+\DoxyCodeLine{00060\ \}\ lv\_gltf\_mesh\_data\_t;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ip;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{namespacelv__templ__check_aa28dc103258589d9cb421197fe2de90b}{path}};}
+\DoxyCodeLine{00065\ \ \ \ \ fastgltf::Node\ *node;}
+\DoxyCodeLine{00066\ \}\ lv\_gltf\_data\_node\_t;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{struct\ }\_lv\_gltf\_model\_t\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename;}
+\DoxyCodeLine{00071\ \ \ \ \ fastgltf::Asset\ asset;}
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a63b3a8fae8333693999b3f131ed1e398}{lv\_array\_t}}\ nodes;}
+\DoxyCodeLine{00073\ \ \ \ \ NodeVector\ node\_by\_light\_index;}
+\DoxyCodeLine{00074\ \ \ \ \ NodeTransformMap\ node\_transform\_cache;}
+\DoxyCodeLine{00075\ \ \ \ \ MaterialIndexMap\ opaque\_nodes\_by\_material\_index;}
+\DoxyCodeLine{00076\ \ \ \ \ MaterialIndexMap\ blended\_nodes\_by\_material\_index;}
+\DoxyCodeLine{00077\ \ \ \ \ NodeOverrideMap\ node\_binds;}
+\DoxyCodeLine{00078\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a63b3a8fae8333693999b3f131ed1e398}{lv\_array\_t}}\ binds;}
+\DoxyCodeLine{00079\ \ \ \ \ std::vector<size\_t>\ validated\_skins;}
+\DoxyCodeLine{00080\ \ \ \ \ std::vector<GLuint>\ skin\_tex;}
+\DoxyCodeLine{00081\ \ \ \ \ NodePrimCenterMap\ local\_mesh\_to\_center\_points\_by\_primitive;}
+\DoxyCodeLine{00082\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a4b940c7bae978b9be1a1e1f0610ecebf}{lv\_gltf\_t}}*\ viewer;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ std::vector<lv\_gltf\_mesh\_data\_t>\ meshes;}
+\DoxyCodeLine{00085\ \ \ \ \ std::vector<GLuint>\ textures;}
+\DoxyCodeLine{00086\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a63b3a8fae8333693999b3f131ed1e398}{lv\_array\_t}}\ compiled\_shaders;}
+\DoxyCodeLine{00087\ \ \ \ \ std::map<fastgltf::Node\ *,\ std::vector<uint32\_t>\ >\ channel\_set\_cache;}
+\DoxyCodeLine{00088\ \ \ \ \ fastgltf::math::fmat4x4\ view\_mat;}
+\DoxyCodeLine{00089\ \ \ \ \ fastgltf::math::fvec3\ view\_pos;}
+\DoxyCodeLine{00090\ \ \ \ \ fastgltf::math::fvec3\ vertex\_max;}
+\DoxyCodeLine{00091\ \ \ \ \ fastgltf::math::fvec3\ vertex\_min;}
+\DoxyCodeLine{00092\ \ \ \ \ fastgltf::math::fvec3\ vertex\_cen;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\_timer\_t}}*\ animation\_update\_timer;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ current\_animation;}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ last\_material\_index;}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ last\_camera\_index;}
+\DoxyCodeLine{00100\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ last\_anim\_num;}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{float}\ bound\_radius;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ current\_animation\_max\_time;}
+\DoxyCodeLine{00105\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ local\_timestamp;}
+\DoxyCodeLine{00106\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ last\_tick;}
+\DoxyCodeLine{00107\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ camera;}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_animation\_enabled;}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_pass\_was\_transmission;}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_frame\_was\_antialiased;}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{bool}\ last\_frame\_no\_motion;}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_last\_frame\_no\_motion;}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{struct\ }\_lv\_gltf\_model\_t\ *linked\_view\_source;}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00124\ GLuint\ lv\_gltf\_data\_get\_texture(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00133\ fastgltf::math::fvec3\ lv\_gltf\_data\_get\_bounds\_min(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00141\ fastgltf::math::fvec3\ lv\_gltf\_data\_get\_bounds\_max(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00149\ fastgltf::math::fvec3\ lv\_gltf\_data\_get\_center(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00157\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *lv\_gltf\_get\_filename(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00167\ \textcolor{keywordtype}{bool}\ lv\_gltf\_data\_centerpoint\_cache\_contains(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ element);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00176\ lv\_gltf\_primitive\_t\ *lv\_gltf\_data\_get\_primitive\_from\_mesh(lv\_gltf\_mesh\_data\_t\ *M,\ \textcolor{keywordtype}{size\_t}\ I);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00184\ fastgltf::Asset\ *lv\_gltf\_data\_get\_asset(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00193\ lv\_gltf\_mesh\_data\_t\ *lv\_gltf\_data\_get\_mesh(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00202\ GLuint\ lv\_gltf\_data\_get\_skin\_texture\_at(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00211\ \textcolor{keywordtype}{bool}\ lv\_gltf\_data\_validated\_skins\_contains(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00219\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_validate\_skin(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00229\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_add\_opaque\_node\_primitive(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}},\ fastgltf::Node\ *node,\ \textcolor{keywordtype}{size\_t}\ primitive\_index);}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00239\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_add\_blended\_node\_primitive(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ mesh\_index,\ fastgltf::Node\ *node,}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ primitive\_index);}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00249\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_set\_cached\_transform(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}*\ data,\ fastgltf::Node*\ node,\ fastgltf::math::fmat4x4\ M);}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00256\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_clear\_transform\_cache(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}*\ data);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00265\ fastgltf::math::fmat4x4\ lv\_gltf\_data\_get\_cached\_transform(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}*\ data,\ fastgltf::Node*\ node);}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00274\ \textcolor{keywordtype}{bool}\ lv\_gltf\_data\_has\_cached\_transform(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}*\ data,\ fastgltf::Node*\ node);}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00282\ \textcolor{keywordtype}{bool}\ lv\_gltf\_data\_transform\_cache\_is\_empty(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}*\ data);}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00290\ \textcolor{keywordtype}{size\_t}\ lv\_gltf\_data\_get\_skins\_size(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00299\ \textcolor{keywordtype}{size\_t}\ lv\_gltf\_data\_get\_skin(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00308\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_injest\_discover\_defines(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ fastgltf::Node\ *node,\ fastgltf::Primitive\ *prim);}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00319\ fastgltf::math::fvec3\ lv\_gltf\_data\_get\_centerpoint(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *gltf\_data,\ fastgltf::math::fmat4x4\ matrix,\ \textcolor{keywordtype}{size\_t}\ mesh\_index,}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ elem);}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ lv\_gltf\_mesh\_data\_t\ *lv\_gltf\_get\_new\_meshdata(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *\_data);}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *lv\_gltf\_data\_create\_internal(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *gltf\_path,\ fastgltf::Asset);}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *lv\_gltf\_data\_load\_internal(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *data\_source,\ \textcolor{keywordtype}{size\_t}\ data\_size,\ lv\_opengl\_shader\_manager\_t\ *shaders);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \textcolor{comment}{/*void\ set\_node\_at\_path(lv\_gltf\_data\_t\ *data,\ const\ std::string\ \&path,*/}}
+\DoxyCodeLine{00330\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ fastgltf::Node\ *node);*/}}
+\DoxyCodeLine{00331\ \textcolor{comment}{/*void\ set\_node\_at\_ip(lv\_gltf\_data\_t\ *data,\ const\ std::string\ \&ip,*/}}
+\DoxyCodeLine{00332\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ fastgltf::Node\ *node);*/}}
+\DoxyCodeLine{00333\ \textcolor{comment}{/*void\ set\_node\_index(lv\_gltf\_data\_t\ *data,\ size\_t\ index,\ fastgltf::Node\ *node);*/}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ fastgltf::math::fvec4\ lv\_gltf\_get\_primitive\_centerpoint(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ fastgltf::Mesh\ \&mesh,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ prim\_num);}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ fastgltf::math::fvec3\ get\_cached\_centerpoint(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}},\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ element,}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fastgltf::math::fmat4x4\ matrix);}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_destroy\_textures(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00341\ GLuint\ lv\_gltf\_data\_create\_texture(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data);}
+\DoxyCodeLine{00342\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_nodes\_init(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00343\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_node\_init(lv\_gltf\_data\_node\_t\ *\ node,\ fastgltf::Node\ *\ fastgltf\_node,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ path,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ ip);}
+\DoxyCodeLine{00344\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_node\_add(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keyword}{const}\ lv\_gltf\_data\_node\_t\ *data\_node);}
+\DoxyCodeLine{00345\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_node\_delete(lv\_gltf\_data\_node\_t\ *node);}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00359\ \textcolor{keywordtype}{bool}\ lv\_gltf\_data\_get\_texture\_pixels(\textcolor{keywordtype}{void}\ *pixels,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data\_obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ model\_texture\_index,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ mipmapnum,}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ width,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ height,\ \textcolor{keywordtype}{bool}\ has\_alpha);}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ lv\_gltf\_data\_node\_t\ *lv\_gltf\_data\_node\_get\_by\_index(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00363\ lv\_gltf\_data\_node\_t\ *lv\_gltf\_data\_node\_get\_by\_ip(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ip);}
+\DoxyCodeLine{00364\ lv\_gltf\_data\_node\_t\ *lv\_gltf\_data\_node\_get\_by\_path(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00365\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_gltf\_data\_get\_animation\_total\_time(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a750b5d744c39a06bfb13e6eb010e35d0}{index}});}
+\DoxyCodeLine{00366\ std::vector<uint32\_t>\ *lv\_gltf\_data\_animation\_get\_channel\_set(std::size\_t\ anim\_num,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *data,\ fastgltf::Node\ \&node);}
+\DoxyCodeLine{00367\ \textcolor{keywordtype}{void}\ lv\_gltf\_data\_animation\_matrix\_apply(\textcolor{keywordtype}{float}\ timestamp,\ std::size\_t\ anim\_num,\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ac7c4916acb9ff8d7b905a8f4058a86f3}{lv\_gltf\_model\_t}}\ *gltf\_data,\ fastgltf::Node\ \&node,}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fastgltf::math::fmat4x4\ \&matrix);}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00372\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_GLTF*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00373\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_GLTFVIEW\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

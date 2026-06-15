@@ -1,0 +1,168 @@
+\doxysection{lv\+\_\+textarea.\+h}
+\hypertarget{lv__textarea_8h_source}{}\label{lv__textarea_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/widgets/textarea/lv\_textarea.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/widgets/textarea/lv\_textarea.h}}
+\doxymbox{\hyperlink{lv__textarea_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_TEXTAREA\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_TEXTAREA\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__label_8h}{../label/lv\_label.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ LV\_USE\_TEXTAREA\ !=\ 0}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{/*Testing\ of\ dependencies*/}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#if\ LV\_USE\_LABEL\ ==\ 0}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#error\ "{}lv\_textarea:\ lv\_label\ is\ required.\ Enable\ it\ in\ lv\_conf.h\ (LV\_USE\_LABEL\ 1)"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ LV\_TEXTAREA\_CURSOR\_LAST\ (0x7FFF)\ }\textcolor{comment}{/*Put\ the\ cursor\ after\ the\ last\ character*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00029\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_ad9dbfeb90679a5db213a80f3e8d61b28}{LV\_EXPORT\_CONST\_INT}}(\doxymbox{\hyperlink{lv__textarea_8h_a35ecd712bf6c74a14955184f4d479ac0}{LV\_TEXTAREA\_CURSOR\_LAST}});}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ LV\_PART\_TEXTAREA\_PLACEHOLDER\ LV\_PART\_CUSTOM\_FIRST}}
+\DoxyCodeLine{00032\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_ad9dbfeb90679a5db213a80f3e8d61b28}{LV\_EXPORT\_CONST\_INT}}(\doxymbox{\hyperlink{lv__textarea_8h_a39e516741c6f33e2e95cb27db7c337af}{LV\_PART\_TEXTAREA\_PLACEHOLDER}});}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#if\ LV\_USE\_OBJ\_PROPERTY}}
+\DoxyCodeLine{00039\ \textcolor{keyword}{enum}\ \_lv\_property\_textarea\_id\_t\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ TEXT,\ \ \ \ \ \ \ \ \ \ \ \ \ \ LV\_PROPERTY\_TYPE\_TEXT,\ \ 0),}
+\DoxyCodeLine{00041\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ PLACEHOLDER\_TEXT,\ \ LV\_PROPERTY\_TYPE\_TEXT,\ \ 1),}
+\DoxyCodeLine{00042\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ CURSOR\_POS,\ \ \ \ \ \ \ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 2),}
+\DoxyCodeLine{00043\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ CURSOR\_CLICK\_POS,\ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 3),}
+\DoxyCodeLine{00044\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ PASSWORD\_MODE,\ \ \ \ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 4),}
+\DoxyCodeLine{00045\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ PASSWORD\_BULLET,\ \ \ LV\_PROPERTY\_TYPE\_TEXT,\ \ 5),}
+\DoxyCodeLine{00046\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ ONE\_LINE,\ \ \ \ \ \ \ \ \ \ LV\_PROPERTY\_TYPE\_BOOL,\ \ 6),}
+\DoxyCodeLine{00047\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ ACCEPTED\_CHARS,\ \ \ \ LV\_PROPERTY\_TYPE\_TEXT,\ \ 7),}
+\DoxyCodeLine{00048\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ MAX\_LENGTH,\ \ \ \ \ \ \ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 8),}
+\DoxyCodeLine{00049\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ INSERT\_REPLACE,\ \ \ \ LV\_PROPERTY\_TYPE\_TEXT,\ \ 9),}
+\DoxyCodeLine{00050\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ TEXT\_SELECTION,\ \ \ \ LV\_PROPERTY\_TYPE\_BOOL,\ \ 10),}
+\DoxyCodeLine{00051\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ PASSWORD\_SHOW\_TIME,\ LV\_PROPERTY\_TYPE\_INT,\ \ \ 11),}
+\DoxyCodeLine{00052\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ LABEL,\ \ \ \ \ \ \ \ \ \ \ \ \ LV\_PROPERTY\_TYPE\_OBJ,\ \ \ 12),}
+\DoxyCodeLine{00053\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ TEXT\_IS\_SELECTED,\ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 13),}
+\DoxyCodeLine{00054\ \ \ \ \ LV\_PROPERTY\_ID(TEXTAREA,\ CURRENT\_CHAR,\ \ \ \ \ \ LV\_PROPERTY\_TYPE\_INT,\ \ \ 14),}
+\DoxyCodeLine{00055\ \ \ \ \ LV\_PROPERTY\_TEXTAREA\_END,}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_a52a21700fe5946c140157ebf74459a46}{LV\_ATTRIBUTE\_EXTERN\_DATA}}\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\_obj\_class\_t}}\ \doxymbox{\hyperlink{lv__textarea_8c_a9eeb4c1eeea4587dac9732166dace7ea}{lv\_textarea\_class}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_ac9d2e7a81c0c6aac74614db3feac832c}{lv\_textarea\_create}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ parent);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{/*======================}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ *\ Add/remove\ functions}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ *=====================*/}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ad588512e6e393024062306c369014040}{lv\_textarea\_add\_char}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ c);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00089\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a5c675b8c0c2d366ce1b04182ff52606a}{lv\_textarea\_add\_text}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a319c715a3a9c0e94beed51bdc84a0e59}{txt}});}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00095\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_afe229a95292d38b72df740a31b672408}{lv\_textarea\_delete\_char}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a9bb633f0e983ea2bfbfad4ebf2da112b}{lv\_textarea\_delete\_char\_forward}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00104\ \textcolor{comment}{\ *\ Setter\ functions}}
+\DoxyCodeLine{00105\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a08adbdd5ba257b71e3b1bbda0f722700}{lv\_textarea\_set\_text}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a319c715a3a9c0e94beed51bdc84a0e59}{txt}});}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00119\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a09f9449e1f83d3f77e075dc982f9e6a7}{lv\_textarea\_set\_placeholder\_text}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a319c715a3a9c0e94beed51bdc84a0e59}{txt}});}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00128\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_af3da83ebd09f5f59e89de8c682267e26}{lv\_textarea\_set\_cursor\_pos}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ pos);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00135\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a5b98f5314187fb4cb878f96aef4f390f}{lv\_textarea\_set\_cursor\_click\_pos}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keywordtype}{bool}\ en);}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00142\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ad667bc93313ee673183b30396aceba67}{lv\_textarea\_set\_password\_mode}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keywordtype}{bool}\ en);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a5502acc494bf47b5125df2af6da40e05}{lv\_textarea\_set\_password\_bullet}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ bullet);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00156\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ac18b5648b95741dc3ae9c305cf14301e}{lv\_textarea\_set\_one\_line}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keywordtype}{bool}\ en);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00163\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ad22627f685c20a24dd228d4020d61433}{lv\_textarea\_set\_accepted\_chars}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ list);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00170\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ac82c6b9187cd91bc8122c7a6ab205e72}{lv\_textarea\_set\_max\_length}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ num);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00179\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_af49fbc6b5fdad658e5f4f2f4b6166eb3}{lv\_textarea\_set\_insert\_replace}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a319c715a3a9c0e94beed51bdc84a0e59}{txt}});}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00186\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a0b6b1216a417df6f37984a91cb671965}{lv\_textarea\_set\_text\_selection}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \textcolor{keywordtype}{bool}\ en);}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00193\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a644c24266643278034a4e428076503a7}{lv\_textarea\_set\_password\_show\_time}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ time);}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00203\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a3a131270dd523b080c9a1542f1f26b05}{lv\_textarea\_set\_align}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj,\ \doxymbox{\hyperlink{lv__text_8h_add1fdfe7b1242667692b64ae435311ef}{lv\_text\_align\_t}}\ align);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00206\ \textcolor{comment}{\ *\ Getter\ functions}}
+\DoxyCodeLine{00207\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00214\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_abebded565ef81dcfc22405f0a4462c8c}{lv\_textarea\_get\_text}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00221\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_a74787567c7e59b16ce7bcfb7cd5f4662}{lv\_textarea\_get\_placeholder\_text}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00228\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_a89129552c399724482f12d9ec9074e03}{lv\_textarea\_get\_label}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00235\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__textarea_8h_a9d32423942c831913625bc895eec284b}{lv\_textarea\_get\_cursor\_pos}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00242\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__textarea_8h_ac2df6217bce4b8fee2eb479e725982e3}{lv\_textarea\_get\_cursor\_click\_pos}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00249\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__textarea_8h_a0da1826580fd6b75556a76cdf8faa957}{lv\_textarea\_get\_password\_mode}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00256\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_a396982d50755b4f0ec4ae886ddb8df32}{lv\_textarea\_get\_password\_bullet}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00263\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__textarea_8h_a85aff0a0aa3698128cbd4fd518026c19}{lv\_textarea\_get\_one\_line}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00270\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{lv__textarea_8h_a8ed8ebc765cc0b8c8befdf4507178462}{lv\_textarea\_get\_accepted\_chars}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00277\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__textarea_8h_ab19822f2323f9b0d4e7af9cd51819927}{lv\_textarea\_get\_max\_length}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00284\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__textarea_8h_a4644c96ce9e1bc2474cd0aca6ca45e09}{lv\_textarea\_text\_is\_selected}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00291\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{lv__textarea_8h_aafa5bde651b595f2617724da499ce86d}{lv\_textarea\_get\_text\_selection}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00298\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__textarea_8h_a39823314059febade2246a318ba3d150}{lv\_textarea\_get\_password\_show\_time}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00305\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{lv__textarea_8h_a601df9b565fe24f9189a57e100359072}{lv\_textarea\_get\_current\_char}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \textcolor{comment}{/*=====================}}
+\DoxyCodeLine{00308\ \textcolor{comment}{\ *\ Other\ functions}}
+\DoxyCodeLine{00309\ \textcolor{comment}{\ *====================*/}}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00315\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_ad8b58c73f450910c7d90d712bf01f20c}{lv\_textarea\_clear\_selection}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00321\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_abaa40a276709b15f6f2665c80768169d}{lv\_textarea\_cursor\_right}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00327\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_a33bbd65e6e6f13843a4235d8d499abc9}{lv\_textarea\_cursor\_left}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00333\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_af75903c4f9fc256af5a70505683b02c8}{lv\_textarea\_cursor\_down}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00339\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__textarea_8h_abc9d92ffe4f5ab02c82d1ccb3b6a4e4c}{lv\_textarea\_cursor\_up}}(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ obj);}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00342\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00343\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_TEXTAREA\_H*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00348\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_TEXTAREA\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

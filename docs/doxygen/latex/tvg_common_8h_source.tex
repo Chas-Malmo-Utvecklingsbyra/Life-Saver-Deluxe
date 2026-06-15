@@ -1,0 +1,111 @@
+\doxysection{tvg\+Common.\+h}
+\hypertarget{tvg_common_8h_source}{}\label{tvg_common_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgCommon.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgCommon.h}}
+\doxymbox{\hyperlink{tvg_common_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2020\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_COMMON\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_COMMON\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{config_8h}{config.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{thorvg_8h}{thorvg.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ using\ namespace\ std;}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{using\ }std::string;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{using\ }std::lock\_guard;}
+\DoxyCodeLine{00037\ \textcolor{keyword}{using\ }std::unique\_ptr;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{using\ namespace\ }tvg;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{comment}{//for\ MSVC\ Compat}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_UNUSED}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \#define\ strncasecmp\ \_strnicmp}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \#define\ strcasecmp\ \_stricmp}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_UNUSED\ \_\_attribute\_\_\ ((\_\_unused\_\_))}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Portable\ 'fallthrough'\ attribute}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#if\ \_\_has\_cpp\_attribute(fallthrough)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ TVG\_FALLTHROUGH\ [[fallthrough]];}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ TVG\_FALLTHROUGH\ \_\_attribute\_\_\ ((fallthrough));}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVG\_FALLTHROUGH}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \#define\ strncpy\ strncpy\_s}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \#define\ strdup\ \_strdup}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{enum\ class}\ FileType\ \{\ Png\ =\ 0,\ Jpg,\ Webp,\ Tvg,\ Svg,\ Lottie,\ Ttf,\ Raw,\ Gif,\ Unknown\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{using\ }Size\ =\ Point;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#ifdef\ THORVG\_LOG\_ENABLED}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ ErrorColor\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[31m"{}};\ \ \textcolor{comment}{//red}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ ErrorBgColor\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[41m"{}};\textcolor{comment}{//bg\ red}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ LogColor\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[32m"{}};\ \ \ \ \textcolor{comment}{//green}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ LogBgColor\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[42m"{}};\ \ \textcolor{comment}{//bg\ green}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ GreyColor\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[90m"{}};\ \ \ \textcolor{comment}{//grey}}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ ResetColors\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[0m"{}};\ \ \textcolor{comment}{//default}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVGERR(tag,\ fmt,\ ...)\ fprintf(stderr,\ "{}\%s[E]\%s\ \%s"{}\ tag\ "{}\%s\ (\%s\ \%d):\ \%s"{}\ fmt\ "{}\(\backslash\)n"{},\ ErrorBgColor,\ ResetColors,\ ErrorColor,\ GreyColor,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ ResetColors,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVGLOG(tag,\ fmt,\ ...)\ fprintf(stdout,\ "{}\%s[L]\%s\ \%s"{}\ tag\ "{}\%s\ (\%s\ \%d):\ \%s"{}\ fmt\ "{}\(\backslash\)n"{},\ LogBgColor,\ ResetColors,\ LogColor,\ GreyColor,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ ResetColors,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVGERR(...)\ do\ \{\}\ while(0)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \#define\ TVGLOG(...)\ do\ \{\}\ while(0)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ THORVG\_VERSION\_NUMBER();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ P(A)\ ((A)-\/>pImpl)\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Access\ to\ pimpl.}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ PP(A)\ (((Paint*)(A))-\/>pImpl)\ \ \ }\textcolor{comment}{//Access\ to\ pimpl.}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{//for\ debugging}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#if\ 0}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#include\ <sys/time.h>}}
+\DoxyCodeLine{00094\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ THORVG\_TIMESTAMP()}
+\DoxyCodeLine{00095\ \{}
+\DoxyCodeLine{00096\ \ \ \ \textcolor{keyword}{struct\ }timeval\ tv;}
+\DoxyCodeLine{00097\ \ \ \ gettimeofday(\&tv,\ \doxymbox{\hyperlink{efi_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});}
+\DoxyCodeLine{00098\ \ \ \ \textcolor{keywordflow}{return}\ (tv.tv\_sec\ +\ tv.tv\_usec\ /\ 1000000.0);}
+\DoxyCodeLine{00099\ \}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_COMMON\_H\_}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00105\ }
+
+\end{DoxyCode}

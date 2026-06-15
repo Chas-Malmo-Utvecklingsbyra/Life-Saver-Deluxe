@@ -1,0 +1,110 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+esp\+\_\+lvgl\+\_\+port/\+examples/\+i2c\+\_\+oled/\+main/\+i2c\+\_\+oled\+\_\+example\+\_\+main.c File Reference}
+\hypertarget{i2c__oled__example__main_8c}{}\label{i2c__oled__example__main_8c}\index{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/examples/i2c\_oled/main/i2c\_oled\_example\_main.c@{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/examples/i2c\_oled/main/i2c\_oled\_example\_main.c}}
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+timer.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+io.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+ops.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+i2c\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}lvgl.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+vendor.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_accde446367d770e5b537232c989c618d}{I2\+C\+\_\+\+HOST}}~0
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a831972906f4462c162e9156d3bee8164}{EXAMPLE\+\_\+\+LCD\+\_\+\+PIXEL\+\_\+\+CLOCK\+\_\+\+HZ}}~(400 \texorpdfstring{$\ast$}{*} 1000)
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a521afe5ab3e5c4acb82b817d8a62126d}{EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+SDA}}~18
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a63f73d129de3fe803e42fb37b1c3783f}{EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+SCL}}~23
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a40c3ebe742d66812f59da16a555ad9cc}{EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+RST}}~-\/1
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a20b79a17614dc35aa21ac987d6df66d3}{EXAMPLE\+\_\+\+I2\+C\+\_\+\+HW\+\_\+\+ADDR}}~0x3C
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a0386bffe9f1256c007a18e33cf2e6869}{EXAMPLE\+\_\+\+LCD\+\_\+\+CMD\+\_\+\+BITS}}~8
+\item 
+\+\#define \doxymbox{\hyperlink{i2c__oled__example__main_8c_a118236fd0beacc9f0c096d0f7e56d144}{EXAMPLE\+\_\+\+LCD\+\_\+\+PARAM\+\_\+\+BITS}}~8
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{i2c__oled__example__main_8c_a493b031bb7106dd12d90746ecdae0b44}{example\+\_\+lvgl\+\_\+demo\+\_\+ui}} (\doxymbox{\hyperlink{lv__api__map__v8_8h_a8fa16283b632cb130ae113cf49b74823}{lv\+\_\+disp\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \doxymbox{\hyperlink{i2c__oled__example__main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\end{DoxyCompactItemize}
+
+
+\label{i2c__oled__example__main_8c_doc-define-members}
+\Hypertarget{i2c__oled__example__main_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{i2c__oled__example__main_8c_a20b79a17614dc35aa21ac987d6df66d3}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_I2C\_HW\_ADDR@{EXAMPLE\_I2C\_HW\_ADDR}}
+\index{EXAMPLE\_I2C\_HW\_ADDR@{EXAMPLE\_I2C\_HW\_ADDR}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_I2C\_HW\_ADDR}{EXAMPLE\_I2C\_HW\_ADDR}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a20b79a17614dc35aa21ac987d6df66d3} 
+\+\#define EXAMPLE\+\_\+\+I2\+C\+\_\+\+HW\+\_\+\+ADDR~0x3C}
+
+\Hypertarget{i2c__oled__example__main_8c_a0386bffe9f1256c007a18e33cf2e6869}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_LCD\_CMD\_BITS@{EXAMPLE\_LCD\_CMD\_BITS}}
+\index{EXAMPLE\_LCD\_CMD\_BITS@{EXAMPLE\_LCD\_CMD\_BITS}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_CMD\_BITS}{EXAMPLE\_LCD\_CMD\_BITS}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a0386bffe9f1256c007a18e33cf2e6869} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+CMD\+\_\+\+BITS~8}
+
+\Hypertarget{i2c__oled__example__main_8c_a118236fd0beacc9f0c096d0f7e56d144}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_LCD\_PARAM\_BITS@{EXAMPLE\_LCD\_PARAM\_BITS}}
+\index{EXAMPLE\_LCD\_PARAM\_BITS@{EXAMPLE\_LCD\_PARAM\_BITS}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_PARAM\_BITS}{EXAMPLE\_LCD\_PARAM\_BITS}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a118236fd0beacc9f0c096d0f7e56d144} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+PARAM\+\_\+\+BITS~8}
+
+\Hypertarget{i2c__oled__example__main_8c_a831972906f4462c162e9156d3bee8164}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ@{EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ}}
+\index{EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ@{EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ}{EXAMPLE\_LCD\_PIXEL\_CLOCK\_HZ}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a831972906f4462c162e9156d3bee8164} 
+\+\#define EXAMPLE\+\_\+\+LCD\+\_\+\+PIXEL\+\_\+\+CLOCK\+\_\+\+HZ~(400 \texorpdfstring{$\ast$}{*} 1000)}
+
+\Hypertarget{i2c__oled__example__main_8c_a40c3ebe742d66812f59da16a555ad9cc}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_PIN\_NUM\_RST@{EXAMPLE\_PIN\_NUM\_RST}}
+\index{EXAMPLE\_PIN\_NUM\_RST@{EXAMPLE\_PIN\_NUM\_RST}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_PIN\_NUM\_RST}{EXAMPLE\_PIN\_NUM\_RST}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a40c3ebe742d66812f59da16a555ad9cc} 
+\+\#define EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+RST~-\/1}
+
+\Hypertarget{i2c__oled__example__main_8c_a63f73d129de3fe803e42fb37b1c3783f}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_PIN\_NUM\_SCL@{EXAMPLE\_PIN\_NUM\_SCL}}
+\index{EXAMPLE\_PIN\_NUM\_SCL@{EXAMPLE\_PIN\_NUM\_SCL}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_PIN\_NUM\_SCL}{EXAMPLE\_PIN\_NUM\_SCL}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a63f73d129de3fe803e42fb37b1c3783f} 
+\+\#define EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+SCL~23}
+
+\Hypertarget{i2c__oled__example__main_8c_a521afe5ab3e5c4acb82b817d8a62126d}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!EXAMPLE\_PIN\_NUM\_SDA@{EXAMPLE\_PIN\_NUM\_SDA}}
+\index{EXAMPLE\_PIN\_NUM\_SDA@{EXAMPLE\_PIN\_NUM\_SDA}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{EXAMPLE\_PIN\_NUM\_SDA}{EXAMPLE\_PIN\_NUM\_SDA}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a521afe5ab3e5c4acb82b817d8a62126d} 
+\+\#define EXAMPLE\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+SDA~18}
+
+\Hypertarget{i2c__oled__example__main_8c_accde446367d770e5b537232c989c618d}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!I2C\_HOST@{I2C\_HOST}}
+\index{I2C\_HOST@{I2C\_HOST}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{I2C\_HOST}{I2C\_HOST}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_accde446367d770e5b537232c989c618d} 
+\+\#define I2\+C\+\_\+\+HOST~0}
+
+
+
+\label{i2c__oled__example__main_8c_doc-func-members}
+\Hypertarget{i2c__oled__example__main_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{i2c__oled__example__main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70} 
+void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{i2c__oled__example__main_8c_a493b031bb7106dd12d90746ecdae0b44}\index{i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}!example\_lvgl\_demo\_ui@{example\_lvgl\_demo\_ui}}
+\index{example\_lvgl\_demo\_ui@{example\_lvgl\_demo\_ui}!i2c\_oled\_example\_main.c@{i2c\_oled\_example\_main.c}}
+\doxysubsubsection{\texorpdfstring{example\_lvgl\_demo\_ui()}{example\_lvgl\_demo\_ui()}}
+{\footnotesize\ttfamily \label{i2c__oled__example__main_8c_a493b031bb7106dd12d90746ecdae0b44} 
+void example\+\_\+lvgl\+\_\+demo\+\_\+ui (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lv__api__map__v8_8h_a8fa16283b632cb130ae113cf49b74823}{lv\+\_\+disp\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+

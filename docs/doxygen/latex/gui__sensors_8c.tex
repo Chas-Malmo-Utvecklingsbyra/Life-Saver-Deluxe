@@ -3,6 +3,7 @@
 {\ttfamily \+\#include "{}gui\+\_\+sensors.\+h"{}}\newline
 {\ttfamily \+\#include "{}gui\+\_\+rename.\+h"{}}\newline
 {\ttfamily \+\#include "{}gui\+\_\+themes.\+h"{}}\newline
+{\ttfamily \+\#include "{}gui.\+h"{}}\newline
 {\ttfamily \+\#include "{}../\+sensor/\+sensor\+\_\+settings.\+h"{}}\newline
 {\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
 {\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
@@ -18,13 +19,13 @@
 \begin{DoxyCompactItemize}
 \item 
 void \doxymbox{\hyperlink{gui__sensors_8c_a78eea51978adc8876074660d0799efe8}{sensor\+\_\+ui\+\_\+reset}} (void)
-\item 
+\begin{DoxyCompactList}\small\item\em Resets all sensor UI state. \end{DoxyCompactList}\item 
 lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5}{ui\+\_\+build\+\_\+sensor\+\_\+card}} (lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}parent, \doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*}sensor, const char \texorpdfstring{$\ast$}{*}name)
-\item 
+\begin{DoxyCompactList}\small\item\em Builds a UI card for a magnetic sensor. \end{DoxyCompactList}\item 
 lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90}{ui\+\_\+build\+\_\+env\+\_\+card}} (lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}parent, const char \texorpdfstring{$\ast$}{*}title, int32\+\_\+t range\+\_\+min, int32\+\_\+t range\+\_\+max, \doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \texorpdfstring{$\ast$}{*}out)
-\item 
+\begin{DoxyCompactList}\small\item\em Builds a UI card for environmental sensor data. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{gui__sensors_8c_adee96262dcc0318ed9a06afad9d36987}{on\+\_\+ui\+\_\+poll\+\_\+timer}} (lv\+\_\+timer\+\_\+t \texorpdfstring{$\ast$}{*}timer)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Periodic UI update handler. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -38,12 +39,14 @@ bool \doxymbox{\hyperlink{gui__sensors_8c_a2a2c4aa14e033e6e40be186b9b4a304d}{bme
 \item 
 Semaphore\+Handle\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a802fa6f8c93bee8a4eba07568b5505b4}{env\+\_\+sensor\+\_\+mutex}}
 \item 
+bool \doxymbox{\hyperlink{gui__sensors_8c_a800a20426775e5dd71c3db9990e18a32}{ui\+\_\+rebuilding}}
+\item 
 \doxymbox{\hyperlink{struct_sensor_ui}{Sensor\+Ui}} \doxymbox{\hyperlink{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58}{sensor\+\_\+uis}} \+[\doxymbox{\hyperlink{sensor_8h_aa3d1fc2927eec213e6b5f9e854c392d2}{MAX\+\_\+\+SENSORS}}]\+
-\item 
+\begin{DoxyCompactList}\small\item\em Global UI sensor array. \end{DoxyCompactList}\item 
 size\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a3c0d34c909af874607f727f4d3607ec6}{sensor\+\_\+ui\+\_\+count}} = 0
-\item 
+\begin{DoxyCompactList}\small\item\em Number of active sensor UI elements. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \doxymbox{\hyperlink{gui__sensors_8c_acd80ba98a259303b153aeff66c29361a}{bme280\+\_\+ui}} \+[3]\+
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em UI containers for BME280 sensor channels (temperature, pressure, humidity). \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \label{gui__sensors_8c_doc-define-members}
@@ -66,24 +69,84 @@ size\+\_\+t \doxymbox{\hyperlink{gui__sensors_8c_a3c0d34c909af874607f727f4d3607e
 {\footnotesize\ttfamily \label{gui__sensors_8c_adee96262dcc0318ed9a06afad9d36987} 
 void on\+\_\+ui\+\_\+poll\+\_\+timer (\begin{DoxyParamCaption}\item[{lv\+\_\+timer\+\_\+t \texorpdfstring{$\ast$}{*}}]{timer}{}\end{DoxyParamCaption})}
 
+
+
+Periodic UI update handler. 
+
+Polls sensor backend state and updates LVGL objects accordingly. Handles both magnetic sensors and BME280 environmental readings.
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & LVGL timer triggering this callback. \\
+\hline
+\end{DoxyParams}
 \Hypertarget{gui__sensors_8c_a78eea51978adc8876074660d0799efe8}\index{gui\_sensors.c@{gui\_sensors.c}!sensor\_ui\_reset@{sensor\_ui\_reset}}
 \index{sensor\_ui\_reset@{sensor\_ui\_reset}!gui\_sensors.c@{gui\_sensors.c}}
 \doxysubsubsection{\texorpdfstring{sensor\_ui\_reset()}{sensor\_ui\_reset()}}
 {\footnotesize\ttfamily \label{gui__sensors_8c_a78eea51978adc8876074660d0799efe8} 
 void sensor\+\_\+ui\+\_\+reset (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
 
+
+
+Resets all sensor UI state. 
+
+Clears internal arrays and resets counters before rebuilding UI.
+
+\begin{DoxyNote}{Note}
+Does not delete LVGL objects; only resets tracking state. 
+\end{DoxyNote}
 \Hypertarget{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90}\index{gui\_sensors.c@{gui\_sensors.c}!ui\_build\_env\_card@{ui\_build\_env\_card}}
 \index{ui\_build\_env\_card@{ui\_build\_env\_card}!gui\_sensors.c@{gui\_sensors.c}}
 \doxysubsubsection{\texorpdfstring{ui\_build\_env\_card()}{ui\_build\_env\_card()}}
 {\footnotesize\ttfamily \label{gui__sensors_8c_a6d2dc36aea6b6278a1e1d89396756b90} 
 lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} ui\+\_\+build\+\_\+env\+\_\+card (\begin{DoxyParamCaption}\item[{lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}}]{parent}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{title}{, }\item[{int32\+\_\+t}]{range\+\_\+min}{, }\item[{int32\+\_\+t}]{range\+\_\+max}{, }\item[{\doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} \texorpdfstring{$\ast$}{*}}]{out}{}\end{DoxyParamCaption})}
 
+
+
+Builds a UI card for environmental sensor data. 
+
+Creates a circular gauge-\/based display for BME280 values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Parent LVGL container. \\
+\hline
+{\em title} & Display title of the metric. \\
+\hline
+{\em range\+\_\+min} & Minimum value of gauge. \\
+\hline
+{\em range\+\_\+max} & Maximum value of gauge. \\
+\hline
+{\em out} & Output struct storing references to created UI objects.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to created LVGL object. 
+\end{DoxyReturn}
 \Hypertarget{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5}\index{gui\_sensors.c@{gui\_sensors.c}!ui\_build\_sensor\_card@{ui\_build\_sensor\_card}}
 \index{ui\_build\_sensor\_card@{ui\_build\_sensor\_card}!gui\_sensors.c@{gui\_sensors.c}}
 \doxysubsubsection{\texorpdfstring{ui\_build\_sensor\_card()}{ui\_build\_sensor\_card()}}
 {\footnotesize\ttfamily \label{gui__sensors_8c_a61826b8045d748a81f7a3e00e32f76f5} 
 lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*} ui\+\_\+build\+\_\+sensor\+\_\+card (\begin{DoxyParamCaption}\item[{lv\+\_\+obj\+\_\+t \texorpdfstring{$\ast$}{*}}]{parent}{, }\item[{\doxymbox{\hyperlink{struct_sensor}{Sensor}} \texorpdfstring{$\ast$}{*}}]{sensor}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{}\end{DoxyParamCaption})}
 
+
+
+Builds a UI card for a magnetic sensor. 
+
+Creates a clickable LVGL card bound to a \doxylink{struct_sensor}{Sensor} instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Parent LVGL container. \\
+\hline
+{\em sensor} & \doxylink{struct_sensor}{Sensor} backend object. \\
+\hline
+{\em name} & Fallback display name if no stored name exists.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to created LVGL object, or NULL on failure. 
+\end{DoxyReturn}
 
 
 \label{gui__sensors_8c_doc-var-members}
@@ -100,6 +163,10 @@ bool bme280\+\_\+running\hspace{0.3cm}{\ttfamily [extern]}}
 \doxysubsubsection{\texorpdfstring{bme280\_ui}{bme280\_ui}}
 {\footnotesize\ttfamily \label{gui__sensors_8c_acd80ba98a259303b153aeff66c29361a} 
 \doxymbox{\hyperlink{struct_b_m_e280_ui}{BME280\+Ui}} bme280\+\_\+ui\+[3]\+}
+
+
+
+UI containers for BME280 sensor channels (temperature, pressure, humidity). 
 
 \Hypertarget{gui__sensors_8c_a97db531d21911db60f31c5446ad6edd5}\index{gui\_sensors.c@{gui\_sensors.c}!current\_theme@{current\_theme}}
 \index{current\_theme@{current\_theme}!gui\_sensors.c@{gui\_sensors.c}}
@@ -131,9 +198,23 @@ lv\+\_\+obj\+\_\+t\texorpdfstring{$\ast$}{*} main\+\_\+tabview\hspace{0.3cm}{\tt
 {\footnotesize\ttfamily \label{gui__sensors_8c_a3c0d34c909af874607f727f4d3607ec6} 
 size\+\_\+t sensor\+\_\+ui\+\_\+count = 0}
 
+
+
+Number of active sensor UI elements. 
+
 \Hypertarget{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58}\index{gui\_sensors.c@{gui\_sensors.c}!sensor\_uis@{sensor\_uis}}
 \index{sensor\_uis@{sensor\_uis}!gui\_sensors.c@{gui\_sensors.c}}
 \doxysubsubsection{\texorpdfstring{sensor\_uis}{sensor\_uis}}
 {\footnotesize\ttfamily \label{gui__sensors_8c_ae8dd19de9ad2886a29af209435b47a58} 
 \doxymbox{\hyperlink{struct_sensor_ui}{Sensor\+Ui}} sensor\+\_\+uis\+[\doxymbox{\hyperlink{sensor_8h_aa3d1fc2927eec213e6b5f9e854c392d2}{MAX\+\_\+\+SENSORS}}]\+}
+
+
+
+Global UI sensor array. 
+
+Contains all active sensor UI elements currently rendered. \Hypertarget{gui__sensors_8c_a800a20426775e5dd71c3db9990e18a32}\index{gui\_sensors.c@{gui\_sensors.c}!ui\_rebuilding@{ui\_rebuilding}}
+\index{ui\_rebuilding@{ui\_rebuilding}!gui\_sensors.c@{gui\_sensors.c}}
+\doxysubsubsection{\texorpdfstring{ui\_rebuilding}{ui\_rebuilding}}
+{\footnotesize\ttfamily \label{gui__sensors_8c_a800a20426775e5dd71c3db9990e18a32} 
+bool ui\+\_\+rebuilding\hspace{0.3cm}{\ttfamily [extern]}}
 

@@ -1,0 +1,403 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+core/\+lv\+\_\+obj\+\_\+tree.c File Reference}
+\hypertarget{lv__obj__tree_8c}{}\label{lv__obj__tree_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_tree.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/core/lv\_obj\_tree.c}}
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+obj\+\_\+class\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+indev/\+lv\+\_\+indev\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+display/\+lv\+\_\+display\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+anim\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+async.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+core/\+lv\+\_\+global.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__tree_8c_a9be806f23ad96997f1d62c1a6dfabe05}{MY\+\_\+\+CLASS}}~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__tree_8c_acb7441d82198d294676357910eec538d}{disp\+\_\+ll\+\_\+p}}~\&(\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$disp\+\_\+ll)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__tree_8c_ab3dd57b0a79a9eb219ecc86248c70f7c}{OBJ\+\_\+\+DUMP\+\_\+\+STRING\+\_\+\+LEN}}~128
+\item 
+\+\#define \doxymbox{\hyperlink{lv__obj__tree_8c_a12ad184127a00bf2b141d4dbce39106b}{LV\+\_\+\+OBJ\+\_\+\+NAME\+\_\+\+MAX\+\_\+\+LEN}}~128
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_aeaa0347dd6107388289b8806e440d39c}{lv\+\_\+obj\+\_\+delete}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_ab9e1d84b921e63d1da83fe711b214aea}{lv\+\_\+obj\+\_\+clean}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a251c8882d844dda05fe90ba5fb914cf8}{lv\+\_\+obj\+\_\+delete\+\_\+delayed}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} delay\+\_\+ms)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a5713d8602965e798c5d594f806e15684}{lv\+\_\+obj\+\_\+delete\+\_\+anim\+\_\+completed\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a94df93c022dc57ee917b4757e50ebe22}{lv\+\_\+anim\+\_\+t}} \texorpdfstring{$\ast$}{*}a)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a149f593eafa88631483497e5e411e74f}{lv\+\_\+obj\+\_\+delete\+\_\+async}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_abc514aaa674d90d982ebefebca6b2284}{lv\+\_\+obj\+\_\+set\+\_\+parent}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}parent)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a4ab282af093d2c0df6be68d778bd4f7c}{lv\+\_\+obj\+\_\+move\+\_\+to\+\_\+index}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} index)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a3f7224c42673039d236a50543d9c3bff}{lv\+\_\+obj\+\_\+swap}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj1, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj2)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_ab26ad243fd93d4692a5230c8860c6da0}{lv\+\_\+obj\+\_\+get\+\_\+screen}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_ab2c3f4e56b41940f9cd641770ef06c57}{lv\+\_\+obj\+\_\+get\+\_\+display}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_ae57dc586fb19ae81c4c9f70d8e7eec7d}{lv\+\_\+obj\+\_\+get\+\_\+parent}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_a3e24ca3582751e4755957221ea5fdca5}{lv\+\_\+obj\+\_\+get\+\_\+child}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} idx)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_a919c5560c53150b7c59a37625166a7ad}{lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+by\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} idx, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_a0cc0d08ab22edcf41c1147e00ca45281}{lv\+\_\+obj\+\_\+get\+\_\+sibling}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} idx)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__obj__tree_8c_a299bfb0114ceb92aa48d5c86b0693710}{lv\+\_\+obj\+\_\+get\+\_\+sibling\+\_\+by\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} idx, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__tree_8c_aa4fc352f5f4e6cf277f17d14a4d508c3}{lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+count}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__tree_8c_a5b17cb7736dbd385d8590071921431f4}{lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+count\+\_\+by\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__tree_8c_a00ae60ec74b6ef9cea58ba544f386839}{lv\+\_\+obj\+\_\+get\+\_\+index}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \doxymbox{\hyperlink{lv__obj__tree_8c_a1cca0337e0907260728bc5e405542573}{lv\+\_\+obj\+\_\+get\+\_\+index\+\_\+by\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}class\+\_\+p)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a64ac3f5c173fe85de8a18efb25f594db}{lv\+\_\+obj\+\_\+tree\+\_\+walk}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}start\+\_\+obj, \doxymbox{\hyperlink{lv__obj__tree_8h_a879e35aa3219427019da99366bc2a7d0}{lv\+\_\+obj\+\_\+tree\+\_\+walk\+\_\+cb\+\_\+t}} cb, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+void \doxymbox{\hyperlink{lv__obj__tree_8c_a53de48fb2fb1dd45491da41c1bf90c15}{lv\+\_\+obj\+\_\+dump\+\_\+tree}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}start\+\_\+obj)
+\end{DoxyCompactItemize}
+
+
+\label{lv__obj__tree_8c_doc-define-members}
+\Hypertarget{lv__obj__tree_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__obj__tree_8c_acb7441d82198d294676357910eec538d}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!disp\_ll\_p@{disp\_ll\_p}}
+\index{disp\_ll\_p@{disp\_ll\_p}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{disp\_ll\_p}{disp\_ll\_p}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_acb7441d82198d294676357910eec538d} 
+\+\#define disp\+\_\+ll\+\_\+p~\&(\doxymbox{\hyperlink{lv__global_8h_a2278d81a8423436c3d1bddf6bb940bc6}{LV\+\_\+\+GLOBAL\+\_\+\+DEFAULT}}()-\/$>$disp\+\_\+ll)}
+
+\Hypertarget{lv__obj__tree_8c_a12ad184127a00bf2b141d4dbce39106b}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!LV\_OBJ\_NAME\_MAX\_LEN@{LV\_OBJ\_NAME\_MAX\_LEN}}
+\index{LV\_OBJ\_NAME\_MAX\_LEN@{LV\_OBJ\_NAME\_MAX\_LEN}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{LV\_OBJ\_NAME\_MAX\_LEN}{LV\_OBJ\_NAME\_MAX\_LEN}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a12ad184127a00bf2b141d4dbce39106b} 
+\+\#define LV\+\_\+\+OBJ\+\_\+\+NAME\+\_\+\+MAX\+\_\+\+LEN~128}
+
+\Hypertarget{lv__obj__tree_8c_a9be806f23ad96997f1d62c1a6dfabe05}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!MY\_CLASS@{MY\_CLASS}}
+\index{MY\_CLASS@{MY\_CLASS}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{MY\_CLASS}{MY\_CLASS}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a9be806f23ad96997f1d62c1a6dfabe05} 
+\+\#define MY\+\_\+\+CLASS~(\&\doxymbox{\hyperlink{lv__obj_8c_a424ca3b432ad82f98c4b05950b597d44}{lv\+\_\+obj\+\_\+class}})}
+
+\Hypertarget{lv__obj__tree_8c_ab3dd57b0a79a9eb219ecc86248c70f7c}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!OBJ\_DUMP\_STRING\_LEN@{OBJ\_DUMP\_STRING\_LEN}}
+\index{OBJ\_DUMP\_STRING\_LEN@{OBJ\_DUMP\_STRING\_LEN}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{OBJ\_DUMP\_STRING\_LEN}{OBJ\_DUMP\_STRING\_LEN}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_ab3dd57b0a79a9eb219ecc86248c70f7c} 
+\+\#define OBJ\+\_\+\+DUMP\+\_\+\+STRING\+\_\+\+LEN~128}
+
+
+
+\label{lv__obj__tree_8c_doc-func-members}
+\Hypertarget{lv__obj__tree_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__obj__tree_8c_ab9e1d84b921e63d1da83fe711b214aea}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_clean@{lv\_obj\_clean}}
+\index{lv\_obj\_clean@{lv\_obj\_clean}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_clean()}{lv\_obj\_clean()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_ab9e1d84b921e63d1da83fe711b214aea} 
+void lv\+\_\+obj\+\_\+clean (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Delete all children of an object. Also remove the objects from their group and remove all animations (if any). Send {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a2b6e10a27dd52c80f3ed04e4bc3ced2b}{LV\+\_\+\+EVENT\+\_\+\+DELETE}} to deleted objects. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_aeaa0347dd6107388289b8806e440d39c}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_delete@{lv\_obj\_delete}}
+\index{lv\_obj\_delete@{lv\_obj\_delete}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_delete()}{lv\_obj\_delete()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_aeaa0347dd6107388289b8806e440d39c} 
+void lv\+\_\+obj\+\_\+delete (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Delete an object and all of its children. Also remove the objects from their group and remove all animations (if any). Send {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a2b6e10a27dd52c80f3ed04e4bc3ced2b}{LV\+\_\+\+EVENT\+\_\+\+DELETE}} to deleted objects. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a5713d8602965e798c5d594f806e15684}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_delete\_anim\_completed\_cb@{lv\_obj\_delete\_anim\_completed\_cb}}
+\index{lv\_obj\_delete\_anim\_completed\_cb@{lv\_obj\_delete\_anim\_completed\_cb}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_delete\_anim\_completed\_cb()}{lv\_obj\_delete\_anim\_completed\_cb()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a5713d8602965e798c5d594f806e15684} 
+void lv\+\_\+obj\+\_\+delete\+\_\+anim\+\_\+completed\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a94df93c022dc57ee917b4757e50ebe22}{lv\+\_\+anim\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{a}{}\end{DoxyParamCaption})}
+
+A function to be easily used in animation ready callback to delete an object when the animation is ready 
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to the animation \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a149f593eafa88631483497e5e411e74f}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_delete\_async@{lv\_obj\_delete\_async}}
+\index{lv\_obj\_delete\_async@{lv\_obj\_delete\_async}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_delete\_async()}{lv\_obj\_delete\_async()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a149f593eafa88631483497e5e411e74f} 
+void lv\+\_\+obj\+\_\+delete\+\_\+async (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Helper function for asynchronously deleting objects. Useful for cases where you can\textquotesingle{}t delete an object directly in an {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a2b6e10a27dd52c80f3ed04e4bc3ced2b}{LV\+\_\+\+EVENT\+\_\+\+DELETE}} handler (i.\+e. parent). 
+\begin{DoxyParams}{Parameters}
+{\em obj} & object to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\doxylink{lv__async_8c_ae3bb1aec71910531ac153350075eeae5}{lv\+\_\+async\+\_\+call} 
+\end{DoxySeeAlso}
+\Hypertarget{lv__obj__tree_8c_a251c8882d844dda05fe90ba5fb914cf8}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_delete\_delayed@{lv\_obj\_delete\_delayed}}
+\index{lv\_obj\_delete\_delayed@{lv\_obj\_delete\_delayed}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_delete\_delayed()}{lv\_obj\_delete\_delayed()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a251c8882d844dda05fe90ba5fb914cf8} 
+void lv\+\_\+obj\+\_\+delete\+\_\+delayed (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{delay\+\_\+ms}{}\end{DoxyParamCaption})}
+
+Delete an object after some delay 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em delay\+\_\+ms} & time to wait before delete in milliseconds \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a53de48fb2fb1dd45491da41c1bf90c15}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_dump\_tree@{lv\_obj\_dump\_tree}}
+\index{lv\_obj\_dump\_tree@{lv\_obj\_dump\_tree}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_dump\_tree()}{lv\_obj\_dump\_tree()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a53de48fb2fb1dd45491da41c1bf90c15} 
+void lv\+\_\+obj\+\_\+dump\+\_\+tree (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{start\+\_\+obj}{}\end{DoxyParamCaption})}
+
+Iterate through all children of any object and print their ID. 
+\begin{DoxyParams}{Parameters}
+{\em start\+\_\+obj} & start integrating from this object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a3e24ca3582751e4755957221ea5fdca5}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_child@{lv\_obj\_get\_child}}
+\index{lv\_obj\_get\_child@{lv\_obj\_get\_child}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_child()}{lv\_obj\_get\_child()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a3e24ca3582751e4755957221ea5fdca5} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+child (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{idx}{}\end{DoxyParamCaption})}
+
+Get the child of an object by the child\textquotesingle{}s index. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose child should be get \\
+\hline
+{\em idx} & the index of the child. 0:\+ the oldest (firstly created) child 1:\+ the second oldest child count-\/1:\+ the youngest -\/1:\+ the youngest -\/2:\+ the second youngest \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the child or NULL if the index was invalid 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a919c5560c53150b7c59a37625166a7ad}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_child\_by\_type@{lv\_obj\_get\_child\_by\_type}}
+\index{lv\_obj\_get\_child\_by\_type@{lv\_obj\_get\_child\_by\_type}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_child\_by\_type()}{lv\_obj\_get\_child\_by\_type()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a919c5560c53150b7c59a37625166a7ad} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{idx}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Get the child of an object by the child\textquotesingle{}s index. Consider the children only with a given type. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose child should be get \\
+\hline
+{\em idx} & the index of the child. 0:\+ the oldest (firstly created) child 1:\+ the second oldest child count-\/1:\+ the youngest -\/1:\+ the youngest -\/2:\+ the second youngest \\
+\hline
+{\em class\+\_\+p} & the type of the children to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the child or NULL if the index was invalid 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_aa4fc352f5f4e6cf277f17d14a4d508c3}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_child\_count@{lv\_obj\_get\_child\_count}}
+\index{lv\_obj\_get\_child\_count@{lv\_obj\_get\_child\_count}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_child\_count()}{lv\_obj\_get\_child\_count()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_aa4fc352f5f4e6cf277f17d14a4d508c3} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+count (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the number of children 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of children 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a5b17cb7736dbd385d8590071921431f4}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_child\_count\_by\_type@{lv\_obj\_get\_child\_count\_by\_type}}
+\index{lv\_obj\_get\_child\_count\_by\_type@{lv\_obj\_get\_child\_count\_by\_type}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_child\_count\_by\_type()}{lv\_obj\_get\_child\_count\_by\_type()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a5b17cb7736dbd385d8590071921431f4} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+child\+\_\+count\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Get the number of children having a given type. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em class\+\_\+p} & the type of the children to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of children 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_ab2c3f4e56b41940f9cd641770ef06c57}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_display@{lv\_obj\_get\_display}}
+\index{lv\_obj\_get\_display@{lv\_obj\_get\_display}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_display()}{lv\_obj\_get\_display()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_ab2c3f4e56b41940f9cd641770ef06c57} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+display (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the display of the object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the object\textquotesingle{}s display 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a00ae60ec74b6ef9cea58ba544f386839}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_index@{lv\_obj\_get\_index}}
+\index{lv\_obj\_get\_index@{lv\_obj\_get\_index}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_index()}{lv\_obj\_get\_index()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a00ae60ec74b6ef9cea58ba544f386839} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+index (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the index of a child. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the child index of the object. E.\+g. 0:\+ the oldest (firstly created child). (-\/1 if child could not be found or no parent exists) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a1cca0337e0907260728bc5e405542573}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_index\_by\_type@{lv\_obj\_get\_index\_by\_type}}
+\index{lv\_obj\_get\_index\_by\_type@{lv\_obj\_get\_index\_by\_type}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_index\_by\_type()}{lv\_obj\_get\_index\_by\_type()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a1cca0337e0907260728bc5e405542573} 
+\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} lv\+\_\+obj\+\_\+get\+\_\+index\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Get the index of a child. Consider the children only with a given type. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+{\em class\+\_\+p} & the type of the children to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the child index of the object. E.\+g. 0:\+ the oldest (firstly created child with the given class). (-\/1 if child could not be found or no parent exists) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_ae57dc586fb19ae81c4c9f70d8e7eec7d}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_parent@{lv\_obj\_get\_parent}}
+\index{lv\_obj\_get\_parent@{lv\_obj\_get\_parent}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_parent()}{lv\_obj\_get\_parent()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_ae57dc586fb19ae81c4c9f70d8e7eec7d} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+parent (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the parent of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the parent of the object. (NULL if {\ttfamily obj} was a screen) 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_ab26ad243fd93d4692a5230c8860c6da0}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_screen@{lv\_obj\_get\_screen}}
+\index{lv\_obj\_get\_screen@{lv\_obj\_get\_screen}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_screen()}{lv\_obj\_get\_screen()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_ab26ad243fd93d4692a5230c8860c6da0} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+screen (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Get the screen of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the object\textquotesingle{}s screen 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a0cc0d08ab22edcf41c1147e00ca45281}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_sibling@{lv\_obj\_get\_sibling}}
+\index{lv\_obj\_get\_sibling@{lv\_obj\_get\_sibling}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_sibling()}{lv\_obj\_get\_sibling()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a0cc0d08ab22edcf41c1147e00ca45281} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+sibling (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{idx}{}\end{DoxyParamCaption})}
+
+Return a sibling of an object 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose sibling should be get \\
+\hline
+{\em idx} & 0:\+ {\ttfamily obj} itself -\/1:\+ the first older sibling -\/2:\+ the next older sibling 1:\+ the first younger sibling 2:\+ the next younger sibling etc \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the requested sibling or NULL if there is no such sibling 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a299bfb0114ceb92aa48d5c86b0693710}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_get\_sibling\_by\_type@{lv\_obj\_get\_sibling\_by\_type}}
+\index{lv\_obj\_get\_sibling\_by\_type@{lv\_obj\_get\_sibling\_by\_type}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_get\_sibling\_by\_type()}{lv\_obj\_get\_sibling\_by\_type()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a299bfb0114ceb92aa48d5c86b0693710} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+obj\+\_\+get\+\_\+sibling\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{idx}{, }\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a45f1eead6ce2fb12e215ea3e0558f168}{lv\+\_\+obj\+\_\+class\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{class\+\_\+p}{}\end{DoxyParamCaption})}
+
+Return a sibling of an object. Consider the siblings only with a given type. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose sibling should be get \\
+\hline
+{\em idx} & 0:\+ {\ttfamily obj} itself -\/1:\+ the first older sibling -\/2:\+ the next older sibling 1:\+ the first younger sibling 2:\+ the next younger sibling etc \\
+\hline
+{\em class\+\_\+p} & the type of the children to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the requested sibling or NULL if there is no such sibling 
+\end{DoxyReturn}
+\Hypertarget{lv__obj__tree_8c_a4ab282af093d2c0df6be68d778bd4f7c}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_move\_to\_index@{lv\_obj\_move\_to\_index}}
+\index{lv\_obj\_move\_to\_index@{lv\_obj\_move\_to\_index}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_move\_to\_index()}{lv\_obj\_move\_to\_index()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a4ab282af093d2c0df6be68d778bd4f7c} 
+void lv\+\_\+obj\+\_\+move\+\_\+to\+\_\+index (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}]{index}{}\end{DoxyParamCaption})}
+
+moves the object to the given index in its parent. When used in listboxes, it can be used to sort the listbox items. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to the object to be moved. \\
+\hline
+{\em index} & new index in parent. -\/1 to count from the back \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+to move to the background:\+ lv\+\_\+obj\+\_\+move\+\_\+to\+\_\+index(obj, 0) 
+
+to move forward (up):\+ lv\+\_\+obj\+\_\+move\+\_\+to\+\_\+index(obj, lv\+\_\+obj\+\_\+get\+\_\+index(obj) -\/ 1) 
+\end{DoxyNote}
+\Hypertarget{lv__obj__tree_8c_abc514aaa674d90d982ebefebca6b2284}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_set\_parent@{lv\_obj\_set\_parent}}
+\index{lv\_obj\_set\_parent@{lv\_obj\_set\_parent}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_set\_parent()}{lv\_obj\_set\_parent()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_abc514aaa674d90d982ebefebca6b2284} 
+void lv\+\_\+obj\+\_\+set\+\_\+parent (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{parent}{}\end{DoxyParamCaption})}
+
+Move the parent of an object. The relative coordinates will be kept.
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to an object whose parent needs to be changed \\
+\hline
+{\em parent} & pointer to the new parent \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a3f7224c42673039d236a50543d9c3bff}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_swap@{lv\_obj\_swap}}
+\index{lv\_obj\_swap@{lv\_obj\_swap}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_swap()}{lv\_obj\_swap()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a3f7224c42673039d236a50543d9c3bff} 
+void lv\+\_\+obj\+\_\+swap (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj1}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj2}{}\end{DoxyParamCaption})}
+
+Swap the positions of two objects. When used in listboxes, it can be used to sort the listbox items. 
+\begin{DoxyParams}{Parameters}
+{\em obj1} & pointer to the first object \\
+\hline
+{\em obj2} & pointer to the second object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__obj__tree_8c_a64ac3f5c173fe85de8a18efb25f594db}\index{lv\_obj\_tree.c@{lv\_obj\_tree.c}!lv\_obj\_tree\_walk@{lv\_obj\_tree\_walk}}
+\index{lv\_obj\_tree\_walk@{lv\_obj\_tree\_walk}!lv\_obj\_tree.c@{lv\_obj\_tree.c}}
+\doxysubsubsection{\texorpdfstring{lv\_obj\_tree\_walk()}{lv\_obj\_tree\_walk()}}
+{\footnotesize\ttfamily \label{lv__obj__tree_8c_a64ac3f5c173fe85de8a18efb25f594db} 
+void lv\+\_\+obj\+\_\+tree\+\_\+walk (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{start\+\_\+obj}{, }\item[{\doxymbox{\hyperlink{lv__obj__tree_8h_a879e35aa3219427019da99366bc2a7d0}{lv\+\_\+obj\+\_\+tree\+\_\+walk\+\_\+cb\+\_\+t}}}]{cb}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+Iterate through all children of any object. 
+\begin{DoxyParams}{Parameters}
+{\em start\+\_\+obj} & start integrating from this object \\
+\hline
+{\em cb} & call this callback on the objects \\
+\hline
+{\em user\+\_\+data} & pointer to any user related data (will be passed to {\ttfamily cb}) \\
+\hline
+\end{DoxyParams}

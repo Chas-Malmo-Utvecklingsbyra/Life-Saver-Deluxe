@@ -1,0 +1,86 @@
+\doxysection{unity\+\_\+support.\+h}
+\hypertarget{unity__support_8h_source}{}\label{unity__support_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/tests/unity/unity\_support.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/tests/unity/unity\_support.h}}
+\doxymbox{\hyperlink{unity__support_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LV\_UNITY\_SUPPORT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LV\_UNITY\_SUPPORT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl_8h}{../../lvgl.h}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#if\ LV\_COLOR\_DEPTH\ !=\ 32}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_SCREENSHOT(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TEST\_IGNORE\_MESSAGE("{}Requires\ LV\_COLOR\_DEPTH\ 32"{});}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_SCREENSHOT\_MESSAGE(path,\ msg)\ \ \ TEST\_PRINTF(msg);\ TEST\_IGNORE\_MESSAGE("{}Requires\ LV\_COLOR\_DEPTH\ 32"{});}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_SCREENSHOT(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if(LV\_HOR\_RES\ !=\ 800\ ||\ LV\_VER\_RES\ !=\ 480)\ \{\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_IGNORE\_MESSAGE("{}Requires\ 800x480\ resolution"{});\ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \}\ else\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_ASSERT\_MESSAGE(lv\_test\_screenshot\_compare(path),\ path);\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_SCREENSHOT\_MESSAGE(path,\ msg)\ \ \ \ if(LV\_HOR\_RES\ !=\ 800\ ||\ LV\_VER\_RES\ !=\ 480)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_PRINTF(msg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_IGNORE\_MESSAGE("{}Requires\ 800x480\ resolution"{});\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \}\ else\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_ASSERT\_MESSAGE(lv\_test\_screenshot\_compare(path),\ msg);\ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_COLOR(c1,\ c2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TEST\_ASSERT\_TRUE(lv\_color\_eq(c1,\ c2))}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_COLOR\_MESSAGE(c1,\ c2,\ msg)\ \ \ \ \ \ TEST\_ASSERT\_TRUE(lv\_color\_eq(c1,\ c2),\ msg)}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_COLOR32(c1,\ c2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TEST\_ASSERT\_TRUE(lv\_color32\_eq(c1,\ c2))}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_EQUAL\_COLOR32\_MESSAGE(c1,\ c2,\ msg)\ \ \ \ \ \ TEST\_ASSERT\_TRUE(lv\_color32\_eq(c1,\ c2),\ msg)}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_NOT\_EQUAL\_COLOR(c1,\ c2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TEST\_ASSERT\_FALSE(lv\_color\_eq(c1,\ c2))}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_NOT\_EQUAL\_COLOR\_MESSAGE(c1,\ c2,\ msg)\ \ \ \ \ \ TEST\_ASSERT\_FALSE(lv\_color\_eq(c1,\ c2),\ msg)}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_NOT\_EQUAL\_COLOR32(c1,\ c2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TEST\_ASSERT\_FALSE(lv\_color32\_eq(c1,\ c2))}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_NOT\_EQUAL\_COLOR32\_MESSAGE(c1,\ c2,\ msg)\ \ \ \ \ \ TEST\_ASSERT\_FALSE(lv\_color32\_eq(c1,\ c2),\ msg)}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#\ \ define\ TEST\_ASSERT\_MEM\_LEAK\_LESS\_THAN(prev\_usage,\ threshold)\ \ TEST\_ASSERT\_LESS\_OR\_EQUAL(threshold,\ LV\_ABS((int64\_t)(prev\_usage)\ -\/\ (int64\_t)lv\_test\_get\_free\_mem()));}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifdef\ LV\_BUILD\_TEST\_PERF}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ TEST\_ASSERT\_MAX\_TIME(fn,\ max\_time\_ms,\ ...)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ clock\_t\ t\ =\ clock();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ fn(\_\_VA\_ARGS\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ t\ =\ clock()\ -\/\ t;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ const\ double\ time\_taken\ =\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ ((double)t\ *\ 1000.)\ /\ CLOCKS\_PER\_SEC;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_ASSERT\_LESS\_OR\_EQUAL\_DOUBLE((max\_time\_ms),\ time\_taken);\ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ (0)}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ TEST\_ASSERT\_MAX\_TIME\_ITER(fn,\ max\_time\_ms,\ iterations,\ ...)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ clock\_t\ t\ =\ clock();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ for\ (size\_t\ i\ =\ 0;\ i\ <\ iterations;\ ++i)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ fn(\_\_VA\_ARGS\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ t\ =\ clock()\ -\/\ t;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ const\ double\ time\_taken\ =\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ ((double)t\ *\ 1000.)\ /\ CLOCKS\_PER\_SEC;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ TEST\_ASSERT\_LESS\_OR\_EQUAL\_DOUBLE((max\_time\_ms),\ time\_taken);\ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ (0)}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ TEST\_ASSERT\_MAX\_TIME(fn,\ max\_time\_ms,\ ...)\ \ fn(\_\_VA\_ARGS\_\_);}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ TEST\_ASSERT\_MAX\_TIME\_ITER(fn,\ max\_time\_ms,\ ...)\ fn(\_\_VA\_ARGS\_\_);}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_BUILD\_TEST\_PERF\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00077\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_UNITY\_SUPPORT\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

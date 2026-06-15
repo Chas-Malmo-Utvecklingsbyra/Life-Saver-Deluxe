@@ -1,0 +1,476 @@
+\doxysection{uri.\+h}
+\hypertarget{uri_8h_source}{}\label{uri_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/uri.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/uri.h}}
+\doxymbox{\hyperlink{uri_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ (C)\ Copyright\ IBM\ Corporation\ 2021}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_URI\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_URI\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{strfunc_8h}{internal/strfunc.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00021\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00022\ RAPIDJSON\_DIAG\_OFF(c++98-\/compat)}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00024\ RAPIDJSON\_DIAG\_OFF(4512)\ \textcolor{comment}{//\ assignment\ operator\ could\ not\ be\ generated}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ GenericUri}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ ValueType,\ \textcolor{keyword}{typename}\ Allocator=CrtAllocator>}
+\DoxyCodeLine{00033\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\ \{}
+\DoxyCodeLine{00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ ValueType::Ch\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}};}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_STDSTRING}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{typedef}\ std::basic\_string<Ch>\ String;}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}(\doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a50243b977e76e849784d6bac17f1e3ce}{GenericUri}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ uri,\ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ len,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ Parse(uri,\ len);}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_ac03be1945db598202aa89ebf9d8629bb}{GenericUri}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ uri,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ Parse(uri,\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(uri));}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ Use\ with\ specializations\ of\ GenericValue}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \doxymbox{\hyperlink{class_generic_uri_ae24f3a4014a8c49d37f172a4eebcebfc}{GenericUri}}(\textcolor{keyword}{const}\ T\&\ uri,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ u\ =\ uri.template\ \doxymbox{\hyperlink{class_generic_uri_ac23d92c1e5f461c355134d0387fc14fa}{Get<const\ Ch*>}}();\ \textcolor{comment}{//\ TypeHelper\ from\ document.h}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ Parse(u,\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(u));}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_STDSTRING}}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}(\textcolor{keyword}{const}\ String\&\ uri,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ Parse(uri.c\_str(),\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(uri.c\_str()));}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a3bfa61f5af812da1c4d172a422f16985}{GenericUri}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ rhs)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}\ =\ rhs;}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00070\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a6734188aa9abe825bdb89d62dc91658e}{GenericUri}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ rhs,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator)\ :\ uri\_(),\ base\_(),\ scheme\_(),\ auth\_(),\ path\_(),\ query\_(),\ frag\_(),\ allocator\_(allocator),\ ownAllocator\_()\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}\ =\ rhs;}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00075\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_ad72ba530acd4d187539419e463154d18}{\string~GenericUri}}()\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ Free();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a52c941c3fdd646527cdcd42aa846a28a}{RAPIDJSON\_DELETE}}(ownAllocator\_);}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ \doxymbox{\hyperlink{class_generic_uri_aa621bddea78a94e9a85248bf6e726dee}{operator=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ rhs)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ !=\ \&rhs)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ not\ delete\ ownAllocator}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ Free();}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ Allocate(rhs.\doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}());}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ auth\_\ =\ CopyPart(scheme\_,\ rhs.scheme\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}());}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ path\_\ =\ CopyPart(auth\_,\ rhs.auth\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}());}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ query\_\ =\ CopyPart(path\_,\ rhs.path\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ frag\_\ =\ CopyPart(query\_,\ rhs.query\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ base\_\ =\ CopyPart(frag\_,\ rhs.frag\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}());}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ uri\_\ =\ CopyPart(base\_,\ rhs.base\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}());}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ CopyPart(uri\_,\ rhs.uri\_,\ rhs.\doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}());}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//\ Use\ with\ specializations\ of\ GenericValue}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_generic_uri_ac23d92c1e5f461c355134d0387fc14fa}{Get}}(T\&\ uri,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}\&\ allocator)\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ uri.template\ Set<const\ Ch*>(this-\/>\doxymbox{\hyperlink{class_generic_uri_a221c5fb06af2617a478b485d6adbd26a}{GetString}}(),\ allocator);\ \textcolor{comment}{//\ TypeHelper\ from\ document.h}}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a221c5fb06af2617a478b485d6adbd26a}{GetString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ uri\_;\ \}}
+\DoxyCodeLine{00104\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ uri\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(uri\_);\ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a7ca186354b59ff53f02e15f18862dc47}{GetBaseString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ base\_;\ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ base\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(base\_);\ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a80b76f29ce0884b4e507f47add9f6487}{GetSchemeString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ scheme\_;\ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ scheme\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(scheme\_);\ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a804d49a163cd4b74226c5808d5da8222}{GetAuthString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ auth\_;\ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ auth\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(auth\_);\ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a5a7a104b35f8ad59a43e7ec7f4776aeb}{GetPathString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ path\_;\ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ path\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(path\_);\ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a8abb0d2ab8de27339c674d0f6b39958b}{GetQueryString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ query\_;\ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ query\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(query\_);\ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ \doxymbox{\hyperlink{class_generic_uri_a2634f5c7c0956d7115b7e090d2bcd2ad}{GetFragString}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ frag\_;\ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \doxymbox{\hyperlink{rapidjson_8h_a5ed6e6e67250fadbd041127e6386dcb5}{SizeType}}\ \doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ frag\_\ ==\ 0\ ?\ 0\ :\ \doxymbox{\hyperlink{namespaceinternal_adf51d163a89691f57b093e7bd529b671}{internal::StrLen<Ch>}}(frag\_);\ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#if\ RAPIDJSON\_HAS\_STDSTRING}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{static}\ String\ \doxymbox{\hyperlink{class_generic_uri_ac23d92c1e5f461c355134d0387fc14fa}{Get}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a221c5fb06af2617a478b485d6adbd26a}{GetString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}());\ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetBase(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a7ca186354b59ff53f02e15f18862dc47}{GetBaseString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}());\ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetScheme(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a80b76f29ce0884b4e507f47add9f6487}{GetSchemeString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}());\ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetAuth(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a804d49a163cd4b74226c5808d5da8222}{GetAuthString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}());\ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetPath(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a5a7a104b35f8ad59a43e7ec7f4776aeb}{GetPathString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());\ \}}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetQuery(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a8abb0d2ab8de27339c674d0f6b39958b}{GetQueryString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());\ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{static}\ String\ GetFrag(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri)\ \{\ \textcolor{keywordflow}{return}\ String(uri.\doxymbox{\hyperlink{class_generic_uri_a2634f5c7c0956d7115b7e090d2bcd2ad}{GetFragString}}(),\ uri.\doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}());\ \}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_generic_uri_a1686dec0a76c18e2dd3701bbeaa215c7}{operator==}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_generic_uri_afd975b7bec80fcb681ec787c50098a58}{Match}}(rhs,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_generic_uri_ae7202bdf4b26fb85966e7dc11ac84712}{operator!=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !\doxymbox{\hyperlink{class_generic_uri_afd975b7bec80fcb681ec787c50098a58}{Match}}(rhs,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_generic_uri_afd975b7bec80fcb681ec787c50098a58}{Match}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ uri,\ \textcolor{keywordtype}{bool}\ full\ =\ \textcolor{keyword}{true})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ s1;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ s2;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (full)\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ s1\ =\ uri\_;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ s2\ =\ uri.uri\_;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ s1\ =\ base\_;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ s2\ =\ uri.base\_;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s1\ ==\ s2)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s1\ ==\ 0\ ||\ s2\ ==\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{namespaceinternal_a8d8e3cf93e9b811c207711d0b353de02}{internal::StrCmp<Ch>}}(s1,\ s2)\ ==\ 0;}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{comment}{//\ See\ https://tools.ietf.org/html/rfc3986}}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{comment}{//\ Use\ for\ resolving\ an\ id\ or\ \$ref\ with\ an\ in-\/scope\ id.}}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{comment}{//\ Returns\ a\ new\ GenericUri\ for\ the\ resolved\ URI.}}
+\DoxyCodeLine{00156\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\ \doxymbox{\hyperlink{class_generic_uri_a6a54f504b40a94478d33602bea07617a}{Resolve}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\&\ baseuri,\ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}*\ allocator\ =\ 0)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a9a4528efa5b8bbc181e18771a48cfe41}{GenericUri}}\ resuri;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ resuri.allocator\_\ =\ allocator;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ enough\ space\ for\ combining\ paths}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ resuri.Allocate(\doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}()\ +\ baseuri.\doxymbox{\hyperlink{class_generic_uri_a11d4609b44597dfdd8fb2af5eaad22b1}{GetStringLength}}()\ +\ 1);\ \textcolor{comment}{//\ +\ 1\ for\ joining\ slash}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}()\ ==\ 0))\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ all\ of\ this\ URI}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.auth\_\ =\ CopyPart(resuri.scheme\_,\ scheme\_,\ \doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}());}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.path\_\ =\ CopyPart(resuri.auth\_,\ auth\_,\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}());}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.query\_\ =\ CopyPart(resuri.path\_,\ path\_,\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.frag\_\ =\ CopyPart(resuri.query\_,\ query\_,\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.RemoveDotSegments();}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ the\ base\ scheme}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ resuri.auth\_\ =\ CopyPart(resuri.scheme\_,\ baseuri.scheme\_,\ baseuri.\doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}());}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}()\ ==\ 0))\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ this\ auth,\ path,\ query}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.path\_\ =\ CopyPart(resuri.auth\_,\ auth\_,\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}());}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.query\_\ =\ CopyPart(resuri.path\_,\ path\_,\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.frag\_\ =\ CopyPart(resuri.query\_,\ query\_,\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.RemoveDotSegments();}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ the\ base\ auth}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.path\_\ =\ CopyPart(resuri.auth\_,\ baseuri.auth\_,\ baseuri.\doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}());}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ the\ base\ path}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.query\_\ =\ CopyPart(resuri.path\_,\ baseuri.path\_,\ baseuri.\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ the\ base\ query}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.frag\_\ =\ CopyPart(resuri.query\_,\ baseuri.query\_,\ baseuri.\doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ this\ query}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.frag\_\ =\ CopyPart(resuri.query\_,\ query\_,\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_[0]\ ==\ \textcolor{charliteral}{'/'})\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Absolute\ path\ -\/\ use\ all\ of\ this\ path}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.query\_\ =\ CopyPart(resuri.path\_,\ path\_,\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.RemoveDotSegments();}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relative\ path\ -\/\ append\ this\ path\ to\ base\ path\ after\ base\ path's\ last\ slash}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 0;}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(baseuri.\doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}()\ ==\ 0)\ \&\&\ baseuri.\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}()\ ==\ 0)\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.path\_[pos]\ =\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ lastslashpos\ =\ baseuri.\doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}();}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (lastslashpos\ >\ 0)\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (baseuri.path\_[lastslashpos\ -\/\ 1]\ ==\ \textcolor{charliteral}{'/'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastslashpos-\/-\/;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(\&resuri.path\_[pos],\ baseuri.path\_,\ lastslashpos\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ lastslashpos;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.query\_\ =\ CopyPart(\&resuri.path\_[pos],\ path\_,\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}());}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.RemoveDotSegments();}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ this\ query}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resuri.frag\_\ =\ CopyPart(resuri.query\_,\ query\_,\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}());}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Always\ use\ this\ frag}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ resuri.base\_\ =\ CopyPart(resuri.frag\_,\ frag\_,\ \doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}());}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Re-\/constitute\ base\_\ and\ uri\_}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ resuri.SetBase();}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ resuri.uri\_\ =\ resuri.base\_\ +\ resuri.\doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}()\ +\ 1;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ resuri.SetUri();}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ resuri;}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00229\ \ \ \ \ \doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}}\&\ \doxymbox{\hyperlink{class_generic_uri_a88fe274cf589f42e720a0b96477f1902}{GetAllocator}}()\ \{\ \textcolor{keywordflow}{return}\ *allocator\_;\ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{comment}{//\ Allocate\ memory\ for\ a\ URI}}
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{comment}{//\ Returns\ total\ amount\ allocated}}
+\DoxyCodeLine{00234\ \ \ \ \ std::size\_t\ Allocate(std::size\_t\ len)\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ own\ allocator\ if\ user\ did\ not\ supply.}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocator\_)}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ ownAllocator\_\ =\ \ allocator\_\ =\ \doxymbox{\hyperlink{rapidjson_8h_abdc7cd7902748ffe6626d71c59a73c3b}{RAPIDJSON\_NEW}}(\doxymbox{\hyperlink{classrapidjson_1_1_allocator}{Allocator}})();}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allocate\ one\ block\ containing\ each\ part\ of\ the\ URI\ (5)\ plus\ base\ plus\ full\ URI,\ all\ null\ terminated.}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Order:\ scheme,\ auth,\ path,\ query,\ frag,\ base,\ uri}}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ need\ to\ set,\ increment,\ assign\ in\ 3\ stages\ to\ avoid\ compiler\ warning\ bug.}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\ =\ (3\ *\ len\ +\ 7)\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}});}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ scheme\_\ =\ \textcolor{keyword}{static\_cast<}\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\textcolor{keyword}{>}(allocator\_-\/>Malloc(total));}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ *scheme\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ auth\_\ =\ scheme\_;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ auth\_++;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ *auth\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ path\_\ =\ auth\_;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ path\_++;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ *path\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ query\_\ =\ path\_;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ query\_++;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ *query\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ frag\_\ =\ query\_;}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ frag\_++;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ *frag\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ base\_\ =\ frag\_;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ base\_++;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ *base\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ uri\_\ =\ base\_;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ uri\_++;}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ *uri\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{comment}{//\ Free\ memory\ for\ a\ URI}}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordtype}{void}\ Free()\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (scheme\_)\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ Allocator::Free(scheme\_);}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ scheme\_\ =\ 0;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00272\ \ \ \ \ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{comment}{//\ Parse\ a\ URI\ into\ constituent\ scheme,\ authority,\ path,\ query,\ \&\ fragment\ parts}}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{comment}{//\ Supports\ URIs\ that\ match\ regex\ \string^(([\string^:/?\#]+):)?(//([\string^/?\#]*))?([\string^?\#]*)(\(\backslash\)?([\string^\#]*))?(\#(.*))?\ as\ per}}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{comment}{//\ https://tools.ietf.org/html/rfc3986}}
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordtype}{void}\ Parse(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ uri,\ std::size\_t\ len)\ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ std::size\_t\ start\ =\ 0,\ pos1\ =\ 0,\ pos2\ =\ 0;}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ Allocate(len);}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ scheme\ ([\string^:/?\#]+):)?}}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ <\ len)\ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos1\ <\ len)\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos1]\ ==\ \textcolor{charliteral}{':'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos1++;}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos1\ !=\ len)\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos2\ <\ len)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'/'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'?'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'\#'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos2++;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos1\ <\ pos2)\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos1++;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(scheme\_,\ \&uri[start],\ pos1\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scheme\_[pos1]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\ =\ pos1;}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ auth\ (//([\string^/?\#]*))?}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ need\ to\ set,\ increment,\ assign\ in\ 3\ stages\ to\ avoid\ compiler\ warning\ bug.}}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ auth\_\ =\ scheme\_\ +\ \doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}();}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ auth\_++;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ *auth\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ <\ len\ -\/\ 1\ \&\&\ uri[start]\ ==\ \textcolor{charliteral}{'/'}\ \&\&\ uri[start\ +\ 1]\ ==\ \textcolor{charliteral}{'/'})\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ pos2\ =\ start\ +\ 2;}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos2\ <\ len)\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'/'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'?'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'\#'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos2++;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(auth\_,\ \&uri[start],\ (pos2\ -\/\ start)\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ auth\_[pos2\ -\/\ start]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ start\ =\ pos2;}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ path\ ([\string^?\#]*)}}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ need\ to\ set,\ increment,\ assign\ in\ 3\ stages\ to\ avoid\ compiler\ warning\ bug.}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ path\_\ =\ auth\_\ +\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}();}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ path\_++;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ *path\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ <\ len)\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ pos2\ =\ start;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos2\ <\ len)\ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'?'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'\#'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos2++;}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ !=\ pos2)\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(path\_,\ \&uri[start],\ (pos2\ -\/\ start)\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_[pos2\ -\/\ start]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_[0]\ ==\ \textcolor{charliteral}{'/'})}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RemoveDotSegments();\ \ \ \textcolor{comment}{//\ absolute\ path\ -\/\ normalize}}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\ =\ pos2;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ query\ (\(\backslash\)?([\string^\#]*))?}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ need\ to\ set,\ increment,\ assign\ in\ 3\ stages\ to\ avoid\ compiler\ warning\ bug.}}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ query\_\ =\ path\_\ +\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}();}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ query\_++;}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ *query\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ <\ len\ \&\&\ uri[start]\ ==\ \textcolor{charliteral}{'?'})\ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ pos2\ =\ start\ +\ 1;}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos2\ <\ len)\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (uri[pos2]\ ==\ \textcolor{charliteral}{'\#'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos2++;}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ !=\ pos2)\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(query\_,\ \&uri[start],\ (pos2\ -\/\ start)\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ query\_[pos2\ -\/\ start]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\ =\ pos2;}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ fragment\ (\#(.*))?}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ need\ to\ set,\ increment,\ assign\ in\ 3\ stages\ to\ avoid\ compiler\ warning\ bug.}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ frag\_\ =\ query\_\ +\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}();}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ frag\_++;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ *frag\_\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ <\ len\ \&\&\ uri[start]\ ==\ \textcolor{charliteral}{'\#'})\ \{}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(frag\_,\ \&uri[start],\ (len\ -\/\ start)\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ frag\_[len\ -\/\ start]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Re-\/constitute\ base\_\ and\ uri\_}}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ base\_\ =\ frag\_\ +\ \doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}()\ +\ 1;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ SetBase();}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ uri\_\ =\ base\_\ +\ \doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}()\ +\ 1;}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ SetUri();}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{comment}{//\ Reconstitute\ base}}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordtype}{void}\ SetBase()\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ next\ =\ base\_;}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ std::memcpy(next,\ scheme\_,\ \doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_a25f3bfa0438a012e107762a29d4a32c4}{GetSchemeStringLength}}();}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ std::memcpy(next,\ auth\_,\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_ad6b02b60264155a06205b157080c8c59}{GetAuthStringLength}}();}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ std::memcpy(next,\ path\_,\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}();}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ std::memcpy(next,\ query\_,\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_ad7cd6273a259a5a749b77200a574cf0e}{GetQueryStringLength}}();}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ *next\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00385\ \ \ \ \ \}}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{comment}{//\ Reconstitute\ uri}}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{void}\ SetUri()\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ next\ =\ uri\_;}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ std::memcpy(next,\ base\_,\ \doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_ae4eb9d13ad231255b23ce2d9e98af760}{GetBaseStringLength}}();}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ std::memcpy(next,\ frag\_,\ \doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}()\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ next+=\ \doxymbox{\hyperlink{class_generic_uri_ac90d0edd27f95fb8a11895d59753836d}{GetFragStringLength}}();}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ *next\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00395\ \ \ \ \ \}}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{comment}{//\ Copy\ a\ part\ from\ one\ GenericUri\ to\ another}}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{comment}{//\ Return\ the\ pointer\ to\ the\ next\ part\ to\ be\ copied\ to}}
+\DoxyCodeLine{00399\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ CopyPart(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ to,\ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ from,\ std::size\_t\ len)\ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(to\ !=\ 0);}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(from\ !=\ 0);}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ std::memcpy(to,\ from,\ len\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ to[len]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ next\ =\ to\ +\ len\ +\ 1;}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ next;}
+\DoxyCodeLine{00406\ \ \ \ \ \}}
+\DoxyCodeLine{00407\ }
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{comment}{//\ Remove\ .\ and\ ..\ segments\ from\ the\ path\_\ member.}}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{comment}{//\ https://tools.ietf.org/html/rfc3986}}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{comment}{//\ This\ is\ done\ in\ place\ as\ we\ are\ only\ removing\ segments.}}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordtype}{void}\ RemoveDotSegments()\ \{}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ std::size\_t\ pathlen\ =\ \doxymbox{\hyperlink{class_generic_uri_aab0466a8e14eef83249e117eb161bd66}{GetPathStringLength}}();}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ std::size\_t\ pathpos\ =\ 0;\ \ \textcolor{comment}{//\ Position\ in\ path\_}}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ std::size\_t\ newpos\ =\ 0;\ \ \ \textcolor{comment}{//\ Position\ in\ new\ path\_}}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Loop\ through\ each\ segment\ in\ original\ path\_}}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pathpos\ <\ pathlen)\ \{}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ next\ segment,\ bounded\ by\ '/'\ or\ end}}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ slashpos\ =\ 0;}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ ((pathpos\ +\ slashpos)\ <\ pathlen)\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_[pathpos\ +\ slashpos]\ ==\ \textcolor{charliteral}{'/'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ slashpos++;}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ ..\ and\ .\ segments}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (slashpos\ ==\ 2\ \&\&\ path\_[pathpos]\ ==\ \textcolor{charliteral}{'.'}\ \&\&\ path\_[pathpos\ +\ 1]\ ==\ \textcolor{charliteral}{'.'})\ \{}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Backup\ a\ ..\ segment\ in\ the\ new\ path\_}}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ expect\ to\ find\ a\ previously\ added\ slash\ at\ the\ end\ or\ nothing}}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(newpos\ ==\ 0\ ||\ path\_[newpos\ -\/\ 1]\ ==\ \textcolor{charliteral}{'/'});}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ lastslashpos\ =\ newpos;}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ we\ don't\ go\ beyond\ the\ start\ segment}}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lastslashpos\ >\ 1)\ \{}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ next\ to\ last\ slash\ and\ back\ up\ to\ it}}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastslashpos-\/-\/;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (lastslashpos\ >\ 0)\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_[lastslashpos\ -\/\ 1]\ ==\ \textcolor{charliteral}{'/'})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastslashpos-\/-\/;}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ new\ path\_\ position}}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newpos\ =\ lastslashpos;}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (slashpos\ ==\ 1\ \&\&\ path\_[pathpos]\ ==\ \textcolor{charliteral}{'.'})\ \{}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Discard\ .\ segment,\ leaves\ new\ path\_\ unchanged}}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ any\ other\ kind\ of\ segment\ to\ the\ new\ path\_}}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gabeba18d612187bad2ac62aed9276d47c}{RAPIDJSON\_ASSERT}}(newpos\ <=\ pathpos);}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memmove(\&path\_[newpos],\ \&path\_[pathpos],\ slashpos\ *\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}));}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newpos\ +=\ slashpos;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ slash\ if\ not\ at\ end}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((pathpos\ +\ slashpos)\ <\ pathlen)\ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_[newpos]\ =\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newpos++;}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ to\ next\ segment}}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ pathpos\ +=\ slashpos\ +\ 1;}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ path\_[newpos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00458\ \ \ \ \ \}}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ uri\_;\ \ \ \ \textcolor{comment}{//\ Everything}}
+\DoxyCodeLine{00461\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ base\_;\ \ \ \textcolor{comment}{//\ Everything\ except\ fragment}}
+\DoxyCodeLine{00462\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ scheme\_;\ \textcolor{comment}{//\ Includes\ the\ :}}
+\DoxyCodeLine{00463\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ auth\_;\ \ \ \textcolor{comment}{//\ Includes\ the\ //}}
+\DoxyCodeLine{00464\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ path\_;\ \ \ \textcolor{comment}{//\ Absolute\ if\ starts\ with\ /}}
+\DoxyCodeLine{00465\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ query\_;\ \ \textcolor{comment}{//\ Includes\ the\ ?}}
+\DoxyCodeLine{00466\ \ \ \ \ \doxymbox{\hyperlink{class_generic_uri_a0412994b5b9254612a891dc7a4ec6a6b}{Ch}}*\ frag\_;\ \ \ \textcolor{comment}{//\ Includes\ the\ \#}}
+\DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \ \ \ \ Allocator*\ allocator\_;\ \ \ \ \ \ }
+\DoxyCodeLine{00469\ \ \ \ \ Allocator*\ ownAllocator\_;\ \ \ }
+\DoxyCodeLine{00470\ \};}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00473\ \textcolor{keyword}{typedef}\ \doxymbox{\hyperlink{class_generic_uri}{GenericUri<Value>}}\ \doxymbox{\hyperlink{uri_8h_a8ce9b9949b7b615863aa015410222d2d}{Uri}};}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00478\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00479\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_URI\_H\_}}
+
+\end{DoxyCode}

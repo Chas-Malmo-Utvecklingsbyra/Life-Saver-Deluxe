@@ -1,0 +1,103 @@
+\doxysection{lv\+\_\+indev\+\_\+gesture\+\_\+private.\+h}
+\hypertarget{lv__indev__gesture__private_8h_source}{}\label{lv__indev__gesture__private_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev\_gesture\_private.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev\_gesture\_private.h}}
+\doxymbox{\hyperlink{lv__indev__gesture__private_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*******************************************************************}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ @file\ lv\_indev\_gesture\_private.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ Contains\ declarations\ and\ definition\ that\ are\ internal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ to\ the\ gesture\ detection\ logic}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2024\ EDGEMTech\ Ltd.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ Author\ EDGEMTech\ Ltd,\ (erik.tagirov@edgemtech.ch)}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ ******************************************************************/}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ LV\_INDEV\_GESTURE\_PRIVATE\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ LV\_INDEV\_GESTURE\_PRIVATE\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__obj_8h}{../core/lv\_obj.h}}"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#if\ LV\_USE\_GESTURE\_RECOGNITION}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ LV\_GESTURE\_MAX\_POINTS\ 2}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{/*\ Represent\ the\ motion\ of\ a\ finger\ */}}
+\DoxyCodeLine{00040\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_motion\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}}\ finger;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ ID\ of\ the\ tracked\ finger\ */}}
+\DoxyCodeLine{00042\ \ \ \ \ lv\_point\_t\ start\_point;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ coordinates\ where\ the\ DOWN\ event\ occurred\ */}}
+\DoxyCodeLine{00043\ \ \ \ \ lv\_point\_t\ point;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ The\ current\ coordinates\ */}}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ DEBUG:\ The\ state\ i.e\ PRESSED\ or\ RELEASED\ */}}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_motion\ lv\_indev\_gesture\_motion\_t;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{/*\ General\ descriptor\ for\ a\ gesture,\ used\ by\ recognizer\ state\ machines\ to\ track}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ the\ scale,\ rotation,\ and\ translation\ NOTE:\ (this\ will\ likely\ become\ private)\ */}}
+\DoxyCodeLine{00051\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\ \{}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{/*\ Motion\ descriptor,\ stores\ the\ coordinates\ and\ velocity\ of\ a\ contact\ point\ */}}
+\DoxyCodeLine{00054\ \ \ \ \ lv\_indev\_gesture\_motion\_t\ motions[LV\_GESTURE\_MAX\_POINTS];}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ lv\_point\_t\ center;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Center\ point\ */}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{float}\ scale;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Scale\ factor\ \&\ previous\ scale\ factor\ */}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{float}\ p\_scale;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\_factors\_x[LV\_GESTURE\_MAX\_POINTS];\ \ \ \textcolor{comment}{/*\ Scale\ factor\ relative\ to\ center\ for\ each\ point\ */}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{float}\ scale\_factors\_y[LV\_GESTURE\_MAX\_POINTS];}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{float}\ delta\_x;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Translation\ \&\ previous\ translation\ */}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{float}\ delta\_y;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{float}\ p\_delta\_x;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{float}\ p\_delta\_y;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ rotation;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Rotation\ \&\ previous\ rotation*/}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{float}\ p\_rotation;}
+\DoxyCodeLine{00068\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ finger\_cnt;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Current\ number\ of\ contact\ points\ */}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{/*\ Recognizer\ configuration.\ It\ stores\ the\ thresholds\ needed\ to\ detect\ the\ gestures\ and}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ *\ consider\ them\ as\ recognized.\ Once\ recognized,\ indev\ start\ sending\ LV\_GESTURE\ event}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00075\ \textcolor{keyword}{struct\ }lv\_indev\_gesture\_configuration\ \{}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{float}\ pinch\_up\_threshold;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Threshold\ for\ the\ pinch\ up\ gesture\ to\ be\ recognized\ -\/\ in\ pixels\ */}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{float}\ pinch\_down\_threshold;\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Threshold\ for\ the\ pinch\ down\ gesture\ to\ be\ recognized\ -\/\ in\ pixels\ */}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{float}\ rotation\_angle\_rad\_threshold;\ \textcolor{comment}{/*\ Threshold\ for\ the\ rotation\ gesture\ to\ be\ recognized\ -\/\ in\ radians\ */}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ END\ LV\_USE\_RECOGNITION\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00094\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_INDEV\_GESTURE\_PRIVATE\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

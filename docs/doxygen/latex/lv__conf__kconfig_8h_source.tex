@@ -1,0 +1,312 @@
+\doxysection{lv\+\_\+conf\+\_\+kconfig.\+h}
+\hypertarget{lv__conf__kconfig_8h_source}{}\label{lv__conf__kconfig_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/lv\_conf\_kconfig.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/lv\_conf\_kconfig.h}}
+\doxymbox{\hyperlink{lv__conf__kconfig_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ LV\_CONF\_KCONFIG\_H}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ LV\_CONF\_KCONFIG\_H}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00007\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifdef\ LV\_CONF\_KCONFIG\_EXTERNAL\_INCLUDE}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#\ \ include\ LV\_CONF\_KCONFIG\_EXTERNAL\_INCLUDE}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ \ ifdef\ ESP\_PLATFORM}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ \ \ \ include\ "{}sdkconfig.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ \ \ \ include\ "{}esp\_attr.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ \ endif}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#\ \ ifdef\ \_\_NuttX\_\_}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#\ \ \ \ include\ <nuttx/config.h>}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ Make\ sure\ version\ number\ in\ Kconfig\ file\ is\ correctly\ set.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ Mismatch\ can\ happen\ when\ user\ manually\ copy\ lvgl/Kconfig\ file\ to\ their\ project,\ like\ what\ NuttX\ does.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ \ \ \ include\ "{}\doxymbox{\hyperlink{lv__version_8h}{../lv\_version.h}}"{}}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#\ \ \ \ if\ CONFIG\_LVGL\_VERSION\_MAJOR\ !=\ LVGL\_VERSION\_MAJOR\ ||\ CONFIG\_LVGL\_VERSION\_MINOR\ !=\ LVGL\_VERSION\_MINOR\ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ||\ CONFIG\_LVGL\_VERSION\_PATCH\ !=\ LVGL\_VERSION\_PATCH}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ \ warning\ "{}Version\ mismatch\ between\ Kconfig\ and\ lvgl/lv\_version.h"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#\ \ \ \ endif}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#\ \ elif\ defined(\_\_RTTHREAD\_\_)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#\ \ \ \ define\ LV\_CONF\_INCLUDE\_SIMPLE}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#\ \ \ \ include\ <\doxymbox{\hyperlink{lv__rt__thread__conf_8h}{lv\_rt\_thread\_conf.h}}>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#\ \ endif}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_CONF\_KCONFIG\_EXTERNAL\_INCLUDE*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{/*******************}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ *\ LV\_USE\_STDLIB\_MALLOC}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_USE\_BUILTIN\_MALLOC}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_MALLOC\ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_CLIB\_MALLOC)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_MALLOC\ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_MICROPYTHON\_MALLOC)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_MALLOC\ LV\_STDLIB\_MICROPYTHON}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_RTTHREAD\_MALLOC)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_MALLOC\ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_USE\_CUSTOM\_MALLOC)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_MALLOC\ LV\_STDLIB\_CUSTOM}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{/*******************}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *\ LV\_USE\_STDLIB\_STRING}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_USE\_BUILTIN\_STRING}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_STRING\ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_CLIB\_STRING)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_STRING\ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_MICROPYTHON\_STRING)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_STRING\ LV\_STDLIB\_MICROPYTHON}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_RTTHREAD\_STRING)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_STRING\ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_USE\_CUSTOM\_STRING)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_STRING\ LV\_STDLIB\_CUSTOM}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{comment}{/*******************}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ *\ LV\_USE\_STDLIB\_SPRINTF}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_USE\_BUILTIN\_SPRINTF}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_SPRINTF\ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_CLIB\_SPRINTF)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_SPRINTF\ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_MICROPYTHON\_SPRINTF)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_SPRINTF\ LV\_STDLIB\_MICROPYTHON}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_RTTHREAD\_SPRINTF)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_SPRINTF\ LV\_STDLIB\_RTTHREAD}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_USE\_CUSTOM\_SPRINTF)}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_STDLIB\_SPRINTF\ LV\_STDLIB\_CUSTOM}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{comment}{/*******************}}
+\DoxyCodeLine{00087\ \textcolor{comment}{\ *\ LV\_USE\_OS}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_OS\_NONE}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_NONE}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_OS\_PTHREAD)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_PTHREAD}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_OS\_FREERTOS)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_FREERTOS}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_OS\_CMSIS\_RTOS2)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_CMSIS\_RTOS2}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_OS\_RTTHREAD)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_RTTHREAD}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_OS\_WINDOWS)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_WINDOWS}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_OS\_MQX)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_MQX}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_OS\_SDL2)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_SDL2}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#elif\ defined\ (CONFIG\_LV\_OS\_CUSTOM)}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_OS\ LV\_OS\_CUSTOM}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{comment}{/*******************}}
+\DoxyCodeLine{00111\ \textcolor{comment}{\ *\ LV\_MEM\_SIZE}}
+\DoxyCodeLine{00112\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_MEM\_SIZE\_KILOBYTES}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#\ \ if(CONFIG\_LV\_MEM\_SIZE\_KILOBYTES\ <\ 2)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#\ \ \ \ error\ "{}LV\_MEM\_SIZE\ >=\ 2kB\ is\ required"{}}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#\ \ endif}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_MEM\_SIZE\ (CONFIG\_LV\_MEM\_SIZE\_KILOBYTES\ *\ 1024U)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_MEM\_POOL\_EXPAND\_SIZE\_KILOBYTES}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_MEM\_POOL\_EXPAND\_SIZE\ (CONFIG\_LV\_MEM\_POOL\_EXPAND\_SIZE\_KILOBYTES\ *\ 1024U)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00127\ \textcolor{comment}{\ *\ MONITOR\ POSITION}}
+\DoxyCodeLine{00128\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_TOP\_LEFT}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_TOP\_LEFT}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_USE\_PERF\_MONITOR\_ALIGN\_TOP\_MID)}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_TOP\_MID}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_TOP\_RIGHT)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_TOP\_RIGHT}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_BOTTOM\_LEFT)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_LEFT}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_BOTTOM\_MID)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_MID}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_BOTTOM\_RIGHT)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_RIGHT}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_LEFT\_MID)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_LEFT\_MID}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_RIGHT\_MID)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_RIGHT\_MID}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_PERF\_MONITOR\_ALIGN\_CENTER)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_PERF\_MONITOR\_POS\ LV\_ALIGN\_CENTER}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_TOP\_LEFT}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_TOP\_LEFT}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_TOP\_MID)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_TOP\_MID}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_TOP\_RIGHT)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_TOP\_RIGHT}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_BOTTOM\_LEFT)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_LEFT}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_BOTTOM\_MID)}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_MID}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_BOTTOM\_RIGHT)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_BOTTOM\_RIGHT}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_LEFT\_MID)}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_LEFT\_MID}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_RIGHT\_MID)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_RIGHT\_MID}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_MEM\_MONITOR\_ALIGN\_CENTER)}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_USE\_MEM\_MONITOR\_POS\ LV\_ALIGN\_CENTER}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{comment}{/********************}}
+\DoxyCodeLine{00171\ \textcolor{comment}{\ *\ FONT\ SELECTION}}
+\DoxyCodeLine{00172\ \textcolor{comment}{\ *******************/}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00181\ \textcolor{comment}{\ *\ DEFAULT\ FONT}}
+\DoxyCodeLine{00182\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_8}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_8}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_10)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_10}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_12)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_12}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_14)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_14}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_16)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_16}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_18)}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_18}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_20)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_20}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_22)}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_22}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_24)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_24}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_26)}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_26}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_28)}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_28}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_30)}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_30}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_32)}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_32}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_34)}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_34}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_36)}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_36}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_38)}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_38}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_40)}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_40}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_42)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_42}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_44)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_44}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_46)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_46}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_48)}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_48}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_12\_SUBPX)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_12\_subpx}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_MONTSERRAT\_28\_COMPRESSED)}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_montserrat\_28\_compressed}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_DEJAVU\_16\_PERSIAN\_HEBREW)}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_dejavu\_16\_persian\_hebrew}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_SOURCE\_HAN\_SANS\_SC\_14\_CJK)}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_source\_han\_sans\_sc\_14\_cjk}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_SOURCE\_HAN\_SANS\_SC\_16\_CJK)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_source\_han\_sans\_sc\_16\_cjk}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_UNSCII\_8)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_unscii\_8}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_FONT\_DEFAULT\_UNSCII\_16)}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_FONT\_DEFAULT\ \&lv\_font\_unscii\_16}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00242\ \textcolor{comment}{\ *\ TEXT\ ENCODING}}
+\DoxyCodeLine{00243\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_TXT\_ENC\_UTF8}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_TXT\_ENC\ LV\_TXT\_ENC\_UTF8}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_TXT\_ENC\_ASCII)}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_TXT\_ENC\ LV\_TXT\_ENC\_ASCII}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00251\ \textcolor{comment}{\ *\ BIDI\ DIRECTION}}
+\DoxyCodeLine{00252\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_BASE\_DIR\_LTR}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_BIDI\_BASE\_DIR\_DEF\ LV\_BASE\_DIR\_LTR}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_BASE\_DIR\_RTL)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_BIDI\_BASE\_DIR\_DEF\ LV\_BASE\_DIR\_RTL}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_BASE\_DIR\_AUTO)}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_BIDI\_BASE\_DIR\_DEF\ LV\_BASE\_DIR\_AUTO}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00263\ \textcolor{comment}{\ *\ SDL}}
+\DoxyCodeLine{00264\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_SDL\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_SDL\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_SDL\_RENDER\_MODE\_DIRECT)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_SDL\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_DIRECT}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_SDL\_RENDER\_MODE\_FULL)}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_SDL\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_FULL}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00275\ \textcolor{comment}{\ *\ WAYLAND}}
+\DoxyCodeLine{00276\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_WAYLAND\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_WAYLAND\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_WAYLAND\_RENDER\_MODE\_DIRECT)}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_WAYLAND\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_DIRECT}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_WAYLAND\_RENDER\_MODE\_FULL)}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_WAYLAND\_RENDER\_MODE\_FULL\ LV\_DISPLAY\_RENDER\_MODE\_FULL}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00287\ \textcolor{comment}{\ *\ LINUX\ FBDEV}}
+\DoxyCodeLine{00288\ \textcolor{comment}{\ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_PARTIAL}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\_DIRECT)}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_DIRECT}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#elif\ defined(CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\_FULL)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#\ \ define\ CONFIG\_LV\_LINUX\_FBDEV\_RENDER\_MODE\ LV\_DISPLAY\_RENDER\_MODE\_FULL}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#ifdef\ CONFIG\_LV\_USE\_CALENDAR}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#\ \ ifdef\ CONFIG\_LV\_CALENDAR\_WEEK\_STARTS\_MONDAY}}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\#\ \ \ \ define\ CONFIG\_LV\_CALENDAR\_DEFAULT\_DAY\_NAMES\ \{\ CONFIG\_LV\_MONDAY\_STR\ ,\ CONFIG\_LV\_TUESDAY\_STR,\ CONFIG\_LV\_WEDNESDAY\_STR,\ CONFIG\_LV\_THURSDAY\_STR,\ CONFIG\_LV\_FRIDAY\_STR,\ CONFIG\_LV\_SATURDAY\_STR,\ CONFIG\_LV\_SUNDAY\_STR\ \}}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#\ \ else}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#\ \ \ \ define\ CONFIG\_LV\_CALENDAR\_DEFAULT\_DAY\_NAMES\ \{\ CONFIG\_LV\_SUNDAY\_STR,\ CONFIG\_LV\_MONDAY\_STR\ ,\ CONFIG\_LV\_TUESDAY\_STR,\ CONFIG\_LV\_WEDNESDAY\_STR,\ CONFIG\_LV\_THURSDAY\_STR,\ CONFIG\_LV\_FRIDAY\_STR,\ CONFIG\_LV\_SATURDAY\_STR\ \}}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#\ \ endif}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00308\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_CONF\_KCONFIG\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

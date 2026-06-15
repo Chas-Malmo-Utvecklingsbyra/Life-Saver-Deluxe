@@ -13,7 +13,9 @@ var annotated_dup =
     [ "error", "structerror.html", "structerror" ],
     [ "esp_vfs_spiffs_conf_t", "structesp__vfs__spiffs__conf__t.html", "structesp__vfs__spiffs__conf__t" ],
     [ "File_System", "struct_file___system.html", "struct_file___system" ],
+    [ "i2c_master_bus_config_t", "structi2c__master__bus__config__t.html", "structi2c__master__bus__config__t" ],
     [ "internal_hooks", "structinternal__hooks.html", "structinternal__hooks" ],
+    [ "ip_event_got_ip_t", "structip__event__got__ip__t.html", "structip__event__got__ip__t" ],
     [ "parse_buffer", "structparse__buffer.html", "structparse__buffer" ],
     [ "printbuffer", "structprintbuffer.html", "structprintbuffer" ],
     [ "ScreensaverControl", "struct_screensaver_control.html", "struct_screensaver_control" ],
@@ -23,5 +25,9 @@ var annotated_dup =
     [ "TCP_Server", "struct_t_c_p___server.html", "struct_t_c_p___server" ],
     [ "TCP_Server_Client", "struct_t_c_p___server___client.html", "struct_t_c_p___server___client" ],
     [ "theme_t", "structtheme__t.html", "structtheme__t" ],
-    [ "UNITY_STORAGE_T", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t.html", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t" ]
+    [ "UNITY_STORAGE_T", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t.html", "struct_u_n_i_t_y___s_t_o_r_a_g_e___t" ],
+    [ "wifi_config_t", "structwifi__config__t.html", "structwifi__config__t" ],
+    [ "wifi_event_sta_disconnected_t", "structwifi__event__sta__disconnected__t.html", "structwifi__event__sta__disconnected__t" ],
+    [ "wifi_init_config_t", "structwifi__init__config__t.html", "structwifi__init__config__t" ],
+    [ "wifi_sta_config_t", "structwifi__sta__config__t.html", "structwifi__sta__config__t" ]
 ];

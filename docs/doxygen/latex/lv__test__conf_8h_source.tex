@@ -1,0 +1,128 @@
+\doxysection{lv\+\_\+test\+\_\+conf.\+h}
+\hypertarget{lv__test__conf_8h_source}{}\label{lv__test__conf_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/tests/src/lv\_test\_conf.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/tests/src/lv\_test\_conf.h}}
+\doxymbox{\hyperlink{lv__test__conf_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_TEST\_CONF\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_TEST\_CONF\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ LV\_CONF\_SUPPRESS\_DEFINE\_CHECK\ 1}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{/***********************}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ PLATFORM\ CONFIGS}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ ***********************/}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifdef\ LVGL\_CI\_USING\_SYS\_HEAP}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_MALLOC\ \ \ \ \ \ \ \ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_STRING\ \ \ \ \ \ \ \ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_SPRINTF\ \ \ \ \ \ \ LV\_STDLIB\_CLIB}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ LV\_USE\_OS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LV\_OS\_PTHREAD}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ LV\_OBJ\_STYLE\_CACHE\ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ LV\_BIN\_DECODER\_RAM\_LOAD\ \ \ \ \ 1\ \ \ }\textcolor{comment}{/*\ Run\ test\ with\ bin\ image\ loaded\ to\ RAM\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_BUF\_STRIDE\_ALIGN\ \ \ \ 64\ \ }\textcolor{comment}{/*\ Use\ a\ large\ value\ to\ be\ sure\ any\ issues\ will\ cause\ crash\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#ifdef\ LVGL\_CI\_USING\_DEF\_HEAP}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_MALLOC\ \ \ \ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_STRING\ \ \ \ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ LV\_USE\_STDLIB\_SPRINTF\ \ \ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ LV\_OBJ\_STYLE\_CACHE\ \ \ \ \ \ 1}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ LV\_BIN\_DECODER\_RAM\_LOAD\ 0}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifdef\ MICROPYTHON}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ LV\_USE\_BUILTIN\_MALLOC\ \ \ 0}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ LV\_USE\_BUILTIN\_MEMCPY\ \ \ 1}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ LV\_USE\_BUILTIN\_SNPRINTF\ 1}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ LV\_STDLIB\_INCLUDE\ "{}include/lv\_mp\_mem\_custom\_include.h"{}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ LV\_MALLOC\ \ \ \ \ \ \ m\_malloc}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ LV\_REALLOC\ \ \ \ \ \ m\_realloc}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ LV\_FREE\ \ \ \ \ \ \ \ \ m\_free}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ LV\_MEMSET\ \ \ \ \ \ \ lv\_memset\_builtin}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ LV\_MEMCPY\ \ \ \ \ \ \ lv\_memcpy\_builtin}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ LV\_SNPRINTF\ \ \ \ \ lv\_snprintf\_builtin}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ LV\_VSNPRINTF\ \ \ \ lv\_vsnprintf\_builtin}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ LV\_STRLEN\ \ \ \ \ \ \ lv\_strlen\_builtin}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ LV\_STRNCPY\ \ \ \ \ \ lv\_strncpy\_builtin}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ LV\_ENABLE\_GC\ 1}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ LV\_GC\_INCLUDE\ "{}py/mpstate.h"{}}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ LV\_GC\_ROOT(x)\ MP\_STATE\_PORT(x)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifndef\ \_\_ASSEMBLY\_\_}}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__test__conf_8h_a0dc4659dde2f891951a22588141d4f72}{lv\_test\_assert\_fail}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ LV\_ASSERT\_HANDLER\ lv\_test\_assert\_fail();}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{lv__test__conf_8h_a10bb8fd2e45ec48379d6b03f42cf07eb}{lv\_user\_data\_t}};}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ \textcolor{comment}{/***********************}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ *\ TEST\ CONFIGS}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ ***********************/}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#if\ !(defined(LV\_TEST\_OPTION))\ ||\ LV\_TEST\_OPTION\ ==\ 5}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 32}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 160}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__full_8h}{lv\_test\_conf\_full.h}}"{}}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 6}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 32}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 160}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ \ LV\_DRAW\_BUF\_ALIGN\ \ 64}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ \ LV\_ATTRIBUTE\_MEM\_ALIGN\ \_\_declspec(align(LV\_DRAW\_BUF\_ALIGN))}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ \ LV\_ATTRIBUTE\_MEM\_ALIGN\ \_\_attribute\_\_((aligned(LV\_DRAW\_BUF\_ALIGN)))}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__vg__lite_8h}{lv\_test\_conf\_vg\_lite.h}}"{}}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__full_8h}{lv\_test\_conf\_full.h}}"{}}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 7}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 32}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 160}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ \ LV\_USE\_DRAW\_SDL\ \ \ \ 1}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ \ LV\_USE\_SDL\ \ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__full_8h}{lv\_test\_conf\_full.h}}"{}}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 4}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 24}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 120}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 3}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 16}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 90}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__minimal_8h}{lv\_test\_conf\_minimal.h}}"{}}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 2}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 8}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 60}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__minimal_8h}{lv\_test\_conf\_minimal.h}}"{}}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#elif\ LV\_TEST\_OPTION\ ==\ 1}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ \ LV\_COLOR\_DEPTH\ \ \ \ \ 1}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 30}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ \ LV\_DRAW\_SW\_COMPLEX\ 0}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__test__conf__minimal_8h}{lv\_test\_conf\_minimal.h}}"{}}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#if\ defined(LVGL\_CI\_USING\_SYS\_HEAP)\ ||\ defined(LVGL\_CI\_USING\_DEF\_HEAP)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#undef\ LV\_LOG\_PRINTF}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#ifndef\ LV\_DRAW\_BUF\_ALIGN}}
+\DoxyCodeLine{00112\ \textcolor{comment}{/*Use\ non\ power\ of\ 2\ to\ avoid\ the\ case\ when\ \`{}malloc`\ returns\ aligned\ pointer\ by\ default,\ and\ use\ a\ large\ value\ be\ sure\ any\ issues\ will\ cause\ crash*/}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ LV\_DRAW\_BUF\_ALIGN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 852}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{comment}{/*For\ screenshots*/}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#undef\ LV\_DPI\_DEF}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ \ LV\_DPI\_DEF\ \ \ \ \ \ \ \ \ 130}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00122\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_TEST\_CONF\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

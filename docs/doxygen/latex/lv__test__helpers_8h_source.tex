@@ -1,0 +1,70 @@
+\doxysection{lv\+\_\+test\+\_\+helpers.\+h}
+\hypertarget{lv__test__helpers_8h_source}{}\label{lv__test__helpers_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/others/test/lv\_test\_helpers.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/others/test/lv\_test\_helpers.h}}
+\doxymbox{\hyperlink{lv__test__helpers_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_TEST\_HELPERS\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_TEST\_HELPERS\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ LV\_USE\_TEST}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__mem_8h}{../../stdlib/lv\_mem.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ lv\_test\_wait(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ms);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ lv\_test\_fast\_forward(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ms);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#if\ LV\_USE\_STDLIB\_MALLOC\ !=\ LV\_STDLIB\_BUILTIN}}
+\DoxyCodeLine{00053\ \textcolor{comment}{/*\ Skip\ checking\ heap\ as\ we\ don't\ have\ the\ info\ available\ */}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ LV\_HEAP\_CHECK(x)\ do\ \{\}\ while(0)}}
+\DoxyCodeLine{00055\ \textcolor{comment}{/*\ Pick\ a\ non-\/zero\ value\ */}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ lv\_test\_get\_free\_mem()\ (65536)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ LV\_HEAP\_CHECK(x)\ x}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{size\_t}\ lv\_test\_get\_free\_mem(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{structlv__mem__monitor__t}{lv\_mem\_monitor\_t}}\ m1;}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a870e4824ad667a372cbe58b2614892a2}{lv\_mem\_monitor}}(\&m1);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{return}\ m1.\doxymbox{\hyperlink{structlv__mem__monitor__t_acaf6aef83b3da5ea976c32a4aafb9ddd}{free\_size}};}
+\DoxyCodeLine{00065\ \}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_STDLIB\_MALLOC\ ==\ LV\_STDLIB\_BUILTIN\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ LV\_TEST\_WIDTH\_TO\_STRIDE(w,\ px\_size)\ ((((w)\ *\ (px\_size)\ +\ (LV\_DRAW\_BUF\_STRIDE\_ALIGN\ -\/\ 1))\ /\ LV\_DRAW\_BUF\_STRIDE\_ALIGN)\ *\ LV\_DRAW\_BUF\_STRIDE\_ALIGN)}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_TEST*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00077\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_TEST\_HELPERS\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

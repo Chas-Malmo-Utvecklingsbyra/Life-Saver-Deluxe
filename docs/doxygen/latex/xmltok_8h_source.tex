@@ -1,0 +1,333 @@
+\doxysection{xmltok.\+h}
+\hypertarget{xmltok_8h_source}{}\label{xmltok_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmltok.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/expat/xmltok.h}}
+\doxymbox{\hyperlink{xmltok_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\ \ \_\_\ \ \ \ \ \ \ \ \ \ \ \ \_}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_\(\backslash\)\ \(\backslash\)/\ /\_\ \_\_\ \ \ \_\_\ \_|\ |\_}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ \_\ \(\backslash\)\(\backslash\)\ \ /|\ '\_\ \(\backslash\)\ /\ \_`\ |\ \_\_|}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \_\_//\ \ \(\backslash\)|\ |\_)\ |\ (\_|\ |\ |\_}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)\_\_\_/\_/\(\backslash\)\_\(\backslash\)\ .\_\_/\ \(\backslash\)\_\_,\_|\(\backslash\)\_\_|}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\_|\ XML\ parser}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 1997-\/2000\ Thai\ Open\ Source\ Software\ Center\ Ltd}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2000\ \ \ \ \ \ Clark\ Cooper\ <coopercc@users.sourceforge.net>}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2002\ \ \ \ \ \ Fred\ L.\ Drake,\ Jr.\ <fdrake@users.sourceforge.net>}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2002-\/2005\ Karl\ Waclawek\ <karl@waclawek.net>}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2016-\/2024\ Sebastian\ Pipping\ <sebastian@pipping.org>}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Copyright\ (c)\ 2017\ \ \ \ \ \ Rhodri\ James\ <rhodri@wildebeest.org.uk>}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ Licensed\ under\ the\ MIT\ license:}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ Permission\ is\ \ hereby\ granted,\ \ free\ of\ charge,\ \ to\ any\ \ person\ obtaining}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ a\ \ copy\ \ of\ \ this\ \ software\ \ \ and\ \ associated\ \ documentation\ \ files\ \ (the}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ "{}Software"{}),\ \ to\ \ deal\ in\ \ the\ \ Software\ \ without\ restriction,\ \ including}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ without\ \ limitation\ the\ \ rights\ \ to\ use,\ \ copy,\ \ modify,\ merge,\ \ publish,}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ permit}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ persons\ \ to\ whom\ \ the\ Software\ \ is\ \ furnished\ to\ \ do\ so,\ \ subject\ to\ \ the}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ \ following\ conditions:}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ The\ above\ copyright\ \ notice\ and\ this\ permission\ notice\ \ shall\ be\ included}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00027\ \textcolor{comment}{}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ THE\ \ SOFTWARE\ \ IS\ \ PROVIDED\ \ "{}AS\ \ IS"{},\ \ WITHOUT\ \ WARRANTY\ \ OF\ \ ANY\ \ KIND,}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ EXPRESS\ \ OR\ IMPLIED,\ \ INCLUDING\ \ BUT\ \ NOT\ LIMITED\ \ TO\ \ THE\ WARRANTIES\ \ OF}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ \ \ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ \ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ \ DAMAGES\ OR\ \ OTHER\ LIABILITY,\ WHETHER\ \ IN\ AN\ \ ACTION\ OF\ CONTRACT,\ \ TORT\ OR}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00035\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#ifndef\ XmlTok\_INCLUDED}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ XmlTok\_INCLUDED\ 1}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{/*\ The\ following\ token\ may\ be\ returned\ by\ XmlContentTok\ */}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ XML\_TOK\_TRAILING\_RSQB\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ -\/5\ }\textcolor{comment}{/*\ ]\ or\ ]]\ at\ the\ end\ of\ the\ scan;\ might\ be\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ \ \ \ \ \ \ \ start\ of\ illegal\ ]]>\ sequence\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00051\ \textcolor{comment}{/*\ The\ following\ tokens\ may\ be\ returned\ by\ both\ XmlPrologTok\ and}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ \ \ XmlContentTok.}}
+\DoxyCodeLine{00053\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NONE\ -\/4\ }\textcolor{comment}{/*\ The\ string\ to\ be\ scanned\ is\ empty\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ XML\_TOK\_TRAILING\_CR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ -\/3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ A\ CR\ at\ the\ end\ of\ the\ scan;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ might\ be\ part\ of\ CRLF\ sequence\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PARTIAL\_CHAR\ -\/2\ }\textcolor{comment}{/*\ only\ part\ of\ a\ multibyte\ sequence\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PARTIAL\ -\/1\ \ \ \ \ \ }\textcolor{comment}{/*\ only\ part\ of\ a\ token\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ XML\_TOK\_INVALID\ 0}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{/*\ The\ following\ tokens\ are\ returned\ by\ XmlContentTok;\ some\ are\ also}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ \ \ returned\ by\ XmlAttributeValueTok,\ XmlEntityTok,\ XmlCdataSectionTok.}}
+\DoxyCodeLine{00064\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ XML\_TOK\_START\_TAG\_WITH\_ATTS\ 1}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ XML\_TOK\_START\_TAG\_NO\_ATTS\ 2}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ XML\_TOK\_EMPTY\_ELEMENT\_WITH\_ATTS\ 3\ }\textcolor{comment}{/*\ empty\ element\ tag\ <e/>\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ XML\_TOK\_EMPTY\_ELEMENT\_NO\_ATTS\ 4}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ XML\_TOK\_END\_TAG\ 5}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ XML\_TOK\_DATA\_CHARS\ 6}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ XML\_TOK\_DATA\_NEWLINE\ 7}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CDATA\_SECT\_OPEN\ 8}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ XML\_TOK\_ENTITY\_REF\ 9}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CHAR\_REF\ 10\ }\textcolor{comment}{/*\ numeric\ character\ reference\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{/*\ The\ following\ tokens\ may\ be\ returned\ by\ both\ XmlPrologTok\ and}}
+\DoxyCodeLine{00077\ \textcolor{comment}{\ \ \ XmlContentTok.}}
+\DoxyCodeLine{00078\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PI\ 11\ \ \ \ \ \ \ }\textcolor{comment}{/*\ processing\ instruction\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ XML\_TOK\_XML\_DECL\ 12\ }\textcolor{comment}{/*\ XML\ decl\ or\ text\ decl\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ XML\_TOK\_COMMENT\ 13}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ XML\_TOK\_BOM\ 14\ }\textcolor{comment}{/*\ Byte\ order\ mark\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{comment}{/*\ The\ following\ tokens\ are\ returned\ only\ by\ XmlPrologTok\ */}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PROLOG\_S\ 15}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ XML\_TOK\_DECL\_OPEN\ 16\ \ }\textcolor{comment}{/*\ <!foo\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ XML\_TOK\_DECL\_CLOSE\ 17\ }\textcolor{comment}{/*\ >\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NAME\ 18}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NMTOKEN\ 19}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ XML\_TOK\_POUND\_NAME\ 20\ }\textcolor{comment}{/*\ \#name\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ XML\_TOK\_OR\ 21\ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ |\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PERCENT\ 22}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ XML\_TOK\_OPEN\_PAREN\ 23}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CLOSE\_PAREN\ 24}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ XML\_TOK\_OPEN\_BRACKET\ 25}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CLOSE\_BRACKET\ 26}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ XML\_TOK\_LITERAL\ 27}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PARAM\_ENTITY\_REF\ 28}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ XML\_TOK\_INSTANCE\_START\ 29}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{comment}{/*\ The\ following\ occur\ only\ in\ element\ type\ declarations\ */}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NAME\_QUESTION\ 30\ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ name?\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NAME\_ASTERISK\ 31\ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ name*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ XML\_TOK\_NAME\_PLUS\ 32\ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ name+\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ XML\_TOK\_COND\_SECT\_OPEN\ 33\ \ \ \ \ \ \ }\textcolor{comment}{/*\ <![\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ XML\_TOK\_COND\_SECT\_CLOSE\ 34\ \ \ \ \ \ }\textcolor{comment}{/*\ ]]>\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CLOSE\_PAREN\_QUESTION\ 35\ }\textcolor{comment}{/*\ )?\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CLOSE\_PAREN\_ASTERISK\ 36\ }\textcolor{comment}{/*\ )*\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CLOSE\_PAREN\_PLUS\ 37\ \ \ \ \ }\textcolor{comment}{/*\ )+\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ XML\_TOK\_COMMA\ 38}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{comment}{/*\ The\ following\ token\ is\ returned\ only\ by\ XmlAttributeValueTok\ */}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ XML\_TOK\_ATTRIBUTE\_VALUE\_S\ 39}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{comment}{/*\ The\ following\ token\ is\ returned\ only\ by\ XmlCdataSectionTok\ */}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ XML\_TOK\_CDATA\_SECT\_CLOSE\ 40}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{comment}{/*\ With\ namespace\ processing\ this\ is\ returned\ by\ XmlPrologTok\ for\ a}}
+\DoxyCodeLine{00119\ \textcolor{comment}{\ \ \ name\ with\ a\ colon.}}
+\DoxyCodeLine{00120\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ XML\_TOK\_PREFIXED\_NAME\ 41}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#\ \ define\ XML\_TOK\_IGNORE\_SECT\ 42}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#\ \ define\ XML\_N\_STATES\ 4}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{/*\ not\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#\ \ define\ XML\_N\_STATES\ 3}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ not\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ XML\_PROLOG\_STATE\ 0}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ XML\_CONTENT\_STATE\ 1}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ XML\_CDATA\_SECTION\_STATE\ 2}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#\ \ define\ XML\_IGNORE\_SECTION\_STATE\ 3}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ XML\_N\_LITERAL\_TYPES\ 2}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ XML\_ATTRIBUTE\_VALUE\_LITERAL\ 0}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ XML\_ENTITY\_VALUE\_LITERAL\ 1}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{comment}{/*\ The\ size\ of\ the\ buffer\ passed\ to\ XmlUtf8Encode\ must\ be\ at\ least\ this.\ */}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ XML\_UTF8\_ENCODE\_MAX\ 4}}
+\DoxyCodeLine{00146\ \textcolor{comment}{/*\ The\ size\ of\ the\ buffer\ passed\ to\ XmlUtf16Encode\ must\ be\ at\ least\ this.\ */}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ XML\_UTF16\_ENCODE\_MAX\ 2}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }position\ \{}
+\DoxyCodeLine{00150\ \ \ \textcolor{comment}{/*\ first\ line\ and\ first\ column\ are\ 0\ not\ 1\ */}}
+\DoxyCodeLine{00151\ \ \ XML\_Size\ lineNumber;}
+\DoxyCodeLine{00152\ \ \ XML\_Size\ columnNumber;}
+\DoxyCodeLine{00153\ \}\ POSITION;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00156\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}};}
+\DoxyCodeLine{00157\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *valuePtr;}
+\DoxyCodeLine{00158\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *valueEnd;}
+\DoxyCodeLine{00159\ \ \ \textcolor{keywordtype}{char}\ normalized;}
+\DoxyCodeLine{00160\ \}\ ATTRIBUTE;}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{struct\ }encoding;}
+\DoxyCodeLine{00163\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }encoding\ ENCODING;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{keyword}{typedef}\ int(PTRCALL\ *SCANNER)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{enum}\ XML\_Convert\_Result\ \{}
+\DoxyCodeLine{00169\ \ \ XML\_CONVERT\_COMPLETED\ =\ 0,}
+\DoxyCodeLine{00170\ \ \ XML\_CONVERT\_INPUT\_INCOMPLETE\ =\ 1,}
+\DoxyCodeLine{00171\ \ \ XML\_CONVERT\_OUTPUT\_EXHAUSTED}
+\DoxyCodeLine{00172\ \ \ =\ 2\ \textcolor{comment}{/*\ and\ therefore\ potentially\ input\ remaining\ as\ well\ */}}
+\DoxyCodeLine{00173\ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{keyword}{struct\ }encoding\ \{}
+\DoxyCodeLine{00176\ \ \ SCANNER\ scanners[XML\_N\_STATES];}
+\DoxyCodeLine{00177\ \ \ SCANNER\ literalScanners[XML\_N\_LITERAL\_TYPES];}
+\DoxyCodeLine{00178\ \ \ int(PTRCALL\ *nameMatchesAscii)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00180\ \ \ int(PTRFASTCALL\ *nameLength)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00181\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *(PTRFASTCALL\ *skipS)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00182\ \ \ int(PTRCALL\ *getAtts)(\textcolor{keyword}{const}\ ENCODING\ *enc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,\ \textcolor{keywordtype}{int}\ attsMax,}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ATTRIBUTE\ *atts);}
+\DoxyCodeLine{00184\ \ \ int(PTRFASTCALL\ *charRefNumber)(\textcolor{keyword}{const}\ ENCODING\ *enc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr);}
+\DoxyCodeLine{00185\ \ \ int(PTRCALL\ *predefinedEntityName)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *);}
+\DoxyCodeLine{00187\ \ \ void(PTRCALL\ *updatePosition)(\textcolor{keyword}{const}\ ENCODING\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ POSITION\ *);}
+\DoxyCodeLine{00189\ \ \ int(PTRCALL\ *isPublicId)(\textcolor{keyword}{const}\ ENCODING\ *enc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **badPtr);}
+\DoxyCodeLine{00191\ \ \ \textcolor{keyword}{enum}\ XML\_Convert\_Result(PTRCALL\ *utf8Convert)(\textcolor{keyword}{const}\ ENCODING\ *enc,}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **fromP,}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fromLim,\ \textcolor{keywordtype}{char}\ **toP,}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *toLim);}
+\DoxyCodeLine{00195\ \ \ \textcolor{keyword}{enum}\ XML\_Convert\_Result(PTRCALL\ *utf16Convert)(\textcolor{keyword}{const}\ ENCODING\ *enc,}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **fromP,}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fromLim,}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ **toP,}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ *toLim);}
+\DoxyCodeLine{00200\ \ \ \textcolor{keywordtype}{int}\ minBytesPerChar;}
+\DoxyCodeLine{00201\ \ \ \textcolor{keywordtype}{char}\ isUtf8;}
+\DoxyCodeLine{00202\ \ \ \textcolor{keywordtype}{char}\ isUtf16;}
+\DoxyCodeLine{00203\ \};}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \textcolor{comment}{/*\ Scan\ the\ string\ starting\ at\ ptr\ until\ the\ end\ of\ the\ next\ complete}}
+\DoxyCodeLine{00206\ \textcolor{comment}{\ \ \ token,\ but\ do\ not\ scan\ past\ eptr.\ \ Return\ an\ integer\ giving\ the}}
+\DoxyCodeLine{00207\ \textcolor{comment}{\ \ \ type\ of\ token.}}
+\DoxyCodeLine{00208\ \textcolor{comment}{}}
+\DoxyCodeLine{00209\ \textcolor{comment}{\ \ \ Return\ XML\_TOK\_NONE\ when\ ptr\ ==\ eptr;\ nextTokPtr\ will\ not\ be\ set.}}
+\DoxyCodeLine{00210\ \textcolor{comment}{}}
+\DoxyCodeLine{00211\ \textcolor{comment}{\ \ \ Return\ XML\_TOK\_PARTIAL\ when\ the\ string\ does\ not\ contain\ a\ complete}}
+\DoxyCodeLine{00212\ \textcolor{comment}{\ \ \ token;\ nextTokPtr\ will\ not\ be\ set.}}
+\DoxyCodeLine{00213\ \textcolor{comment}{}}
+\DoxyCodeLine{00214\ \textcolor{comment}{\ \ \ Return\ XML\_TOK\_INVALID\ when\ the\ string\ does\ not\ start\ a\ valid}}
+\DoxyCodeLine{00215\ \textcolor{comment}{\ \ \ token;\ nextTokPtr\ will\ be\ set\ to\ point\ to\ the\ character\ which\ made}}
+\DoxyCodeLine{00216\ \textcolor{comment}{\ \ \ the\ token\ invalid.}}
+\DoxyCodeLine{00217\ \textcolor{comment}{}}
+\DoxyCodeLine{00218\ \textcolor{comment}{\ \ \ Otherwise\ the\ string\ starts\ with\ a\ valid\ token;\ nextTokPtr\ will\ be}}
+\DoxyCodeLine{00219\ \textcolor{comment}{\ \ \ set\ to\ point\ to\ the\ character\ following\ the\ end\ of\ that\ token.}}
+\DoxyCodeLine{00220\ \textcolor{comment}{}}
+\DoxyCodeLine{00221\ \textcolor{comment}{\ \ \ Each\ data\ character\ counts\ as\ a\ single\ token,\ but\ adjacent\ data}}
+\DoxyCodeLine{00222\ \textcolor{comment}{\ \ \ characters\ may\ be\ returned\ together.\ \ Similarly\ for\ characters\ in}}
+\DoxyCodeLine{00223\ \textcolor{comment}{\ \ \ the\ prolog\ outside\ literals,\ comments\ and\ processing\ instructions.}}
+\DoxyCodeLine{00224\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ XmlTok(enc,\ state,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\ \ (((enc)-\/>scanners[state])(enc,\ ptr,\ end,\ nextTokPtr))}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ XmlPrologTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\ \ XmlTok(enc,\ XML\_PROLOG\_STATE,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ XmlContentTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\ \ XmlTok(enc,\ XML\_CONTENT\_STATE,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ XmlCdataSectionTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ XmlTok(enc,\ XML\_CDATA\_SECTION\_STATE,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#ifdef\ XML\_DTD}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#\ \ define\ XmlIgnoreSectionTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\ \ \ \ XmlTok(enc,\ XML\_IGNORE\_SECTION\_STATE,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ XML\_DTD\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \textcolor{comment}{/*\ This\ is\ used\ for\ performing\ a\ 2nd-\/level\ tokenization\ on\ the\ content}}
+\DoxyCodeLine{00246\ \textcolor{comment}{\ \ \ of\ a\ literal\ that\ has\ already\ been\ returned\ by\ XmlTok.}}
+\DoxyCodeLine{00247\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ XmlLiteralTok(enc,\ literalType,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\ \ (((enc)-\/>literalScanners[literalType])(enc,\ ptr,\ end,\ nextTokPtr))}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ XmlAttributeValueTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\ \ XmlLiteralTok(enc,\ XML\_ATTRIBUTE\_VALUE\_LITERAL,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ XmlEntityValueTok(enc,\ ptr,\ end,\ nextTokPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\ \ XmlLiteralTok(enc,\ XML\_ENTITY\_VALUE\_LITERAL,\ ptr,\ end,\ nextTokPtr)}}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ XmlNameMatchesAscii(enc,\ ptr1,\ end1,\ ptr2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\ \ (((enc)-\/>nameMatchesAscii)(enc,\ ptr1,\ end1,\ ptr2))}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ XmlNameLength(enc,\ ptr)\ (((enc)-\/>nameLength)(enc,\ ptr))}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ XmlSkipS(enc,\ ptr)\ (((enc)-\/>skipS)(enc,\ ptr))}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ XmlGetAttributes(enc,\ ptr,\ attsMax,\ atts)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\ \ (((enc)-\/>getAtts)(enc,\ ptr,\ attsMax,\ atts))}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ XmlCharRefNumber(enc,\ ptr)\ (((enc)-\/>charRefNumber)(enc,\ ptr))}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ XmlPredefinedEntityName(enc,\ ptr,\ end)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\ \ (((enc)-\/>predefinedEntityName)(enc,\ ptr,\ end))}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ XmlUpdatePosition(enc,\ ptr,\ end,\ pos)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\ \ (((enc)-\/>updatePosition)(enc,\ ptr,\ end,\ pos))}}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ XmlIsPublicId(enc,\ ptr,\ end,\ badPtr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\ \ (((enc)-\/>isPublicId)(enc,\ ptr,\ end,\ badPtr))}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ XmlUtf8Convert(enc,\ fromP,\ fromLim,\ toP,\ toLim)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\ \ (((enc)-\/>utf8Convert)(enc,\ fromP,\ fromLim,\ toP,\ toLim))}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ XmlUtf16Convert(enc,\ fromP,\ fromLim,\ toP,\ toLim)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\ \ (((enc)-\/>utf16Convert)(enc,\ fromP,\ fromLim,\ toP,\ toLim))}}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00285\ \ \ ENCODING\ initEnc;}
+\DoxyCodeLine{00286\ \ \ \textcolor{keyword}{const}\ ENCODING\ **encPtr;}
+\DoxyCodeLine{00287\ \}\ INIT\_ENCODING;}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \textcolor{keywordtype}{int}\ XmlParseXmlDecl(\textcolor{keywordtype}{int}\ isGeneralTextEntity,\ \textcolor{keyword}{const}\ ENCODING\ *enc,}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **badPtr,}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **versionPtr,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **versionEndPtr,}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **encodingNamePtr,}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ENCODING\ **namedEncodingPtr,\ \textcolor{keywordtype}{int}\ *standalonePtr);}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{keywordtype}{int}\ XmlInitEncoding(INIT\_ENCODING\ *p,\ \textcolor{keyword}{const}\ ENCODING\ **encPtr,}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00297\ \textcolor{keyword}{const}\ ENCODING\ *XmlGetUtf8InternalEncoding(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00298\ \textcolor{keyword}{const}\ ENCODING\ *XmlGetUtf16InternalEncoding(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00299\ \textcolor{keywordtype}{int}\ FASTCALL\ XmlUtf8Encode(\textcolor{keywordtype}{int}\ charNumber,\ \textcolor{keywordtype}{char}\ *buf);}
+\DoxyCodeLine{00300\ \textcolor{keywordtype}{int}\ FASTCALL\ XmlUtf16Encode(\textcolor{keywordtype}{int}\ charNumber,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ *buf);}
+\DoxyCodeLine{00301\ \textcolor{keywordtype}{int}\ XmlSizeOfUnknownEncoding(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \textcolor{keyword}{typedef}\ int(XMLCALL\ *CONVERTER)(\textcolor{keywordtype}{void}\ *userData,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *p);}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ ENCODING\ *XmlInitUnknownEncoding(\textcolor{keywordtype}{void}\ *mem,\ \textcolor{keywordtype}{int}\ *table,\ CONVERTER\ convert,}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \textcolor{keywordtype}{int}\ XmlParseXmlDeclNS(\textcolor{keywordtype}{int}\ isGeneralTextEntity,\ \textcolor{keyword}{const}\ ENCODING\ *enc,}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ptr,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **badPtr,}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **versionPtr,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **versionEndPtr,}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **encodingNamePtr,}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ENCODING\ **namedEncodingPtr,\ \textcolor{keywordtype}{int}\ *standalonePtr);}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \textcolor{keywordtype}{int}\ XmlInitEncodingNS(INIT\_ENCODING\ *p,\ \textcolor{keyword}{const}\ ENCODING\ **encPtr,}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00316\ \textcolor{keyword}{const}\ ENCODING\ *XmlGetUtf8InternalEncodingNS(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00317\ \textcolor{keyword}{const}\ ENCODING\ *XmlGetUtf16InternalEncodingNS(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00318\ ENCODING\ *XmlInitUnknownEncodingNS(\textcolor{keywordtype}{void}\ *mem,\ \textcolor{keywordtype}{int}\ *table,\ CONVERTER\ convert,}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *userData);}
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00321\ \}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ not\ XmlTok\_INCLUDED\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00327\ }
+
+\end{DoxyCode}

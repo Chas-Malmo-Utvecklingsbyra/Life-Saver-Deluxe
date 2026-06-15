@@ -1,0 +1,152 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+esp\+\_\+lcd\+\_\+gc9a01/\+test\+\_\+apps/\+main/\+test\+\_\+esp\+\_\+lcd\+\_\+gc9a01.c File Reference}
+\hypertarget{test__esp__lcd__gc9a01_8c}{}\label{test__esp__lcd__gc9a01_8c}\index{home-\/hub/managed\_components/espressif\_\_esp\_lcd\_gc9a01/test\_apps/main/test\_esp\_lcd\_gc9a01.c@{home-\/hub/managed\_components/espressif\_\_esp\_lcd\_gc9a01/test\_apps/main/test\_esp\_lcd\_gc9a01.c}}
+{\ttfamily \+\#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+spi\+\_\+master.\+h"{}}\newline
+{\ttfamily \+\#include "{}driver/\+gpio.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+heap\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+io\+\_\+interface.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+io.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+panel\+\_\+ops.\+h"{}}\newline
+{\ttfamily \+\#include "{}unity.\+h"{}}\newline
+{\ttfamily \+\#include "{}unity\+\_\+test\+\_\+runner.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lcd\+\_\+gc9a01.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a2a205cbef55f874aea6589e6b112b71a}{TEST\+\_\+\+LCD\+\_\+\+HOST}}~SPI2\+\_\+\+HOST
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a81c3bad7ec01a72ff0d0b516162c6014}{TEST\+\_\+\+LCD\+\_\+\+H\+\_\+\+RES}}~(240)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_ae3a208c635abb0479170a55f8f4e50b4}{TEST\+\_\+\+LCD\+\_\+\+V\+\_\+\+RES}}~(240)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a6d7b4dde438ae77556cd75419619655e}{TEST\+\_\+\+LCD\+\_\+\+BIT\+\_\+\+PER\+\_\+\+PIXEL}}~(16)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a1029aa08b770fdd77ed16b3933bad3e9}{TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+CS}}~(GPIO\+\_\+\+NUM\+\_\+7)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a9409dd82c14c467b4aa031a614282d55}{TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+PCLK}}~(GPIO\+\_\+\+NUM\+\_\+1)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a131b077f869eeb2640aec0acbbed88f4}{TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+DATA0}}~(GPIO\+\_\+\+NUM\+\_\+0)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a6008b2d9a715b29a23efdf5b5267cb42}{TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+RST}}~(GPIO\+\_\+\+NUM\+\_\+3)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a4257c93207cb61b609641fdd9596f0d4}{TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+DC}}~(GPIO\+\_\+\+NUM\+\_\+2)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_ab924538a4152b5bb57a56b1b51a30f85}{TEST\+\_\+\+DELAY\+\_\+\+TIME\+\_\+\+MS}}~(3000)
+\item 
+\+\#define \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_ad4ce50b66e717a9bf5ea9474be532b8b}{TEST\+\_\+\+MEMORY\+\_\+\+LEAK\+\_\+\+THRESHOLD}}~(-\/300)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a1d3d3655dd3fe64db862d244c19d6484}{TEST\+\_\+\+CASE}} ("{}test gc9a01 to draw color bar with SPI interface"{}, "{}\+[gc9a01]\+\+[spi]\+"{})
+\item 
+void \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a95c834d6178047ce9e1bce7cbfea2836}{set\+Up}} (void)
+\item 
+void \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a9909011e5fea0c018842eec4d93d0662}{tear\+Down}} (void)
+\item 
+void \doxymbox{\hyperlink{test__esp__lcd__gc9a01_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\end{DoxyCompactItemize}
+
+
+\label{test__esp__lcd__gc9a01_8c_doc-define-members}
+\Hypertarget{test__esp__lcd__gc9a01_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{test__esp__lcd__gc9a01_8c_ab924538a4152b5bb57a56b1b51a30f85}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_DELAY\_TIME\_MS@{TEST\_DELAY\_TIME\_MS}}
+\index{TEST\_DELAY\_TIME\_MS@{TEST\_DELAY\_TIME\_MS}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_DELAY\_TIME\_MS}{TEST\_DELAY\_TIME\_MS}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_ab924538a4152b5bb57a56b1b51a30f85} 
+\+\#define TEST\+\_\+\+DELAY\+\_\+\+TIME\+\_\+\+MS~(3000)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a6d7b4dde438ae77556cd75419619655e}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_LCD\_BIT\_PER\_PIXEL@{TEST\_LCD\_BIT\_PER\_PIXEL}}
+\index{TEST\_LCD\_BIT\_PER\_PIXEL@{TEST\_LCD\_BIT\_PER\_PIXEL}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_LCD\_BIT\_PER\_PIXEL}{TEST\_LCD\_BIT\_PER\_PIXEL}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a6d7b4dde438ae77556cd75419619655e} 
+\+\#define TEST\+\_\+\+LCD\+\_\+\+BIT\+\_\+\+PER\+\_\+\+PIXEL~(16)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a81c3bad7ec01a72ff0d0b516162c6014}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_LCD\_H\_RES@{TEST\_LCD\_H\_RES}}
+\index{TEST\_LCD\_H\_RES@{TEST\_LCD\_H\_RES}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_LCD\_H\_RES}{TEST\_LCD\_H\_RES}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a81c3bad7ec01a72ff0d0b516162c6014} 
+\+\#define TEST\+\_\+\+LCD\+\_\+\+H\+\_\+\+RES~(240)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a2a205cbef55f874aea6589e6b112b71a}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_LCD\_HOST@{TEST\_LCD\_HOST}}
+\index{TEST\_LCD\_HOST@{TEST\_LCD\_HOST}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_LCD\_HOST}{TEST\_LCD\_HOST}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a2a205cbef55f874aea6589e6b112b71a} 
+\+\#define TEST\+\_\+\+LCD\+\_\+\+HOST~SPI2\+\_\+\+HOST}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_ae3a208c635abb0479170a55f8f4e50b4}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_LCD\_V\_RES@{TEST\_LCD\_V\_RES}}
+\index{TEST\_LCD\_V\_RES@{TEST\_LCD\_V\_RES}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_LCD\_V\_RES}{TEST\_LCD\_V\_RES}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_ae3a208c635abb0479170a55f8f4e50b4} 
+\+\#define TEST\+\_\+\+LCD\+\_\+\+V\+\_\+\+RES~(240)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_ad4ce50b66e717a9bf5ea9474be532b8b}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_MEMORY\_LEAK\_THRESHOLD@{TEST\_MEMORY\_LEAK\_THRESHOLD}}
+\index{TEST\_MEMORY\_LEAK\_THRESHOLD@{TEST\_MEMORY\_LEAK\_THRESHOLD}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_MEMORY\_LEAK\_THRESHOLD}{TEST\_MEMORY\_LEAK\_THRESHOLD}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_ad4ce50b66e717a9bf5ea9474be532b8b} 
+\+\#define TEST\+\_\+\+MEMORY\+\_\+\+LEAK\+\_\+\+THRESHOLD~(-\/300)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a1029aa08b770fdd77ed16b3933bad3e9}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_PIN\_NUM\_LCD\_CS@{TEST\_PIN\_NUM\_LCD\_CS}}
+\index{TEST\_PIN\_NUM\_LCD\_CS@{TEST\_PIN\_NUM\_LCD\_CS}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_PIN\_NUM\_LCD\_CS}{TEST\_PIN\_NUM\_LCD\_CS}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a1029aa08b770fdd77ed16b3933bad3e9} 
+\+\#define TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+CS~(GPIO\+\_\+\+NUM\+\_\+7)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a131b077f869eeb2640aec0acbbed88f4}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_PIN\_NUM\_LCD\_DATA0@{TEST\_PIN\_NUM\_LCD\_DATA0}}
+\index{TEST\_PIN\_NUM\_LCD\_DATA0@{TEST\_PIN\_NUM\_LCD\_DATA0}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_PIN\_NUM\_LCD\_DATA0}{TEST\_PIN\_NUM\_LCD\_DATA0}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a131b077f869eeb2640aec0acbbed88f4} 
+\+\#define TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+DATA0~(GPIO\+\_\+\+NUM\+\_\+0)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a4257c93207cb61b609641fdd9596f0d4}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_PIN\_NUM\_LCD\_DC@{TEST\_PIN\_NUM\_LCD\_DC}}
+\index{TEST\_PIN\_NUM\_LCD\_DC@{TEST\_PIN\_NUM\_LCD\_DC}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_PIN\_NUM\_LCD\_DC}{TEST\_PIN\_NUM\_LCD\_DC}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a4257c93207cb61b609641fdd9596f0d4} 
+\+\#define TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+DC~(GPIO\+\_\+\+NUM\+\_\+2)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a9409dd82c14c467b4aa031a614282d55}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_PIN\_NUM\_LCD\_PCLK@{TEST\_PIN\_NUM\_LCD\_PCLK}}
+\index{TEST\_PIN\_NUM\_LCD\_PCLK@{TEST\_PIN\_NUM\_LCD\_PCLK}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_PIN\_NUM\_LCD\_PCLK}{TEST\_PIN\_NUM\_LCD\_PCLK}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a9409dd82c14c467b4aa031a614282d55} 
+\+\#define TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+PCLK~(GPIO\+\_\+\+NUM\+\_\+1)}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a6008b2d9a715b29a23efdf5b5267cb42}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_PIN\_NUM\_LCD\_RST@{TEST\_PIN\_NUM\_LCD\_RST}}
+\index{TEST\_PIN\_NUM\_LCD\_RST@{TEST\_PIN\_NUM\_LCD\_RST}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_PIN\_NUM\_LCD\_RST}{TEST\_PIN\_NUM\_LCD\_RST}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a6008b2d9a715b29a23efdf5b5267cb42} 
+\+\#define TEST\+\_\+\+PIN\+\_\+\+NUM\+\_\+\+LCD\+\_\+\+RST~(GPIO\+\_\+\+NUM\+\_\+3)}
+
+
+
+\label{test__esp__lcd__gc9a01_8c_doc-func-members}
+\Hypertarget{test__esp__lcd__gc9a01_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{test__esp__lcd__gc9a01_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a630544a7f0a2cc40d8a7fefab7e2fe70} 
+void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+/\+ \+\_\+ \textbackslash{} /\+ {\bfseries{\textbackslash{}/\+ \+\_\+ \textbackslash{} /\+\+\_\+\textbackslash{} /\+ \+\_\+ \textbackslash{}/\+ \texorpdfstring{$\vert$}{|} /\+ /\+\+\_\+\textbackslash{}/\+/\+ /\+ \texorpdfstring{$\vert$}{|} (\+\_\+) \texorpdfstring{$\vert$}{|}/\+/\+\+\_\+\textbackslash{}\texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} /\+ /\+\+\_\+\textbackslash{}/\+ /\+\+\_\+\+\_\+\+\_\+ \+\_\+\+\_\+, /\+ \+\_\+ \textbackslash{} \texorpdfstring{$\vert$}{|}\+\_\+\texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} \texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+\_\+\+\_\+/\+\+\_\+\+\_\+\+\_\+\+\_\+/\+ /\+\+\_\+/\+\+\_\+/\+ \+\_\+/\+\+\_\+}}/\+\texorpdfstring{$\vert$}{|}\+\_\+\texorpdfstring{$\vert$}{|}\Hypertarget{test__esp__lcd__gc9a01_8c_a95c834d6178047ce9e1bce7cbfea2836}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!setUp@{setUp}}
+\index{setUp@{setUp}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{setUp()}{setUp()}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a95c834d6178047ce9e1bce7cbfea2836} 
+void set\+Up (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a9909011e5fea0c018842eec4d93d0662}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!tearDown@{tearDown}}
+\index{tearDown@{tearDown}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{tearDown()}{tearDown()}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a9909011e5fea0c018842eec4d93d0662} 
+void tear\+Down (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{test__esp__lcd__gc9a01_8c_a1d3d3655dd3fe64db862d244c19d6484}\index{test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}!TEST\_CASE@{TEST\_CASE}}
+\index{TEST\_CASE@{TEST\_CASE}!test\_esp\_lcd\_gc9a01.c@{test\_esp\_lcd\_gc9a01.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_CASE()}{TEST\_CASE()}}
+{\footnotesize\ttfamily \label{test__esp__lcd__gc9a01_8c_a1d3d3655dd3fe64db862d244c19d6484} 
+TEST\+\_\+\+CASE (\begin{DoxyParamCaption}\item[{"{}test gc9a01 to draw color bar with SPI interface"{}}]{}{, }\item[{"{}"{}}]{}{\+[gc9a01]\+\+[spi]\+}\end{DoxyParamCaption})}
+

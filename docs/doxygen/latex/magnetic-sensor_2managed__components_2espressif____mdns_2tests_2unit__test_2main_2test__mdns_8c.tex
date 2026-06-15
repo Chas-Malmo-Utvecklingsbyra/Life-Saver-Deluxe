@@ -1,0 +1,169 @@
+\doxysection{magnetic-\/sensor/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+tests/\+unit\+\_\+test/\+main/\+test\+\_\+mdns.c File Reference}
+\hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c}{}\label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c}\index{magnetic-\/sensor/managed\_components/espressif\_\_mdns/tests/unit\_test/main/test\_mdns.c@{magnetic-\/sensor/managed\_components/espressif\_\_mdns/tests/unit\_test/main/test\_mdns.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}mdns.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+event.\+h"{}}\newline
+{\ttfamily \+\#include "{}unity.\+h"{}}\newline
+{\ttfamily \+\#include "{}test\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}unity\+\_\+fixture.\+h"{}}\newline
+{\ttfamily \+\#include "{}memory\+\_\+checks.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2a1e1448a1e301f5540820b34df496d2}{MDNS\+\_\+\+HOSTNAME}}~"{}test-\/hostname"{}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3f2b2233c3f213e670ff6c10529e736d}{MDNS\+\_\+\+DELEGATE\+\_\+\+HOSTNAME}}~"{}delegate-\/hostname"{}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a48647e6963f9e2bc971e08d15f785c96}{MDNS\+\_\+\+INSTANCE}}~"{}test-\/instance"{}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2597be4e15dcb4d93d323730f9ac2838}{MDNS\+\_\+\+SERVICE\+\_\+\+NAME}}~"{}\+\_\+http"{}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a43d208ae33ffece4cd9cbf7b4437f2bb}{MDNS\+\_\+\+SERVICE\+\_\+\+PROTO}}~"{}\+\_\+tcp"{}
+\item 
+\+\#define \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a7ad20d359031bc414d0a471b7bebedd6}{MDNS\+\_\+\+SERVICE\+\_\+\+PORT}}~80
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a59a9d53da9eba2d9023c88f1800288b0}{TEST\+\_\+\+GROUP}} (mdns)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a9698f05e3e3684af4117210cf9a736c0}{TEST\+\_\+\+SETUP}} (mdns)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a6ea7a64b28676435ed93e1f32f090d31}{TEST\+\_\+\+TEAR\+\_\+\+DOWN}} (mdns)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3534f1fb7be8bc1b8c33ef0530de78a5}{TEST}} (mdns, api\+\_\+fails\+\_\+with\+\_\+invalid\+\_\+state)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aaa0d2467543e9f68cb04fe6dd8ec9807}{TEST}} (mdns, init\+\_\+deinit)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aa3636360fedc89b886aee5ae3616098b}{TEST}} (mdns, boolean\+\_\+txt\+\_\+null\+\_\+value)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2cc6eb4bccdb0b0266b7dde83f21d104}{TEST}} (mdns, api\+\_\+fails\+\_\+with\+\_\+expected\+\_\+err)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_afd4cd5f5bfeebc71ce2fa6652cb1b172}{TEST}} (mdns, query\+\_\+api\+\_\+fails\+\_\+with\+\_\+expected\+\_\+err)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a441a80cb09fcb867e2e1eca11a0e3193}{TEST}} (mdns, add\+\_\+remove\+\_\+service)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a1809ebc7c0bd65e1023ef6e6906e2e23}{TEST}} (mdns, add\+\_\+remove\+\_\+deleg\+\_\+service)
+\item 
+\doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a370ade451bb1e4041e98433acfb4036b}{TEST\+\_\+\+GROUP\+\_\+\+RUNNER}} (mdns)
+\item 
+void \doxymbox{\hyperlink{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\end{DoxyCompactItemize}
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_doc-define-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3f2b2233c3f213e670ff6c10529e736d}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_DELEGATE\_HOSTNAME@{MDNS\_DELEGATE\_HOSTNAME}}
+\index{MDNS\_DELEGATE\_HOSTNAME@{MDNS\_DELEGATE\_HOSTNAME}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_DELEGATE\_HOSTNAME}{MDNS\_DELEGATE\_HOSTNAME}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3f2b2233c3f213e670ff6c10529e736d} 
+\+\#define MDNS\+\_\+\+DELEGATE\+\_\+\+HOSTNAME~"{}delegate-\/hostname"{}}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2a1e1448a1e301f5540820b34df496d2}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_HOSTNAME@{MDNS\_HOSTNAME}}
+\index{MDNS\_HOSTNAME@{MDNS\_HOSTNAME}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_HOSTNAME}{MDNS\_HOSTNAME}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2a1e1448a1e301f5540820b34df496d2} 
+\+\#define MDNS\+\_\+\+HOSTNAME~"{}test-\/hostname"{}}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a48647e6963f9e2bc971e08d15f785c96}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_INSTANCE@{MDNS\_INSTANCE}}
+\index{MDNS\_INSTANCE@{MDNS\_INSTANCE}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_INSTANCE}{MDNS\_INSTANCE}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a48647e6963f9e2bc971e08d15f785c96} 
+\+\#define MDNS\+\_\+\+INSTANCE~"{}test-\/instance"{}}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2597be4e15dcb4d93d323730f9ac2838}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_SERVICE\_NAME@{MDNS\_SERVICE\_NAME}}
+\index{MDNS\_SERVICE\_NAME@{MDNS\_SERVICE\_NAME}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_NAME}{MDNS\_SERVICE\_NAME}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2597be4e15dcb4d93d323730f9ac2838} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+NAME~"{}\+\_\+http"{}}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a7ad20d359031bc414d0a471b7bebedd6}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_SERVICE\_PORT@{MDNS\_SERVICE\_PORT}}
+\index{MDNS\_SERVICE\_PORT@{MDNS\_SERVICE\_PORT}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_PORT}{MDNS\_SERVICE\_PORT}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a7ad20d359031bc414d0a471b7bebedd6} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+PORT~80}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a43d208ae33ffece4cd9cbf7b4437f2bb}\index{test\_mdns.c@{test\_mdns.c}!MDNS\_SERVICE\_PROTO@{MDNS\_SERVICE\_PROTO}}
+\index{MDNS\_SERVICE\_PROTO@{MDNS\_SERVICE\_PROTO}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_PROTO}{MDNS\_SERVICE\_PROTO}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a43d208ae33ffece4cd9cbf7b4437f2bb} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+PROTO~"{}\+\_\+tcp"{}}
+
+
+
+\label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_doc-func-members}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\index{test\_mdns.c@{test\_mdns.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a630544a7f0a2cc40d8a7fefab7e2fe70} 
+void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a1809ebc7c0bd65e1023ef6e6906e2e23}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [1/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a1809ebc7c0bd65e1023ef6e6906e2e23} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{add\+\_\+remove\+\_\+deleg\+\_\+service}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a441a80cb09fcb867e2e1eca11a0e3193}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [2/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a441a80cb09fcb867e2e1eca11a0e3193} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{add\+\_\+remove\+\_\+service}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2cc6eb4bccdb0b0266b7dde83f21d104}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [3/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a2cc6eb4bccdb0b0266b7dde83f21d104} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{api\+\_\+fails\+\_\+with\+\_\+expected\+\_\+err}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3534f1fb7be8bc1b8c33ef0530de78a5}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [4/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a3534f1fb7be8bc1b8c33ef0530de78a5} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{api\+\_\+fails\+\_\+with\+\_\+invalid\+\_\+state}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aa3636360fedc89b886aee5ae3616098b}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [5/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aa3636360fedc89b886aee5ae3616098b} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{boolean\+\_\+txt\+\_\+null\+\_\+value}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aaa0d2467543e9f68cb04fe6dd8ec9807}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [6/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_aaa0d2467543e9f68cb04fe6dd8ec9807} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{init\+\_\+deinit}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_afd4cd5f5bfeebc71ce2fa6652cb1b172}\index{test\_mdns.c@{test\_mdns.c}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [7/7]}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_afd4cd5f5bfeebc71ce2fa6652cb1b172} 
+TEST (\begin{DoxyParamCaption}\item[{mdns}]{}{, }\item[{query\+\_\+api\+\_\+fails\+\_\+with\+\_\+expected\+\_\+err}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a59a9d53da9eba2d9023c88f1800288b0}\index{test\_mdns.c@{test\_mdns.c}!TEST\_GROUP@{TEST\_GROUP}}
+\index{TEST\_GROUP@{TEST\_GROUP}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_GROUP()}{TEST\_GROUP()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a59a9d53da9eba2d9023c88f1800288b0} 
+TEST\+\_\+\+GROUP (\begin{DoxyParamCaption}\item[{mdns}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a370ade451bb1e4041e98433acfb4036b}\index{test\_mdns.c@{test\_mdns.c}!TEST\_GROUP\_RUNNER@{TEST\_GROUP\_RUNNER}}
+\index{TEST\_GROUP\_RUNNER@{TEST\_GROUP\_RUNNER}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_GROUP\_RUNNER()}{TEST\_GROUP\_RUNNER()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a370ade451bb1e4041e98433acfb4036b} 
+TEST\+\_\+\+GROUP\+\_\+\+RUNNER (\begin{DoxyParamCaption}\item[{mdns}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a9698f05e3e3684af4117210cf9a736c0}\index{test\_mdns.c@{test\_mdns.c}!TEST\_SETUP@{TEST\_SETUP}}
+\index{TEST\_SETUP@{TEST\_SETUP}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_SETUP()}{TEST\_SETUP()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a9698f05e3e3684af4117210cf9a736c0} 
+TEST\+\_\+\+SETUP (\begin{DoxyParamCaption}\item[{mdns}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a6ea7a64b28676435ed93e1f32f090d31}\index{test\_mdns.c@{test\_mdns.c}!TEST\_TEAR\_DOWN@{TEST\_TEAR\_DOWN}}
+\index{TEST\_TEAR\_DOWN@{TEST\_TEAR\_DOWN}!test\_mdns.c@{test\_mdns.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_TEAR\_DOWN()}{TEST\_TEAR\_DOWN()}}
+{\footnotesize\ttfamily \label{magnetic-sensor_2managed__components_2espressif____mdns_2tests_2unit__test_2main_2test__mdns_8c_a6ea7a64b28676435ed93e1f32f090d31} 
+TEST\+\_\+\+TEAR\+\_\+\+DOWN (\begin{DoxyParamCaption}\item[{mdns}]{}{}\end{DoxyParamCaption})}
+

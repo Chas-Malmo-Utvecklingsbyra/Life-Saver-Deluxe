@@ -1,0 +1,77 @@
+\doxysection{lv\+\_\+gstreamer\+\_\+internal.\+h}
+\hypertarget{lv__gstreamer__internal_8h_source}{}\label{lv__gstreamer__internal_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gstreamer/lv\_gstreamer\_internal.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/gstreamer/lv\_gstreamer\_internal.h}}
+\doxymbox{\hyperlink{lv__gstreamer__internal_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_GSTREAMER\_INTERNAL\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_GSTREAMER\_INTERNAL\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ LV\_USE\_GSTREAMER}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <gst/gst.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <gst/video/video.h>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__image__private_8h}{../../widgets/image/lv\_image\_private.h}}"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__gstreamer_8h}{lv\_gstreamer.h}}"{}}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{struct\ }\_lv\_gstreamer\_t\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a2ad4ad9550e1e65bc74375eba10e7ad3}{lv\_image\_t}}\ \doxymbox{\hyperlink{namespaceimage__viewer_a42cb5f5737262947250c709931232c69}{image}};}
+\DoxyCodeLine{00038\ \ \ \ \ lv\_image\_dsc\_t\ frame;}
+\DoxyCodeLine{00039\ \ \ \ \ GstVideoInfo\ video\_info;}
+\DoxyCodeLine{00040\ \ \ \ \ GstElement\ *\ pipeline;}
+\DoxyCodeLine{00041\ \ \ \ \ GstElement\ *\ audio\_convert;}
+\DoxyCodeLine{00042\ \ \ \ \ GstElement\ *\ video\_convert;}
+\DoxyCodeLine{00043\ \ \ \ \ GstElement\ *\ audio\_volume;}
+\DoxyCodeLine{00044\ \ \ \ \ GstSample\ *\ last\_sample;}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\_timer\_t}}\ *\ gstreamer\_timer;}
+\DoxyCodeLine{00046\ \ \ \ \ GAsyncQueue\ *\ frame\_queue;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_video\_info\_valid;}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ *\ frame\_data;}
+\DoxyCodeLine{00052\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}};}
+\DoxyCodeLine{00053\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a509290c21d570ff479c1b9d9b1fe8810}{height}};}
+\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ stride;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ data\_size;}
+\DoxyCodeLine{00056\ \}\ frame\_data\_t;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_gstreamer\_t\ lv\_gstreamer\_t;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_GSTREAMER\ !=\ 0\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00071\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_GSTREAMER\_INTERNAL\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

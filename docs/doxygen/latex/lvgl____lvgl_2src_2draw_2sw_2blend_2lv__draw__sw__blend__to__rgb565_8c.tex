@@ -1,0 +1,526 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+sw/\+blend/\+lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+to\+\_\+rgb565.c File Reference}
+\hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c}{}\label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/blend/lv\_draw\_sw\_blend\_to\_rgb565.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/blend/lv\_draw\_sw\_blend\_to\_rgb565.c}}
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+to\+\_\+rgb565.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+core/\+lv\+\_\+refr.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+misc/\+lv\+\_\+color.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+stdlib/\+lv\+\_\+string.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa6b429099447e2a4165d88b85a8df8fb}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6ff5ffb260d8458d582281919641b812}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abb5e5b504a20d7e93ca54748db22ef21}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af532e286eae8ed5a5d8316c090fe5577}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad7f382d7eac1c807cb593207dc97b2b6}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a0c32fd76c7fcfce20535969410674464}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a576e1fb685b0308f7b5d846f12b18988}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aafb033cd152fd9d86ca77e30acfa78a1}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a04fc2523b9876238dcfcc8898a822ddf}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f370187bf8e5e982057d05745f61f65}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a883698aef4ecc3091ec7ab96f01f9c02}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aaaab524087c8897d3260ab0d5161eea7}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a25a7194761c77cc336ce116f6e9c930a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad1e1ef4e0d8bf059d5892496563b546f}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4f70ec4be3bdda5bf48bb7d28bb094a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad58f28367ee6a40f640a630765fcc31d}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_afea3b285e000b060ea0ab224adce96d2}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab0430fd78c7d24e600a2a3e1d20360c2}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ae90f223a291947181d9a9ceb455c3be6}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3e2b5ac0c80a3ac72112a8fb5592d373}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4a95bf4d222bf77c8d2f47daa598754}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a4e95b0a7d91e8b36b38870a9b2b671a8}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a447a2f82c8a76235ef44ebef91953c1a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab3cfac9a2df2694a376537a47821a3b9}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6217a3d32275f6ab0384693d7a4f2b59}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f12d04051065cc02e9e99b6eb9efce3}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_acbd7a6040a163dc341cd844e24a8b44b}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abe16de217fd97a59bb19d863f3d93125}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a5ddf0fd631f60f75852ae06ebf7e4588}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a331de991a135a83c90bc89deb8b1f759}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a19a2d51344b8f847fb1a4d233e9223e4}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a818eb74c8f059c169aca1aa1f47d28fb}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a64b5580622ecc66e5150445489cc9893}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abce5ad92856b8fd59e2250c6fff67297}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a2644108963567b643dd2bb9de314cf17}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a89e17bbed793905b0d1e21adf68a6367}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2src_2lv__draw__sw__blend__to__rgb565_8c_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa858ce9b00846a8a772b817da4d4d4b3}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+color\+\_\+to\+\_\+rgb565}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeb5c9a772646e55a6ad08704d2c7e86}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+fill\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\item 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2src_2lv__draw__sw__blend__to__rgb565_8c_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} \doxymbox{\hyperlink{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3accc281247086244bc3e1833e3e1a4d}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+to\+\_\+rgb565}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a3c0d90380e5741b3c1389fb84e8ea00e}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\end{DoxyCompactItemize}
+
+
+\label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_doc-define-members}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a04fc2523b9876238dcfcc8898a822ddf}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a04fc2523b9876238dcfcc8898a822ddf} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aaaab524087c8897d3260ab0d5161eea7}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aaaab524087c8897d3260ab0d5161eea7} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a883698aef4ecc3091ec7ab96f01f9c02}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a883698aef4ecc3091ec7ab96f01f9c02} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f370187bf8e5e982057d05745f61f65}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_AL88\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f370187bf8e5e982057d05745f61f65} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+AL88\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6217a3d32275f6ab0384693d7a4f2b59}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6217a3d32275f6ab0384693d7a4f2b59} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abe16de217fd97a59bb19d863f3d93125}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abe16de217fd97a59bb19d863f3d93125} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_acbd7a6040a163dc341cd844e24a8b44b}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_acbd7a6040a163dc341cd844e24a8b44b} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f12d04051065cc02e9e99b6eb9efce3}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a1f12d04051065cc02e9e99b6eb9efce3} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a5ddf0fd631f60f75852ae06ebf7e4588}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a5ddf0fd631f60f75852ae06ebf7e4588} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a818eb74c8f059c169aca1aa1f47d28fb}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a818eb74c8f059c169aca1aa1f47d28fb} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a19a2d51344b8f847fb1a4d233e9223e4}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a19a2d51344b8f847fb1a4d233e9223e4} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a331de991a135a83c90bc89deb8b1f759}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a331de991a135a83c90bc89deb8b1f759} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa6b429099447e2a4165d88b85a8df8fb}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565}{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa6b429099447e2a4165d88b85a8df8fb} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af532e286eae8ed5a5d8316c090fe5577}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af532e286eae8ed5a5d8316c090fe5577} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abb5e5b504a20d7e93ca54748db22ef21}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abb5e5b504a20d7e93ca54748db22ef21} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6ff5ffb260d8458d582281919641b812}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_COLOR\_BLEND\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a6ff5ffb260d8458d582281919641b812} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+COLOR\+\_\+\+BLEND\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a64b5580622ecc66e5150445489cc9893}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a64b5580622ecc66e5150445489cc9893} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a89e17bbed793905b0d1e21adf68a6367}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a89e17bbed793905b0d1e21adf68a6367} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a2644108963567b643dd2bb9de314cf17}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a2644108963567b643dd2bb9de314cf17} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abce5ad92856b8fd59e2250c6fff67297}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_I1\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_abce5ad92856b8fd59e2250c6fff67297} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+I1\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad7f382d7eac1c807cb593207dc97b2b6}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad7f382d7eac1c807cb593207dc97b2b6} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aafb033cd152fd9d86ca77e30acfa78a1}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aafb033cd152fd9d86ca77e30acfa78a1} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a576e1fb685b0308f7b5d846f12b18988}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a576e1fb685b0308f7b5d846f12b18988} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a0c32fd76c7fcfce20535969410674464}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_L8\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a0c32fd76c7fcfce20535969410674464} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+L8\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a25a7194761c77cc336ce116f6e9c930a}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a25a7194761c77cc336ce116f6e9c930a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad58f28367ee6a40f640a630765fcc31d}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad58f28367ee6a40f640a630765fcc31d} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4f70ec4be3bdda5bf48bb7d28bb094a}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4f70ec4be3bdda5bf48bb7d28bb094a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad1e1ef4e0d8bf059d5892496563b546f}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_RGB565\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ad1e1ef4e0d8bf059d5892496563b546f} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_afea3b285e000b060ea0ab224adce96d2}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_afea3b285e000b060ea0ab224adce96d2} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3e2b5ac0c80a3ac72112a8fb5592d373}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3e2b5ac0c80a3ac72112a8fb5592d373} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ae90f223a291947181d9a9ceb455c3be6}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ae90f223a291947181d9a9ceb455c3be6} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab0430fd78c7d24e600a2a3e1d20360c2}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_RGB565\_SWAPPED\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab0430fd78c7d24e600a2a3e1d20360c2} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB565\+\_\+\+SWAPPED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4a95bf4d222bf77c8d2f47daa598754}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_af4a95bf4d222bf77c8d2f47daa598754} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab3cfac9a2df2694a376537a47821a3b9}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_ab3cfac9a2df2694a376537a47821a3b9} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a447a2f82c8a76235ef44ebef91953c1a}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a447a2f82c8a76235ef44ebef91953c1a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a4e95b0a7d91e8b36b38870a9b2b671a8}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_RGB565\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a4e95b0a7d91e8b36b38870a9b2b671a8} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+RGB565\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+
+
+\label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_doc-func-members}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa858ce9b00846a8a772b817da4d4d4b3}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!lv\_draw\_sw\_blend\_color\_to\_rgb565@{lv\_draw\_sw\_blend\_color\_to\_rgb565}}
+\index{lv\_draw\_sw\_blend\_color\_to\_rgb565@{lv\_draw\_sw\_blend\_color\_to\_rgb565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_blend\_color\_to\_rgb565()}{lv\_draw\_sw\_blend\_color\_to\_rgb565()}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_aa858ce9b00846a8a772b817da4d4d4b3} 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2src_2lv__draw__sw__blend__to__rgb565_8c_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+color\+\_\+to\+\_\+rgb565 (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeb5c9a772646e55a6ad08704d2c7e86}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+fill\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{}\end{DoxyParamCaption})}
+
+Fill an area with a color. Supports normal fill, fill with opacity, fill with mask, and fill with mask and opacity. dest\+\_\+buf and color have native color depth. (RGB565, RGB888, XRGB8888) The background (dest\+\_\+buf) cannot have alpha channel 
+\begin{DoxyParams}{Parameters}
+{\em dest\+\_\+buf} & \\
+\hline
+{\em dest\+\_\+area} & \\
+\hline
+{\em dest\+\_\+stride} & \\
+\hline
+{\em color} & \\
+\hline
+{\em opa} & \\
+\hline
+{\em mask} & \\
+\hline
+{\em mask\+\_\+stride} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3accc281247086244bc3e1833e3e1a4d}\index{lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}!lv\_draw\_sw\_blend\_image\_to\_rgb565@{lv\_draw\_sw\_blend\_image\_to\_rgb565}}
+\index{lv\_draw\_sw\_blend\_image\_to\_rgb565@{lv\_draw\_sw\_blend\_image\_to\_rgb565}!lv\_draw\_sw\_blend\_to\_rgb565.c@{lv\_draw\_sw\_blend\_to\_rgb565.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_blend\_image\_to\_rgb565()}{lv\_draw\_sw\_blend\_image\_to\_rgb565()}}
+{\footnotesize\ttfamily \label{lvgl____lvgl_2src_2draw_2sw_2blend_2lv__draw__sw__blend__to__rgb565_8c_a3accc281247086244bc3e1833e3e1a4d} 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2src_2lv__draw__sw__blend__to__rgb565_8c_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+to\+\_\+rgb565 (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a3c0d90380e5741b3c1389fb84e8ea00e}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{}\end{DoxyParamCaption})}
+

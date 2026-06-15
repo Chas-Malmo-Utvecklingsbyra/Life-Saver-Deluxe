@@ -1,0 +1,79 @@
+\doxysection{lv\+\_\+linux\+\_\+drm\+\_\+egl\+\_\+private.\+h}
+\hypertarget{lv__linux__drm__egl__private_8h_source}{}\label{lv__linux__drm__egl__private_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/display/drm/lv\_linux\_drm\_egl\_private.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/display/drm/lv\_linux\_drm\_egl\_private.h}}
+\doxymbox{\hyperlink{lv__linux__drm__egl__private_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_LINUX\_DRM\_EGL\_PRIVATE\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_LINUX\_DRM\_EGL\_PRIVATE\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00011\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ LV\_USE\_LINUX\_DRM\ \&\&\ LV\_LINUX\_DRM\_USE\_EGL}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <xf86drmMode.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengles__texture__private_8h}{../../opengles/lv\_opengles\_texture\_private.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengles__egl_8h}{../../opengles/lv\_opengles\_egl.h}}"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__opengles__egl__private_8h}{../../opengles/lv\_opengles\_egl\_private.h}}"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__linux__drm_8h}{lv\_linux\_drm.h}}"{}}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ lv\_opengles\_texture\_t\ texture;}
+\DoxyCodeLine{00038\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ display;}
+\DoxyCodeLine{00039\ \ \ \ \ lv\_opengles\_egl\_t\ *\ egl\_ctx;}
+\DoxyCodeLine{00040\ \ \ \ \ lv\_egl\_interface\_t\ egl\_interface;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ drmModeRes\ *\ drm\_resources;}
+\DoxyCodeLine{00043\ \ \ \ \ drmModeConnector\ *\ drm\_connector;}
+\DoxyCodeLine{00044\ \ \ \ \ drmModeEncoder\ *\ drm\_encoder;}
+\DoxyCodeLine{00045\ \ \ \ \ drmModeCrtc\ *\ drm\_crtc;}
+\DoxyCodeLine{00046\ \ \ \ \ drmModeModeInfo\ *\ drm\_mode;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{struct\ }gbm\_device\ *\ gbm\_dev;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{struct\ }gbm\_surface\ *\ gbm\_surface;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{struct\ }gbm\_bo\ *\ gbm\_bo\_pending;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{struct\ }gbm\_bo\ *\ gbm\_bo\_flipped;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{struct\ }gbm\_bo\ *\ gbm\_bo\_presented;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ lv\_linux\_drm\_select\_mode\_cb\_t\ mode\_select\_cb;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{int}\ fd;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ crtc\_isset;}
+\DoxyCodeLine{00057\ \}\ lv\_drm\_ctx\_t;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_LINUX\_DRM\ \&\&\ LV\_LINUX\_DRM\_USE\_EGL*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00072\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_LINUX\_DRM\_EGL\_PRIVATE\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

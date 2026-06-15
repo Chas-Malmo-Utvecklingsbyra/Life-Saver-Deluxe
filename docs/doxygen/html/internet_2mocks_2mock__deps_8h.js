@@ -1,0 +1,26 @@
+var internet_2mocks_2mock__deps_8h =
+[
+    [ "ESP_LOGI", "internet_2mocks_2mock__deps_8h.html#a73f43d0d985e245a45afcb0782623cb5", null ],
+    [ "ESP_LOGI", "internet_2mocks_2mock__deps_8h.html#ac3f6c369e56d20d2c341a1933e45a627", null ],
+    [ "esp_err_to_name", "internet_2mocks_2mock__deps_8h.html#ad1f83b84eaf6f0c0fc61eba6834f686d", null ],
+    [ "strlcpy", "internet_2mocks_2mock__deps_8h.html#a4637af6f79bac4043e1064f0837d0ddc", null ],
+    [ "mock_esp_netif_init_result", "internet_2mocks_2mock__deps_8h.html#ad312c7209e3925652b84435ac763080c", null ],
+    [ "mock_esp_wifi_connect_result", "internet_2mocks_2mock__deps_8h.html#ac9072ff3be321cf2e97ee542e802b153", null ],
+    [ "mock_esp_wifi_init_result", "internet_2mocks_2mock__deps_8h.html#ad28445466818be5262e9a19c613877b6", null ],
+    [ "mock_esp_wifi_scan_start_result", "internet_2mocks_2mock__deps_8h.html#a3485b03f5e830f9897a8af03c4627557", null ],
+    [ "mock_esp_wifi_set_config_result", "internet_2mocks_2mock__deps_8h.html#a026b48de5941fd0b696c7c74738fd47d", null ],
+    [ "mock_esp_wifi_set_mode_result", "internet_2mocks_2mock__deps_8h.html#a38bf716df397a56c61baae3b62f5722b", null ],
+    [ "mock_esp_wifi_start_call_count", "internet_2mocks_2mock__deps_8h.html#ab32727186d7e6fa522a036712a6f93a4", null ],
+    [ "mock_esp_wifi_start_result", "internet_2mocks_2mock__deps_8h.html#a4158ed5449807939bea0f44ed248da9f", null ],
+    [ "mock_event_base_arguments", "internet_2mocks_2mock__deps_8h.html#a50e155cbf639c4f85950027c789914cd", null ],
+    [ "mock_event_handler_register_call_count", "internet_2mocks_2mock__deps_8h.html#a173a9d2bdf4e2f5935b6b5a1c13f70b0", null ],
+    [ "mock_event_handler_register_result", "internet_2mocks_2mock__deps_8h.html#ac0f718a3191c8e598a2a3539a04cb361", null ],
+    [ "mock_event_id_arguments", "internet_2mocks_2mock__deps_8h.html#ad200718d2f55ee37a740705074dcac2a", null ],
+    [ "mock_event_loop_create_default_result", "internet_2mocks_2mock__deps_8h.html#a920523ffcbeedcd5a4af339404135afc", null ],
+    [ "mock_nvs_flash_erase_call_count", "internet_2mocks_2mock__deps_8h.html#aaeaf72c015725a799b8569324d8dc5df", null ],
+    [ "mock_nvs_flash_erase_result", "internet_2mocks_2mock__deps_8h.html#aaa8c0eafac88718c56316d350b1c749a", null ],
+    [ "mock_nvs_flash_init_call_count", "internet_2mocks_2mock__deps_8h.html#a308d401b8508aec270303cba2d1da753", null ],
+    [ "mock_nvs_flash_init_result", "internet_2mocks_2mock__deps_8h.html#a207c3da35347615fc29aab028af5fff0", null ],
+    [ "mock_wifi_config_argument", "internet_2mocks_2mock__deps_8h.html#ad7f9559ba9b3ba0d9ca6abc1f2100d34", null ],
+    [ "mock_wifi_set_mode_argument", "internet_2mocks_2mock__deps_8h.html#acecfa5ec48a400bce286338c93c951e4", null ]
+];

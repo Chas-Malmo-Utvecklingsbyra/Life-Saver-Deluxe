@@ -1,0 +1,319 @@
+\doxysection{vg\+\_\+lite\+\_\+context.\+h}
+\hypertarget{vg__lite__context_8h_source}{}\label{vg__lite__context_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLite/vg\_lite\_context.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/vg\_lite\_driver/VGLite/vg\_lite\_context.h}}
+\doxymbox{\hyperlink{vg__lite__context_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{00002\ \textcolor{comment}{*}}
+\DoxyCodeLine{00003\ \textcolor{comment}{*\ \ \ \ Copyright\ 2012\ -\/\ 2023\ Vivante\ Corporation,\ Santa\ Clara,\ California.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{*\ \ \ \ All\ Rights\ Reserved.}}
+\DoxyCodeLine{00005\ \textcolor{comment}{*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{*\ \ \ \ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining}}
+\DoxyCodeLine{00007\ \textcolor{comment}{*\ \ \ \ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the}}
+\DoxyCodeLine{00008\ \textcolor{comment}{*\ \ \ \ 'Software'),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including}}
+\DoxyCodeLine{00009\ \textcolor{comment}{*\ \ \ \ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{*\ \ \ \ distribute,\ sub\ license,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to}}
+\DoxyCodeLine{00011\ \textcolor{comment}{*\ \ \ \ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject}}
+\DoxyCodeLine{00012\ \textcolor{comment}{*\ \ \ \ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{*}}
+\DoxyCodeLine{00014\ \textcolor{comment}{*\ \ \ \ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ (including\ the}}
+\DoxyCodeLine{00015\ \textcolor{comment}{*\ \ \ \ next\ paragraph)\ shall\ be\ included\ in\ all\ copies\ or\ substantial}}
+\DoxyCodeLine{00016\ \textcolor{comment}{*\ \ \ \ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{*}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*\ \ \ \ THE\ SOFTWARE\ IS\ PROVIDED\ 'AS\ IS',\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{*\ \ \ \ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF}}
+\DoxyCodeLine{00020\ \textcolor{comment}{*\ \ \ \ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NON-\/INFRINGEMENT.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{*\ \ \ \ IN\ NO\ EVENT\ SHALL\ VIVANTE\ AND/OR\ ITS\ SUPPLIERS\ BE\ LIABLE\ FOR\ ANY}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*\ \ \ \ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,}}
+\DoxyCodeLine{00023\ \textcolor{comment}{*\ \ \ \ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE}}
+\DoxyCodeLine{00024\ \textcolor{comment}{*\ \ \ \ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*}}
+\DoxyCodeLine{00026\ \textcolor{comment}{*****************************************************************************/}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#if\ LV\_USE\_VG\_LITE\_DRIVER}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <\doxymbox{\hyperlink{stdint_8h}{stdint.h}}>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{libs_2vg__lite__driver_2inc_2vg__lite_8h}{../inc/vg\_lite.h}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{vg__lite__kernel_8h}{../VGLiteKernel/vg\_lite\_kernel.h}}"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{vg__lite__option_8h}{../VGLiteKernel/vg\_lite\_option.h}}"{}}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ DUMP\_CAPTURE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ DUMP\_COMMAND\_CAPTURE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ DUMP\_INIT\_COMMAND\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ DUMP\_API\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ DUMP\_LAST\_CAPTURE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#if\ DUMP\_API}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}dumpAPI.h"{}}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ VGLITE\_LOG\ \ \ \ printf}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{/***\ Global\ Context\ Access\ ***/}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ GET\_CONTEXT()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&s\_context}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{/***\ Default\ command\ buffer\ size\ is\ 32KB.\ Double\ command\ buffer\ is\ used.}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ \ \ \ App\ can\ call\ vg\_lite\_set\_command\_buffer\_size(size)\ before\ vg\_lite\_init()}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ \ \ \ \ to\ overwrite\ the\ default\ command\ buffer\ size.}}
+\DoxyCodeLine{00059\ \textcolor{comment}{***/}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ VG\_LITE\_COMMAND\_BUFFER\_SIZE\ (32\ <<\ 10)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ VG\_LITE\_SINGLE\_COMMAND\_BUFFER\_SIZE\ (64\ <<\ 10)\ }\textcolor{comment}{/*\ For\ only\ using\ one\ command\ buffer.\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ CMDBUF\_BUFFER(context)\ \ \ \ \ \ (context).command\_buffer[(context).command\_buffer\_current]}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ CMDBUF\_INDEX(context)\ \ \ \ \ \ \ (context).command\_buffer\_current}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ CMDBUF\_SIZE(context)\ \ \ \ \ \ \ \ (context).command\_buffer\_size}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ CMDBUF\_OFFSET(context)\ \ \ \ \ \ (context).command\_offset[(context).command\_buffer\_current]}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ CMDBUF\_SWAP(context)\ \ \ \ \ \ \ \ (context).command\_buffer\_current\ =\ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((context).command\_buffer\_current\ +\ 1)\ \%\ CMDBUF\_COUNT}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{comment}{/***\ Command\ macros\ ***/}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ VG\_LITE\_END(interrupt)\ \ \ \ \ \ (0x00000000\ |\ interrupt)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ VG\_LITE\_SEMAPHORE(id)\ \ \ \ \ \ \ (0x10000000\ |\ id)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ VG\_LITE\_STALL(id)\ \ \ \ \ \ \ \ \ \ \ (0x20000000\ |\ id)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ VG\_LITE\_STATE(address)\ \ \ \ \ \ (0x30010000\ |\ address)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ VG\_LITE\_STATES(count,\ address)\ \ (0x30000000\ |\ ((count)\ <<\ 16)\ |\ address)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ VG\_LITE\_DATA(count)\ \ \ \ \ \ \ \ \ (0x40000000\ |\ count)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ VG\_LITE\_CALL(count)\ \ \ \ \ \ \ \ \ (0x60000000\ |\ count)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ VG\_LITE\_RETURN()\ \ \ \ \ \ \ \ \ \ \ \ (0x70000000)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ VG\_LITE\_NOP()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (0x80000000)}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ FC\_BURST\_BYTES\ \ \ \ \ \ \ \ \ \ \ \ \ \ 64}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ FC\_BIT\_TO\_BYTES\ \ \ \ \ \ \ \ \ \ \ \ \ 64}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ STATES\_COUNT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 208}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ MIN\_TS\_SIZE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8\ <<\ 10}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ VG\_LITE\_RETURN\_ERROR(func)\ \(\backslash\)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\ \ \ \ if\ ((error\ =\ func)\ !=\ VG\_LITE\_SUCCESS)\ \(\backslash\)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ error}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ VG\_LITE\_BREAK\_ERROR(func)\ \(\backslash\)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\ \ \ \ if\ ((error\ =\ func)\ !=\ VG\_LITE\_SUCCESS)\ \(\backslash\)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ break}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ VG\_LITE\_ERROR\_HANDLER(func)\ \(\backslash\)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\ \ \ \ if\ ((error\ =\ func)\ !=\ VG\_LITE\_SUCCESS)\ \(\backslash\)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ goto\ ErrorHandler}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{/***\ Shortcuts.\ ***/}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ A(color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (color)\ >>\ 24}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ R(color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((color)\ \&\ 0x00ff0000)\ >>\ 16}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ G(color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((color)\ \&\ 0x0000ff00)\ >>\ 8}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ B(color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((color)\ \&\ 0xff)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ ARGB(a,\ r,\ g,\ b)\ \ \ \ \ \ \ \ \ \ \ \ ((a)\ <<\ 24)\ |\ ((r)\ <<\ 16)\ |\ ((g)\ <<\ 8\ )\ |\ (b)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ ARGB4(a,\ r,\ g,\ b)\ \ \ \ \ \ \ \ \ \ \ (((a)\ \&\ 0xf0)\ <<\ 8)\ |\ (((r)\ \&\ 0xf0)\ <<\ 4)\ |\ (((g)\ \&\ 0xf0))\ |\ ((b)\ >>\ 4)}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ MIN(a,\ b)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (a)\ >\ (b)\ ?\ (b)\ :\ (a)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ MAX(a,\ b)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (a)\ >\ (b)\ ?\ (a)\ :\ (b)}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ LERP(v1,\ v2,\ w)\ \ \ \ \ \ \ \ \ \ \ \ \ ((v1)\ *\ (w)\ +\ (v2)\ *\ (1.0f\ -\/\ (w)))}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ CLAMP(x,\ min,\ max)\ \ \ \ \ \ \ \ \ \ (((x)\ <\ (min))\ ?\ (min)\ :\ ((x)\ >\ (max))\ ?\ (max)\ :\ (x))}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ COLOR\_FROM\_RAMP(ColorRamp)\ \ (((vg\_lite\_float\_t\ *)\ ColorRamp)\ +\ 1)}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ MATRIX\_ROWS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ GET\_MATRIX\_VALUES(Pointer)\ \ ((float\ *)\ (Pointer))}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ MAT(Matrix,\ Row,\ Column)\ \ \ \ (GET\_MATRIX\_VALUES(Matrix)[Row\ *\ MATRIX\_ROWS\ +\ Column])}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ PI\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3.141592653589793238462643383279502f}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#if\ !gcFEATURE\_VG\_MATH\_PRECISION\_FIX\ \&\&\ (CHIPID\ ==\ 0x555)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\ \ \ \ \#define\ VG\_SW\_BLIT\_PRECISION\_OPT\ 1}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ \#define\ VG\_SW\_BLIT\_PRECISION\_OPT\ 0}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{comment}{/*\ Driver\ implementation\ internal\ structures.}}
+\DoxyCodeLine{00127\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00128\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_states\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00130\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ init;}
+\DoxyCodeLine{00131\ \}\ vg\_lite\_states\_t;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_hardware\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ vg\_lite\_states\_t\ \ \ \ \ \ \ \ \ \ \ \ hw\_states[STATES\_COUNT];}
+\DoxyCodeLine{00135\ \}\ vg\_lite\_hardware\_t;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{comment}{/*\ Tessellation\ buffer\ information.\ */}}
+\DoxyCodeLine{00138\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_tess\_buffer\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ physical\_addr;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00140\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a05b5010c3646e65fc6eea59b42cb748f}{vg\_lite\_uint8\_t}}\ \ \ \ \ \ *\ \ \ \ \ \ logical\_addr;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00141\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ tessbuf\_size;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00142\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ countbuf\_size;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00143\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ tess\_w\_h;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{comment}{/*\ gc355\ Specific\ fields\ below\ */}}
+\DoxyCodeLine{00145\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ L1\_phyaddr;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00146\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ L2\_phyaddr;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00147\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a05b5010c3646e65fc6eea59b42cb748f}{vg\_lite\_uint8\_t}}\ \ \ \ \ \ *\ \ \ \ \ \ L1\_logical;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00148\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a05b5010c3646e65fc6eea59b42cb748f}{vg\_lite\_uint8\_t}}\ \ \ \ \ \ *\ \ \ \ \ \ L2\_logical;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00149\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ L1\_size;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00150\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ L2\_size;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00151\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a017b6894390714b7570fc7d648a2d531}{vg\_lite\_uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ tess\_stride;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00152\ \}\ vg\_lite\_tess\_buffer\_t;}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_context\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ vg\_lite\_kernel\_context\_t\ \ \ \ context;}
+\DoxyCodeLine{00156\ \ \ \ \ vg\_lite\_hardware\_t\ \ \ \ \ \ \ \ \ \ hw;}
+\DoxyCodeLine{00157\ \ \ \ \ vg\_lite\_capabilities\_t\ \ \ \ \ \ capabilities;}
+\DoxyCodeLine{00158\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ command\_buffer[CMDBUF\_COUNT];}
+\DoxyCodeLine{00159\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_buffer\_size;}
+\DoxyCodeLine{00160\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_offset[CMDBUF\_COUNT];}
+\DoxyCodeLine{00161\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_buffer\_current;}
+\DoxyCodeLine{00162\ \ \ \ \ vg\_lite\_memory\_pool\_t\ \ \ \ \ \ \ command\_buffer\_pool;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ vg\_lite\_tess\_buffer\_t\ \ \ \ \ \ \ tessbuf;}
+\DoxyCodeLine{00165\ \ \ \ \ vg\_lite\_memory\_pool\_t\ \ \ \ \ \ \ tess\_buffer\_pool;}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ \ \ \ \ \ *\ \ \ \ \ rtbuffer;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ DDRLess:\ this\ is\ used\ as\ composing\ buffer.\ */}}
+\DoxyCodeLine{00168\ \ \ \ \ vg\_lite\_memory\_pool\_t\ \ \ \ \ \ \ render\_buffer\_pool;}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a410f6be06359db47c0fcf421850e43d7}{vg\_lite\_float\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ path\_lastX;}
+\DoxyCodeLine{00171\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a410f6be06359db47c0fcf421850e43d7}{vg\_lite\_float\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ path\_lastY;}
+\DoxyCodeLine{00172\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scissor\_set;}
+\DoxyCodeLine{00173\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scissor\_enable;}
+\DoxyCodeLine{00174\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scissor\_dirty;}
+\DoxyCodeLine{00175\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scissor[4];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Scissor\ area:\ x,\ y,\ right,\ bottom.\ */}}
+\DoxyCodeLine{00176\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ \ \ \ \ \ *\ \ \ \ \ \ scissor\_layer;}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ src\_alpha\_mode;}
+\DoxyCodeLine{00179\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ src\_alpha\_value;}
+\DoxyCodeLine{00180\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dst\_alpha\_mode;}
+\DoxyCodeLine{00181\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dst\_alpha\_value;}
+\DoxyCodeLine{00182\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a590df4e0962f6a59c1853c4ae075669b}{vg\_lite\_blend\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ blend\_mode;}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sbi\_mode;}
+\DoxyCodeLine{00185\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sync\_mode;}
+\DoxyCodeLine{00186\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flexa\_mode;}
+\DoxyCodeLine{00187\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\_id;}
+\DoxyCodeLine{00188\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_address;}
+\DoxyCodeLine{00189\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_count;}
+\DoxyCodeLine{00190\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segment\_size;}
+\DoxyCodeLine{00191\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stop\_flag;}
+\DoxyCodeLine{00192\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flexa\_dirty;}
+\DoxyCodeLine{00193\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_flag;}
+\DoxyCodeLine{00194\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reset\_flag;}
+\DoxyCodeLine{00195\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ custom\_cmdbuf;}
+\DoxyCodeLine{00196\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ custom\_tessbuf;}
+\DoxyCodeLine{00197\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ enable\_mask;}
+\DoxyCodeLine{00198\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ matrix\_enable;}
+\DoxyCodeLine{00199\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tess\_width;}
+\DoxyCodeLine{00200\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tess\_height;}
+\DoxyCodeLine{00201\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_width;}
+\DoxyCodeLine{00202\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ target\_height;}
+\DoxyCodeLine{00203\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ enable\_scissor;}
+\DoxyCodeLine{00204\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mirror\_orient;}
+\DoxyCodeLine{00205\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mirror\_dirty;}
+\DoxyCodeLine{00206\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_value;}
+\DoxyCodeLine{00207\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_dirty;}
+\DoxyCodeLine{00208\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_src;}
+\DoxyCodeLine{00209\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_dst;}
+\DoxyCodeLine{00210\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_stencil;}
+\DoxyCodeLine{00211\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\_transform;}
+\DoxyCodeLine{00212\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_counter;}
+\DoxyCodeLine{00213\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ae354a4bfb27795c4d2e76a541d2ce0b5}{vg\_lite\_filter\_t}}\ \ \ \ \ \ \ \ \ \ \ \ filter;}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ last\_command\_buffer\_logical;}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Physical;}
+\DoxyCodeLine{00216\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_command\_size;}
+\DoxyCodeLine{00217\ \ \ \ \ vg\_lite\_frame\_flag\_t\ \ \ \ \ \ \ \ frame\_flag;}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \}\ vg\_lite\_context\_t;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }vg\_lite\_ftable\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ftable[\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_afba46e7ca2d6a4c152bf547437f929f4a73f00ed8a8dadb32d270e5b2226ecaa0}{gcFEATURE\_COUNT}}];}
+\DoxyCodeLine{00223\ \}\ vg\_lite\_ftable\_t;}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \textcolor{keyword}{extern}\ vg\_lite\_context\_t\ \ \ \ \ \ \ \ s\_context;}
+\DoxyCodeLine{00226\ \textcolor{keyword}{extern}\ vg\_lite\_ftable\_t\ \ \ \ \ \ \ \ \ s\_ftable;}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ set\_render\_target(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ target);}
+\DoxyCodeLine{00229\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_state(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ data);}
+\DoxyCodeLine{00230\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_state\_ptr(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}},\ \textcolor{keywordtype}{void}\ *\ data\_ptr);}
+\DoxyCodeLine{00231\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_call(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ bytes);}
+\DoxyCodeLine{00232\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_data(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size,\ \textcolor{keywordtype}{void}\ *\ data);}
+\DoxyCodeLine{00233\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_clut(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_af90662a982ef0679da6bd72ea631bd73}{address}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ad43c3812e6d13e0518d9f8b8f463ffcf}{count}},\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *\ data);}
+\DoxyCodeLine{00234\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ push\_stall(vg\_lite\_context\_t\ *\ context,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ module);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ *\ vg\_lite\_os\_malloc(\textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00237\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \ vg\_lite\_os\_free(\textcolor{keywordtype}{void}\ *\ memory);}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_af9b5143429c01dcafd9f8a3bca03569a}{vg\_lite\_void}}\ set\_gamma\_dest\_only(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ target,\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_ae8320548ddcc7dd0f675b3ba83965d25}{vg\_lite\_int32\_t}}\ stencil);}
+\DoxyCodeLine{00240\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_af9b5143429c01dcafd9f8a3bca03569a}{vg\_lite\_void}}\ save\_st\_gamma\_src\_dest(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ \doxymbox{\hyperlink{pointer_8h_adb82dfe18535e9a30aa97d275f82bd55}{source}},\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ target);}
+\DoxyCodeLine{00241\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_af9b5143429c01dcafd9f8a3bca03569a}{vg\_lite\_void}}\ get\_st\_gamma\_src\_dest(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ \doxymbox{\hyperlink{pointer_8h_adb82dfe18535e9a30aa97d275f82bd55}{source}},\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ target);}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{keyword}{extern}\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_af9b5143429c01dcafd9f8a3bca03569a}{vg\_lite\_void}}\ setup\_lvgl\_image(\doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ dst,\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ src,\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_aed6de2edd9b307ccb4a3887c2f3498e9}{vg\_lite\_buffer\_t}}\ *\ temp,}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a590df4e0962f6a59c1853c4ae075669b}{vg\_lite\_blend\_t}}\ operation);}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#if\ defined(\_\_ZEPHYR\_\_)}}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ *\ vg\_lite\_os\_fopen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \_\_restrict\ path,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \_\_restrict\ mode);}
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ vg\_lite\_os\_fclose(\textcolor{keywordtype}{void}\ *\ fp);}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{size\_t}\ vg\_lite\_os\_fread(\textcolor{keywordtype}{void}\ *\ \_\_restrict\ ptr,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{void}\ *\ \_\_restrict\ fp);}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{size\_t}\ vg\_lite\_os\_fwrite(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \_\_restrict\ ptr,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{void}\ *\ fp);}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ vg\_lite\_os\_fseek(\textcolor{keywordtype}{void}\ *\ fp,\ \textcolor{keywordtype}{long}\ offset,\ \textcolor{keywordtype}{int}\ whence);}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ vg\_lite\_os\_fflush(\textcolor{keywordtype}{void}\ *\ fp);}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ vg\_lite\_os\_fprintf(\textcolor{keywordtype}{void}\ *\ \_\_restrict\ fp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \_\_restrict\ \doxymbox{\hyperlink{c_j_s_o_n_8h_adb411a44855a4c49231d72a0fc9a3b3b}{format}},\ ...);}
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ vg\_lite\_os\_getpid(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \ \ vg\_lite\_os\_fseek(FILE\ *\ \doxymbox{\hyperlink{classrapidjson_1_1_stream}{Stream}},\ \textcolor{keywordtype}{long}\ Offset,\ \textcolor{keywordtype}{int}\ Origin);}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keyword}{extern}\ FILE\ *\ vg\_lite\_os\_fopen(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ FileName,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ Mode);}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{long}\ \ vg\_lite\_os\_ftell(FILE\ *\ \doxymbox{\hyperlink{classrapidjson_1_1_stream}{Stream}});}
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{size\_t}\ vg\_lite\_os\_fread(\textcolor{keywordtype}{void}\ *\ Buffer,\ \textcolor{keywordtype}{size\_t}\ ElementSize,\ \textcolor{keywordtype}{size\_t}\ ElementCount,\ FILE\ *\ \doxymbox{\hyperlink{classrapidjson_1_1_stream}{Stream}});}
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{size\_t}\ vg\_lite\_os\_fwrite(\textcolor{keywordtype}{void}\ \textcolor{keyword}{const}\ *\ Buffer,\ \textcolor{keywordtype}{size\_t}\ ElementSize,\ \textcolor{keywordtype}{size\_t}\ ElementCount,\ FILE\ *\ \doxymbox{\hyperlink{classrapidjson_1_1_stream}{Stream}});}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \ \ \ vg\_lite\_os\_close(FILE\ *\ \doxymbox{\hyperlink{classrapidjson_1_1_stream}{Stream}});}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \ \ \ vg\_lite\_os\_fflush(FILE\ *\ fp);}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \textcolor{comment}{/****************************\ Dump\ command,\ image\ ********************************************/}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ DUMP\_COMMAND\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ DUMP\_IMAGE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \textcolor{comment}{/*\ Enable\ FC\ buffer\ dump\ if\ SOC\ supports\ fast\ clear\ */}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ VG\_TARGET\_FC\_DUMP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#if\ DUMP\_COMMAND\ ||\ DUMP\_IMAGE}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ \_\_linux\_\_}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <unistd.h>}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00277\ \ \ \ \ FILE\ *\ fp;}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordtype}{char}\ filename[30];}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{comment}{/****************************\ Dump\ Capture\ ****************************************************/}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#ifndef\ vgliteDUMP\_PATH}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\ \ \ \ \#define\ vgliteDUMP\_PATH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}./"{}}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#ifndef\ vgliteDUMP\_KEY}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\ \ \ \ \#define\ vgliteDUMP\_KEY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}process"{}}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#if\ DUMP\_LAST\_CAPTURE}}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordtype}{void}\ \_SetDumpFileInfo();}
+\DoxyCodeLine{00293\ \ \ \ \ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vglitefDumpBuffer\_single(\textcolor{keywordtype}{char}\ *\ Tag,\ \textcolor{keywordtype}{size\_t}\ Physical,\ \textcolor{keywordtype}{void}\ *\ Logical,\ \textcolor{keywordtype}{size\_t}\ Offset,\ \textcolor{keywordtype}{size\_t}\ Bytes);}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\ \ \ \ \#define\ vglitemDUMP\_single\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vglitefDump}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\ \ \ \ \#define\ vglitemDUMP\_BUFFER\_single\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vglitefDumpBuffer\_single}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#if\ DUMP\_CAPTURE}}
+\DoxyCodeLine{00298\ \textcolor{keywordtype}{void}\ \_SetDumpFileInfo();}
+\DoxyCodeLine{00299\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vglitefDump(\textcolor{keywordtype}{char}\ *\ String,\ ...);}
+\DoxyCodeLine{00300\ \doxymbox{\hyperlink{others_2vg__lite__tvg_2vg__lite_8h_a60af2e02604adb7847ba8e6004c09979}{vg\_lite\_error\_t}}\ vglitefDumpBuffer(\textcolor{keywordtype}{char}\ *\ Tag,\ \textcolor{keywordtype}{size\_t}\ Physical,\ \textcolor{keywordtype}{void}\ *\ Logical,\ \textcolor{keywordtype}{size\_t}\ Offset,\ \textcolor{keywordtype}{size\_t}\ Bytes);}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\#define\ vglitemDUMP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vglitefDump}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ vglitemDUMP\_BUFFER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vglitefDumpBuffer}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00304\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \_\_dummy\_dump(\textcolor{keywordtype}{char}\ *\ Message,\ ...)\ \{\}}
+\DoxyCodeLine{00305\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \_\_dummy\_dump\_buffer(\textcolor{keywordtype}{char}\ *\ Tag,\ \textcolor{keywordtype}{size\_t}\ Physical,\ \textcolor{keywordtype}{void}\ *\ Logical,\ \textcolor{keywordtype}{size\_t}\ Offset,\ \textcolor{keywordtype}{size\_t}\ Bytes)\ \{\}}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#define\ vglitemDUMP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_dummy\_dump}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\#define\ vglitemDUMP\_BUFFER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_dummy\_dump\_buffer}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \textcolor{comment}{/**********************************************************************************************/}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_VG\_LITE\_DRIVER\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00313\ }
+
+\end{DoxyCode}

@@ -9,5 +9,6 @@ var gui__sensors_8h =
     [ "ui_build_sensor_card", "gui__sensors_8h.html#a61826b8045d748a81f7a3e00e32f76f5", null ],
     [ "bme280_ui", "gui__sensors_8h.html#acd80ba98a259303b153aeff66c29361a", null ],
     [ "sensor_ui_count", "gui__sensors_8h.html#a3c0d34c909af874607f727f4d3607ec6", null ],
-    [ "sensor_uis", "gui__sensors_8h.html#a4acf5d414a48d27adfa7d92ff71e3d3b", null ]
+    [ "sensor_uis", "gui__sensors_8h.html#a4acf5d414a48d27adfa7d92ff71e3d3b", null ],
+    [ "ui_rebuilding", "gui__sensors_8h.html#a800a20426775e5dd71c3db9990e18a32", null ]
 ];

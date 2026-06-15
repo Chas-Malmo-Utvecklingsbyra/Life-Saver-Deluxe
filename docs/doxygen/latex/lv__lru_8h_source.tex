@@ -1,0 +1,81 @@
+\doxysection{lv\+\_\+lru.\+h}
+\hypertarget{lv__lru_8h_source}{}\label{lv__lru_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/misc/lv\_lru.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/misc/lv\_lru.h}}
+\doxymbox{\hyperlink{lv__lru_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_LRU\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_LRU\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{lv\_types.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa250f8a3d27798d86f646749b47c3a481}{LV\_LRU\_OK}}\ =\ 0,}
+\DoxyCodeLine{00031\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa565ed0f0651a61bb1bb85c490e436e64}{LV\_LRU\_MISSING\_CACHE}},}
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa19af4f25af285d11881ff1cc97588a76}{LV\_LRU\_MISSING\_KEY}},}
+\DoxyCodeLine{00033\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa426e0481a9a1da79027a2f6f32495a9c}{LV\_LRU\_MISSING\_VALUE}},}
+\DoxyCodeLine{00034\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa90313c31e554f068de4167d9b7532710}{LV\_LRU\_LOCK\_ERROR}},}
+\DoxyCodeLine{00035\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651fa7048cc37c6d9ee4e2009c854eedfd217}{LV\_LRU\_VALUE\_TOO\_LARGE}}}
+\DoxyCodeLine{00036\ \}\ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651f}{lv\_lru\_res\_t}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ void\ (*\doxymbox{\hyperlink{lv__lru_8h_a5b87940bea1d1039bf94d0df86f56389}{lv\_lru\_free\_cb\_t}})(\textcolor{keywordtype}{void}\ *\ v);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__lv__lru__item__t}{\_lv\_lru\_item\_t}}\ \doxymbox{\hyperlink{lv__lru_8h_a5990cc8b1cafca927220402af44963d8}{lv\_lru\_item\_t}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct__lv__lru__t}{\_lv\_lru\_t}}\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a5990cc8b1cafca927220402af44963d8}{lv\_lru\_item\_t}}\ **\ \doxymbox{\hyperlink{struct__lv__lru__t_a4f21b1f3a18c8e725f9aea5cb45fd096}{items}};}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aec6fcb673ff035718c238c8c9d544c47}{uint64\_t}}\ \doxymbox{\hyperlink{struct__lv__lru__t_a119cf9b14ebef3856ee42d42f20479dc}{access\_count}};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{struct__lv__lru__t_afd107b0879d0f507e7d0d715bfdba55b}{free\_memory}};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{struct__lv__lru__t_a983c93f34fa3724d95883973bb4232c1}{total\_memory}};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{struct__lv__lru__t_a7e8ed2c602184a2d578a4a6a46043413}{average\_item\_length}};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{struct__lv__lru__t_a351bd55abd0d191bdba5807e856828a6}{hash\_table\_size}};}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ \doxymbox{\hyperlink{struct__lv__lru__t_a7a3a89c2bc797e681ec9d4867aa39a5f}{seed}};}
+\DoxyCodeLine{00050\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a5b87940bea1d1039bf94d0df86f56389}{lv\_lru\_free\_cb\_t}}\ \doxymbox{\hyperlink{struct__lv__lru__t_a45afa5c5f5469cf58b55ad77289d96e8}{value\_free}};}
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a5b87940bea1d1039bf94d0df86f56389}{lv\_lru\_free\_cb\_t}}\ \doxymbox{\hyperlink{struct__lv__lru__t_a4eb7128e85b355fb105aa2a2607744e5}{key\_free}};}
+\DoxyCodeLine{00052\ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a5990cc8b1cafca927220402af44963d8}{lv\_lru\_item\_t}}\ *\ \doxymbox{\hyperlink{struct__lv__lru__t_ad7599fcecb27ccaf27a3073c9eeae38c}{free\_items}};}
+\DoxyCodeLine{00053\ \}\ \doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ \doxymbox{\hyperlink{lv__lru_8h_a68a9bddb8bb0a1c8752658adeedfd427}{lv\_lru\_create}}(\textcolor{keywordtype}{size\_t}\ cache\_size,\ \textcolor{keywordtype}{size\_t}\ average\_length,\ \doxymbox{\hyperlink{lv__lru_8h_a5b87940bea1d1039bf94d0df86f56389}{lv\_lru\_free\_cb\_t}}\ value\_free,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__lru_8h_a5b87940bea1d1039bf94d0df86f56389}{lv\_lru\_free\_cb\_t}}\ key\_free);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__lru_8h_aa14e16a8eddd02455f076c7d10ab42d4}{lv\_lru\_delete}}(\doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ cache);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651f}{lv\_lru\_res\_t}}\ \doxymbox{\hyperlink{lv__lru_8h_a07ab90f9588d1943ed37827e81c9f0f4}{lv\_lru\_set}}(\doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ cache,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ key,\ \textcolor{keywordtype}{size\_t}\ key\_length,\ \textcolor{keywordtype}{void}\ *\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}},\ \textcolor{keywordtype}{size\_t}\ value\_length);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651f}{lv\_lru\_res\_t}}\ \doxymbox{\hyperlink{lv__lru_8h_a3e93f2a35e5ed31f486aca8b4c2869da}{lv\_lru\_get}}(\doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ cache,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ key,\ \textcolor{keywordtype}{size\_t}\ key\_size,\ \textcolor{keywordtype}{void}\ **\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a32aff7c6c4cd253fdf6563677afab5ce}{value}});}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \doxymbox{\hyperlink{lv__lru_8h_a548d8f986f50af8fa6bfc2c5f919651f}{lv\_lru\_res\_t}}\ \doxymbox{\hyperlink{lv__lru_8h_a6b88c627d0ced87bc504195dc046aa71}{lv\_lru\_remove}}(\doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ cache,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ key,\ \textcolor{keywordtype}{size\_t}\ key\_size);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{lv__lru_8h_a9075eea287cbb4c74aefa191dba2f2b3}{lv\_lru\_remove\_lru\_item}}(\doxymbox{\hyperlink{lv__lru_8h_ae7f62c24b32cd385bbec00fe81db8156}{lv\_lru\_t}}\ *\ cache);}
+\DoxyCodeLine{00076\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00077\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00078\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00080\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_LRU\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

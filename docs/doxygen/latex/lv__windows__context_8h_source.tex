@@ -1,0 +1,122 @@
+\doxysection{lv\+\_\+windows\+\_\+context.\+h}
+\hypertarget{lv__windows__context_8h_source}{}\label{lv__windows__context_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/windows/lv\_windows\_context.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/drivers/windows/lv\_windows\_context.h}}
+\doxymbox{\hyperlink{lv__windows__context_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_WINDOWS\_CONTEXT\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_WINDOWS\_CONTEXT\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__display_8h}{../../display/lv\_display.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__indev_8h}{../../indev/lv\_indev.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ LV\_USE\_WINDOWS}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ LV\_USE\_OS\ !=\ LV\_OS\_WINDOWS}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#error\ [lv\_windows]\ LV\_OS\_WINDOWS\ is\ required.\ Enable\ it\ in\ lv\_conf.h\ (LV\_USE\_OS\ LV\_OS\_WINDOWS)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifndef\ CREATE\_WAITABLE\_TIMER\_MANUAL\_RESET}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ CREATE\_WAITABLE\_TIMER\_MANUAL\_RESET\ \ 0x00000001}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifndef\ CREATE\_WAITABLE\_TIMER\_HIGH\_RESOLUTION}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ CREATE\_WAITABLE\_TIMER\_HIGH\_RESOLUTION\ 0x00000002}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_pointer\_context\_t\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00046\ \ \ \ \ lv\_point\_t\ point;}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev;}
+\DoxyCodeLine{00048\ \}\ lv\_windows\_pointer\_context\_t;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_keypad\_queue\_item\_t\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ key;}
+\DoxyCodeLine{00052\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00053\ \}\ lv\_windows\_keypad\_queue\_item\_t;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_keypad\_context\_t\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ lv\_ll\_t\ queue;}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ utf16\_high\_surrogate;}
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}}\ utf16\_low\_surrogate;}
+\DoxyCodeLine{00059\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev;}
+\DoxyCodeLine{00060\ \}\ lv\_windows\_keypad\_context\_t;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_encoder\_context\_t\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\_indev\_state\_t}}\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}};}
+\DoxyCodeLine{00064\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a269259c924dce846340ddbb810db2e3c}{int16\_t}}\ enc\_diff;}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\_indev\_t}}\ *\ indev;}
+\DoxyCodeLine{00066\ \}\ lv\_windows\_encoder\_context\_t;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_window\_context\_t\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ display\_device\_object;}
+\DoxyCodeLine{00070\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\_timer\_t}}\ *\ display\_timer\_object;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ window\_dpi;}
+\DoxyCodeLine{00073\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ zoom\_level;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ allow\_dpi\_override;}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{bool}\ simulator\_mode;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_resolution\_changed;}
+\DoxyCodeLine{00077\ \ \ \ \ lv\_point\_t\ requested\_display\_resolution;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ HDC\ display\_framebuffer\_context\_handle;}
+\DoxyCodeLine{00080\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ *\ display\_framebuffer\_base;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ display\_framebuffer\_size;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ lv\_windows\_pointer\_context\_t\ \doxymbox{\hyperlink{pointer_8h_aae1f8d263916ad71bd415381591549c0}{pointer}};}
+\DoxyCodeLine{00084\ \ \ \ \ lv\_windows\_keypad\_context\_t\ keypad;}
+\DoxyCodeLine{00085\ \ \ \ \ lv\_windows\_encoder\_context\_t\ encoder;}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \}\ lv\_windows\_window\_context\_t;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_lv\_windows\_create\_display\_data\_t\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{wchar\_t}\ *\ \doxymbox{\hyperlink{namespaceimage__viewer_a051e403214cb6872ad3fe4e50302a6ee}{title}};}
+\DoxyCodeLine{00091\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ hor\_res;}
+\DoxyCodeLine{00092\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ ver\_res;}
+\DoxyCodeLine{00093\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ zoom\_level;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{bool}\ allow\_dpi\_override;}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{bool}\ simulator\_mode;}
+\DoxyCodeLine{00096\ \ \ \ \ HANDLE\ mutex;}
+\DoxyCodeLine{00097\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *\ display;}
+\DoxyCodeLine{00098\ \}\ lv\_windows\_create\_display\_data\_t;}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00101\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00102\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00110\ \textcolor{keywordtype}{void}\ lv\_windows\_platform\_init(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00121\ lv\_windows\_window\_context\_t\ *\ lv\_windows\_get\_window\_context(}
+\DoxyCodeLine{00122\ \ \ \ \ HWND\ window\_handle);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00125\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00126\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LV\_USE\_WINDOWS}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00131\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_WINDOWS\_CONTEXT\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

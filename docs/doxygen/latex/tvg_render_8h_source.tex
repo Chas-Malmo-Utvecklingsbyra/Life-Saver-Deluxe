@@ -1,0 +1,418 @@
+\doxysection{tvg\+Render.\+h}
+\hypertarget{tvg_render_8h_source}{}\label{tvg_render_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgRender.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgRender.h}}
+\doxymbox{\hyperlink{tvg_render_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2020\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_RENDER\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_RENDER\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <cstdarg>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_common_8h}{tvgCommon.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_array_8h}{tvgArray.h}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_lock_8h}{tvgLock.h}}"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }tvg}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{using\ }RenderData\ =\ \textcolor{keywordtype}{void}*;}
+\DoxyCodeLine{00039\ \textcolor{keyword}{using\ }pixel\_t\ =\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{enum}\ RenderUpdateFlag\ :\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \{None\ =\ 0,\ Path\ =\ 1,\ Color\ =\ 2,\ Gradient\ =\ 4,\ Stroke\ =\ 8,\ Transform\ =\ 16,\ Image\ =\ 32,\ GradientStroke\ =\ 64,\ Blend\ =\ 128,\ All\ =\ 255\};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{//TODO:\ Move\ this\ in\ public\ header\ unifying\ with\ SwCanvas::Colorspace}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{enum}\ ColorSpace\ :\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ ABGR8888\ =\ 0,\ \ \ \ \ \ \textcolor{comment}{//The\ channels\ are\ joined\ in\ the\ order:\ alpha,\ blue,\ green,\ red.\ Colors\ are\ alpha-\/premultiplied.}}
+\DoxyCodeLine{00047\ \ \ \ \ ARGB8888,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ channels\ are\ joined\ in\ the\ order:\ alpha,\ red,\ green,\ blue.\ Colors\ are\ alpha-\/premultiplied.}}
+\DoxyCodeLine{00048\ \ \ \ \ ABGR8888S,\ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ channels\ are\ joined\ in\ the\ order:\ alpha,\ blue,\ green,\ red.\ Colors\ are\ un-\/alpha-\/premultiplied.}}
+\DoxyCodeLine{00049\ \ \ \ \ ARGB8888S,\ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ channels\ are\ joined\ in\ the\ order:\ alpha,\ red,\ green,\ blue.\ Colors\ are\ un-\/alpha-\/premultiplied.}}
+\DoxyCodeLine{00050\ \ \ \ \ Grayscale8,\ \ \ \ \ \ \ \ \textcolor{comment}{//One\ single\ channel\ data.}}
+\DoxyCodeLine{00051\ \ \ \ \ Unsupported\ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Change\ to\ the\ default,\ At\ the\ moment,\ we\ put\ it\ in\ the\ last\ to\ align\ with\ SwCanvas::Colorspace.}}
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{struct\ }RenderSurface}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ pixel\_t*\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}}\ =\ \textcolor{keyword}{nullptr};\ \ \ \ \textcolor{comment}{//system\ based\ data\ pointer}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}*\ buf32;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//for\ explicit\ 32bits\ channels}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \ buf8;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//for\ explicit\ 8bits\ grayscale}}
+\DoxyCodeLine{00060\ \ \ \ \ \};}
+\DoxyCodeLine{00061\ \ \ \ \ Key\ key;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//a\ reserved\ lock\ for\ the\ thread\ safety}}
+\DoxyCodeLine{00062\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ stride\ =\ 0;}
+\DoxyCodeLine{00063\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ w\ =\ 0,\ h\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \ \ ColorSpace\ cs\ =\ ColorSpace::Unsupported;}
+\DoxyCodeLine{00065\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ channelSize\ =\ 0;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ premultiplied\ =\ \textcolor{keyword}{false};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Alpha-\/premultiplied}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ RenderSurface()}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ RenderSurface(\textcolor{keyword}{const}\ RenderSurface*\ rhs)}
+\DoxyCodeLine{00073\ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a511ae0b1c13f95e5f08f1a0dd3da3d93}{data}}\ =\ rhs-\/>data;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ stride\ =\ rhs-\/>stride;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ w\ =\ rhs-\/>w;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ h\ =\ rhs-\/>h;}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ cs\ =\ rhs-\/>cs;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ channelSize\ =\ rhs-\/>channelSize;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ premultiplied\ =\ rhs-\/>premultiplied;}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{struct\ }RenderCompositor}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ CompositeMethod\ method;}
+\DoxyCodeLine{00089\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ opacity;}
+\DoxyCodeLine{00090\ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{struct\ }RenderRegion}
+\DoxyCodeLine{00093\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\_t}}\ x,\ y,\ w,\ h;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ intersect(\textcolor{keyword}{const}\ RenderRegion\&\ rhs);}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ add(\textcolor{keyword}{const}\ RenderRegion\&\ rhs);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ RenderRegion\&\ rhs)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00100\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ ==\ rhs.x\ \&\&\ y\ ==\ rhs.y\ \&\&\ w\ ==\ rhs.w\ \&\&\ h\ ==\ rhs.h)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{struct\ }RenderStroke}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ =\ 0.0f;}
+\DoxyCodeLine{00109\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ color[4]\ =\ \{0,\ 0,\ 0,\ 0\};}
+\DoxyCodeLine{00110\ \ \ \ \ Fill\ *fill\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{float}*\ dashPattern\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00112\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ dashCnt\ =\ 0;}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{float}\ dashOffset\ =\ 0.0f;}
+\DoxyCodeLine{00114\ \ \ \ \ StrokeCap\ cap\ =\ StrokeCap::Square;}
+\DoxyCodeLine{00115\ \ \ \ \ StrokeJoin\ join\ =\ StrokeJoin::Bevel;}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{float}\ miterlimit\ =\ 4.0f;}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{bool}\ strokeFirst\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ begin\ =\ 0.0f;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ =\ 1.0f;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ simultaneous\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00123\ \ \ \ \ \}\ trim;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{void}\ operator=(\textcolor{keyword}{const}\ RenderStroke\&\ rhs)}
+\DoxyCodeLine{00126\ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a5558ace5433f9aabbf0a0ec059900d94}{width}}\ =\ rhs.width;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ memcpy(color,\ rhs.color,\ \textcolor{keyword}{sizeof}(color));}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}(fill);}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rhs.fill)\ fill\ =\ rhs.fill-\/>duplicate();}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ fill\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(dashPattern);}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rhs.dashCnt\ >\ 0)\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ dashPattern\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}*\textcolor{keyword}{>}(\doxymbox{\hyperlink{lv__mem_8c_a7c725dea849c62a365099eb5783cd7a9}{lv\_malloc}}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ rhs.dashCnt));}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__assert_8h_a124f08761ffc45565d4511eaf68f777e}{LV\_ASSERT\_MALLOC}}(dashPattern);}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(dashPattern,\ rhs.dashPattern,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})\ *\ rhs.dashCnt);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ dashPattern\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ dashCnt\ =\ rhs.dashCnt;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ miterlimit\ =\ rhs.miterlimit;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ cap\ =\ rhs.cap;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ join\ =\ rhs.join;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ strokeFirst\ =\ rhs.strokeFirst;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ trim\ =\ rhs.trim;}
+\DoxyCodeLine{00149\ \ \ \ \ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{bool}\ strokeTrim(\textcolor{keywordtype}{float}\&\ begin,\ \textcolor{keywordtype}{float}\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}})\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00152\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ begin\ =\ trim.begin;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ =\ trim.end;}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabsf(\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ -\/\ begin)\ >=\ 1.0f)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ begin\ =\ 0.0f;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ =\ 1.0f;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ loop\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (begin\ >\ 1.0f\ \&\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ >\ 1.0f)\ loop\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (begin\ <\ 0.0f\ \&\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ <\ 0.0f)\ loop\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (begin\ >=\ 0.0f\ \&\&\ begin\ <=\ 1.0f\ \&\&\ end\ >=\ 0.0f\ \ \&\&\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ <=\ 1.0f)\ loop\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (begin\ >\ 1.0f)\ begin\ -\/=\ 1.0f;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (begin\ <\ 0.0f)\ begin\ +=\ 1.0f;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ >\ 1.0f)\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ -\/=\ 1.0f;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ <\ 0.0f)\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}\ +=\ 1.0f;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((loop\ \&\&\ begin\ <\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}})\ ||\ (!loop\ \&\&\ begin\ >\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}}))\ std::swap(begin,\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a088ac7ffa534015d5b07ddcc7aef9fd4}{end}});}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00175\ \ \ \ \ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \string~RenderStroke()}
+\DoxyCodeLine{00178\ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(dashPattern);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}(fill);}
+\DoxyCodeLine{00181\ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \};}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{keyword}{struct\ }RenderShape}
+\DoxyCodeLine{00185\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00187\ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ Array<PathCommand>\ cmds;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ Array<Point>\ pts;}
+\DoxyCodeLine{00190\ \ \ \ \ \}\ \doxymbox{\hyperlink{namespacelv__templ__check_aa28dc103258589d9cb421197fe2de90b}{path}};}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ Fill\ *fill\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00193\ \ \ \ \ RenderStroke\ *stroke\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00194\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ color[4]\ =\ \{0,\ 0,\ 0,\ 0\};\ \ \ \ \textcolor{comment}{//r,\ g,\ b,\ a}}
+\DoxyCodeLine{00195\ \ \ \ \ FillRule\ rule\ =\ FillRule::Winding;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \string~RenderShape()}
+\DoxyCodeLine{00198\ \ \ \ \ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}(fill);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}(stroke);}
+\DoxyCodeLine{00201\ \ \ \ \ \}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordtype}{void}\ fillColor(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00204\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (r)\ *\doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ color[0];}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (g)\ *g\ =\ color[1];}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ =\ color[2];}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ *\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}}\ =\ color[3];}
+\DoxyCodeLine{00209\ \ \ \ \ \}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordtype}{float}\ strokeWidth()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00212\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>width;}
+\DoxyCodeLine{00215\ \ \ \ \ \}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordtype}{bool}\ strokeTrim()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00218\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stroke-\/>trim.begin\ ==\ 0.0f\ \&\&\ stroke-\/>trim.end\ ==\ 1.0f)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabsf(stroke-\/>trim.end\ -\/\ stroke-\/>trim.begin)\ >=\ 1.0f)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00223\ \ \ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{bool}\ strokeColor(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ r,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ g,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}},\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}*\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00226\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (r)\ *\doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ stroke-\/>color[0];}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (g)\ *g\ =\ stroke-\/>color[1];}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}})\ *\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ =\ stroke-\/>color[2];}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ *\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}}\ =\ stroke-\/>color[3];}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00235\ \ \ \ \ \}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keyword}{const}\ Fill*\ strokeFill()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00238\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>fill;}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ strokeDash(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}**\ dashPattern,\ \textcolor{keywordtype}{float}*\ offset)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00244\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dashPattern)\ *dashPattern\ =\ stroke-\/>dashPattern;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (offset)\ *\doxymbox{\hyperlink{namespacespectrum_a7a229a4786deeddd59c6091247a8c8a6}{offset}}\ =\ stroke-\/>dashOffset;}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>dashCnt;}
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ StrokeCap\ strokeCap()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00252\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ StrokeCap::Square;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>cap;}
+\DoxyCodeLine{00255\ \ \ \ \ \}}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ StrokeJoin\ strokeJoin()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00258\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ StrokeJoin::Bevel;}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>join;}
+\DoxyCodeLine{00261\ \ \ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{float}\ strokeMiterlimit()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00264\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!stroke)\ \textcolor{keywordflow}{return}\ 4.0f;}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stroke-\/>miterlimit;}
+\DoxyCodeLine{00267\ \ \ \ \ \}}
+\DoxyCodeLine{00268\ \};}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \textcolor{keyword}{struct\ }RenderEffect}
+\DoxyCodeLine{00271\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ RenderData\ rd\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00273\ \ \ \ \ RenderRegion\ extend\ =\ \{0,\ 0,\ 0,\ 0\};}
+\DoxyCodeLine{00274\ \ \ \ \ SceneEffect\ \doxymbox{\hyperlink{namespacebuilt__in__font__gen_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}};}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{bool}\ invalid\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keyword}{virtual}\ \string~RenderEffect()}
+\DoxyCodeLine{00278\ \ \ \ \ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{lv__mem_8c_a7455e11b1593bd5d98475bde81b97171}{lv\_free}}(rd);}
+\DoxyCodeLine{00280\ \ \ \ \ \}}
+\DoxyCodeLine{00281\ \};}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \textcolor{keyword}{struct\ }RenderEffectGaussian\ :\ RenderEffect}
+\DoxyCodeLine{00284\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{float}\ sigma;}
+\DoxyCodeLine{00286\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ direction;\ \textcolor{comment}{//0:\ both,\ 1:\ horizontal,\ 2:\ vertical}}
+\DoxyCodeLine{00287\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ border;\ \ \ \ \textcolor{comment}{//0:\ duplicate,\ 1:\ wrap}}
+\DoxyCodeLine{00288\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{namespacejpg__to__sjpg_a517dde945463233a0d8c0a5b124ce917}{quality}};\ \ \ \textcolor{comment}{//0\ \string~\ 100\ \ (optional)}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keyword}{static}\ RenderEffectGaussian*\ gen(\doxymbox{\hyperlink{efi_8h_af53f622e3b6c080daeb167c1955d7ec1}{va\_list}}\&\ args)}
+\DoxyCodeLine{00291\ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ sigma\ =\ (float)\ \doxymbox{\hyperlink{efi_8h_a49d4aef58e6834a644c28861b65d9c4a}{va\_arg}}(args,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sigma\ <=\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ inst\ =\ \textcolor{keyword}{new}\ RenderEffectGaussian;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ inst-\/>sigma\ =\ sigma;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ inst-\/>direction\ =\ std::min(\doxymbox{\hyperlink{efi_8h_a49d4aef58e6834a644c28861b65d9c4a}{va\_arg}}(args,\ \textcolor{keywordtype}{int}),\ 2);}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ inst-\/>border\ =\ std::min(\doxymbox{\hyperlink{efi_8h_a49d4aef58e6834a644c28861b65d9c4a}{va\_arg}}(args,\ \textcolor{keywordtype}{int}),\ 1);}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ inst-\/>quality\ =\ std::min(\doxymbox{\hyperlink{efi_8h_a49d4aef58e6834a644c28861b65d9c4a}{va\_arg}}(args,\ \textcolor{keywordtype}{int}),\ 100);}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ inst-\/>type\ =\ SceneEffect::GaussianBlur;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ inst;}
+\DoxyCodeLine{00302\ \ \ \ \ \}}
+\DoxyCodeLine{00303\ \};}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \textcolor{keyword}{class\ }RenderMethod}
+\DoxyCodeLine{00306\ \{}
+\DoxyCodeLine{00307\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00308\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ refCnt\ =\ 0;\ \ \ \ \ \ \ \ \textcolor{comment}{//reference\ count}}
+\DoxyCodeLine{00309\ \ \ \ \ Key\ key;}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00312\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ ref();}
+\DoxyCodeLine{00313\ \ \ \ \ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ unref();}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keyword}{virtual}\ \string~RenderMethod()\ \{\}}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keyword}{virtual}\ RenderData\ prepare(\textcolor{keyword}{const}\ RenderShape\&\ rshape,\ RenderData\ data,\ \textcolor{keyword}{const}\ Matrix\&\ transform,\ Array<RenderData>\&\ clips,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ opacity,\ RenderUpdateFlag\ flags,\ \textcolor{keywordtype}{bool}\ clipper)\ =\ 0;}
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keyword}{virtual}\ RenderData\ prepare(RenderSurface*\ surface,\ RenderData\ data,\ \textcolor{keyword}{const}\ Matrix\&\ transform,\ Array<RenderData>\&\ clips,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ opacity,\ RenderUpdateFlag\ flags)\ =\ 0;}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ preRender()\ =\ 0;}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ renderShape(RenderData\ data)\ =\ 0;}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ renderImage(RenderData\ data)\ =\ 0;}
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ postRender()\ =\ 0;}
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ dispose(RenderData\ data)\ =\ 0;}
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keyword}{virtual}\ RenderRegion\ region(RenderData\ data)\ =\ 0;}
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keyword}{virtual}\ RenderRegion\ viewport()\ =\ 0;}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ viewport(\textcolor{keyword}{const}\ RenderRegion\&\ vp)\ =\ 0;}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ blend(BlendMethod\ method)\ =\ 0;}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keyword}{virtual}\ ColorSpace\ colorSpace()\ =\ 0;}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ RenderSurface*\ mainSurface()\ =\ 0;}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ clear()\ =\ 0;}
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ sync()\ =\ 0;}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keyword}{virtual}\ RenderCompositor*\ target(\textcolor{keyword}{const}\ RenderRegion\&\ region,\ ColorSpace\ cs)\ =\ 0;}
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ beginComposite(RenderCompositor*\ cmp,\ CompositeMethod\ method,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ opacity)\ =\ 0;}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ endComposite(RenderCompositor*\ cmp)\ =\ 0;}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ prepare(RenderEffect*\ effect)\ =\ 0;}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ effect(RenderCompositor*\ cmp,\ \textcolor{keyword}{const}\ RenderEffect*\ effect)\ =\ 0;}
+\DoxyCodeLine{00339\ \};}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ MASK\_REGION\_MERGING(CompositeMethod\ method)}
+\DoxyCodeLine{00342\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordflow}{switch}(method)\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::AlphaMask:}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::InvAlphaMask:}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::LumaMask:}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::InvLumaMask:}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::SubtractMask:}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::IntersectMask:}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{comment}{//these\ might\ expand\ the\ rendering\ region}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::AddMask:}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::DifferenceMask:}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::LightenMask:}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::DarkenMask:}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ TVGERR(\textcolor{stringliteral}{"{}RENDERER"{}},\ \textcolor{stringliteral}{"{}Unsupported\ Composite\ Method!\ =\ \%d"{}},\ (\textcolor{keywordtype}{int})method);}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00360\ \ \ \ \ \}}
+\DoxyCodeLine{00361\ \}}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ CHANNEL\_SIZE(ColorSpace\ cs)}
+\DoxyCodeLine{00364\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordflow}{switch}(cs)\ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::ABGR8888:}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::ABGR8888S:}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::ARGB8888:}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::ARGB8888S:}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}});}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::Grayscale8:}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}});}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ColorSpace::Unsupported:}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ TVGERR(\textcolor{stringliteral}{"{}RENDERER"{}},\ \textcolor{stringliteral}{"{}Unsupported\ Channel\ Size!\ =\ \%d"{}},\ (\textcolor{keywordtype}{int})cs);}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00377\ \ \ \ \ \}}
+\DoxyCodeLine{00378\ \}}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ ColorSpace\ COMPOSITE\_TO\_COLORSPACE(RenderMethod*\ renderer,\ CompositeMethod\ method)}
+\DoxyCodeLine{00381\ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordflow}{switch}(method)\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::AlphaMask:}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::InvAlphaMask:}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::AddMask:}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::DifferenceMask:}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::SubtractMask:}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::IntersectMask:}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::LightenMask:}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::DarkenMask:}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ColorSpace::Grayscale8;}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Optimize\ Luma/InvLuma\ colorspace\ to\ Grayscale8}}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::LumaMask:}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CompositeMethod::InvLumaMask:}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ renderer-\/>colorSpace();}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ TVGERR(\textcolor{stringliteral}{"{}RENDERER"{}},\ \textcolor{stringliteral}{"{}Unsupported\ Composite\ Size!\ =\ \%d"{}},\ (\textcolor{keywordtype}{int})method);}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ColorSpace::Unsupported;}
+\DoxyCodeLine{00399\ \ \ \ \ \}}
+\DoxyCodeLine{00400\ \}}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ MULTIPLY(\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ c,\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}}\ \doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})}
+\DoxyCodeLine{00403\ \{}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{return}\ (((c)\ *\ (\doxymbox{\hyperlink{lv__example__anim__3_8c_aeeddce917cf130d62c370b8f216026dd}{a}})\ +\ 0xff)\ >>\ 8);}
+\DoxyCodeLine{00405\ \}}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \}}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_RENDER\_H\_}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00412\ }
+
+\end{DoxyCode}

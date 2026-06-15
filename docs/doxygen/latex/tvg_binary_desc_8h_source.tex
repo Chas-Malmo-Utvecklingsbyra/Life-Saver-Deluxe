@@ -1,0 +1,112 @@
+\doxysection{tvg\+Binary\+Desc.\+h}
+\hypertarget{tvg_binary_desc_8h_source}{}\label{tvg_binary_desc_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgBinaryDesc.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgBinaryDesc.h}}
+\doxymbox{\hyperlink{tvg_binary_desc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2021\ -\/\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_BINARY\_DESC\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_BINARY\_DESC\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/*\ TODO:\ Need\ to\ consider\ whether\ uin8\_t\ is\ enough\ size\ for\ extension...}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ Rather\ than\ optimal\ data,\ we\ can\ use\ enough\ size\ and\ data\ compress?\ */}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{using\ }TvgBinByte\ =\ \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}};}
+\DoxyCodeLine{00033\ \textcolor{keyword}{using\ }TvgBinCounter\ =\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}};}
+\DoxyCodeLine{00034\ \textcolor{keyword}{using\ }TvgBinTag\ =\ TvgBinByte;}
+\DoxyCodeLine{00035\ \textcolor{keyword}{using\ }TvgBinFlag\ =\ TvgBinByte;}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{//Header}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_SIZE\ 33\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//TVG\_HEADER\_SIGNATURE\_LENGTH\ +\ TVG\_HEADER\_VERSION\_LENGTH\ +\ 2*SIZE(float)\ +\ TVG\_HEADER\_RESERVED\_LENGTH\ +\ TVG\_HEADER\_COMPRESS\_SIZE}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_SIGNATURE\ "{}ThorVG"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_SIGNATURE\_LENGTH\ 6}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_VERSION\ "{}001500"{}\ \ \ \ \ \ \ }\textcolor{comment}{//Major\ 00,\ Minor\ 15,\ Micro\ 00}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_VERSION\_LENGTH\ 6}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_RESERVED\_LENGTH\ 1\ \ \ \ \ \ }\textcolor{comment}{//Storing\ flags\ for\ extensions}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_COMPRESS\_SIZE\ 12\ \ \ \ \ \ \ }\textcolor{comment}{//TVG\_HEADER\_UNCOMPRESSED\_SIZE\ +\ TVG\_HEADER\_COMPRESSED\_SIZE\ +\ TVG\_HEADER\_COMPRESSED\_SIZE\_BITS}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//Compress\ Size}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_UNCOMPRESSED\_SIZE\ 4\ \ \ \ \ }\textcolor{comment}{//SIZE\ (TvgBinCounter)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_COMPRESSED\_SIZE\ 4\ \ \ \ \ \ \ }\textcolor{comment}{//SIZE\ (TvgBinCounter)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ TVG\_HEADER\_COMPRESSED\_SIZE\_BITS\ 4\ \ }\textcolor{comment}{//SIZE\ (TvgBinCounter)}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//Reserved\ Flag}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ TVG\_HEAD\_FLAG\_COMPRESSED\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x01}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//Paint\ Type}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_CLASS\_PICTURE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0xfc}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_CLASS\_SHAPE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0xfd}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_CLASS\_SCENE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0xfe}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{comment}{//Paint}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PAINT\_OPACITY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x10}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PAINT\_TRANSFORM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x11}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PAINT\_CMP\_TARGET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x01}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PAINT\_CMP\_METHOD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x20}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{comment}{//TODO:\ Keep\ this\ for\ the\ compatibility,\ Remove\ in\ TVG\ 1.0\ release}}
+\DoxyCodeLine{00067\ \textcolor{comment}{//Scene}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \#define\ TVG\_TAG\_SCENE\_RESERVEDCNT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x30}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{comment}{//Shape}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_PATH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x40}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x41}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_FILL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x42}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_COLOR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x43}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_FILLRULE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x44}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//Stroke}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_CAP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x50}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_JOIN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x51}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_WIDTH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x52}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_COLOR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x53}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_FILL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x54}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_DASHPTRN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x55}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_MITERLIMIT\ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x56}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_ORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x57}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_SHAPE\_STROKE\_DASH\_OFFSET\ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x58}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{//Fill}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_LINEAR\_GRADIENT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x60}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_RADIAL\_GRADIENT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x61}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_COLORSTOPS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x62}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_FILLSPREAD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x63}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_TRANSFORM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x64}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_FILL\_RADIAL\_GRADIENT\_FOCAL\ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x65}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{//Picture}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PICTURE\_RAW\_IMAGE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x70}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ TVG\_TAG\_PICTURE\_MESH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TvgBinTag)0x71}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_BINARY\_DESC\_H\_}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00106\ }
+
+\end{DoxyCode}

@@ -1,0 +1,82 @@
+\doxysection{esp\+\_\+lvgl\+\_\+port.\+h}
+\hypertarget{esp__lvgl__port_8h_source}{}\label{esp__lvgl__port_8h_source}\index{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/include/esp\_lvgl\_port.h@{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/include/esp\_lvgl\_port.h}}
+\doxymbox{\hyperlink{esp__lvgl__port_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ SPDX-\/FileCopyrightText:\ 2022-\/2025\ Espressif\ Systems\ (Shanghai)\ CO\ LTD}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ SPDX-\/License-\/Identifier:\ Apache-\/2.0}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__err_8h}{esp\_err.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}esp\_heap\_caps.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}lvgl.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__disp_8h}{esp\_lvgl\_port\_disp.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__touch_8h}{esp\_lvgl\_port\_touch.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__knob_8h}{esp\_lvgl\_port\_knob.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__button_8h}{esp\_lvgl\_port\_button.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__usbhid_8h}{esp\_lvgl\_port\_usbhid.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#if\ LVGL\_VERSION\_MAJOR\ ==\ 8}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h}{esp\_lvgl\_port\_compatibility.h}}"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00028\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bdaa56b93f5759745aaa1d7af9b7a9ef7b4b}{LVGL\_PORT\_EVENT\_DISPLAY}}\ =\ 0x01,}
+\DoxyCodeLine{00036\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bdaa2294e56c53833108b0e36806e0365e93}{LVGL\_PORT\_EVENT\_TOUCH}}\ \ \ =\ 0x02,}
+\DoxyCodeLine{00037\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bdaa791b675bdda88df54320cad6a6905ebf}{LVGL\_PORT\_EVENT\_ENCODER}}\ =\ 0x04,}
+\DoxyCodeLine{00038\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bdaadfeb5138c606dda3d13d7657defeb8d9}{LVGL\_PORT\_EVENT\_USER}}\ \ \ \ =\ 0x80,}
+\DoxyCodeLine{00039\ \}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bda}{lvgl\_port\_event\_type\_t}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bda}{lvgl\_port\_event\_type\_t}}\ \doxymbox{\hyperlink{structlvgl__port__event__t_af182349389ab9cfe613c1ccb198c76ec}{type}};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ *\doxymbox{\hyperlink{structlvgl__port__event__t_a13623f1d68513495c21f8b061b1a5aec}{param}};}
+\DoxyCodeLine{00047\ \}\ \doxymbox{\hyperlink{structlvgl__port__event__t}{lvgl\_port\_event\_t}};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_a282f7a55c99a4cf6446d23e343aeca6c}{task\_priority}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_a23aecf90135fb5e27ff41b4375b076b5}{task\_stack}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_a1c103d4b21cea1e17ebdc5f6ef7da9f3}{task\_affinity}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_a12ebcbc9bd5f6030462770b1823847a5}{task\_max\_sleep\_ms}};\ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_a6b6d78aeed56970965fc330145215962}{task\_stack\_caps}};\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t_aba801ab29ebf13b8baf11d2d8b48e444}{timer\_period\_ms}};\ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t}{lvgl\_port\_cfg\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ ESP\_LVGL\_PORT\_INIT\_CONFIG()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .task\_priority\ =\ 4,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .task\_stack\ =\ 7168,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .task\_affinity\ =\ -\/1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .task\_max\_sleep\_ms\ =\ 500,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .task\_stack\_caps\ =\ MALLOC\_CAP\_INTERNAL\ |\ MALLOC\_CAP\_DEFAULT,\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .timer\_period\_ms\ =\ 5,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00086\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a97a0bb5556894a2b1dfee7082e0deee0}{lvgl\_port\_init}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structlvgl__port__cfg__t}{lvgl\_port\_cfg\_t}}\ *cfg);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00098\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a1cba3f393e6eed2f9355adf048ff8731}{lvgl\_port\_deinit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00108\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_ab0618b4d7a46e737754e4fbbd6d517b6}{lvgl\_port\_lock}}(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ timeout\_ms);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00114\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_acb85e62799c27b08e115bfdd2633ca71}{lvgl\_port\_unlock}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00123\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a0eefc1fda6f79b96aee7b6c85e1f599e}{lvgl\_port\_flush\_ready}}(\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\_display\_t}}\ *disp);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00133\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a9cfeb7dbf076234c161573bb3807c5c4}{lvgl\_port\_stop}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00143\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_a2fcf5cb771b29505bb1ea167001d910e}{lvgl\_port\_resume}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00157\ \doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\_err\_t}}\ \doxymbox{\hyperlink{esp__lvgl__port_8h_abacc8a32c06c18b06b984b9332167c0e}{lvgl\_port\_task\_wake}}(\doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bda}{lvgl\_port\_event\_type\_t}}\ event,\ \textcolor{keywordtype}{void}\ *param);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00160\ \}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

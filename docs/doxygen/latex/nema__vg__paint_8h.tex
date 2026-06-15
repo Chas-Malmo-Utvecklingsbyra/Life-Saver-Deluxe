@@ -1,0 +1,456 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+libs/\+nema\+\_\+gfx/\+include/\+nema\+\_\+vg\+\_\+paint.h File Reference}
+\hypertarget{nema__vg__paint_8h}{}\label{nema__vg__paint_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_paint.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_paint.h}}
+
+
+Paint operation related fuctions. Paint is an internal (opaque) struct of Nema\+VG. The functions defined here can be used access its parameters.  
+
+
+{\ttfamily \+\#include "{}nema\+\_\+interpolators.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+matrix3x3.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+vg\+\_\+context.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+graphics.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_ac0902382176e3b27d5348b2d49bd6a1f}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+COLOR}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_acca4d5dcc5711c58a9d5a55264273c88}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+FILL}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_ac8925549e729640fb26363995c129837}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+LINEAR}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_a85d7bcb14630660b76dfb88bffa27f58}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+TEXTURE}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_a165939429acc92b29abde37545887c54}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+RADIAL}}~(0x03U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_ab016fb188efec961621400fadba05821}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+CONICAL}}~(0x04U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__paint_8h_adf8ab9711f2c371b03fb728c64fa2f5b}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+MAX\+\_\+\+GRAD\+\_\+\+STOPS}}~(32)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} \doxymbox{\hyperlink{nema__vg__paint_8h_ad6bb961d27230d8fd6e17df9dda08227}{nema\+\_\+vg\+\_\+paint\+\_\+create}} ()
+\begin{DoxyCompactList}\small\item\em Create a paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a252d7c7ce2af0e71c6df03c4ec751ecc}{nema\+\_\+vg\+\_\+paint\+\_\+destroy}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint)
+\begin{DoxyCompactList}\small\item\em Destroy a paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_af248cecf504695708767910102654bd1}{nema\+\_\+vg\+\_\+paint\+\_\+clear}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint)
+\begin{DoxyCompactList}\small\item\em Clear the parameters of a paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ad7620d0ff6c0768bc5bf21fe640aaf0d}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+type}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} type)
+\begin{DoxyCompactList}\small\item\em Set the paint type. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ae4facd6ee461ab44e8cd49088ea4c168}{nema\+\_\+vg\+\_\+paint\+\_\+lock\+\_\+tran\+\_\+to\+\_\+path}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, int locked)
+\begin{DoxyCompactList}\small\item\em Lock paint transformation to path. If locked, path and paint transformation will be in sync. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a0995544e18b6d0d4ed1dd166c0b9efb8}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+linear}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad, float x0, float y0, float x1, float y1, \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}} sampling\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Set linear gradient to a paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ac3c00e4772d213ffadbc83f3aad40414}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+paint\+\_\+color}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} rgba)
+\begin{DoxyCompactList}\small\item\em Set the paint color. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a18cc4395cffb64df3c8991abf8e963dd}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+opacity}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, float opacity)
+\begin{DoxyCompactList}\small\item\em Set the paint opacity. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_af9747f11ea7041bb2cae3f269059d408}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+stroke\+\_\+width}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, float stroke\+\_\+width)
+\begin{DoxyCompactList}\small\item\em Set stroke width -\/ DEPRECATED USE nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+width. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_afd52aeb3892f8dca945fff2551d340df}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+tex\+\_\+matrix}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}} m)
+\begin{DoxyCompactList}\small\item\em Set transformation matrix for texture. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a0e4486b82cbc6ee025b6674b479082b5}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+tex}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}tex)
+\begin{DoxyCompactList}\small\item\em Set texture to paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a9e7ad93e3b893bda47596735de7c1c40}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+lut\+\_\+tex}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}lut\+\_\+palette, \doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}lut\+\_\+indices)
+\begin{DoxyCompactList}\small\item\em Set Lut-\/based (look-\/up-\/table) texture to paint object. See Nema Pixpresso User Manual regarding Lut formats. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ad4f4fbb7690a1b65d6e99bb7ee3a83e5}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+conical}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad, float cx, float cy, \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}} sampling\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Set Conical gradient to paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_a2a25ddcc8e5fa1e16d5417eda1f97ac9}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+radial}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad, float x0, float y0, float r, \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}} sampling\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Set radial gradient to paint object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ac9979dcb63e1946168fbaa001ea965a9}{nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+radial2}} (\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} paint, \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad, float x0, float y0, float rx, float ry, \doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}} sampling\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Set radial gradient to paint object, with different horizontal and vertical radius. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} \doxymbox{\hyperlink{nema__vg__paint_8h_aa60fb25b085e639e56d6a6ad0ccd0a27}{nema\+\_\+vg\+\_\+grad\+\_\+create}} (void)
+\begin{DoxyCompactList}\small\item\em Create gradient object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_aa7198e32b48e30694b02616b2f167b54}{nema\+\_\+vg\+\_\+grad\+\_\+destroy}} (\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad)
+\begin{DoxyCompactList}\small\item\em Destroy gradient object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__paint_8h_ae6a9c70ae6689eb901505d7862291a67}{nema\+\_\+vg\+\_\+grad\+\_\+set}} (\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} grad, int stops\+\_\+count, float \texorpdfstring{$\ast$}{*}stops, \doxymbox{\hyperlink{nema__interpolators_8h_a75ec08b48a762fecd52a2e1a0924a8cb}{color\+\_\+var\+\_\+t}} \texorpdfstring{$\ast$}{*}colors)
+\begin{DoxyCompactList}\small\item\em Set gradient parameters to a gradient object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Paint operation related fuctions. Paint is an internal (opaque) struct of Nema\+VG. The functions defined here can be used access its parameters. 
+
+
+
+\label{nema__vg__paint_8h_doc-define-members}
+\Hypertarget{nema__vg__paint_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{nema__vg__paint_8h_ac0902382176e3b27d5348b2d49bd6a1f}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_COLOR@{NEMA\_VG\_PAINT\_COLOR}}
+\index{NEMA\_VG\_PAINT\_COLOR@{NEMA\_VG\_PAINT\_COLOR}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_COLOR}{NEMA\_VG\_PAINT\_COLOR}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ac0902382176e3b27d5348b2d49bd6a1f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+COLOR~(0x00U)}
+
+Fill with color \Hypertarget{nema__vg__paint_8h_acca4d5dcc5711c58a9d5a55264273c88}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_FILL@{NEMA\_VG\_PAINT\_FILL}}
+\index{NEMA\_VG\_PAINT\_FILL@{NEMA\_VG\_PAINT\_FILL}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_FILL}{NEMA\_VG\_PAINT\_FILL}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_acca4d5dcc5711c58a9d5a55264273c88} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+FILL~(0x00U)}
+
+Deprecated -\/ Fill with color (same as NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+COLOR) \Hypertarget{nema__vg__paint_8h_ab016fb188efec961621400fadba05821}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_GRAD\_CONICAL@{NEMA\_VG\_PAINT\_GRAD\_CONICAL}}
+\index{NEMA\_VG\_PAINT\_GRAD\_CONICAL@{NEMA\_VG\_PAINT\_GRAD\_CONICAL}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_GRAD\_CONICAL}{NEMA\_VG\_PAINT\_GRAD\_CONICAL}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ab016fb188efec961621400fadba05821} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+CONICAL~(0x04U)}
+
+Fill with conical gradient \Hypertarget{nema__vg__paint_8h_ac8925549e729640fb26363995c129837}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_GRAD\_LINEAR@{NEMA\_VG\_PAINT\_GRAD\_LINEAR}}
+\index{NEMA\_VG\_PAINT\_GRAD\_LINEAR@{NEMA\_VG\_PAINT\_GRAD\_LINEAR}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_GRAD\_LINEAR}{NEMA\_VG\_PAINT\_GRAD\_LINEAR}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ac8925549e729640fb26363995c129837} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+LINEAR~(0x01U)}
+
+Fill with linear gradient \Hypertarget{nema__vg__paint_8h_a165939429acc92b29abde37545887c54}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_GRAD\_RADIAL@{NEMA\_VG\_PAINT\_GRAD\_RADIAL}}
+\index{NEMA\_VG\_PAINT\_GRAD\_RADIAL@{NEMA\_VG\_PAINT\_GRAD\_RADIAL}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_GRAD\_RADIAL}{NEMA\_VG\_PAINT\_GRAD\_RADIAL}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a165939429acc92b29abde37545887c54} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+RADIAL~(0x03U)}
+
+Fill with radial gradient \Hypertarget{nema__vg__paint_8h_adf8ab9711f2c371b03fb728c64fa2f5b}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS@{NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS}}
+\index{NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS@{NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS}{NEMA\_VG\_PAINT\_MAX\_GRAD\_STOPS}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_adf8ab9711f2c371b03fb728c64fa2f5b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+MAX\+\_\+\+GRAD\+\_\+\+STOPS~(32)}
+
+Maximum gradient stops \Hypertarget{nema__vg__paint_8h_a85d7bcb14630660b76dfb88bffa27f58}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!NEMA\_VG\_PAINT\_TEXTURE@{NEMA\_VG\_PAINT\_TEXTURE}}
+\index{NEMA\_VG\_PAINT\_TEXTURE@{NEMA\_VG\_PAINT\_TEXTURE}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_TEXTURE}{NEMA\_VG\_PAINT\_TEXTURE}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a85d7bcb14630660b76dfb88bffa27f58} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+TEXTURE~(0x02U)}
+
+Fill with texture 
+
+\label{nema__vg__paint_8h_doc-func-members}
+\Hypertarget{nema__vg__paint_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{nema__vg__paint_8h_aa60fb25b085e639e56d6a6ad0ccd0a27}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_grad\_create@{nema\_vg\_grad\_create}}
+\index{nema\_vg\_grad\_create@{nema\_vg\_grad\_create}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_grad\_create()}{nema\_vg\_grad\_create()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_aa60fb25b085e639e56d6a6ad0ccd0a27} 
+\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}} nema\+\_\+vg\+\_\+grad\+\_\+create (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Create gradient object. 
+
+\begin{DoxyReturn}{Returns}
+Handle (pointer) to the created gradient object 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__paint_8h_aa7198e32b48e30694b02616b2f167b54}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_grad\_destroy@{nema\_vg\_grad\_destroy}}
+\index{nema\_vg\_grad\_destroy@{nema\_vg\_grad\_destroy}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_grad\_destroy()}{nema\_vg\_grad\_destroy()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_aa7198e32b48e30694b02616b2f167b54} 
+void nema\+\_\+vg\+\_\+grad\+\_\+destroy (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{}\end{DoxyParamCaption})}
+
+
+
+Destroy gradient object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to the gradient object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ae6a9c70ae6689eb901505d7862291a67}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_grad\_set@{nema\_vg\_grad\_set}}
+\index{nema\_vg\_grad\_set@{nema\_vg\_grad\_set}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_grad\_set()}{nema\_vg\_grad\_set()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ae6a9c70ae6689eb901505d7862291a67} 
+void nema\+\_\+vg\+\_\+grad\+\_\+set (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{, }\item[{int}]{stops\+\_\+count}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{stops}{, }\item[{\doxymbox{\hyperlink{nema__interpolators_8h_a75ec08b48a762fecd52a2e1a0924a8cb}{color\+\_\+var\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{colors}{}\end{DoxyParamCaption})}
+
+
+
+Set gradient parameters to a gradient object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to gradient object \\
+\hline
+{\em stops\+\_\+count} & Number of stop colors \\
+\hline
+{\em stops} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to stop colors coordinates \\
+\hline
+{\em colors} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to stop color values \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_af248cecf504695708767910102654bd1}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_clear@{nema\_vg\_paint\_clear}}
+\index{nema\_vg\_paint\_clear@{nema\_vg\_paint\_clear}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_clear()}{nema\_vg\_paint\_clear()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_af248cecf504695708767910102654bd1} 
+void nema\+\_\+vg\+\_\+paint\+\_\+clear (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{}\end{DoxyParamCaption})}
+
+
+
+Clear the parameters of a paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ad6bb961d27230d8fd6e17df9dda08227}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_create@{nema\_vg\_paint\_create}}
+\index{nema\_vg\_paint\_create@{nema\_vg\_paint\_create}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_create()}{nema\_vg\_paint\_create()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ad6bb961d27230d8fd6e17df9dda08227} 
+\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}} nema\+\_\+vg\+\_\+paint\+\_\+create (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Create a paint object. 
+
+\begin{DoxyReturn}{Returns}
+Handle to the created paint object 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__paint_8h_a252d7c7ce2af0e71c6df03c4ec751ecc}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_destroy@{nema\_vg\_paint\_destroy}}
+\index{nema\_vg\_paint\_destroy@{nema\_vg\_paint\_destroy}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_destroy()}{nema\_vg\_paint\_destroy()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a252d7c7ce2af0e71c6df03c4ec751ecc} 
+void nema\+\_\+vg\+\_\+paint\+\_\+destroy (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{}\end{DoxyParamCaption})}
+
+
+
+Destroy a paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & Handle to paint object that should be destroyed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ae4facd6ee461ab44e8cd49088ea4c168}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_lock\_tran\_to\_path@{nema\_vg\_paint\_lock\_tran\_to\_path}}
+\index{nema\_vg\_paint\_lock\_tran\_to\_path@{nema\_vg\_paint\_lock\_tran\_to\_path}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_lock\_tran\_to\_path()}{nema\_vg\_paint\_lock\_tran\_to\_path()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ae4facd6ee461ab44e8cd49088ea4c168} 
+void nema\+\_\+vg\+\_\+paint\+\_\+lock\+\_\+tran\+\_\+to\+\_\+path (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{int}]{locked}{}\end{DoxyParamCaption})}
+
+
+
+Lock paint transformation to path. If locked, path and paint transformation will be in sync. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to paint object \\
+\hline
+{\em locked} & 1 if locked (default), 0 if not locked \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ad4f4fbb7690a1b65d6e99bb7ee3a83e5}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_grad\_conical@{nema\_vg\_paint\_set\_grad\_conical}}
+\index{nema\_vg\_paint\_set\_grad\_conical@{nema\_vg\_paint\_set\_grad\_conical}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_grad\_conical()}{nema\_vg\_paint\_set\_grad\_conical()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ad4f4fbb7690a1b65d6e99bb7ee3a83e5} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+conical (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{, }\item[{float}]{cx}{, }\item[{float}]{cy}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}}}]{sampling\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+Set Conical gradient to paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint \\
+\hline
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to gradient \\
+\hline
+{\em cx} & Conical gradient center point x coordinate \\
+\hline
+{\em cy} & Conical gradient center point y coordinate \\
+\hline
+{\em sampling\+\_\+mode} & Sampling mode \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_a0995544e18b6d0d4ed1dd166c0b9efb8}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_grad\_linear@{nema\_vg\_paint\_set\_grad\_linear}}
+\index{nema\_vg\_paint\_set\_grad\_linear@{nema\_vg\_paint\_set\_grad\_linear}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_grad\_linear()}{nema\_vg\_paint\_set\_grad\_linear()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a0995544e18b6d0d4ed1dd166c0b9efb8} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+linear (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{, }\item[{float}]{x0}{, }\item[{float}]{y0}{, }\item[{float}]{x1}{, }\item[{float}]{y1}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}}}]{sampling\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+Set linear gradient to a paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to paint object \\
+\hline
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to gradient object \\
+\hline
+{\em x0} & Linear gradient start point x coordinate \\
+\hline
+{\em y0} & Linear gradient start point y coordinate \\
+\hline
+{\em x1} & Linear gradient end point x coordinate \\
+\hline
+{\em y1} & Linear gradient end point y coordinate \\
+\hline
+{\em sampling\+\_\+mode} & Sampling mode. NEMA\+\_\+\+TEX\+\_\+\+BORDER defaults to NEMA\+\_\+\+TEX\+\_\+\+CLAMP \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_a2a25ddcc8e5fa1e16d5417eda1f97ac9}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_grad\_radial@{nema\_vg\_paint\_set\_grad\_radial}}
+\index{nema\_vg\_paint\_set\_grad\_radial@{nema\_vg\_paint\_set\_grad\_radial}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_grad\_radial()}{nema\_vg\_paint\_set\_grad\_radial()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a2a25ddcc8e5fa1e16d5417eda1f97ac9} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+radial (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{, }\item[{float}]{x0}{, }\item[{float}]{y0}{, }\item[{float}]{r}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}}}]{sampling\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+Set radial gradient to paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint \\
+\hline
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to gradient \\
+\hline
+{\em x0} & Radial gradient center point x coordinate \\
+\hline
+{\em y0} & Radial gradient center point y coordinate \\
+\hline
+{\em r} & Radial gradient radius \\
+\hline
+{\em sampling\+\_\+mode} & Sampling mode \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ac9979dcb63e1946168fbaa001ea965a9}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_grad\_radial2@{nema\_vg\_paint\_set\_grad\_radial2}}
+\index{nema\_vg\_paint\_set\_grad\_radial2@{nema\_vg\_paint\_set\_grad\_radial2}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_grad\_radial2()}{nema\_vg\_paint\_set\_grad\_radial2()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ac9979dcb63e1946168fbaa001ea965a9} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+grad\+\_\+radial2 (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}}]{grad}{, }\item[{float}]{x0}{, }\item[{float}]{y0}{, }\item[{float}]{rx}{, }\item[{float}]{ry}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a8f4a40ad1151e199603baaad4f8c211a}{nema\+\_\+tex\+\_\+mode\+\_\+t}}}]{sampling\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+Set radial gradient to paint object, with different horizontal and vertical radius. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint \\
+\hline
+{\em grad} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to gradient \\
+\hline
+{\em x0} & Radial gradient center point x coordinate \\
+\hline
+{\em y0} & Radial gradient center point y coordinate \\
+\hline
+{\em rx} & Radial gradient radius on x axis \\
+\hline
+{\em ry} & Radial gradient radius on y axis \\
+\hline
+{\em sampling\+\_\+mode} & Sampling mode \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_a9e7ad93e3b893bda47596735de7c1c40}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_lut\_tex@{nema\_vg\_paint\_set\_lut\_tex}}
+\index{nema\_vg\_paint\_set\_lut\_tex@{nema\_vg\_paint\_set\_lut\_tex}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_lut\_tex()}{nema\_vg\_paint\_set\_lut\_tex()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a9e7ad93e3b893bda47596735de7c1c40} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+lut\+\_\+tex (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{lut\+\_\+palette}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{lut\+\_\+indices}{}\end{DoxyParamCaption})}
+
+
+
+Set Lut-\/based (look-\/up-\/table) texture to paint object. See Nema Pixpresso User Manual regarding Lut formats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint object \\
+\hline
+{\em lut\+\_\+palette} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to the Palette of the Lut image object \\
+\hline
+{\em lut\+\_\+indices} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to the indices of the Lut image object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_a18cc4395cffb64df3c8991abf8e963dd}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_opacity@{nema\_vg\_paint\_set\_opacity}}
+\index{nema\_vg\_paint\_set\_opacity@{nema\_vg\_paint\_set\_opacity}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_opacity()}{nema\_vg\_paint\_set\_opacity()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a18cc4395cffb64df3c8991abf8e963dd} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+opacity (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{float}]{opacity}{}\end{DoxyParamCaption})}
+
+
+
+Set the paint opacity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (pointer) to paint object \\
+\hline
+{\em opacity} & Opacity to be set, 1 is fully opaque and 0 is fully transparent \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ac3c00e4772d213ffadbc83f3aad40414}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_paint\_color@{nema\_vg\_paint\_set\_paint\_color}}
+\index{nema\_vg\_paint\_set\_paint\_color@{nema\_vg\_paint\_set\_paint\_color}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_paint\_color()}{nema\_vg\_paint\_set\_paint\_color()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ac3c00e4772d213ffadbc83f3aad40414} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+paint\+\_\+color (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{rgba}{}\end{DoxyParamCaption})}
+
+
+
+Set the paint color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint object \\
+\hline
+{\em rgba} & Color to be set, in rgba (hex 0x\+AABBGGRR) format \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_af9747f11ea7041bb2cae3f269059d408}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_stroke\_width@{nema\_vg\_paint\_set\_stroke\_width}}
+\index{nema\_vg\_paint\_set\_stroke\_width@{nema\_vg\_paint\_set\_stroke\_width}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_stroke\_width()}{nema\_vg\_paint\_set\_stroke\_width()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_af9747f11ea7041bb2cae3f269059d408} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+stroke\+\_\+width (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{float}]{stroke\+\_\+width}{}\end{DoxyParamCaption})}
+
+
+
+Set stroke width -\/ DEPRECATED USE nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+width. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint object \\
+\hline
+{\em stroke\+\_\+width} & Stroke width to be set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_a0e4486b82cbc6ee025b6674b479082b5}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_tex@{nema\_vg\_paint\_set\_tex}}
+\index{nema\_vg\_paint\_set\_tex@{nema\_vg\_paint\_set\_tex}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_tex()}{nema\_vg\_paint\_set\_tex()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_a0e4486b82cbc6ee025b6674b479082b5} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+tex (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{tex}{}\end{DoxyParamCaption})}
+
+
+
+Set texture to paint object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint \\
+\hline
+{\em text} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to texture image object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_afd52aeb3892f8dca945fff2551d340df}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_tex\_matrix@{nema\_vg\_paint\_set\_tex\_matrix}}
+\index{nema\_vg\_paint\_set\_tex\_matrix@{nema\_vg\_paint\_set\_tex\_matrix}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_tex\_matrix()}{nema\_vg\_paint\_set\_tex\_matrix()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_afd52aeb3892f8dca945fff2551d340df} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+tex\+\_\+matrix (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}}}]{m}{}\end{DoxyParamCaption})}
+
+
+
+Set transformation matrix for texture. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint object \\
+\hline
+{\em m} & 3x3 transformation matrix \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__paint_8h_ad7620d0ff6c0768bc5bf21fe640aaf0d}\index{nema\_vg\_paint.h@{nema\_vg\_paint.h}!nema\_vg\_paint\_set\_type@{nema\_vg\_paint\_set\_type}}
+\index{nema\_vg\_paint\_set\_type@{nema\_vg\_paint\_set\_type}!nema\_vg\_paint.h@{nema\_vg\_paint.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_paint\_set\_type()}{nema\_vg\_paint\_set\_type()}}
+{\footnotesize\ttfamily \label{nema__vg__paint_8h_ad7620d0ff6c0768bc5bf21fe640aaf0d} 
+void nema\+\_\+vg\+\_\+paint\+\_\+set\+\_\+type (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}}]{paint}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{type}{}\end{DoxyParamCaption})}
+
+
+
+Set the paint type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paint} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} (handle) to paint \\
+\hline
+{\em type} & Paint type (NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+COLOR, NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+LINEAR, NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+TEXTURE, NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+RADIAL, NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+GRAD\+\_\+\+CONICAL) \\
+\hline
+\end{DoxyParams}

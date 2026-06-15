@@ -1,0 +1,973 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+indev/\+lv\+\_\+indev.h File Reference}
+\hypertarget{lv__indev_8h}{}\label{lv__indev_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/indev/lv\_indev.h}}
+{\ttfamily \+\#include "{}../\+core/\+lv\+\_\+group.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+area.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+timer.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+misc/\+lv\+\_\+event.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structlv__indev__data__t}{lv\+\_\+indev\+\_\+data\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void(\texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}{lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t}}) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{structlv__indev__data__t}{lv\+\_\+indev\+\_\+data\+\_\+t}} \texorpdfstring{$\ast$}{*}data)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba5c2a83039d7a8073d24569b85b6048f4}{LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+NONE}}
+, \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba266ddfccb1f31d538489eea5667ebebf}{LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER}}
+, \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba9f8299c12ea91ab8e7a6e783b9b0664d}{LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+KEYPAD}}
+, \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5baa9b43a6f629907e83436dd9cf7973f84}{LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON}}
+, \newline
+\doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5bac14b17fb683f428c1bb935748ce0d5aa}{LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+ENCODER}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\+\_\+indev\+\_\+state\+\_\+t}} \{ \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aa17473382979b77cb5f5388ff3e11b2e}{LV\+\_\+\+INDEV\+\_\+\+STATE\+\_\+\+RELEASED}} = 0
+, \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aae8cba42264e264514d9789425c14d39}{LV\+\_\+\+INDEV\+\_\+\+STATE\+\_\+\+PRESSED}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}} \{ \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a38f0b5febb6a495d5f345f1046f1e37f}{LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+NONE}} = 0
+, \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a7b1c4a38c27a60b75d4a82f45346cc52}{LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+TIMER}}
+, \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052aca5969b5c467dd2d63a93141238874b8}{LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+EVENT}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\+\_\+indev\+\_\+gesture\+\_\+type\+\_\+t}} \{ \newline
+\doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883ab05a8208171c546da3aa592cc067f845}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+NONE}} = 0
+, \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeda37550e5bae7c05e43c8ead6463a51}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+PINCH}}
+, \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aa9fae241ea73374e5a21b8948589bd24}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+SWIPE}}
+, \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a3f4acac56016878796da253c61a58676}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+ROTATE}}
+, \newline
+\doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeac3ea7b94d9b68a9636ecac78fd8f72}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+TWO\+\_\+\+FINGERS\+\_\+\+SWIPE}}
+, \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a559d67bb4f1e7239af1c88c447b76605}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+SCROLL}}
+, \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a41820b0042f88628c7974fd3c84f8034}{LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+CNT}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a9e8fac2a3892deca39d80d90afdac1b3}{lv\+\_\+indev\+\_\+create}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a15a817e6f1ce962760106c056abcf1b0}{lv\+\_\+indev\+\_\+delete}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a5ac34da1402e8d7540b17627d262ac01}{lv\+\_\+indev\+\_\+get\+\_\+next}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a5beec9c2aee30d58ebd61acc58923259}{lv\+\_\+indev\+\_\+read}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a92840edd1f8c0ae2d32906db9f196355}{lv\+\_\+indev\+\_\+read\+\_\+timer\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*}timer)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a15b3d1ab2db69590bcb926d72b0d49a7}{lv\+\_\+indev\+\_\+enable}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} enable)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_aa58335d6538ecf2a42ab04a545816e02}{lv\+\_\+indev\+\_\+active}} (void)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_ad621c9f885cb2304809e295ba0b71b76}{lv\+\_\+indev\+\_\+set\+\_\+type}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}} indev\+\_\+type)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_ac8bc2642f0f2440e76e9d39b6891eb52}{lv\+\_\+indev\+\_\+set\+\_\+read\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}{lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t}} read\+\_\+cb)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a9b08a9571b4db7906c169b15822f196a}{lv\+\_\+indev\+\_\+set\+\_\+user\+\_\+data}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a41f44ef210dbc4e31244bb94baa95ec1}{lv\+\_\+indev\+\_\+set\+\_\+driver\+\_\+data}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, void \texorpdfstring{$\ast$}{*}driver\+\_\+data)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_adea9a1f1e97be53ad7ee5980f2cb1c85}{lv\+\_\+indev\+\_\+set\+\_\+display}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, struct \doxymbox{\hyperlink{struct__lv__display__t}{\+\_\+lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_af7930caa929cdf02b948680c3ab4217c}{lv\+\_\+indev\+\_\+set\+\_\+long\+\_\+press\+\_\+time}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} long\+\_\+press\+\_\+time)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_ad0014f832984ae64d9898bde6e469b8b}{lv\+\_\+indev\+\_\+set\+\_\+long\+\_\+press\+\_\+repeat\+\_\+time}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} long\+\_\+press\+\_\+repeat\+\_\+time)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a65d948411df488b6b1585b18e24dadd6}{lv\+\_\+indev\+\_\+set\+\_\+scroll\+\_\+limit}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} scroll\+\_\+limit)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a430fedd717eb8ede0100248eeaad09b8}{lv\+\_\+indev\+\_\+set\+\_\+scroll\+\_\+throw}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} scroll\+\_\+throw)
+\item 
+\doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a95c3bddace5c8c574705340580365145}{lv\+\_\+indev\+\_\+get\+\_\+type}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}{lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_ac31b3d74656a0892330359adb39b81cc}{lv\+\_\+indev\+\_\+get\+\_\+read\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\+\_\+indev\+\_\+state\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_aecf2cd14b5336156819248c870db3a6f}{lv\+\_\+indev\+\_\+get\+\_\+state}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a574026316ea0cd55fa38fd6d5c45d46e}{lv\+\_\+indev\+\_\+get\+\_\+group}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a184892ae79df198e95b0be8b2503a699}{lv\+\_\+indev\+\_\+get\+\_\+display}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a8c3cdb1d215e92995d0f5e85578c27d8}{lv\+\_\+indev\+\_\+get\+\_\+user\+\_\+data}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a9d7518f34669ae24da3c119671d32ff0}{lv\+\_\+indev\+\_\+get\+\_\+driver\+\_\+data}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__indev_8h_a421f19f80011421052bb03610f8f7825}{lv\+\_\+indev\+\_\+get\+\_\+press\+\_\+moved}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a716dec0e5e4bf06011027bacaee81183}{lv\+\_\+indev\+\_\+reset}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_aec933a970e3fa7d51fdf8a6a35d25a15}{lv\+\_\+indev\+\_\+stop\+\_\+processing}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_ae3e5517ee080bf69e058b820f5117153}{lv\+\_\+indev\+\_\+reset\+\_\+long\+\_\+press}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a007c53b2a7d206c77bc1d30ad03bb18e}{lv\+\_\+indev\+\_\+set\+\_\+cursor}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}cur\+\_\+obj)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_aa6f0e316052745e71c1b482ac85861cf}{lv\+\_\+indev\+\_\+set\+\_\+group}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*}group)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_ab3ce6a0dada92f59f10108127acbb206}{lv\+\_\+indev\+\_\+set\+\_\+button\+\_\+points}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, const \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} points\+[$\,$]\+)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a0b8a336a876a82dbb2d24583197792a9}{lv\+\_\+indev\+\_\+get\+\_\+point}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}point)
+\item 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a7475d50eee3654103c4b0ff57f97b45f}{lv\+\_\+indev\+\_\+get\+\_\+gesture\+\_\+dir}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_ab14bdb02be684b1c900a56d7cf0e634c}{lv\+\_\+indev\+\_\+get\+\_\+key}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_aa37af6aa3d0d4900b22d0924516eb5d4}{lv\+\_\+indev\+\_\+get\+\_\+short\+\_\+click\+\_\+streak}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a44ac7ca3610ee9da61529a2f0de88bb0}{lv\+\_\+indev\+\_\+get\+\_\+scroll\+\_\+dir}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a6484094ee772801d588b712296504655}{lv\+\_\+indev\+\_\+get\+\_\+scroll\+\_\+obj}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a1f9296166ded7fef0b5f84cc62751d23}{lv\+\_\+indev\+\_\+get\+\_\+vect}} (const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}point)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_aa96ecc36b418811e3c0744dfae4ee47c}{lv\+\_\+indev\+\_\+get\+\_\+cursor}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_acafef51429b0390becb80d9f940cc3f4}{lv\+\_\+indev\+\_\+wait\+\_\+release}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a87b9f0a3f4f9316519165ee3b26a7eee}{lv\+\_\+indev\+\_\+get\+\_\+active\+\_\+obj}} (void)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_add81117ae6628abefa5b2441ccc3f063}{lv\+\_\+indev\+\_\+get\+\_\+read\+\_\+timer}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_aa9f1dc332f31a9a2a1d06b35ac59af3b}{lv\+\_\+indev\+\_\+set\+\_\+mode}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}} mode)
+\item 
+\doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a66446ce3db86330163b1914f4d30e157}{lv\+\_\+indev\+\_\+get\+\_\+mode}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a46a3a4e5e556c73f3c1d098de8214a96}{lv\+\_\+indev\+\_\+search\+\_\+obj}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}obj, \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}point)
+\item 
+void \doxymbox{\hyperlink{lv__indev_8h_a46bde759f0bece840d99cc4e5663efe5}{lv\+\_\+indev\+\_\+add\+\_\+event\+\_\+cb}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__event_8h_a1d7efbeaef5477ecbcf4d6e799694338}{lv\+\_\+event\+\_\+cb\+\_\+t}} event\+\_\+cb, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} filter, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a60379c180a4fee84be7e3aeba8cc7443}{lv\+\_\+indev\+\_\+get\+\_\+event\+\_\+count}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev)
+\item 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ab42bca9bdf429577209b23c0fb53d6b7}{lv\+\_\+event\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{lv__indev_8h_a56575a2a55d83285a44367e0e729d500}{lv\+\_\+indev\+\_\+get\+\_\+event\+\_\+dsc}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} index)
+\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lv__indev_8h_ae408fea18244411b5ff6c94ecbba73fc}{lv\+\_\+indev\+\_\+remove\+\_\+event}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} index)
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_a285484c2a1900223ce2801a9710d7c8b}{lv\+\_\+indev\+\_\+remove\+\_\+event\+\_\+cb\+\_\+with\+\_\+user\+\_\+data}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__event_8h_a1d7efbeaef5477ecbcf4d6e799694338}{lv\+\_\+event\+\_\+cb\+\_\+t}} event\+\_\+cb, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\item 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} \doxymbox{\hyperlink{lv__indev_8h_ace920dc5d9895bc949c216a598199a33}{lv\+\_\+indev\+\_\+send\+\_\+event}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}} code, void \texorpdfstring{$\ast$}{*}param)
+\end{DoxyCompactItemize}
+
+
+\label{lv__indev_8h_doc-typedef-members}
+\Hypertarget{lv__indev_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_read\_cb\_t@{lv\_indev\_read\_cb\_t}}
+\index{lv\_indev\_read\_cb\_t@{lv\_indev\_read\_cb\_t}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_read\_cb\_t}{lv\_indev\_read\_cb\_t}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ab0ec616a717fef72893a8becebec4874} 
+typedef void(\texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t) (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}indev, \doxymbox{\hyperlink{structlv__indev__data__t}{lv\+\_\+indev\+\_\+data\+\_\+t}} \texorpdfstring{$\ast$}{*}data)}
+
+
+
+\label{lv__indev_8h_doc-enum-members}
+\Hypertarget{lv__indev_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_gesture\_type\_t@{lv\_indev\_gesture\_type\_t}}
+\index{lv\_indev\_gesture\_type\_t@{lv\_indev\_gesture\_type\_t}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_gesture\_type\_t}{lv\_indev\_gesture\_type\_t}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883} 
+enum \doxymbox{\hyperlink{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883}{lv\+\_\+indev\+\_\+gesture\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_NONE@{LV\_INDEV\_GESTURE\_NONE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_NONE@{LV\_INDEV\_GESTURE\_NONE}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883ab05a8208171c546da3aa592cc067f845}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883ab05a8208171c546da3aa592cc067f845} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_PINCH@{LV\_INDEV\_GESTURE\_PINCH}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_PINCH@{LV\_INDEV\_GESTURE\_PINCH}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeda37550e5bae7c05e43c8ead6463a51}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeda37550e5bae7c05e43c8ead6463a51} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+PINCH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_SWIPE@{LV\_INDEV\_GESTURE\_SWIPE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_SWIPE@{LV\_INDEV\_GESTURE\_SWIPE}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aa9fae241ea73374e5a21b8948589bd24}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aa9fae241ea73374e5a21b8948589bd24} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+SWIPE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_ROTATE@{LV\_INDEV\_GESTURE\_ROTATE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_ROTATE@{LV\_INDEV\_GESTURE\_ROTATE}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a3f4acac56016878796da253c61a58676}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a3f4acac56016878796da253c61a58676} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+ROTATE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_TWO\_FINGERS\_SWIPE@{LV\_INDEV\_GESTURE\_TWO\_FINGERS\_SWIPE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_TWO\_FINGERS\_SWIPE@{LV\_INDEV\_GESTURE\_TWO\_FINGERS\_SWIPE}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeac3ea7b94d9b68a9636ecac78fd8f72}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883aeac3ea7b94d9b68a9636ecac78fd8f72} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+TWO\+\_\+\+FINGERS\+\_\+\+SWIPE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_SCROLL@{LV\_INDEV\_GESTURE\_SCROLL}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_SCROLL@{LV\_INDEV\_GESTURE\_SCROLL}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a559d67bb4f1e7239af1c88c447b76605}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a559d67bb4f1e7239af1c88c447b76605} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+SCROLL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_GESTURE\_CNT@{LV\_INDEV\_GESTURE\_CNT}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_GESTURE\_CNT@{LV\_INDEV\_GESTURE\_CNT}}
+}\Hypertarget{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a41820b0042f88628c7974fd3c84f8034}\label{lv__indev_8h_a2ed8b3799e0f8be11805d22dc68ab883a41820b0042f88628c7974fd3c84f8034} 
+LV\+\_\+\+INDEV\+\_\+\+GESTURE\+\_\+\+CNT&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_mode\_t@{lv\_indev\_mode\_t}}
+\index{lv\_indev\_mode\_t@{lv\_indev\_mode\_t}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_mode\_t}{lv\_indev\_mode\_t}}
+{\footnotesize\ttfamily \label{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052} 
+enum \doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_MODE\_NONE@{LV\_INDEV\_MODE\_NONE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_MODE\_NONE@{LV\_INDEV\_MODE\_NONE}}
+}\Hypertarget{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a38f0b5febb6a495d5f345f1046f1e37f}\label{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a38f0b5febb6a495d5f345f1046f1e37f} 
+LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_MODE\_TIMER@{LV\_INDEV\_MODE\_TIMER}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_MODE\_TIMER@{LV\_INDEV\_MODE\_TIMER}}
+}\Hypertarget{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a7b1c4a38c27a60b75d4a82f45346cc52}\label{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052a7b1c4a38c27a60b75d4a82f45346cc52} 
+LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+TIMER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_MODE\_EVENT@{LV\_INDEV\_MODE\_EVENT}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_MODE\_EVENT@{LV\_INDEV\_MODE\_EVENT}}
+}\Hypertarget{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052aca5969b5c467dd2d63a93141238874b8}\label{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052aca5969b5c467dd2d63a93141238874b8} 
+LV\+\_\+\+INDEV\+\_\+\+MODE\+\_\+\+EVENT&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_state\_t@{lv\_indev\_state\_t}}
+\index{lv\_indev\_state\_t@{lv\_indev\_state\_t}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_state\_t}{lv\_indev\_state\_t}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956} 
+enum \doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\+\_\+indev\+\_\+state\+\_\+t}}}
+
+States for input devices \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_STATE\_RELEASED@{LV\_INDEV\_STATE\_RELEASED}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_STATE\_RELEASED@{LV\_INDEV\_STATE\_RELEASED}}
+}\Hypertarget{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aa17473382979b77cb5f5388ff3e11b2e}\label{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aa17473382979b77cb5f5388ff3e11b2e} 
+LV\+\_\+\+INDEV\+\_\+\+STATE\+\_\+\+RELEASED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_STATE\_PRESSED@{LV\_INDEV\_STATE\_PRESSED}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_STATE\_PRESSED@{LV\_INDEV\_STATE\_PRESSED}}
+}\Hypertarget{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aae8cba42264e264514d9789425c14d39}\label{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956aae8cba42264e264514d9789425c14d39} 
+LV\+\_\+\+INDEV\+\_\+\+STATE\+\_\+\+PRESSED&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_type\_t@{lv\_indev\_type\_t}}
+\index{lv\_indev\_type\_t@{lv\_indev\_type\_t}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_type\_t}{lv\_indev\_type\_t}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b} 
+enum \doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}}}
+
+Possible input device types \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_TYPE\_NONE@{LV\_INDEV\_TYPE\_NONE}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_TYPE\_NONE@{LV\_INDEV\_TYPE\_NONE}}
+}\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba5c2a83039d7a8073d24569b85b6048f4}\label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba5c2a83039d7a8073d24569b85b6048f4} 
+LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+NONE&Uninitialized state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_TYPE\_POINTER@{LV\_INDEV\_TYPE\_POINTER}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_TYPE\_POINTER@{LV\_INDEV\_TYPE\_POINTER}}
+}\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba266ddfccb1f31d538489eea5667ebebf}\label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba266ddfccb1f31d538489eea5667ebebf} 
+LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER&Touch pad, mouse, external button \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_TYPE\_KEYPAD@{LV\_INDEV\_TYPE\_KEYPAD}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_TYPE\_KEYPAD@{LV\_INDEV\_TYPE\_KEYPAD}}
+}\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba9f8299c12ea91ab8e7a6e783b9b0664d}\label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5ba9f8299c12ea91ab8e7a6e783b9b0664d} 
+LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+KEYPAD&Keypad or keyboard \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_TYPE\_BUTTON@{LV\_INDEV\_TYPE\_BUTTON}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_TYPE\_BUTTON@{LV\_INDEV\_TYPE\_BUTTON}}
+}\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5baa9b43a6f629907e83436dd9cf7973f84}\label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5baa9b43a6f629907e83436dd9cf7973f84} 
+LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON&External (hardware button) which is assigned to a specific point of the screen \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LV\_INDEV\_TYPE\_ENCODER@{LV\_INDEV\_TYPE\_ENCODER}!lv\_indev.h@{lv\_indev.h}}
+\index{lv\_indev.h@{lv\_indev.h}!LV\_INDEV\_TYPE\_ENCODER@{LV\_INDEV\_TYPE\_ENCODER}}
+}\Hypertarget{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5bac14b17fb683f428c1bb935748ce0d5aa}\label{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5bac14b17fb683f428c1bb935748ce0d5aa} 
+LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+ENCODER&Encoder with only Left, Right turn and a Button \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{lv__indev_8h_doc-func-members}
+\Hypertarget{lv__indev_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__indev_8h_aa58335d6538ecf2a42ab04a545816e02}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_active@{lv\_indev\_active}}
+\index{lv\_indev\_active@{lv\_indev\_active}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_active()}{lv\_indev\_active()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aa58335d6538ecf2a42ab04a545816e02} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+active (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Get the currently processed input device. Can be used in action functions too. \begin{DoxyReturn}{Returns}
+pointer to the currently processed input device or NULL if no input device processing right now 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a46bde759f0bece840d99cc4e5663efe5}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_add\_event\_cb@{lv\_indev\_add\_event\_cb}}
+\index{lv\_indev\_add\_event\_cb@{lv\_indev\_add\_event\_cb}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_add\_event\_cb()}{lv\_indev\_add\_event\_cb()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a46bde759f0bece840d99cc4e5663efe5} 
+void lv\+\_\+indev\+\_\+add\+\_\+event\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a1d7efbeaef5477ecbcf4d6e799694338}{lv\+\_\+event\+\_\+cb\+\_\+t}}}]{event\+\_\+cb}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{filter}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+Add an event handler to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an indev \\
+\hline
+{\em event\+\_\+cb} & an event callback \\
+\hline
+{\em filter} & event code to react or {\ttfamily \doxylink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771a1abba2082b450de63c0052c342a4d66a}{LV\+\_\+\+EVENT\+\_\+\+ALL}} \\
+\hline
+{\em user\+\_\+data} & optional user\+\_\+data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a9e8fac2a3892deca39d80d90afdac1b3}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_create@{lv\_indev\_create}}
+\index{lv\_indev\_create@{lv\_indev\_create}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_create()}{lv\_indev\_create()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a9e8fac2a3892deca39d80d90afdac1b3} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+create (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Create an indev \begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to the created indev or NULL when allocation failed 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a15a817e6f1ce962760106c056abcf1b0}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_delete@{lv\_indev\_delete}}
+\index{lv\_indev\_delete@{lv\_indev\_delete}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_delete()}{lv\_indev\_delete()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a15a817e6f1ce962760106c056abcf1b0} 
+void lv\+\_\+indev\+\_\+delete (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Remove the provided input device. Make sure not to use the provided input device afterwards anymore. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to delete \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a15b3d1ab2db69590bcb926d72b0d49a7}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_enable@{lv\_indev\_enable}}
+\index{lv\_indev\_enable@{lv\_indev\_enable}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_enable()}{lv\_indev\_enable()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a15b3d1ab2db69590bcb926d72b0d49a7} 
+void lv\+\_\+indev\+\_\+enable (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}}}]{enable}{}\end{DoxyParamCaption})}
+
+Enable or disable one or all input devices (default enabled) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device or NULL to enable/\+disable all of them \\
+\hline
+{\em enable} & true to enable, false to disable \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a87b9f0a3f4f9316519165ee3b26a7eee}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_active\_obj@{lv\_indev\_get\_active\_obj}}
+\index{lv\_indev\_get\_active\_obj@{lv\_indev\_get\_active\_obj}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_active\_obj()}{lv\_indev\_get\_active\_obj()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a87b9f0a3f4f9316519165ee3b26a7eee} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+active\+\_\+obj (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Gets a pointer to the currently active object in the currently processed input device. \begin{DoxyReturn}{Returns}
+pointer to currently active object or NULL if no active object 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_aa96ecc36b418811e3c0744dfae4ee47c}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_cursor@{lv\_indev\_get\_cursor}}
+\index{lv\_indev\_get\_cursor@{lv\_indev\_get\_cursor}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_cursor()}{lv\_indev\_get\_cursor()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aa96ecc36b418811e3c0744dfae4ee47c} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+cursor (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the cursor object of an input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER only) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the cursor object 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a184892ae79df198e95b0be8b2503a699}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_display@{lv\_indev\_get\_display}}
+\index{lv\_indev\_get\_display@{lv\_indev\_get\_display}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_display()}{lv\_indev\_get\_display()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a184892ae79df198e95b0be8b2503a699} 
+\doxymbox{\hyperlink{esp__lvgl__port__compatibility_8h_a42bbe6593a4e291e9a7271748f34427a}{lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+display (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get a pointer to the assigned display of the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the assigned display or NULL if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a9d7518f34669ae24da3c119671d32ff0}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_driver\_data@{lv\_indev\_get\_driver\_data}}
+\index{lv\_indev\_get\_driver\_data@{lv\_indev\_get\_driver\_data}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_driver\_data()}{lv\_indev\_get\_driver\_data()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a9d7518f34669ae24da3c119671d32ff0} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+driver\+\_\+data (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get a pointer to the driver data of the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the driver data or NULL if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a60379c180a4fee84be7e3aeba8cc7443}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_event\_count@{lv\_indev\_get\_event\_count}}
+\index{lv\_indev\_get\_event\_count@{lv\_indev\_get\_event\_count}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_event\_count()}{lv\_indev\_get\_event\_count()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a60379c180a4fee84be7e3aeba8cc7443} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+event\+\_\+count (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the number of event attached to an indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an indev \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of events 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a56575a2a55d83285a44367e0e729d500}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_event\_dsc@{lv\_indev\_get\_event\_dsc}}
+\index{lv\_indev\_get\_event\_dsc@{lv\_indev\_get\_event\_dsc}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_event\_dsc()}{lv\_indev\_get\_event\_dsc()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a56575a2a55d83285a44367e0e729d500} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ab42bca9bdf429577209b23c0fb53d6b7}{lv\+\_\+event\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+event\+\_\+dsc (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{index}{}\end{DoxyParamCaption})}
+
+Get an event descriptor for an event 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an indev \\
+\hline
+{\em index} & the index of the event \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the event descriptor 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a7475d50eee3654103c4b0ff57f97b45f}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_gesture\_dir@{lv\_indev\_get\_gesture\_dir}}
+\index{lv\_indev\_get\_gesture\_dir@{lv\_indev\_get\_gesture\_dir}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_gesture\_dir()}{lv\_indev\_get\_gesture\_dir()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a7475d50eee3654103c4b0ff57f97b45f} 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+gesture\+\_\+dir (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the current gesture direct 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current gesture direct 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a574026316ea0cd55fa38fd6d5c45d46e}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_group@{lv\_indev\_get\_group}}
+\index{lv\_indev\_get\_group@{lv\_indev\_get\_group}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_group()}{lv\_indev\_get\_group()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a574026316ea0cd55fa38fd6d5c45d46e} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+group (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the indev assigned group 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to indev assigned group or NULL if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_ab14bdb02be684b1c900a56d7cf0e634c}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_key@{lv\_indev\_get\_key}}
+\index{lv\_indev\_get\_key@{lv\_indev\_get\_key}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_key()}{lv\_indev\_get\_key()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ab14bdb02be684b1c900a56d7cf0e634c} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+key (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the last pressed key of an input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+KEYPAD) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the last pressed key (0 on error) 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a66446ce3db86330163b1914f4d30e157}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_mode@{lv\_indev\_get\_mode}}
+\index{lv\_indev\_get\_mode@{lv\_indev\_get\_mode}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_mode()}{lv\_indev\_get\_mode()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a66446ce3db86330163b1914f4d30e157} 
+\doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+mode (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the input device\textquotesingle{}s running mode. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the running mode for the specified input device. 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a5ac34da1402e8d7540b17627d262ac01}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_next@{lv\_indev\_get\_next}}
+\index{lv\_indev\_get\_next@{lv\_indev\_get\_next}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_next()}{lv\_indev\_get\_next()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a5ac34da1402e8d7540b17627d262ac01} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+next (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the next input device. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to the current input device. NULL to initialize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the next input device or NULL if there are no more. Provide the first input device when the parameter is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a0b8a336a876a82dbb2d24583197792a9}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_point@{lv\_indev\_get\_point}}
+\index{lv\_indev\_get\_point@{lv\_indev\_get\_point}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_point()}{lv\_indev\_get\_point()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a0b8a336a876a82dbb2d24583197792a9} 
+void lv\+\_\+indev\+\_\+get\+\_\+point (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{point}{}\end{DoxyParamCaption})}
+
+Get the last point of an input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER and LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em point} & pointer to a point to store the result \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a421f19f80011421052bb03610f8f7825}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_press\_moved@{lv\_indev\_get\_press\_moved}}
+\index{lv\_indev\_get\_press\_moved@{lv\_indev\_get\_press\_moved}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_press\_moved()}{lv\_indev\_get\_press\_moved()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a421f19f80011421052bb03610f8f7825} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+indev\+\_\+get\+\_\+press\+\_\+moved (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get whether indev is moved while pressed 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ indev is moved while pressed; false:\+ indev is not moved while pressed 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_ac31b3d74656a0892330359adb39b81cc}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_read\_cb@{lv\_indev\_get\_read\_cb}}
+\index{lv\_indev\_get\_read\_cb@{lv\_indev\_get\_read\_cb}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_read\_cb()}{lv\_indev\_get\_read\_cb()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ac31b3d74656a0892330359adb39b81cc} 
+\doxymbox{\hyperlink{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}{lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+read\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the callback function to read input device data to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to callback function to read input device data or NULL if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_add81117ae6628abefa5b2441ccc3f063}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_read\_timer@{lv\_indev\_get\_read\_timer}}
+\index{lv\_indev\_get\_read\_timer@{lv\_indev\_get\_read\_timer}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_read\_timer()}{lv\_indev\_get\_read\_timer()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_add81117ae6628abefa5b2441ccc3f063} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+read\+\_\+timer (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get a pointer to the indev read timer to modify its parameters with {\ttfamily lv\+\_\+timer\+\_\+...} functions. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the indev read refresher timer. (NULL on error) 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a44ac7ca3610ee9da61529a2f0de88bb0}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_scroll\_dir@{lv\_indev\_get\_scroll\_dir}}
+\index{lv\_indev\_get\_scroll\_dir@{lv\_indev\_get\_scroll\_dir}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_scroll\_dir()}{lv\_indev\_get\_scroll\_dir()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a44ac7ca3610ee9da61529a2f0de88bb0} 
+\doxymbox{\hyperlink{lv__area_8h_a3c198d15464c5c78c63caac92e2ab162}{lv\+\_\+dir\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+scroll\+\_\+dir (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Check the current scroll direction of an input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER and LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+DIR\+\_\+\+NONE:\+ no scrolling now LV\+\_\+\+DIR\+\_\+\+HOR/\+\+VER 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a6484094ee772801d588b712296504655}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_scroll\_obj@{lv\_indev\_get\_scroll\_obj}}
+\index{lv\_indev\_get\_scroll\_obj@{lv\_indev\_get\_scroll\_obj}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_scroll\_obj()}{lv\_indev\_get\_scroll\_obj()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a6484094ee772801d588b712296504655} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+scroll\+\_\+obj (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the currently scrolled object (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER and LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the currently scrolled object or NULL if no scrolling by this indev 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_aa37af6aa3d0d4900b22d0924516eb5d4}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_short\_click\_streak@{lv\_indev\_get\_short\_click\_streak}}
+\index{lv\_indev\_get\_short\_click\_streak@{lv\_indev\_get\_short\_click\_streak}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_short\_click\_streak()}{lv\_indev\_get\_short\_click\_streak()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aa37af6aa3d0d4900b22d0924516eb5d4} 
+\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+short\+\_\+click\+\_\+streak (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the counter for consecutive clicks within a short distance and time. The counter is updated before LV\+\_\+\+EVENT\+\_\+\+SHORT\+\_\+\+CLICKED is fired. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+short click streak counter 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_aecf2cd14b5336156819248c870db3a6f}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_state@{lv\_indev\_get\_state}}
+\index{lv\_indev\_get\_state@{lv\_indev\_get\_state}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_state()}{lv\_indev\_get\_state()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aecf2cd14b5336156819248c870db3a6f} 
+\doxymbox{\hyperlink{lv__indev_8h_aacdf3efce400e71895f5efb42ee24956}{lv\+\_\+indev\+\_\+state\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+state (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the indev state 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Indev state or LV\+\_\+\+INDEV\+\_\+\+STATE\+\_\+\+RELEASED if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a95c3bddace5c8c574705340580365145}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_type@{lv\_indev\_get\_type}}
+\index{lv\_indev\_get\_type@{lv\_indev\_get\_type}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_type()}{lv\_indev\_get\_type()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a95c3bddace5c8c574705340580365145} 
+\doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}} lv\+\_\+indev\+\_\+get\+\_\+type (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get the type of an input device 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type of the input device from {\ttfamily lv\+\_\+hal\+\_\+indev\+\_\+type\+\_\+t} ({\ttfamily LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+...}) 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a8c3cdb1d215e92995d0f5e85578c27d8}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_user\_data@{lv\_indev\_get\_user\_data}}
+\index{lv\_indev\_get\_user\_data@{lv\_indev\_get\_user\_data}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_user\_data()}{lv\_indev\_get\_user\_data()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a8c3cdb1d215e92995d0f5e85578c27d8} 
+void \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+get\+\_\+user\+\_\+data (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Get a pointer to the user data of the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the user data or NULL if indev is NULL 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a1f9296166ded7fef0b5f84cc62751d23}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_get\_vect@{lv\_indev\_get\_vect}}
+\index{lv\_indev\_get\_vect@{lv\_indev\_get\_vect}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_get\_vect()}{lv\_indev\_get\_vect()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a1f9296166ded7fef0b5f84cc62751d23} 
+void lv\+\_\+indev\+\_\+get\+\_\+vect (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{point}{}\end{DoxyParamCaption})}
+
+Get the movement vector of an input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+POINTER and LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em point} & pointer to a point to store the types.\+pointer.\+vector \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a5beec9c2aee30d58ebd61acc58923259}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_read@{lv\_indev\_read}}
+\index{lv\_indev\_read@{lv\_indev\_read}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_read()}{lv\_indev\_read()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a5beec9c2aee30d58ebd61acc58923259} 
+void lv\+\_\+indev\+\_\+read (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Read data from an input device. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a92840edd1f8c0ae2d32906db9f196355}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_read\_timer\_cb@{lv\_indev\_read\_timer\_cb}}
+\index{lv\_indev\_read\_timer\_cb@{lv\_indev\_read\_timer\_cb}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_read\_timer\_cb()}{lv\_indev\_read\_timer\_cb()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a92840edd1f8c0ae2d32906db9f196355} 
+void lv\+\_\+indev\+\_\+read\+\_\+timer\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aab341e84d977d67aec9b766ccd6d3173}{lv\+\_\+timer\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{timer}{}\end{DoxyParamCaption})}
+
+Called periodically to read the input devices 
+\begin{DoxyParams}{Parameters}
+{\em timer} & pointer to a timer to read \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_ae408fea18244411b5ff6c94ecbba73fc}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_remove\_event@{lv\_indev\_remove\_event}}
+\index{lv\_indev\_remove\_event@{lv\_indev\_remove\_event}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_remove\_event()}{lv\_indev\_remove\_event()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ae408fea18244411b5ff6c94ecbba73fc} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lv\+\_\+indev\+\_\+remove\+\_\+event (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{index}{}\end{DoxyParamCaption})}
+
+Remove an event 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an indev \\
+\hline
+{\em index} & the index of the event to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true:\+ and event was removed; false:\+ no event was removed 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a285484c2a1900223ce2801a9710d7c8b}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_remove\_event\_cb\_with\_user\_data@{lv\_indev\_remove\_event\_cb\_with\_user\_data}}
+\index{lv\_indev\_remove\_event\_cb\_with\_user\_data@{lv\_indev\_remove\_event\_cb\_with\_user\_data}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_remove\_event\_cb\_with\_user\_data()}{lv\_indev\_remove\_event\_cb\_with\_user\_data()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a285484c2a1900223ce2801a9710d7c8b} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} lv\+\_\+indev\+\_\+remove\+\_\+event\+\_\+cb\+\_\+with\+\_\+user\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a1d7efbeaef5477ecbcf4d6e799694338}{lv\+\_\+event\+\_\+cb\+\_\+t}}}]{event\+\_\+cb}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+Remove an event\+\_\+cb with user\+\_\+data 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to a indev \\
+\hline
+{\em event\+\_\+cb} & the event\+\_\+cb of the event to remove \\
+\hline
+{\em user\+\_\+data} & user\+\_\+data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the count of the event removed 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_a716dec0e5e4bf06011027bacaee81183}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_reset@{lv\_indev\_reset}}
+\index{lv\_indev\_reset@{lv\_indev\_reset}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_reset()}{lv\_indev\_reset()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a716dec0e5e4bf06011027bacaee81183} 
+void lv\+\_\+indev\+\_\+reset (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{}\end{DoxyParamCaption})}
+
+Reset one or all input devices 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device to reset or NULL to reset all of them \\
+\hline
+{\em obj} & pointer to an object which triggers the reset. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_ae3e5517ee080bf69e058b820f5117153}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_reset\_long\_press@{lv\_indev\_reset\_long\_press}}
+\index{lv\_indev\_reset\_long\_press@{lv\_indev\_reset\_long\_press}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_reset\_long\_press()}{lv\_indev\_reset\_long\_press()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ae3e5517ee080bf69e058b820f5117153} 
+void lv\+\_\+indev\+\_\+reset\+\_\+long\+\_\+press (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Reset the long press state of an input device 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a46a3a4e5e556c73f3c1d098de8214a96}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_search\_obj@{lv\_indev\_search\_obj}}
+\index{lv\_indev\_search\_obj@{lv\_indev\_search\_obj}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_search\_obj()}{lv\_indev\_search\_obj()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a46a3a4e5e556c73f3c1d098de8214a96} 
+\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*} lv\+\_\+indev\+\_\+search\+\_\+obj (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{obj}{, }\item[{\doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{point}{}\end{DoxyParamCaption})}
+
+Search the most top, clickable object by a point 
+\begin{DoxyParams}{Parameters}
+{\em obj} & pointer to a start object, typically the screen \\
+\hline
+{\em point} & pointer to a point for searching the most top child \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the found object or NULL if there was no suitable object 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_ace920dc5d9895bc949c216a598199a33}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_send\_event@{lv\_indev\_send\_event}}
+\index{lv\_indev\_send\_event@{lv\_indev\_send\_event}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_send\_event()}{lv\_indev\_send\_event()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ace920dc5d9895bc949c216a598199a33} 
+\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\+\_\+result\+\_\+t}} lv\+\_\+indev\+\_\+send\+\_\+event (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\+\_\+event\+\_\+code\+\_\+t}}}]{code}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{param}{}\end{DoxyParamCaption})}
+
+Send an event to an indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an indev \\
+\hline
+{\em code} & an event code. LV\+\_\+\+EVENT\+\_\+... \\
+\hline
+{\em param} & optional param \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+LV\+\_\+\+RESULT\+\_\+\+OK:\+ indev wasn\textquotesingle{}t deleted in the event. 
+\end{DoxyReturn}
+\Hypertarget{lv__indev_8h_ab3ce6a0dada92f59f10108127acbb206}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_button\_points@{lv\_indev\_set\_button\_points}}
+\index{lv\_indev\_set\_button\_points@{lv\_indev\_set\_button\_points}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_button\_points()}{lv\_indev\_set\_button\_points()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ab3ce6a0dada92f59f10108127acbb206} 
+void lv\+\_\+indev\+\_\+set\+\_\+button\+\_\+points (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{const \doxymbox{\hyperlink{structlv__point__t}{lv\+\_\+point\+\_\+t}}}]{points}{\+[$\,$]\+}\end{DoxyParamCaption})}
+
+Set the an array of points for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+BUTTON. These points will be assigned to the buttons to press a specific point on the screen 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em points} & array of points \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a007c53b2a7d206c77bc1d30ad03bb18e}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_cursor@{lv\_indev\_set\_cursor}}
+\index{lv\_indev\_set\_cursor@{lv\_indev\_set\_cursor}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_cursor()}{lv\_indev\_set\_cursor()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a007c53b2a7d206c77bc1d30ad03bb18e} 
+void lv\+\_\+indev\+\_\+set\+\_\+cursor (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cur\+\_\+obj}{}\end{DoxyParamCaption})}
+
+Set a cursor for a pointer input device (for LV\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+POINTER and LV\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+BUTTON) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em cur\+\_\+obj} & pointer to an object to be used as cursor \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_adea9a1f1e97be53ad7ee5980f2cb1c85}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_display@{lv\_indev\_set\_display}}
+\index{lv\_indev\_set\_display@{lv\_indev\_set\_display}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_display()}{lv\_indev\_set\_display()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_adea9a1f1e97be53ad7ee5980f2cb1c85} 
+void lv\+\_\+indev\+\_\+set\+\_\+display (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{struct \doxymbox{\hyperlink{struct__lv__display__t}{\+\_\+lv\+\_\+display\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+Assign a display to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em disp} & pointer to an display \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a41f44ef210dbc4e31244bb94baa95ec1}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_driver\_data@{lv\_indev\_set\_driver\_data}}
+\index{lv\_indev\_set\_driver\_data@{lv\_indev\_set\_driver\_data}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_driver\_data()}{lv\_indev\_set\_driver\_data()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a41f44ef210dbc4e31244bb94baa95ec1} 
+void lv\+\_\+indev\+\_\+set\+\_\+driver\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{driver\+\_\+data}{}\end{DoxyParamCaption})}
+
+Set driver data to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em driver\+\_\+data} & pointer to driver data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_aa6f0e316052745e71c1b482ac85861cf}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_group@{lv\_indev\_set\_group}}
+\index{lv\_indev\_set\_group@{lv\_indev\_set\_group}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_group()}{lv\_indev\_set\_group()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aa6f0e316052745e71c1b482ac85861cf} 
+void lv\+\_\+indev\+\_\+set\+\_\+group (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a0fa2dbb9ed984eb2abdfc8c0b1990d00}{lv\+\_\+group\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{group}{}\end{DoxyParamCaption})}
+
+Set a destination group for a keypad input device (for LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+\+KEYPAD) 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em group} & pointer to a group \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_ad0014f832984ae64d9898bde6e469b8b}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_long\_press\_repeat\_time@{lv\_indev\_set\_long\_press\_repeat\_time}}
+\index{lv\_indev\_set\_long\_press\_repeat\_time@{lv\_indev\_set\_long\_press\_repeat\_time}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_long\_press\_repeat\_time()}{lv\_indev\_set\_long\_press\_repeat\_time()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ad0014f832984ae64d9898bde6e469b8b} 
+void lv\+\_\+indev\+\_\+set\+\_\+long\+\_\+press\+\_\+repeat\+\_\+time (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{long\+\_\+press\+\_\+repeat\+\_\+time}{}\end{DoxyParamCaption})}
+
+Set long press repeat time to indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to input device \\
+\hline
+{\em long\+\_\+press\+\_\+repeat\+\_\+time} & long press repeat time in ms \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_af7930caa929cdf02b948680c3ab4217c}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_long\_press\_time@{lv\_indev\_set\_long\_press\_time}}
+\index{lv\_indev\_set\_long\_press\_time@{lv\_indev\_set\_long\_press\_time}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_long\_press\_time()}{lv\_indev\_set\_long\_press\_time()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_af7930caa929cdf02b948680c3ab4217c} 
+void lv\+\_\+indev\+\_\+set\+\_\+long\+\_\+press\+\_\+time (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}]{long\+\_\+press\+\_\+time}{}\end{DoxyParamCaption})}
+
+Set long press time to indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to input device \\
+\hline
+{\em long\+\_\+press\+\_\+time} & time long press time in ms \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_aa9f1dc332f31a9a2a1d06b35ac59af3b}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_mode@{lv\_indev\_set\_mode}}
+\index{lv\_indev\_set\_mode@{lv\_indev\_set\_mode}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_mode()}{lv\_indev\_set\_mode()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aa9f1dc332f31a9a2a1d06b35ac59af3b} 
+void lv\+\_\+indev\+\_\+set\+\_\+mode (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__indev_8h_abea65055ab3d1ceaa293aca7abee3052}{lv\+\_\+indev\+\_\+mode\+\_\+t}}}]{mode}{}\end{DoxyParamCaption})}
+
+Set the input device\textquotesingle{}s event model:\+ event-\/driven mode or timer mode. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em mode} & the mode of input device \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_ac8bc2642f0f2440e76e9d39b6891eb52}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_read\_cb@{lv\_indev\_set\_read\_cb}}
+\index{lv\_indev\_set\_read\_cb@{lv\_indev\_set\_read\_cb}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_read\_cb()}{lv\_indev\_set\_read\_cb()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ac8bc2642f0f2440e76e9d39b6891eb52} 
+void lv\+\_\+indev\+\_\+set\+\_\+read\+\_\+cb (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__indev_8h_ab0ec616a717fef72893a8becebec4874}{lv\+\_\+indev\+\_\+read\+\_\+cb\+\_\+t}}}]{read\+\_\+cb}{}\end{DoxyParamCaption})}
+
+Set a callback function to read input device data to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em read\+\_\+cb} & pointer to callback function to read input device data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a65d948411df488b6b1585b18e24dadd6}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_scroll\_limit@{lv\_indev\_set\_scroll\_limit}}
+\index{lv\_indev\_set\_scroll\_limit@{lv\_indev\_set\_scroll\_limit}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_scroll\_limit()}{lv\_indev\_set\_scroll\_limit()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a65d948411df488b6b1585b18e24dadd6} 
+void lv\+\_\+indev\+\_\+set\+\_\+scroll\+\_\+limit (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{scroll\+\_\+limit}{}\end{DoxyParamCaption})}
+
+Set scroll limit to the input device 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em scroll\+\_\+limit} & the number of pixels to slide before actually drag the object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a430fedd717eb8ede0100248eeaad09b8}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_scroll\_throw@{lv\_indev\_set\_scroll\_throw}}
+\index{lv\_indev\_set\_scroll\_throw@{lv\_indev\_set\_scroll\_throw}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_scroll\_throw()}{lv\_indev\_set\_scroll\_throw()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a430fedd717eb8ede0100248eeaad09b8} 
+void lv\+\_\+indev\+\_\+set\+\_\+scroll\+\_\+throw (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{scroll\+\_\+throw}{}\end{DoxyParamCaption})}
+
+Set scroll throw slow-\/down to the indev. Greater value means faster slow-\/down 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em scroll\+\_\+throw} & the slow-\/down in \+[\%]\+ \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_ad621c9f885cb2304809e295ba0b71b76}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_type@{lv\_indev\_set\_type}}
+\index{lv\_indev\_set\_type@{lv\_indev\_set\_type}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_type()}{lv\_indev\_set\_type()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_ad621c9f885cb2304809e295ba0b71b76} 
+void lv\+\_\+indev\+\_\+set\+\_\+type (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{\doxymbox{\hyperlink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}}}]{indev\+\_\+type}{}\end{DoxyParamCaption})}
+
+Set the type of an input device 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em indev\+\_\+type} & the type of the input device from {\ttfamily \doxylink{lv__indev_8h_a11213c9864502e382d5f19b9e6b2de5b}{lv\+\_\+indev\+\_\+type\+\_\+t}} ({\ttfamily LV\+\_\+\+INDEV\+\_\+\+TYPE\+\_\+...}) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_a9b08a9571b4db7906c169b15822f196a}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_set\_user\_data@{lv\_indev\_set\_user\_data}}
+\index{lv\_indev\_set\_user\_data@{lv\_indev\_set\_user\_data}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_set\_user\_data()}{lv\_indev\_set\_user\_data()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_a9b08a9571b4db7906c169b15822f196a} 
+void lv\+\_\+indev\+\_\+set\+\_\+user\+\_\+data (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+Set user data to the indev 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+{\em user\+\_\+data} & pointer to user data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_aec933a970e3fa7d51fdf8a6a35d25a15}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_stop\_processing@{lv\_indev\_stop\_processing}}
+\index{lv\_indev\_stop\_processing@{lv\_indev\_stop\_processing}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_stop\_processing()}{lv\_indev\_stop\_processing()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_aec933a970e3fa7d51fdf8a6a35d25a15} 
+void lv\+\_\+indev\+\_\+stop\+\_\+processing (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Touch and key related events are sent to the input device first and to the widget after that. If this functions called in an indev event, the event won\textquotesingle{}t be sent to the widget. 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__indev_8h_acafef51429b0390becb80d9f940cc3f4}\index{lv\_indev.h@{lv\_indev.h}!lv\_indev\_wait\_release@{lv\_indev\_wait\_release}}
+\index{lv\_indev\_wait\_release@{lv\_indev\_wait\_release}!lv\_indev.h@{lv\_indev.h}}
+\doxysubsubsection{\texorpdfstring{lv\_indev\_wait\_release()}{lv\_indev\_wait\_release()}}
+{\footnotesize\ttfamily \label{lv__indev_8h_acafef51429b0390becb80d9f940cc3f4} 
+void lv\+\_\+indev\+\_\+wait\+\_\+release (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a7fc4c271f4ad53b4949e26b2999a1785}{lv\+\_\+indev\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{indev}{}\end{DoxyParamCaption})}
+
+Do nothing until the next release 
+\begin{DoxyParams}{Parameters}
+{\em indev} & pointer to an input device \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,233 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+src/\+draw/\+sw/\+blend/\+lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+to\+\_\+argb8888\+\_\+premultiplied.c File Reference}
+\hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c}{}\label{lv__draw__sw__blend__to__argb8888__premultiplied_8c}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/blend/lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/draw/sw/blend/lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+
+
+Implementation of ARGB8888 Premultiplied blending for LVGL.  
+
+
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+to\+\_\+argb8888\+\_\+premultiplied.\+h"{}}\newline
+{\ttfamily \+\#include "{}lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+misc/\+lv\+\_\+math.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+display/\+lv\+\_\+display.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+core/\+lv\+\_\+refr.\+h"{}}\newline
+{\ttfamily \+\#include "{}../\+../\+../\+misc/\+lv\+\_\+color.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structlv__color__mix__alpha__cache__t}{lv\+\_\+color\+\_\+mix\+\_\+alpha\+\_\+cache\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae55ace05816ee7b2e6892dcc181ce530}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a05b735461224c56ecd0ec2d42b3b9a1a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_af6c6a8d39ad7e3b030ec227b549ab2ce}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae0c2bd60cfa038b76960323ca2398c99}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_afd0641698c951edc66edcb79e884f79a}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ac3b11e87e19cfe3262cafdaaabd74599}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae12e8f9ee2a1fd444aa8d0c426093505}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a64ff8b05af023c4c86a490cfddec2af9}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ab8f83fb10b27f0566f2656ba6717d591}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aaef19efbcb39724381d6b4fc2adda9fb}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a27c97300c78a799d2deca98e1b3c060c}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK}}(...)
+\item 
+\+\#define \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aa853e7149f1a3a02b5f5631517110b9b}{LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA}}(...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aab59386e76cfcda4446517fe49a6c2fd}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+color\+\_\+to\+\_\+argb8888\+\_\+premultiplied}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeb5c9a772646e55a6ad08704d2c7e86}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+fill\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\begin{DoxyCompactList}\small\item\em Blend a solid color into an ARGB8888 premultiplied buffer. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} \doxymbox{\hyperlink{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a8a780d3b95233d88356eef39b9505ee3}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+to\+\_\+argb8888\+\_\+premultiplied}} (\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a3c0d90380e5741b3c1389fb84e8ea00e}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}dsc)
+\begin{DoxyCompactList}\small\item\em Blend an image into an ARGB8888 premultiplied buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of ARGB8888 Premultiplied blending for LVGL. 
+
+
+
+\label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_doc-define-members}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae55ace05816ee7b2e6892dcc181ce530}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae55ace05816ee7b2e6892dcc181ce530} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae0c2bd60cfa038b76960323ca2398c99}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae0c2bd60cfa038b76960323ca2398c99} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_af6c6a8d39ad7e3b030ec227b549ab2ce}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_af6c6a8d39ad7e3b030ec227b549ab2ce} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a05b735461224c56ecd0ec2d42b3b9a1a}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}{LV\_DRAW\_SW\_ARGB8888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a05b735461224c56ecd0ec2d42b3b9a1a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ab8f83fb10b27f0566f2656ba6717d591}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ab8f83fb10b27f0566f2656ba6717d591} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aa853e7149f1a3a02b5f5631517110b9b}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aa853e7149f1a3a02b5f5631517110b9b} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a27c97300c78a799d2deca98e1b3c060c}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a27c97300c78a799d2deca98e1b3c060c} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aaef19efbcb39724381d6b4fc2adda9fb}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}{LV\_DRAW\_SW\_ARGB8888\_PREMULTIPLIED\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aaef19efbcb39724381d6b4fc2adda9fb} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_afd0641698c951edc66edcb79e884f79a}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_afd0641698c951edc66edcb79e884f79a} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a64ff8b05af023c4c86a490cfddec2af9}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_MIX\_MASK\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a64ff8b05af023c4c86a490cfddec2af9} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+MIX\+\_\+\+MASK\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae12e8f9ee2a1fd444aa8d0c426093505}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_MASK}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ae12e8f9ee2a1fd444aa8d0c426093505} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+MASK(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ac3b11e87e19cfe3262cafdaaabd74599}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+\index{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA@{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}{LV\_DRAW\_SW\_RGB888\_BLEND\_NORMAL\_TO\_ARGB8888\_PREMULTIPLIED\_WITH\_OPA}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_ac3b11e87e19cfe3262cafdaaabd74599} 
+\+\#define LV\+\_\+\+DRAW\+\_\+\+SW\+\_\+\+RGB888\+\_\+\+BLEND\+\_\+\+NORMAL\+\_\+\+TO\+\_\+\+ARGB8888\+\_\+\+PREMULTIPLIED\+\_\+\+WITH\+\_\+\+OPA(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275a04c7defb6eda9bc6757872e5199fc99d}{LV\_RESULT\_INVALID}}}
+
+\end{DoxyCode}
+
+
+\label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_doc-func-members}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aab59386e76cfcda4446517fe49a6c2fd}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied@{lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied}}
+\index{lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied@{lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied()}{lv\_draw\_sw\_blend\_color\_to\_argb8888\_premultiplied()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_aab59386e76cfcda4446517fe49a6c2fd} 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+color\+\_\+to\+\_\+argb8888\+\_\+premultiplied (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_aaeb5c9a772646e55a6ad08704d2c7e86}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+fill\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{}\end{DoxyParamCaption})}
+
+
+
+Blend a solid color into an ARGB8888 premultiplied buffer. 
+
+This function applies a solid color to the destination buffer with optional opacity and masking. The input color is first converted to a premultiplied alpha format before blending.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dsc} & Blending descriptor containing destination buffer, color, and opacity \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a8a780d3b95233d88356eef39b9505ee3}\index{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}!lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied@{lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied}}
+\index{lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied@{lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied}!lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c@{lv\_draw\_sw\_blend\_to\_argb8888\_premultiplied.c}}
+\doxysubsubsection{\texorpdfstring{lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied()}{lv\_draw\_sw\_blend\_image\_to\_argb8888\_premultiplied()}}
+{\footnotesize\ttfamily \label{lv__draw__sw__blend__to__argb8888__premultiplied_8c_a8a780d3b95233d88356eef39b9505ee3} 
+void \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__color_8h_a61048d2055ebf90e7cb2c67c3d453b78}{LV\+\_\+\+ATTRIBUTE\+\_\+\+FAST\+\_\+\+MEM}} lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+to\+\_\+argb8888\+\_\+premultiplied (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a3c0d90380e5741b3c1389fb84e8ea00e}{lv\+\_\+draw\+\_\+sw\+\_\+blend\+\_\+image\+\_\+dsc\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dsc}{}\end{DoxyParamCaption})}
+
+
+
+Blend an image into an ARGB8888 premultiplied buffer. 
+
+This function blends an image stored in ARGB8888 premultiplied format into the destination buffer. It accounts for opacity and optional masking.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dsc} & Blending descriptor containing source and destination buffer information \\
+\hline
+\end{DoxyParams}

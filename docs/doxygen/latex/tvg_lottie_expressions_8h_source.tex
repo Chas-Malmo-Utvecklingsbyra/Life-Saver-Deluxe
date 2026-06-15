@@ -1,0 +1,180 @@
+\doxysection{tvg\+Lottie\+Expressions.\+h}
+\hypertarget{tvg_lottie_expressions_8h_source}{}\label{tvg_lottie_expressions_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgLottieExpressions.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/tvgLottieExpressions.h}}
+\doxymbox{\hyperlink{tvg_lottie_expressions_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2024\ the\ ThorVG\ project.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ SOFTWARE.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#if\ LV\_USE\_THORVG\_INTERNAL}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ \_TVG\_LOTTIE\_EXPRESSIONS\_H\_}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ \_TVG\_LOTTIE\_EXPRESSIONS\_H\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_common_8h}{tvgCommon.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{tvg_lottie_common_8h}{tvgLottieCommon.h}}"{}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{struct\ }LottieExpression;}
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }LottieComposition;}
+\DoxyCodeLine{00034\ \textcolor{keyword}{struct\ }LottieLayer;}
+\DoxyCodeLine{00035\ \textcolor{keyword}{struct\ }LottieRoundnessModifier;}
+\DoxyCodeLine{00036\ \textcolor{keyword}{struct\ }LottieOffsetModifier;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifdef\ THORVG\_LOTTIE\_EXPRESSIONS\_SUPPORT}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}jerryscript.h"{}}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{struct\ }LottieExpressions}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property,\ \textcolor{keyword}{typename}\ NumType>}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(\textcolor{keywordtype}{float}\ frameNo,\ NumType\&\ out,\ LottieExpression*\ exp)}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bm\_rt\ =\ evaluate(frameNo,\ exp);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_undefined(bm\_rt))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_number(bm\_rt))\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ out\ =\ (NumType)\ jerry\_value\_as\_number(bm\_rt);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ prop\ =\ \textcolor{keyword}{static\_cast<}Property*\textcolor{keyword}{>}(jerry\_object\_get\_native\_ptr(bm\_rt,\ \textcolor{keyword}{nullptr})))\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ out\ =\ (*prop)(frameNo);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ jerry\_value\_free(bm\_rt);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(\textcolor{keywordtype}{float}\ frameNo,\ Point\&\ out,\ LottieExpression*\ exp)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bm\_rt\ =\ evaluate(frameNo,\ exp);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_undefined(bm\_rt))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ prop\ =\ \textcolor{keyword}{static\_cast<}Property*\textcolor{keyword}{>}(jerry\_object\_get\_native\_ptr(bm\_rt,\ \textcolor{keyword}{nullptr})))\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ out\ =\ (*prop)(frameNo);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ x\ =\ jerry\_object\_get\_index(bm\_rt,\ 0);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ y\ =\ jerry\_object\_get\_index(bm\_rt,\ 1);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ out.x\ =\ jerry\_value\_as\_number(x);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ out.y\ =\ jerry\_value\_as\_number(y);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ jerry\_value\_free(x);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ jerry\_value\_free(y);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ jerry\_value\_free(bm\_rt);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(\textcolor{keywordtype}{float}\ frameNo,\ RGB24\&\ out,\ LottieExpression*\ exp)}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bm\_rt\ =\ evaluate(frameNo,\ exp);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_undefined(bm\_rt))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ color\ =\ \textcolor{keyword}{static\_cast<}Property*\textcolor{keyword}{>}(jerry\_object\_get\_native\_ptr(bm\_rt,\ \textcolor{keyword}{nullptr})))\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ out\ =\ (*color)(frameNo);}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \doxymbox{\hyperlink{namespacelv__conf__internal__gen_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ jerry\_object\_get\_index(bm\_rt,\ 0);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ g\ =\ jerry\_object\_get\_index(bm\_rt,\ 1);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}\ =\ jerry\_object\_get\_index(bm\_rt,\ 2);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ out.rgb[0]\ =\ REMAP255(jerry\_value\_as\_number(r));}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ out.rgb[1]\ =\ REMAP255(jerry\_value\_as\_number(g));}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ out.rgb[2]\ =\ REMAP255(jerry\_value\_as\_number(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}}));}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ jerry\_value\_free(r);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ jerry\_value\_free(g);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ jerry\_value\_free(\doxymbox{\hyperlink{c_j_s_o_n_8h_a1a175e87536301df98c805ac0636ad7c}{b}});}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ jerry\_value\_free(bm\_rt);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00102\ \ \ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(\textcolor{keywordtype}{float}\ frameNo,\ Fill*\ fill,\ LottieExpression*\ exp)}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bm\_rt\ =\ evaluate(frameNo,\ exp);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_undefined(bm\_rt))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ colorStop\ =\ \textcolor{keyword}{static\_cast<}Property*\textcolor{keyword}{>}(jerry\_object\_get\_native\_ptr(bm\_rt,\ \textcolor{keyword}{nullptr})))\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ (*colorStop)(frameNo,\ fill,\ \textcolor{keyword}{this});}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ jerry\_value\_free(bm\_rt);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(\textcolor{keywordtype}{float}\ frameNo,\ Array<PathCommand>\&\ cmds,\ Array<Point>\&\ pts,\ Matrix*\ transform,\ \textcolor{keyword}{const}\ LottieRoundnessModifier*\ roundness,\ \textcolor{keyword}{const}\ LottieOffsetModifier*\ offsetPath,\ LottieExpression*\ exp)}
+\DoxyCodeLine{00119\ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bm\_rt\ =\ evaluate(frameNo,\ exp);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jerry\_value\_is\_undefined(bm\_rt))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ pathset\ =\ \textcolor{keyword}{static\_cast<}Property*\textcolor{keyword}{>}(jerry\_object\_get\_native\_ptr(bm\_rt,\ \textcolor{keyword}{nullptr})))\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ (*pathset)(frameNo,\ cmds,\ pts,\ transform,\ roundness,\ offsetPath);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ jerry\_value\_free(bm\_rt);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00128\ \ \ \ \ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ curTime);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{comment}{//singleton\ (no\ thread\ safety)}}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{static}\ LottieExpressions*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a89de130b0b93d84b483ad594b1b93c87}{instance}}();}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ retrieve(LottieExpressions*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a89de130b0b93d84b483ad594b1b93c87}{instance}});}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00137\ \ \ \ \ LottieExpressions();}
+\DoxyCodeLine{00138\ \ \ \ \ \string~LottieExpressions();}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ jerry\_value\_t\ evaluate(\textcolor{keywordtype}{float}\ frameNo,\ LottieExpression*\ exp);}
+\DoxyCodeLine{00141\ \ \ \ \ jerry\_value\_t\ buildGlobal();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ buildComp(LottieComposition*\ comp,\ \textcolor{keywordtype}{float}\ frameNo,\ LottieExpression*\ exp);}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ buildComp(jerry\_value\_t\ context,\ \textcolor{keywordtype}{float}\ frameNo,\ LottieLayer*\ comp,\ LottieExpression*\ exp);}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ buildGlobal(LottieExpression*\ exp);}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{comment}{//global\ object,\ attributes,\ methods}}
+\DoxyCodeLine{00148\ \ \ \ \ jerry\_value\_t\ global;}
+\DoxyCodeLine{00149\ \ \ \ \ jerry\_value\_t\ comp;}
+\DoxyCodeLine{00150\ \ \ \ \ jerry\_value\_t\ thisComp;}
+\DoxyCodeLine{00151\ \ \ \ \ jerry\_value\_t\ thisLayer;}
+\DoxyCodeLine{00152\ \ \ \ \ jerry\_value\_t\ thisProperty;}
+\DoxyCodeLine{00153\ \};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \textcolor{keyword}{struct\ }LottieExpressions}
+\DoxyCodeLine{00158\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property,\ \textcolor{keyword}{typename}\ NumType>\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(TVG\_UNUSED\ \textcolor{keywordtype}{float},\ TVG\_UNUSED\ NumType\&,\ TVG\_UNUSED\ LottieExpression*)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(TVG\_UNUSED\ \textcolor{keywordtype}{float},\ TVG\_UNUSED\ Point\&,\ LottieExpression*)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(TVG\_UNUSED\ \textcolor{keywordtype}{float},\ TVG\_UNUSED\ RGB24\&,\ TVG\_UNUSED\ LottieExpression*)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(TVG\_UNUSED\ \textcolor{keywordtype}{float},\ TVG\_UNUSED\ Fill*,\ TVG\_UNUSED\ LottieExpression*)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Property>\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{namespacetest__gen__json_a937d4dd628a8858b443a399410d2600b}{result}}(TVG\_UNUSED\ \textcolor{keywordtype}{float},\ TVG\_UNUSED\ Array<PathCommand>\&,\ TVG\_UNUSED\ Array<Point>\&,\ TVG\_UNUSED\ Matrix*\ transform,\ TVG\_UNUSED\ \textcolor{keyword}{const}\ LottieRoundnessModifier*,\ TVG\_UNUSED\ \textcolor{keyword}{const}\ LottieOffsetModifier*,\ TVG\_UNUSED\ LottieExpression*)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ update(TVG\_UNUSED\ \textcolor{keywordtype}{float})\ \{\}}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{static}\ LottieExpressions*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a89de130b0b93d84b483ad594b1b93c87}{instance}}()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ retrieve(TVG\_UNUSED\ LottieExpressions*\ \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__console_8c_a89de130b0b93d84b483ad594b1b93c87}{instance}})\ \{\}}
+\DoxyCodeLine{00167\ \};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//THORVG\_LOTTIE\_EXPRESSIONS\_SUPPORT}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\_TVG\_LOTTIE\_EXPRESSIONS\_H\_}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_THORVG\_INTERNAL\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00174\ }
+
+\end{DoxyCode}

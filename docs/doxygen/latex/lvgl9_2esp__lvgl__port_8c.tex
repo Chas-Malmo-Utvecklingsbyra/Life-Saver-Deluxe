@@ -1,0 +1,222 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+esp\+\_\+lvgl\+\_\+port/\+src/\+lvgl9/\+esp\+\_\+lvgl\+\_\+port.c File Reference}
+\hypertarget{lvgl9_2esp__lvgl__port_8c}{}\label{lvgl9_2esp__lvgl__port_8c}\index{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/src/lvgl9/esp\_lvgl\_port.c@{home-\/hub/managed\_components/espressif\_\_esp\_lvgl\_port/src/lvgl9/esp\_lvgl\_port.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}esp\+\_\+system.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+check.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+timer.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+portmacro.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+event\+\_\+groups.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+idf\+\_\+additions.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+lvgl\+\_\+port\+\_\+priv.\+h"{}}\newline
+{\ttfamily \+\#include "{}lvgl.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structlvgl__port__ctx__s}{lvgl\+\_\+port\+\_\+ctx\+\_\+s}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \doxymbox{\hyperlink{structlvgl__port__ctx__s}{lvgl\+\_\+port\+\_\+ctx\+\_\+s}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_a98d41d9426e70a8b4ea1067db5f49fdc}{lvgl\+\_\+port\+\_\+ctx\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_a97a0bb5556894a2b1dfee7082e0deee0}{lvgl\+\_\+port\+\_\+init}} (const \doxymbox{\hyperlink{structlvgl__port__cfg__t}{lvgl\+\_\+port\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Initialize LVGL portation. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_a2fcf5cb771b29505bb1ea167001d910e}{lvgl\+\_\+port\+\_\+resume}} (void)
+\begin{DoxyCompactList}\small\item\em Resume lvgl timer. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_a9cfeb7dbf076234c161573bb3807c5c4}{lvgl\+\_\+port\+\_\+stop}} (void)
+\begin{DoxyCompactList}\small\item\em Stop lvgl timer. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_a1cba3f393e6eed2f9355adf048ff8731}{lvgl\+\_\+port\+\_\+deinit}} (void)
+\begin{DoxyCompactList}\small\item\em Deinitialize LVGL portation. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_ab0618b4d7a46e737754e4fbbd6d517b6}{lvgl\+\_\+port\+\_\+lock}} (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Take LVGL mutex. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_acb85e62799c27b08e115bfdd2633ca71}{lvgl\+\_\+port\+\_\+unlock}} (void)
+\begin{DoxyCompactList}\small\item\em Give LVGL mutex. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_abacc8a32c06c18b06b984b9332167c0e}{lvgl\+\_\+port\+\_\+task\+\_\+wake}} (\doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bda}{lvgl\+\_\+port\+\_\+event\+\_\+type\+\_\+t}} event, void \texorpdfstring{$\ast$}{*}param)
+\begin{DoxyCompactList}\small\item\em Notify LVGL task, that display need reload. \end{DoxyCompactList}\item 
+IRAM\+\_\+\+ATTR \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{lvgl9_2esp__lvgl__port_8c_ad5b57da4a61028278d10b5684a80769a}{lvgl\+\_\+port\+\_\+task\+\_\+notify}} (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} value)
+\begin{DoxyCompactList}\small\item\em Notify LVGL task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{lvgl9_2esp__lvgl__port_8c_doc-typedef-members}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_a98d41d9426e70a8b4ea1067db5f49fdc}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_ctx\_t@{lvgl\_port\_ctx\_t}}
+\index{lvgl\_port\_ctx\_t@{lvgl\_port\_ctx\_t}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_ctx\_t}{lvgl\_port\_ctx\_t}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_a98d41d9426e70a8b4ea1067db5f49fdc} 
+typedef struct \doxymbox{\hyperlink{structlvgl__port__ctx__s}{lvgl\+\_\+port\+\_\+ctx\+\_\+s}} \doxymbox{\hyperlink{lvgl8_2esp__lvgl__port_8c_a98d41d9426e70a8b4ea1067db5f49fdc}{lvgl\+\_\+port\+\_\+ctx\+\_\+t}}}
+
+
+
+\label{lvgl9_2esp__lvgl__port_8c_doc-func-members}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_a1cba3f393e6eed2f9355adf048ff8731}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_deinit@{lvgl\_port\_deinit}}
+\index{lvgl\_port\_deinit@{lvgl\_port\_deinit}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_deinit()}{lvgl\_port\_deinit()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_a1cba3f393e6eed2f9355adf048ff8731} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+deinit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Deinitialize LVGL portation. 
+
+\begin{DoxyNote}{Note}
+This function deinitializes LVGL and stops the task if running. Some deinitialization will be done after the task will be stopped.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+TIMEOUT when stopping the LVGL task times out 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_a97a0bb5556894a2b1dfee7082e0deee0}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_init@{lvgl\_port\_init}}
+\index{lvgl\_port\_init@{lvgl\_port\_init}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_init()}{lvgl\_port\_init()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_a97a0bb5556894a2b1dfee7082e0deee0} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+init (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structlvgl__port__cfg__t}{lvgl\+\_\+port\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg}{}\end{DoxyParamCaption})}
+
+
+
+Initialize LVGL portation. 
+
+\begin{DoxyNote}{Note}
+This function initialize LVGL and create timer and task for LVGL right working.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG if some of the create\+\_\+args are not valid
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE if esp\+\_\+timer library is not initialized yet
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if memory allocation fails 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_ab0618b4d7a46e737754e4fbbd6d517b6}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_lock@{lvgl\_port\_lock}}
+\index{lvgl\_port\_lock@{lvgl\_port\_lock}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_lock()}{lvgl\_port\_lock()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_ab0618b4d7a46e737754e4fbbd6d517b6} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lvgl\+\_\+port\+\_\+lock (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{timeout\+\_\+ms}{}\end{DoxyParamCaption})}
+
+
+
+Take LVGL mutex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout\+\_\+ms} & Timeout in \+[ms]\+. 0 will block indefinitely. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item true Mutex was taken
+\item false Mutex was NOT taken 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_a2fcf5cb771b29505bb1ea167001d910e}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_resume@{lvgl\_port\_resume}}
+\index{lvgl\_port\_resume@{lvgl\_port\_resume}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_resume()}{lvgl\_port\_resume()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_a2fcf5cb771b29505bb1ea167001d910e} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+resume (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Resume lvgl timer. 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE if the timer is not running 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_a9cfeb7dbf076234c161573bb3807c5c4}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_stop@{lvgl\_port\_stop}}
+\index{lvgl\_port\_stop@{lvgl\_port\_stop}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_stop()}{lvgl\_port\_stop()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_a9cfeb7dbf076234c161573bb3807c5c4} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+stop (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Stop lvgl timer. 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE if the timer is not running 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_ad5b57da4a61028278d10b5684a80769a}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_task\_notify@{lvgl\_port\_task\_notify}}
+\index{lvgl\_port\_task\_notify@{lvgl\_port\_task\_notify}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_task\_notify()}{lvgl\_port\_task\_notify()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_ad5b57da4a61028278d10b5684a80769a} 
+IRAM\+\_\+\+ATTR \doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} lvgl\+\_\+port\+\_\+task\+\_\+notify (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Notify LVGL task. 
+
+\begin{DoxyNote}{Note}
+It is called from RGB vsync ready
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & notification value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item true, whether a high priority task has been waken up by this function 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_abacc8a32c06c18b06b984b9332167c0e}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_task\_wake@{lvgl\_port\_task\_wake}}
+\index{lvgl\_port\_task\_wake@{lvgl\_port\_task\_wake}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_task\_wake()}{lvgl\_port\_task\_wake()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_abacc8a32c06c18b06b984b9332167c0e} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} lvgl\+\_\+port\+\_\+task\+\_\+wake (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{esp__lvgl__port_8h_a34ad53402c81112aa0106d687d9b2bda}{lvgl\+\_\+port\+\_\+event\+\_\+type\+\_\+t}}}]{event}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{param}{}\end{DoxyParamCaption})}
+
+
+
+Notify LVGL task, that display need reload. 
+
+\begin{DoxyNote}{Note}
+It is called from LVGL events and touch interrupts
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em event} & event type \\
+\hline
+{\em param} & parameter is not used, keep for backwards compatibility \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+NOT\+\_\+\+SUPPORTED if it is not implemented
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE if queue is not initialized (can be returned after LVGL deinit) 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{lvgl9_2esp__lvgl__port_8c_acb85e62799c27b08e115bfdd2633ca71}\index{esp\_lvgl\_port.c@{esp\_lvgl\_port.c}!lvgl\_port\_unlock@{lvgl\_port\_unlock}}
+\index{lvgl\_port\_unlock@{lvgl\_port\_unlock}!esp\_lvgl\_port.c@{esp\_lvgl\_port.c}}
+\doxysubsubsection{\texorpdfstring{lvgl\_port\_unlock()}{lvgl\_port\_unlock()}}
+{\footnotesize\ttfamily \label{lvgl9_2esp__lvgl__port_8c_acb85e62799c27b08e115bfdd2633ca71} 
+void lvgl\+\_\+port\+\_\+unlock (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Give LVGL mutex. 
+

@@ -1,0 +1,79 @@
+\doxysection{cursorstreamwrapper.\+h}
+\hypertarget{cursorstreamwrapper_8h_source}{}\label{cursorstreamwrapper_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/cursorstreamwrapper.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/thorvg/rapidjson/cursorstreamwrapper.h}}
+\doxymbox{\hyperlink{cursorstreamwrapper_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Tencent\ is\ pleased\ to\ support\ the\ open\ source\ community\ by\ making\ RapidJSON\ available.}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Copyright\ (C)\ 2015\ THL\ A29\ Limited,\ a\ Tencent\ company,\ and\ Milo\ Yip.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Licensed\ under\ the\ MIT\ License\ (the\ "{}License"{});\ you\ may\ not\ use\ this\ file\ except}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ in\ compliance\ with\ the\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ http://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software\ distributed}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,\ WITHOUT\ WARRANTIES\ OR}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.\ See\ the\ License\ for\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ specific\ language\ governing\ permissions\ and\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ RAPIDJSON\_CURSORSTREAMWRAPPER\_H\_}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ RAPIDJSON\_CURSORSTREAMWRAPPER\_H\_}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{stream_8h}{stream.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00021\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00022\ RAPIDJSON\_DIAG\_OFF(effc++)}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ \_MSC\_VER\ <=\ 1800}}
+\DoxyCodeLine{00026\ RAPIDJSON\_DIAG\_PUSH}
+\DoxyCodeLine{00027\ RAPIDJSON\_DIAG\_OFF(4702)\ \ \textcolor{comment}{//\ unreachable\ code}}
+\DoxyCodeLine{00028\ RAPIDJSON\_DIAG\_OFF(4512)\ \ \textcolor{comment}{//\ assignment\ operator\ could\ not\ be\ generated}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gad3806c8251fdc7da9618b7e922674ffc}{RAPIDJSON\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ InputStream,\ \textcolor{keyword}{typename}\ Encoding\ =\ UTF8<>\ >}
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_cursor_stream_wrapper_aba7a32f8536c31011b2208a4d5d3dd7b}{CursorStreamWrapper}}\ :\ \textcolor{keyword}{public}\ \doxymbox{\hyperlink{class_generic_stream_wrapper_ae2484c31415da7b115545a4bd526349b}{GenericStreamWrapper}}<InputStream,\ Encoding>\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ Encoding::Ch\ \doxymbox{\hyperlink{class_cursor_stream_wrapper_a862cebcee70dc29fbf45bb27e11522f9}{Ch}};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \doxymbox{\hyperlink{class_cursor_stream_wrapper_aba7a32f8536c31011b2208a4d5d3dd7b}{CursorStreamWrapper}}(InputStream\&\ is):}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_generic_stream_wrapper_ae2484c31415da7b115545a4bd526349b}{GenericStreamWrapper}}<InputStream,\ \doxymbox{\hyperlink{classrapidjson_1_1_encoding}{Encoding}}>(is),\ line\_(1),\ col\_(0)\ \{\}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//\ counting\ line\ and\ column\ number}}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{class_cursor_stream_wrapper_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ \doxymbox{\hyperlink{class_cursor_stream_wrapper_a443b9845a6e3d58438abe9de6c2003db}{Take}}()\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_cursor_stream_wrapper_a862cebcee70dc29fbf45bb27e11522f9}{Ch}}\ ch\ =\ this-\/>\doxymbox{\hyperlink{class_generic_stream_wrapper_a9aca514ad9ca18edcfc0c63bd31e7c11}{is\_}}.Take();}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(ch\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ line\_\ ++;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ col\_\ =\ 0;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ col\_\ ++;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ch;}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_cursor_stream_wrapper_a859b4b24bdaddec4e6d7ebca769a0db8}{GetLine}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ line\_;\ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \doxymbox{\hyperlink{class_cursor_stream_wrapper_aec39876fb0d0b232779d942df1b66104}{GetColumn}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ col\_;\ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ line\_;\ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ col\_;\ \ \ \ }
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ \_MSC\_VER\ <=\ 1800}}
+\DoxyCodeLine{00069\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00073\ RAPIDJSON\_DIAG\_POP}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \doxymbox{\hyperlink{group___r_a_p_i_d_j_s_o_n___c_o_n_f_i_g_gaf18f052a98b9f5df5448d39484b743c1}{RAPIDJSON\_NAMESPACE\_END}}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ RAPIDJSON\_CURSORSTREAMWRAPPER\_H\_}}
+
+\end{DoxyCode}

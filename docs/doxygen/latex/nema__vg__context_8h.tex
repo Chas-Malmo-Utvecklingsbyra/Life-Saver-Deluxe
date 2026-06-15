@@ -1,0 +1,725 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+lvgl\+\_\+\+\_\+lvgl/\+libs/\+nema\+\_\+gfx/\+include/\+nema\+\_\+vg\+\_\+context.h File Reference}
+\hypertarget{nema__vg__context_8h}{}\label{nema__vg__context_8h}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_context.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/libs/nema\_gfx/include/nema\_vg\_context.h}}
+
+
+Nema\+VG Context interface.  
+
+
+{\ttfamily \+\#include "{}nema\+\_\+graphics.\+h"{}}\newline
+{\ttfamily \+\#include "{}nema\+\_\+matrix3x3.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}~void\texorpdfstring{$\ast$}{*}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}{NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE}}~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}{NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE}}~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}{NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE}}~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a878f14c288b88d1269033263de89ece9}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+ERROR}}~(0x00000000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a46e70903aea4f20f00a3b90acefb2c27}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+HANDLE}}~(0x00000001U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a5afc94ff325d26b8d0fac7b8cbfa2456}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+BUFFER}}~(0x00000002U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a37080857deb2c51835bbf04eaaa8edfd}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+FILL\+\_\+\+RULE}}~(0x00000004U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a580e91afedc0a08f3165c288b4011c7e}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+PAINT\+\_\+\+TYPE}}~(0x00000008U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a4ae156d49fbd09b91d2ca86431ac3e82}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+VERTEX\+\_\+\+DATA}}~(0x00000010U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_acdb7df0174a4d6e67a2fd26796119ceb}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+RADIAL\+\_\+\+ENABLED}}~(0x00000020U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a02ecb4671e2d460fc5515b6589473102}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+BOUND\+\_\+\+CL}}~(0x00000040U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a986b26287fb32b41d6ddc228ed867165}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARGUMENTS}}~(0x00000080U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_afd58204ba43e1edb395709f11485bf74}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARC\+\_\+\+DATA}}~(0x00000100U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a416856f98819617cb25ff247892872bc}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+CL\+\_\+\+FULL}}~(0x00000200U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a0f9f7ec08dc0aadc184d364a37e1ff12}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+DRAW\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS}}~(0x00000400U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ac42cc98b834bcb29af3f043073419c46}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+MASKING\+\_\+\+OBJ}}~(0x00000800U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a91d05ab652e44cbce7d0f8ec80b137e8}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+MASKING\+\_\+\+FORMAT}}~(0x00001000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ad4f383aed94e482d7d3fbe8567244851}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+LUT\+\_\+\+IDX\+\_\+\+FORMAT}}~(0x00002000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_af37f56aed1da8422e151feb17002abb6}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+COORDS\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE}}~(0x00004000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a67d4f1eb0ddb0a27e0eefc5778d57c56}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+EMPTY\+\_\+\+TSVG}}~(0x00008000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_aa1d3854710aee59e880ac42ecc825948}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+BOUND\+\_\+\+FONT}}~(0x00010000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_aabe94ef01ecdf847c40280c534c4416a}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+UNSUPPORTED\+\_\+\+FONT}}~(0x00020000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ac8531cf52732bbd76ef2da991adcf39b}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NON\+\_\+\+INVERTIBLE\+\_\+\+MATRIX}}~(0x00040000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_abc7e68a604cac5bdd5744fa7dbf1754f}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+GRAD\+\_\+\+STOPS}}~(0x00080000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a21301d97f61b094caa172287e8cebd37}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+INIT}}~(0x00100000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a9a01449f96f09009665122f350287aa8}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STROKE\+\_\+\+WIDTH}}~(0x00200000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_af3d3ea341f7b8f656269c7298af203ee}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+OPACITY}}~(0x00400000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ae889ab8521e28bcca814bac1307bb829}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+CAP\+\_\+\+STYLE}}~(0x00800000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a9c5ade40a322ca068f4934dbf0a0ea51}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+JOIN\+\_\+\+STYLE}}~(0x01000000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ad3b43f2aeb8d6909ef38611e7228e13f}{NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STENCIL\+\_\+\+SIZE}}~(0x02000000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ad909f4bf6a2ec3343c12ae1f3be75cd3}{NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+DRAW}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a753486d742373c22c1a6065cac404611}{NEMA\+\_\+\+VG\+\_\+\+STROKE}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ad87a3a98f299b64407711f38a8fb7ec6}{NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+EVEN\+\_\+\+ODD}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a9fe22754dc9bcef1f12b67825aabf9de}{NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+NON\+\_\+\+ZERO}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_aefc8aa7e5c55cd848ad5315dcac0d10f}{NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+BETTER}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_ae4c03e1d9548199a3d48b1aa138f1472}{NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+FASTER}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a4d43dd56077b4c0976d11c8d39dd6be9}{NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+MAXIMUM}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a95a58aba54da786359267afe9a716b7a}{NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+NON\+\_\+\+AA}}~(0x10U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a8a69b1e81ed7caf1acd8d9e3856528ed}{NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+BUTT}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a2b4cdf3111e84168e0fed4abd721003c}{NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+ROUND}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_aa5ab695914ea192e3503640c5170f922}{NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+SQUARE}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a2feb0b64c0a51a26976602b4ce2b4fb7}{NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+MAX}}~(0x03U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a20072fd937511d84df49e674140b058c}{NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+BEVEL}}~(0x00U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a698b9820f046786c79259ce859b5770f}{NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+MITER}}~(0x01U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a3fc4a80cef27cd88fba93160c32e1403}{NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+ROUND}}~(0x02U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a83d08c116d266b75eb51e03908433e5d}{NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+MAX}}~(0x03U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_adcc850b5e1943a5976c3b855930e5c0f}{NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+NONE}}~(0x00000000U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a9fb247d58da44587394fbb6cdb25f157}{NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+CAPS}}~(0x00000001U)
+\item 
+\+\#define \doxymbox{\hyperlink{nema__vg__context_8h_a21b0cdc3488822bee89cecd6824c0556}{NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+JOINS}}~(0x00000002U)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef float \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{nema__vg__context_8h_a347e4207a993e3b8971e73b205679ebe}{nema\+\_\+vg\+\_\+set\+\_\+global\+\_\+matrix}} (\doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}} m)
+\begin{DoxyCompactList}\small\item\em Set the global transformation matrix. Global matrix will be applied in all Nema\+VG rendering operations that will follow. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_aa1ebade60740f3b029f426f4f03c96ba}{nema\+\_\+vg\+\_\+reset\+\_\+global\+\_\+matrix}} (void)
+\begin{DoxyCompactList}\small\item\em Disable the global transformation matrix. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a8b66c9f2ae242d799d667f4f6db5d3a8}{nema\+\_\+vg\+\_\+set\+\_\+fill\+\_\+rule}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} fill\+\_\+rule)
+\begin{DoxyCompactList}\small\item\em Set the fill rule that will be applied when rendering a path. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_acfa10e367af63534dfab7258cf0fd5fd}{nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+width}} (float width)
+\begin{DoxyCompactList}\small\item\em Set the stroke width that will be applied when stroking a path. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a4e741e6a6e8e7826863184b80674d690}{nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+cap\+\_\+style}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} start\+\_\+cap\+\_\+style, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} end\+\_\+cap\+\_\+style)
+\begin{DoxyCompactList}\small\item\em Set stroke cap style. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_aa68924813011cfaacf879b3698b08d65}{nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+join\+\_\+style}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} join\+\_\+style)
+\begin{DoxyCompactList}\small\item\em Set stroke join style. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a4189a09b933a6d206b137e5527d7629f}{nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+miter\+\_\+limit}} (float miter\+\_\+limit)
+\begin{DoxyCompactList}\small\item\em Set stroke miter limit If miter join is chosen and miter length is bigger than the product of miter limit and stroke width a bevel join will be added instead. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a0bc35484be3a6514f3491f24d45430f4}{nema\+\_\+vg\+\_\+masking}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} masking)
+\begin{DoxyCompactList}\small\item\em Enable/\+\+Disable Masking. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{nema__vg__context_8h_a4c9d69ea0aa2bf2c74c803a64304fdc0}{nema\+\_\+vg\+\_\+set\+\_\+mask}} (\doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}mask\+\_\+obj)
+\begin{DoxyCompactList}\small\item\em Set the mask object (texture). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a794693825baaf312bcd1903ac16575d3}{nema\+\_\+vg\+\_\+set\+\_\+mask\+\_\+translation}} (float x, float y)
+\begin{DoxyCompactList}\small\item\em Translate the mask object (texture) with respect to origin point (0, 0). Sets the position of the mask object. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a9d64191b1ebcc68dd88807b695bc5670}{nema\+\_\+vg\+\_\+set\+\_\+quality}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} quality)
+\begin{DoxyCompactList}\small\item\em Set the rendering quality. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_acd973997f98069c905ba492524360d0a}{nema\+\_\+vg\+\_\+set\+\_\+blend}} (\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} blend)
+\begin{DoxyCompactList}\small\item\em Set the blending mode for VG operations (see \doxylink{nema__blender_8h}{nema\+\_\+blender.\+h} documentation in Nema\+GFX API Manual) Additional Blending Operations:\+ only NEMA\+\_\+\+BLOP\+\_\+\+SRC\+\_\+\+PREMULT is supported. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{nema__vg__context_8h_aba88ad844f250edb5170d7b44200d223}{nema\+\_\+vg\+\_\+get\+\_\+error}} (void)
+\begin{DoxyCompactList}\small\item\em Get the current error code. Clears the error afterwards. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a25c13a918a48703e23d98f9e443c9aa2}{nema\+\_\+vg\+\_\+handle\+\_\+large\+\_\+coords}} (\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} enable, \doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} allow\+\_\+internal\+\_\+alloc)
+\begin{DoxyCompactList}\small\item\em Enable/\+disable large coordinates handling when rendering a TSVG, a path or a predefined shape. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \doxymbox{\hyperlink{nema__vg__context_8h_a580293691bad6942714d345bca1d3719}{nema\+\_\+vg\+\_\+bind\+\_\+clip\+\_\+coords\+\_\+buf}} (void \texorpdfstring{$\ast$}{*}segs, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} segs\+\_\+size\+\_\+bytes, void \texorpdfstring{$\ast$}{*}data, \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} data\+\_\+size\+\_\+bytes)
+\begin{DoxyCompactList}\small\item\em Bind segment and data buffers to be used for handling large coordinates. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{nema__vg__context_8h_a61372431be1d99463cb7e4f4d9bc54c5}{nema\+\_\+vg\+\_\+unbind\+\_\+clip\+\_\+coords\+\_\+buf}} (void)
+\begin{DoxyCompactList}\small\item\em Unbind segment and data buffers to be used for handling large coordinates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Nema\+VG Context interface. 
+
+Contains Nema\+VG error codes, fill rules, rendering quality defines and functions for updating various rendering parameters. The functions defined here can be used to access the context parameters. The Context is an internal (opaque) struct of Nema\+VG. 
+
+\label{nema__vg__context_8h_doc-define-members}
+\Hypertarget{nema__vg__context_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{nema__vg__context_8h_a8a69b1e81ed7caf1acd8d9e3856528ed}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_CAP\_BUTT@{NEMA\_VG\_CAP\_BUTT}}
+\index{NEMA\_VG\_CAP\_BUTT@{NEMA\_VG\_CAP\_BUTT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_CAP\_BUTT}{NEMA\_VG\_CAP\_BUTT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a8a69b1e81ed7caf1acd8d9e3856528ed} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+BUTT~(0x00U)}
+
+Butt cap \Hypertarget{nema__vg__context_8h_a2feb0b64c0a51a26976602b4ce2b4fb7}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_CAP\_MAX@{NEMA\_VG\_CAP\_MAX}}
+\index{NEMA\_VG\_CAP\_MAX@{NEMA\_VG\_CAP\_MAX}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_CAP\_MAX}{NEMA\_VG\_CAP\_MAX}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a2feb0b64c0a51a26976602b4ce2b4fb7} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+MAX~(0x03U)}
+
+Max value for cap \Hypertarget{nema__vg__context_8h_a2b4cdf3111e84168e0fed4abd721003c}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_CAP\_ROUND@{NEMA\_VG\_CAP\_ROUND}}
+\index{NEMA\_VG\_CAP\_ROUND@{NEMA\_VG\_CAP\_ROUND}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_CAP\_ROUND}{NEMA\_VG\_CAP\_ROUND}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a2b4cdf3111e84168e0fed4abd721003c} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+ROUND~(0x01U)}
+
+Round cap \Hypertarget{nema__vg__context_8h_aa5ab695914ea192e3503640c5170f922}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_CAP\_SQUARE@{NEMA\_VG\_CAP\_SQUARE}}
+\index{NEMA\_VG\_CAP\_SQUARE@{NEMA\_VG\_CAP\_SQUARE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_CAP\_SQUARE}{NEMA\_VG\_CAP\_SQUARE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aa5ab695914ea192e3503640c5170f922} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+SQUARE~(0x02U)}
+
+Square cap \Hypertarget{nema__vg__context_8h_a5afc94ff325d26b8d0fac7b8cbfa2456}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_BAD\_BUFFER@{NEMA\_VG\_ERR\_BAD\_BUFFER}}
+\index{NEMA\_VG\_ERR\_BAD\_BUFFER@{NEMA\_VG\_ERR\_BAD\_BUFFER}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_BAD\_BUFFER}{NEMA\_VG\_ERR\_BAD\_BUFFER}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a5afc94ff325d26b8d0fac7b8cbfa2456} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+BUFFER~(0x00000002U)}
+
+Bad buffer \Hypertarget{nema__vg__context_8h_a46e70903aea4f20f00a3b90acefb2c27}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_BAD\_HANDLE@{NEMA\_VG\_ERR\_BAD\_HANDLE}}
+\index{NEMA\_VG\_ERR\_BAD\_HANDLE@{NEMA\_VG\_ERR\_BAD\_HANDLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_BAD\_HANDLE}{NEMA\_VG\_ERR\_BAD\_HANDLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a46e70903aea4f20f00a3b90acefb2c27} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+BAD\+\_\+\+HANDLE~(0x00000001U)}
+
+Bad handle \Hypertarget{nema__vg__context_8h_a416856f98819617cb25ff247892872bc}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_CL\_FULL@{NEMA\_VG\_ERR\_CL\_FULL}}
+\index{NEMA\_VG\_ERR\_CL\_FULL@{NEMA\_VG\_ERR\_CL\_FULL}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_CL\_FULL}{NEMA\_VG\_ERR\_CL\_FULL}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a416856f98819617cb25ff247892872bc} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+CL\+\_\+\+FULL~(0x00000200U)}
+
+reserved \Hypertarget{nema__vg__context_8h_af37f56aed1da8422e151feb17002abb6}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE@{NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE}}
+\index{NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE@{NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE}{NEMA\_VG\_ERR\_COORDS\_OUT\_OF\_RANGE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_af37f56aed1da8422e151feb17002abb6} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+COORDS\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE~(0x00004000U)}
+
+Path coordinates out of supported range \Hypertarget{nema__vg__context_8h_a0f9f7ec08dc0aadc184d364a37e1ff12}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS@{NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS}}
+\index{NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS@{NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS}{NEMA\_VG\_ERR\_DRAW\_OUT\_OF\_BOUNDS}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a0f9f7ec08dc0aadc184d364a37e1ff12} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+DRAW\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS~(0x00000400U)}
+
+Path is out of the drawing area \Hypertarget{nema__vg__context_8h_a67d4f1eb0ddb0a27e0eefc5778d57c56}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_EMPTY\_TSVG@{NEMA\_VG\_ERR\_EMPTY\_TSVG}}
+\index{NEMA\_VG\_ERR\_EMPTY\_TSVG@{NEMA\_VG\_ERR\_EMPTY\_TSVG}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_EMPTY\_TSVG}{NEMA\_VG\_ERR\_EMPTY\_TSVG}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a67d4f1eb0ddb0a27e0eefc5778d57c56} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+EMPTY\+\_\+\+TSVG~(0x00008000U)}
+
+Tsvg has no geometries \Hypertarget{nema__vg__context_8h_afd58204ba43e1edb395709f11485bf74}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_ARC\_DATA@{NEMA\_VG\_ERR\_INVALID\_ARC\_DATA}}
+\index{NEMA\_VG\_ERR\_INVALID\_ARC\_DATA@{NEMA\_VG\_ERR\_INVALID\_ARC\_DATA}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_ARC\_DATA}{NEMA\_VG\_ERR\_INVALID\_ARC\_DATA}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_afd58204ba43e1edb395709f11485bf74} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARC\+\_\+\+DATA~(0x00000100U)}
+
+reserved \Hypertarget{nema__vg__context_8h_a986b26287fb32b41d6ddc228ed867165}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_ARGUMENTS@{NEMA\_VG\_ERR\_INVALID\_ARGUMENTS}}
+\index{NEMA\_VG\_ERR\_INVALID\_ARGUMENTS@{NEMA\_VG\_ERR\_INVALID\_ARGUMENTS}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_ARGUMENTS}{NEMA\_VG\_ERR\_INVALID\_ARGUMENTS}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a986b26287fb32b41d6ddc228ed867165} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARGUMENTS~(0x00000080U)}
+
+Invalid arguments \Hypertarget{nema__vg__context_8h_ae889ab8521e28bcca814bac1307bb829}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE@{NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE}}
+\index{NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE@{NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE}{NEMA\_VG\_ERR\_INVALID\_CAP\_STYLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ae889ab8521e28bcca814bac1307bb829} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+CAP\+\_\+\+STYLE~(0x00800000U)}
+
+Invalid cap style \Hypertarget{nema__vg__context_8h_a37080857deb2c51835bbf04eaaa8edfd}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_FILL\_RULE@{NEMA\_VG\_ERR\_INVALID\_FILL\_RULE}}
+\index{NEMA\_VG\_ERR\_INVALID\_FILL\_RULE@{NEMA\_VG\_ERR\_INVALID\_FILL\_RULE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_FILL\_RULE}{NEMA\_VG\_ERR\_INVALID\_FILL\_RULE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a37080857deb2c51835bbf04eaaa8edfd} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+FILL\+\_\+\+RULE~(0x00000004U)}
+
+Invalid fill rule \Hypertarget{nema__vg__context_8h_abc7e68a604cac5bdd5744fa7dbf1754f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS@{NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS}}
+\index{NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS@{NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS}{NEMA\_VG\_ERR\_INVALID\_GRAD\_STOPS}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_abc7e68a604cac5bdd5744fa7dbf1754f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+GRAD\+\_\+\+STOPS~(0x00080000U)}
+
+Gradient stops exceed maximum available stops \Hypertarget{nema__vg__context_8h_a9c5ade40a322ca068f4934dbf0a0ea51}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE@{NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE}}
+\index{NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE@{NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE}{NEMA\_VG\_ERR\_INVALID\_JOIN\_STYLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a9c5ade40a322ca068f4934dbf0a0ea51} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+JOIN\+\_\+\+STYLE~(0x01000000U)}
+
+Invalid join style \Hypertarget{nema__vg__context_8h_ad4f383aed94e482d7d3fbe8567244851}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT@{NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT}}
+\index{NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT@{NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT}{NEMA\_VG\_ERR\_INVALID\_LUT\_IDX\_FORMAT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ad4f383aed94e482d7d3fbe8567244851} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+LUT\+\_\+\+IDX\+\_\+\+FORMAT~(0x00002000U)}
+
+Invalid LUT indices object Format \Hypertarget{nema__vg__context_8h_a91d05ab652e44cbce7d0f8ec80b137e8}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT@{NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT}}
+\index{NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT@{NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT}{NEMA\_VG\_ERR\_INVALID\_MASKING\_FORMAT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a91d05ab652e44cbce7d0f8ec80b137e8} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+MASKING\+\_\+\+FORMAT~(0x00001000U)}
+
+Invalid Masking object Format \Hypertarget{nema__vg__context_8h_ac42cc98b834bcb29af3f043073419c46}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ@{NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ}}
+\index{NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ@{NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ}{NEMA\_VG\_ERR\_INVALID\_MASKING\_OBJ}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ac42cc98b834bcb29af3f043073419c46} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+MASKING\+\_\+\+OBJ~(0x00000800U)}
+
+Masking object was not set \Hypertarget{nema__vg__context_8h_af3d3ea341f7b8f656269c7298af203ee}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_OPACITY@{NEMA\_VG\_ERR\_INVALID\_OPACITY}}
+\index{NEMA\_VG\_ERR\_INVALID\_OPACITY@{NEMA\_VG\_ERR\_INVALID\_OPACITY}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_OPACITY}{NEMA\_VG\_ERR\_INVALID\_OPACITY}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_af3d3ea341f7b8f656269c7298af203ee} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+OPACITY~(0x00400000U)}
+
+Invalid opacity \Hypertarget{nema__vg__context_8h_a580e91afedc0a08f3165c288b4011c7e}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE@{NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE}}
+\index{NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE@{NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE}{NEMA\_VG\_ERR\_INVALID\_PAINT\_TYPE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a580e91afedc0a08f3165c288b4011c7e} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+PAINT\+\_\+\+TYPE~(0x00000008U)}
+
+Invalid paint type \Hypertarget{nema__vg__context_8h_ad3b43f2aeb8d6909ef38611e7228e13f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE@{NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE}}
+\index{NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE@{NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE}{NEMA\_VG\_ERR\_INVALID\_STENCIL\_SIZE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ad3b43f2aeb8d6909ef38611e7228e13f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STENCIL\+\_\+\+SIZE~(0x02000000U)}
+
+Invalid stencil buffer size \Hypertarget{nema__vg__context_8h_a9a01449f96f09009665122f350287aa8}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH@{NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH}}
+\index{NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH@{NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH}{NEMA\_VG\_ERR\_INVALID\_STROKE\_WIDTH}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a9a01449f96f09009665122f350287aa8} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STROKE\+\_\+\+WIDTH~(0x00200000U)}
+
+Invalid stroke width \Hypertarget{nema__vg__context_8h_a4ae156d49fbd09b91d2ca86431ac3e82}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA@{NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA}}
+\index{NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA@{NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA}{NEMA\_VG\_ERR\_INVALID\_VERTEX\_DATA}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a4ae156d49fbd09b91d2ca86431ac3e82} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+VERTEX\+\_\+\+DATA~(0x00000010U)}
+
+Invalid vertex data \Hypertarget{nema__vg__context_8h_a02ecb4671e2d460fc5515b6589473102}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NO\_BOUND\_CL@{NEMA\_VG\_ERR\_NO\_BOUND\_CL}}
+\index{NEMA\_VG\_ERR\_NO\_BOUND\_CL@{NEMA\_VG\_ERR\_NO\_BOUND\_CL}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NO\_BOUND\_CL}{NEMA\_VG\_ERR\_NO\_BOUND\_CL}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a02ecb4671e2d460fc5515b6589473102} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+BOUND\+\_\+\+CL~(0x00000040U)}
+
+No bound CL \Hypertarget{nema__vg__context_8h_aa1d3854710aee59e880ac42ecc825948}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NO\_BOUND\_FONT@{NEMA\_VG\_ERR\_NO\_BOUND\_FONT}}
+\index{NEMA\_VG\_ERR\_NO\_BOUND\_FONT@{NEMA\_VG\_ERR\_NO\_BOUND\_FONT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NO\_BOUND\_FONT}{NEMA\_VG\_ERR\_NO\_BOUND\_FONT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aa1d3854710aee59e880ac42ecc825948} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+BOUND\+\_\+\+FONT~(0x00010000U)}
+
+There is no bound font \Hypertarget{nema__vg__context_8h_a878f14c288b88d1269033263de89ece9}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NO\_ERROR@{NEMA\_VG\_ERR\_NO\_ERROR}}
+\index{NEMA\_VG\_ERR\_NO\_ERROR@{NEMA\_VG\_ERR\_NO\_ERROR}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NO\_ERROR}{NEMA\_VG\_ERR\_NO\_ERROR}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a878f14c288b88d1269033263de89ece9} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+ERROR~(0x00000000U)}
+
+No Error \Hypertarget{nema__vg__context_8h_a21301d97f61b094caa172287e8cebd37}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NO\_INIT@{NEMA\_VG\_ERR\_NO\_INIT}}
+\index{NEMA\_VG\_ERR\_NO\_INIT@{NEMA\_VG\_ERR\_NO\_INIT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NO\_INIT}{NEMA\_VG\_ERR\_NO\_INIT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a21301d97f61b094caa172287e8cebd37} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+INIT~(0x00100000U)}
+
+VG uninitialized \Hypertarget{nema__vg__context_8h_acdb7df0174a4d6e67a2fd26796119ceb}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED@{NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED}}
+\index{NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED@{NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED}{NEMA\_VG\_ERR\_NO\_RADIAL\_ENABLED}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_acdb7df0174a4d6e67a2fd26796119ceb} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+RADIAL\+\_\+\+ENABLED~(0x00000020U)}
+
+Radial not present in HW \Hypertarget{nema__vg__context_8h_ac8531cf52732bbd76ef2da991adcf39b}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX@{NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX}}
+\index{NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX@{NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX}{NEMA\_VG\_ERR\_NON\_INVERTIBLE\_MATRIX}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ac8531cf52732bbd76ef2da991adcf39b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NON\+\_\+\+INVERTIBLE\+\_\+\+MATRIX~(0x00040000U)}
+
+A matrix that needs to be inverted, is not invertible \Hypertarget{nema__vg__context_8h_aabe94ef01ecdf847c40280c534c4416a}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_ERR\_UNSUPPORTED\_FONT@{NEMA\_VG\_ERR\_UNSUPPORTED\_FONT}}
+\index{NEMA\_VG\_ERR\_UNSUPPORTED\_FONT@{NEMA\_VG\_ERR\_UNSUPPORTED\_FONT}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_ERR\_UNSUPPORTED\_FONT}{NEMA\_VG\_ERR\_UNSUPPORTED\_FONT}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aabe94ef01ecdf847c40280c534c4416a} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+UNSUPPORTED\+\_\+\+FONT~(0x00020000U)}
+
+The font is not supported (eg. older version) by Nema\+VG API \Hypertarget{nema__vg__context_8h_ad909f4bf6a2ec3343c12ae1f3be75cd3}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_FILL\_DRAW@{NEMA\_VG\_FILL\_DRAW}}
+\index{NEMA\_VG\_FILL\_DRAW@{NEMA\_VG\_FILL\_DRAW}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_FILL\_DRAW}{NEMA\_VG\_FILL\_DRAW}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ad909f4bf6a2ec3343c12ae1f3be75cd3} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+DRAW~(0x00U)}
+
+DEPRECATED Stroke fill rule \Hypertarget{nema__vg__context_8h_ad87a3a98f299b64407711f38a8fb7ec6}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_FILL\_EVEN\_ODD@{NEMA\_VG\_FILL\_EVEN\_ODD}}
+\index{NEMA\_VG\_FILL\_EVEN\_ODD@{NEMA\_VG\_FILL\_EVEN\_ODD}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_FILL\_EVEN\_ODD}{NEMA\_VG\_FILL\_EVEN\_ODD}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ad87a3a98f299b64407711f38a8fb7ec6} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+EVEN\+\_\+\+ODD~(0x01U)}
+
+Evenodd fill rule \Hypertarget{nema__vg__context_8h_a9fe22754dc9bcef1f12b67825aabf9de}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_FILL\_NON\_ZERO@{NEMA\_VG\_FILL\_NON\_ZERO}}
+\index{NEMA\_VG\_FILL\_NON\_ZERO@{NEMA\_VG\_FILL\_NON\_ZERO}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_FILL\_NON\_ZERO}{NEMA\_VG\_FILL\_NON\_ZERO}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a9fe22754dc9bcef1f12b67825aabf9de} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+NON\+\_\+\+ZERO~(0x02U)}
+
+Non zero fill rule \Hypertarget{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_GRAD\_HANDLE@{NEMA\_VG\_GRAD\_HANDLE}}
+\index{NEMA\_VG\_GRAD\_HANDLE@{NEMA\_VG\_GRAD\_HANDLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_GRAD\_HANDLE}{NEMA\_VG\_GRAD\_HANDLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a140a7d3cfda0274e08bb3aa4e5aaf69b} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+GRAD\+\_\+\+HANDLE~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}}
+
+Nema\+VG gradient handle (pointer to gradient object) \Hypertarget{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_HANDLE@{NEMA\_VG\_HANDLE}}
+\index{NEMA\_VG\_HANDLE@{NEMA\_VG\_HANDLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_HANDLE}{NEMA\_VG\_HANDLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+HANDLE~void\texorpdfstring{$\ast$}{*}}
+
+Nema\+VG handle object (void pointer) \Hypertarget{nema__vg__context_8h_a20072fd937511d84df49e674140b058c}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_JOIN\_BEVEL@{NEMA\_VG\_JOIN\_BEVEL}}
+\index{NEMA\_VG\_JOIN\_BEVEL@{NEMA\_VG\_JOIN\_BEVEL}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_JOIN\_BEVEL}{NEMA\_VG\_JOIN\_BEVEL}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a20072fd937511d84df49e674140b058c} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+BEVEL~(0x00U)}
+
+Bevel join \Hypertarget{nema__vg__context_8h_a83d08c116d266b75eb51e03908433e5d}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_JOIN\_MAX@{NEMA\_VG\_JOIN\_MAX}}
+\index{NEMA\_VG\_JOIN\_MAX@{NEMA\_VG\_JOIN\_MAX}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_JOIN\_MAX}{NEMA\_VG\_JOIN\_MAX}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a83d08c116d266b75eb51e03908433e5d} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+MAX~(0x03U)}
+
+Max for join \Hypertarget{nema__vg__context_8h_a698b9820f046786c79259ce859b5770f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_JOIN\_MITER@{NEMA\_VG\_JOIN\_MITER}}
+\index{NEMA\_VG\_JOIN\_MITER@{NEMA\_VG\_JOIN\_MITER}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_JOIN\_MITER}{NEMA\_VG\_JOIN\_MITER}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a698b9820f046786c79259ce859b5770f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+MITER~(0x01U)}
+
+Mitter join \Hypertarget{nema__vg__context_8h_a3fc4a80cef27cd88fba93160c32e1403}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_JOIN\_ROUND@{NEMA\_VG\_JOIN\_ROUND}}
+\index{NEMA\_VG\_JOIN\_ROUND@{NEMA\_VG\_JOIN\_ROUND}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_JOIN\_ROUND}{NEMA\_VG\_JOIN\_ROUND}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a3fc4a80cef27cd88fba93160c32e1403} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+ROUND~(0x02U)}
+
+Round join \Hypertarget{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_PAINT\_HANDLE@{NEMA\_VG\_PAINT\_HANDLE}}
+\index{NEMA\_VG\_PAINT\_HANDLE@{NEMA\_VG\_PAINT\_HANDLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PAINT\_HANDLE}{NEMA\_VG\_PAINT\_HANDLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a8a9930a16f0ba90785b804cc7df9d0bd} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PAINT\+\_\+\+HANDLE~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}}
+
+Nema\+VG paint handle (pointer to paint object) \Hypertarget{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_PATH\_HANDLE@{NEMA\_VG\_PATH\_HANDLE}}
+\index{NEMA\_VG\_PATH\_HANDLE@{NEMA\_VG\_PATH\_HANDLE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_PATH\_HANDLE}{NEMA\_VG\_PATH\_HANDLE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ab32bedbff2451be3b83632ddfc604e9c} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+PATH\+\_\+\+HANDLE~\doxymbox{\hyperlink{nema__vg__context_8h_a056c214594a04336b8b87e90794fc921}{NEMA\+\_\+\+VG\+\_\+\+HANDLE}}}
+
+Nema\+VG path handle (pointer to path object) \Hypertarget{nema__vg__context_8h_aefc8aa7e5c55cd848ad5315dcac0d10f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_QUALITY\_BETTER@{NEMA\_VG\_QUALITY\_BETTER}}
+\index{NEMA\_VG\_QUALITY\_BETTER@{NEMA\_VG\_QUALITY\_BETTER}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_QUALITY\_BETTER}{NEMA\_VG\_QUALITY\_BETTER}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aefc8aa7e5c55cd848ad5315dcac0d10f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+BETTER~(0x00U)}
+
+Better rendering quality (default option, balances rendering quality and performance) \Hypertarget{nema__vg__context_8h_ae4c03e1d9548199a3d48b1aa138f1472}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_QUALITY\_FASTER@{NEMA\_VG\_QUALITY\_FASTER}}
+\index{NEMA\_VG\_QUALITY\_FASTER@{NEMA\_VG\_QUALITY\_FASTER}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_QUALITY\_FASTER}{NEMA\_VG\_QUALITY\_FASTER}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_ae4c03e1d9548199a3d48b1aa138f1472} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+FASTER~(0x01U)}
+
+Faster rendering quality (favors performance over rendering quality) \Hypertarget{nema__vg__context_8h_a4d43dd56077b4c0976d11c8d39dd6be9}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_QUALITY\_MAXIMUM@{NEMA\_VG\_QUALITY\_MAXIMUM}}
+\index{NEMA\_VG\_QUALITY\_MAXIMUM@{NEMA\_VG\_QUALITY\_MAXIMUM}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_QUALITY\_MAXIMUM}{NEMA\_VG\_QUALITY\_MAXIMUM}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a4d43dd56077b4c0976d11c8d39dd6be9} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+MAXIMUM~(0x02U)}
+
+Maximum rendering quality (favors rendering quality over performance) \Hypertarget{nema__vg__context_8h_a95a58aba54da786359267afe9a716b7a}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_QUALITY\_NON\_AA@{NEMA\_VG\_QUALITY\_NON\_AA}}
+\index{NEMA\_VG\_QUALITY\_NON\_AA@{NEMA\_VG\_QUALITY\_NON\_AA}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_QUALITY\_NON\_AA}{NEMA\_VG\_QUALITY\_NON\_AA}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a95a58aba54da786359267afe9a716b7a} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+NON\+\_\+\+AA~(0x10U)}
+
+Rendering quality without AA \Hypertarget{nema__vg__context_8h_a753486d742373c22c1a6065cac404611}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_STROKE@{NEMA\_VG\_STROKE}}
+\index{NEMA\_VG\_STROKE@{NEMA\_VG\_STROKE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_STROKE}{NEMA\_VG\_STROKE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a753486d742373c22c1a6065cac404611} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+STROKE~(0x00U)}
+
+Stroke fill rule \Hypertarget{nema__vg__context_8h_a9fb247d58da44587394fbb6cdb25f157}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_TSVG\_DISABLE\_CAPS@{NEMA\_VG\_TSVG\_DISABLE\_CAPS}}
+\index{NEMA\_VG\_TSVG\_DISABLE\_CAPS@{NEMA\_VG\_TSVG\_DISABLE\_CAPS}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_TSVG\_DISABLE\_CAPS}{NEMA\_VG\_TSVG\_DISABLE\_CAPS}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a9fb247d58da44587394fbb6cdb25f157} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+CAPS~(0x00000001U)}
+
+Disable caps \Hypertarget{nema__vg__context_8h_a21b0cdc3488822bee89cecd6824c0556}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_TSVG\_DISABLE\_JOINS@{NEMA\_VG\_TSVG\_DISABLE\_JOINS}}
+\index{NEMA\_VG\_TSVG\_DISABLE\_JOINS@{NEMA\_VG\_TSVG\_DISABLE\_JOINS}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_TSVG\_DISABLE\_JOINS}{NEMA\_VG\_TSVG\_DISABLE\_JOINS}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a21b0cdc3488822bee89cecd6824c0556} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+JOINS~(0x00000002U)}
+
+Disable joins \Hypertarget{nema__vg__context_8h_adcc850b5e1943a5976c3b855930e5c0f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!NEMA\_VG\_TSVG\_DISABLE\_NONE@{NEMA\_VG\_TSVG\_DISABLE\_NONE}}
+\index{NEMA\_VG\_TSVG\_DISABLE\_NONE@{NEMA\_VG\_TSVG\_DISABLE\_NONE}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{NEMA\_VG\_TSVG\_DISABLE\_NONE}{NEMA\_VG\_TSVG\_DISABLE\_NONE}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_adcc850b5e1943a5976c3b855930e5c0f} 
+\+\#define NEMA\+\_\+\+VG\+\_\+\+TSVG\+\_\+\+DISABLE\+\_\+\+NONE~(0x00000000U)}
+
+Disable none 
+
+\label{nema__vg__context_8h_doc-typedef-members}
+\Hypertarget{nema__vg__context_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_float\_t@{nema\_vg\_float\_t}}
+\index{nema\_vg\_float\_t@{nema\_vg\_float\_t}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_float\_t}{nema\_vg\_float\_t}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8} 
+typedef float \doxymbox{\hyperlink{nema__vg__context_8h_aa52224050c6d3e1aaef035e41acf1ee8}{nema\+\_\+vg\+\_\+float\+\_\+t}}}
+
+Floating point data type (default is \textquotesingle{}float\textquotesingle{}) 
+
+\label{nema__vg__context_8h_doc-func-members}
+\Hypertarget{nema__vg__context_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{nema__vg__context_8h_a580293691bad6942714d345bca1d3719}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_bind\_clip\_coords\_buf@{nema\_vg\_bind\_clip\_coords\_buf}}
+\index{nema\_vg\_bind\_clip\_coords\_buf@{nema\_vg\_bind\_clip\_coords\_buf}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_bind\_clip\_coords\_buf()}{nema\_vg\_bind\_clip\_coords\_buf()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a580293691bad6942714d345bca1d3719} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} nema\+\_\+vg\+\_\+bind\+\_\+clip\+\_\+coords\+\_\+buf (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{segs}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{segs\+\_\+size\+\_\+bytes}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{data\+\_\+size\+\_\+bytes}{}\end{DoxyParamCaption})}
+
+
+
+Bind segment and data buffers to be used for handling large coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em segs} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to segment buffer for large coordinates \\
+\hline
+{\em segs\+\_\+size\+\_\+bytes} & Segment buffer size in bytes \\
+\hline
+{\em data} & \doxylink{fwd_8h_a0e5c49dba7ec654cdda5735347c00397}{Pointer} to data buffer for large coordinates \\
+\hline
+{\em data\+\_\+size\+\_\+bytes} & Data buffer size in bytes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_aba88ad844f250edb5170d7b44200d223}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_get\_error@{nema\_vg\_get\_error}}
+\index{nema\_vg\_get\_error@{nema\_vg\_get\_error}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_get\_error()}{nema\_vg\_get\_error()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aba88ad844f250edb5170d7b44200d223} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} nema\+\_\+vg\+\_\+get\+\_\+error (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Get the current error code. Clears the error afterwards. 
+
+\begin{DoxyReturn}{Returns}
+Error code. See NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\texorpdfstring{$\ast$}{*} defines for all the possible error codes. 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__context_8h_a25c13a918a48703e23d98f9e443c9aa2}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_handle\_large\_coords@{nema\_vg\_handle\_large\_coords}}
+\index{nema\_vg\_handle\_large\_coords@{nema\_vg\_handle\_large\_coords}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_handle\_large\_coords()}{nema\_vg\_handle\_large\_coords()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a25c13a918a48703e23d98f9e443c9aa2} 
+void nema\+\_\+vg\+\_\+handle\+\_\+large\+\_\+coords (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{enable}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{allow\+\_\+internal\+\_\+alloc}{}\end{DoxyParamCaption})}
+
+
+
+Enable/\+disable large coordinates handling when rendering a TSVG, a path or a predefined shape. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enable} & 0 to disable, 1 to enable \\
+\hline
+{\em allow\+\_\+internal\+\_\+alloc} & 0 to not allow internal allocation, 1 to allow \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a0bc35484be3a6514f3491f24d45430f4}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_masking@{nema\_vg\_masking}}
+\index{nema\_vg\_masking@{nema\_vg\_masking}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_masking()}{nema\_vg\_masking()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a0bc35484be3a6514f3491f24d45430f4} 
+void nema\+\_\+vg\+\_\+masking (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{masking}{}\end{DoxyParamCaption})}
+
+
+
+Enable/\+\+Disable Masking. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em masking} & 1 to enable, 0 to disable \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_aa1ebade60740f3b029f426f4f03c96ba}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_reset\_global\_matrix@{nema\_vg\_reset\_global\_matrix}}
+\index{nema\_vg\_reset\_global\_matrix@{nema\_vg\_reset\_global\_matrix}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_reset\_global\_matrix()}{nema\_vg\_reset\_global\_matrix()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aa1ebade60740f3b029f426f4f03c96ba} 
+void nema\+\_\+vg\+\_\+reset\+\_\+global\+\_\+matrix (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Disable the global transformation matrix. 
+
+\Hypertarget{nema__vg__context_8h_acd973997f98069c905ba492524360d0a}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_blend@{nema\_vg\_set\_blend}}
+\index{nema\_vg\_set\_blend@{nema\_vg\_set\_blend}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_blend()}{nema\_vg\_set\_blend()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_acd973997f98069c905ba492524360d0a} 
+void nema\+\_\+vg\+\_\+set\+\_\+blend (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{blend}{}\end{DoxyParamCaption})}
+
+
+
+Set the blending mode for VG operations (see \doxylink{nema__blender_8h}{nema\+\_\+blender.\+h} documentation in Nema\+GFX API Manual) Additional Blending Operations:\+ only NEMA\+\_\+\+BLOP\+\_\+\+SRC\+\_\+\+PREMULT is supported. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em blend} & Blending mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+nema\+\_\+blending\+\_\+mode() 
+\end{DoxySeeAlso}
+\Hypertarget{nema__vg__context_8h_a8b66c9f2ae242d799d667f4f6db5d3a8}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_fill\_rule@{nema\_vg\_set\_fill\_rule}}
+\index{nema\_vg\_set\_fill\_rule@{nema\_vg\_set\_fill\_rule}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_fill\_rule()}{nema\_vg\_set\_fill\_rule()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a8b66c9f2ae242d799d667f4f6db5d3a8} 
+void nema\+\_\+vg\+\_\+set\+\_\+fill\+\_\+rule (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{fill\+\_\+rule}{}\end{DoxyParamCaption})}
+
+
+
+Set the fill rule that will be applied when rendering a path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fill\+\_\+rule} & fill rule (NEMA\+\_\+\+VG\+\_\+\+STROKE, NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+EVEN\+\_\+\+ODD, NEMA\+\_\+\+VG\+\_\+\+FILL\+\_\+\+NON\+\_\+\+ZERO) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a347e4207a993e3b8971e73b205679ebe}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_global\_matrix@{nema\_vg\_set\_global\_matrix}}
+\index{nema\_vg\_set\_global\_matrix@{nema\_vg\_set\_global\_matrix}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_global\_matrix()}{nema\_vg\_set\_global\_matrix()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a347e4207a993e3b8971e73b205679ebe} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} nema\+\_\+vg\+\_\+set\+\_\+global\+\_\+matrix (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__matrix3x3_8h_ad9cef37a50a336baf6554463ecbebb01}{nema\+\_\+matrix3x3\+\_\+t}}}]{m}{}\end{DoxyParamCaption})}
+
+
+
+Set the global transformation matrix. Global matrix will be applied in all Nema\+VG rendering operations that will follow. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & transformation matrix\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__context_8h_a4c9d69ea0aa2bf2c74c803a64304fdc0}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_mask@{nema\_vg\_set\_mask}}
+\index{nema\_vg\_set\_mask@{nema\_vg\_set\_mask}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_mask()}{nema\_vg\_set\_mask()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a4c9d69ea0aa2bf2c74c803a64304fdc0} 
+\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} nema\+\_\+vg\+\_\+set\+\_\+mask (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{nema__graphics_8h_a37fae300b164a10979556a23fb28379b}{nema\+\_\+img\+\_\+obj\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{mask\+\_\+obj}{}\end{DoxyParamCaption})}
+
+
+
+Set the mask object (texture). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mask\+\_\+obj} & Texture to be used as mask. Its format must be NEMA\+\_\+\+A1, NEMA\+\_\+\+A2, NEMA\+\_\+\+A4 or Nema\+\_\+\+A8, otherwise it will return an error. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. If no error occurs, NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+NO\+\_\+\+ERROR otherwise NEMA\+\_\+\+VG\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+MASKING\+\_\+\+FORMAT. 
+\end{DoxyReturn}
+\Hypertarget{nema__vg__context_8h_a794693825baaf312bcd1903ac16575d3}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_mask\_translation@{nema\_vg\_set\_mask\_translation}}
+\index{nema\_vg\_set\_mask\_translation@{nema\_vg\_set\_mask\_translation}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_mask\_translation()}{nema\_vg\_set\_mask\_translation()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a794693825baaf312bcd1903ac16575d3} 
+void nema\+\_\+vg\+\_\+set\+\_\+mask\+\_\+translation (\begin{DoxyParamCaption}\item[{float}]{x}{, }\item[{float}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Translate the mask object (texture) with respect to origin point (0, 0). Sets the position of the mask object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Horizontal position to place the mask object \\
+\hline
+{\em y} & Horizontal position to place the mask object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a9d64191b1ebcc68dd88807b695bc5670}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_set\_quality@{nema\_vg\_set\_quality}}
+\index{nema\_vg\_set\_quality@{nema\_vg\_set\_quality}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_set\_quality()}{nema\_vg\_set\_quality()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a9d64191b1ebcc68dd88807b695bc5670} 
+void nema\+\_\+vg\+\_\+set\+\_\+quality (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{quality}{}\end{DoxyParamCaption})}
+
+
+
+Set the rendering quality. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quality} & level (NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+BETTER, NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+FASTER, NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+MAXIMUM, NEMA\+\_\+\+VG\+\_\+\+QUALITY\+\_\+\+NON\+\_\+\+AA) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a4e741e6a6e8e7826863184b80674d690}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_stroke\_set\_cap\_style@{nema\_vg\_stroke\_set\_cap\_style}}
+\index{nema\_vg\_stroke\_set\_cap\_style@{nema\_vg\_stroke\_set\_cap\_style}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_stroke\_set\_cap\_style()}{nema\_vg\_stroke\_set\_cap\_style()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a4e741e6a6e8e7826863184b80674d690} 
+void nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+cap\+\_\+style (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{start\+\_\+cap\+\_\+style}{, }\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{end\+\_\+cap\+\_\+style}{}\end{DoxyParamCaption})}
+
+
+
+Set stroke cap style. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cap\+\_\+style} & Cap style (NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+BUTT \texorpdfstring{$\vert$}{|} NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+SQUARE \texorpdfstring{$\vert$}{|} NEMA\+\_\+\+VG\+\_\+\+CAP\+\_\+\+ROUND) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_aa68924813011cfaacf879b3698b08d65}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_stroke\_set\_join\_style@{nema\_vg\_stroke\_set\_join\_style}}
+\index{nema\_vg\_stroke\_set\_join\_style@{nema\_vg\_stroke\_set\_join\_style}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_stroke\_set\_join\_style()}{nema\_vg\_stroke\_set\_join\_style()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_aa68924813011cfaacf879b3698b08d65} 
+void nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+join\+\_\+style (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{join\+\_\+style}{}\end{DoxyParamCaption})}
+
+
+
+Set stroke join style. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em join\+\_\+style} & Join style (NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+BEVEL \texorpdfstring{$\vert$}{|} NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+MITER \texorpdfstring{$\vert$}{|} NEMA\+\_\+\+VG\+\_\+\+JOIN\+\_\+\+ROUND) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a4189a09b933a6d206b137e5527d7629f}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_stroke\_set\_miter\_limit@{nema\_vg\_stroke\_set\_miter\_limit}}
+\index{nema\_vg\_stroke\_set\_miter\_limit@{nema\_vg\_stroke\_set\_miter\_limit}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_stroke\_set\_miter\_limit()}{nema\_vg\_stroke\_set\_miter\_limit()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a4189a09b933a6d206b137e5527d7629f} 
+void nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+miter\+\_\+limit (\begin{DoxyParamCaption}\item[{float}]{miter\+\_\+limit}{}\end{DoxyParamCaption})}
+
+
+
+Set stroke miter limit If miter join is chosen and miter length is bigger than the product of miter limit and stroke width a bevel join will be added instead. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em miter\+\_\+limit} & miter join limit to be set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_acfa10e367af63534dfab7258cf0fd5fd}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_stroke\_set\_width@{nema\_vg\_stroke\_set\_width}}
+\index{nema\_vg\_stroke\_set\_width@{nema\_vg\_stroke\_set\_width}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_stroke\_set\_width()}{nema\_vg\_stroke\_set\_width()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_acfa10e367af63534dfab7258cf0fd5fd} 
+void nema\+\_\+vg\+\_\+stroke\+\_\+set\+\_\+width (\begin{DoxyParamCaption}\item[{float}]{width}{}\end{DoxyParamCaption})}
+
+
+
+Set the stroke width that will be applied when stroking a path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Stroke width to be set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nema__vg__context_8h_a61372431be1d99463cb7e4f4d9bc54c5}\index{nema\_vg\_context.h@{nema\_vg\_context.h}!nema\_vg\_unbind\_clip\_coords\_buf@{nema\_vg\_unbind\_clip\_coords\_buf}}
+\index{nema\_vg\_unbind\_clip\_coords\_buf@{nema\_vg\_unbind\_clip\_coords\_buf}!nema\_vg\_context.h@{nema\_vg\_context.h}}
+\doxysubsubsection{\texorpdfstring{nema\_vg\_unbind\_clip\_coords\_buf()}{nema\_vg\_unbind\_clip\_coords\_buf()}}
+{\footnotesize\ttfamily \label{nema__vg__context_8h_a61372431be1d99463cb7e4f4d9bc54c5} 
+void nema\+\_\+vg\+\_\+unbind\+\_\+clip\+\_\+coords\+\_\+buf (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Unbind segment and data buffers to be used for handling large coordinates. 
+

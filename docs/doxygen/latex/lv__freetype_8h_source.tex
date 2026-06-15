@@ -1,0 +1,105 @@
+\doxysection{lv\+\_\+freetype.\+h}
+\hypertarget{lv__freetype_8h_source}{}\label{lv__freetype_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/freetype/lv\_freetype.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/libs/freetype/lv\_freetype.h}}
+\doxymbox{\hyperlink{lv__freetype_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ LV\_FREETYPE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ LV\_FREETYPE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__conf__internal_8h}{../../lv\_conf\_internal.h}}"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ LV\_USE\_FREETYPE}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__event_8h}{../../misc/lv\_event.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__color_8h}{../../misc/lv\_color.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ LV\_STDBOOL\_INCLUDE}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00026\ \textcolor{comment}{*\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00027\ \textcolor{comment}{*********************/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ LV\_FREETYPE\_F26DOT6\_TO\_INT(x)\ \ \ ((x)\ >>\ 6)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ LV\_FREETYPE\_F26DOT6\_TO\_FLOAT(x)\ ((float)(x)\ /\ 64)}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ FT\_FONT\_STYLE\_NORMAL\ LV\_FREETYPE\_FONT\_STYLE\_NORMAL}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ FT\_FONT\_STYLE\_ITALIC\ LV\_FREETYPE\_FONT\_STYLE\_ITALIC}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ FT\_FONT\_STYLE\_BOLD\ \ \ LV\_FREETYPE\_FONT\_STYLE\_BOLD}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ LV\_FREETYPE\_FONT\_STYLE\_NORMAL\ =\ 0,}
+\DoxyCodeLine{00042\ \ \ \ \ LV\_FREETYPE\_FONT\_STYLE\_ITALIC\ =\ 1\ <<\ 0,}
+\DoxyCodeLine{00043\ \ \ \ \ LV\_FREETYPE\_FONT\_STYLE\_BOLD\ =\ 1\ <<\ 1,}
+\DoxyCodeLine{00044\ \}\ lv\_freetype\_font\_style\_t;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{typedef}\ lv\_freetype\_font\_style\_t\ LV\_FT\_FONT\_STYLE;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ LV\_FREETYPE\_FONT\_RENDER\_MODE\_BITMAP\ =\ 0,}
+\DoxyCodeLine{00050\ \ \ \ \ LV\_FREETYPE\_FONT\_RENDER\_MODE\_OUTLINE\ =\ 1,}
+\DoxyCodeLine{00051\ \}\ lv\_freetype\_font\_render\_mode\_t;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ lv\_freetype\_outline\_t;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_END,}
+\DoxyCodeLine{00057\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_MOVE\_TO,}
+\DoxyCodeLine{00058\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_LINE\_TO,}
+\DoxyCodeLine{00059\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_CUBIC\_TO,}
+\DoxyCodeLine{00060\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_CONIC\_TO,}
+\DoxyCodeLine{00061\ \ \ \ \ LV\_FREETYPE\_OUTLINE\_BORDER\_START,\ \ \ \ \ \textcolor{comment}{/*\ When\ line\ width\ >\ 0\ the\ border\ glyph\ is\ drawn\ after\ the\ regular\ glyph\ */}}
+\DoxyCodeLine{00062\ \}\ lv\_freetype\_outline\_type\_t;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/*\ Only\ path\ string\ is\ required\ */}}
+\DoxyCodeLine{00065\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ lv\_freetype\_font\_src\_t;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \doxymbox{\hyperlink{lv__conf__cmsis_8h_a52a21700fe5946c140157ebf74459a46}{LV\_ATTRIBUTE\_EXTERN\_DATA}}\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a41617a4e6527620532aa99b156e4aa4b}{lv\_font\_class\_t}}\ lv\_freetype\_font\_class;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00077\ \doxymbox{\hyperlink{espressif____esp__lvgl__port_2test__apps_2simd_2main_2lv__blend_2include_2lv__types_8h_a5b0d1e3e8ccbb62b04ba2a6688ead275}{lv\_result\_t}}\ lv\_freetype\_init(\doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ max\_glyph\_cnt);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ lv\_freetype\_uninit(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{void}\ lv\_freetype\_init\_font\_info(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\_font\_info\_t}}\ *\ font\_info);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00095\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ lv\_freetype\_font\_create\_with\_info(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_ad76f3e3a3d6e2efd9d196893f18a501f}{lv\_font\_info\_t}}\ *\ font\_info);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00105\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ lv\_freetype\_font\_create(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ pathname,\ lv\_freetype\_font\_render\_mode\_t\ render\_mode,\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ size,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lv\_freetype\_font\_style\_t\ style);}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ lv\_freetype\_font\_delete(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00121\ \textcolor{keywordtype}{void}\ lv\_freetype\_outline\_add\_event(\doxymbox{\hyperlink{lv__event_8h_a1d7efbeaef5477ecbcf4d6e799694338}{lv\_event\_cb\_t}}\ event\_cb,\ \doxymbox{\hyperlink{lv__event_8h_a34581e6a5056b169f0a229f3e51c7771}{lv\_event\_code\_t}}\ filter,\ \textcolor{keywordtype}{void}\ *\ user\_data);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00129\ \doxymbox{\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}}\ lv\_freetype\_outline\_get\_scale(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{bool}\ lv\_freetype\_is\_outline\_font(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a11e3396cab33231964d98046c4e436af}{lv\_font\_t}}\ *\ font);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00140\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00141\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_USE\_FREETYPE*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00146\ \}\ \textcolor{comment}{/*\ extern\ "{}C"{}\ */}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_FREETYPE\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

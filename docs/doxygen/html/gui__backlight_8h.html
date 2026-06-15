@@ -131,8 +131,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a718ad747a787b9f4cd83abf56e014abf" id="r_a718ad747a787b9f4cd83abf56e014abf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a718ad747a787b9f4cd83abf56e014abf">backlight_init</a> (void)</td></tr>
 <tr class="memitem:a32239132197d707d69fbe8507bb009c3" id="r_a32239132197d707d69fbe8507bb009c3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a32239132197d707d69fbe8507bb009c3">set_brightness</a> (uint8_t percent)</td></tr>
+<tr class="memdesc:a32239132197d707d69fbe8507bb009c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the display brightness.  <br /></td></tr>
+<tr class="memitem:a718ad747a787b9f4cd83abf56e014abf" id="r_a718ad747a787b9f4cd83abf56e014abf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a718ad747a787b9f4cd83abf56e014abf">backlight_init</a> (void)</td></tr>
+<tr class="memdesc:a718ad747a787b9f4cd83abf56e014abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the LCD backlight controller.  <br /></td></tr>
 </table>
 <a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
 <a id="a4dae4ef51d9b3cd9058b2a209c39fc12" name="a4dae4ef51d9b3cd9058b2a209c39fc12"></a>
@@ -146,6 +148,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>I2C address of the backlight controller. </p>
 
 </div>
 </div>
@@ -160,6 +163,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Maximum allowed brightness percentage. </p>
 
 </div>
 </div>
@@ -174,6 +178,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Minimum allowed brightness percentage. </p>
 
 </div>
 </div>
@@ -188,6 +193,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>PWM register used for brightness control. </p>
 
 </div>
 </div>
@@ -207,6 +213,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initializes the LCD backlight controller. </p>
+<p>Configures the I2C backlight device, sets the required IO expander registers, releases display and touch reset lines, and applies a default brightness level.</p>
+<dl class="section note"><dt>Note</dt><dd>Must be called after I2C has been initialized. </dd></dl>
+
 </div>
 </div>
 <a id="a32239132197d707d69fbe8507bb009c3" name="a32239132197d707d69fbe8507bb009c3"></a>
@@ -223,6 +233,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the display brightness. </p>
+<p>Converts a percentage value into the PWM value required by the backlight controller and transmits it over I2C.</p>
+<p>Values outside the supported range are clamped to the configured minimum and maximum limits.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">percent</td><td>Brightness percentage (0-100).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Values are automatically clamped to valid limits. </dd></dl>
 
 </div>
 </div>

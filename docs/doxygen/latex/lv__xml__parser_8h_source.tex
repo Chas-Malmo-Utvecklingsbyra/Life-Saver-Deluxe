@@ -1,0 +1,87 @@
+\doxysection{lv\+\_\+xml\+\_\+parser.\+h}
+\hypertarget{lv__xml__parser_8h_source}{}\label{lv__xml__parser_8h_source}\index{home-\/hub/managed\_components/lvgl\_\_lvgl/src/others/xml/lv\_xml\_parser.h@{home-\/hub/managed\_components/lvgl\_\_lvgl/src/others/xml/lv\_xml\_parser.h}}
+\doxymbox{\hyperlink{lv__xml__parser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LV\_XML\_PARSER\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LV\_XML\_PARSER\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ \ \ \ \ INCLUDES}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h}{../../misc/lv\_types.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__style_8h}{../../misc/lv\_style.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ LV\_USE\_XML}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__xml__component_8h}{lv\_xml\_component.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{lv__xml__component__private_8h}{lv\_xml\_component\_private.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*********************}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ \ \ \ \ \ DEFINES}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *********************/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *\ \ \ \ \ \ TYPEDEFS}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_NONE,}
+\DoxyCodeLine{00033\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_API,}
+\DoxyCodeLine{00034\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_CONSTS,}
+\DoxyCodeLine{00035\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_GRAD,}
+\DoxyCodeLine{00036\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_GRAD\_STOP,}
+\DoxyCodeLine{00037\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_STYLES,}
+\DoxyCodeLine{00038\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_FONTS,}
+\DoxyCodeLine{00039\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_IMAGES,}
+\DoxyCodeLine{00040\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_SUBJECTS,}
+\DoxyCodeLine{00041\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_ANIMATION,}
+\DoxyCodeLine{00042\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_INCLUDE\_TIMELINE,}
+\DoxyCodeLine{00043\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_TIMELINE,}
+\DoxyCodeLine{00044\ \ \ \ \ LV\_XML\_PARSER\_SECTION\_VIEW}
+\DoxyCodeLine{00045\ \}\ lv\_xml\_parser\_section\_t;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\_lv\_xml\_parser\_state\_t\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ tag\_name;}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a53bb6917ba36007e29e3be8113f86e3f}{lv\_xml\_component\_scope\_t}}\ scope;}
+\DoxyCodeLine{00050\ \ \ \ \ lv\_ll\_t\ parent\_ll;}
+\DoxyCodeLine{00051\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ parent;}
+\DoxyCodeLine{00052\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_ac76cea59d438ba893d2f82aabb367d14}{item}};}
+\DoxyCodeLine{00053\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a01de9a127bcf589bd7d0c695a429b158}{lv\_obj\_t}}\ *\ view;\ \ \ \ \textcolor{comment}{/*Pointer\ to\ the\ created\ view\ during\ component\ creation*/}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ *\ context;\ \ \ \ \ \textcolor{comment}{/*Custom\ data\ that\ can\ be\ stored\ during\ parsing*/}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ **\ parent\_attrs;}
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_a53bb6917ba36007e29e3be8113f86e3f}{lv\_xml\_component\_scope\_t}}\ *\ parent\_scope;}
+\DoxyCodeLine{00057\ \ \ \ \ lv\_xml\_parser\_section\_t\ section;}
+\DoxyCodeLine{00058\ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ *\ GLOBAL\ PROTOTYPES}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ lv\_xml\_parser\_state\_init(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_af1f4474c35b867a61a2e6601f052459e}{lv\_xml\_parser\_state\_t}}\ *\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{void}\ lv\_xml\_parser\_start\_section(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_af1f4474c35b867a61a2e6601f052459e}{lv\_xml\_parser\_state\_t}}\ *\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ lv\_xml\_parser\_end\_section(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_af1f4474c35b867a61a2e6601f052459e}{lv\_xml\_parser\_state\_t}}\ *\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \doxymbox{\hyperlink{c_j_s_o_n_8h_a25d22ecc7e656d2c59332072684e8766}{name}});}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{void}\ *\ lv\_xml\_state\_get\_parent(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_af1f4474c35b867a61a2e6601f052459e}{lv\_xml\_parser\_state\_t}}\ *\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{void}\ *\ lv\_xml\_state\_get\_item(\doxymbox{\hyperlink{lvgl____lvgl_2src_2misc_2lv__types_8h_af1f4474c35b867a61a2e6601f052459e}{lv\_xml\_parser\_state\_t}}\ *\ \doxymbox{\hyperlink{lv__anim_8c_a17ba9d3d3f420182822febf73adca0a4}{state}});}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{comment}{/**********************}}
+\DoxyCodeLine{00075\ \textcolor{comment}{\ *\ \ \ \ \ \ MACROS}}
+\DoxyCodeLine{00076\ \textcolor{comment}{\ **********************/}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LV\_USE\_XML\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00081\ \}\ \textcolor{comment}{/*extern\ "{}C"{}*/}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*LV\_XML\_PARSER\_H*/}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,155 @@
+\doxysection{home-\/hub/\+managed\+\_\+components/\+espressif\+\_\+\+\_\+mdns/\+mdns\+\_\+service.c File Reference}
+\hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c}{}\label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c}\index{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_service.c@{home-\/hub/managed\_components/espressif\_\_mdns/mdns\_service.c}}
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include "{}sdkconfig.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+private.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+task.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+queue.\+h"{}}\newline
+{\ttfamily \+\#include "{}freertos/\+semphr.\+h"{}}\newline
+{\ttfamily \+\#include "{}esp\+\_\+check.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+mem\+\_\+caps.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+utils.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+browser.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+netif.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+send.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+receive.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+querier.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+pcb.\+h"{}}\newline
+{\ttfamily \+\#include "{}mdns\+\_\+responder.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a99214a15122b05cf280ab1929a892054}{MDNS\+\_\+\+SERVICE\+\_\+\+STACK\+\_\+\+DEPTH}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_ad1878eca3194cfdb3978fd6ce57e378a}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+STACK\+\_\+\+SIZE}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_abba8cc0214d435d770260b315b72de72}{MDNS\+\_\+\+TASK\+\_\+\+PRIORITY}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_ad57a007043bb5e23f2934b053920c407}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+PRIORITY}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_acc8bfb80d59d728d2e9a36e0be1564e2}{MDNS\+\_\+\+TASK\+\_\+\+AFFINITY}}~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a707262ff1c413f092e85b669acc9387c}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+AFFINITY}}
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1687d2e4ad39d19c3dfbeeb17c63fce8}{MDNS\+\_\+\+SERVICE\+\_\+\+LOCK}}()
+\item 
+\+\#define \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a7c0ef83ec32f9d0677024f7dd8f5b551}{MDNS\+\_\+\+SERVICE\+\_\+\+UNLOCK}}()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a49884b9f6dbd92c31d9b6bfd350cbe85}{mdns\+\_\+priv\+\_\+service\+\_\+lock}} (void)
+\begin{DoxyCompactList}\small\item\em Lock mdns service. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1e7cdef31963b8710e0ad05d27d3358f}{mdns\+\_\+priv\+\_\+service\+\_\+unlock}} (void)
+\begin{DoxyCompactList}\small\item\em Unlock mdns service. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_ad323a4dfba3545c43ebda0f3f7c515e0}{mdns\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize m\+DNS on given interface. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a60085437d50474fff82bda1b027d9da3}{mdns\+\_\+free}} (void)
+\begin{DoxyCompactList}\small\item\em Stop and free m\+DNS server. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} \doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a4c9b7a7ad3738bbad148510a4422098a}{mdns\+\_\+priv\+\_\+queue\+\_\+action}} (\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}action)
+\begin{DoxyCompactList}\small\item\em Send the given action to the service queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_doc-define-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1687d2e4ad39d19c3dfbeeb17c63fce8}\index{mdns\_service.c@{mdns\_service.c}!MDNS\_SERVICE\_LOCK@{MDNS\_SERVICE\_LOCK}}
+\index{MDNS\_SERVICE\_LOCK@{MDNS\_SERVICE\_LOCK}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_LOCK}{MDNS\_SERVICE\_LOCK}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1687d2e4ad39d19c3dfbeeb17c63fce8} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+LOCK(\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2tests_2host__unit__test_2stubs_2esp__idf_8c_a6ba58be91f9d2f599c97f7404a564b7e}{xSemaphoreTake}}(s\_service\_semaphore,\ portMAX\_DELAY)}
+
+\end{DoxyCode}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a99214a15122b05cf280ab1929a892054}\index{mdns\_service.c@{mdns\_service.c}!MDNS\_SERVICE\_STACK\_DEPTH@{MDNS\_SERVICE\_STACK\_DEPTH}}
+\index{MDNS\_SERVICE\_STACK\_DEPTH@{MDNS\_SERVICE\_STACK\_DEPTH}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_STACK\_DEPTH}{MDNS\_SERVICE\_STACK\_DEPTH}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a99214a15122b05cf280ab1929a892054} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+STACK\+\_\+\+DEPTH~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_ad1878eca3194cfdb3978fd6ce57e378a}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+STACK\+\_\+\+SIZE}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a7c0ef83ec32f9d0677024f7dd8f5b551}\index{mdns\_service.c@{mdns\_service.c}!MDNS\_SERVICE\_UNLOCK@{MDNS\_SERVICE\_UNLOCK}}
+\index{MDNS\_SERVICE\_UNLOCK@{MDNS\_SERVICE\_UNLOCK}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_SERVICE\_UNLOCK}{MDNS\_SERVICE\_UNLOCK}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a7c0ef83ec32f9d0677024f7dd8f5b551} 
+\+\#define MDNS\+\_\+\+SERVICE\+\_\+\+UNLOCK(\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+{\bfseries Value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{home-hub_2managed__components_2espressif____mdns_2tests_2host__unit__test_2stubs_2esp__idf_8c_a3151c00a7b732f18656076f5eab7468a}{xSemaphoreGive}}(s\_service\_semaphore)}
+
+\end{DoxyCode}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_acc8bfb80d59d728d2e9a36e0be1564e2}\index{mdns\_service.c@{mdns\_service.c}!MDNS\_TASK\_AFFINITY@{MDNS\_TASK\_AFFINITY}}
+\index{MDNS\_TASK\_AFFINITY@{MDNS\_TASK\_AFFINITY}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TASK\_AFFINITY}{MDNS\_TASK\_AFFINITY}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_acc8bfb80d59d728d2e9a36e0be1564e2} 
+\+\#define MDNS\+\_\+\+TASK\+\_\+\+AFFINITY~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_a707262ff1c413f092e85b669acc9387c}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+AFFINITY}}}
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_abba8cc0214d435d770260b315b72de72}\index{mdns\_service.c@{mdns\_service.c}!MDNS\_TASK\_PRIORITY@{MDNS\_TASK\_PRIORITY}}
+\index{MDNS\_TASK\_PRIORITY@{MDNS\_TASK\_PRIORITY}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{MDNS\_TASK\_PRIORITY}{MDNS\_TASK\_PRIORITY}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_abba8cc0214d435d770260b315b72de72} 
+\+\#define MDNS\+\_\+\+TASK\+\_\+\+PRIORITY~\doxymbox{\hyperlink{home-hub_2build_2config_2sdkconfig_8h_ad57a007043bb5e23f2934b053920c407}{CONFIG\+\_\+\+MDNS\+\_\+\+TASK\+\_\+\+PRIORITY}}}
+
+
+
+\label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_doc-func-members}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a60085437d50474fff82bda1b027d9da3}\index{mdns\_service.c@{mdns\_service.c}!mdns\_free@{mdns\_free}}
+\index{mdns\_free@{mdns\_free}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_free()}{mdns\_free()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a60085437d50474fff82bda1b027d9da3} 
+void mdns\+\_\+free (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Stop and free m\+DNS server. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_ad323a4dfba3545c43ebda0f3f7c515e0}\index{mdns\_service.c@{mdns\_service.c}!mdns\_init@{mdns\_init}}
+\index{mdns\_init@{mdns\_init}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_init()}{mdns\_init()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_ad323a4dfba3545c43ebda0f3f7c515e0} 
+\doxymbox{\hyperlink{esp__spiffs_8h_a8bc4f6626a2d4ebd67533c56064ccda8}{esp\+\_\+err\+\_\+t}} mdns\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize m\+DNS on given interface. 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+STATE when failed to register event handler
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM on memory error
+\item ESP\+\_\+\+FAIL when failed to start mdns task 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a4c9b7a7ad3738bbad148510a4422098a}\index{mdns\_service.c@{mdns\_service.c}!mdns\_priv\_queue\_action@{mdns\_priv\_queue\_action}}
+\index{mdns\_priv\_queue\_action@{mdns\_priv\_queue\_action}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_queue\_action()}{mdns\_priv\_queue\_action()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a4c9b7a7ad3738bbad148510a4422098a} 
+\doxymbox{\hyperlink{efi_8h_a3a69c4a11d4f8ab9401271364ae45b18}{bool}} mdns\+\_\+priv\+\_\+queue\+\_\+action (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structmdns__action__t}{mdns\+\_\+action\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{action}{}\end{DoxyParamCaption})}
+
+
+
+Send the given action to the service queue. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a49884b9f6dbd92c31d9b6bfd350cbe85}\index{mdns\_service.c@{mdns\_service.c}!mdns\_priv\_service\_lock@{mdns\_priv\_service\_lock}}
+\index{mdns\_priv\_service\_lock@{mdns\_priv\_service\_lock}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_service\_lock()}{mdns\_priv\_service\_lock()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a49884b9f6dbd92c31d9b6bfd350cbe85} 
+void mdns\+\_\+priv\+\_\+service\+\_\+lock (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Lock mdns service. 
+
+\Hypertarget{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1e7cdef31963b8710e0ad05d27d3358f}\index{mdns\_service.c@{mdns\_service.c}!mdns\_priv\_service\_unlock@{mdns\_priv\_service\_unlock}}
+\index{mdns\_priv\_service\_unlock@{mdns\_priv\_service\_unlock}!mdns\_service.c@{mdns\_service.c}}
+\doxysubsubsection{\texorpdfstring{mdns\_priv\_service\_unlock()}{mdns\_priv\_service\_unlock()}}
+{\footnotesize\ttfamily \label{home-hub_2managed__components_2espressif____mdns_2mdns__service_8c_a1e7cdef31963b8710e0ad05d27d3358f} 
+void mdns\+\_\+priv\+\_\+service\+\_\+unlock (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Unlock mdns service. 
+
