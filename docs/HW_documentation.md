@@ -121,6 +121,22 @@ Provides:
 - HTTP
 - Wi-Fi
 
+### Connection
+
+#Pins
+| ESP32-CAM | Connections
+|------|---------|
+| 5V     | 5V    |
+| 3.3V   | 3.3V  |
+| GND    | GND   | 
+
+#UART
+| ESP32-CAM | CP2102(USB to UART)  |
+|--------|-------------------------|
+| GPIO 3 | RXD                     |
+| GPIO 1 | TXD                     |
+| GPIO 0 | GND (for flashing mode) | 
+
 ## 5. BME280 Sensor
 
 Measures:
